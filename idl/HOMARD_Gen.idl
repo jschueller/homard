@@ -1,0 +1,77 @@
+#ifndef __HOMARD_GEN__
+#define __HOMARD_GEN__
+
+#include "SALOME_Component.idl"
+#include "SALOME_Exception.idl"
+#include "SALOMEDS.idl"
+
+#include "HOMARD_Cas.idl"
+#include "HOMARD_Hypothesis.idl"
+#include "HOMARD_Iteration.idl"
+#include "HOMARD_Zone.idl"
+#include "HOMARD_Boundary.idl"
+
+module HOMARD
+{
+  typedef sequence<string> listeHypotheses;
+  typedef sequence<string> listeZones;
+  typedef sequence<string> listeIterations;
+  typedef sequence<string> listeCases;
+  typedef sequence<string> listeBoundarys;
+
+  interface HOMARD_Gen : Engines::Component, SALOMEDS::Driver
+  {
+    HOMARD_Cas        CreateCase(in string nomCas, in string MeshName, in string FileName )
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Hypothesis CreateHypothesis(in string nomHypothesis )
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration  CreateIteration(in string nomIter, in string nomIterParent )
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Zone       CreateZone(in string nomZone, in long typeZone)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Boundary   CreateBoundary(in string nomBoundary, in long typeBoundary)
+                                                           raises (SALOME::SALOME_Exception);
+
+    void AssociateIterIter(in string nomIterParent, in string nomIter)
+                                                           raises (SALOME::SALOME_Exception);
+    void AssociateIterHypo(in string nomIter, in string nomHypothesis)
+                                                           raises (SALOME::SALOME_Exception);
+    void AssociateHypoZone(in string nomZone, in string nomHypothesis)
+                                                           raises (SALOME::SALOME_Exception);
+    void DissociateHypoZone(in string nomZone, in string nomHypothesis)
+                                                           raises (SALOME::SALOME_Exception);
+
+    void InvalideZone (in string nomZone)                  raises (SALOME::SALOME_Exception);
+    void InvalideHypo (in string nomHypo)                  raises (SALOME::SALOME_Exception);
+    void InvalideIter (in string nomIter)                  raises (SALOME::SALOME_Exception);
+
+    boolean  Compute (in string nomIter, in long etatMenage)
+                                                           raises (SALOME::SALOME_Exception);
+
+    boolean  VerifieDir (in string nomIter)                raises (SALOME::SALOME_Exception);
+
+    string  GetCaseName(in string nomIter)                 raises (SALOME::SALOME_Exception);
+
+    void  PublishFileUnderIteration(in string NomIter, in string NomFich, in string Commentaire)
+                                                           raises (SALOME::SALOME_Exception);
+    void  PublishResultInSmesh(in string NomFich, in long IconeType)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Cas        GetCas(in string nomCas)             raises (SALOME::SALOME_Exception);
+    HOMARD_Boundary   GetBoundary(in string nomBoundary)   raises (SALOME::SALOME_Exception);
+    HOMARD_Zone       GetZone(in string nomZone)           raises (SALOME::SALOME_Exception);
+    HOMARD_Hypothesis GetHypothesis(in string nomHypo)     raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration  GetIteration(in string nomIter)      raises (SALOME::SALOME_Exception);
+
+    listeCases      GetAllCases()                          raises (SALOME::SALOME_Exception);
+    listeBoundarys  GetAllBoundarys()                      raises (SALOME::SALOME_Exception);
+    listeHypotheses GetAllHypotheses()                     raises (SALOME::SALOME_Exception);
+    listeZones      GetAllZones()                          raises (SALOME::SALOME_Exception);
+    listeIterations GetAllIterations()                     raises (SALOME::SALOME_Exception);
+
+    void     SetCurrentStudy(in SALOMEDS::Study theStudy)  raises (SALOME::SALOME_Exception);
+    SALOMEDS::Study GetCurrentStudy()                      raises (SALOME::SALOME_Exception);
+  };
+};
+
+#endif
+

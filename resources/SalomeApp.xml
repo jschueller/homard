@@ -1,0 +1,11 @@
+<document>
+  <section name="HOMARD">
+    <!-- Major module parameters -->
+    <parameter name="name"    value="Homard"/>
+    <parameter name="icon"    value="HOMARD.png"/>
+  </section>
+  <section name="resources">
+    <!-- Module resources -->
+    <parameter name="HOMARD" value="${HOMARD_ROOT_DIR}/share/salome/resources/homard"/>
+  </section>
+</document>

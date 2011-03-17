@@ -1,0 +1,188 @@
+#ifndef _HOMARD_GEN_I_HXX_
+#define _HOMARD_GEN_I_HXX_
+
+#include <SALOMEconfig.h>
+#include CORBA_SERVER_HEADER(HOMARD_Gen)
+#include CORBA_SERVER_HEADER(HOMARD_Cas)
+#include CORBA_SERVER_HEADER(HOMARD_Hypothesis)
+#include CORBA_SERVER_HEADER(HOMARD_Iteration)
+#include CORBA_SERVER_HEADER(HOMARD_Zone)
+#include CORBA_SERVER_HEADER(HOMARD_Boundary)
+#include CORBA_CLIENT_HEADER(SALOMEDS)
+#include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
+
+#include "HOMARD_Gen.hxx"
+#include "SALOME_Component_i.hxx"
+#include "SALOME_NamingService.hxx"
+#include "Utils_CorbaException.hxx"
+
+
+#include <string>
+#include <map>
+
+class HOMARD_Gen_i:
+  public virtual Engines_Component_i,
+  public virtual POA_HOMARD::HOMARD_Gen
+{ 
+public:
+  HOMARD_Gen_i(CORBA::ORB_ptr orb,
+		PortableServer::POA_ptr poa,
+		PortableServer::ObjectId* contId, 
+		const char* instanceName, 
+		const char* interfaceName);
+  virtual ~HOMARD_Gen_i();
+  
+
+  SALOMEDS::Study_ptr             GetCurrentStudy();
+  void                            SetCurrentStudy(SALOMEDS::Study_ptr theStudy);
+  int                             GetCurrentStudyID();
+
+  HOMARD::HOMARD_Cas_ptr          CreateCase      (const char* nomCas,
+                                                   const char* MeshName, const char* FileName);
+  HOMARD::HOMARD_Hypothesis_ptr   CreateHypothesis(const char* nomHypothesis);
+  HOMARD::HOMARD_Iteration_ptr    CreateIteration (const char* nomIter, const char* nomIterParent);
+  HOMARD::HOMARD_Zone_ptr         CreateZone      (const char* nomZone, CORBA::Long typeZone);
+  HOMARD::HOMARD_Boundary_ptr     CreateBoundary  (const char* nomBoundary, CORBA::Long typeBoundary);
+
+  HOMARD::HOMARD_Cas_ptr          GetCas        (const char* nomCas);
+  HOMARD::HOMARD_Zone_ptr         GetZone       (const char* nomZone);
+  HOMARD::HOMARD_Hypothesis_ptr   GetHypothesis (const char* nomHypothesis);
+  HOMARD::HOMARD_Iteration_ptr    GetIteration  (const char* nomIteration);
+  HOMARD::HOMARD_Boundary_ptr     GetBoundary   (const char* nomBoundary);
+
+  void                            AssociateCaseIter(const char* nomCas, const char* nomIter,
+                                                    const char* labelIter);
+  void                            AssociateIterIter(const char* nomIterParent, const char* nomIter);
+  void                            AssociateIterHypo(const char* nomIter, const char* nomHypothesis);
+  void                            AssociateHypoZone(const char* nomZone, const char* nomHypothesis);
+  void                            DissociateHypoZone(const char* nomZone, const char* nomHypothesis);
+
+  void                            InvalideZone(const char* nomZone);
+  void                            InvalideHypo(const char* nomHypo);
+  void                            InvalideIter(const char* nomIter);
+
+  void                            SetEtatIter(const char* nomIter,const bool EtatCalcul);
+
+  HOMARD::listeCases*             GetAllCases();
+  HOMARD::listeHypotheses*        GetAllHypotheses();
+  HOMARD::listeZones*             GetAllZones();
+  HOMARD::listeIterations*        GetAllIterations();
+  HOMARD::listeBoundarys*         GetAllBoundarys();
+
+  char*                           GetCaseName(const char* nomIteration);
+  
+  CORBA::Boolean                  Compute(const char* nomIteration, CORBA::Long etatMenage);
+  CORBA::Boolean                  VerifieDir(const char* nomDir);
+  
+  void                            PublishResultInSmesh(const char* NomFich, CORBA::Long IconeType);
+  void                            DeleteResultInSmesh(const char* NomFich, const char* MeshName);
+  void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich,
+                                                            const char* Commentaire);
+
+  // ---------------------------------------------------------------
+  // next functions are inherited from SALOMEDS::Driver interface
+  // ---------------------------------------------------------------
+
+  // --> Persistence
+  virtual SALOMEDS::TMPFile*      Save(SALOMEDS::SComponent_ptr theComponent,
+					const char* theURL,
+					bool isMultiFile);
+  
+  virtual SALOMEDS::TMPFile*      SaveASCII(SALOMEDS::SComponent_ptr theComponent,
+					     const char* theURL,
+					     bool isMultiFile);
+  
+  virtual bool                    Load(SALOMEDS::SComponent_ptr theComponent,
+					const SALOMEDS::TMPFile& theStream,
+					const char* theURL,
+					bool isMultiFile);
+
+  virtual bool                    LoadASCII(SALOMEDS::SComponent_ptr theComponent,
+					     const SALOMEDS::TMPFile& theStream,
+					     const char* theURL,
+					     bool isMultiFile);
+
+  virtual void                    Close(SALOMEDS::SComponent_ptr IORSComponent);
+  
+  virtual char*                   ComponentDataType();
+  
+  virtual char*                   IORToLocalPersistentID(SALOMEDS::SObject_ptr theSObject,
+							  const char* IORString,
+							  CORBA::Boolean isMultiFile,
+							  CORBA::Boolean isASCII);
+
+  virtual char*                   LocalPersistentIDToIOR(SALOMEDS::SObject_ptr theSObject,
+							  const char* aLocalPersistentID,
+							  CORBA::Boolean isMultiFile,
+							  CORBA::Boolean isASCII);
+  
+  // --> Data publishing
+  virtual bool                    CanPublishInStudy(CORBA::Object_ptr theIOR);
+
+  virtual SALOMEDS::SObject_ptr   PublishInStudy(SALOMEDS::Study_ptr theStudy,
+                                                 SALOMEDS::SObject_ptr theSObject,
+                                                 CORBA::Object_ptr theObject,
+                                                 const char* theName);
+
+  // --> Copy/Paste
+  virtual CORBA::Boolean          CanCopy(SALOMEDS::SObject_ptr theObject);
+  
+  virtual SALOMEDS::TMPFile*      CopyFrom(SALOMEDS::SObject_ptr theObject,
+					    CORBA::Long& theObjectID);
+
+  virtual CORBA::Boolean          CanPaste(const char* theComponentName, CORBA::Long theObjectID);
+
+  virtual SALOMEDS::SObject_ptr   PasteInto(const SALOMEDS::TMPFile& theStream,
+					     CORBA::Long theObjectID,
+					     SALOMEDS::SObject_ptr theObject);
+
+
+private:
+  void                            addInStudy(SALOMEDS::Study_ptr theStudy);
+  SALOMEDS::SObject_ptr           PublishCaseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Cas_ptr theObject, const char* theName);
+  
+  SALOMEDS::SObject_ptr           PublishHypotheseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Hypothesis_ptr theObject, const char* theName);
+
+  SALOMEDS::SObject_ptr           PublishZoneInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Zone_ptr theObject, const char* theName);
+  SALOMEDS::SObject_ptr           PublishBoundaryInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Boundary_ptr theObject, const char* theName);
+  virtual void                    PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     SALOMEDS::SObject_var aResultSO,
+                                                     const char* theName, const char* value, const char* icone, const char* ior);
+  PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
+
+  HOMARD::HOMARD_Cas_ptr          newCase();
+  HOMARD::HOMARD_Hypothesis_ptr   newHypothesis();
+  HOMARD::HOMARD_Iteration_ptr    newIteration();
+  HOMARD::HOMARD_Zone_ptr         newZone();
+  HOMARD::HOMARD_Boundary_ptr     newBoundary();
+
+
+  virtual Engines::TMPFile* DumpPython(CORBA::Object_ptr theStudy,
+                                       CORBA::Boolean isPublished,
+                                       CORBA::Boolean& isValidScript);
+
+
+private:
+  struct StudyContext
+  {
+    std::map<std::string, HOMARD::HOMARD_Cas_var>        _mesCas;
+    std::map<std::string, HOMARD::HOMARD_Hypothesis_var> _mesHypotheses;
+    std::map<std::string, HOMARD::HOMARD_Iteration_var>  _mesIterations;
+    std::map<std::string, HOMARD::HOMARD_Zone_var>       _mesZones;
+    std::map<std::string, HOMARD::HOMARD_Boundary_var>   _mesBoundarys;
+    std::map<int, PortableServer::ServantBase*>          _idmap;
+  };
+  typedef std::map<int, StudyContext> ContextMap;
+  
+  ::HOMARD_Gen*                 myHomard;
+  SALOMEDS::Study_var           myCurrentStudy;
+  ContextMap                    myContextMap;
+  SALOME_NamingService*         _NS;
+
+};
+
+#endif

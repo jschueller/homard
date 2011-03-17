@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<!DOCTYPE application PUBLIC "" "desktop.dtd">
+<application title="HOMARD component" date="9/12/2001" author="C Caremoli" appId="HOMARD" >
+<desktop>
+<!-- ### MENUBAR ###  -->
+<menubar>
+
+ <menu-item label-id="File" item-id="1" pos-id="">
+  <submenu label-id="Homard" item-id="19" pos-id="9">
+   <popup-item item-id="1101" pos-id="" label-id="Dialogue Homard" icon-id="" tooltip-id="" accel-id="" toggle-id="" execute-action=""/>
+  </submenu>
+  <endsubmenu />
+ </menu-item>
+
+ <menu-item label-id="HOMARD" item-id="1100" pos-id="3">
+  <popup-item item-id="1101" label-id="Dialogue Homard" icon-id="" tooltip-id="Lancer HOMARD" accel-id="" toggle-id="" execute-action=""/>
+
+ </menu-item>
+</menubar>
+<!-- ### TOOLBAR ###  -->
+<toolbar label-id="HOMARD">
+ <toolbutton-item item-id="1101" label-id="Dialogue Homard" icon-id="ExecHOMARD.png" tooltip-id="Lancer HOMARD" accel-id="" toggle-id="" execute-action=""/>
+</toolbar>
+</desktop>
+</application>
+

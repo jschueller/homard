@@ -1,0 +1,44 @@
+#ifndef _HOMARD_CAS_IDL
+#define _HOMARD_CAS_IDL
+
+#include "SALOME_Exception.idl"
+
+module HOMARD
+{
+ typedef sequence<double> extrema ;
+ typedef sequence<string> ListGroupType ;
+ typedef sequence<string> ListBoundaryGroupType ;
+
+
+ interface HOMARD_Cas
+  {
+
+    void     SetName(in string NomCas)                     raises (SALOME::SALOME_Exception);
+    string   GetName()                                     raises (SALOME::SALOME_Exception);
+
+    void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
+    string   GetDirName()                                  raises (SALOME::SALOME_Exception);
+
+    void     SetConfType(in long ConfType)                 raises (SALOME::SALOME_Exception);
+    long     GetConfType()                                 raises (SALOME::SALOME_Exception);
+
+    void     AddIteration (in string NomIteration)         raises (SALOME::SALOME_Exception);
+    string   GetIter0Name ()                               raises (SALOME::SALOME_Exception);
+
+    extrema  GetBoundingBox()                              raises (SALOME::SALOME_Exception);
+    void     SetBoundingBox(in extrema LesExtremes)        raises (SALOME::SALOME_Exception);
+
+    ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
+    void     SetGroups(in ListGroupType ListGroup)         raises (SALOME::SALOME_Exception);
+    void     AddGroup(in string Group)                     raises (SALOME::SALOME_Exception);
+
+    long     GetNumber()                                   raises (SALOME::SALOME_Exception);
+    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+
+    ListBoundaryGroupType GetBoundaryGroup()               raises (SALOME::SALOME_Exception);
+    void     AddBoundaryGroup(in string NomBoundary, in string Group)
+                                                           raises (SALOME::SALOME_Exception);
+
+  };
+};
+#endif

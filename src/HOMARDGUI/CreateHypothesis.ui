@@ -1,0 +1,654 @@
+<ui version="4.0" >
+ <class>CreateHypothesis</class>
+ <widget class="QDialog" name="CreateHypothesis" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>717</width>
+    <height>1005</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>Create Hypothesis</string>
+  </property>
+  <property name="autoFillBackground" >
+   <bool>false</bool>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_10" >
+   <item row="0" column="0" >
+    <widget class="QLabel" name="Name" >
+     <property name="text" >
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QLineEdit" name="LEHypothesisName" >
+     <property name="minimumSize" >
+      <size>
+       <width>382</width>
+       <height>31</height>
+      </size>
+     </property>
+     <property name="maxLength" >
+      <number>32</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBTypeAdaptation" >
+     <property name="title" >
+      <string>Type of adaptation</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout" >
+      <item>
+       <widget class="QRadioButton" name="RBUniforme" >
+        <property name="text" >
+         <string>Uniform</string>
+        </property>
+        <property name="checkable" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="RBChamp" >
+        <property name="text" >
+         <string>Following a field</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="RBZone" >
+        <property name="text" >
+         <string>With geometrical zones</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBUniform" >
+     <property name="title" >
+      <string>Uniform adaptation</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" >
+      <item row="0" column="1" >
+       <widget class="QRadioButton" name="RBUniDera" >
+        <property name="text" >
+         <string>Coarsening</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QRadioButton" name="RBUniRaff" >
+        <property name="text" >
+         <string>Refinement</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBFieldFile" >
+     <property name="title" >
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_9" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="FieldFile" >
+        <property name="text" >
+         <string>File of the fields</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="LEFieldFile" >
+        <property name="minimumSize" >
+         <size>
+          <width>282</width>
+          <height>31</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBFieldManagement" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Governing field for the adaptation</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6" >
+      <item row="0" column="0" >
+       <layout class="QHBoxLayout" name="horizontalLayout_6" >
+        <item>
+         <widget class="QLabel" name="FieldName" >
+          <property name="text" >
+           <string>Field Name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="CBFieldName" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="editable" >
+           <bool>false</bool>
+          </property>
+          <property name="sizeAdjustPolicy" >
+           <enum>QComboBox::AdjustToContents</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>48</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0" >
+       <layout class="QHBoxLayout" name="horizontalLayout_7" >
+        <item>
+         <widget class="QTableWidget" name="TWCMP" >
+          <property name="editTriggers" >
+           <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+          </property>
+          <property name="showGrid" >
+           <bool>true</bool>
+          </property>
+          <property name="rowCount" >
+           <number>0</number>
+          </property>
+          <property name="columnCount" >
+           <number>2</number>
+          </property>
+          <column>
+           <property name="text" >
+            <string>Selection</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Component</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>60</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3" >
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" >
+            <item>
+             <widget class="QRadioButton" name="RBL2" >
+              <property name="text" >
+               <string>L2 norm</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="RBInf" >
+              <property name="text" >
+               <string>Infinite norm</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" >
+       <layout class="QHBoxLayout" name="horizontalLayout_2" >
+        <item>
+         <widget class="QGroupBox" name="GBRefinementThresholds" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title" >
+           <string>Refinement thresholds</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout" >
+           <item row="0" column="0" >
+            <widget class="QRadioButton" name="RBRPE" >
+             <property name="text" >
+              <string>Percentage of meshes</string>
+             </property>
+             <property name="checkable" >
+              <bool>true</bool>
+             </property>
+             <property name="checked" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_RPE" >
+             <property name="suffix" >
+              <string> %</string>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+             <property name="value" >
+              <double>3.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QRadioButton" name="RBRRel" >
+             <property name="text" >
+              <string>Relative</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_RRel" >
+             <property name="enabled" >
+              <bool>false</bool>
+             </property>
+             <property name="suffix" >
+              <string> %</string>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" >
+            <widget class="QRadioButton" name="RBRAbs" >
+             <property name="text" >
+              <string>Absolute</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_RAbs" >
+             <property name="enabled" >
+              <bool>false</bool>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" >
+            <widget class="QRadioButton" name="RBRNo" >
+             <property name="text" >
+              <string>No refinement</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="GBCoarseningThresholds" >
+          <property name="title" >
+           <string>Coarsening thresholds</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4" >
+           <item row="0" column="0" >
+            <widget class="QRadioButton" name="RBCPE" >
+             <property name="text" >
+              <string>Percentage of meshes</string>
+             </property>
+             <property name="checkable" >
+              <bool>true</bool>
+             </property>
+             <property name="checked" >
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_CPE" >
+             <property name="enabled" >
+              <bool>false</bool>
+             </property>
+             <property name="suffix" >
+              <string> %</string>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QRadioButton" name="RBCRel" >
+             <property name="text" >
+              <string>Relative</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_CRel" >
+             <property name="enabled" >
+              <bool>false</bool>
+             </property>
+             <property name="suffix" >
+              <string> %</string>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" >
+            <widget class="QRadioButton" name="RBCAbs" >
+             <property name="text" >
+              <string>Absolute</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" >
+            <widget class="QDoubleSpinBox" name="SpinBox_CAbs" >
+             <property name="enabled" >
+              <bool>false</bool>
+             </property>
+             <property name="decimals" >
+              <number>3</number>
+             </property>
+             <property name="maximum" >
+              <double>100.000000000000000</double>
+             </property>
+             <property name="singleStep" >
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" >
+            <widget class="QRadioButton" name="RBCNo" >
+             <property name="text" >
+              <string>No coarsening</string>
+             </property>
+             <property name="checked" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBAreaManagement" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Area management</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3" >
+      <item row="0" column="0" >
+       <widget class="QTableWidget" name="TWZone" >
+        <property name="editTriggers" >
+         <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+        </property>
+        <property name="showGrid" >
+         <bool>true</bool>
+        </property>
+        <property name="rowCount" >
+         <number>0</number>
+        </property>
+        <property name="columnCount" >
+         <number>2</number>
+        </property>
+        <column>
+         <property name="text" >
+          <string>Selection</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>Zone name</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <layout class="QVBoxLayout" name="verticalLayout_2" >
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout" >
+          <item>
+           <widget class="QPushButton" name="PBZoneNew" >
+            <property name="text" >
+             <string>New</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="PBZoneEdit" >
+            <property name="text" >
+             <string>Edit</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="PBZoneDelete" >
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer" >
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>20</width>
+            <height>48</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBField" >
+     <property name="title" >
+      <string>Field Interpolation</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_8" >
+      <item row="0" column="0" >
+       <layout class="QGridLayout" name="gridLayout_7" >
+        <item row="0" column="0" >
+         <widget class="QRadioButton" name="RBFieldNo" >
+          <property name="text" >
+           <string>None</string>
+          </property>
+          <property name="checked" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QRadioButton" name="RBFieldAll" >
+          <property name="text" >
+           <string>All</string>
+          </property>
+          <property name="checked" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" >
+         <widget class="QRadioButton" name="RBFieldChosen" >
+          <property name="text" >
+           <string>Chosen</string>
+          </property>
+          <property name="checked" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QTableWidget" name="TWField" >
+        <column>
+         <property name="text" >
+          <string>Selection</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>Field Name</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2" >
+    <widget class="QCheckBox" name="CBGroupe" >
+     <property name="text" >
+      <string>Filtering with groups</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2" >
+    <widget class="QGroupBox" name="GBButtons" >
+     <property name="title" >
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5" >
+      <item row="0" column="0" >
+       <widget class="QPushButton" name="buttonOk" >
+        <property name="text" >
+         <string>&amp;Ok</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QPushButton" name="buttonApply" >
+        <property name="text" >
+         <string>&amp;Apply</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" >
+       <widget class="QPushButton" name="buttonCancel" >
+        <property name="text" >
+         <string>&amp;Cancel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" >
+       <widget class="QPushButton" name="buttonHelp" >
+        <property name="text" >
+         <string>&amp;Help</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

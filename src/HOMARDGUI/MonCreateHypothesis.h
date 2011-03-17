@@ -1,0 +1,103 @@
+#ifndef MON_CREATEHYPOTHESIS_H
+#define MON_CREATEHYPOTHESIS_H
+
+
+#include <SALOMEconfig.h>
+#include <SalomeApp_Module.h>
+
+#include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
+#include CORBA_CLIENT_HEADER(HOMARD_Gen)
+#include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
+
+#include <CreateHypothesis.h>
+#include <QDialog>
+
+class MonCreateIteration;
+class MonCreateHypothesis : public QDialog, public Ui_CreateHypothesis
+{ 
+    Q_OBJECT
+
+public:
+    MonCreateHypothesis( MonCreateIteration* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen,
+                         QString aHypotheseName, QString caseName, QString aFieldFile);
+    ~MonCreateHypothesis();
+
+    virtual void addZone(QString newZone);
+    virtual void setGroups(QStringList listGroup);
+
+protected :
+   // MonCreateHypothesis( MonCreateIteration* parent, HOMARD::HOMARD_Gen_var myHomardGen,
+   //                      QString caseName, QString aFieldFile);
+
+    MonCreateIteration *_parent;
+
+    QString _aHypothesisName;
+    QString _aFieldFile ;
+    QString _aFieldName;
+    QString _aCaseName;
+
+    int _aTypeAdap;
+    int _aTypeRaff;
+    int _aTypeDera;
+
+    int _TypeThR;
+    double _ThreshR;
+    int _TypeThC;
+    double _ThreshC;
+
+    int _UsCmpI;
+    int _TypeFieldInterp;
+
+    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Hypothesis_var _aHypothesis;
+
+    QStringList _aListeZone;
+    QStringList _aListeComposant;
+    QStringList _aListeGroupes;
+
+    virtual void InitConnect();
+    virtual void InitFields();
+    virtual void GetAllZones();
+    virtual void SetNewHypothesisName();
+
+    virtual void AssocieFieldInterp();
+    virtual void AssocieLesZones();
+    virtual void AssocieComposants();
+    virtual void AssocieLesGroupes();
+    virtual bool VerifieZone();
+    virtual bool VerifieComposant();
+
+    virtual QStringList GetZonesChecked();
+    virtual QStringList GetListCompChecked();
+
+public slots:
+
+    virtual void SetUniforme();
+    virtual void SetChamp();
+    virtual void SetZone();
+    virtual void SetUniRaff();
+    virtual void SetUniDera();
+    virtual void SetFieldName();
+    virtual void SetRPE();
+    virtual void SetRAbs();
+    virtual void SetRRel();
+    virtual void SetRNo();
+    virtual void SetCPE();
+    virtual void SetCAbs();
+    virtual void SetCRel();
+    virtual void SetCNo();
+    virtual void SetUCL2();
+    virtual void SetUCInf();
+    virtual void PushZoneNew();
+    virtual void PushZoneEdit();
+    virtual void PushZoneDelete();
+    virtual void SetFiltrage();
+    virtual void SetFieldNo();
+    virtual void SetFieldAll();
+    virtual void SetFieldChosen();
+    virtual void PushOnOK();
+    virtual bool PushOnApply();
+    virtual void PushOnHelp();
+};
+
+#endif // MON_CREATEHYPOTHESIS_H

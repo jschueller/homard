@@ -1,0 +1,692 @@
+//  Copyright (C) 2003  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
+//  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2.1 of the License.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+//  See http://www.opencascade.org/SALOME/ or email : webmaster.salome@opencascade.org
+//
+// ----------------------------------------------------------------------------
+//
+//  File   : HOMARD_DriverTools.cxx
+//  Author : Vadim SANDLER, Open CASCADE S.A.S. (vadim.sandler@opencascade.com)
+//
+// ----------------------------------------------------------------------------
+
+#include "HOMARD_DriverTools.hxx"
+#include "HOMARD_Boundary.hxx"
+#include "HOMARD_Cas.hxx"
+#include "HOMARD_Hypothesis.hxx"
+#include "HOMARD_Iteration.hxx"
+#include "HOMARD_Zone.hxx"
+#include <sstream>
+#include <cstdlib>
+#include "utilities.h"
+
+namespace HOMARD
+{
+
+  const char* const SEPARATOR = "|";
+
+  /*!
+    \brief Read next chunk of data from the string
+    \internal
+    
+    The function tries to read next chunk of the data from the input string \a str.
+    The parameter \a start specifies the start position of next chunk. If the operation
+    read the chunk successfully, after its completion this parameter will refer to the
+    start position of the next chunk. The function returns resulting chunk as a string.
+    The status of the operation is returned via \a ok parameter.
+    
+    \param str source data stream string
+    \param start start position to get next chunk
+    \param ok in this variable the status of the chunk reading operation is returned
+    \return next chunk read from the string
+  */
+  static std::string getNextChunk( const std::string& str, std::string::size_type& start, bool& ok )
+  {
+    std::string chunk = "";
+    ok = false;
+    if ( start <= str.size() ) {
+      std::string::size_type end = str.find( separator(), start );
+      chunk = str.substr( start, end == std::string::npos ? std::string::npos : end-start );
+      start = end == std::string::npos ? str.size()+1 : end + separator().size();
+      ok = true;
+    }
+    return chunk;
+  }
+
+  /*!
+    \brief Get persistence signature
+    \param type persistence entity type
+    \return persistence signature
+  */
+  std::string GetSignature( SignatureType type )
+  {
+    std::string signature = "";
+    switch ( type ) {
+    case Case:       signature = "CASE"; break;
+    case Zone:       signature = "ZONE"; break;
+    case Hypothesis: signature = "HYPO"; break;
+    case Iteration:  signature = "ITER"; break;
+    case Boundary:   signature = "BOUNDARY"; break;
+    default: break;
+    }
+    signature += separator();
+    return signature;
+  }
+
+  /*!
+    \brief Get data separator
+    \return string that is used to separate data entities in the stream
+  */
+  std::string separator()
+  {
+    return std::string( SEPARATOR );
+  }
+
+// =======================
+// Case
+// =======================
+  /*!
+    \brief Dump case to the string
+    \param cas case being dumped
+    \return string representation of the case
+  */
+  std::string Dump( const HOMARD_Cas& cas )
+  {
+    std::stringstream os;
+    // ...
+    MESSAGE( ". Dump du cas "<<cas.GetName());
+    os << cas.GetName();
+    os << separator() << cas.GetDirName();
+    os << separator() << cas.GetConfType();
+
+    std::vector<double> coor = cas.GetBoundingBox();
+    os << separator() << coor.size();
+    for ( int i = 0; i < coor.size(); i++ )
+          os << separator() << coor[i];
+
+    std::list<std::string> ListString = cas.GetIterations();
+    os << separator() << ListString.size();
+    std::list<std::string>::const_iterator it;
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+          os << separator() << *it;
+
+    ListString = cas.GetGroups();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+         os << separator() << *it;
+    ListString = cas.GetBoundaryGroup();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+         os << separator() << *it;
+    return os.str();
+  }
+//
+// Iteration
+// ==========
+//
+  /*!
+    \brief Dump iteration to the string
+    \param iteration iteration being dumped
+    \return string representation of the iteration
+  */
+  std::string Dump( const HOMARD_Iteration& iteration )
+  {
+    std::stringstream os;
+    // ...
+    MESSAGE( ". Dump de l'iteration "<<iteration.GetName());
+    os << iteration.GetName();
+    os << separator() << iteration.GetEtat();
+    os << separator() << iteration.GetNumber();
+    os << separator() << iteration.GetMeshFile();
+    os << separator() << iteration.GetMessFile();
+    os << separator() << iteration.GetMeshName();
+    os << separator() << iteration.GetFieldFile();
+    os << separator() << iteration.GetTimeStep();
+    os << separator() << iteration.GetRank();
+    os << separator() << iteration.GetIterParent();
+    //
+    std::list<std::string> ListString = iteration.GetIterations();
+    os << separator() << ListString.size();
+    std::list<std::string>::const_iterator it;
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+      os << separator() << *it;
+
+    os << separator() << iteration.GetHypoName();
+    os << separator() << iteration.GetCaseName();
+    os << separator() << iteration.GetDirName();
+    return os.str();
+  }
+//
+// hypothese
+// ==============================
+  /*!
+    \brief Dump hypothesis to the string
+    \param hypothesis hypothesis being dumped
+    \return string representation of the hypothesis
+  */
+  std::string Dump( const HOMARD_Hypothesis& hypothesis )
+  {
+    std::stringstream os;
+    // ...
+    MESSAGE( ". Dump de l'hypothese "<<hypothesis.GetName());
+    os << hypothesis.GetName();
+    os << separator() << hypothesis.GetCaseCreation();
+    os << separator() << hypothesis.GetAdapType();
+    os << separator() << hypothesis.GetRefinType();
+    os << separator() << hypothesis.GetUnRefType();
+    os << separator() << hypothesis.GetFieldName();
+    os << separator() << hypothesis.GetRefinThrType();
+    os << separator() << hypothesis.GetThreshR();
+    os << separator() << hypothesis.GetUnRefThrType();
+    os << separator() << hypothesis.GetThreshC();
+    os << separator() << hypothesis.GetUseCompI();
+    os << separator() << hypothesis.GetTypeFieldInterp();
+
+
+    std::list<std::string> ListString = hypothesis.GetIterations();
+    std::list<std::string>::const_iterator it;
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+         os << separator() << *it;
+
+    ListString = hypothesis.GetZones();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+          os << separator() << *it;
+
+    ListString = hypothesis.GetListComp();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+         os << separator() << *it;
+
+    ListString = hypothesis.GetGroups();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+          os << separator() << *it;
+
+    ListString = hypothesis.GetListFieldInterp();
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+          os << separator() << *it;
+    return os.str();
+  }
+//
+// Zone
+// =========================
+
+  /*!
+    \brief Dump zone to the string
+    \param zone zone being dumped
+    \return string representation of the zone
+  */
+  std::string Dump( const HOMARD_Zone& zone )
+  {
+    std::stringstream os;
+    os << zone.GetName();
+    os << separator() << zone.GetZoneType();
+
+    std::vector<double> box = zone.GetBox();
+    for ( int i = 0; i < box.size(); i++ )
+      os << separator() << ( i < box.size() ? box[i] : 0. );
+
+    std::vector<double> sphere = zone.GetSphere();
+    for ( int i = 0; i < 4; i++ )
+      os << separator() << ( i < sphere.size() ? sphere[i] : 0. );
+
+    std::vector<double> limit = zone.GetLimit();
+    for ( int i = 0; i < 3; i++ )
+      os << separator() << ( i < limit.size() ? limit[i] : 0. );
+
+    std::list<std::string> hypos = zone.GetHypo();
+    os << separator() << hypos.size();
+    std::list<std::string>::const_iterator it;
+    for ( it = hypos.begin(); it != hypos.end(); ++it )
+      os << separator() << *it;
+    return os.str();  
+
+
+  }
+//
+// 1.5. Archivage d'une frontiere
+// ==============================
+
+  /*!
+    \brief Dump boundary to the string
+    \param boundary boundary being dumped
+    \return string representation of the boundary
+  */
+  std::string Dump( const HOMARD_Boundary& boundary )
+  {
+    std::stringstream os;
+
+    os << boundary.GetName() ;
+    os << separator() << boundary.GetBoundaryType() ;
+    os << separator() << boundary.GetCaseCreation() ;
+    os << separator() << boundary.GetMeshFile();
+    os << separator() << boundary.GetMeshName();
+
+    std::vector<double> coor = boundary.GetLimit();
+    for ( int i = 0; i < coor.size(); i++ )
+          os << separator() << coor[i];
+
+    coor = boundary.GetCylinder() ; 
+    for ( int i = 0; i < coor.size(); i++ )
+          os << separator() << coor[i];
+
+    coor = boundary.GetSphere() ; 
+    for ( int i = 0; i < coor.size(); i++ )
+          os << separator() << coor[i];
+    return os.str();
+
+    std::list<std::string> ListString = boundary.GetGroups();
+    std::list<std::string>::const_iterator it;
+    os << separator() << ListString.size();
+    for ( it = ListString.begin(); it != ListString.end(); ++it )
+          os << separator() << *it;
+
+  }
+
+//
+// Restauration des objets
+// ==========================
+// Case
+// ==========================
+//
+  /*!
+    \brief Restore case from the string
+    \param cas case being restored
+    \param stream string representation of the case
+    \return \c true if case is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_Cas& cas, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk, chunkNext;
+    bool ok;
+    // ...
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetDirName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetConfType( atoi( chunk.c_str() ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+
+    int size = atoi( chunk.c_str() );
+    std::vector<double> boite;
+    boite.resize( size );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      boite[i] = strtod( chunk.c_str(), 0 );
+    }
+    cas.SetBoundingBox( boite );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      cas.AddIteration( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) 
+    {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      cas.AddGroup( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      i++;
+      chunkNext = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      cas.AddBoundaryGroup( chunk.c_str(), chunkNext.c_str() );
+    }
+    return true;
+  }
+//
+//  Iteration
+// =================================
+  /*!
+    \brief Restore iteration from the string
+    \param iteration iteration being restored
+    \param stream string representation of the iteration
+    \return \c true if iteration is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_Iteration& iteration, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+
+    iteration.SetName( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetEtat( (bool)atoi( chunk.c_str() ) );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetNumber( atoi( chunk.c_str() ) );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetMeshFile( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetMessFile( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetMeshName( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetFieldFile( chunk.c_str() );
+    // .
+    int timestep, rank;
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    timestep = atoi( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    rank = atoi( chunk.c_str() );
+    iteration.SetTimeStepRank( timestep, rank );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetIterParent( chunk.c_str() );
+    //
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      iteration.AddIteration( chunk.c_str() );
+    }
+    // 
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetHypoName( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetCaseName( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    iteration.SetDirName( chunk.c_str() );
+    return true;
+  }
+
+//
+// hypothese
+// =================================
+  /*!
+    \brief Restore hypothesis from the string
+    \param hypothesis hypothesis being restored
+    \param stream string representation of the hypothesis
+    \return \c true if hypothesis is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_Hypothesis& hypothesis, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetCaseCreation( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetAdapType( atoi( chunk.c_str() ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int typeraff = atoi( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int typedera = atoi( chunk.c_str() );
+    hypothesis.SetRefinTypeDera( typeraff, typedera );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetField( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int typethr = atoi( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    double threshr = strtod( chunk.c_str(), 0 );
+    hypothesis.SetRefinThr( typethr, threshr );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int typethc = atoi( chunk.c_str() );
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    double threshc = strtod( chunk.c_str(), 0 );
+    hypothesis.SetUnRefThr( typethc, threshc );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetUseComp(atoi(chunk.c_str()));
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetTypeFieldInterp(atoi(chunk.c_str()));
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      hypothesis.AddIteration( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      hypothesis.AddZone( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      hypothesis.AddComp( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      hypothesis.AddGroup( chunk.c_str() );
+    }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      hypothesis.AddFieldInterp( chunk.c_str() );
+    }
+    return true;
+  }
+
+//
+// Zone
+// ============================
+  /*!
+    \brief Restore zone from the string
+    \param zone zone being restored
+    \param stream string representation of the zone
+    \return \c true if zone is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_Zone& zone, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+    // 
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    zone.SetName( chunk.c_str() );
+    //
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    zone.SetZoneType( atoi( chunk.c_str() ) );
+    //
+    std::vector<double> coords;
+    coords.resize( 6 );
+    for ( int i = 0; i < 6; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    zone.SetBox( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5] );
+    //
+    for ( int i = 0; i < 4; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    zone.SetSphere( coords[0], coords[1], coords[2], coords[3] );
+
+    //
+    for ( int i = 0; i < 3; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    zone.SetLimit( coords[0], coords[1], coords[2]);
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      zone.AddHypo( chunk.c_str() );
+    }
+    return true;
+  }
+
+
+//
+// 2.5. Restauration d'une frontiere
+// =================================
+
+  /*!
+    \brief Restore boundary from the string
+    \param boundary boundary being restored
+    \param stream string representation of the boundary
+    \return \c true if zone is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_Boundary& boundary, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    boundary.SetName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    boundary.SetBoundaryType(atoi( chunk.c_str()) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    boundary.SetCaseCreation( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    boundary.SetMeshFile( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    boundary.SetMeshName( chunk.c_str() );
+
+
+    std::vector<double> coords;
+    coords.resize( 3 );
+    for ( int i = 0; i < 3; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    boundary.SetLimit( coords[0], coords[1], coords[2]);
+
+    coords.resize( 7 );
+    for ( int i = 0; i < 7; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    boundary.SetCylinder(coords[0],coords[1],coords[2],coords[3],coords[4],coords[5],coords[6]);
+
+    coords.resize( 4 );
+    for ( int i = 0; i < 4; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      coords[i] = strtod( chunk.c_str(), 0 );
+    }
+    boundary.SetSphere( coords[0], coords[1], coords[2], coords[3]);
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int size = atoi( chunk.c_str() );
+    for ( int i = 0; i < size; i++ ) {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      boundary.AddGroup( chunk.c_str() );
+    }
+
+    return true;
+  }
+
+} // namespace HOMARD /end/

@@ -1,0 +1,79 @@
+#ifndef _HOMARD_HYPOTHESIS_IDL
+#define _HOMARD_HYPOTHESIS_IDL
+
+#include "SALOME_Exception.idl"
+#include "HOMARD_Cas.idl"
+
+module HOMARD
+{
+  typedef sequence<string> listeZonesHypo ;
+  typedef sequence<string> listeIters ;
+  typedef sequence<string> listeComposantsHypo ;
+  typedef sequence<long>   listeTypes;
+  typedef sequence<string> listFieldInterpHypo;
+ 
+  struct InfosHypo
+  {
+      string FieldName;
+      long UsCmpI;
+      long UsField;
+      long TypeThR;
+      double ThreshR;
+      long TypeThC;
+      double ThreshC;
+  };
+
+  interface HOMARD_Hypothesis
+  {
+
+    void     SetName(in string NomHypothesis)              raises (SALOME::SALOME_Exception);
+    string   GetName()                                     raises (SALOME::SALOME_Exception);
+
+    void     SetCaseCreation(in string NomCas)             raises (SALOME::SALOME_Exception);
+    string   GetCaseCreation()                             raises (SALOME::SALOME_Exception);
+
+    void       SetAdapRefinUnRef(in long Adap, in long Raff, in long Dera)
+                                                           raises (SALOME::SALOME_Exception);
+    listeTypes GetAdapRefinUnRef()                         raises (SALOME::SALOME_Exception);
+    long       GetAdapType()                               raises (SALOME::SALOME_Exception);
+    long       GetRefinType()                              raises (SALOME::SALOME_Exception);
+    long       GetUnRefType()                              raises (SALOME::SALOME_Exception);
+
+    void       SetField(in string FieldName)               raises (SALOME::SALOME_Exception);
+    string     GetFieldName()                              raises (SALOME::SALOME_Exception);
+    void       SetRefinThr(in long TypeThR, in double ThreshR)
+                                                           raises (SALOME::SALOME_Exception);
+    void       SetUnRefThr(in long TypeThC, in double ThreshC)
+                                                           raises (SALOME::SALOME_Exception);
+    long       GetRefinThrType()                           raises (SALOME::SALOME_Exception);
+    long       GetUnRefThrType()                           raises (SALOME::SALOME_Exception);
+    void       SetUseComp(in long UsCmpI)                  raises (SALOME::SALOME_Exception);
+    void       SetUseField(in long UsField)                raises (SALOME::SALOME_Exception);
+    InfosHypo  GetField()                                  raises (SALOME::SALOME_Exception);
+
+    void       AddComp(in string NomComposant)             raises (SALOME::SALOME_Exception);
+    void       SupprComp()                                 raises (SALOME::SALOME_Exception);
+    listeComposantsHypo GetListComp()                      raises (SALOME::SALOME_Exception);
+
+    void       AddZone(in string NomZone)                  raises (SALOME::SALOME_Exception);
+    void       SupprZone(in string NomZone)                raises (SALOME::SALOME_Exception);
+    listeZonesHypo GetZones()                              raises (SALOME::SALOME_Exception);
+
+    listeIters GetIterations()                             raises (SALOME::SALOME_Exception);
+    void       AddIteration(in string NomIteration)        raises (SALOME::SALOME_Exception);
+
+    ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
+    void       SetGroups(in ListGroupType ListGroup)       raises (SALOME::SALOME_Exception);
+    void       AddGroup(in string LeGroupe)                raises (SALOME::SALOME_Exception);
+
+    void       SetTypeFieldInterp(in long TypeFieldInterp) raises (SALOME::SALOME_Exception);
+    long       GetTypeFieldInterp()                        raises (SALOME::SALOME_Exception);
+    void       AddFieldInterp(in string FieldInterp)       raises (SALOME::SALOME_Exception);
+    void       SupprFieldInterp()                          raises (SALOME::SALOME_Exception);
+    listFieldInterpHypo GetListFieldInterp()               raises (SALOME::SALOME_Exception);
+
+    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+
+  };
+};
+#endif

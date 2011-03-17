@@ -1,0 +1,50 @@
+#ifndef _HOMARD_Boundary_IDL
+#define _HOMARD_Boundary_IDL
+
+#include "SALOME_Exception.idl"
+#include "HOMARD_Cas.idl"
+#include "HOMARD_Zone.idl"
+
+
+module HOMARD
+{
+  interface HOMARD_Boundary
+  {
+
+    void     SetName (in string NomBoundary)               raises (SALOME::SALOME_Exception);
+    string   GetName ()                                    raises (SALOME::SALOME_Exception);
+
+    void     SetBoundaryType (in long BoundaryType)        raises (SALOME::SALOME_Exception);
+    long     GetBoundaryType()                             raises (SALOME::SALOME_Exception);
+
+    void     SetMeshFile(in string MeshFile)               raises (SALOME::SALOME_Exception);
+    string   GetMeshFile()                                 raises (SALOME::SALOME_Exception);
+
+    void     SetMeshName(in string MeshName)               raises (SALOME::SALOME_Exception);
+    string   GetMeshName()                                 raises (SALOME::SALOME_Exception);
+
+    void     SetCylinder (in double Xcentre, in double Ycentre, in double Zcentre,
+                          in double Xaxe, in double Yaxe, in double Zaxe, in double rayon)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD::double_array GetCylinder()                     raises (SALOME::SALOME_Exception);
+
+    void     SetSphere (in double Xcentre, in double Ycentre, in double Zcentre, in double rayon)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD::double_array GetSphere()                       raises (SALOME::SALOME_Exception);
+
+    void     SetLimit (in double Xincr, in double Yincr, in double Zincr)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD::double_array GetLimit()                        raises (SALOME::SALOME_Exception);
+
+    void     SetCaseCreation(in string NomCas)             raises (SALOME::SALOME_Exception);
+    string   GetCaseCreation()                             raises (SALOME::SALOME_Exception);
+
+    void       AddGroup(in string LeGroupe)                raises (SALOME::SALOME_Exception);
+    ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
+    void       SetGroups(in ListGroupType ListGroup)       raises (SALOME::SALOME_Exception);
+
+    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+
+  };
+};
+#endif
