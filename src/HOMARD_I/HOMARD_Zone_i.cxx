@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #include "HOMARD_Zone_i.hxx"
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Zone.hxx"
@@ -87,11 +106,11 @@ void HOMARD_Zone_i::SetBox( double X0, double X1, double X2, double X3, double X
 }
 
 //=============================================================================
-HOMARD::double_array* HOMARD_Zone_i::GetBox()
+HOMARD::double_array* HOMARD_Zone_i::GetCoords()
 {
   ASSERT( myHomardZone );
   HOMARD::double_array_var aResult = new HOMARD::double_array();
-  std::vector<double> mesCoor = myHomardZone->GetBox();
+  std::vector<double> mesCoor = myHomardZone->GetCoords();
   aResult->length( mesCoor .size() );
   std::vector<double>::const_iterator it;
   int i = 0;
@@ -101,24 +120,27 @@ HOMARD::double_array* HOMARD_Zone_i::GetBox()
 }
 
 //=============================================================================
-void HOMARD_Zone_i::SetSphere( double Xcentre, double Ycentre, double ZCentre, double rayon )
+void HOMARD_Zone_i::SetSphere( double Xcentre, double Ycentre, double Zcentre, double Rayon )
 {
   ASSERT( myHomardZone );
-  myHomardZone->SetSphere( Xcentre, Ycentre, ZCentre, rayon );
+  myHomardZone->SetSphere( Xcentre, Ycentre, Zcentre, Rayon );
 }
 
 //=============================================================================
-HOMARD::double_array* HOMARD_Zone_i::GetSphere()
+void HOMARD_Zone_i::SetCylinder( double Xcentre, double Ycentre, double Zcentre,
+                                 double Xaxis, double Yaxis, double Zaxis,
+                                 double Rayon, double Haut )
 {
   ASSERT( myHomardZone );
-  HOMARD::double_array_var aResult = new HOMARD::double_array();
-  std::vector<double> mesCoor = myHomardZone->GetSphere();
-  aResult->length( mesCoor .size() );
-  std::vector<double>::const_iterator it;
-  int i = 0;
-  for ( it = mesCoor.begin(); it != mesCoor.end(); it++ )
-    aResult[i++] = (*it);
-  return aResult._retn();
+  myHomardZone->SetCylinder( Xcentre, Ycentre, Zcentre, Xaxis, Yaxis, Zaxis, Rayon, Haut );
+}
+//=============================================================================
+void HOMARD_Zone_i::SetPipe( double Xcentre, double Ycentre, double Zcentre,
+                             double Xaxis, double Yaxis, double Zaxis,
+                             double Rayon, double Haut, double Rayonint )
+{
+  ASSERT( myHomardZone );
+  myHomardZone->SetPipe( Xcentre, Ycentre, Zcentre, Xaxis, Yaxis, Zaxis, Rayon, Haut, Rayonint );
 }
 
 //=============================================================================
@@ -146,8 +168,10 @@ HOMARD::double_array* HOMARD_Zone_i::GetLimit()
 //=============================================================================
 void HOMARD_Zone_i::AddHypo( const char* NomHypo )
 {
+  MESSAGE ( " AddHypo, NomHypo= " << NomHypo);
   ASSERT( myHomardZone );
   myHomardZone->AddHypo( NomHypo );
+  MESSAGE ( " FIn de AddHypo");
 }
 
 //=============================================================================

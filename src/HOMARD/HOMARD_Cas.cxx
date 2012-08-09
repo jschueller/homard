@@ -1,25 +1,22 @@
 //  HOMARD HOMARD : implementaion of HOMARD idl descriptions
 //
-//  Copyright (C) 2003  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
-//  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License.
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
 //
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
 //
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-//  See http://www.opencascade.org/SALOME/ or email : webmaster.salome@opencascade.org
-//
-//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Cas.cxx
 //  Author : Paul RASCLE, EDF
@@ -28,6 +25,10 @@
 #include "HOMARD_Cas.hxx"
 #include "utilities.h"
 #include <iostream>
+
+#ifndef WIN32
+# include <unistd.h>
+#endif
 
 //=============================================================================
 /*!
@@ -56,7 +57,7 @@ void HOMARD_Cas::SetDirName( const char* NomDir )
      {
        _NomDir = std::string( NomDir );
      }
-    else 
+    else
     {
        // GERALD -- QMESSAGE BOX
        // std::cerr << "Pb pour entrer dans le repertoire :  "<<NomDir << std::endl;
@@ -91,23 +92,28 @@ std::string HOMARD_Cas::GetDumpPython() const
 //=============================================================================
 {
   std::ostringstream aScript;
-  aScript << "\t" <<_NomCas << ".SetDirName('";
-  aScript << _NomDir << "')\n";
+  aScript << "\t" <<_NomCas << ".SetDirName(\"";
+  aScript << _NomDir << "\")\n";
   aScript << "\t" <<_NomCas << ".SetConfType(";
   aScript << _ConfType << ")\n";
 // Suivi de frontieres
   std::list<std::string>::const_iterator it = _ListBoundaryGroup.begin();
   while(it != _ListBoundaryGroup.end())
   {
-    aScript << "\t" <<_NomCas << ".AddBoundaryGroup('";
-    aScript << *it << "', '";
+    aScript << "\t" <<_NomCas << ".AddBoundaryGroup(\"";
+    aScript << *it << "\", \"";
     it++;
-    aScript << *it << "')\n";
+    aScript << *it << "\")\n";
     it++;
   }
+  if ( _Pyram > 0 )
+  {
+    aScript << "\t" <<_NomCas << ".SetPyram(";
+    aScript << _Pyram << ")\n";
+  }
+
   return aScript.str();
 }
-//AddBoundaryGroup( 'cyl_4', 'T2_INT' )
 //=============================================================================
 void HOMARD_Cas::AddIteration( const char* NomIteration )
 //=============================================================================
@@ -150,7 +156,7 @@ const int HOMARD_Cas::GetConfType() const
   return _ConfType;
 }
 //=============================================================================
-int HOMARD_Cas::GetNumber() 
+int HOMARD_Cas::GetNumber()
 //=============================================================================
 
 {
@@ -227,4 +233,17 @@ void HOMARD_Cas::SupprBoundaryGroup()
 {
   _ListBoundaryGroup.clear();
 }
-
+//=============================================================================
+void HOMARD_Cas::SetPyram( int Pyram )
+//=============================================================================
+{
+  MESSAGE ("SetPyram, Pyram = " << Pyram );
+  _Pyram = Pyram;
+}
+//=============================================================================
+const int HOMARD_Cas::GetPyram() const
+//=============================================================================
+{
+  MESSAGE ("GetPyram, Pyram = " << _Pyram );
+  return _Pyram;
+}

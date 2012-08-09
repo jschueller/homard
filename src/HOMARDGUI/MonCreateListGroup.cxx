@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 using namespace std;
 
 #include "MonCreateListGroup.h"
@@ -5,7 +24,6 @@ using namespace std;
 #include "MonCreateBoundaryDi.h"
 
 #include <QFileDialog>
-#include <QMessageBox>
 
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
@@ -19,8 +37,8 @@ using namespace std;
 #include <SUIT_ViewManager.h>
 
 // --------------------------------------------------------------------------------------------------------------
-MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal, 
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) : 
+MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal,
+                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) :
 // --------------------------------------------------------------------------------------------------------------
 //
     QDialog(0), Ui_CreateListGroup(),
@@ -37,8 +55,8 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     InitGroupes();
 }
 // --------------------------------------------------------------------------------------------------------------
-MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound,  
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) : 
+MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound,
+                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) :
 // --------------------------------------------------------------------------------------------------------------
 //
     QDialog(0), Ui_CreateListGroup(),
@@ -103,7 +121,7 @@ void MonCreateListGroup::PushOnHelp()
 void MonCreateListGroup::InitGroupes()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de InitGroupes ");
+  MESSAGE("Debut de MonCreateListGroup::InitGroupes ");
   for ( int row=0; row< TWGroupe->rowCount(); row++)
       TWGroupe->removeRow(row);
   TWGroupe->setRowCount(0);
@@ -120,12 +138,12 @@ void MonCreateListGroup::InitGroupes()
       {TWGroupe->item( i, 0 )->setCheckState( Qt::Checked );}
     else
       {TWGroupe->item( i, 0 )->setCheckState( Qt::Unchecked );}
-    TWGroupe->setItem( i, 1, new QTableWidgetItem(QString((_listeGroupesCas)[i])));
+    TWGroupe->setItem( i, 1, new QTableWidgetItem(QString((_listeGroupesCas)[i]).trimmed()));
     TWGroupe->item( i, 1 )->setFlags(Qt::ItemIsEnabled |Qt::ItemIsSelectable );
   }
   TWGroupe->resizeColumnsToContents();
   TWGroupe->resizeRowsToContents();
   TWGroupe->clearSelection();
-  MESSAGE("Fin de InitGroupes ");
+//   MESSAGE("Fin de MonCreateListGroup::InitGroupes ");
 }
 

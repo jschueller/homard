@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 using namespace std;
 
 #include "MonCreateHypothesis.h"
@@ -24,12 +43,15 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
     :
     QDialog(0), Ui_CreateHypothesis(),
     _parent(parent), _aHypothesisName(aHypothesisName),
-    _aCaseName(caseName), _aFieldFile(aFieldFile), 
+    _aCaseName(caseName), _aFieldFile(aFieldFile),
     _aFieldName(""),
     _aTypeAdap(-2), _aTypeRaff(1), _aTypeDera(0),
     _TypeThR(3), _ThreshR(0),
     _TypeThC(0), _ThreshC(0),
-    _UsCmpI(0), _TypeFieldInterp(0)
+    _UsField(0), _UsCmpI(0), _TypeFieldInterp(0),
+    _NivMax(-1),
+    _DiamMin(-1.),
+    _AdapInit(0)
 {
       MESSAGE("Constructeur") ;
       _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
@@ -38,14 +60,16 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       InitConnect();
 
       SetNewHypothesisName();
-      if (_aFieldFile != QString("")) {
-          RBChamp->setChecked(1);
-          SetChamp();
-      } else {
-          RBUniforme->setChecked(1);
-          SetUniforme();
+      if (_aFieldFile != QString(""))
+      { RBChamp->setChecked(1);
+        SetChamp();
+      }
+      else
+      { RBUniforme->setChecked(1);
+        SetUniforme();
       }
       SetFieldNo();
+      GBAdvancedOptions->setVisible(0);
 }
 
 // ------------------------------------------------------------------------
@@ -63,6 +87,7 @@ void MonCreateHypothesis::InitConnect()
     connect( RBZone,       SIGNAL(clicked()), this, SLOT(SetZone()));
     connect( RBUniRaff,    SIGNAL(clicked()), this, SLOT(SetUniRaff()));
     connect( RBUniDera,    SIGNAL(clicked()), this, SLOT(SetUniDera()));
+
     connect( CBFieldName,  SIGNAL(activated(int)), this, SLOT( SetFieldName()));
     connect( RBRPE,        SIGNAL(clicked()), this, SLOT(SetRPE()));
     connect( RBRRel,       SIGNAL(clicked()), this, SLOT(SetRRel()));
@@ -74,13 +99,21 @@ void MonCreateHypothesis::InitConnect()
     connect( RBCNo,        SIGNAL(clicked()), this, SLOT(SetCNo()));
     connect( RBL2,         SIGNAL(clicked()), this, SLOT(SetUCL2()));
     connect( RBInf,        SIGNAL(clicked()), this, SLOT(SetUCInf()));
+    connect( CBJump,       SIGNAL(stateChanged(int)), this, SLOT(SetUseField()));
     connect( PBZoneNew,    SIGNAL(pressed()), this, SLOT(PushZoneNew()));
     connect( PBZoneEdit,   SIGNAL(pressed()), this, SLOT(PushZoneEdit()) );
     connect( PBZoneDelete, SIGNAL(pressed()), this, SLOT(PushZoneDelete()) );
     connect( CBGroupe,     SIGNAL(stateChanged(int)), this, SLOT(SetFiltrage()));
+
     connect( RBFieldNo,    SIGNAL(clicked()), this, SLOT(SetFieldNo()));
     connect( RBFieldAll,   SIGNAL(clicked()), this, SLOT(SetFieldAll()));
     connect( RBFieldChosen,SIGNAL(clicked()), this, SLOT(SetFieldChosen()));
+
+    connect( CBAdvanced,   SIGNAL(stateChanged(int)), this, SLOT(SetAdvanced()));
+    connect( RBAIN,        SIGNAL(clicked()), this, SLOT(SetAIN()));
+    connect( RBAIR,        SIGNAL(clicked()), this, SLOT(SetAIR()));
+    connect( RBAID,        SIGNAL(clicked()), this, SLOT(SetAID()));
+
     connect( buttonOk,     SIGNAL(pressed()), this, SLOT( PushOnOK()));
     connect( buttonApply,  SIGNAL(pressed()), this, SLOT( PushOnApply()));
     connect( buttonCancel, SIGNAL(pressed()), this, SLOT(close()));
@@ -97,13 +130,12 @@ bool MonCreateHypothesis::PushOnApply()
 
 
   if (LEHypothesisName->text().trimmed()=="") {
-    QMessageBox::information( 0, "Error",
-                              "The hypothesis must be named.",
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_NAME") );
     return false;
   }
 
-  if (VerifieZone()     == false)  return false;
+  if (VerifieZone()      == false)  return false;
   if (VerifieComposant() == false)  return false;
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
@@ -117,9 +149,8 @@ bool MonCreateHypothesis::PushOnApply()
     }
     catch( SALOME::SALOME_Exception& S_ex )
     {
-      QMessageBox::information( 0, "Error",
-                  QString(CORBA::string_dup(S_ex.details.text)),
-                  QMessageBox::Ok + QMessageBox::Default );
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QString(CORBA::string_dup(S_ex.details.text)) );
       return false;
     }
   }
@@ -133,6 +164,19 @@ bool MonCreateHypothesis::PushOnApply()
   AssocieComposants();
   AssocieLesGroupes();
   AssocieFieldInterp();
+
+// Options avancees
+  if (CBAdvanced->isChecked())
+  {
+// Enregistrement du niveau maximal
+    _NivMax = spinBoxNivMax->value() ;
+    _aHypothesis->SetNivMax(_NivMax);
+// Enregistrement du diametre minimal
+    _DiamMin = doubleSpinBoxDiamMin->value() ;
+    _aHypothesis->SetDiamMin(_DiamMin);
+// Enregistrement de l'intialisation de l'adaptation
+    _aHypothesis->SetAdapInit(_AdapInit);
+  }
 
   HOMARD_UTILS::updateObjBrowser();
   return true;
@@ -158,7 +202,7 @@ void MonCreateHypothesis::SetNewHypothesisName()
 {
 
   HOMARD::listeHypotheses_var  MyHypos = _myHomardGen->GetAllHypotheses();
-  int num = 0;// 
+  int num = 0;//
   QString aHypothesisName="";
   while (aHypothesisName=="" )
   {
@@ -196,9 +240,8 @@ void MonCreateHypothesis::SetChamp()
 {
   if (_aFieldFile == QString(""))
   {
-     QMessageBox::information( 0, "Error",
-                              QString("Enter FieldFile please "),
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_FIELD_FILE") );
      close();
      if ( _parent ) { _parent->raise(); _parent->activateWindow(); };
      return;
@@ -239,7 +282,7 @@ void MonCreateHypothesis::SetZone()
 void MonCreateHypothesis::PushZoneNew()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de PushZoneNew")
+  MESSAGE("Debut de MonCreateHypothesis::PushZoneNew")
   MonCreateZone *aDlg = new MonCreateZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), _aCaseName) ;
   aDlg->show();
 }
@@ -248,14 +291,13 @@ void MonCreateHypothesis::PushZoneNew()
 void MonCreateHypothesis::PushZoneEdit()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de PushZoneEdit")
+  MESSAGE("Debut de MonCreateHypothesis::PushZoneEdit")
   int colonne = TWZone->currentColumn();
   QTableWidgetItem * monItem = TWZone->currentItem();
-  if (colonne !=1  or monItem == NULL) 
+  if (colonne !=2  or monItem == NULL)
   {
-    QMessageBox::information( 0, "Error",
-                              "Please, Select a Zone",
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_ZONE_1") );
     return;
   }
   QString zoneName = monItem->text().trimmed();
@@ -266,10 +308,9 @@ void MonCreateHypothesis::PushZoneEdit()
 void MonCreateHypothesis::PushZoneDelete()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de PushZoneDelete")
-  QMessageBox::information( 0, "Error",
-                            "Inactive button.",
-                            QMessageBox::Ok + QMessageBox::Default );
+  MESSAGE("Debut de MonCreateHypothesis::PushZoneDelete")
+  QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                        QObject::tr("HOM_INACTIVE_BUTTON") );
   return;
 }
 
@@ -277,11 +318,13 @@ void MonCreateHypothesis::PushZoneDelete()
 void MonCreateHypothesis::GetAllZones()
 // ------------------------------------------------------------------------
 // Recuperation de toutes les zones enregistrees dans l'arbre d'etude
+// et affichage dans le tableau
+// Par defaut, aucune n'est selectionnee
 {
-  HOMARD::listeZones_var  mesZones = _myHomardGen->GetAllZones();
-  TWZone->clear();
-  int stop=TWZone->rowCount();
-  for ( int row=0; row< stop; row++)
+  MESSAGE("Debut de GetAllZones") ;
+  HOMARD::listeZones_var mesZones = _myHomardGen->GetAllZones();
+  int nbrow=TWZone->rowCount();
+  for ( int row=0; row< nbrow; row++)
   {
      TWZone->removeRow(row);
   }
@@ -290,70 +333,113 @@ void MonCreateHypothesis::GetAllZones()
   for (int i=0; i<mesZones->length(); i++)
   {
     TWZone->insertRow(row);
+//
     TWZone->setItem( row, 0, new QTableWidgetItem( QString ("") ) );
     TWZone->item( row, 0 )->setFlags( 0 );
     TWZone->item( row, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
     TWZone->item( row, 0 )->setCheckState( Qt::Unchecked );
-    TWZone->setItem( row, 1, new QTableWidgetItem(QString(mesZones[i])));
-    TWZone->item( row, 1 )->setFlags(Qt::ItemIsEnabled |Qt::ItemIsSelectable );
-    row=row+1;
+//
+    TWZone->setItem( row, 1, new QTableWidgetItem( QString ("") ) );
+    TWZone->item( row, 1 )->setFlags( 0 );
+    TWZone->item( row, 1 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
+    TWZone->item( row, 1 )->setCheckState( Qt::Unchecked );
+//
+    TWZone->setItem( row, 2, new QTableWidgetItem(QString(mesZones[i]).trimmed()));
+    TWZone->item( row, 2 )->setFlags(Qt::ItemIsEnabled |Qt::ItemIsSelectable );
+//
+    row += 1;
   }
   TWZone->resizeColumnsToContents();
   TWZone->resizeRowsToContents();
   TWZone->clearSelection();
 }
-    
 // ------------------------------------------------------------------------
-void MonCreateHypothesis::addZone(QString newZone)
+void MonCreateHypothesis::addZoneinTWZone(QString newZone)
 // ------------------------------------------------------------------------
 {
+  MESSAGE("Debut de addZoneinTWZone") ;
   int row = TWZone->rowCount() ;
+// Par defaut, on suppose qu'une nouvelle zone est destinee au raffinement
   TWZone->setRowCount( row+1 );
-  TWZone->setItem( row, 0, new QTableWidgetItem( 0 ) );
+//
+  TWZone->setItem( row, 0, new QTableWidgetItem( QString ("") ) );
   TWZone->item( row, 0 )->setFlags( Qt::ItemIsEditable|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
   TWZone->item( row, 0 )->setCheckState( Qt::Checked );
-  TWZone->setItem( row, 1, new QTableWidgetItem( newZone ) );
-  TWZone->scrollToItem( TWZone->item( row, 1 ) );
+//
+  TWZone->setItem( row, 1, new QTableWidgetItem( QString ("") ) );
+  TWZone->item( row, 1 )->setFlags( Qt::ItemIsEditable|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
+  TWZone->item( row, 1 )->setCheckState( Qt::Unchecked );
+//
+  TWZone->setItem( row, 2, new QTableWidgetItem( newZone ) );
+  TWZone->scrollToItem( TWZone->item( row, 2 ) );
+//
   TWZone->resizeRowsToContents();
   TWZone->resizeColumnToContents(1);
   TWZone->clearSelection();
-  TWZone->item( row, 1 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
+//
+  TWZone->item( row, 2 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
 }
-
 // ------------------------------------------------------------------------
 QStringList MonCreateHypothesis::GetZonesChecked()
 // ------------------------------------------------------------------------
 // Retourne les zones enregistrees
 {
+  MESSAGE("Debut de GetZonesChecked") ;
   QStringList ListeZone ;
+// On ne peut pas avoir selectionne les deux options
+  int Pbm = 0 ;
   for ( int row=0; row< TWZone->rowCount(); row++)
   {
-      if ( TWZone->item( row, 0 )->checkState() ==  Qt::Checked )
-          ListeZone.insert(0, QString(TWZone->item(row, 1)->text()) ) ;
+    if ( ( TWZone->item( row, 0 )->checkState() == Qt::Checked ) and ( TWZone->item( row, 1 )->checkState() == Qt::Checked ) )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_HYPO_ZONE_3") );
+      Pbm = 1 ;
+    }
   }
-  return ListeZone ;
+// Si tout va bien, on affecte
+// Attention, on insere en tete, donc on commence d'inserer le type, psui le nom de la zone
+  if ( Pbm == 0 )
+  {
+    QString Raff =  "1" ;
+    QString Dera = "-1" ;
+    for ( int row=0; row< TWZone->rowCount(); row++)
+    {
+//     MESSAGE ("row "<<row<<", zone : "<<TWZone->item(row, 2)->text().toStdString());
+//  En raffinement :
+      if ( TWZone->item(row,0)->checkState() == Qt::Checked )
+      { ListeZone.insert(0, Raff) ;
+        ListeZone.insert(0, QString(TWZone->item(row, 2)->text()) ) ; }
+//  En deraffinement :
+      if ( TWZone->item(row,1)->checkState() == Qt::Checked )
+      { ListeZone.insert(0, Dera) ;
+        ListeZone.insert(0, QString(TWZone->item(row, 2)->text()) ) ; }
+    }
+  MESSAGE("Fin de GetZonesChecked ; longueur de ListeZone : "<<ListeZone.count()) ;
+  }
+//
+return ListeZone ;
 }
-
 // ------------------------------------------------------------------------
 QStringList MonCreateHypothesis::GetListCompChecked()
 // ------------------------------------------------------------------------
 // Retourne les composantes retenues
 {
-  MESSAGE( "Dans GetListCompChecked" );
+  MESSAGE( "Debut de GetListCompChecked" );
   QStringList ListeComposant ;
 
   ListeComposant.clear();
   for ( int row=0; row< TWCMP->rowCount(); row++)
-      if ( TWCMP->item( row, 0 )->checkState() ==  Qt::Checked )
+      if ( TWCMP->item( row, 0 )->checkState() == Qt::Checked )
           ListeComposant.insert(0, QString(TWCMP->item(row, 1)->text()) ) ;
   // Choix du texte des radio-boutons selon 1 ou plusieurs composantes
   if ( ListeComposant.count() < 2 )
-  { RBL2->setText(QString("Absolute value"));
-    RBInf->setText(QString("Relative value"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_ABS"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_REL"));
   }
   else
-  { RBL2->setText(QString("L2 norm"));
-    RBInf->setText(QString("Infinite Norm"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_L2"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_INF"));
   }
   return ListeComposant ;
 //
@@ -364,7 +450,7 @@ void MonCreateHypothesis::AssocieFieldInterp()
 {
   if ( _TypeFieldInterp != 2 ) return;
   for ( int row=0; row< TWField->rowCount(); row++)
-      if ( TWField->item( row, 0 )->checkState() ==  Qt::Checked )
+      if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
       { _aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str()); }
 }
 // ------------------------------------------------------------------------
@@ -400,14 +486,16 @@ void MonCreateHypothesis::InitFields()
 void MonCreateHypothesis::SetFieldName()
 // -------------------------------------------
 {
+  MESSAGE("Debut de SetFieldName");
   _aFieldName=CBFieldName->currentText();
   if (QString(_aFieldFile) == QString("") or QString(_aFieldName) == QString("") ) { return; }
 
-  for ( int row=0; row < TWCMP->rowCount() ; row++)
+  int nbrow= TWCMP->rowCount() ;
+  for ( int row=0; row < nbrow ; row++)
   {
      TWCMP->removeRow(row);
   }
-  //TWCMP->setRowCount(0);
+  TWCMP->setRowCount(0);
   //TWCMP->resizeRowsToContents();
 
   std::list<QString>  maListe =HOMARD_QT_COMMUN::GetListeComposants(_aFieldFile, _aFieldName);
@@ -419,7 +507,7 @@ void MonCreateHypothesis::SetFieldName()
        TWCMP->item( 0, 0 )->setFlags( 0 );
        TWCMP->item( 0, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
        TWCMP->item( 0, 0 )->setCheckState( Qt::Checked );
-       TWCMP->setItem( 0, 1, new QTableWidgetItem(QString((*it))));
+       TWCMP->setItem( 0, 1, new QTableWidgetItem(QString((*it)).trimmed()));
        TWCMP->item( 0, 1 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
   }
   TWCMP->resizeColumnsToContents();
@@ -427,12 +515,12 @@ void MonCreateHypothesis::SetFieldName()
   TWCMP->clearSelection();
   // Choix du texte des radio-boutons selon 1 ou plusieurs composantes
   if ( TWCMP->rowCount() == 1 )
-  { RBL2->setText(QString("Absolute value"));
-    RBInf->setText(QString("Relative value"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_ABS"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_REL"));
   }
   else
-  { RBL2->setText(QString("L2 norm"));
-    RBInf->setText(QString("Infinite Norm"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_L2"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_INF"));
   }
   // Par defaut, on propose la valeur absolue / norme L2
   SetUCL2();
@@ -540,6 +628,13 @@ void MonCreateHypothesis::SetUCInf()
   RBInf->setChecked(true);
 }
 // ------------------------------------------------------------------------
+void MonCreateHypothesis::SetUseField()
+// ------------------------------------------------------------------------
+{
+  if ( CBJump->isChecked() ) { _UsField = 1 ; }
+  else                       { _UsField = 0 ; }
+}
+// ------------------------------------------------------------------------
 void MonCreateHypothesis::SetFiltrage()
 // ------------------------------------------------------------------------
 {
@@ -559,14 +654,16 @@ bool MonCreateHypothesis::VerifieZone()
 // ------------------------------------------------------------------------
 {
   if ( _aTypeAdap != 0 ) return true;
+  MESSAGE("Debut de VerifieZone") ;
   _aListeZone = GetZonesChecked() ;
+  MESSAGE(". Longueur de _aListeZone : "<<_aListeZone.count()) ;
   if (_aListeZone.count() == 0)
   {
-     QMessageBox::information( 0, "Error",
-                              QString("At least, one zone must be given."),
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_ZONE_2") );
      return false;
   }
+  MESSAGE("Fin de VerifieZone") ;
   return true;
 }
 // ------------------------------------------------------------------------
@@ -577,9 +674,8 @@ bool MonCreateHypothesis::VerifieComposant()
   _aListeComposant = GetListCompChecked() ;
   if (_aListeComposant.count() == 0)
   {
-     QMessageBox::information( 0, "Error",
-                              QString("At least, one composant must be given."),
-                               QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_COMP") );
      return false;
   }
   return true;
@@ -589,10 +685,19 @@ bool MonCreateHypothesis::VerifieComposant()
 void MonCreateHypothesis::AssocieLesZones()
 // ------------------------------------------------------------------------
 {
+  MESSAGE( "Debut de AssocieLesZones" );
   if ( _aTypeAdap != 0 ) return;
   _aListeZone = GetZonesChecked() ;
+  MESSAGE(". Longueur de _aListeZone : "<<_aListeZone.count()) ;
+  QString Raff =  "1" ;
+  int TypeUse ;
   for ( int i=0 ; i< _aListeZone.count() ; i++ )
-      { _myHomardGen->AssociateHypoZone(_aListeZone[i].toStdString().c_str(),_aHypothesisName.toStdString().c_str()); }
+  { if ( _aListeZone[i+1] == Raff ) { TypeUse =  1 ; }
+    else                            { TypeUse = -1 ; }
+   _myHomardGen->AssociateHypoZone(_aHypothesisName.toStdString().c_str(), _aListeZone[i].toStdString().c_str(), TypeUse);
+    i += 1 ;
+  }
+  MESSAGE( "Fin de AssocieLesZones" );
 };
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::AssocieComposants()
@@ -616,6 +721,7 @@ void MonCreateHypothesis::AssocieComposants()
   _aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
   _aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ;
   _aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ;
+  _aHypothesis->SetUseField( _UsField ) ;
   _aHypothesis->SetUseComp( _UsCmpI ) ;
   _aListeComposant = GetListCompChecked() ;
   for ( int i=0 ; i< _aListeComposant.count() ; i++ )
@@ -653,9 +759,8 @@ void MonCreateHypothesis::SetFieldAll()
 {
   if (_aFieldFile == QString(""))
   {
-     QMessageBox::information( 0, "Error",
-                              QString("Enter FieldFile please "),
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_FIELD_FILE") );
      close();
      if ( _parent ) { _parent->raise(); _parent->activateWindow(); };
      return;
@@ -674,9 +779,8 @@ void MonCreateHypothesis::SetFieldChosen()
 {
   if (_aFieldFile == QString(""))
   {
-     QMessageBox::information( 0, "Error",
-                              QString("Enter FieldFile please "),
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_HYPO_FIELD_FILE") );
      close();
      if ( _parent ) { _parent->raise(); _parent->activateWindow(); };
      return;
@@ -689,9 +793,11 @@ void MonCreateHypothesis::SetFieldChosen()
 
   // Initialisation de la table
   TWField->clear();
-  for ( int row=0; row< TWField->rowCount(); row++)
+  int nbrow=TWField->rowCount();
+  for ( int row=0; row< nbrow; row++)
+  {
      TWField->removeRow(row);
-
+  }
   TWField->setRowCount(0);
   std:: list<QString>::const_iterator it;
   int row=0;
@@ -702,7 +808,7 @@ void MonCreateHypothesis::SetFieldChosen()
     TWField->item( row, 0 )->setFlags( 0 );
     TWField->item( row, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled  );
     TWField->item( row, 0 )->setCheckState( Qt::Unchecked );
-    TWField->setItem( row, 1, new QTableWidgetItem(QString(*it)));
+    TWField->setItem( row, 1, new QTableWidgetItem(QString(*it).trimmed()));
     TWField->item( row, 1 )->setFlags(Qt::ItemIsEnabled |Qt::ItemIsSelectable );
     row=row+1;
   }
@@ -713,4 +819,47 @@ void MonCreateHypothesis::SetFieldChosen()
 
   _TypeFieldInterp = 2 ;
    adjustSize();
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetAdvanced()
+// ------------------------------------------------------------------------
+{
+  MESSAGE("Debut de SetAdvanced ");
+  if (CBAdvanced->isChecked())
+  { GBAdvancedOptions->setVisible(1);
+    if (_aFieldFile != QString(""))
+    { GBAdapInit->setVisible(1) ;
+    }
+    else
+    { GBAdapInit->setVisible(0) ;
+    }
+  }
+  else
+  { GBAdvancedOptions->setVisible(0);
+    _NivMax = -1 ;
+    _DiamMin = -1. ;
+    _AdapInit = 0 ;
+  }
+  adjustSize();
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetAIN()
+// ------------------------------------------------------------------------
+{
+  MESSAGE("Debut de SetAIN ");
+  _AdapInit = 0 ;
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetAIR()
+// ------------------------------------------------------------------------
+{
+  MESSAGE("Debut de SetAIR ");
+  _AdapInit = 1 ;
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetAID()
+// ------------------------------------------------------------------------
+{
+  MESSAGE("Debut de SetAID ");
+  _AdapInit = -1 ;
 }

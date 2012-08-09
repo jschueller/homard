@@ -1,7 +1,28 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #include "HOMARD_Iteration_i.hxx"
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Iteration.hxx"
 #include "HOMARD_DriverTools.hxx"
+
+#include "SALOMEDS_Tool.hxx"
 
 #include "utilities.h"
 
@@ -22,9 +43,9 @@ HOMARD_Iteration_i::HOMARD_Iteration_i()
  */
 //=============================================================================
 HOMARD_Iteration_i::HOMARD_Iteration_i( CORBA::ORB_ptr orb,
-					HOMARD::HOMARD_Gen_var engine )
+                                        HOMARD::HOMARD_Gen_var engine )
 {
-  MESSAGE( "HOMARD_Iteration_i" );
+  MESSAGE("constructor");
   _gen_i = engine;
   _orb = orb;
   myHomardIteration = new ::HOMARD_Iteration();
@@ -63,8 +84,6 @@ char* HOMARD_Iteration_i::GetDumpPython()
   ASSERT( myHomardIteration );
   return CORBA::string_dup( myHomardIteration->GetDumpPython().c_str() );
 }
-
-//=============================================================================
 
 //=============================================================================
 void HOMARD_Iteration_i::SetEtat( CORBA::Boolean Etat )
@@ -147,10 +166,17 @@ void HOMARD_Iteration_i::AddIteration( const char* NomIter )
 }
 
 //=============================================================================
-CORBA::Boolean  HOMARD_Iteration_i::Compute()
+CORBA::Long  HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
 {
+  MESSAGE ( "Compute : calcul d'une iteration" );
   ASSERT( myHomardIteration );
-  return  CORBA::Boolean( myHomardIteration->Compute() );
+//
+// Nom de l'iteration
+  char* IterName = GetName() ;
+  MESSAGE ( ". IterName = " << IterName );
+// B. Calcul : on passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de paser tout le contexte
+  return _gen_i->Compute(IterName, etatMenage) ;
 }
 
 //=============================================================================

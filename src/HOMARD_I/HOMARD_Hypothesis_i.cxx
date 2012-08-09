@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #include "HOMARD_Hypothesis_i.hxx"
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Hypothesis.hxx"
@@ -159,6 +178,7 @@ HOMARD::InfosHypo* HOMARD_Hypothesis_i::GetField()
   aInfosHypo->ThreshR    = CORBA::Double( myHomardHypothesis->GetThreshR() );
   aInfosHypo->TypeThC    = CORBA::Long( myHomardHypothesis->GetUnRefThrType() );
   aInfosHypo->ThreshC    = CORBA::Double( myHomardHypothesis->GetThreshC() );
+  aInfosHypo->UsField    = CORBA::Long( myHomardHypothesis->GetUseField() );
   aInfosHypo->UsCmpI     = CORBA::Long( myHomardHypothesis->GetUseCompI() );
   return aInfosHypo;
 }
@@ -191,10 +211,10 @@ void HOMARD_Hypothesis_i::AddIteration( const char* NomIteration )
 }
 
 //=============================================================================
-void  HOMARD_Hypothesis_i::AddZone( const char* NomZone )
+void  HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->AddZone( NomZone );
+  myHomardHypothesis->AddZone( NomZone, TypeUse );
 }
 //=============================================================================
 void  HOMARD_Hypothesis_i::SupprZone      (const char * NomZone)
@@ -244,7 +264,7 @@ void HOMARD_Hypothesis_i::AddComp( const char* NomComposant )
 //=============================================================================
 void HOMARD_Hypothesis_i::SupprComp()
 {
-  ASSERT( myHomardHypothesis );  
+  ASSERT( myHomardHypothesis );
   myHomardHypothesis->SupprComp();
 }
 
@@ -338,6 +358,42 @@ HOMARD::listFieldInterpHypo* HOMARD_Hypothesis_i::GetListFieldInterp()
     aResult[i++] = CORBA::string_dup( (*it).c_str() );
   }
   return aResult._retn();
+}
+//=============================================================================
+void HOMARD_Hypothesis_i::SetNivMax( CORBA::Long NivMax )
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SetNivMax( NivMax );
+}
+//=============================================================================
+CORBA::Long HOMARD_Hypothesis_i::GetNivMax()
+{
+  ASSERT( myHomardHypothesis );
+  return myHomardHypothesis->GetNivMax();
+}
+//=============================================================================
+void HOMARD_Hypothesis_i::SetDiamMin( CORBA::Double DiamMin )
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SetDiamMin( DiamMin );
+}
+//=============================================================================
+CORBA::Double HOMARD_Hypothesis_i::GetDiamMin()
+{
+  ASSERT( myHomardHypothesis );
+  return myHomardHypothesis->GetDiamMin();
+}
+//=============================================================================
+void HOMARD_Hypothesis_i::SetAdapInit( CORBA::Long AdapInit )
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SetAdapInit( AdapInit );
+}
+//=============================================================================
+CORBA::Long HOMARD_Hypothesis_i::GetAdapInit()
+{
+  ASSERT( myHomardHypothesis );
+  return myHomardHypothesis->GetAdapInit();
 }
 
 //=============================================================================

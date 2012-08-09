@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 using namespace std;
 
 #include "MonCreateBoundaryDi.h"
@@ -60,9 +79,8 @@ bool MonCreateBoundaryDi::PushOnApply()
 
   QString aBoundaryName=LEBoundaryName->text().trimmed();
   if (aBoundaryName=="") {
-    QMessageBox::information( 0, "Error",
-                              "The boundary must be named.",
-                              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_BOUN_NAME") );
     return false;
   }
 
@@ -70,9 +88,8 @@ bool MonCreateBoundaryDi::PushOnApply()
   QString aMeshFile=LEFileName->text().trimmed();
   if (aMeshFile ==QString(""))
   {
-    QMessageBox::information( 0, "Error",
-              QString("The mesh of the boundary must be selected."),
-              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_BOUN_MESH") );
     return false;
   }
 
@@ -80,34 +97,30 @@ bool MonCreateBoundaryDi::PushOnApply()
   QString aMeshName = HOMARD_QT_COMMUN::LireNomMaillage(aMeshFile);
   if (aMeshName == "" )
   {
-    QMessageBox::information( 0, "Error",
-              QString("no mesh in mesh file"),
-              QMessageBox::Ok + QMessageBox::Default );
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_MED_FILE_2") );
     return false;
   }
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
   if ( _aBoundaryName != aBoundaryName )
   {
-   try 
+   try
    {
      _aBoundaryName=aBoundaryName;
-     _aBoundary=_myHomardGen->CreateBoundary(CORBA::string_dup(_aBoundaryName.toStdString().c_str()),0);
+     _aBoundary=_myHomardGen->CreateBoundaryDi(CORBA::string_dup(_aBoundaryName.toStdString().c_str()), aMeshName.toStdString().c_str(), aMeshFile.toStdString().c_str());
      _parent->addBoundaryDi(_aBoundaryName);
      _aBoundary->SetCaseCreation(_aCaseName.toStdString().c_str());
    }
    catch( SALOME::SALOME_Exception& S_ex )
    {
-      QMessageBox::information( 0, "Error",
-                  QString(CORBA::string_dup(S_ex.details.text)),
-                  QMessageBox::Ok + QMessageBox::Default );
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QString(CORBA::string_dup(S_ex.details.text)) );
       return false;
    }
   }
 
-// Mise en place des attributs
-  _aBoundary->SetMeshFile(aMeshFile.toStdString().c_str());
-  _aBoundary->SetMeshName(aMeshName.toStdString().c_str());
+// Les groupes
   AssocieLesGroupes();
 
   HOMARD_UTILS::updateObjBrowser();
@@ -126,7 +139,7 @@ void MonCreateBoundaryDi::PushOnOK()
 void MonCreateBoundaryDi::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html#frontiere-discrete"));
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryDi::AssocieLesGroupes()
@@ -183,16 +196,15 @@ void MonCreateBoundaryDi::setGroups (QStringList listGroup)
 void MonCreateBoundaryDi::SetFiltrage()
 // // ------------------------------------------------------------------------
 {
-   if (!CBGroupe->isChecked()) return;
-   if (_aCaseName.toStdString().c_str() == QString()) {
-        QMessageBox::information( 0, "Error",
-                              "Case MeshFile unknowned.",
-                              QMessageBox::Ok + QMessageBox::Default );
-        return;
-   }
+  if (!CBGroupe->isChecked()) return;
+  if (_aCaseName.toStdString().c_str() == QString()) {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_BOUN_CASE") );
+    return;
+  }
 
-   MonCreateListGroup *aDlg = new MonCreateListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),
-                              _aCaseName, _listeGroupesBoundary) ;
+  MonCreateListGroup *aDlg = new MonCreateListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),
+                            _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }
 

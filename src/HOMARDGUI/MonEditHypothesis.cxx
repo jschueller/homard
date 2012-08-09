@@ -1,29 +1,44 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 using namespace std;
 
 #include "MonEditHypothesis.h"
 #include "MonEditListGroup.h"
 
-#include <QMessageBox>
-
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
-
-
-// -------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 MonEditHypothesis::MonEditHypothesis( MonCreateIteration* parent, bool modal,
                                       HOMARD::HOMARD_Gen_var myHomardGen,
                                       QString aHypothesisName,
                                       QString caseName,  QString aFieldFile ):
-// -------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 /* Constructs a MonEditHypothesis
     herite de MonCreateHypothesis
 */
     MonCreateHypothesis(parent, modal,myHomardGen, aHypothesisName, caseName, aFieldFile)
 {
     MESSAGE("Hypothese " << aHypothesisName.toStdString().c_str());
-    setWindowTitle("Edit Hypothesis");
+    setWindowTitle(QObject::tr("HOM_HYPO_EDIT_WINDOW_TITLE"));
     _aHypothesis    = _myHomardGen->GetHypothesis(_aHypothesisName.toStdString().c_str());
     if (caseName == QString("") ){ _aCaseName = _aHypothesis->GetCaseCreation();}
     InitValEdit();
@@ -49,39 +64,75 @@ void MonEditHypothesis::InitGroupes()
 void MonEditHypothesis::InitValEdit()
 // ------------------------------
 {
-      MESSAGE("Debut de InitValEdit");
-      LEHypothesisName->setText(_aHypothesisName);
-      LEHypothesisName->setReadOnly(true);
-      HOMARD::listeTypes_var ListTypes (_aHypothesis->GetAdapRefinUnRef());
-      ASSERT( ListTypes->length()==3) ;
-      _aTypeAdap = ListTypes[0];
-      _aTypeRaff = ListTypes[1];
-      _aTypeDera = ListTypes[2];
+  MESSAGE("Debut de InitValEdit");
+  LEHypothesisName->setText(_aHypothesisName);
+  LEHypothesisName->setReadOnly(true);
+  HOMARD::listeTypes_var ListTypes (_aHypothesis->GetAdapRefinUnRef());
+  ASSERT( ListTypes->length()==3) ;
+  _aTypeAdap = ListTypes[0];
+  _aTypeRaff = ListTypes[1];
+  _aTypeDera = ListTypes[2];
 
-      if (_aTypeAdap == -1) InitAdaptUniforme();
-      if (_aTypeAdap ==  0) InitAdaptZone();
-      if (_aTypeAdap ==  1) InitAdaptChamps();
+  if (_aTypeAdap == -1) InitAdaptUniforme();
+  if (_aTypeAdap ==  0) InitAdaptZone();
+  if (_aTypeAdap ==  1) InitAdaptChamps();
 
-      RBUniDera->setDisabled(true);
-      RBUniRaff->setDisabled(true);
+  RBUniDera->setDisabled(true);
+  RBUniRaff->setDisabled(true);
 
-      InitFieldInterp();
+  InitFieldInterp();
 
-      if (_aTypeAdap == 1 or _TypeFieldInterp >= 1 )
-      {
-        if (_aFieldFile == QString("")) { GBFieldFile->setVisible(0); }
-        else
-        {
-          GBFieldFile->setVisible(1);
-          LEFieldFile->setText(_aFieldFile);
-          LEFieldFile->setReadOnly(1);
-        }
-      }
+  if (_aTypeAdap == 1 or _TypeFieldInterp >= 1 )
+  {
+    if (_aFieldFile == QString("")) { GBFieldFile->setVisible(0); }
+    else
+    {
+      GBFieldFile->setVisible(1);
+      LEFieldFile->setText(_aFieldFile);
+      LEFieldFile->setReadOnly(1);
+    }
+  }
+  else
+  {
+    GBFieldFile->setVisible(0);
+  }
+// Les options avancees (non modifiables)
+  CBAdvanced->setVisible(0) ;
+  int NivMax = _aHypothesis->GetNivMax();
+  double DiamMin = _aHypothesis->GetDiamMin();
+  int AdapInit = _aHypothesis->GetAdapInit();
+  if ( NivMax > 0 or DiamMin > 0 or AdapInit != 0 )
+  { GBAdvancedOptions->setVisible(1);
+    if ( NivMax > 0 )
+    { spinBoxNivMax->setValue(NivMax);
+      spinBoxNivMax->setDisabled(true); }
+    else
+    { TLMaximalLevel->setVisible(0);
+      spinBoxNivMax->setVisible(0); }
+    if ( DiamMin > 0 )
+    { doubleSpinBoxDiamMin->setValue(DiamMin);
+      doubleSpinBoxDiamMin->setDisabled(true); }
+    else
+    { TLMinimalDiameter->setVisible(0);
+      doubleSpinBoxDiamMin->setVisible(0); }
+    if ( AdapInit != 0 )
+    {
+      if ( AdapInit > 0 )
+      { RBAIR->setChecked(true); }
       else
-      {
-        GBFieldFile->setVisible(0);
-      }
-      adjustSize();
+      { RBAID->setChecked(true); }
+      RBAIN->setEnabled(false);
+      RBAIR->setEnabled(false);
+      RBAID->setEnabled(false);
+    }
+    else
+    { GBAdapInit->setVisible(0) ;
+    }
+  }
+  else
+  { GBAdvancedOptions->setVisible(0); }
+//
+  adjustSize();
 }
 // ----------------------------------------
 void MonEditHypothesis::InitAdaptUniforme()
@@ -118,8 +169,7 @@ void MonEditHypothesis::InitAdaptZone()
 // -------------------------------------
 // Affichage des informations pour une adaptation selon des zones :
 {
-// . Liste des zones
-
+    MESSAGE ("Debut de InitAdaptZone");
 //  Choix des options generales
     GBUniform->setVisible(0);
     GBFieldManagement->setVisible(0);
@@ -135,25 +185,38 @@ void MonEditHypothesis::InitAdaptZone()
     HOMARD::listeZonesHypo_var mesZonesAvant = _aHypothesis->GetZones();
     for (int i=0; i<mesZonesAvant->length(); i++)
     {
-        for ( int j =0 ; j < TWZone->rowCount(); j++)
+    MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
+      for ( int j =0 ; j < TWZone->rowCount(); j++)
+      {
+    MESSAGE (". j"<<j<<", zone :"<<TWZone->item(j,2)->text().toStdString());
+        if ( TWZone->item(j,2)->text().toStdString() == string(mesZonesAvant[i]) )
         {
-            if (TWZone->item(j,1)->text().toStdString() == string(mesZonesAvant[i]))
-            {
-               TWZone->item( j,0 )->setCheckState( Qt::Checked );
-               break;
-            }
+    MESSAGE ("OK avec "<<string(mesZonesAvant[i]));
+          if ( string(mesZonesAvant[i+1]) == "1" )
+          {
+    MESSAGE ("... RAFF");
+            TWZone->item( j,0 )->setCheckState( Qt::Checked );
+            TWZone->item( j,1 )->setCheckState( Qt::Unchecked ); }
+          else
+          {
+    MESSAGE ("... DERA");
+            TWZone->item( j,0 )->setCheckState( Qt::Unchecked );
+            TWZone->item( j,1 )->setCheckState( Qt::Checked ); }
+          break;
         }
+      }
+      i += 1 ;
     }
 //
 //  Inactivation des choix
     for ( int j =0 ; j < TWZone->rowCount(); j++)
     {
-        TWZone->item( j, 0 )->setFlags(0);
+      TWZone->item( j, 0 )->setFlags(0);
+      TWZone->item( j, 1 )->setFlags(0);
     }
     PBZoneNew->setVisible(0);
 //
 }
-
 // -------------------------------------
 void MonEditHypothesis::InitAdaptChamps()
 // -------------------------------------
@@ -182,6 +245,7 @@ void MonEditHypothesis::InitAdaptChamps()
     _ThreshR = aInfosHypo->ThreshR;
     _TypeThC = aInfosHypo->TypeThC;
     _ThreshC = aInfosHypo->ThreshC;
+    _UsField = aInfosHypo->UsField;
     _UsCmpI  = aInfosHypo->UsCmpI;
 
 
@@ -201,7 +265,7 @@ void MonEditHypothesis::InitAdaptChamps()
        TWCMP->item( 0, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
        TWCMP->item( 0, 0 )->setCheckState(Qt::Checked );
        TWCMP->item( 0, 0 )->setFlags( 0 );
-       TWCMP->setItem( 0, 1, new QTableWidgetItem(QString(mesComposantsAvant[i])));
+       TWCMP->setItem( 0, 1, new QTableWidgetItem(QString(mesComposantsAvant[i]).trimmed()));
        TWCMP->item( 0, 1 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
     }
     TWCMP->resizeColumnsToContents();
@@ -243,12 +307,18 @@ void MonEditHypothesis::InitAdaptChamps()
   }
   // Le choix de la prise en compte des composantes
   if ( TWCMP->rowCount() == 1 )
-  { RBL2->setText(QString("Absolute value"));
-    RBInf->setText(QString("Relative value"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_ABS"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_REL"));
   }
   else
-  { RBL2->setText(QString("L2 norm"));
-    RBInf->setText(QString("Infinite Norm"));
+  { RBL2->setText(QObject::tr("HOM_HYPO_NORM_L2"));
+    RBInf->setText(QObject::tr("HOM_HYPO_NORM_INF"));
+  }
+  if ( _UsField == 0 ) { CBJump->hide(); }
+  else
+  {
+    CBJump->setChecked(true);
+    CBJump->setEnabled(false);
   }
   if ( _UsCmpI == 0 )
   {
@@ -302,7 +372,7 @@ void MonEditHypothesis::InitFieldInterp()
         TWField->item( 0, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
         TWField->item( 0, 0 )->setCheckState(Qt::Checked );
         TWField->item( 0, 0 )->setFlags( 0 );
-        TWField->setItem( 0, 1, new QTableWidgetItem(QString(mesChampsAvant[i])));
+        TWField->setItem( 0, 1, new QTableWidgetItem(QString(mesChampsAvant[i]).trimmed()));
         TWField->item( 0, 1 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
       }
       TWField->resizeColumnsToContents();

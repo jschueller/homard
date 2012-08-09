@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #include "HOMARD_Cas_i.hxx"
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Cas.hxx"
@@ -146,7 +165,7 @@ void HOMARD_Cas_i::SetBoundingBox( const HOMARD::extrema& LesExtrema )
   {
     VExtrema[i] = LesExtrema[i];
   }
-  
+
   myHomardCas->SetBoundingBox( VExtrema );
 }
 //=============================================================================
@@ -186,14 +205,14 @@ HOMARD::ListGroupType* HOMARD_Cas_i::GetGroups()
 //=============================================================================
 void HOMARD_Cas_i::AddBoundaryGroup( const char* Boundary, const char* Group)
 {
-  MESSAGE ("Dans AddBoundaryGroup");
+  MESSAGE ("AddBoundaryGroup");
   ASSERT( myHomardCas );
   myHomardCas->AddBoundaryGroup( Boundary, Group );
 }
 //=============================================================================
 HOMARD::ListBoundaryGroupType* HOMARD_Cas_i::GetBoundaryGroup()
 {
-  MESSAGE ("Dans GetBoundaryGroup");
+  MESSAGE ("GetBoundaryGroup");
   ASSERT(myHomardCas );
   const std::list<std::string>& ListString = myHomardCas->GetBoundaryGroup();
   HOMARD::ListBoundaryGroupType_var aResult = new HOMARD::ListBoundaryGroupType();
@@ -207,6 +226,20 @@ HOMARD::ListBoundaryGroupType* HOMARD_Cas_i::GetBoundaryGroup()
   return aResult._retn();
 }
 
+//=============================================================================
+void HOMARD_Cas_i::SetPyram( CORBA::Long Pyram )
+{
+  MESSAGE ("SetPyram, Pyram = " << Pyram );
+  ASSERT( myHomardCas );
+  myHomardCas->SetPyram( Pyram );
+}
+//=============================================================================
+CORBA::Long HOMARD_Cas_i::GetPyram()
+{
+  MESSAGE ("GetPyram");
+  ASSERT( myHomardCas );
+  return myHomardCas->GetPyram();
+}
 //=============================================================================
 std::string HOMARD_Cas_i::Dump() const
 {

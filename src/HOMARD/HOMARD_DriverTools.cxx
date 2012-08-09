@@ -1,23 +1,20 @@
-//  Copyright (C) 2003  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
-//  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License.
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
 //
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
 //
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-//  See http://www.opencascade.org/SALOME/ or email : webmaster.salome@opencascade.org
-//
-// ----------------------------------------------------------------------------
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_DriverTools.cxx
 //  Author : Vadim SANDLER, Open CASCADE S.A.S. (vadim.sandler@opencascade.com)
@@ -42,13 +39,13 @@ namespace HOMARD
   /*!
     \brief Read next chunk of data from the string
     \internal
-    
+
     The function tries to read next chunk of the data from the input string \a str.
     The parameter \a start specifies the start position of next chunk. If the operation
     read the chunk successfully, after its completion this parameter will refer to the
     start position of the next chunk. The function returns resulting chunk as a string.
     The status of the operation is returned via \a ok parameter.
-    
+
     \param str source data stream string
     \param start start position to get next chunk
     \param ok in this variable the status of the chunk reading operation is returned
@@ -132,6 +129,10 @@ namespace HOMARD
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
          os << separator() << *it;
+
+    os << separator() << cas.GetPyram();
+
+//    MESSAGE( ". Fin avec "<<os.str());
     return os.str();
   }
 //
@@ -168,6 +169,8 @@ namespace HOMARD
     os << separator() << iteration.GetHypoName();
     os << separator() << iteration.GetCaseName();
     os << separator() << iteration.GetDirName();
+
+//    MESSAGE( ". Fin avec "<<os.str());
     return os.str();
   }
 //
@@ -193,9 +196,9 @@ namespace HOMARD
     os << separator() << hypothesis.GetThreshR();
     os << separator() << hypothesis.GetUnRefThrType();
     os << separator() << hypothesis.GetThreshC();
+    os << separator() << hypothesis.GetUseField();
     os << separator() << hypothesis.GetUseCompI();
     os << separator() << hypothesis.GetTypeFieldInterp();
-
 
     std::list<std::string> ListString = hypothesis.GetIterations();
     std::list<std::string>::const_iterator it;
@@ -222,6 +225,11 @@ namespace HOMARD
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
+
+    os << separator() << hypothesis.GetNivMax();
+    os << separator() << hypothesis.GetDiamMin();
+
+//    MESSAGE( ". Fin avec "<<os.str());
     return os.str();
   }
 //
@@ -236,16 +244,13 @@ namespace HOMARD
   std::string Dump( const HOMARD_Zone& zone )
   {
     std::stringstream os;
+    MESSAGE( ". Dump de la zone "<<zone.GetName());
     os << zone.GetName();
     os << separator() << zone.GetZoneType();
 
-    std::vector<double> box = zone.GetBox();
-    for ( int i = 0; i < box.size(); i++ )
-      os << separator() << ( i < box.size() ? box[i] : 0. );
-
-    std::vector<double> sphere = zone.GetSphere();
-    for ( int i = 0; i < 4; i++ )
-      os << separator() << ( i < sphere.size() ? sphere[i] : 0. );
+    std::vector<double> coords = zone.GetCoords();
+    for ( int i = 0; i < coords.size(); i++ )
+      os << separator() << ( i < coords.size() ? coords[i] : 0. );
 
     std::vector<double> limit = zone.GetLimit();
     for ( int i = 0; i < 3; i++ )
@@ -256,9 +261,9 @@ namespace HOMARD
     std::list<std::string>::const_iterator it;
     for ( it = hypos.begin(); it != hypos.end(); ++it )
       os << separator() << *it;
-    return os.str();  
 
-
+//    MESSAGE( ". Fin avec "<<os.str());
+    return os.str();
   }
 //
 // 1.5. Archivage d'une frontiere
@@ -272,25 +277,27 @@ namespace HOMARD
   std::string Dump( const HOMARD_Boundary& boundary )
   {
     std::stringstream os;
+    MESSAGE( ". Dump de la frontiere "<<boundary.GetName());
+
+    int BoundaryType = boundary.GetBoundaryType() ;
 
     os << boundary.GetName() ;
-    os << separator() << boundary.GetBoundaryType() ;
+    os << separator() << BoundaryType ;
     os << separator() << boundary.GetCaseCreation() ;
-    os << separator() << boundary.GetMeshFile();
-    os << separator() << boundary.GetMeshName();
 
-    std::vector<double> coor = boundary.GetLimit();
-    for ( int i = 0; i < coor.size(); i++ )
-          os << separator() << coor[i];
-
-    coor = boundary.GetCylinder() ; 
-    for ( int i = 0; i < coor.size(); i++ )
-          os << separator() << coor[i];
-
-    coor = boundary.GetSphere() ; 
-    for ( int i = 0; i < coor.size(); i++ )
-          os << separator() << coor[i];
-    return os.str();
+    if ( BoundaryType == 0 )
+    {
+      os << separator() << boundary.GetMeshName();
+      os << separator() << boundary.GetMeshFile();
+    }
+    else {
+      std::vector<double> coor = boundary.GetCoords() ;
+      for ( int i = 0; i < coor.size(); i++ )
+            os << separator() << coor[i];
+      std::vector<double> limit = boundary.GetLimit();
+      for ( int i = 0; i < limit.size(); i++ )
+            os << separator() << limit[i];
+    }
 
     std::list<std::string> ListString = boundary.GetGroups();
     std::list<std::string>::const_iterator it;
@@ -298,6 +305,8 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
+//    MESSAGE( ". Fin avec "<<os.str());
+    return os.str();
   }
 
 //
@@ -314,6 +323,7 @@ namespace HOMARD
   */
   bool Restore( HOMARD_Cas& cas, const std::string& stream )
   {
+    MESSAGE( ". Restoration du cas ");
     std::string::size_type start = 0;
     std::string chunk, chunkNext;
     bool ok;
@@ -356,7 +366,7 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     size = atoi( chunk.c_str() );
-    for ( int i = 0; i < size; i++ ) 
+    for ( int i = 0; i < size; i++ )
     {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
@@ -374,6 +384,11 @@ namespace HOMARD
       if ( !ok ) return false;
       cas.AddBoundaryGroup( chunk.c_str(), chunkNext.c_str() );
     }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetPyram( atoi( chunk.c_str() ) );
+
     return true;
   }
 //
@@ -433,7 +448,7 @@ namespace HOMARD
       if ( !ok ) return false;
       iteration.AddIteration( chunk.c_str() );
     }
-    // 
+    //
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     iteration.SetHypoName( chunk.c_str() );
@@ -458,7 +473,7 @@ namespace HOMARD
   bool Restore( HOMARD_Hypothesis& hypothesis, const std::string& stream )
   {
     std::string::size_type start = 0;
-    std::string chunk;
+    std::string chunk, chunkNext;
     bool ok;
 
     chunk = getNextChunk( stream, start, ok );
@@ -503,6 +518,10 @@ namespace HOMARD
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
+    hypothesis.SetUseField(atoi(chunk.c_str()));
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
     hypothesis.SetUseComp(atoi(chunk.c_str()));
 
     chunk = getNextChunk( stream, start, ok );
@@ -524,7 +543,11 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      hypothesis.AddZone( chunk.c_str() );
+      i++;
+      chunkNext = getNextChunk( stream, start, ok );
+      int typeuse = atoi( chunkNext.c_str() );
+      if ( !ok ) return false;
+      hypothesis.AddZone( chunk.c_str(), typeuse );
     }
 
     chunk = getNextChunk( stream, start, ok );
@@ -553,6 +576,15 @@ namespace HOMARD
       if ( !ok ) return false;
       hypothesis.AddFieldInterp( chunk.c_str() );
     }
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetNivMax( atoi( chunk.c_str() ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetDiamMin( strtod( chunk.c_str(), 0 ) );
+
     return true;
   }
 
@@ -570,32 +602,38 @@ namespace HOMARD
     std::string::size_type start = 0;
     std::string chunk;
     bool ok;
-    // 
+    //
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     zone.SetName( chunk.c_str() );
     //
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    zone.SetZoneType( atoi( chunk.c_str() ) );
-    //
+    int ZoneType = atoi( chunk.c_str() ) ;
+    zone.SetZoneType( ZoneType );
+    // Les coordonnees des zones : le nombre depend du type
     std::vector<double> coords;
-    coords.resize( 6 );
-    for ( int i = 0; i < 6; i++ ) {
+    int lgcoords ;
+    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) ) { lgcoords = 6 ; }
+    else if ( ZoneType == 4 ) { lgcoords = 4 ; }
+    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) ) { lgcoords = 8 ; }
+    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) ) { lgcoords = 9 ; }
+    else return false;
+    coords.resize( lgcoords );
+    for ( int i = 0; i < lgcoords; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
       coords[i] = strtod( chunk.c_str(), 0 );
     }
-    zone.SetBox( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5] );
-    //
-    for ( int i = 0; i < 4; i++ ) {
-      chunk = getNextChunk( stream, start, ok );
-      if ( !ok ) return false;
-      coords[i] = strtod( chunk.c_str(), 0 );
-    }
-    zone.SetSphere( coords[0], coords[1], coords[2], coords[3] );
-
-    //
+    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) )
+    { zone.SetBox( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5] ); }
+    else if ( ZoneType == 4 )
+    { zone.SetSphere( coords[0], coords[1], coords[2], coords[3] ); }
+    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) )
+    { zone.SetCylinder( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7] ); }
+    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) )
+    { zone.SetPipe( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7], coords[8] ); }
+    // Remarque : la taille de coords est suffisante pour les limites
     for ( int i = 0; i < 3; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
@@ -613,7 +651,6 @@ namespace HOMARD
     }
     return true;
   }
-
 
 //
 // 2.5. Restauration d'une frontiere
@@ -637,46 +674,51 @@ namespace HOMARD
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    boundary.SetBoundaryType(atoi( chunk.c_str()) );
+    int BoundaryType = atoi( chunk.c_str() ) ;
+    boundary.SetBoundaryType( BoundaryType );
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     boundary.SetCaseCreation( chunk.c_str() );
 
-    chunk = getNextChunk( stream, start, ok );
-    if ( !ok ) return false;
-    boundary.SetMeshFile( chunk.c_str() );
-
-    chunk = getNextChunk( stream, start, ok );
-    if ( !ok ) return false;
-    boundary.SetMeshName( chunk.c_str() );
-
-
-    std::vector<double> coords;
-    coords.resize( 3 );
-    for ( int i = 0; i < 3; i++ ) {
+    // Si analytique, les coordonnees des frontieres : le nombre depend du type
+    // Si discret, le maillage
+    int lgcoords ;
+    if ( BoundaryType == 1 ) { lgcoords = 7 ; }
+    else if ( BoundaryType == 2 ) { lgcoords = 4 ; }
+    else { lgcoords = 0 ; }
+//
+    if ( lgcoords == 0 )
+    {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      coords[i] = strtod( chunk.c_str(), 0 );
-    }
-    boundary.SetLimit( coords[0], coords[1], coords[2]);
+      boundary.SetMeshName( chunk.c_str() );
 
-    coords.resize( 7 );
-    for ( int i = 0; i < 7; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      coords[i] = strtod( chunk.c_str(), 0 );
+      boundary.SetMeshFile( chunk.c_str() );
     }
-    boundary.SetCylinder(coords[0],coords[1],coords[2],coords[3],coords[4],coords[5],coords[6]);
-
-    coords.resize( 4 );
-    for ( int i = 0; i < 4; i++ ) {
-      chunk = getNextChunk( stream, start, ok );
-      if ( !ok ) return false;
-      coords[i] = strtod( chunk.c_str(), 0 );
+    else
+    { std::vector<double> coords;
+      coords.resize( lgcoords );
+      for ( int i = 0; i < lgcoords; i++ ) {
+        chunk = getNextChunk( stream, start, ok );
+        if ( !ok ) return false;
+        coords[i] = strtod( chunk.c_str(), 0 );
+      }
+      if ( BoundaryType == 1 )
+      { boundary.SetCylinder(coords[0],coords[1],coords[2],coords[3],coords[4],coords[5],coords[6]); }
+      else if ( BoundaryType == 2 )
+      { boundary.SetSphere( coords[0], coords[1], coords[2], coords[3]); }
+      // Remarque : la taille de coords est suffisante pour les limites
+      for ( int i = 0; i < 3; i++ ) {
+        chunk = getNextChunk( stream, start, ok );
+        if ( !ok ) return false;
+        coords[i] = strtod( chunk.c_str(), 0 );
+      }
+      boundary.SetLimit( coords[0], coords[1], coords[2]);
     }
-    boundary.SetSphere( coords[0], coords[1], coords[2], coords[3]);
-
+    // Les groupes
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     int size = atoi( chunk.c_str() );

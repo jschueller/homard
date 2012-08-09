@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #ifndef MON_CREATEZONE_H
 #define MON_CREATEZONE_H
 
@@ -32,11 +51,15 @@ protected :
     QString _aZoneName;
     QString _aCaseName;
 
+    int _Orient;
     int _ZoneType;
     double _Xcentre, _Ycentre, _Zcentre, _Rayon ;
-    double _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon;
-    double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr, _DMax ;
-    double _ZoneXmin, _ZoneXmax,  _ZoneYmin, _ZoneYmax,  _ZoneZmin, _ZoneZmax;
+    double _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon ;
+    double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr ;
+    double _ZoneXmin, _ZoneXmax,  _ZoneYmin, _ZoneYmax,  _ZoneZmin, _ZoneZmax ;
+    double _Xaxis, _Yaxis, _Zaxis, _RayonInt, _Haut ;
+    double _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayonInt, _ZoneHaut ;
+    double _DMax ;
 
 
     bool Chgt;
@@ -53,6 +76,8 @@ protected :
 public slots:
     virtual void SetBox();
     virtual void SetSphere();
+    virtual void SetCylinder();
+    virtual void SetPipe();
     virtual void PushOnOK();
     virtual bool PushOnApply();
     virtual void PushOnHelp();

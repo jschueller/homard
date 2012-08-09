@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 using namespace std;
 
 #include "MonEditFile.h"
@@ -15,12 +34,12 @@ using namespace std;
  * MonEditFile classe derivee de EditFile
  *               elle meme generee par uic
  * Ouvre le fichier passe en parametre
- * et affiche le texte correspondant dans la fenêtre de log
+ * et affiche le texte correspondant dans la fenetre de log
  * ---------------------------------------------------------
  */
 
 /* ---------------------------------------------------------
- * MonEditFile Constructeur 
+ * MonEditFile Constructeur
  * ---------------------------------------------------------
  */
 MonEditFile::MonEditFile( QWidget* parent,  bool modal,
@@ -48,7 +67,6 @@ void MonEditFile::InitConnect()
 {
     connect( buttonQuit,     SIGNAL(pressed()), this, SLOT(close()));
     connect( buttonPrint,    SIGNAL(pressed()), this, SLOT(PushOnPrint()));
-    connect( buttonHelp,     SIGNAL(pressed()), this, SLOT(PushOnHelp()));
 }
 // ------------------------------------------------------------------------
 void MonEditFile::EditText()
@@ -84,16 +102,9 @@ void MonEditFile::PushOnPrint()
 // ------------------------------------------------------------------------
 {
   MESSAGE("Debut de MonEditFile::PushOnPrint")
-  QMessageBox::information( 0, "Error",
-                            "Inactive button.",
-                            QMessageBox::Ok + QMessageBox::Default );
+  QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                            QObject::tr("HOM_INACTIVE_BUTTON") );
   return;
-}
-// ------------------------------------------------------------------------
-void MonEditFile::PushOnHelp()
-// ------------------------------------------------------------------------
-{
-  HOMARD_UTILS::PushOnHelp(QString("gui_usage.html"));
 }
 
 

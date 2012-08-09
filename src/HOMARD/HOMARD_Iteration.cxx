@@ -1,25 +1,22 @@
 //  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
-//  Copyright (C) 2003  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
-//  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License.
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
 //
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
 //
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-//  See http://www.opencascade.org/SALOME/ or email : webmaster.salome@opencascade.org
-//
-//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Iteration.cxx
 //  Author : Paul RASCLE, EDF
@@ -57,18 +54,6 @@ HOMARD_Iteration::~HOMARD_Iteration()
 
 //=============================================================================
 /*!
- *
- */
-//=============================================================================
-bool HOMARD_Iteration::Compute()
-{
-  MESSAGE("Compute --> ne fait rien");
-  _Etat=true;
-  return true;
-}
-
-//=============================================================================
-/*!
 */
 //=============================================================================
 void HOMARD_Iteration::SetName( const char* NomIter )
@@ -97,31 +82,33 @@ std::string HOMARD_Iteration::GetDumpPython() const
   aScript << "\n# Creation of the iteration " << _NomIter << "\n";
   if( _NumIter == 1 )
   {
-       aScript << "\t" << _NomIter << " = homard.CreateIteration('";
-       aScript <<  _NomIter << "', "<<  _NomCas << ".GetIter0Name() )\n";
+       aScript << "\t" << _NomIter << " = homard.CreateIteration(\"";
+       aScript <<  _NomIter << "\", "<<  _NomCas << ".GetIter0Name() )\n";
   }
    else
   {
-       aScript << "\t" << _NomIter << " = homard.CreateIteration('";
-       aScript <<  _NomIter << "', '" << _IterParent << "')\n";
+       aScript << "\t" << _NomIter << " = homard.CreateIteration(\"";
+       aScript <<  _NomIter << "\", \"" << _IterParent << "\")\n";
   }
 // Le nom du maillage produit
-  aScript << "\t" << _NomIter << ".SetMeshName('" << _NomMesh << "')\n" ;
+  aScript << "\t" << _NomIter << ".SetMeshName(\"" << _NomMesh << "\")\n" ;
 // Le fichier du maillage produit
-  aScript << "\t" << _NomIter << ".SetMeshFile('" << _MeshFile << "')\n";
+  aScript << "\t" << _NomIter << ".SetMeshFile(\"" << _MeshFile << "\")\n";
   if (_FieldFile != "") {
-    aScript << "\t" << _NomIter << ".SetFieldFile('" << _FieldFile << "')\n";
-    aScript << "\t" << _NomIter << ".SetTimeStepRank(" << _Rank << ", " << _TimeStep << ")\n";
+    aScript << "\t" << _NomIter << ".SetFieldFile(\"" << _FieldFile << "\")\n";
+    aScript << "\tTimeStep = " << _TimeStep << "\n";
+    aScript << "\tRank = " << _Rank << "\n";
+    aScript << "\t" << _NomIter << ".SetTimeStepRank( TimeStep, Rank )\n";
   }
 
-  aScript << "\thomard.AssociateIterHypo('" <<_NomIter << "', '" << _NomHypo << "')\n";
+  aScript << "\thomard.AssociateIterHypo(\"" <<_NomIter << "\", \"" << _NomHypo << "\")\n";
   if (_Etat == true)
   {
-     aScript << "\tresult = homard.Compute('" <<_NomIter << "', 1)\n";
+     aScript << "\tcodret = homard.Compute(\"" <<_NomIter << "\", 1)\n";
   }
   else
   {
-     aScript << "\t# result = homard.Compute('" <<_NomIter << "', 1)\n";
+     aScript << "\t#codret = homard.Compute(\"" <<_NomIter << "\", 1)\n";
   }
 
   return aScript.str();

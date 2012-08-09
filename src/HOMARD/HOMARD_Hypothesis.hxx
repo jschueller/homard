@@ -1,25 +1,22 @@
 //  HOMARD HOMARD : implementaion of HOMARD idl descriptions
 //
-//  Copyright (C) 2003  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
-//  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License.
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
 //
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
 //
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-//  See http://www.opencascade.org/SALOME/ or email : webmaster.salome@opencascade.org
-//
-//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Hypothesis.hxx
 //  Author : Paul RASCLE, EDF
@@ -60,6 +57,7 @@ public:
   double                        GetThreshR()   const;
   int                           GetUnRefThrType()   const;
   double                        GetThreshC()   const;
+  int                           GetUseField()    const;
   int                           GetUseCompI()    const;
 
   void                          AddComp( const char* NomComposant );
@@ -70,7 +68,7 @@ public:
   void                          SupprIterations();
   const std::list<std::string>& GetIterations() const;
 
-  void                          AddZone( const char* NomZone );
+  void                          AddZone( const char* NomZone, int TypeUse );
   void                          SupprZone( const char* NomZone );
   void                          SupprZones();
   const std::list<std::string>& GetZones() const;
@@ -85,15 +83,20 @@ public:
   void                          SupprFieldInterp();
   const std::list<std::string>& GetListFieldInterp() const;
 
-
+  void                          SetNivMax( int NivMax );
+  const int                     GetNivMax() const;
+  void                          SetDiamMin( double DiamMin );
+  const double                  GetDiamMin() const;
+  void                          SetAdapInit( int AdapInit );
+  const int                     GetAdapInit() const;
 
 
 private:
   std::string                   _NomHypo;
   std::string                   _NomCasCreation;
 
-  int                           _TypeAdap; // -1 pour une adapation Uniforme, 
-                                           //  0 si l adaptation depend des zones, 
+  int                           _TypeAdap; // -1 pour une adapation Uniforme,
+                                           //  0 si l adaptation depend des zones,
                                            //  1 pour des champs
 
   int                           _TypeRaff;
@@ -104,10 +107,14 @@ private:
   int                           _TypeThC;
   double                        _ThreshR;
   double                        _ThreshC;
+  int                           _UsField;
   int                           _UsCmpI;
-  int                           _TypeFieldInterp; // 0 pour aucune interpolation, 
-                                                  // 1 pour interpolation de tous les champs, 
+  int                           _TypeFieldInterp; // 0 pour aucune interpolation,
+                                                  // 1 pour interpolation de tous les champs,
                                                   // 2 pour une liste
+  int                           _NivMax;
+  double                        _DiamMin;
+  int                           _AdapInit;
 
   std::list<std::string>        _ListIter;
   std::list<std::string>        _ListZone;

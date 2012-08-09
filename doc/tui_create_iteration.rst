@@ -1,86 +1,105 @@
 .. _tui_create_iteration:
 
-L'itÃ©ration
+L'itération
 ===========
 
-.. index:: single: itÃ©ration
-.. index:: single: hypothÃ¨se
+.. index:: single: itération
+.. index:: single: hypothèse
 .. index:: single: zone
 
-Les variables sont dÃ©crites dans :ref:`gui_create_iteration`.
+Les variables sont décrites dans :ref:`gui_create_iteration`.
 
-MÃ©thodes de la classe homard
+Méthodes de la classe homard
 """"""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
-+===============================================================+
++---------------------------------------------------------------+
 | .. module:: CreateIteration                                   |
 |                                                               |
 | **CreateIteration(iter_name, iter_parent_name)**              |
 |     Retourne une instance de la classe iteration              |
 |                                                               |
-|     - ``iter_name`` : le nom de l'itÃ©ration                   |
-|     - ``iter_parent_name`` : le nom de l'itÃ©ration mÃ¨re       |
+|     - ``iter_name`` : le nom de l'itération                   |
+|     - ``iter_parent_name`` : le nom de l'itération mère       |
 |                                                               |
-| Par dÃ©faut :                                                  |
+| Par défaut :                                                  |
 |                                                               |
-|  * le maillage produit a le mÃªme nom que l'itÃ©ration          |
+|  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
 | .. module:: AssociateIterHypo                                 |
 |                                                               |
 | **AssociateIterHypo(iter_name, hypo_name)**                   |
 |                                                               |
-|     - ``iter_name`` : le nom de l'itÃ©ration                   |
-|     - ``hypo_name`` : le nom de l'hypothÃ¨se Ã  associer        |
+|     - ``iter_name`` : le nom de l'itération                   |
+|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
 +---------------------------------------------------------------+
 
-MÃ©thodes de la classe iteration
+Méthodes de la classe iteration
 """""""""""""""""""""""""""""""
 
-GÃ©nÃ©ralitÃ©s
+Généralités
 ^^^^^^^^^^^
 
 +---------------------------------------------------------------+
-+===============================================================+
++---------------------------------------------------------------+
+| .. index:: single: Compute                                    |
+|                                                               |
+| **Compute(option)**                                           |
+|     Calcule le maillage correspondant à l'itération           |
+|                                                               |
+|     - ``option`` : un entier précisant ce qui se passe quand  |
+|       des fichiers de résultats existent déjà                 |
+|                                                               |
+|         * 0 : arrêt en erreur                                 |
+|         * 1 : écrasement des anciens fichiers                 |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : adaptation réussie                              |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de l'itÃ©ration                            |
+|     Retourne le nom de l'itération                            |
 +---------------------------------------------------------------+
 | .. module:: GetNumber                                         |
 |                                                               |
 | **GetNumber()**                                               |
-|     Retourne le numÃ©ro de l'itÃ©ration                         |
+|     Retourne le numéro de l'itération.                        |
+|                                                               |
+|     L'itération 0 est celle associée au maillage initial.     |
+|     Ensuite, une itération de numéro N est issue de           |
+|     l'adaptation d'une itération de numéro N-1.               |
 +---------------------------------------------------------------+
 | .. module:: GetIterParent                                     |
 |                                                               |
 | **GetIterParent()**                                           |
-|     Retourne le nom de l'itÃ©ration mÃ¨re                       |
+|     Retourne le nom de l'itération mère                       |
 +---------------------------------------------------------------+
 | .. module:: GetHypoName                                       |
 |                                                               |
 | **GetHypoName()**                                             |
-|     Retourne le nom de l'hypothÃ¨se associÃ©e                   |
+|     Retourne le nom de l'hypothèse associée                   |
 +---------------------------------------------------------------+
 | .. module:: GetCaseName                                       |
 |                                                               |
 | **GetCaseName()**                                             |
-|     Retourne le nom du cas associÃ©                            |
+|     Retourne le nom du cas associé                            |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'Ã©tat de l'itÃ©ration                            |
+|     Retourne l'état de l'itération                            |
 |                                                               |
-|     - ``0`` : itÃ©ration non calculÃ©e                          |
-|     - ``1`` : itÃ©ration calculÃ©e correctement                 |
+|     - ``0`` : itération non calculée                          |
+|     - ``1`` : itération calculée correctement                 |
 +---------------------------------------------------------------+
 
 Informations sur les maillages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
-+===============================================================+
++---------------------------------------------------------------+
 | .. module:: GetMeshName                                       |
 |                                                               |
 | **GetMeshName()**                                             |
@@ -103,14 +122,19 @@ Informations sur le champ
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
-+===============================================================+
-| .. module:: SetField                                          |
++---------------------------------------------------------------+
+| .. module:: SetFieldFile                                      |
 |                                                               |
-| **SetField(field_file, TimeStep, Rank)**                      |
+| **SetFieldFile(field_file)**                                  |
 |                                                               |
 |     - ``field_file`` : le nom du fichier contenant le champ   |
-|     - ``TimeStep`` : l'instant oÃ¹ est pris le champ           |
-|     - ``Rank`` : le numÃ©ro d'ordre oÃ¹ est pris le champ       |
++---------------------------------------------------------------+
+| .. module:: SetTimeStepRank                                   |
+|                                                               |
+| **SetTimeStepRank(TimeStep, Rank)**                           |
+|                                                               |
+|     - ``TimeStep`` : l'instant où est pris le champ           |
+|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
 +---------------------------------------------------------------+
 | .. module:: GetFieldFileName                                  |
 |                                                               |
@@ -120,19 +144,19 @@ Informations sur le champ
 | .. module:: GetTimeStep                                       |
 |                                                               |
 | **GetTimeStep()**                                             |
-|     Retourne l'instant oÃ¹ est pris le champ                   |
+|     Retourne l'instant où est pris le champ                   |
 +---------------------------------------------------------------+
 | .. module:: GetRank                                           |
 |                                                               |
 | **GetRank()**                                                 |
-|     Retourne le numÃ©ro d'ordre oÃ¹ est pris le champ           |
+|     Retourne le numéro d'ordre où est pris le champ           |
 +---------------------------------------------------------------+
 
 Exemple
 """""""
 .. index:: single: maillage;initial
 
-Pour la crÃ©ation de la premiÃ¨re itÃ©ration, il faut rÃ©cupÃ©rer le nom qui a Ã©tÃ© donnÃ© Ã  celle qui correspond au maillage initial. Ce nom s'obtient avec la mÃ©thode ``GetIter0Name`` appliquÃ©e au cas. ::
+Pour la création de la première itération, il faut récupérer le nom qui a été donné à celle qui correspond au maillage initial. Ce nom s'obtient avec la méthode ``GetIter0Name`` appliquée au cas. ::
 
     iter_name = "Iteration_1"
     iter_1 = homard.CreateIteration(iter_name, case_1.GetIter0Name())
@@ -140,13 +164,19 @@ Pour la crÃ©ation de la premiÃ¨re itÃ©ration, il faut rÃ©cupÃ©rer le nom qui a Ã
     iter_1.SetMeshName("maill_01")
     iter_1.SetMeshFile("/local00/M.01.med")
     homard.AssociateIterHypo(iter_name, "HypoField")
+    codret = iter_1.Compute(1)
 
-Pour la crÃ©ation d'une itÃ©ration suivante, on donnera le nom de l'itÃ©ration parent de laquelle on part. ::
+Pour la création d'une itération suivante, on donnera le nom de l'itération parent de laquelle on part. ::
 
     iter_name = "Iteration_2"
-    iter_1 = homard.CreateIteration(iter_name, "Iteration_1")
-    iter_1.SetField(field_file, 0, 0)
-    iter_1.SetMeshName("maill_02")
-    iter_1.SetMeshFile("/local00/M.02.med")
+    iter_2 = homard.CreateIteration(iter_name, "Iteration_1")
+    iter_2.SetField(field_file, 0, 0)
+    iter_2.SetMeshName("maill_02")
+    iter_2.SetMeshFile("/local00/M.02.med")
     homard.AssociateIterHypo(iter_name, "HypoField")
+    codret = iter_2.Compute(1)
 
+
+Saisie graphique correspondante
+"""""""""""""""""""""""""""""""
+Consulter :ref:`gui_create_iteration`

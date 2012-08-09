@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #include "HOMARD_Boundary_i.hxx"
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Boundary.hxx"
@@ -114,21 +133,6 @@ void HOMARD_Boundary_i::SetCylinder( double X0, double X1, double X2, double X3,
   ASSERT( myHomardBoundary );
   myHomardBoundary->SetCylinder( X0, X1, X2, X3, X4, X5, X6 );
 }
-
-//=============================================================================
-HOMARD::double_array* HOMARD_Boundary_i::GetCylinder()
-{
-  ASSERT( myHomardBoundary );
-  HOMARD::double_array_var aResult = new HOMARD::double_array();
-  std::vector<double> mesCoor = myHomardBoundary->GetCylinder();
-  aResult->length( mesCoor .size() );
-  std::vector<double>::const_iterator it;
-  int i = 0;
-  for ( it = mesCoor.begin(); it != mesCoor.end(); it++ )
-    aResult[i++] = (*it);
-  return aResult._retn();
-}
-
 //=============================================================================
 void HOMARD_Boundary_i::SetSphere( double Xcentre, double Ycentre, double ZCentre, double rayon )
 {
@@ -137,11 +141,11 @@ void HOMARD_Boundary_i::SetSphere( double Xcentre, double Ycentre, double ZCentr
 }
 
 //=============================================================================
-HOMARD::double_array* HOMARD_Boundary_i::GetSphere()
+HOMARD::double_array* HOMARD_Boundary_i::GetCoords()
 {
   ASSERT( myHomardBoundary );
   HOMARD::double_array_var aResult = new HOMARD::double_array();
-  std::vector<double> mesCoor = myHomardBoundary->GetSphere();
+  std::vector<double> mesCoor = myHomardBoundary->GetCoords();
   aResult->length( mesCoor .size() );
   std::vector<double>::const_iterator it;
   int i = 0;

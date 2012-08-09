@@ -1,3 +1,22 @@
+// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//
+// See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
 #ifndef _HOMARD_HYPOTHESIS_I_HXX_
 #define _HOMARD_HYPOTHESIS_I_HXX_
 
@@ -5,13 +24,19 @@
 #include CORBA_SERVER_HEADER(HOMARD_Gen)
 #include CORBA_SERVER_HEADER(HOMARD_Hypothesis)
 
+#include "SALOME_Component_i.hxx"
+#include "SALOME_NamingService.hxx"
+#include "Utils_CorbaException.hxx"
+
 #include <string>
 
 class HOMARD_Hypothesis;
 
-class HOMARD_Hypothesis_i: public virtual POA_HOMARD::HOMARD_Hypothesis,
-			   public virtual PortableServer::ServantBase
-{ 
+class HOMARD_Hypothesis_i:
+  public virtual Engines_Component_i,
+  public virtual POA_HOMARD::HOMARD_Hypothesis,
+  public virtual PortableServer::ServantBase
+{
 public:
   HOMARD_Hypothesis_i( CORBA::ORB_ptr orb, HOMARD::HOMARD_Gen_var gen_i );
   HOMARD_Hypothesis_i();
@@ -41,7 +66,7 @@ public:
   HOMARD::InfosHypo*           GetField();
 
   void                         AddIteration( const char* NomIteration );
-  void                         AddZone( const char* NomZone );
+  void                         AddZone( const char* NomZone, CORBA::Long TypeUse );
   void                         SupprZone( const char* NomZone );
   void                         AddComp( const char* NomComposant );
   void                         SupprComp();
@@ -60,6 +85,12 @@ public:
   void                         SupprFieldInterp();
   HOMARD::listFieldInterpHypo* GetListFieldInterp();
 
+  void                         SetNivMax( CORBA::Long NivMax );
+  CORBA::Long                  GetNivMax();
+  void                         SetDiamMin( CORBA::Double DiamMin );
+  CORBA::Double                GetDiamMin();
+  void                         SetAdapInit( CORBA::Long AdapInit );
+  CORBA::Long                  GetAdapInit();
 
   std::string                  Dump() const;
   bool                         Restore( const std::string& stream );

@@ -1,25 +1,21 @@
-#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
+# Copyright (C) 2011-2012  CEA/DEN, EDF R&D
 #
-#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
-#  CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License.
 #
-#  This library is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU Lesser General Public
-#  License as published by the Free Software Foundation; either
-#  version 2.1 of the License.
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
 #
-#  This library is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#  Lesser General Public License for more details.
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #
-#  You should have received a copy of the GNU Lesser General Public
-#  License along with this library; if not, write to the Free Software
-#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+# See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-#  See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
-#
-#  HOMARD HOMARD_I : idl implementation based on 'HOMARD' unit's calsses
 #  File   : Makefile.in
 #  Author : Paul RASCLE, EDF
 #  Modified by : Alexander BORODIN (OCN) - autotools usage
@@ -58,7 +54,7 @@ libHOMARDEngine_la_CPPFLAGS = 		      \
 	$(CORBA_CXXFLAGS) 		      \
 	$(CORBA_INCLUDES)		      \
 	$(KERNEL_CXXFLAGS)		      \
-	$(MED2_INCLUDES)		      \
+	$(MED3_INCLUDES)		      \
 	$(SMESH_CXXFLAGS) 		      \
 	$(GEOM_CXXFLAGS) 		      \
 	-I$(srcdir)/../HOMARD 		      \
@@ -67,14 +63,14 @@ libHOMARDEngine_la_CPPFLAGS = 		      \
         -I$(GEOM_ROOT_DIR)/include/salome     \
         -I$(SMESH_ROOT_DIR)/include/salome     \
         -I$(MED_ROOT_DIR)/include/salome      \
-	-I$(top_builddir)/salome_adm/unix
+	-I$(top_builddir)/adm_local/unix
 
 
 libHOMARDEngine_la_LDFLAGS  =            \
 	../../idl/libSalomeIDLHOMARD.la  \
 	../HOMARD/libHOMARDImpl.la       \
 	$(KERNEL_LDFLAGS)                \
-	$(MED2_LIBS)                     \
+	$(MED3_LIBS)                     \
 	-lSalomeContainer                \
 	-lSalomeNS                       \
 	-lRegistry                       \
@@ -83,4 +79,5 @@ libHOMARDEngine_la_LDFLAGS  =            \
 	-lTOOLSDS                        \
 	-lSalomeGenericObj               \
         $(SMESH_LDFLAGS)                 \
+	-lSalomeIDLSMESH                 \
         -lSMESHClient
