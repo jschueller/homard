@@ -27,6 +27,8 @@
 #include "HOMARD_DriverTools.hxx"
 #include "HomardMedCommun.h"
 
+#include "HOMARD_version.h"
+
 #include "utilities.h"
 #include "Utils_SINGLETON.hxx"
 #include "Utils_CorbaException.hxx"
@@ -671,6 +673,7 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   myHypothesis->SetNivMax(-1);
   myHypothesis->SetDiamMin(-1.0);
   myHypothesis->SetAdapInit(0);
+  myHypothesis->SetLevelOutput(0);
 
   return HOMARD::HOMARD_Hypothesis::_duplicate(myHypothesis);
 }
@@ -1450,7 +1453,9 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* nomIteration, CORBA::Long etatMena
   MESSAGE ( ". DiamMin = " << DiamMin );
   int AdapInit = myHypo->GetAdapInit();
   MESSAGE ( ". AdapInit = " << AdapInit );
-  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit);
+  int LevelOutput = myHypo->GetLevelOutput();
+  MESSAGE ( ". LevelOutput = " << LevelOutput );
+  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, LevelOutput);
 
   // F. Ecriture du texte dans le fichier
   if (codret == 0)
@@ -2699,6 +2704,17 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    Engines::TMPFile_var aStreamFile = new Engines::TMPFile(aLen+1, aLen+1, anOctetBuf, 1);
 
    return aStreamFile._retn();
+}
+
+
+// Version information
+char* HOMARD_Gen_i::getVersion()
+{
+#if HOMARD_DEVELOPMENT
+  return CORBA::string_dup(HOMARD_VERSION_STR"dev");
+#else
+  return CORBA::string_dup(HOMARD_VERSION_STR);
+#endif
 }
 
 //=============================================================================

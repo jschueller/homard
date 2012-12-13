@@ -59,9 +59,10 @@ libHOMARDEngine_la_CPPFLAGS = 		      \
 	$(GEOM_CXXFLAGS) 		      \
 	-I$(srcdir)/../HOMARD 		      \
 	-I$(srcdir)/../HOMARDGUI              \
+	-I$(top_builddir)                     \
 	-I$(top_builddir)/idl	    	      \
         -I$(GEOM_ROOT_DIR)/include/salome     \
-        -I$(SMESH_ROOT_DIR)/include/salome     \
+        -I$(SMESH_ROOT_DIR)/include/salome    \
         -I$(MED_ROOT_DIR)/include/salome      \
 	-I$(top_builddir)/adm_local/unix
 
@@ -70,7 +71,7 @@ libHOMARDEngine_la_LDFLAGS  =            \
 	../../idl/libSalomeIDLHOMARD.la  \
 	../HOMARD/libHOMARDImpl.la       \
 	$(KERNEL_LDFLAGS)                \
-	$(MED3_LIBS)                     \
+	$(MED3_LIBS_C_ONLY)              \
 	-lSalomeContainer                \
 	-lSalomeNS                       \
 	-lRegistry                       \
@@ -79,5 +80,4 @@ libHOMARDEngine_la_LDFLAGS  =            \
 	-lTOOLSDS                        \
 	-lSalomeGenericObj               \
         $(SMESH_LDFLAGS)                 \
-	-lSalomeIDLSMESH                 \
-        -lSMESHClient
+	-lSalomeIDLSMESH
