@@ -36,9 +36,9 @@ Méthodes de la classe homard
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
 +---------------------------------------------------------------+
-| .. module:: GetAllCases                                       |
+| .. module:: GetAllCasesName                                   |
 |                                                               |
-| **GetAllCases()**                                             |
+| **GetAllCasesName()**                                         |
 |     Retourne la liste des noms de tous les cas créés          |
 |                                                               |
 +---------------------------------------------------------------+
@@ -83,12 +83,12 @@ Méthodes de la classe cas
 | **GetConfType()**                                             |
 |     Retourne le type de conformité                            |
 +---------------------------------------------------------------+
-| .. module:: GetIter0Name                                      |
+| .. module:: GetIter0                                          |
 |                                                               |
-| **GetIter0Name()**                                            |
-|     Retourne le nom de l'itération 0, associée au maillage    |
-|     initial. Ce nom est créé automatiquement par le module    |
-|     HOMARD et doit être utilisé pour enchaîner les adaptations|
+| **GetIter0()**                                                |
+|     Retourne l'itération 0, associée au maillage initial.     |
+|     Cette itération est créée automatiquement par le module   |
+|     HOMARD et est utilisée pour enchaîner les adaptations.    |
 +---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |

@@ -3,7 +3,7 @@ Exemples
 .. index:: single: exemple
 .. index:: single: python
 
-On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à modifier le contenu de la variable ``dircase`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés. C'est dans ce répertoire que seront écrits les fichiers résultant des adaptations successives.
+On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à adapter la valeur de la variable ``data_dir`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés. C'est dans ce répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives.
 
 Raffinement uniforme
 """"""""""""""""""""
@@ -15,7 +15,6 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
 
  ::
 
-  dircase = "/tmp"
   #
   # Hypothesis "Hypo_0"
   # ===================
@@ -24,31 +23,31 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
   #
   # Case "Case_1"
   # =============
-  Case_1 = homard.CreateCase('Case_1', 'MAILL', dircase+'/tutorial_1.00.med')
+  Case_1 = homard.CreateCase('Case_1', 'MAILL', data_dir+'/tutorial_1.00.med')
   Case_1.SetDirName(dircase)
   Case_1.SetConfType(1)
   #
   # Iterations
   # ==========
   # Iteration "Iter_0"
-  Iter_0 = homard.CreateIteration('Iter_0', Case_1.GetIter0Name())
+  Iter_0 = Case_1.NextIteration('Iter_0')
   Iter_0.SetMeshName('MESH')
   Iter_0.SetMeshFile(dircase+'/maill.01.med')
-  homard.AssociateIterHypo('Iter_0', 'Hypo_0')
+  Iter_0.AssociateHypo('Hypo_0')
   codret = Iter_0.Compute(1)
 
   # Iteration "Iter_1"
-  Iter_1 = homard.CreateIteration('Iter_1', 'Iter_0')
+  Iter_1 = Iter_0.NextIteration('Iter_1')
   Iter_1.SetMeshName('MESH')
   Iter_1.SetMeshFile(dircase+'/maill.02.med')
-  homard.AssociateIterHypo('Iter_1', 'Hypo_0')
+  Iter_1.AssociateHypo('Hypo_0')
   codret = Iter_1.Compute(1)
 
   # Iteration "Iter_2"
-  Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+  Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('MESH')
   Iter_2.SetMeshFile(dircase+'/maill.03.med')
-  homard.AssociateIterHypo('Iter_2', 'Hypo_0')
+  Iter_2.AssociateHypo('Hypo_0')
   codret = Iter_2.Compute(1)
 
 .. note::
@@ -65,7 +64,6 @@ Raffinement par des zones
 On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine. On notera que le type de raffinement n'a pas été précisé ; par défaut, il sera donc conforme.
 ::
 
-  dircase = "/tmp"
   #
   # Creation of the zones
   # =====================
@@ -82,35 +80,35 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial a
   # ===================
   Hypo_0 = homard.CreateHypothesis('Hypo_0')
   Hypo_0.SetAdapRefinUnRef(0, 1, 0)
-  homard.AssociateHypoZone('Zone_1', 'Hypo_0')
-  homard.AssociateHypoZone('Zone_0', 'Hypo_0')
+  Hypo_0.AddZone('Zone_1', 1)
+  Hypo_0.AddZone('Zone_0', 1)
   #
   # Hypothesis "Hypo_1"
   # ===================
   Hypo_1 = homard.CreateHypothesis('Hypo_1')
   Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-  homard.AssociateHypoZone('Zone_0', 'Hypo_1')
-  homard.AssociateHypoZone('Zone_2', 'Hypo_1')
+  Hypo_1.AddZone('Zone_0', 1)
+  Hypo_1.AddZone('Zone_2', 1)
   #
   # Case "Case_1"
   # =============
-  Case_1 = homard.CreateCase('Case_1', 'MZERO', dircase+'/tutorial_2.00.med')
+  Case_1 = homard.CreateCase('Case_1', 'MZERO', data_dir+'/tutorial_2.00.med')
   Case_1.SetDirName(dircase)
   #
   # Iteration "Iter_0"
   # ==================
-  Iter_0 = homard.CreateIteration('Iter_0', Case_1.GetIter0Name())
+  Iter_0 = Case_1.NextIteration('Iter_0')
   Iter_0.SetMeshName('M_1')
   Iter_0.SetMeshFile(dircase+'/maill.01.med')
-  homard.AssociateIterHypo('Iter_0', 'Hypo_0')
+  Iter_0.AssociateHypo('Hypo_0')
   codret = Iter_0.Compute(1)
   #
   # Iteration "Iter_1"
   # ==================
-  Iter_1 = homard.CreateIteration('Iter_1', 'Iter_0')
+  Iter_1 = Iter_0.NextIteration('Iter_1')
   Iter_1.SetMeshName('M_2')
   Iter_1.SetMeshFile(dircase+'/maill.02.med')
-  homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+  Iter_1.AssociateHypo('Hypo_1')
   codret = Iter_1.Compute(1)
 
 .. note::
@@ -128,7 +126,6 @@ On procède ici au raffinement selon un champ. Les hypothèses servent à définir l
 Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
 ::
 
-  dircase = "/tmp"
   #
   # Hypothesis "Hypo_0vers1"
   # ========================
@@ -173,37 +170,37 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
   #
   # Case "Case_1"
   # =============
-  Case_1 = homard.CreateCase('Case_1', 'G_0', dircase+'/tutorial_3.00.med')
+  Case_1 = homard.CreateCase('Case_1', 'G_0', data_dir+'/tutorial_3.00.med')
   Case_1.SetDirName(dircase)
   #
   # Iteration "Iter_1"
   # ==================
-  Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name())
+  Iter_1 = Case_1.NextIteration('Iter_1')
   Iter_1.SetMeshName('H_1')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
-  Iter_1.SetFieldFile(dircase+'/tutorial_3.00.med')
+  Iter_1.SetFieldFile(data_dir+'/tutorial_3.00.med')
   Iter_1.SetTimeStepRank( 1, 1)
-  homard.AssociateIterHypo('Iter_1', 'Hypo_0vers1')
+  Iter_1.AssociateHypo('Hypo_0vers1')
   codret = Iter_1.Compute(1)
   #
   # Iteration "Iter_2"
   # ==================
-  Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+  Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('H_2')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
-  Iter_2.SetFieldFile(dircase+'/tutorial_3.01.med')
+  Iter_2.SetFieldFile(data_dir+'/tutorial_3.01.med')
   Iter_2.SetTimeStepRank(1, 1)
-  homard.AssociateIterHypo('Iter_2', 'Hypo_1vers2')
+  Iter_2.AssociateHypo('Hypo_1vers2')
   codret = Iter_2.Compute(1)
   #
   # Iteration "Iter_2_bis"
   # ======================
-  Iter_2_bis = homard.CreateIteration('Iter_2_bis', 'Iter_1')
+  Iter_2_bis = Iter_1.NextIteration('Iter_2_bis')
   Iter_2_bis.SetMeshName('H_2_bis')
   Iter_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')
-  Iter_2_bis.SetFieldFile(dircase+'/tutorial_3.01.med')
+  Iter_2_bis.SetFieldFile(data_dir+'/tutorial_3.01.med')
   Iter_2_bis.SetTimeStepRank(1, 1)
-  homard.AssociateIterHypo('Iter_2_bis', 'Hypo_1vers2_bis')
+  Iter_2_bis.AssociateHypo('Hypo_1vers2_bis')
   codret = Iter_2_bis.Compute(1)
 
 .. note::
@@ -221,11 +218,10 @@ Suivi de frontières courbes
 On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés.
 ::
 
-  dircase = "/tmp"
   #
   # Creation of the boundaries
   # ==========================
-  Boundary_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', dircase+'/tutorial_4.fr.med')
+  Boundary_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
   #
   Boundary_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
   #
@@ -252,7 +248,7 @@ On teste ici le suivi des frontières courbes : des frontières analytiques pour d
   #
   # Case "Case"
   # =============
-  Case = homard.CreateCase('Case', 'PIQUAGE', dircase+'/tutorial_4.00.med')
+  Case = homard.CreateCase('Case', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
   Case.SetDirName(dircase)
   Case.AddBoundaryGroup( 'intersection', '' )
   Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
@@ -265,16 +261,16 @@ On teste ici le suivi des frontières courbes : des frontières analytiques pour d
   # Creation of the iterations
   # ==========================
   # Creation of the iteration Iter_1
-  Iter_1 = homard.CreateIteration('Iter_1', Case.GetIter0Name() )
+  Iter_1 = Case.NextIteration('Iter_1')
   Iter_1.SetMeshName('PIQUAGE_1')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
-  homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+  Iter_1.AssociateHypo('Hypo_1')
   codret = Iter_1.Compute(1)
   # Creation of the iteration Iter_2
-  Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1' )
+  Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('PIQUAGE_2')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
-  homard.AssociateIterHypo('Iter_2', 'Hypo_2')
+  Iter_2.AssociateHypo('Hypo_2')
   codret = Iter_2.Compute(1)
 
 .. note::
@@ -293,12 +289,11 @@ Les instructions pour adapter un maillage 2D sont exactement identiques à celles
 Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
 ::
 
-  dircase = "/tmp"
   #
   # Creation of the boundaries
   # ==========================
   # Creation of the discrete boundary Boun_1
-  Boun_1 = homard.CreateBoundaryDi('Boun_1', 'MAIL_EXT', dircase+'/tutorial_5.fr.med')
+  Boun_1 = homard.CreateBoundaryDi('Boun_1', 'MAIL_EXT', data_dir+'/tutorial_5.fr.med')
   #
   # Creation of the zones
   # =====================
@@ -312,33 +307,33 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles conten
   # Creation of the hypothesis Hypo_1
   Hypo_1 = homard.CreateHypothesis('Hypo_1')
   Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-  homard.AssociateHypoZone('enveloppe', 'Hypo_1')
+  Hypo_1.AddZone('enveloppe', 1)
   # Creation of the hypothesis Hypo_2
   Hypo_2 = homard.CreateHypothesis('Hypo_2')
   Hypo_2.SetAdapRefinUnRef(0, 1, 0)
-  homard.AssociateHypoZone('quart_sup', 'Hypo_2')
+  Hypo_2.AddZone('quart_sup', 1)
   #
   # Case "Case_1"
   # =============
-  Case_1 = homard.CreateCase('Case_1', 'COEUR_2D', dircase+'/tutorial_5.00.med')
+  Case_1 = homard.CreateCase('Case_1', 'COEUR_2D', data_dir+'/tutorial_5.00.med')
   Case_1.SetDirName(dircase)
   Case_1.SetConfType(3)
   Case_1.AddBoundaryGroup('Boun_1', '')
   #
   # Iteration "Iter_1"
   # ==================
-  Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name())
+  Iter_1 = Case_1.NextIteration('Iter_1')
   Iter_1.SetMeshName('COEUR_2D_01')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
-  homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+  Iter_1.AssociateHypo('Hypo_1')
   codret = Iter_1.Compute(1)
   #
   # Iteration "Iter_2"
   # ==================
-  Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+  Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('COEUR_2D_02')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
-  homard.AssociateIterHypo('Iter_2', 'Hypo_2')
+  Iter_2.AssociateHypo('Hypo_2')
   codret = Iter_2.Compute(1)
 
 .. note::

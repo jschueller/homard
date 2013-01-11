@@ -160,7 +160,7 @@ void MonCreateBoundaryDi::SetNewBoundaryName()
 // --------------------------------------------------
 {
 
-  HOMARD::listeBoundarys_var  MyBoundarys = _myHomardGen->GetAllBoundarys();
+  HOMARD::listeBoundarys_var  MyBoundarys = _myHomardGen->GetAllBoundarysName();
   int num = 0; QString aBoundaryName="";
   while (aBoundaryName == QString("") )
   {

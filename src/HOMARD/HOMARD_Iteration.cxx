@@ -31,7 +31,7 @@
  */
 //=============================================================================
 HOMARD_Iteration::HOMARD_Iteration():
-  _NomIter( "" ), _Etat( false ),
+  _Name( "" ), _Etat( false ),
  _NumIter( -1 ),
   _NomMesh( "" ), _MeshFile( "" ),
   _FieldFile( "" ), _TimeStep( -1 ), _Rank( -1 ),
@@ -56,9 +56,9 @@ HOMARD_Iteration::~HOMARD_Iteration()
 /*!
 */
 //=============================================================================
-void HOMARD_Iteration::SetName( const char* NomIter )
+void HOMARD_Iteration::SetName( const char* Name )
 {
-  _NomIter = std::string( NomIter );
+  _Name = std::string( Name );
 }
 
 //=============================================================================
@@ -67,7 +67,7 @@ void HOMARD_Iteration::SetName( const char* NomIter )
 //=============================================================================
 std::string HOMARD_Iteration::GetName() const
 {
-  return _NomIter;
+  return _Name;
 }
 
 //=============================================================================
@@ -78,39 +78,42 @@ std::string HOMARD_Iteration::GetDumpPython() const
 {
   if (_IterParent == "") return std::string(" ") ;   // Pas de creation explicite de iteration 0";
 
+  MESSAGE (". Ecriture de l iteration " << _Name );
   std::ostringstream aScript;
-  aScript << "\n# Creation of the iteration " << _NomIter << "\n";
+  aScript << "\n# Creation of the iteration " << _Name << "\n";
   if( _NumIter == 1 )
   {
-       aScript << "\t" << _NomIter << " = homard.CreateIteration(\"";
-       aScript <<  _NomIter << "\", "<<  _NomCas << ".GetIter0Name() )\n";
+       aScript << "\t" << _Name << " = " << _NomCas << ".NextIteration(\"" << _Name << "\")\n";
   }
    else
   {
-       aScript << "\t" << _NomIter << " = homard.CreateIteration(\"";
-       aScript <<  _NomIter << "\", \"" << _IterParent << "\")\n";
+       aScript << "\t" << _Name << " = " << _IterParent << ".NextIteration(\"" << _Name << "\")\n";
   }
 // Le nom du maillage produit
-  aScript << "\t" << _NomIter << ".SetMeshName(\"" << _NomMesh << "\")\n" ;
+//   MESSAGE (".. maillage produit " << _NomMesh );
+  aScript << "\t" << _Name << ".SetMeshName(\"" << _NomMesh << "\")\n" ;
 // Le fichier du maillage produit
-  aScript << "\t" << _NomIter << ".SetMeshFile(\"" << _MeshFile << "\")\n";
+  aScript << "\t" << _Name << ".SetMeshFile(\"" << _MeshFile << "\")\n";
 // Le fichier des champs, avec l'instant eventuel
   if ( _FieldFile != "" ) {
-    aScript << "\t" << _NomIter << ".SetFieldFile(\"" << _FieldFile << "\")\n";
+    aScript << "\t" << _Name << ".SetFieldFile(\"" << _FieldFile << "\")\n";
     if ( ( _TimeStep != -1 ) and ( _Rank != -1 ) ) {
-      aScript << "\t" << _NomIter << ".SetTimeStepRank( " << _TimeStep << ", " << _Rank << " )\n";
+      aScript << "\t" << _Name << ".SetTimeStepRank( " << _TimeStep << ", " << _Rank << " )\n";
     }
   }
 
-  aScript << "\thomard.AssociateIterHypo(\"" <<_NomIter << "\", \"" << _NomHypo << "\")\n";
+//   MESSAGE (".. Hypothese " << _NomHypo );
+  aScript << "\t" << _Name << ".AssociateHypo(\"" << _NomHypo << "\")\n";
+
   if (_Etat == true)
   {
-     aScript << "\tcodret = " <<_NomIter << ".Compute(1)\n";
+     aScript << "\tcodret = " <<_Name << ".Compute(1)\n";
   }
   else
   {
-     aScript << "\t#codret = " <<_NomIter << ".Compute(1)\n";
+     aScript << "\t#codret = " <<_Name << ".Compute(1)\n";
   }
+//   MESSAGE (". Fin de l ecriture de l iteration " << _Name );
 
   return aScript.str();
 }
@@ -172,7 +175,7 @@ std::string HOMARD_Iteration::GetMeshName() const
 /*!
 */
 //=============================================================================
-void HOMARD_Iteration::SetIterParent( const char* IterParent )
+void HOMARD_Iteration::SetIterParentName( const char* IterParent )
 {
   _IterParent = IterParent;
 }
@@ -181,7 +184,7 @@ void HOMARD_Iteration::SetIterParent( const char* IterParent )
 /*!
 */
 //=============================================================================
-std::string HOMARD_Iteration::GetIterParent() const
+std::string HOMARD_Iteration::GetIterParentName() const
 {
   return _IterParent;
 }
@@ -212,6 +215,7 @@ void HOMARD_Iteration::SupprIterations()
 {
   _mesIterFilles.clear();
 }
+
 
 //=============================================================================
 /*!

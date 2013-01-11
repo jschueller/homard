@@ -14,27 +14,6 @@ Méthodes de la classe homard
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-| .. module:: CreateIteration                                   |
-|                                                               |
-| **CreateIteration(iter_name, iter_parent_name)**              |
-|     Retourne une instance de la classe ``iteration`` après    |
-|     sa création                                               |
-|                                                               |
-|     - ``iter_name`` : le nom de l'itération                   |
-|     - ``iter_parent_name`` : le nom de l'itération mère       |
-|                                                               |
-| Par défaut :                                                  |
-|                                                               |
-|  * le maillage produit a le même nom que l'itération          |
-+---------------------------------------------------------------+
-| .. module:: AssociateIterHypo                                 |
-|                                                               |
-| **AssociateIterHypo(iter_name, hypo_name)**                   |
-|     Associe une hypothèse à une itération                     |
-|                                                               |
-|     - ``iter_name`` : le nom de l'itération                   |
-|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
-+---------------------------------------------------------------+
 | .. module:: GetIteration                                      |
 |                                                               |
 | **GetIteration(iter_name)**                                   |
@@ -43,11 +22,30 @@ Méthodes de la classe homard
 |                                                               |
 |     - ``iter_name`` : le nom de l'itération                   |
 +---------------------------------------------------------------+
-| .. module:: GetAllIterations                                  |
+| .. module:: GetAllIterationsName                              |
 |                                                               |
-| **GetAllIterations()**                                        |
+| **GetAllIterationsName()**                                    |
 |     Retourne la liste des noms de toutes les itérations créées|
 |                                                               |
++---------------------------------------------------------------+
+
+Méthodes de la classe cas
+"""""""""""""""""""""""""
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: NextIteration                                     |
+|                                                               |
+| **NextIteration(iter_name)**                                  |
+|     Retourne une instance de la classe ``iteration`` après    |
+|     sa création : celle qui suit immédiatement l'itération    |
+|     initiale, correspondant au maillage définissant le cas    |
+|                                                               |
+|     - ``iter_name`` : le nom de l'itération                   |
+|                                                               |
+| Par défaut :                                                  |
+|                                                               |
+|  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
 
 Méthodes de la classe iteration
@@ -57,6 +55,18 @@ Généralités
 ^^^^^^^^^^^
 
 +---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: NextIteration                                     |
+|                                                               |
+| **NextIteration(iter_name)**                                  |
+|     Retourne une instance de la classe ``iteration`` qui suit |
+|     l'itération courante                                      |
+|                                                               |
+|     - ``iter_name`` : le nom de l'itération                   |
+|                                                               |
+| Par défaut :                                                  |
+|                                                               |
+|  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
 | .. index:: single: Compute                                    |
 |                                                               |
@@ -90,7 +100,14 @@ Généralités
 | .. module:: GetIterParent                                     |
 |                                                               |
 | **GetIterParent()**                                           |
-|     Retourne le nom de l'itération mère                       |
+|     Retourne l'itération mère                                 |
++---------------------------------------------------------------+
+| .. module:: AssociateHypo                                     |
+|                                                               |
+| **AssociateHypo(hypo_name)**                                  |
+|     Associe une hypothèse à l'itération                       |
+|                                                               |
+|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
 +---------------------------------------------------------------+
 | .. module:: GetHypoName                                       |
 |                                                               |
@@ -177,26 +194,26 @@ Exemple
 """""""
 .. index:: single: maillage;initial
 
-Pour la création de la première itération, il faut récupérer le nom qui a été donné à celle qui correspond au maillage initial. Ce nom s'obtient avec la méthode ``GetIter0Name`` appliquée au cas. ::
+Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas. ::
 
     iter_name = "Iteration_1"
-    iter_1 = homard.CreateIteration(iter_name, case_1.GetIter0Name())
+    iter_1 = case_1.NextIteration(iter_name)
     iter_1.SetField(field_file)
     iter_1.SetTimeStepRank( 0, 0)
     iter_1.SetMeshName("maill_01")
     iter_1.SetMeshFile("/local00/M.01.med")
-    homard.AssociateIterHypo(iter_name, "HypoField")
+    iter_1.AssociateHypo("HypoField")
     codret = iter_1.Compute(1)
 
-Pour la création d'une itération suivante, on donnera le nom de l'itération parent de laquelle on part. ::
+Ensuite, on crée une itération suivante à l'itération parent de laquelle on part. ::
 
     iter_name = "Iteration_2"
-    iter_2 = homard.CreateIteration(iter_name, "Iteration_1")
+    iter_2 = iter_1.NextIteration(iter_name)
     iter_2.SetField(field_file)
     iter_2.SetTimeStepRank( 1, 1)
     iter_2.SetMeshName("maill_02")
     iter_2.SetMeshFile("/local00/M.02.med")
-    homard.AssociateIterHypo(iter_name, "HypoField")
+    iter_2.AssociateHypo("HypoField")
     codret = iter_2.Compute(1)
 
 

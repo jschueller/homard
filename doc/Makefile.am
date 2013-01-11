@@ -28,6 +28,7 @@ if SPHINX_IS_OK
 homarddoc_DATA=html/index.html
 html/index.html:$(RSTFILES)
 	make htm
+	make latex
 
 endif
 
@@ -44,6 +45,13 @@ htm:
 	$(SPHINXBUILD) -c $(top_builddir)/doc -b html $(ALLSPHINXOPTS) html
 	@echo
 	@echo "Build finished. The HTML pages are in html."
+
+latex:
+	mkdir -p latex doctrees
+	$(SPHINXBUILD) -c $(top_builddir)/doc -b latex $(ALLSPHINXOPTS) latex
+	@echo
+	@echo "Build finished. The pages are in latex."
+	@echo "Go into latex and apply twice : pdflatex HOMARD.tex to produce HOMARD.pdf"
 
 RSTFILES= \
 glossaire.rst \

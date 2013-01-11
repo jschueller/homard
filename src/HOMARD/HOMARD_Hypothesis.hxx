@@ -34,7 +34,7 @@ public:
   HOMARD_Hypothesis();
   ~HOMARD_Hypothesis();
 
-  void                          SetName( const char* NomHypo );
+  void                          SetName( const char* Name );
   std::string                   GetName() const;
   void                          SetCaseCreation( const char* NomCasCreation );
   std::string                   GetCaseCreation() const;
@@ -94,7 +94,7 @@ public:
 
 
 private:
-  std::string                   _NomHypo;
+  std::string                   _Name;
   std::string                   _NomCasCreation;
 
   int                           _TypeAdap; // -1 pour une adapation Uniforme,

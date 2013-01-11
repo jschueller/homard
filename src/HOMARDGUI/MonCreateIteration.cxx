@@ -88,7 +88,7 @@ void MonCreateIteration::InitConnect()
 void MonCreateIteration::GetHypotheses()
 // ------------------------------------------------------------------------
 {
-     HOMARD::listeHypotheses_var  mesHypotheses = _myHomardGen->GetAllHypotheses();
+     HOMARD::listeHypotheses_var  mesHypotheses = _myHomardGen->GetAllHypothesesName();
      for (int i=0; i<mesHypotheses->length(); i++)
      {
          CBHypothese->addItem(QString(mesHypotheses[i]));
@@ -222,7 +222,7 @@ void MonCreateIteration::SetNewIterationName()
 {
 // Recherche d'un nom par defaut qui n'existe pas encore
 
-  HOMARD::listeIterations_var  myIters=_myHomardGen->GetAllIterations();
+  HOMARD::listeIterations_var  myIters=_myHomardGen->GetAllIterationsName();
   int num = 0;//
   QString aIterationName="";
   while (aIterationName=="" )
@@ -280,7 +280,8 @@ void MonCreateIteration::PushHypoNew()
   }
   if ( _CaseName == QString(""))
   {
-        _CaseName = _myHomardGen->GetCaseName(CORBA::string_dup(_IterParentName.toStdString().c_str()));
+         HOMARD::HOMARD_Iteration_var aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
+        _CaseName = aIterParent->GetCaseName();
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
   MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this,TRUE,HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),QString(""),_CaseName, aFieldFile) ;

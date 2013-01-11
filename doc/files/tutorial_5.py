@@ -22,9 +22,9 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.2"
+__revision__ = "V1.3"
 #
 # ==================================
 # Repertoire a personnaliser
@@ -32,6 +32,10 @@ __revision__ = "V1.2"
 # Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
 dircase = "/tmp"
 # ==================================
+import os
+# Ce repertoire contient les fichiers de donnees : tutorial_5.00.med, tutorial_5.fr.med
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
 #
 import salome
 salome.salome_init()
@@ -44,7 +48,7 @@ homard.SetCurrentStudy(salome.myStudy)
 # Creation of the boundaries
 # ==========================
 # Creation of the discrete boundary Boun_1
-Boun_1 = homard.CreateBoundaryDi('Boun_1', 'MAIL_EXT', dircase+'/tutorial_5.fr.med')
+Boun_1 = homard.CreateBoundaryDi('Boun_1', 'MAIL_EXT', data_dir+'/tutorial_5.fr.med')
 #
 # Creation of the zones
 # =====================
@@ -58,33 +62,33 @@ quart_sup = homard.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
 # Creation of the hypothesis Hypo_1
 Hypo_1 = homard.CreateHypothesis('Hypo_1')
 Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('enveloppe', 'Hypo_1')
+Hypo_1.AddZone('enveloppe', 1)
 # Creation of the hypothesis Hypo_2
 Hypo_2 = homard.CreateHypothesis('Hypo_2')
 Hypo_2.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('quart_sup', 'Hypo_2')
+Hypo_2.AddZone('quart_sup', 1)
 #
 # Case "Case_1"
 # =============
-Case_1 = homard.CreateCase('Case_1', 'COEUR_2D', dircase+'/tutorial_5.00.med')
+Case_1 = homard.CreateCase('Case_1', 'COEUR_2D', data_dir+'/tutorial_5.00.med')
 Case_1.SetDirName(dircase)
 Case_1.SetConfType(3)
 Case_1.AddBoundaryGroup('Boun_1', '')
 #
 # Iteration "Iter_1"
 # ==================
-Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name())
+Iter_1 = Case_1.NextIteration('Iter_1')
 Iter_1.SetMeshName('COEUR_2D_01')
 Iter_1.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+Iter_1.AssociateHypo('Hypo_1')
 codret = Iter_1.Compute(1)
 #
 # Iteration "Iter_2"
 # ==================
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+Iter_2 = Iter_1.NextIteration('Iter_2')
 Iter_2.SetMeshName('COEUR_2D_02')
 Iter_2.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_2', 'Hypo_2')
+Iter_2.AssociateHypo('Hypo_2')
 codret = Iter_2.Compute(1)
 
 

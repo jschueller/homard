@@ -40,7 +40,7 @@ MonEditCase::MonEditCase ( QWidget* parent, bool modal,
     MESSAGE("Debut de MonEditCase" << CaseName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_CASE_EDIT_WINDOW_TITLE"));
     _aCaseName = CaseName;
-    aCase = _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+    aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------
@@ -113,7 +113,7 @@ void MonEditCase::InitValEdit()
       MESSAGE("NomFron "<<NomFron.toStdString().c_str());
 //        L'objet associe pour en deduire le type
       HOMARD::HOMARD_Boundary_var myBoundary = _myHomardGen->GetBoundary(NomFron.toStdString().c_str());
-      int type_obj = myBoundary->GetBoundaryType() ;
+      int type_obj = myBoundary->GetType() ;
 //        C'est une frontiere discrete
 //        Rermarque : on ne gere pas les groupes
       if ( type_obj==0 )

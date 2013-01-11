@@ -35,7 +35,7 @@ public:
   HOMARD_Boundary();
   ~HOMARD_Boundary();
 
-  void                          SetName( const char* NomBoundary );
+  void                          SetName( const char* Name );
   std::string                   GetName() const;
   std::string                   GetDumpPython() const;
 
@@ -53,8 +53,8 @@ public:
   void                          SetSphere( double X0, double X1, double X2, double X3 );
   std::vector<double>           GetCoords() const;
 
-  void                          SetBoundaryType( int BoundaryType );
-  int                           GetBoundaryType() const;
+  void                          SetType( int Type );
+  int                           GetType() const;
 
   std::string                   GetCaseCreation() const;
   void                          SetCaseCreation( const char* NomCasCreation );
@@ -64,11 +64,11 @@ public:
   const std::list<std::string>& GetGroups() const;
 
 private:
-  std::string                   _NomBoundary;
+  std::string                   _Name;
   std::string                   _NomCasCreation;
   std::string                   _MeshFile;
   std::string                   _MeshName;
-  int                           _BoundaryType;
+  int                           _Type;
   double                        _Xmin, _Xmax, _Ymin, _Ymax, _Zmin, _Zmax;
   double                        _Xaxe, _Yaxe, _Zaxe;
   double                        _Xcentre, _Ycentre, _Zcentre, _rayon;

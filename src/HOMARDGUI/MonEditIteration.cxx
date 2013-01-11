@@ -94,7 +94,7 @@ void MonEditIteration::InitValEdit()
       LEIterationName->setReadOnly(true);
 
 //    Affichage bloque du nom de l'iteration parent
-      _IterParentName = aIter->GetIterParent();
+      _IterParentName = aIter->GetIterParentName();
       LEIterationParentName->setText(_IterParentName);
       LEIterationParentName->setReadOnly(true);
       PBIterParent->setEnabled(false);

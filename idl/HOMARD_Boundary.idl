@@ -33,11 +33,11 @@ module HOMARD
   interface HOMARD_Boundary : Engines::EngineComponent
   {
 
-    void     SetName (in string NomBoundary)               raises (SALOME::SALOME_Exception);
+    void     SetName (in string Name)                      raises (SALOME::SALOME_Exception);
     string   GetName ()                                    raises (SALOME::SALOME_Exception);
 
-    void     SetBoundaryType (in long BoundaryType)        raises (SALOME::SALOME_Exception);
-    long     GetBoundaryType()                             raises (SALOME::SALOME_Exception);
+    void     SetType (in long Type)                        raises (SALOME::SALOME_Exception);
+    long     GetType()                                     raises (SALOME::SALOME_Exception);
 
     void     SetMeshFile(in string MeshFile)               raises (SALOME::SALOME_Exception);
     string   GetMeshFile()                                 raises (SALOME::SALOME_Exception);

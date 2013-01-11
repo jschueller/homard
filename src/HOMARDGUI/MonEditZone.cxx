@@ -60,11 +60,11 @@ void MonEditZone::InitValEdit()
   MESSAGE("InitValEdit ");
   LEZoneName->setText(_aZoneName);
   LEZoneName->setReadOnly(true);
-  _ZoneType = aZone->GetZoneType();
-  MESSAGE("InitValEdit _ZoneType ="<<_ZoneType);
+  _Type = aZone->GetType();
+  MESSAGE("InitValEdit _Type ="<<_Type);
   InitValZoneLimit();
   if (_aCaseName != QString("")) InitValZone();
-  switch (_ZoneType)
+  switch (_Type)
   {
     case 11 : // il s agit d un rectangle
     { }
@@ -189,7 +189,7 @@ void MonEditZone::SetBox()
   adjustSize();
   RBCylinder->setDisabled(true);
   RBPipe->setDisabled(true);
-  if ( _ZoneType == 2 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 2 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
                           RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
                           RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
@@ -219,11 +219,11 @@ void MonEditZone::SetBox()
   SpinBox_Zmini->setSingleStep(incr);
   SpinBox_Zmaxi->setSingleStep(incr);
 
-  if ( _ZoneType == 12 ) { SpinBox_Xmini->setDisabled(true) ;
+  if ( _Type == 12 ) { SpinBox_Xmini->setDisabled(true) ;
                            SpinBox_Xmaxi->setDisabled(true) ; }
-  else if ( _ZoneType == 13 ) { SpinBox_Ymini->setDisabled(true) ;
+  else if ( _Type == 13 ) { SpinBox_Ymini->setDisabled(true) ;
                                 SpinBox_Ymaxi->setDisabled(true) ; }
-  else if ( _ZoneType == 11 ) { SpinBox_Zmini->setDisabled(true) ;
+  else if ( _Type == 11 ) { SpinBox_Zmini->setDisabled(true) ;
                                 SpinBox_Zmaxi->setDisabled(true) ; }
 
 }
@@ -268,7 +268,7 @@ void MonEditZone::SetCylinder()
   RBCylinder->setChecked(1);
   RBBox->setDisabled(true);
   RBPipe->setDisabled(true);
-  if ( _ZoneType == 5 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 5 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
                           RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
                           RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
@@ -296,7 +296,7 @@ void MonEditZone::SetCylinder()
   SpinBox_Radius->setMinimum(0.);
   SpinBox_Radius->setValue(_ZoneRayon);
 
-  if ( _ZoneType == 5 )
+  if ( _Type == 5 )
   { SpinBox_Xaxis->setValue(_ZoneXaxis) ;
     SpinBox_Yaxis->setValue(_ZoneYaxis) ;
     SpinBox_Zaxis->setValue(_ZoneZaxis) ;
@@ -311,9 +311,9 @@ void MonEditZone::SetCylinder()
     TLYaxis->setVisible(0) ;
     TLZaxis->setVisible(0) ;
     TLHaut->setVisible(0) ;
-    if ( _ZoneType == 32 ) { SpinBox_Xbase->setDisabled(true) ; }
-    else if ( _ZoneType == 33 ) { SpinBox_Ybase->setDisabled(true) ; }
-    else if ( _ZoneType == 31 ) { SpinBox_Zbase->setDisabled(true) ; }
+    if ( _Type == 32 ) { SpinBox_Xbase->setDisabled(true) ; }
+    else if ( _Type == 33 ) { SpinBox_Ybase->setDisabled(true) ; }
+    else if ( _Type == 31 ) { SpinBox_Zbase->setDisabled(true) ; }
   }
 }
 // ------------------------------------------------------------------------
@@ -328,7 +328,7 @@ void MonEditZone::SetPipe()
   RBPipe->setChecked(1);
   RBBox->setDisabled(true);
   RBCylinder->setDisabled(true);
-  if ( _ZoneType == 7 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 7 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
                           RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
                           RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
@@ -358,7 +358,7 @@ void MonEditZone::SetPipe()
   SpinBox_Radius_ext->setMinimum(0.);
   SpinBox_Radius_ext->setValue(_ZoneRayon);
 
-  if ( _ZoneType == 7 )
+  if ( _Type == 7 )
   { SpinBox_Xaxis_p->setValue(_ZoneXaxis) ;
     SpinBox_Yaxis_p->setValue(_ZoneYaxis) ;
     SpinBox_Zaxis_p->setValue(_ZoneZaxis) ;
@@ -373,9 +373,9 @@ void MonEditZone::SetPipe()
     TLYaxis_p->setVisible(0) ;
     TLZaxis_p->setVisible(0) ;
     TLHaut_p->setVisible(0) ;
-    if ( _ZoneType == 62 ) { SpinBox_Xbase_p->setDisabled(true) ; }
-    else if ( _ZoneType == 63 ) { SpinBox_Ybase_p->setDisabled(true) ; }
-    else if ( _ZoneType == 61 ) { SpinBox_Zbase_p->setDisabled(true) ; }
+    if ( _Type == 62 ) { SpinBox_Xbase_p->setDisabled(true) ; }
+    else if ( _Type == 63 ) { SpinBox_Ybase_p->setDisabled(true) ; }
+    else if ( _Type == 61 ) { SpinBox_Zbase_p->setDisabled(true) ; }
   }
 }
 
@@ -388,7 +388,7 @@ bool MonEditZone::CreateOrUpdateZone()
 {
   try
   {
-    switch (_ZoneType)
+    switch (_Type)
     {
       case 11 : // il s agit d un rectangle
       { }

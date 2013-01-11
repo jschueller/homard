@@ -22,16 +22,19 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.2"
+__revision__ = "V1.3"
 #
 # ==================================
 # Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_1.00.med
 # Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med, maill.03.med
 dircase = "/tmp"
 # ==================================
+import os
+# Ce repertoire contient les fichiers de donnees : tutorial_1.00.med
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
 #
 import salome
 salome.salome_init()
@@ -48,31 +51,31 @@ Hypo_0.SetAdapRefinUnRef(-1, 1, 0)
 #
 # Case "Case_1"
 # =============
-Case_1 = homard.CreateCase('Case_1', 'MAILL', dircase+'/tutorial_1.00.med')
+Case_1 = homard.CreateCase('Case_1', 'MAILL', data_dir+'/tutorial_1.00.med')
 Case_1.SetDirName(dircase)
 Case_1.SetConfType(1)
 #
 # Iterations
 # ==========
 # Iteration "Iter_0"
-Iter_0 = homard.CreateIteration('Iter_0', Case_1.GetIter0Name())
+Iter_0 = Case_1.NextIteration('Iter_0')
 Iter_0.SetMeshName('MESH')
 Iter_0.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_0', 'Hypo_0')
+Iter_0.AssociateHypo('Hypo_0')
 codret = Iter_0.Compute(1)
 
 # Iteration "Iter_1"
-Iter_1 = homard.CreateIteration('Iter_1', 'Iter_0')
+Iter_1 = Iter_0.NextIteration('Iter_1')
 Iter_1.SetMeshName('MESH')
 Iter_1.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_0')
+Iter_1.AssociateHypo('Hypo_0')
 codret = Iter_1.Compute(1)
 
 # Iteration "Iter_2"
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+Iter_2 = Iter_1.NextIteration('Iter_2')
 Iter_2.SetMeshName('MESH')
 Iter_2.SetMeshFile(dircase+'/maill.03.med')
-homard.AssociateIterHypo('Iter_2', 'Hypo_0')
+Iter_2.AssociateHypo('Hypo_0')
 codret = Iter_2.Compute(1)
 
 if salome.sg.hasDesktop():

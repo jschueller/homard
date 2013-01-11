@@ -65,10 +65,10 @@ HOMARD_Iteration_i::~HOMARD_Iteration_i()
 /*!
  */
 //=============================================================================
-void HOMARD_Iteration_i::SetName( const char* NomIter )
+void HOMARD_Iteration_i::SetName( const char* Name )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->SetName( NomIter );
+  myHomardIteration->SetName( Name );
 }
 
 //=============================================================================
@@ -128,12 +128,24 @@ char* HOMARD_Iteration_i::GetMeshName()
 }
 
 //=============================================================================
-char* HOMARD_Iteration_i::GetIterParent()
+char* HOMARD_Iteration_i::GetIterParentName()
 {
   ASSERT( myHomardIteration );
-  return CORBA::string_dup( myHomardIteration->GetIterParent().c_str() );
+  return CORBA::string_dup( myHomardIteration->GetIterParentName().c_str() );
 
 }
+//=============================================================================
+HOMARD::HOMARD_Iteration_ptr HOMARD_Iteration_i::GetIterParent()
+{
+// Nom de l'iteration parent
+  char* NomIterParent = GetIterParentName() ;
+  MESSAGE ( "GetIterParent : NomIterParent = " << NomIterParent );
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+  return _gen_i->GetIteration(NomIterParent) ;
+}
+
+
 
 //=============================================================================
 HOMARD::listeIterFilles* HOMARD_Iteration_i::GetIterations()
@@ -152,18 +164,31 @@ HOMARD::listeIterFilles* HOMARD_Iteration_i::GetIterations()
 }
 
 //=============================================================================
-void HOMARD_Iteration_i::SetIterParent( const char* NomIterParent )
+void HOMARD_Iteration_i::SetIterParentName( const char* NomIterParent )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->SetIterParent( NomIterParent );
+  myHomardIteration->SetIterParentName( NomIterParent );
 }
 
 //=============================================================================
-void HOMARD_Iteration_i::AddIteration( const char* NomIter )
+void HOMARD_Iteration_i::AddIteration( const char* NomIteration )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->AddIteration( NomIter );
+  myHomardIteration->AddIteration( NomIteration );
 }
+
+//=============================================================================
+HOMARD::HOMARD_Iteration_ptr HOMARD_Iteration_i::NextIteration( const char* IterName )
+{
+// Nom de l'iteration parent
+  char* NomIterParent = GetName() ;
+  MESSAGE ( "NextIteration : IterName      = " << IterName );
+  MESSAGE ( "NextIteration : NomIterParent = " << NomIterParent );
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+  return _gen_i->CreateIteration(IterName, NomIterParent) ;
+}
+
 
 //=============================================================================
 CORBA::Long  HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
@@ -174,8 +199,8 @@ CORBA::Long  HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
 // Nom de l'iteration
   char* IterName = GetName() ;
   MESSAGE ( ". IterName = " << IterName );
-// B. Calcul : on passe par la methode sur l'objet HOMARD
-// Il serait plus elegant de tout faire ici, mais il est complexe de paser tout le contexte
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
   return _gen_i->Compute(IterName, etatMenage) ;
 }
 
@@ -222,12 +247,35 @@ void HOMARD_Iteration_i::SetDirName( const char* NomDir )
 }
 
 //=============================================================================
+void HOMARD_Iteration_i::AssociateHypo( const char* NomHypo )
+{
+  ASSERT( myHomardIteration );
+//
+// Nom de l'iteration
+  char* IterName = GetName() ;
+  MESSAGE ( ". IterName = " << IterName );
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+  return _gen_i->AssociateIterHypo(IterName, NomHypo) ;
+}
+
+//=============================================================================
 char* HOMARD_Iteration_i::GetHypoName()
 {
   ASSERT( myHomardIteration );
   return CORBA::string_dup( myHomardIteration->GetHypoName().c_str() );
-
 }
+
+//=============================================================================
+// HOMARD::HOMARD_Hypothesis_ptr HOMARD_Iteration_i::GetHypo()
+// {
+// // Nom de l'hypothese
+//   char* NomHypo = GetHypoName() ;
+//   MESSAGE ( "GetHypo : NomHypo = " << NomHypo );
+// // On passe par la methode sur l'objet HOMARD
+// // Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+//   return _gen_i->GetHypothesis(NomHypo) ;
+// }
 
 //=============================================================================
 void HOMARD_Iteration_i::SetHypoName( const char* NomHypo )

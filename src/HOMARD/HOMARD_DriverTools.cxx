@@ -104,8 +104,9 @@ namespace HOMARD
   std::string Dump( const HOMARD_Cas& cas )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump du cas "<<cas.GetName());
+    MESSAGE( ". Sauvegarde du cas "<<cas.GetName());
     os << cas.GetName();
     os << separator() << cas.GetDirName();
     os << separator() << cas.GetConfType();
@@ -132,8 +133,9 @@ namespace HOMARD
 
     os << separator() << cas.GetPyram();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
 // Iteration
@@ -147,8 +149,9 @@ namespace HOMARD
   std::string Dump( const HOMARD_Iteration& iteration )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump de l'iteration "<<iteration.GetName());
+    MESSAGE( ". Sauvegarde de l'iteration "<<iteration.GetName());
     os << iteration.GetName();
     os << separator() << iteration.GetEtat();
     os << separator() << iteration.GetNumber();
@@ -158,7 +161,7 @@ namespace HOMARD
     os << separator() << iteration.GetFieldFile();
     os << separator() << iteration.GetTimeStep();
     os << separator() << iteration.GetRank();
-    os << separator() << iteration.GetIterParent();
+    os << separator() << iteration.GetIterParentName();
     //
     std::list<std::string> ListString = iteration.GetIterations();
     os << separator() << ListString.size();
@@ -170,8 +173,9 @@ namespace HOMARD
     os << separator() << iteration.GetCaseName();
     os << separator() << iteration.GetDirName();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
 // hypothese
@@ -184,8 +188,9 @@ namespace HOMARD
   std::string Dump( const HOMARD_Hypothesis& hypothesis )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump de l'hypothese "<<hypothesis.GetName());
+    MESSAGE( ". Sauvegarde de l'hypothese "<<hypothesis.GetName());
     os << hypothesis.GetName();
     os << separator() << hypothesis.GetCaseCreation();
     os << separator() << hypothesis.GetAdapType();
@@ -231,8 +236,9 @@ namespace HOMARD
     os << separator() << hypothesis.GetAdapInit();
     os << separator() << hypothesis.GetLevelOutput();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
 // Zone
@@ -246,9 +252,10 @@ namespace HOMARD
   std::string Dump( const HOMARD_Zone& zone )
   {
     std::stringstream os;
-    MESSAGE( ". Dump de la zone "<<zone.GetName());
+    std::string saux ;
+    MESSAGE( ". Sauvegarde de la zone "<<zone.GetName());
     os << zone.GetName();
-    os << separator() << zone.GetZoneType();
+    os << separator() << zone.GetType();
 
     std::vector<double> coords = zone.GetCoords();
     for ( int i = 0; i < coords.size(); i++ )
@@ -264,8 +271,9 @@ namespace HOMARD
     for ( it = hypos.begin(); it != hypos.end(); ++it )
       os << separator() << *it;
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
 // 1.5. Archivage d'une frontiere
@@ -279,9 +287,10 @@ namespace HOMARD
   std::string Dump( const HOMARD_Boundary& boundary )
   {
     std::stringstream os;
-    MESSAGE( ". Dump de la frontiere "<<boundary.GetName());
+    std::string saux ;
+    MESSAGE( ". Sauvegarde de la frontiere "<<boundary.GetName());
 
-    int BoundaryType = boundary.GetBoundaryType() ;
+    int BoundaryType = boundary.GetType() ;
 
     os << boundary.GetName() ;
     os << separator() << BoundaryType ;
@@ -307,8 +316,9 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 
 //
@@ -440,7 +450,7 @@ namespace HOMARD
     iteration.SetTimeStepRank( timestep, rank );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetIterParent( chunk.c_str() );
+    iteration.SetIterParentName( chunk.c_str() );
     //
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
@@ -620,7 +630,7 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     int ZoneType = atoi( chunk.c_str() ) ;
-    zone.SetZoneType( ZoneType );
+    zone.SetType( ZoneType );
     // Les coordonnees des zones : le nombre depend du type
     std::vector<double> coords;
     int lgcoords ;
@@ -685,7 +695,7 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     int BoundaryType = atoi( chunk.c_str() ) ;
-    boundary.SetBoundaryType( BoundaryType );
+    boundary.SetType( BoundaryType );
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;

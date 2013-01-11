@@ -33,6 +33,8 @@ module HOMARD
     void     SetName(in string NomIter)                    raises (SALOME::SALOME_Exception);
     string   GetName()                                     raises (SALOME::SALOME_Exception);
 
+    HOMARD_Iteration NextIteration(in string NomIter)      raises (SALOME::SALOME_Exception);
+
     void     SetEtat(in boolean State)                     raises (SALOME::SALOME_Exception);
     boolean  GetEtat()                                     raises (SALOME::SALOME_Exception);
 
@@ -51,10 +53,13 @@ module HOMARD
     long     GetTimeStep()                                 raises (SALOME::SALOME_Exception);
     long     GetRank()                                     raises (SALOME::SALOME_Exception);
 
-    void     SetIterParent(in string NomIterParent)        raises (SALOME::SALOME_Exception);
-    string   GetIterParent()                               raises (SALOME::SALOME_Exception);
+    void     SetIterParentName(in string NomIterParent)    raises (SALOME::SALOME_Exception);
+    string   GetIterParentName()                           raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration GetIterParent()                       raises (SALOME::SALOME_Exception);
 
     void     AddIteration(in string NomIter)               raises (SALOME::SALOME_Exception);
+
+    void     AssociateHypo(in string NomHypo)              raises (SALOME::SALOME_Exception);
 
     void     SetHypoName(in string NomHypo)                raises (SALOME::SALOME_Exception);
     string   GetHypoName()                                 raises (SALOME::SALOME_Exception);

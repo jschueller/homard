@@ -100,7 +100,7 @@ public:
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
                                       CORBA::Double Rayon);
 
-  HOMARD::HOMARD_Cas_ptr          GetCas        (const char* nomCas);
+  HOMARD::HOMARD_Cas_ptr          GetCase       (const char* nomCas);
   HOMARD::HOMARD_Zone_ptr         GetZone       (const char* nomZone);
   HOMARD::HOMARD_Hypothesis_ptr   GetHypothesis (const char* nomHypothesis);
   HOMARD::HOMARD_Iteration_ptr    GetIteration  (const char* nomIteration);
@@ -108,9 +108,7 @@ public:
 
   void                            AssociateCaseIter(const char* nomCas, const char* nomIter,
                                                     const char* labelIter);
-  void                            AssociateIterIter(const char* nomIterParent, const char* nomIter);
   void                            AssociateIterHypo(const char* nomIter, const char* nomHypothesis);
-  void                            AssociateHypoZone(const char* nomHypothesis, const char* nomZone, CORBA::Long TypeUse);
   void                            DissociateHypoZone(const char* nomZone, const char* nomHypothesis);
 
   void                            InvalideBoundary(const char* nomBoundary);
@@ -120,13 +118,11 @@ public:
 
   void                            SetEtatIter(const char* nomIter,const CORBA::Boolean EtatCalcul);
 
-  HOMARD::listeCases*             GetAllCases();
-  HOMARD::listeHypotheses*        GetAllHypotheses();
-  HOMARD::listeZones*             GetAllZones();
-  HOMARD::listeIterations*        GetAllIterations();
-  HOMARD::listeBoundarys*         GetAllBoundarys();
-
-  char*                           GetCaseName(const char* nomIteration);
+  HOMARD::listeCases*             GetAllCasesName();
+  HOMARD::listeHypotheses*        GetAllHypothesesName();
+  HOMARD::listeZones*             GetAllZonesName();
+  HOMARD::listeIterations*        GetAllIterationsName();
+  HOMARD::listeBoundarys*         GetAllBoundarysName();
 
   CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage);
   CORBA::Boolean                  VerifieDir(const char* nomDir);
@@ -224,7 +220,7 @@ private:
 					     CORBA::Boolean isPublished,
 					     CORBA::Boolean isMultiFile,
 					     CORBA::Boolean& isValidScript);
-  
+
   virtual char*                   getVersion();
 
 private:

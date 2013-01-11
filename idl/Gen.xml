@@ -15,14 +15,14 @@
             <component-username>HOMARD</component-username>
             <component-type>OTHER</component-type>
             <component-author>HOMARD team - EDF RD</component-author>
-            <component-version>1.1</component-version>
+            <component-version>1.2</component-version>
             <component-comment>unknown</component-comment>
             <component-multistudy>1</component-multistudy>
             <component-impltype>1</component-impltype>
             <component-icone>HOMARD_2.png</component-icone>
             <constraint></constraint>
             <component-interface-list>
-                <component-interface-name>HOMARD</component-interface-name>
+                <component-interface-name>HOMARD_Gen</component-interface-name>
                 <component-interface-comment>unknown</component-interface-comment>
                 <component-service-list>
                     <component-service>
@@ -597,71 +597,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>AssociateIterHypo</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>HypoName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>AssociateHypoZone</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>ZoneName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>HypoName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetCaseName</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>string</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetCas</service-name>
+                        <service-name>GetCase</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -771,7 +707,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetAllCases</service-name>
+                        <service-name>GetAllCasesName</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -787,7 +723,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetAllBoundarys</service-name>
+                        <service-name>GetAllBoundarysName</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -803,7 +739,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetAllHypotheses</service-name>
+                        <service-name>GetAllHypothesesName</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -819,7 +755,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetAllZones</service-name>
+                        <service-name>GetAllZonesName</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -835,7 +771,7 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetAllIterations</service-name>
+                        <service-name>GetAllIterationsName</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
                         <service-comment>unknown</service-comment>
@@ -860,48 +796,6 @@
                             <inParameter>
                                 <inParameter-name>theStudy</inParameter-name>
                                 <inParameter-type>SALOMEDS/Study</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>AssociateIterIter</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>PreviousIterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>DissociateHypoZone</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>ZoneName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>HypoName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
                         </inParameter-list>
@@ -975,7 +869,7 @@
                     <component-service>
                         <service-name>Compute</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
+                        <service-version>1.2</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -993,7 +887,7 @@
                         <outParameter-list>
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
-                                <outParameter-type>boolean</outParameter-type>
+                                <outParameter-type>long</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>

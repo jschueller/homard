@@ -22,16 +22,19 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2011
+Copyright EDF-R&D 1996, 2011, 2013
 """
-__revision__ = "V1.3"
+__revision__ = "V1.4"
 #
 # ==================================
 # Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_4.00.med, tutorial_4.fr.med
 # Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
 dircase = "/tmp"
 # ==================================
+import os
+# Ce repertoire contient les fichiers de donnees : tutorial_4.00.med, tutorial_4.fr.med
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
 #
 import salome
 salome.salome_init()
@@ -43,7 +46,7 @@ homard.SetCurrentStudy(salome.myStudy)
 #
 # Creation of the boundaries
 # ==========================
-Boundary_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', dircase+'/tutorial_4.fr.med')
+Boundary_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
 #
 Boundary_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
 #
@@ -70,7 +73,7 @@ Hypo_2.AddGroup('T2_EXT')
 #
 # Case "Case"
 # =============
-Case = homard.CreateCase('Case', 'PIQUAGE', dircase+'/tutorial_4.00.med')
+Case = homard.CreateCase('Case', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
 Case.SetDirName(dircase)
 Case.AddBoundaryGroup( 'intersection', '' )
 Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
@@ -83,16 +86,16 @@ Case.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
 # Creation of the iterations
 # ==========================
 # Creation of the iteration Iter_1
-Iter_1 = homard.CreateIteration('Iter_1', Case.GetIter0Name() )
+Iter_1 = Case.NextIteration('Iter_1')
 Iter_1.SetMeshName('PIQUAGE_1')
 Iter_1.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+Iter_1.AssociateHypo('Hypo_1')
 codret = Iter_1.Compute(1)
 # Creation of the iteration Iter_2
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1' )
+Iter_2 = Iter_1.NextIteration('Iter_2')
 Iter_2.SetMeshName('PIQUAGE_2')
 Iter_2.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_2', 'Hypo_2')
+Iter_2.AssociateHypo('Hypo_2')
 codret = Iter_2.Compute(1)
 
 if salome.sg.hasDesktop():

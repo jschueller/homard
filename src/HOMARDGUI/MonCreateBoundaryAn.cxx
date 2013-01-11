@@ -47,9 +47,9 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
 */
     QDialog(0), Ui_CreateBoundaryAn(),
     _parent(parent),
-    _aBoundaryAnName (""),
+    _aName (""),
     _aCaseName(caseName),
-    _BoundaryType(1),
+    _Type(1),
     _BoundaryAnXcentre(0), _BoundaryAnYcentre(0), _BoundaryAnZcentre(0), _BoundaryAnRayon(0),
     _BoundaryAnXaxis(0), _BoundaryAnYaxis(0), _BoundaryAnZaxis(0),
     _Xcentre(0), _Ycentre(0), _Zcentre(0), _Rayon(0),
@@ -87,9 +87,9 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent,
     QDialog(0), Ui_CreateBoundaryAn(),
      _myHomardGen(myHomardGen),
     _parent(parent),
-    _aBoundaryAnName (""),
+    _aName (""),
     _aCaseName(caseName),
-    _BoundaryType(1),
+    _Type(1),
     _BoundaryAnXcentre(0), _BoundaryAnYcentre(0), _BoundaryAnZcentre(0), _BoundaryAnRayon(0),
     _BoundaryAnXaxis(0), _BoundaryAnYaxis(0), _BoundaryAnZaxis(0),
     // Pour affichage lors de l edition d une BoundaryAn sans nom de Cas
@@ -136,7 +136,7 @@ void MonCreateBoundaryAn::InitValBoundaryAn()
 //
     if (_aCaseName == QString("")) { return; }
 
-    HOMARD::HOMARD_Cas_var aCas = _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+    HOMARD::HOMARD_Cas_var aCas = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
     HOMARD::extrema_var  MesExtremes = aCas->GetBoundingBox();
     int num = MesExtremes->length() ;
     ASSERT(num == 10);
@@ -193,7 +193,7 @@ bool MonCreateBoundaryAn::PushOnApply()
     return false;
   }
 
-  switch (_BoundaryType)
+  switch (_Type)
   {
       case 1 : // il s agit d un cylindre
       {
@@ -250,25 +250,25 @@ bool MonCreateBoundaryAn:: CreateOrUpdateBoundaryAn()
 //----------------------------------------------------
 //  Creation de l'objet boundary
 {
-  if (_aBoundaryAnName != LEBoundaryName->text().trimmed())
+  if (_aName != LEBoundaryName->text().trimmed())
   {
-    _aBoundaryAnName = LEBoundaryName->text().trimmed();
-    switch (_BoundaryType)
+    _aName = LEBoundaryName->text().trimmed();
+    switch (_Type)
     {
       case 1 : // il s agit d un cylindre
       {
-        aBoundaryAn = _myHomardGen->CreateBoundaryCylinder(CORBA::string_dup(_aBoundaryAnName.toStdString().c_str()), \
+        aBoundaryAn = _myHomardGen->CreateBoundaryCylinder(CORBA::string_dup(_aName.toStdString().c_str()), \
         _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis, _BoundaryAnRayon );
         break;
       }
       case 2 : // il s agit d une sphere
       {
-        aBoundaryAn = _myHomardGen->CreateBoundarySphere(CORBA::string_dup(_aBoundaryAnName.toStdString().c_str()), \
+        aBoundaryAn = _myHomardGen->CreateBoundarySphere(CORBA::string_dup(_aName.toStdString().c_str()), \
         _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon);
         break;
       }
     }
-    _parent->addBoundaryAn(_aBoundaryAnName);
+    _parent->addBoundaryAn(_aName);
   }
 // Mise en place des attributs
   aBoundaryAn->SetLimit(_Xincr, _Yincr, _Zincr);
@@ -295,7 +295,7 @@ void MonCreateBoundaryAn::SetNewBoundaryAnName()
 {
 // Recherche d'un nom par defaut qui n'existe pas encore
 
-  HOMARD::listeBoundarys_var  MyBoundaryAns = _myHomardGen->GetAllBoundarys();
+  HOMARD::listeBoundarys_var  MyBoundaryAns = _myHomardGen->GetAllBoundarysName();
   int num = 0; QString aBoundaryAnName="";
   while (aBoundaryAnName=="" )
   {
@@ -322,7 +322,7 @@ void MonCreateBoundaryAn::SetCylinder()
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
   adjustSize();
-  _BoundaryType=1;
+  _Type=1;
   SpinBox_Xcent->setValue(_Xcentre);
   SpinBox_Xaxis->setValue(0.);
   SpinBox_Ycent->setValue(_Ycentre);
@@ -340,7 +340,7 @@ void MonCreateBoundaryAn::SetSphere()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(1);
   adjustSize();
-  _BoundaryType=2;
+  _Type=2;
   SpinBox_Xcentre->setValue(_Xcentre);
   SpinBox_Ycentre->setValue(_Ycentre);
   SpinBox_Zcentre->setValue(_Zcentre);

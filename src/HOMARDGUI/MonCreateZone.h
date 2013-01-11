@@ -52,7 +52,7 @@ protected :
     QString _aCaseName;
 
     int _Orient;
-    int _ZoneType;
+    int _Type;
     double _Xcentre, _Ycentre, _Zcentre, _Rayon ;
     double _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon ;
     double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr ;

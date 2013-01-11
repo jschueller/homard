@@ -43,13 +43,13 @@ public:
 
   virtual ~HOMARD_Boundary_i();
 
-  void                   SetName( const char* NomBoundary );
+  void                   SetName( const char* Name );
   char*                  GetName();
   char*                  GetDumpPython();
 
-  void                   SetBoundaryType( CORBA::Long BoundaryType );
+  void                   SetType( CORBA::Long Type );
 
-  CORBA::Long            GetBoundaryType();
+  CORBA::Long            GetType();
 
   void                   SetMeshFile( const char* MeshFile );
   char*                  GetMeshFile();

@@ -135,9 +135,9 @@ Ces méthodes retournent une instance de la classe zone.
 |                                                               |
 |     - ``zone_name`` : le nom de la zone                       |
 +---------------------------------------------------------------+
-| .. module:: GetAllZones                                       |
+| .. module:: GetAllZonesName                                   |
 |                                                               |
-| **GetAllZones()**                                             |
+| **GetAllZonesName()**                                         |
 |     Retourne la liste des noms de toutes les zones créées     |
 |                                                               |
 +---------------------------------------------------------------+
@@ -153,9 +153,9 @@ Méthodes de la classe zone
 | **GetName()**                                                 |
 |     Retourne le nom de la zone                                |
 +---------------------------------------------------------------+
-| .. module:: GetZoneType                                       |
+| .. module:: GetType                                           |
 |                                                               |
-| **GetZoneType()**                                             |
+| **GetType()**                                                 |
 |     Retourne le type de la zone                               |
 |                                                               |
 |         * 2 : parallélépipède                                 |

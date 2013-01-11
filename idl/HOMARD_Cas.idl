@@ -24,6 +24,8 @@
 #include "SALOME_Exception.idl"
 #include "SALOMEDS.idl"
 
+#include "HOMARD_Iteration.idl"
+
 module HOMARD
 {
  typedef sequence<double> extrema ;
@@ -43,8 +45,12 @@ module HOMARD
     void     SetConfType(in long ConfType)                 raises (SALOME::SALOME_Exception);
     long     GetConfType()                                 raises (SALOME::SALOME_Exception);
 
-    void     AddIteration (in string NomIteration)         raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration GetIter0 ()                           raises (SALOME::SALOME_Exception);
     string   GetIter0Name ()                               raises (SALOME::SALOME_Exception);
+
+    HOMARD_Iteration NextIteration(in string NomIter)      raises (SALOME::SALOME_Exception);
+
+    void     AddIteration (in string NomIteration)         raises (SALOME::SALOME_Exception);
 
     extrema  GetBoundingBox()                              raises (SALOME::SALOME_Exception);
     void     SetBoundingBox(in extrema LesExtremes)        raises (SALOME::SALOME_Exception);

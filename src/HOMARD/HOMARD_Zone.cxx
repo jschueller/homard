@@ -31,7 +31,7 @@
  */
 //=============================================================================
 HOMARD_Zone::HOMARD_Zone():
-  _NomZone( "" ),_ZoneType( 2 ),
+  _Name( "" ),_Type( 2 ),
   _Xmin( 0 ), _Xmax( 0 ), _Ymin( 0 ), _Ymax( 0 ), _Zmin( 0 ), _Zmax( 0 ),
   _Xcentre( 0 ), _Ycentre( 0 ), _Zcentre( 0 ), _Rayon( 0 ),
   _Xaxe( 0 ), _Yaxe( 0 ), _Zaxe( 0 ), _Haut( 0 ),
@@ -47,90 +47,90 @@ HOMARD_Zone::~HOMARD_Zone()
 }
 
 //=============================================================================
-void HOMARD_Zone::SetName( const char* NomZone )
+void HOMARD_Zone::SetName( const char* Name )
 {
-  _NomZone = std::string( NomZone ) ;
+  _Name = std::string( Name ) ;
 }
 
 //=============================================================================
 std::string HOMARD_Zone::GetName() const
 {
-  return _NomZone;
+  return _Name;
 }
 
 //=============================================================================
 std::string HOMARD_Zone::GetDumpPython() const
 {
-//   MESSAGE("GetDumpPython avec _ZoneType " << _ZoneType) ;
-//   MESSAGE("GetDumpPython avec _NomZone " << _NomZone) ;
+//   MESSAGE("GetDumpPython avec _Type " << _Type) ;
+//   MESSAGE("GetDumpPython avec _Name " << _Name) ;
   std::ostringstream aScript;
   aScript << "\n# Creation of the ";
-  if ( _ZoneType >= 11 and _ZoneType <= 13 ) { aScript << "rectangle " ; }
-  else if ( _ZoneType == 2 ) { aScript << "box " ;}
-  else if ( _ZoneType >= 31 and _ZoneType <= 33 ) { aScript << "disk " ;}
-  else if ( _ZoneType == 4 ) { aScript << "sphere " ; }
-  else if ( _ZoneType == 5 ) { aScript << "cylinder " ; }
-  else if ( _ZoneType >= 61 and _ZoneType <= 63 ) { aScript << "disk with hole " ;}
-  else if ( _ZoneType == 7 ) { aScript << "pipe " ; }
-  aScript << _NomZone << "\n" ;
+  if ( _Type >= 11 and _Type <= 13 ) { aScript << "rectangle " ; }
+  else if ( _Type == 2 ) { aScript << "box " ;}
+  else if ( _Type >= 31 and _Type <= 33 ) { aScript << "disk " ;}
+  else if ( _Type == 4 ) { aScript << "sphere " ; }
+  else if ( _Type == 5 ) { aScript << "cylinder " ; }
+  else if ( _Type >= 61 and _Type <= 63 ) { aScript << "disk with hole " ;}
+  else if ( _Type == 7 ) { aScript << "pipe " ; }
+  aScript << _Name << "\n" ;
 //
-  aScript << "\t" << _NomZone << " = homard.CreateZone" ;
+  aScript << "\t" << _Name << " = homard.CreateZone" ;
 //
-  switch (_ZoneType)
+  switch (_Type)
   {
     case 11:
-    { aScript << "Box2D( \"" << _NomZone << "\", " << _Xmin << ", " << _Xmax << ", " << _Ymin << ", " << _Ymax << ", 1 )\n";
+    { aScript << "Box2D( \"" << _Name << "\", " << _Xmin << ", " << _Xmax << ", " << _Ymin << ", " << _Ymax << ", 1 )\n";
       break ;
     }
     case 12:
-    { aScript << "Box2D( \"" << _NomZone << "\", " << _Ymin << ", " << _Ymax << ", " << _Zmin << ", " << _Zmax << ", 2 )\n";
+    { aScript << "Box2D( \"" << _Name << "\", " << _Ymin << ", " << _Ymax << ", " << _Zmin << ", " << _Zmax << ", 2 )\n";
       break ;
     }
     case 13:
-    { aScript << "Box2D( \"" << _NomZone << "\", " << _Zmin << ", " << _Zmax << ", " << _Xmin << ", " << _Xmax << ", 3 )\n";
+    { aScript << "Box2D( \"" << _Name << "\", " << _Zmin << ", " << _Zmax << ", " << _Xmin << ", " << _Xmax << ", 3 )\n";
       break ;
     }
     case 2:
-    { aScript << "Box( \""  << _NomZone << "\", " << _Xmin << ", " << _Xmax << ", " << _Ymin << ", " << _Ymax << ", " << _Zmin << ", " << _Zmax << ")\n";
+    { aScript << "Box( \""  << _Name << "\", " << _Xmin << ", " << _Xmax << ", " << _Ymin << ", " << _Ymax << ", " << _Zmin << ", " << _Zmax << ")\n";
       break ;
     }
 
     case 4:
-    { aScript << "Sphere( \"" << _NomZone << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ")\n";
+    { aScript << "Sphere( \"" << _Name << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ")\n";
       break ;
     }
 
     case 31:
-    { aScript << "Disk( \"" << _NomZone << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Rayon << ", 1 )\n";
+    { aScript << "Disk( \"" << _Name << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Rayon << ", 1 )\n";
       break ;
     }
     case 32:
-    { aScript << "Disk( \"" << _NomZone << "\", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ", 2 )\n";
+    { aScript << "Disk( \"" << _Name << "\", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ", 2 )\n";
       break ;
     }
     case 33:
-    { aScript << "Disk( \"" << _NomZone << "\", " << _Zcentre << ", " << _Xcentre << ", " << _Rayon << ", 3 )\n";
+    { aScript << "Disk( \"" << _Name << "\", " << _Zcentre << ", " << _Xcentre << ", " << _Rayon << ", 3 )\n";
       break ;
     }
     case 5:
-    { aScript << "Cylinder( \"" << _NomZone << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Rayon << ", " << _Haut << ")\n";
+    { aScript << "Cylinder( \"" << _Name << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Rayon << ", " << _Haut << ")\n";
       break ;
     }
 
     case 61:
-    { aScript << "DiskWithHole( \"" << _NomZone << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Rayon << ", " << _Rayonint << ", 1 )\n";
+    { aScript << "DiskWithHole( \"" << _Name << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Rayon << ", " << _Rayonint << ", 1 )\n";
       break ;
     }
     case 62:
-    { aScript << "DiskWithHole( \"" << _NomZone << "\", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ", " << _Rayonint << ", 2 )\n";
+    { aScript << "DiskWithHole( \"" << _Name << "\", " << _Ycentre << ", " << _Zcentre << ", " << _Rayon << ", " << _Rayonint << ", 2 )\n";
       break ;
     }
     case 63:
-    { aScript << "DiskWithHole( \"" << _NomZone << "\", " << _Zcentre << ", " << _Xcentre << ", " << _Rayon << ", " << _Rayonint << ", 3 )\n";
+    { aScript << "DiskWithHole( \"" << _Name << "\", " << _Zcentre << ", " << _Xcentre << ", " << _Rayon << ", " << _Rayonint << ", 3 )\n";
       break ;
     }
     case 7:
-    { aScript << "Pipe( \"" << _NomZone << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Rayon << ", " << _Haut << ", " << _Rayonint << ")\n";
+    { aScript << "Pipe( \"" << _Name << "\", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Rayon << ", " << _Haut << ", " << _Rayonint << ")\n";
       break ;
     }
   }
@@ -139,15 +139,15 @@ std::string HOMARD_Zone::GetDumpPython() const
 }
 
 //=============================================================================
-void HOMARD_Zone::SetZoneType( int ZoneType )
+void HOMARD_Zone::SetType( int Type )
 {
-  _ZoneType = ZoneType;
+  _Type = Type;
 }
 
 //=============================================================================
-int HOMARD_Zone::GetZoneType() const
+int HOMARD_Zone::GetType() const
 {
-  return _ZoneType;
+  return _Type;
 }
 
 //======================================================================
@@ -215,7 +215,7 @@ std::vector<double> HOMARD_Zone::GetCoords() const
 {
   std::vector<double> mesCoor;
 //
-  switch (_ZoneType)
+  switch (_Type)
   {
 //  Rectangle ou parallelepipede
     case 11:
@@ -282,7 +282,7 @@ std::vector<double> HOMARD_Zone::GetCoords() const
       mesCoor.push_back( _Rayonint ) ;
       break ;
     }
-    ASSERT ( _ZoneType == -1 ) ;
+    ASSERT ( _Type == -1 ) ;
   }
   return mesCoor;
 }

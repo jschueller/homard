@@ -19,15 +19,15 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2011
+Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.3"
+__revision__ = "V1.4"
 
-######################################################################################
+#========================================================================
 Test_Name = "test_3"
 n_iter_test_file = 2
-######################################################################################
+#========================================================================
 import os
 import sys
 import tempfile
@@ -43,12 +43,31 @@ salome.salome_init()
 import iparameters
 ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 ipar.append("AP_MODULES_LIST", "Homard")
-######################################################################################
-######################################################################################
+#========================================================================
+#========================================================================
+def remove_dir(directory) :
+  """
+Empties, then removes a directory.
+Copyright EDF-R&D 2013
+  """
+#
+  l_aux = os.listdir(directory)
+  for fic in l_aux :
+    fic_a = os.path.join(directory, fic)
+    if os.path.isdir(fic_a) :
+      remove_dir(fic_a)
+    else :
+      os.remove(fic_a)
+  os.rmdir(directory)
+#
+  return
+#
+#========================================================================
+#========================================================================
 def homard_exec(theStudy):
   """
 Python script for HOMARD
-Copyright EDF-R&D 2010
+Copyright EDF-R&D 2010, 2013
   """
   error = 0
 #
@@ -94,20 +113,20 @@ Copyright EDF-R&D 2010
 # Creation of the iterations
 # ==========================
 # Creation of the iteration Iter_1
-    Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name() )
+    Iter_1 = Case_1.NextIteration('Iter_1')
     Iter_1.SetMeshName('MOYEU_1')
     Iter_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    homard.AssociateIterHypo('Iter_1', 'Hypo')
+    Iter_1.AssociateHypo('Hypo')
     error = Iter_1.Compute(1)
     if error :
       error = 1
       break
 
 # Creation of the iteration Iter_2
-    Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
+    Iter_2 = Iter_1.NextIteration('Iter_2')
     Iter_2.SetMeshName('MOYEU_2')
     Iter_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    homard.AssociateIterHypo('Iter_2', 'Hypo')
+    Iter_2.AssociateHypo('Hypo')
     error = Iter_2.Compute(1)
     if error :
       error = 2
@@ -117,7 +136,7 @@ Copyright EDF-R&D 2010
 #
   return error
 
-######################################################################################
+#========================================================================
 
 homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert homard is not None, "Impossible to load homard engine"
@@ -175,6 +194,8 @@ for num in range(nblign) :
        message_erreur += "\nThe test is different from the reference."
        raise Exception(message_erreur)
        sys.exit(10)
+#
+remove_dir(Rep_Test_Resu)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

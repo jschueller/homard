@@ -22,16 +22,19 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.3"
+__revision__ = "V1.4"
 #
 # ==================================
 # Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_2.00.med
 # Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
 dircase = "/tmp"
 # ==================================
+import os
+# Ce repertoire contient les fichiers de donnees : tutorial_2.00.med
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
 #
 import salome
 salome.salome_init()
@@ -56,35 +59,35 @@ Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 # ===================
 Hypo_0 = homard.CreateHypothesis('Hypo_0')
 Hypo_0.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('Zone_1', 'Hypo_0')
-homard.AssociateHypoZone('Zone_0', 'Hypo_0')
+Hypo_0.AddZone('Zone_1', 1)
+Hypo_0.AddZone('Zone_0', 1)
 #
 # Hypothesis "Hypo_1"
 # ===================
 Hypo_1 = homard.CreateHypothesis('Hypo_1')
 Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('Zone_0', 'Hypo_1')
-homard.AssociateHypoZone('Zone_2', 'Hypo_1')
+Hypo_1.AddZone('Zone_0', 1)
+Hypo_1.AddZone('Zone_2', 1)
 #
 # Case "Case_1"
 # =============
-Case_1 = homard.CreateCase('Case_1', 'MZERO', dircase+'/tutorial_2.00.med')
+Case_1 = homard.CreateCase('Case_1', 'MZERO', data_dir+'/tutorial_2.00.med')
 Case_1.SetDirName(dircase)
 #
 # Iteration "Iter_0"
 # ==================
-Iter_0 = homard.CreateIteration('Iter_0', Case_1.GetIter0Name())
+Iter_0 = Case_1.NextIteration('Iter_0')
 Iter_0.SetMeshName('M_1')
 Iter_0.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_0', 'Hypo_0')
+Iter_0.AssociateHypo('Hypo_0')
 codret = Iter_0.Compute(1)
 #
 # Iteration "Iter_1"
 # ==================
-Iter_1 = homard.CreateIteration('Iter_1', 'Iter_0')
+Iter_1 = Iter_0.NextIteration('Iter_1')
 Iter_1.SetMeshName('M_2')
 Iter_1.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_1')
+Iter_1.AssociateHypo('Hypo_1')
 codret = Iter_1.Compute(1)
 
 if salome.sg.hasDesktop():

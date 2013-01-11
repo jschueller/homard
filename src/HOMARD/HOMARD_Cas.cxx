@@ -37,7 +37,7 @@
  */
 //=============================================================================
 HOMARD_Cas::HOMARD_Cas():
-  _NomCas(""), _NomDir("/tmp"), _ConfType(1)
+  _Name(""), _NomDir("/tmp"), _ConfType(1)
 {
   MESSAGE("HOMARD_Cas");
 }
@@ -73,17 +73,17 @@ std::string HOMARD_Cas::GetDirName() const
 }
 
 //=============================================================================
-void HOMARD_Cas::SetName( const char* NomCas )
+void HOMARD_Cas::SetName( const char* Name )
 //=============================================================================
 {
-  _NomCas = std::string( NomCas );
+  _Name = std::string( Name );
 }
 
 //=============================================================================
 std::string HOMARD_Cas::GetName() const
 //=============================================================================
 {
-  return _NomCas;
+  return _Name;
 }
 
 
@@ -92,15 +92,15 @@ std::string HOMARD_Cas::GetDumpPython() const
 //=============================================================================
 {
   std::ostringstream aScript;
-  aScript << "\t" <<_NomCas << ".SetDirName(\"";
+  aScript << "\t" <<_Name << ".SetDirName(\"";
   aScript << _NomDir << "\")\n";
-  aScript << "\t" <<_NomCas << ".SetConfType(";
+  aScript << "\t" <<_Name << ".SetConfType(";
   aScript << _ConfType << ")\n";
 // Suivi de frontieres
   std::list<std::string>::const_iterator it = _ListBoundaryGroup.begin();
   while(it != _ListBoundaryGroup.end())
   {
-    aScript << "\t" <<_NomCas << ".AddBoundaryGroup(\"";
+    aScript << "\t" <<_Name << ".AddBoundaryGroup(\"";
     aScript << *it << "\", \"";
     it++;
     aScript << *it << "\")\n";
@@ -108,7 +108,7 @@ std::string HOMARD_Cas::GetDumpPython() const
   }
   if ( _Pyram > 0 )
   {
-    aScript << "\t" <<_NomCas << ".SetPyram(";
+    aScript << "\t" <<_Name << ".SetPyram(";
     aScript << _Pyram << ")\n";
   }
 
@@ -237,13 +237,11 @@ void HOMARD_Cas::SupprBoundaryGroup()
 void HOMARD_Cas::SetPyram( int Pyram )
 //=============================================================================
 {
-  MESSAGE ("SetPyram, Pyram = " << Pyram );
   _Pyram = Pyram;
 }
 //=============================================================================
 const int HOMARD_Cas::GetPyram() const
 //=============================================================================
 {
-  MESSAGE ("GetPyram, Pyram = " << _Pyram );
   return _Pyram;
 }

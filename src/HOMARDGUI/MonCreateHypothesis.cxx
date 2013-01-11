@@ -207,7 +207,7 @@ void MonCreateHypothesis::SetNewHypothesisName()
 // --------------------------------------------------
 {
 
-  HOMARD::listeHypotheses_var  MyHypos = _myHomardGen->GetAllHypotheses();
+  HOMARD::listeHypotheses_var  MyHypos = _myHomardGen->GetAllHypothesesName();
   int num = 0;//
   QString aHypothesisName="";
   while (aHypothesisName=="" )
@@ -328,7 +328,7 @@ void MonCreateHypothesis::GetAllZones()
 // Par defaut, aucune n'est selectionnee
 {
   MESSAGE("Debut de GetAllZones") ;
-  HOMARD::listeZones_var mesZones = _myHomardGen->GetAllZones();
+  HOMARD::listeZones_var mesZones = _myHomardGen->GetAllZonesName();
   int nbrow=TWZone->rowCount();
   for ( int row=0; row< nbrow; row++)
   {
@@ -700,7 +700,7 @@ void MonCreateHypothesis::AssocieLesZones()
   for ( int i=0 ; i< _aListeZone.count() ; i++ )
   { if ( _aListeZone[i+1] == Raff ) { TypeUse =  1 ; }
     else                            { TypeUse = -1 ; }
-   _myHomardGen->AssociateHypoZone(_aHypothesisName.toStdString().c_str(), _aListeZone[i].toStdString().c_str(), TypeUse);
+    _aHypothesis->AddZone(_aListeZone[i].toStdString().c_str(), TypeUse);
     i += 1 ;
   }
   MESSAGE( "Fin de AssocieLesZones" );

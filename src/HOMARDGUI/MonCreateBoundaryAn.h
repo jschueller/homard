@@ -49,10 +49,10 @@ protected :
 
     MonCreateCase * _parent;
 
-    QString _aBoundaryAnName;
+    QString _aName;
     QString _aCaseName;
 
-    int _BoundaryType;
+    int _Type;
     double _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon;
     double _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis;
     double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr, _DMax ;

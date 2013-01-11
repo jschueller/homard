@@ -51,8 +51,6 @@ module HOMARD
                                                            raises (SALOME::SALOME_Exception);
     HOMARD_Hypothesis CreateHypothesis(in string HypoName )
                                                            raises (SALOME::SALOME_Exception);
-    HOMARD_Iteration  CreateIteration(in string IterName, in string PreviousIterName )
-                                                           raises (SALOME::SALOME_Exception);
     HOMARD_Zone       CreateZoneBox (in string ZoneName,
                                      in double Xmini, in double Xmaxi,
                                      in double Ymini, in double Ymaxi,
@@ -98,36 +96,34 @@ module HOMARD
                                       in double Radius)
                                                            raises (SALOME::SALOME_Exception);
 //
-// A.2. Les associations
+// A.2. Les informations
 //
-    void AssociateIterHypo(in string IterName, in string HypoName)
-                                                           raises (SALOME::SALOME_Exception);
-    void AssociateHypoZone(in string HypoName, in string ZoneName, in long TypeUse)
-                                                           raises (SALOME::SALOME_Exception);
-//
-// A.3. Les informations
-//
-    string            GetCaseName(in string IterName)      raises (SALOME::SALOME_Exception);
-    HOMARD_Cas        GetCas(in string CaseName)           raises (SALOME::SALOME_Exception);
+    HOMARD_Cas        GetCase(in string CaseName)          raises (SALOME::SALOME_Exception);
     HOMARD_Boundary   GetBoundary(in string BounName)      raises (SALOME::SALOME_Exception);
     HOMARD_Zone       GetZone(in string ZoneName)          raises (SALOME::SALOME_Exception);
     HOMARD_Hypothesis GetHypothesis(in string HypoName)    raises (SALOME::SALOME_Exception);
     HOMARD_Iteration  GetIteration(in string IterName)     raises (SALOME::SALOME_Exception);
-    listeCases      GetAllCases()                          raises (SALOME::SALOME_Exception);
-    listeBoundarys  GetAllBoundarys()                      raises (SALOME::SALOME_Exception);
-    listeHypotheses GetAllHypotheses()                     raises (SALOME::SALOME_Exception);
-    listeZones      GetAllZones()                          raises (SALOME::SALOME_Exception);
-    listeIterations GetAllIterations()                     raises (SALOME::SALOME_Exception);
+
+    listeCases      GetAllCasesName()                      raises (SALOME::SALOME_Exception);
+    listeBoundarys  GetAllBoundarysName()                  raises (SALOME::SALOME_Exception);
+    listeHypotheses GetAllHypothesesName()                 raises (SALOME::SALOME_Exception);
+    listeZones      GetAllZonesName()                      raises (SALOME::SALOME_Exception);
+    listeIterations GetAllIterationsName()                 raises (SALOME::SALOME_Exception);
 //
-// A.4. L'etude
+// A.3. L'etude
 //
     void     SetCurrentStudy(in SALOMEDS::Study theStudy)  raises (SALOME::SALOME_Exception);
 //
 // B. Les methodes qui suivent n'apparaissent pas dans le composant HOMARD dans YACS
 //    L'utilisateur ne devrait pas les connaitre (ni s'en servir, a fortiori)
 //
-    void AssociateIterIter(in string PreviousIterName, in string IterName)
+    HOMARD_Iteration  CreateIteration(in string IterName, in string PreviousIterName )
                                                            raises (SALOME::SALOME_Exception);
+//
+    void AssociateIterHypo(in string IterName, in string HypoName)
+                                                           raises (SALOME::SALOME_Exception);
+
+//
     void DissociateHypoZone(in string ZoneName, in string HypoName)
                                                            raises (SALOME::SALOME_Exception);
 
@@ -136,8 +132,7 @@ module HOMARD
     void InvalideHypo (in string HypoName)                 raises (SALOME::SALOME_Exception);
     void InvalideIter (in string IterName)                 raises (SALOME::SALOME_Exception);
 
-    long  Compute (in string IterName, in long etatMenage)
-                                                           raises (SALOME::SALOME_Exception);
+    long Compute (in string IterName, in long etatMenage)  raises (SALOME::SALOME_Exception);
 
     boolean  VerifieDir (in string IterName)               raises (SALOME::SALOME_Exception);
 

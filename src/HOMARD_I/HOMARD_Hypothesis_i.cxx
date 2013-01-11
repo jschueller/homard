@@ -63,10 +63,10 @@ HOMARD_Hypothesis_i::~HOMARD_Hypothesis_i()
 /*!
  */
 //=============================================================================
-void HOMARD_Hypothesis_i::SetName( const char* NomHypothesis )
+void HOMARD_Hypothesis_i::SetName( const char* Name )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->SetName( NomHypothesis );
+  myHomardHypothesis->SetName( Name );
 }
 
 //=============================================================================

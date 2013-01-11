@@ -43,7 +43,7 @@ public:
 
   virtual ~HOMARD_Hypothesis_i();
 
-  void                         SetName( const char* NomHypothesis );
+  void                         SetName( const char* Name );
   char*                        GetName();
   void                         SetCaseCreation( const char* NomCaseCreation );
   char*                        GetCaseCreation();

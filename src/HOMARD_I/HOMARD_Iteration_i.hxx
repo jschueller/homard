@@ -44,9 +44,14 @@ public:
 
   virtual ~HOMARD_Iteration_i();
 
-  void                   SetName( const char* NomIteration );
+  void                   SetName( const char* Name );
   char*                  GetName();
-  char*                  GetDumpPython();
+
+  HOMARD::HOMARD_Iteration_ptr NextIteration( const char* Name) ;
+
+  void                   SetIterParentName( const char* NomIterParent );
+  char*                  GetIterParentName();
+  HOMARD::HOMARD_Iteration_ptr GetIterParent() ;
 
   void                   SetEtat( CORBA::Boolean etat );
   CORBA::Boolean         GetEtat();
@@ -69,9 +74,6 @@ public:
   void                   SetMessFile( const char* MessFile );
   char*                  GetMessFile();
 
-  void                   SetIterParent( const char* NomIterParent );
-  char*                  GetIterParent();
-
   void                   AddIteration( const char* NomIteration );
   HOMARD::listeIterFilles* GetIterations();
 
@@ -81,6 +83,8 @@ public:
   void                   SetDirName( const char* NomDir );
   char*                  GetDirName();
 
+  void                   AssociateHypo( const char* NomHypo);
+
   void                   SetHypoName( const char* NomHypo );
   char*                  GetHypoName();
 
@@ -88,6 +92,8 @@ public:
 
   std::string            Dump() const;
   bool                   Restore( const std::string& stream );
+
+  char*                  GetDumpPython();
 
 private:
   ::HOMARD_Iteration*    myHomardIteration;

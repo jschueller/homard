@@ -43,13 +43,13 @@ public:
 
   virtual ~HOMARD_Zone_i();
 
-  void                   SetName( const char* NomZone );
+  void                   SetName( const char* Name );
   char*                  GetName();
   char*                  GetDumpPython();
 
-  void                   SetZoneType( CORBA::Long ZoneType );
+  void                   SetType( CORBA::Long Type );
 
-  CORBA::Long            GetZoneType();
+  CORBA::Long            GetType();
 
   HOMARD::double_array*  GetCoords();
   void                   SetBox( double Xmini, double Xmaxi,

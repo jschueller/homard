@@ -34,7 +34,7 @@ public:
   HOMARD_Iteration();
   ~HOMARD_Iteration();
 
-  void                          SetName( const char* NomIter );
+  void                          SetName( const char* Name );
   std::string                   GetName() const;
   std::string                   GetDumpPython() const;
 
@@ -56,8 +56,8 @@ public:
   int                           GetTimeStep() const;
   int                           GetRank() const;
 
-  void                          SetIterParent( const char* iterParent );
-  std::string                   GetIterParent() const;
+  void                          SetIterParentName( const char* iterParent );
+  std::string                   GetIterParentName() const;
 
   void                          AddIteration( const char* iter );
   const std::list<std::string>& GetIterations() const;
@@ -76,7 +76,7 @@ public:
   std::string                   GetMessFile() const;
 
 private:
-  std::string                   _NomIter;
+  std::string                   _Name;
   bool                          _Etat;
   int                           _NumIter;
   std::string                   _NomMesh;

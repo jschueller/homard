@@ -126,7 +126,7 @@ void MonCreateListGroup::InitGroupes()
       TWGroupe->removeRow(row);
   TWGroupe->setRowCount(0);
   if (_aCaseName == QString("")) { return; };
-  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
   for ( int i = 0; i < _listeGroupesCas->length(); i++ )
   {

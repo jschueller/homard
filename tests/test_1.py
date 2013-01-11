@@ -19,15 +19,15 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2010
+Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.6"
+__revision__ = "V1.7"
 
-######################################################################################
+#========================================================================
 Test_Name = "test_1"
 n_iter_test_file = 3
-######################################################################################
+#========================================================================
 import os
 import sys
 import tempfile
@@ -43,12 +43,31 @@ salome.salome_init()
 import iparameters
 ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 ipar.append("AP_MODULES_LIST", "Homard")
-######################################################################################
-######################################################################################
+#========================================================================
+#========================================================================
+def remove_dir(directory) :
+  """
+Empties, then removes a directory.
+Copyright EDF-R&D 2013
+  """
+#
+  l_aux = os.listdir(directory)
+  for fic in l_aux :
+    fic_a = os.path.join(directory, fic)
+    if os.path.isdir(fic_a) :
+      remove_dir(fic_a)
+    else :
+      os.remove(fic_a)
+  os.rmdir(directory)
+#
+  return
+#
+#========================================================================
+#========================================================================
 def homard_exec(theStudy):
   """
 Python script for HOMARD
-Copyright EDF-R&D 2010
+Copyright EDF-R&D 2010, 2013
   """
   error = 0
 #
@@ -79,8 +98,8 @@ Copyright EDF-R&D 2010
   # Creation of the hypothesis Zones_1_et_2
     Zones_1_et_2 = homard.CreateHypothesis('Zones_1_et_2')
     Zones_1_et_2.SetAdapRefinUnRef(0, 1, 0)
-    homard.AssociateHypoZone('Zones_1_et_2', 'Zone_1', 1)
-    homard.AssociateHypoZone('Zones_1_et_2', 'Zone_2', 1)
+    Zones_1_et_2.AddZone('Zone_1', 1)
+    Zones_1_et_2.AddZone('Zone_2', 1)
   #
   # Creation of the cases
   # =====================
@@ -92,34 +111,34 @@ Copyright EDF-R&D 2010
   # Creation of the iterations
   # ==========================
   # Creation of the iteration I1
-    I1 = homard.CreateIteration('I1', Case_1.GetIter0Name() )
+    I1 = Case_1.NextIteration('I1')
     I1.SetMeshName('M1')
     I1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
     I1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
     I1.SetTimeStepRank(1, 1)
-    homard.AssociateIterHypo('I1', 'a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    I1.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
     error = I1.Compute(1)
     if error :
       error = 1
       break
 
   # Creation of the iteration I2
-    I2 = homard.CreateIteration('I2', 'I1')
+    I2 = I1.NextIteration('I2')
     I2.SetMeshName('M2')
     I2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
     I2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
     I2.SetTimeStepRank(1, 1)
-    homard.AssociateIterHypo('I2', 'a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    I2.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
     error = I2.Compute(1)
     if error :
       error = 2
       break
 
   # Creation of the iteration I3
-    I3 = homard.CreateIteration('I3', 'I2')
+    I3 = I2.NextIteration('I3')
     I3.SetMeshName('M3')
     I3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    homard.AssociateIterHypo('I3', 'Zones_1_et_2')
+    I3.AssociateHypo('Zones_1_et_2')
     error = I3.Compute(1)
     if error :
       error = 3
@@ -129,7 +148,7 @@ Copyright EDF-R&D 2010
   #
     return error
 
-######################################################################################
+#========================================================================
 
 homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert homard is not None, "Impossible to load homard engine"
@@ -187,6 +206,8 @@ for num in range(nblign) :
        message_erreur += "\nThe test is different from the reference."
        raise Exception(message_erreur)
        sys.exit(10)
+#
+remove_dir(Rep_Test_Resu)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

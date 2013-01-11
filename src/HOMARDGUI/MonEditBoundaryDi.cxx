@@ -96,7 +96,7 @@ void MonEditBoundaryDi::SetFiltrage()
                               QObject::tr("HOM_BOUN_CASE") );
     return;
   }
-  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
 
   MonEditListGroup *aDlg = new MonEditListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),

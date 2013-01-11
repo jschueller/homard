@@ -21,17 +21,6 @@ Méthodes de la classe homard
 |                                                               |
 |     - ``hypo_name`` : le nom de l'hypothèse                   |
 +---------------------------------------------------------------+
-| .. module:: AssociateHypoZone                                 |
-|                                                               |
-| **AssociateHypoZone(hypo_name, zone_name, type_use)**         |
-|                                                               |
-|     - ``hypo_name`` : le nom de l'hypothèse                   |
-|     - ``zone_name`` : le nom de la zone à associer            |
-|     - ``type_use``  : entier précisant l'usage de la zone     |
-|                                                               |
-|         * 1 : raffinement                                     |
-|         * -1 : déraffinement                                  |
-+---------------------------------------------------------------+
 | .. module:: GetHypothesis                                     |
 |                                                               |
 | **GetHypothesis(hypo_name)**                                  |
@@ -40,9 +29,9 @@ Méthodes de la classe homard
 |                                                               |
 |     - ``hypo_name`` : le nom de l'hypothèse                   |
 +---------------------------------------------------------------+
-| .. module:: GetAllHypotheses                                  |
+| .. module:: GetAllHypothesesName                              |
 |                                                               |
-| **GetAllHypotheses()**                                        |
+| **GetAllHypothesesName()**                                    |
 |     Retourne la liste des noms de toutes les hypothèses créées|
 |                                                               |
 +---------------------------------------------------------------+
@@ -194,6 +183,24 @@ Les composantes du champ
 | **GetListComp()**                                             |
 |     Retourne la liste des composantes utilisées               |
 +---------------------------------------------------------------+
+
+
+Les zones
+^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: AddZone                                           |
+|                                                               |
+| **AddZone(zone_name, type_use)**                              |
+|                                                               |
+|     - ``zone_name`` : le nom de la zone à ajouter             |
+|     - ``type_use``  : entier précisant l'usage de la zone     |
+|                                                               |
+|         * 1 : raffinement                                     |
+|         * -1 : déraffinement                                  |
++---------------------------------------------------------------+
+
 
 Le filtrage par les groupes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

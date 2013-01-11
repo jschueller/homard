@@ -29,17 +29,17 @@ using namespace std;
 // ------------------------------------------------------------------------
 MonEditBoundaryAn::MonEditBoundaryAn( MonCreateCase* parent, bool modal,
                           HOMARD::HOMARD_Gen_var myHomardGen,
-                          QString caseName, QString zoneName ):
+                          QString caseName, QString boundaryName ):
 // ------------------------------------------------------------------------
 /* Constructs a MonEditBoundaryAn
     herite de MonCreateBoundaryAn
 */
     MonCreateBoundaryAn(parent, myHomardGen, caseName)
 {
-    MESSAGE("Debut de MonEditBoundaryAn pour " << zoneName.toStdString().c_str());
+    MESSAGE("Debut de MonEditBoundaryAn pour " << boundaryName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_BOUN_A_EDIT_WINDOW_TITLE"));
-    _aBoundaryAnName=zoneName;
-    aBoundaryAn = _myHomardGen->GetBoundary(_aBoundaryAnName.toStdString().c_str());
+    _aName=boundaryName;
+    aBoundaryAn = _myHomardGen->GetBoundary(_aName.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------------------------------------------------
@@ -52,13 +52,13 @@ MonEditBoundaryAn::~MonEditBoundaryAn()
 void MonEditBoundaryAn::InitValEdit()
 // ------------------------------------------------------------------------
 {
-  LEBoundaryName->setText(_aBoundaryAnName);
+  LEBoundaryName->setText(_aName);
   LEBoundaryName->setReadOnly(true);
-  _BoundaryType = aBoundaryAn->GetBoundaryType();
-  MESSAGE("_BoundaryType : "<<_BoundaryType);
+  _Type = aBoundaryAn->GetType();
+  MESSAGE("_Type : "<<_Type);
   InitValBoundaryAnLimit();
   if (_aCaseName != QString("")) InitValBoundaryAn();
-  switch (_BoundaryType)
+  switch (_Type)
   {
     case 1 : // il s agit d un cylindre
     {
@@ -117,7 +117,7 @@ void MonEditBoundaryAn::SetCylinder()
   gBSphere->setVisible(0);
   RBCylindre->setChecked(1);
   adjustSize();
-  _BoundaryType=1;
+  _Type=1;
   RBSphere->setDisabled(true);
   adjustSize();
 
@@ -150,7 +150,7 @@ void MonEditBoundaryAn::SetSphere()
   RBSphere->setChecked(1);
   RBCylindre->setDisabled(true);
   adjustSize();
-  _BoundaryType=2 ;
+  _Type=2 ;
 
   SpinBox_Xcentre->setValue(_BoundaryAnXcentre);
   if ( _Xincr > 0) { SpinBox_Xcentre->setSingleStep(_Xincr); }
@@ -172,7 +172,7 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
 //----------------------------------------------------
 //  Mise a jour des attributs de la BoundaryAn
 {
-  switch (_BoundaryType)
+  switch (_Type)
   {
     case 1 : // il s agit d un cylindre
     {
@@ -185,7 +185,7 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
       break;
     }
   }
-  if (Chgt) _myHomardGen->InvalideBoundary(_aBoundaryAnName.toStdString().c_str());
+  if (Chgt) _myHomardGen->InvalideBoundary(_aName.toStdString().c_str());
   HOMARD_UTILS::updateObjBrowser();
   return true;
 }

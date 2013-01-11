@@ -46,14 +46,18 @@ public:
   void                   SetDirName( const char* NomDir );
   char*                  GetDirName();
 
-  void                   SetName( const char* NomCas );
+  void                   SetName( const char* Name );
   char*                  GetName();
 
   void                   SetConfType( CORBA::Long ConfType );
   CORBA::Long            GetConfType();
 
-  void                   AddIteration( const char* NomIteration );
   char*                  GetIter0Name();
+  HOMARD::HOMARD_Iteration_ptr GetIter0() ;
+
+  HOMARD::HOMARD_Iteration_ptr  NextIteration( const char* Name) ;
+
+  void                   AddIteration( const char* NomIteration );
 
   HOMARD::extrema*       GetBoundingBox();
   void                   SetBoundingBox( const HOMARD::extrema& LesExtremes );

@@ -31,7 +31,7 @@
  */
 //=============================================================================
 HOMARD_Hypothesis::HOMARD_Hypothesis():
-  _NomHypo(""), _NomCasCreation(""),
+  _Name(""), _NomCasCreation(""),
   _TypeAdap(-1), _TypeRaff(0), _TypeDera(0),
   _Field(""),
   _TypeThR(0), _ThreshR(0),
@@ -71,9 +71,9 @@ std::string HOMARD_Hypothesis::GetCaseCreation() const
 /*!
 */
 //=============================================================================
-void HOMARD_Hypothesis::SetName( const char* NomHypo )
+void HOMARD_Hypothesis::SetName( const char* Name )
 {
-  _NomHypo = std::string( NomHypo );
+  _Name = std::string( Name );
 }
 
 //=============================================================================
@@ -82,22 +82,22 @@ void HOMARD_Hypothesis::SetName( const char* NomHypo )
 //=============================================================================
 std::string HOMARD_Hypothesis::GetName() const
 {
-  return _NomHypo;
+  return _Name;
 }
 //=============================================================================
 std::string HOMARD_Hypothesis::GetDumpPython() const
 {
   std::ostringstream aScript;
-  aScript << "\n# Creation of the hypothesis " << _NomHypo << "\n" ;
-  aScript << "\t" << _NomHypo << " = homard.CreateHypothesis(\"" << _NomHypo << "\")\n";
-  aScript << "\t" << _NomHypo << ".SetAdapRefinUnRef(" << _TypeAdap << ", " << _TypeRaff << ", " << _TypeDera << ")\n";
+  aScript << "\n# Creation of the hypothesis " << _Name << "\n" ;
+  aScript << "\t" << _Name << " = homard.CreateHypothesis(\"" << _Name << "\")\n";
+  aScript << "\t" << _Name << ".SetAdapRefinUnRef(" << _TypeAdap << ", " << _TypeRaff << ", " << _TypeDera << ")\n";
 
 // Raffinement selon des zones geometriques
   std::list<std::string>::const_iterator it = _ListZone.begin();
   int TypeUse ;
   while(it != _ListZone.end())
   {
-      aScript << "\thomard.AssociateHypoZone(\""<< _NomHypo << "\", \"" << *it;
+      aScript << "\t" << _Name << ".AddZone(\"" << *it;
       it++;
       if ( *it == "1" ) { TypeUse =  1 ; }
       else              { TypeUse = -1 ; }
@@ -108,55 +108,55 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
 // Raffinement selon un champ
   if ( _TypeAdap == 1 )
   {
-    aScript << "\t" << _NomHypo << ".SetField(\"" << _Field << "\")\n";
-    aScript << "\t" << _NomHypo << ".SetUseField(" << _UsField << ")\n";
-    aScript << "\t" << _NomHypo << ".SetUseComp(" << _UsCmpI << ")\n";
+    aScript << "\t" << _Name << ".SetField(\"" << _Field << "\")\n";
+    aScript << "\t" << _Name << ".SetUseField(" << _UsField << ")\n";
+    aScript << "\t" << _Name << ".SetUseComp(" << _UsCmpI << ")\n";
     std::list<std::string>::const_iterator it_comp = _ListComposant.begin();
     while(it_comp != _ListComposant.end())
     {
-      aScript << "\t" << _NomHypo << ".AddComp(\"" << *it_comp << "\")\n";
+      aScript << "\t" << _Name << ".AddComp(\"" << *it_comp << "\")\n";
       it_comp++;
     }
     if ( _TypeRaff == 1 )
     {
-      aScript << "\t" << _NomHypo << ".SetRefinThr(" << _TypeThR << ", " << _ThreshR << ")\n";
+      aScript << "\t" << _Name << ".SetRefinThr(" << _TypeThR << ", " << _ThreshR << ")\n";
     }
     if ( _TypeDera == 1 )
     {
-      aScript << "\t" << _NomHypo << ".SetUnRefThr(" << _TypeThC << ", " << _ThreshC << ")\n";
+      aScript << "\t" << _Name << ".SetUnRefThr(" << _TypeThC << ", " << _ThreshC << ")\n";
     }
   }
 
 // Filtrage du raffinement par des groupes
    for ( it=_ListGroupSelected.begin(); it!=_ListGroupSelected.end();it++)
-       aScript << "\t" << _NomHypo << ".AddGroup(\""  << (*it) <<  "\")\n" ;
+       aScript << "\t" << _Name << ".AddGroup(\""  << (*it) <<  "\")\n" ;
 
 // Interpolation champ
-  aScript << "\t" << _NomHypo << ".SetTypeFieldInterp(" << _TypeFieldInterp << ")\n";
+  aScript << "\t" << _Name << ".SetTypeFieldInterp(" << _TypeFieldInterp << ")\n";
   if ( _TypeFieldInterp == 2 )
   {
     std::list<std::string>::const_iterator it_champ = _ListFieldInterp.begin();
     while(it_champ != _ListFieldInterp.end())
     {
-      aScript << "\t" << _NomHypo << ".AddFieldInterp(\"" << *it_champ << "\")\n";
+      aScript << "\t" << _Name << ".AddFieldInterp(\"" << *it_champ << "\")\n";
       it_champ++;
     }
   }
   if ( _NivMax > 0 )
   {
-    aScript << "\t" <<_NomHypo << ".SetNivMax(" << _NivMax << ")\n";
+    aScript << "\t" <<_Name << ".SetNivMax(" << _NivMax << ")\n";
   }
   if ( _DiamMin > 0 )
   {
-    aScript << "\t" <<_NomHypo << ".SetDiamMin(" << _DiamMin << ")\n";
+    aScript << "\t" <<_Name << ".SetDiamMin(" << _DiamMin << ")\n";
   }
   if ( _AdapInit != 0 )
   {
-    aScript << "\t" <<_NomHypo << ".SetAdapInit(" << _AdapInit << ")\n";
+    aScript << "\t" <<_Name << ".SetAdapInit(" << _AdapInit << ")\n";
   }
   if ( _LevelOutput != 0 )
   {
-    aScript << "\t" <<_NomHypo << ".SetLevelOutput(" << _LevelOutput << ")\n";
+    aScript << "\t" <<_Name << ".SetLevelOutput(" << _LevelOutput << ")\n";
   }
 
   return aScript.str();

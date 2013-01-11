@@ -117,12 +117,12 @@ void MonCreateCase::InitBoundarys()
 // Pour les frontieres discretes : la liste a saisir
 // Pour les frontieres analytiques : les colonnes de chaque frontiere
   HOMARD::HOMARD_Boundary_var myBoundary ;
-  HOMARD::listeBoundarys_var  mesBoundarys = _myHomardGen->GetAllBoundarys();
+  HOMARD::listeBoundarys_var  mesBoundarys = _myHomardGen->GetAllBoundarysName();
 //   MESSAGE("Nombre de frontieres enregistrees : "<<mesBoundarys->length());
   for (int i=0; i<mesBoundarys->length(); i++)
   {
     myBoundary = _myHomardGen->GetBoundary(mesBoundarys[i]);
-    int type_obj = myBoundary->GetBoundaryType() ;
+    int type_obj = myBoundary->GetType() ;
     if ( type_obj==0 ) { CBBoundaryDi->addItem(QString(mesBoundarys[i])); }
     else               { addBoundaryAn(QString(mesBoundarys[i])); }
   }
@@ -227,7 +227,7 @@ bool MonCreateCase::PushOnApply()
                                 QString(CORBA::string_dup(S_ex.details.text)) );
       try
       {
-          aCase = _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+          aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
           string iter0 = aCase->GetIter0Name();
           HOMARD::HOMARD_Iteration_var aIter =  _myHomardGen->GetIteration(iter0.c_str());
           QString aFileName = aIter->GetMeshFile();
@@ -307,7 +307,7 @@ void MonCreateCase::PushOnHelp()
 void MonCreateCase::SetNewCaseName()
 // ------------------------------
 {
-  HOMARD::listeCases_var  MyCases = _myHomardGen->GetAllCases();
+  HOMARD::listeCases_var  MyCases = _myHomardGen->GetAllCasesName();
   int num = 0; QString aCaseName="";
   while (aCaseName=="" )
   {

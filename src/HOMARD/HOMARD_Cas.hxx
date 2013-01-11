@@ -35,7 +35,7 @@ public:
   HOMARD_Cas();
   ~HOMARD_Cas();
 
-  void                          SetName( const char* NomCas );
+  void                          SetName( const char* Name );
   std::string                   GetName() const;
 
   void                          SetDirName( const char* NomDir );
@@ -71,7 +71,7 @@ public:
   const int                     GetPyram() const;
 
 private:
-  std::string                   _NomCas;
+  std::string                   _Name;
   std::string                   _NomDir;
   int                           _ConfType;
 

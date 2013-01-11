@@ -63,10 +63,10 @@ HOMARD_Boundary_i::~HOMARD_Boundary_i()
 /*!
  */
 //=============================================================================
-void HOMARD_Boundary_i::SetName( const char* NomBoundary )
+void HOMARD_Boundary_i::SetName( const char* Name )
 {
   ASSERT( myHomardBoundary );
-  myHomardBoundary->SetName( NomBoundary );
+  myHomardBoundary->SetName( Name );
 }
 
 //=============================================================================
@@ -85,17 +85,17 @@ char* HOMARD_Boundary_i::GetDumpPython()
 
 
 //=============================================================================
-void HOMARD_Boundary_i::SetBoundaryType( CORBA::Long BoundaryType )
+void HOMARD_Boundary_i::SetType( CORBA::Long Type )
 {
   ASSERT( myHomardBoundary );
-  myHomardBoundary->SetBoundaryType( BoundaryType );
+  myHomardBoundary->SetType( Type );
 }
 
 //=============================================================================
-CORBA::Long HOMARD_Boundary_i::GetBoundaryType()
+CORBA::Long HOMARD_Boundary_i::GetType()
 {
   ASSERT( myHomardBoundary );
-  return  CORBA::Long( myHomardBoundary->GetBoundaryType() );
+  return  CORBA::Long( myHomardBoundary->GetType() );
 }
 
 //=============================================================================

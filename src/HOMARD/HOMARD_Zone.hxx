@@ -35,7 +35,7 @@ public:
   HOMARD_Zone();
   ~HOMARD_Zone();
 
-  void                          SetName( const char* NomZone );
+  void                          SetName( const char* Name );
   std::string                   GetName() const;
   std::string                   GetDumpPython() const;
 
@@ -53,8 +53,8 @@ public:
   void                          SetLimit( double X0, double X1, double X2 );
   std::vector<double>           GetLimit() const;
 
-  void                          SetZoneType( int ZoneType );
-  int                           GetZoneType() const;
+  void                          SetType( int Type );
+  int                           GetType() const;
 
   void                          AddHypo( const char* NomHypo );
   void                          SupprHypo( const char* NomHypo );
@@ -62,8 +62,8 @@ public:
   void                          SupprHypos();
 
 private:
-  std::string                   _NomZone;
-  int                           _ZoneType;
+  std::string                   _Name;
+  int                           _Type;
   std::list<std::string>        _ListHypo;
   double                        _Xmin, _Xmax, _Ymin, _Ymax, _Zmin, _Zmax;
   double                        _Xcentre, _Ycentre, _Zcentre, _Rayon, _Rayonint;

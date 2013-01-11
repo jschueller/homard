@@ -74,10 +74,10 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
 /*!
  */
 //=============================================================================
-void HOMARD_Cas_i::SetName( const char* NomCas )
+void HOMARD_Cas_i::SetName( const char* Name )
 {
   ASSERT( myHomardCas );
-  myHomardCas->SetName( NomCas );
+  myHomardCas->SetName( Name );
 }
 
 //=============================================================================
@@ -128,17 +128,39 @@ CORBA::Long HOMARD_Cas_i::GetConfType()
 }
 
 //=============================================================================
-void HOMARD_Cas_i::AddIteration( const char* NomIteration )
-{
-  ASSERT( myHomardCas );
-  myHomardCas->AddIteration( NomIteration );
-}
-
-//=============================================================================
 char* HOMARD_Cas_i::GetIter0Name()
 {
   ASSERT( myHomardCas );
   return CORBA::string_dup( myHomardCas->GetIter0Name().c_str() );
+}
+//=============================================================================
+HOMARD::HOMARD_Iteration_ptr HOMARD_Cas_i::GetIter0()
+{
+// Nom de l'iteration parent
+  char* Iter0Name = GetIter0Name() ;
+  MESSAGE ( "GetIter0 : Iter0Name      = " << Iter0Name );
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+  return _gen_i->GetIteration(Iter0Name) ;
+}
+
+//=============================================================================
+HOMARD::HOMARD_Iteration_ptr HOMARD_Cas_i::NextIteration( const char* IterName )
+{
+// Nom de l'iteration parent
+  char* NomIterParent = GetIter0Name() ;
+  MESSAGE ( "NextIteration : IterName      = " << IterName );
+  MESSAGE ( "NextIteration : NomIterParent = " << NomIterParent );
+// On passe par la methode sur l'objet HOMARD
+// Il serait plus elegant de tout faire ici, mais il est complexe de passer tout le contexte
+  return _gen_i->CreateIteration(IterName, NomIterParent) ;
+}
+
+//=============================================================================
+void HOMARD_Cas_i::AddIteration( const char* NomIteration )
+{
+  ASSERT( myHomardCas );
+  myHomardCas->AddIteration( NomIteration );
 }
 //=============================================================================
 HOMARD::extrema* HOMARD_Cas_i::GetBoundingBox()

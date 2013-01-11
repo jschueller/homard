@@ -63,10 +63,10 @@ HOMARD_Zone_i::~HOMARD_Zone_i()
 /*!
  */
 //=============================================================================
-void HOMARD_Zone_i::SetName( const char* NomZone )
+void HOMARD_Zone_i::SetName( const char* Name )
 {
   ASSERT( myHomardZone );
-  myHomardZone->SetName( NomZone );
+  myHomardZone->SetName( Name );
 }
 
 //=============================================================================
@@ -85,17 +85,17 @@ char* HOMARD_Zone_i::GetDumpPython()
 
 
 //=============================================================================
-void HOMARD_Zone_i::SetZoneType( CORBA::Long ZoneType )
+void HOMARD_Zone_i::SetType( CORBA::Long Type )
 {
   ASSERT( myHomardZone );
-  myHomardZone->SetZoneType( ZoneType );
+  myHomardZone->SetType( Type );
 }
 
 //=============================================================================
-CORBA::Long HOMARD_Zone_i::GetZoneType()
+CORBA::Long HOMARD_Zone_i::GetType()
 {
   ASSERT( myHomardZone );
-  return  CORBA::Long( myHomardZone->GetZoneType() );
+  return  CORBA::Long( myHomardZone->GetType() );
 }
 
 //=============================================================================
