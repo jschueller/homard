@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_ITERATION_I_HXX_
 #define _HOMARD_ITERATION_I_HXX_
@@ -44,20 +53,26 @@ public:
 
   virtual ~HOMARD_Iteration_i();
 
+// Generalites
   void                   SetName( const char* Name );
   char*                  GetName();
 
-  HOMARD::HOMARD_Iteration_ptr NextIteration( const char* Name) ;
+  CORBA::Long            Delete();
 
-  void                   SetIterParentName( const char* NomIterParent );
-  char*                  GetIterParentName();
-  HOMARD::HOMARD_Iteration_ptr GetIterParent() ;
+  char*                  GetDumpPython();
 
-  void                   SetEtat( CORBA::Boolean etat );
-  CORBA::Boolean         GetEtat();
+  std::string            Dump() const;
+  bool                   Restore( const std::string& stream );
+
+// Caracteristiques
+  void                   SetDirName( const char* NomDir );
+  char*                  GetDirName();
 
   void                   SetNumber( CORBA::Long NumIter );
   CORBA::Long            GetNumber();
+
+  void                   SetEtat( CORBA::Boolean etat );
+  CORBA::Boolean         GetEtat();
 
   void                   SetMeshName( const char* NomMesh );
   char*                  GetMeshName();
@@ -74,26 +89,26 @@ public:
   void                   SetMessFile( const char* MessFile );
   char*                  GetMessFile();
 
-  void                   AddIteration( const char* NomIteration );
+  CORBA::Long            Compute(CORBA::Long etatMenage);
+
+// Liens avec les autres iterations
+  HOMARD::HOMARD_Iteration_ptr NextIteration( const char* Name) ;
+
+  void                   LinkNextIteration( const char* NomIteration );
+  void                   UnLinkNextIteration( const char* NomIteration );
   HOMARD::listeIterFilles* GetIterations();
 
+  void                   SetIterParentName( const char* NomIterParent );
+  char*                  GetIterParentName();
+  HOMARD::HOMARD_Iteration_ptr GetIterParent() ;
+
+// Liens avec les autres structures
   void                   SetCaseName( const char* NomCas );
   char*                  GetCaseName();
 
-  void                   SetDirName( const char* NomDir );
-  char*                  GetDirName();
-
   void                   AssociateHypo( const char* NomHypo);
-
   void                   SetHypoName( const char* NomHypo );
   char*                  GetHypoName();
-
-  CORBA::Long            Compute(CORBA::Long etatMenage);
-
-  std::string            Dump() const;
-  bool                   Restore( const std::string& stream );
-
-  char*                  GetDumpPython();
 
 private:
   ::HOMARD_Iteration*    myHomardIteration;

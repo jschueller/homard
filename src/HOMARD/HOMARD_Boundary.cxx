@@ -21,6 +21,15 @@
 //  File   : HOMARD_Boundary.cxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Boundary.hxx"
 #include "utilities.h"
@@ -45,19 +54,20 @@ HOMARD_Boundary::~HOMARD_Boundary()
 {
   MESSAGE("~HOMARD_Boundary");
 }
-
+//=============================================================================
+//=============================================================================
+// Generalites
+//=============================================================================
 //=============================================================================
 void HOMARD_Boundary::SetName( const char* Name )
 {
   _Name = std::string( Name );
 }
-
 //=============================================================================
 std::string HOMARD_Boundary::GetName() const
 {
   return _Name;
 }
-
 //=============================================================================
 std::string HOMARD_Boundary::GetDumpPython() const
 {
@@ -92,29 +102,19 @@ std::string HOMARD_Boundary::GetDumpPython() const
 
   return aScript.str();
 }
-
-
+//=============================================================================
+//=============================================================================
+// Caracteristiques
+//=============================================================================
 //=============================================================================
 void HOMARD_Boundary::SetType( int Type )
 {
   _Type = Type;
 }
-
 //=============================================================================
 int HOMARD_Boundary::GetType() const
 {
   return _Type;
-}
-
-//=============================================================================
-void HOMARD_Boundary::SetMeshFile( const char* MeshFile )
-{
-  _MeshFile = std::string( MeshFile );
-}
-//=============================================================================
-std::string HOMARD_Boundary::GetMeshFile() const
-{
-  return _MeshFile;
 }
 //=============================================================================
 void HOMARD_Boundary::SetMeshName( const char* MeshName )
@@ -126,10 +126,15 @@ std::string HOMARD_Boundary::GetMeshName() const
 {
   return _MeshName;
 }
-//======================================================================
-void HOMARD_Boundary::SetLimit( double X0, double X1, double X2 )
+//=============================================================================
+void HOMARD_Boundary::SetMeshFile( const char* MeshFile )
 {
-  _Xincr = X0; _Yincr = X1; _Zincr = X2;
+  _MeshFile = std::string( MeshFile );
+}
+//=============================================================================
+std::string HOMARD_Boundary::GetMeshFile() const
+{
+  return _MeshFile;
 }
 //=======================================================================================
 void HOMARD_Boundary::SetCylinder( double X0, double X1, double X2,
@@ -140,24 +145,12 @@ void HOMARD_Boundary::SetCylinder( double X0, double X1, double X2,
   _Yaxe = X4; _Zaxe = X5;
   _rayon = X6;
 }
-
 //======================================================================
 void HOMARD_Boundary::SetSphere( double X0, double X1, double X2, double X3 )
 {
   _Xcentre = X0; _Ycentre = X1; _Zcentre = X2;
   _rayon = X3;
 }
-
-//=======================================================================================
-std::vector<double> HOMARD_Boundary::GetLimit() const
-{
-  std::vector<double> mesLimit;
-  mesLimit.push_back( _Xincr );
-  mesLimit.push_back( _Yincr );
-  mesLimit.push_back( _Zincr );
-  return mesLimit;
-}
-
 //=======================================================================================
 std::vector<double> HOMARD_Boundary::GetCoords() const
 {
@@ -190,22 +183,24 @@ std::vector<double> HOMARD_Boundary::GetCoords() const
   }
   return mesCoor;
 }
-//=============================================================================
-/*!
- */
-//=============================================================================
-void HOMARD_Boundary::SetCaseCreation( const char* NomCasCreation )
+//======================================================================
+void HOMARD_Boundary::SetLimit( double X0, double X1, double X2 )
 {
-  _NomCasCreation = std::string( NomCasCreation );
+  _Xincr = X0; _Yincr = X1; _Zincr = X2;
 }
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-const std::list<std::string>& HOMARD_Boundary::GetGroups() const
+//=======================================================================================
+std::vector<double> HOMARD_Boundary::GetLimit() const
 {
-  return _ListGroupSelected;
+  std::vector<double> mesLimit;
+  mesLimit.push_back( _Xincr );
+  mesLimit.push_back( _Yincr );
+  mesLimit.push_back( _Zincr );
+  return mesLimit;
+}
+//=============================================================================
+void HOMARD_Boundary::AddGroup( const char* Group)
+{
+  _ListGroupSelected.push_back(Group);
 }
 //=============================================================================
 void HOMARD_Boundary::SetGroups( const std::list<std::string>& ListGroup )
@@ -216,14 +211,19 @@ void HOMARD_Boundary::SetGroups( const std::list<std::string>& ListGroup )
     _ListGroupSelected.push_back((*it++));
 }
 //=============================================================================
-void HOMARD_Boundary::AddGroup( const char* Group)
+const std::list<std::string>& HOMARD_Boundary::GetGroups() const
 {
-  _ListGroupSelected.push_back(Group);
+  return _ListGroupSelected;
 }
-
 //=============================================================================
-/*!
-*/
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
+//=============================================================================
+void HOMARD_Boundary::SetCaseCreation( const char* NomCasCreation )
+{
+  _NomCasCreation = std::string( NomCasCreation );
+}
 //=============================================================================
 std::string HOMARD_Boundary::GetCaseCreation() const
 {

@@ -64,31 +64,69 @@ Ces méthodes retournent une instance de la classe boundary.
 |                                                               |
 +---------------------------------------------------------------+
 
+Méthodes de la classe cas
+"""""""""""""""""""""""""
+Voir également dans dans :ref:`tui_create_case`.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: AddBoundaryGroup                                  |
+|                                                               |
+| **AddBoundaryGroup(boundary, group)**                         |
+|     Ajoute une frontière à la définition du cas               |
+|                                                               |
+|     - ``boundary`` : nom d'une frontière courbe à suivre      |
+|                                                               |
+|     Pour une frontière discrète :                             |
+|                                                               |
+|     . si toutes les lignes courbes sont suivies, le second    |
+|       argument est une chaîne vide.                           |
+|     . si seulement certaines lignes courbes sont suivies,     |
+|       ``group`` est le nom d'un groupe de segments à suivre.  |
+|                                                               |
+|     Pour une frontière analytique :                           |
+|                                                               |
+|     - ``group`` : nom d'un groupe de faces placées sur la     |
+|       frontière                                               |
++---------------------------------------------------------------+
+
 Méthodes de la classe boundary
 """"""""""""""""""""""""""""""
 
-+-------------------------------------------------------------------+
-+-------------------------------------------------------------------+
-| .. module:: GetName                                               |
-|                                                                   |
-| **GetName()**                                                     |
-|     Retourne le nom de la frontière                               |
-+-------------------------------------------------------------------+
-| .. module:: GetType                                               |
-|                                                                   |
-| **GetType()**                                                     |
-|     Retourne le type de la frontière :                            |
-|                                                                   |
-|         * 0 : discrète                                            |
-|         * 1 : cylindre                                            |
-|         * 2 : sphère                                              |
-+-------------------------------------------------------------------+
-| .. module:: GetCoords                                             |
-|                                                                   |
-| **GetCoords()**                                                   |
-|     Retourne un tableau contenant les coordonnées de la frontière |
-|     dans l'ordre d'entrée dans le CreateBoundaryXXXX associé      |
-+-------------------------------------------------------------------+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: GetName                                           |
+|                                                               |
+| **GetName()**                                                 |
+|     Retourne le nom de la frontière                           |
++---------------------------------------------------------------+
+| .. module:: GetType                                           |
+|                                                               |
+| **GetType()**                                                 |
+|     Retourne le type de la frontière :                        |
+|                                                               |
+|         * 0 : discrète                                        |
+|         * 1 : cylindre                                        |
+|         * 2 : sphère                                          |
++---------------------------------------------------------------+
+| .. module:: GetCoords                                         |
+|                                                               |
+| **GetCoords()**                                               |
+|     Retourne un tableau contenant les coordonnées de la       |
+|     frontière dans l'ordre d'entrée dans le CreateBoundaryXXXX|
+|     associé                                                   |
++---------------------------------------------------------------+
+| .. index:: single: Delete                                     |
+|                                                               |
+| **Delete()**                                                  |
+|     Detruit la frontière.                                     |
+|     Pour une frontière discrète, le fichier du maillage       |
+|     associé est conservé.                                     |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 
 
 Exemple

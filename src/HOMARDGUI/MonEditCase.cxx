@@ -150,7 +150,7 @@ void MonEditCase::InitValEdit()
         {
           ListeFron.append(NomFron);
           ok = ListeFron.size() ;
-          addBoundaryAn(NomFron);
+          AddBoundaryAn(NomFron);
         }
 //          on coche la case correspondant au couple (frontiere,groupe) en cours d'examen
         TWBoundary->item( 0, ok )->setCheckState( Qt::Checked );

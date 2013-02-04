@@ -41,21 +41,27 @@ extern "C"
 
 
 // ============================================================================
-QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int grave )
+QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
 // ============================================================================
-// Regarde si l'objet selectionne correspond a un objet de tyoe
-// commentaire. si c'est le cas, retourne le nom de  cet objet,
-// sinon retourne une QString("")
-// Si grave = 0, ce n'est pas grave de ne rien trouver et pas de message
-// Si grave = 1, ce n'est pas grave de ne rien trouver mais on emet un message
+// Retourne l'objet selectionne dans l'arbre d'etudes
+// commentaire :
+// . si le commentaire est une chaine vide, on ne tient pas compte du type de l'objet
+//   et on retourne le nom de cet objet
+// . sinon :
+//   . si l'objet est du type defini par commentaitr, retourne le nom de cet objet
+//   . sinon on retourne une QString("")
+// option :
+// . Si option = 0, ce n'est pas grave de ne rien trouver ; aucun message n'est emis
+// . Si option = 1, ce n'est pas grave de ne rien trouver mais on emet un message
 {
+  MESSAGE("SelectionArbreEtude : commentaire = " << commentaire.toStdString().c_str() << " et option = " << option);
   int nbSel = HOMARD_UTILS::IObjectCount() ;
   if ( nbSel == 0 )
   {
-    if ( grave == 1 )
+    if ( option == 1 )
     {
       QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                                QObject::tr("HOM_SELECT_OBJECT_1") );
+                               QObject::tr("HOM_SELECT_OBJECT_1") );
     }
     return QString("");
   }
@@ -74,14 +80,19 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int grave )
     _PTR(GenericAttribute) anAttr;
     if (aSO->FindAttribute(anAttr, "AttributeComment") )
     {
-      _PTR(AttributeComment) attributComment = anAttr;
-      QString aComment= QString(attributComment->Value().data());
-      int iteration = aComment.lastIndexOf(commentaire);
-      if ( iteration !=0  )
+      if ( commentaire != "" )
       {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr("HOM_SELECT_OBJECT_3").arg(commentaire) );
-        return QString("");
+        _PTR(AttributeComment) attributComment = anAttr;
+        QString aComment= QString(attributComment->Value().data());
+        MESSAGE("... aComment = " << aComment.toStdString().c_str());
+        int iaux = aComment.lastIndexOf(commentaire);
+        MESSAGE("... iaux = " << iaux);
+        if ( iaux !=0  )
+        {
+          QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                    QObject::tr("HOM_SELECT_OBJECT_3").arg(commentaire) );
+          return QString("");
+        }
       }
       if (aSO->FindAttribute(anAttr, "AttributeName") )
       {
@@ -139,7 +150,7 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
 // 2) retourne le nom du fichier asocie a l objet
 //    selectionne dans l arbre d etude
 {
-  MESSAGE("HOMARD_QT_COMMUN::PushNomFichier");
+  MESSAGE("PushNomFichier");
   QString aFile=QString::null;
   int nbSel = HOMARD_UTILS::IObjectCount() ;
   if ( nbSel == 0 )
@@ -276,7 +287,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeChamps(QString aFile)
 {
 // Il faut voir si plusieurs maillages
 
-  MESSAGE("HOMARD_QT_COMMUN::GetListeChamps");
+  MESSAGE("GetListeChamps");
   std::list<QString> ListeChamp;
 
   char *comp, *unit;
@@ -373,7 +384,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeComposants(QString aFile, QString a
       MEDfileClose(medIdt);
       return ListeComposants;
     }
-    
+
     if ( QString(nomcha) != aChamp ) {
       free(comp);
       free(unit);

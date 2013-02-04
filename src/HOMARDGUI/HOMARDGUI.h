@@ -17,7 +17,7 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-//  HOMARDGUI : HOMARD component GUI implemetation 
+//  HOMARDGUI : HOMARD component GUI implemetation
 //
 
 #ifndef _HOMARDGUI_H_
@@ -36,7 +36,7 @@
 
 class SalomeApp_Application;
 
-class HOMARDGUI: public SalomeApp_Module 
+class HOMARDGUI: public SalomeApp_Module
 {
   Q_OBJECT
 
@@ -61,14 +61,11 @@ public slots:
 
 private slots:
     void OnGUIEvent();
-    void EditBoDi();
-    void EditZone();
-    void EditHypo();
-    void EditIter();
-    void EditCase();
     void EditAsciiFile();
     void LanceCalcul();
     void NextIter();
+    void Edit();
+    void Delete();
     void XmGraceFichier();
 
 public:

@@ -94,10 +94,12 @@ void MonCreateHypothesis::InitConnect()
     connect( CBFieldName,  SIGNAL(activated(int)), this, SLOT( SetFieldName()));
     connect( RBRPE,        SIGNAL(clicked()), this, SLOT(SetRPE()));
     connect( RBRRel,       SIGNAL(clicked()), this, SLOT(SetRRel()));
+    connect( RBRMuSigma,   SIGNAL(clicked()), this, SLOT(SetRMS()));
     connect( RBRAbs,       SIGNAL(clicked()), this, SLOT(SetRAbs()));
     connect( RBRNo,        SIGNAL(clicked()), this, SLOT(SetRNo()));
     connect( RBCPE,        SIGNAL(clicked()), this, SLOT(SetCPE()));
     connect( RBCRel,       SIGNAL(clicked()), this, SLOT(SetCRel()));
+    connect( RBCMuSigma,   SIGNAL(clicked()), this, SLOT(SetCMS()));
     connect( RBCAbs,       SIGNAL(clicked()), this, SLOT(SetCAbs()));
     connect( RBCNo,        SIGNAL(clicked()), this, SLOT(SetCNo()));
     connect( RBL2,         SIGNAL(clicked()), this, SLOT(SetUCL2()));
@@ -541,6 +543,7 @@ void MonCreateHypothesis::SetRPE()
   SpinBox_RPE->setEnabled(true);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRRel()
@@ -552,6 +555,7 @@ void MonCreateHypothesis::SetRRel()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(true);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRAbs()
@@ -563,6 +567,19 @@ void MonCreateHypothesis::SetRAbs()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(true);
+  SpinBox_RMuSigma->setEnabled(false);
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetRMS()
+// ------------------------------------------------------------------------
+{
+  _aTypeRaff = 1 ;
+  _TypeThR = 4 ;
+  RBRMuSigma->setChecked(true);
+  SpinBox_RPE->setEnabled(false);
+  SpinBox_RRel->setEnabled(false);
+  SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(true);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRNo()
@@ -574,6 +591,7 @@ void MonCreateHypothesis::SetRNo()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCPE()
@@ -585,6 +603,7 @@ void MonCreateHypothesis::SetCPE()
   SpinBox_CPE->setEnabled(true);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCRel()
@@ -596,6 +615,7 @@ void MonCreateHypothesis::SetCRel()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(true);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCAbs()
@@ -607,6 +627,19 @@ void MonCreateHypothesis::SetCAbs()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(true);
+  SpinBox_CMuSigma->setEnabled(false);
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetCMS()
+// ------------------------------------------------------------------------
+{
+  _aTypeDera = 1 ;
+  _TypeThC = 4 ;
+  RBCMuSigma->setChecked(true);
+  SpinBox_CPE->setEnabled(false);
+  SpinBox_CRel->setEnabled(false);
+  SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(true);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCNo()
@@ -618,6 +651,7 @@ void MonCreateHypothesis::SetCNo()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetUCL2()
@@ -717,11 +751,13 @@ void MonCreateHypothesis::AssocieComposants()
   if ( _TypeThR == 1 ) { _ThreshR = SpinBox_RAbs->value();}
   if ( _TypeThR == 2 ) { _ThreshR = SpinBox_RRel->value();}
   if ( _TypeThR == 3 ) { _ThreshR = SpinBox_RPE->value(); }
+  if ( _TypeThR == 4 ) { _ThreshR = SpinBox_RMuSigma->value(); }
 
   _ThreshC = 0;
   if ( _TypeThC == 1 ) { _ThreshC = SpinBox_CAbs->value();}
   if ( _TypeThC == 2 ) { _ThreshC = SpinBox_CRel->value();}
   if ( _TypeThC == 3 ) { _ThreshC = SpinBox_CPE->value(); }
+  if ( _TypeThC == 4 ) { _ThreshC = SpinBox_CMuSigma->value(); }
 
   _aFieldName=CBFieldName->currentText();
   _aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;

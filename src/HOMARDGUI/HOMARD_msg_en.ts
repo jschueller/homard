@@ -8,6 +8,14 @@
         <translation>HOMARD</translation>
     </message>
     <message>
+        <source>HOM_MEN_MODIFICATION</source>
+        <translation>Modification</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_INFORMATION</source>
+        <translation>Information</translation>
+    </message>
+    <message>
         <source>HOM_MEN_NEW_CASE</source>
         <translation>New case</translation>
     </message>
@@ -20,24 +28,12 @@
         <translation>Compute</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_CASE</source>
-        <translation>Edit the case</translation>
+        <source>HOM_MEN_EDIT</source>
+        <translation>Edit</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_ITERATION</source>
-        <translation>Edit the iteration</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_HYPO</source>
-        <translation>Edit the hypothesis</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_ZONE</source>
-        <translation>Edit the zone</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_BOUNDARY</source>
-        <translation>Edit the boundary</translation>
+        <source>HOM_MEN_DELETE</source>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -60,24 +56,12 @@
         <translation>Compute</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_CASE</source>
-        <translation>Edit the case</translation>
+        <source>HOM_TOP_EDIT</source>
+        <translation>Edit</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_ITERATION</source>
-        <translation>Edit the iteration</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_HYPO</source>
-        <translation>Edit the hypothesis</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_ZONE</source>
-        <translation>Edit the zone</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_BOUNDARY</source>
-        <translation>Edit the boundary</translation>
+        <source>HOM_TOP_DELETE</source>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>HOM_TOP_EDIT_MESS_FILE</source>
@@ -100,24 +84,12 @@
         <translation>Compute</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_CASE</source>
-        <translation>Edit the case</translation>
+        <source>HOM_STB_EDIT</source>
+        <translation>Edit</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_ITERATION</source>
-        <translation>Edit the iteration</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_HYPO</source>
-        <translation>Edit the hypothesis</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_ZONE</source>
-        <translation>Edit the zone</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_BOUNDARY</source>
-        <translation>Edit the boundary</translation>
+        <source>HOM_STB_DELETE</source>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>HOM_STB_EDIT_MESS_FILE</source>

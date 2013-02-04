@@ -38,14 +38,23 @@ Méthodes de la classe cas
 |                                                               |
 | **NextIteration(iter_name)**                                  |
 |     Retourne une instance de la classe ``iteration`` après    |
-|     sa création : celle qui suit immédiatement l'itération    |
+|     sa création : elle suit immédiatement l'itération         |
 |     initiale, correspondant au maillage définissant le cas    |
 |                                                               |
-|     - ``iter_name`` : le nom de l'itération                   |
+|     - ``iter_name`` : le nom à donner à la nouvelle itération |
 |                                                               |
 | Par défaut :                                                  |
 |                                                               |
 |  * le maillage produit a le même nom que l'itération          |
++---------------------------------------------------------------+
+| .. module:: LastIteration                                     |
+|                                                               |
+| **LastIteration()**                                           |
+|     Retourne une instance de la classe ``iteration`` : la     |
+|     dernière créée dans la descendance de l'itération initiale|
+|     du cas. C'est celle qui est sans fille. Il y a erreur s'il|
+|     existe plus d'une branche dans la descendance.            |
+|                                                               |
 +---------------------------------------------------------------+
 
 Méthodes de la classe iteration
@@ -62,7 +71,7 @@ Généralités
 |     Retourne une instance de la classe ``iteration`` qui suit |
 |     l'itération courante                                      |
 |                                                               |
-|     - ``iter_name`` : le nom de l'itération                   |
+|     - ``iter_name`` : le nom à donner à la nouvelle itération |
 |                                                               |
 | Par défaut :                                                  |
 |                                                               |
@@ -102,6 +111,14 @@ Généralités
 | **GetIterParent()**                                           |
 |     Retourne l'itération mère                                 |
 +---------------------------------------------------------------+
+| .. module:: LastIteration                                     |
+|                                                               |
+| **LastIteration()**                                           |
+|     Retourne une instance de la classe ``iteration`` : la     |
+|     dernière créée dans la descendance de l'itération. C'est  |
+|     celle qui est sans fille. Il y a erreur s'il existe plus  |
+|     d'une branche dans la descendance.                        |
++---------------------------------------------------------------+
 | .. module:: AssociateHypo                                     |
 |                                                               |
 | **AssociateHypo(hypo_name)**                                  |
@@ -127,11 +144,28 @@ Généralités
 |     - ``0`` : itération non calculée                          |
 |     - ``1`` : itération calculée correctement                 |
 +---------------------------------------------------------------+
+| .. index:: single: Delete                                     |
+|                                                               |
+| **Delete()**                                                  |
+|     Detruit l'itération et toutes ses filles éventuelles. Les |
+|     fichiers des maillages associés sont supprimés.           |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 
 Informations sur les maillages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetMeshName                                       |
+|                                                               |
+| **SetMeshName(mesh_name)**                                    |
+|     Définit le nom du maillage produit                        |
+|                                                               |
+|     - ``mesh_name`` : le nom du maillage produit              |
 +---------------------------------------------------------------+
 | .. module:: GetMeshName                                       |
 |                                                               |

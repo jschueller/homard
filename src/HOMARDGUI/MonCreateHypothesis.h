@@ -106,10 +106,12 @@ public slots:
     virtual void SetRPE();
     virtual void SetRAbs();
     virtual void SetRRel();
+    virtual void SetRMS();
     virtual void SetRNo();
     virtual void SetCPE();
     virtual void SetCAbs();
     virtual void SetCRel();
+    virtual void SetCMS();
     virtual void SetCNo();
     virtual void SetUCL2();
     virtual void SetUCInf();

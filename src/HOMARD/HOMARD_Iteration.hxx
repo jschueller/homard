@@ -21,6 +21,15 @@
 //  File   : HOMARD_Iteration.hxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #ifndef _HOMARD_ITER_HXX_
 #define _HOMARD_ITER_HXX_
@@ -34,21 +43,27 @@ public:
   HOMARD_Iteration();
   ~HOMARD_Iteration();
 
+// Generalites
   void                          SetName( const char* Name );
   std::string                   GetName() const;
+
   std::string                   GetDumpPython() const;
 
-  void                          SetEtat( bool etat );
-  bool                          GetEtat() const;
+// Caracteristiques
+  void                          SetDirName( const char* NomDir );
+  std::string                   GetDirName() const;
 
   void                          SetNumber( int NumIter );
   int                           GetNumber() const;
 
-  void                          SetMeshFile( const char* MeshFile );
-  std::string                   GetMeshFile() const;
+  void                          SetEtat( bool etat );
+  bool                          GetEtat() const;
 
   void                          SetMeshName( const char* NomMesh );
   std::string                   GetMeshName() const;
+
+  void                          SetMeshFile( const char* MeshFile );
+  std::string                   GetMeshFile() const;
 
   void                          SetFieldFile( const char* FieldFile );
   std::string                   GetFieldFile() const;
@@ -56,24 +71,24 @@ public:
   int                           GetTimeStep() const;
   int                           GetRank() const;
 
+  void                          SetMessFile( const char* MessFile );
+  std::string                   GetMessFile() const;
+
+// Liens avec les autres iterations
+  void                          LinkNextIteration( const char* NomIteration );
+  void                          UnLinkNextIteration( const char* NomIteration );
+  void                          UnLinkNextIterations();
+  const std::list<std::string>& GetIterations() const;
+
   void                          SetIterParentName( const char* iterParent );
   std::string                   GetIterParentName() const;
 
-  void                          AddIteration( const char* iter );
-  const std::list<std::string>& GetIterations() const;
-  void                          SupprIterations();
-
-  void                          SetHypoName( const char* NomHypo );
-  std::string                   GetHypoName() const;
-
+// Liens avec les autres structures
   void                          SetCaseName( const char* NomCas );
   std::string                   GetCaseName() const;
 
-  void                          SetDirName( const char* NomDir );
-  std::string                   GetDirName() const;
-
-  void                          SetMessFile( const char* MessFile );
-  std::string                   GetMessFile() const;
+  void                          SetHypoName( const char* NomHypo );
+  std::string                   GetHypoName() const;
 
 private:
   std::string                   _Name;

@@ -420,6 +420,32 @@
             </widget>
            </item>
            <item row="3" column="0">
+            <widget class="QRadioButton" name="RBRMuSigma">
+             <property name="text">
+              <string>Mean + n*(std deviation)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDoubleSpinBox" name="SpinBox_RMuSigma">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="decimals">
+              <number>8</number>
+             </property>
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>1000000000000.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
             <widget class="QRadioButton" name="RBRNo">
              <property name="text">
               <string>No refinement</string>
@@ -526,6 +552,32 @@
             </widget>
            </item>
            <item row="3" column="0">
+            <widget class="QRadioButton" name="RBCMuSigma">
+             <property name="text">
+              <string>Mean - n*(std deviation)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDoubleSpinBox" name="SpinBox_CMuSigma">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="decimals">
+              <number>8</number>
+             </property>
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>1000000000000.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
             <widget class="QRadioButton" name="RBCNo">
              <property name="text">
               <string>No coarsening</string>

@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_ITERATION_IDL
 #define _HOMARD_ITERATION_IDL
@@ -30,19 +39,27 @@ module HOMARD
 
   interface HOMARD_Iteration : Engines::EngineComponent
   {
-    void     SetName(in string NomIter)                    raises (SALOME::SALOME_Exception);
+// Generalites
+    void     SetName(in string Name)                       raises (SALOME::SALOME_Exception);
     string   GetName()                                     raises (SALOME::SALOME_Exception);
 
-    HOMARD_Iteration NextIteration(in string NomIter)      raises (SALOME::SALOME_Exception);
+    long     Delete()                                      raises (SALOME::SALOME_Exception);
 
-    void     SetEtat(in boolean State)                     raises (SALOME::SALOME_Exception);
-    boolean  GetEtat()                                     raises (SALOME::SALOME_Exception);
+    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+
+// Caracteristiques
+    void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
+    string   GetDirName()                                  raises (SALOME::SALOME_Exception);
 
     void     SetNumber(in long NumIter)                    raises (SALOME::SALOME_Exception);
     long     GetNumber()                                   raises (SALOME::SALOME_Exception);
 
+    void     SetEtat(in boolean State)                     raises (SALOME::SALOME_Exception);
+    boolean  GetEtat()                                     raises (SALOME::SALOME_Exception);
+
     void     SetMeshName(in string NomMesh)                raises (SALOME::SALOME_Exception);
     string   GetMeshName()                                 raises (SALOME::SALOME_Exception);
+
     void     SetMeshFile(in string MeshFile)               raises (SALOME::SALOME_Exception);
     string   GetMeshFile()                                 raises (SALOME::SALOME_Exception);
 
@@ -53,31 +70,29 @@ module HOMARD
     long     GetTimeStep()                                 raises (SALOME::SALOME_Exception);
     long     GetRank()                                     raises (SALOME::SALOME_Exception);
 
-    void     SetIterParentName(in string NomIterParent)    raises (SALOME::SALOME_Exception);
-    string   GetIterParentName()                           raises (SALOME::SALOME_Exception);
-    HOMARD_Iteration GetIterParent()                       raises (SALOME::SALOME_Exception);
-
-    void     AddIteration(in string NomIter)               raises (SALOME::SALOME_Exception);
-
-    void     AssociateHypo(in string NomHypo)              raises (SALOME::SALOME_Exception);
-
-    void     SetHypoName(in string NomHypo)                raises (SALOME::SALOME_Exception);
-    string   GetHypoName()                                 raises (SALOME::SALOME_Exception);
-
-    void     SetCaseName(in string NomCas)                 raises (SALOME::SALOME_Exception);
-    string   GetCaseName()                                 raises (SALOME::SALOME_Exception);
-
-    void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
-    string   GetDirName()                                  raises (SALOME::SALOME_Exception);
-
-    listeIterFilles GetIterations()                        raises (SALOME::SALOME_Exception);
-
     void     SetMessFile(in string MessFile)               raises (SALOME::SALOME_Exception);
     string   GetMessFile()                                 raises (SALOME::SALOME_Exception);
 
     long     Compute(in long etatMenage)                   raises (SALOME::SALOME_Exception);
 
-    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+// Liens avec les autres iterations
+    HOMARD_Iteration NextIteration(in string NomIter)      raises (SALOME::SALOME_Exception);
+
+    void     LinkNextIteration(in string NomIter)          raises (SALOME::SALOME_Exception);
+    void     UnLinkNextIteration(in string NomIter)        raises (SALOME::SALOME_Exception);
+    listeIterFilles GetIterations()                        raises (SALOME::SALOME_Exception);
+
+    void     SetIterParentName(in string NomIterParent)    raises (SALOME::SALOME_Exception);
+    string   GetIterParentName()                           raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration GetIterParent()                       raises (SALOME::SALOME_Exception);
+
+// Liens avec les autres structures
+    void     SetCaseName(in string NomCas)                 raises (SALOME::SALOME_Exception);
+    string   GetCaseName()                                 raises (SALOME::SALOME_Exception);
+
+    void     AssociateHypo(in string NomHypo)              raises (SALOME::SALOME_Exception);
+    void     SetHypoName(in string NomHypo)                raises (SALOME::SALOME_Exception);
+    string   GetHypoName()                                 raises (SALOME::SALOME_Exception);
   };
 };
 #endif

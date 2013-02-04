@@ -21,6 +21,15 @@
 //  File   : HOMARD_Hypothesis.hxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #ifndef _HOMARD_HYPOTHESIS_HXX_
 #define _HOMARD_HYPOTHESIS_HXX_
@@ -34,44 +43,48 @@ public:
   HOMARD_Hypothesis();
   ~HOMARD_Hypothesis();
 
+// Generalites
   void                          SetName( const char* Name );
   std::string                   GetName() const;
-  void                          SetCaseCreation( const char* NomCasCreation );
-  std::string                   GetCaseCreation() const;
+
   std::string                   GetDumpPython() const;
 
+// Caracteristiques
   void                          SetAdapType( int TypeAdap );
   int                           GetAdapType() const;
-
   void                          SetRefinTypeDera( int TypeRaff, int TypeDera );
   int                           GetRefinType() const;
   int                           GetUnRefType() const;
 
   void                          SetField( const char* FieldName );
-  void                          SetRefinThr( int TypeThR, double ThreshR );
-  void                          SetUnRefThr( int TypeThC, double ThreshC );
-  void                          SetUseComp( int UsCmpI );
-  void                          SetUseField( int UsField );
   std::string                   GetFieldName() const;
-  int                           GetRefinThrType()   const;
-  double                        GetThreshR()   const;
-  int                           GetUnRefThrType()   const;
-  double                        GetThreshC()   const;
+  void                          SetUseField( int UsField );
   int                           GetUseField()    const;
-  int                           GetUseCompI()    const;
 
+  void                          SetUseComp( int UsCmpI );
+  int                           GetUseComp()    const;
   void                          AddComp( const char* NomComposant );
   void                          SupprComp();
   const std::list<std::string>& GetListComp() const;
 
-  void                          AddIteration( const char* NomIter );
-  void                          SupprIterations();
-  const std::list<std::string>& GetIterations() const;
+  void                          SetRefinThr( int TypeThR, double ThreshR );
+  int                           GetRefinThrType()   const;
+  double                        GetThreshR()   const;
+  void                          SetUnRefThr( int TypeThC, double ThreshC );
+  int                           GetUnRefThrType()   const;
+  double                        GetThreshC()   const;
 
-  void                          AddZone( const char* NomZone, int TypeUse );
-  void                          SupprZone( const char* NomZone );
-  void                          SupprZones();
-  const std::list<std::string>& GetZones() const;
+  void                          SetNivMax( int NivMax );
+  const int                     GetNivMax() const;
+
+  void                          SetDiamMin( double DiamMin );
+  const double                  GetDiamMin() const;
+
+  void                          SetAdapInit( int AdapInit );
+  const int                     GetAdapInit() const;
+
+  void                          SetLevelOutput( int LevelOutput );
+  const int                     GetLevelOutput() const;
 
   void                          AddGroup( const char* LeGroupe);
   void                          SetGroups(const std::list<std::string>& ListGroup );
@@ -83,15 +96,19 @@ public:
   void                          SupprFieldInterp();
   const std::list<std::string>& GetListFieldInterp() const;
 
-  void                          SetNivMax( int NivMax );
-  const int                     GetNivMax() const;
-  void                          SetDiamMin( double DiamMin );
-  const double                  GetDiamMin() const;
-  void                          SetAdapInit( int AdapInit );
-  const int                     GetAdapInit() const;
-  void                          SetLevelOutput( int LevelOutput );
-  const int                     GetLevelOutput() const;
+// Liens avec les autres structures
+  void                          SetCaseCreation( const char* NomCasCreation );
+  std::string                   GetCaseCreation() const;
 
+  void                          LinkIteration( const char* NomIter );
+  void                          UnLinkIteration( const char* NomIter );
+  void                          UnLinkIterations();
+  const std::list<std::string>& GetIterations() const;
+
+  void                          AddZone( const char* NomZone, int TypeUse );
+  void                          SupprZone( const char* NomZone );
+  void                          SupprZones();
+  const std::list<std::string>& GetZones() const;
 
 private:
   std::string                   _Name;

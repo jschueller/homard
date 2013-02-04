@@ -60,8 +60,8 @@ libSalomeIDLHOMARD_la_LDFLAGS = -no-undefined -version-info=0:0:0
 libSalomeIDLHOMARD_la_LIBADD  =			\
 	$(KERNEL_LDFLAGS) -lSalomeIDLKernel	\
 	@CORBA_LIBS@
-#        $(VISU_LDFLAGS) -lSalomeIDLVisu        
-#        $(MED_LDFLAGS) -lSalomeIDLMed           
+#        $(VISU_LDFLAGS) -lSalomeIDLVisu
+#        $(MED_LDFLAGS) -lSalomeIDLMed
 
 # These variables defines the building process of CORBA files
 OMNIORB_IDL         = @OMNIORB_IDL@

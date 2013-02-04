@@ -8,6 +8,14 @@
         <translation>HOMARD</translation>
     </message>
     <message>
+        <source>HOM_MEN_MODIFICATION</source>
+        <translation>Modification</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_INFORMATION</source>
+        <translation>Information</translation>
+    </message>
+    <message>
         <source>HOM_MEN_NEW_CASE</source>
         <translation>Nouveau cas</translation>
     </message>
@@ -20,24 +28,12 @@
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_MEN_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
-    </message>
-    <message>
-        <source>HOM_MEN_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_MEN_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -60,24 +56,12 @@
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_TOP_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_TOP_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>HOM_TOP_EDIT_MESS_FILE</source>
@@ -100,24 +84,12 @@
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_STB_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_STB_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>HOM_STB_EDIT_MESS_FILE</source>
@@ -524,8 +496,16 @@
         <translation>Pourcentage de mailles</translation>
     </message>
     <message>
+        <source>Mean + n*(std deviation)</source>
+        <translation>Moyenne + n*(ecart-type)</translation>
+    </message>
+    <message>
         <source>No refinement</source>
         <translation>Sans raffinement</translation>
+    </message>
+    <message>
+        <source>Mean - n*(std deviation)</source>
+        <translation>Moyenne - n*(ecart-type)</translation>
     </message>
     <message>
         <source>No coarsening</source>

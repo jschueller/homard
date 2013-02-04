@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_CAS_IDL
 #define _HOMARD_CAS_IDL
@@ -35,39 +44,46 @@ module HOMARD
 
  interface HOMARD_Cas : Engines::EngineComponent
   {
-
-    void     SetName(in string NomCas)                     raises (SALOME::SALOME_Exception);
+// Generalites
+    void     SetName(in string Name)                       raises (SALOME::SALOME_Exception);
     string   GetName()                                     raises (SALOME::SALOME_Exception);
 
+    long     Delete()                                      raises (SALOME::SALOME_Exception);
+
+    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
+
+// Caracteristiques
     void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
     string   GetDirName()                                  raises (SALOME::SALOME_Exception);
+
+    long     GetNumber()                                   raises (SALOME::SALOME_Exception);
 
     void     SetConfType(in long ConfType)                 raises (SALOME::SALOME_Exception);
     long     GetConfType()                                 raises (SALOME::SALOME_Exception);
 
-    HOMARD_Iteration GetIter0 ()                           raises (SALOME::SALOME_Exception);
-    string   GetIter0Name ()                               raises (SALOME::SALOME_Exception);
-
-    HOMARD_Iteration NextIteration(in string NomIter)      raises (SALOME::SALOME_Exception);
-
-    void     AddIteration (in string NomIteration)         raises (SALOME::SALOME_Exception);
-
-    extrema  GetBoundingBox()                              raises (SALOME::SALOME_Exception);
     void     SetBoundingBox(in extrema LesExtremes)        raises (SALOME::SALOME_Exception);
+    extrema  GetBoundingBox()                              raises (SALOME::SALOME_Exception);
 
-    ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
-    void     SetGroups(in ListGroupType ListGroup)         raises (SALOME::SALOME_Exception);
     void     AddGroup(in string Group)                     raises (SALOME::SALOME_Exception);
+    void     SetGroups(in ListGroupType ListGroup)         raises (SALOME::SALOME_Exception);
+    ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
 
-    long     GetNumber()                                   raises (SALOME::SALOME_Exception);
-    string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
-
-    ListBoundaryGroupType GetBoundaryGroup()               raises (SALOME::SALOME_Exception);
-    void     AddBoundaryGroup(in string NomBoundary, in string Group)
+    void     AddBoundaryGroup(in string BoundaryName, in string Group)
                                                            raises (SALOME::SALOME_Exception);
+    ListBoundaryGroupType GetBoundaryGroup()               raises (SALOME::SALOME_Exception);
 
     void     SetPyram(in long Pyram)                       raises (SALOME::SALOME_Exception);
     long     GetPyram()                                    raises (SALOME::SALOME_Exception);
+
+// Liens avec les autres structures
+    string   GetIter0Name ()                               raises (SALOME::SALOME_Exception);
+    HOMARD_Iteration GetIter0 ()                           raises (SALOME::SALOME_Exception);
+
+    HOMARD_Iteration NextIteration(in string IterName)     raises (SALOME::SALOME_Exception);
+
+    HOMARD_Iteration LastIteration()                       raises (SALOME::SALOME_Exception);
+
+    void     AddIteration (in string IterName)             raises (SALOME::SALOME_Exception);
 
   };
 };

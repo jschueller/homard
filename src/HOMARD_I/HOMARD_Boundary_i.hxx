@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_Boundary_I_HXX_
 #define _HOMARD_Boundary_I_HXX_
@@ -43,40 +52,45 @@ public:
 
   virtual ~HOMARD_Boundary_i();
 
+// Generalites
   void                   SetName( const char* Name );
   char*                  GetName();
+
+  CORBA::Long            Delete();
+
   char*                  GetDumpPython();
 
+  std::string            Dump() const;
+  bool                   Restore( const std::string& stream );
+
+// Caracteristiques
   void                   SetType( CORBA::Long Type );
-
   CORBA::Long            GetType();
-
-  void                   SetMeshFile( const char* MeshFile );
-  char*                  GetMeshFile();
 
   void                   SetMeshName( const char* MeshName );
   char*                  GetMeshName();
+
+  void                   SetMeshFile( const char* MeshFile );
+  char*                  GetMeshFile();
 
   void                   SetCylinder( double Xcentre, double Ycentre, double ZCentre,
                                       double Xaxe, double Yaxe, double Zaxe,
                                       double rayon );
   void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
                                     double rayon );
+
   HOMARD::double_array*  GetCoords();
 
-  HOMARD::double_array*  GetLimit();
   void                   SetLimit( double Xincr, double Yincr, double Zincr);
+  HOMARD::double_array*  GetLimit();
 
+  void                   AddGroup( const char* Group);
+  void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
+  HOMARD::ListGroupType* GetGroups();
 
-  std::string            Dump() const;
-  bool                   Restore( const std::string& stream );
-
+// Liens avec les autres structures
   void                   SetCaseCreation( const char* NomCaseCreation );
   char*                  GetCaseCreation();
-
-  void                    AddGroup( const char* Group);
-  void                    SetGroups(const HOMARD::ListGroupType& ListGroup);
-  HOMARD::ListGroupType*  GetGroups();
 
 
 private:

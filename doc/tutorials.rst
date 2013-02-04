@@ -3,7 +3,8 @@ Exemples
 .. index:: single: exemple
 .. index:: single: python
 
-On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à adapter la valeur de la variable ``data_dir`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés. C'est dans ce répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives.
+On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à adapter la valeur de la variable ``data_dir`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés.
+C'est dans le répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives. Ce répertoire est créé par défaut dans ``/tmp``.
 
 Raffinement uniforme
 """"""""""""""""""""
@@ -215,7 +216,8 @@ Suivi de frontières courbes
 """""""""""""""""""""""""""
 .. index:: single: champ
 
-On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés.
+On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
+Le schéma YACS réalisant cette adaptation est téléchargeable.
 ::
 
   #
@@ -260,18 +262,24 @@ On teste ici le suivi des frontières courbes : des frontières analytiques pour d
   #
   # Creation of the iterations
   # ==========================
-  # Creation of the iteration Iter_1
+  # Creation of the iteration Iter_1 : raffinement selon les faces internes
   Iter_1 = Case.NextIteration('Iter_1')
   Iter_1.SetMeshName('PIQUAGE_1')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
   Iter_1.AssociateHypo('Hypo_1')
   codret = Iter_1.Compute(1)
-  # Creation of the iteration Iter_2
+  # Creation of the iteration Iter_2 : raffinement selon les faces externes
   Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('PIQUAGE_2')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
   Iter_2.AssociateHypo('Hypo_2')
   codret = Iter_2.Compute(1)
+  # Creation of the iteration Iter_3 : second raffinement selon les faces externes
+  Iter_3 = Iter_2.NextIteration('Iter_3')
+  Iter_3.SetMeshName('PIQUAGE_3')
+  Iter_3.SetMeshFile(dircase+'/maill.03.med')
+  Iter_3.AssociateHypo('Hypo_2')
+  codret = Iter_3.Compute(1)
 
 .. note::
   Téléchargement des fichiers
@@ -279,6 +287,7 @@ On teste ici le suivi des frontières courbes : des frontières analytiques pour d
   * :download:`maillage initial<files/tutorial_4.00.med.gz>`
   * :download:`maillage de la frontière discrète<files/tutorial_4.fr.med.gz>`
   * :download:`commandes python<files/tutorial_4.py>`
+  * :download:`schéma YACS<files/tutorial_4.xml>`
 
 
 Instructions spécifiques au 2D

@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_CAS_I_HXX_
 #define _HOMARD_CAS_I_HXX_
@@ -43,40 +52,48 @@ public:
 
   virtual ~HOMARD_Cas_i();
 
-  void                   SetDirName( const char* NomDir );
-  char*                  GetDirName();
-
+// Generalites
   void                   SetName( const char* Name );
   char*                  GetName();
 
-  void                   SetConfType( CORBA::Long ConfType );
-  CORBA::Long            GetConfType();
+  CORBA::Long            Delete();
 
-  char*                  GetIter0Name();
-  HOMARD::HOMARD_Iteration_ptr GetIter0() ;
-
-  HOMARD::HOMARD_Iteration_ptr  NextIteration( const char* Name) ;
-
-  void                   AddIteration( const char* NomIteration );
-
-  HOMARD::extrema*       GetBoundingBox();
-  void                   SetBoundingBox( const HOMARD::extrema& LesExtremes );
-
-  HOMARD::ListGroupType* GetGroups();
-  void                   AddGroup( const char* Group);
-  void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
-
-  HOMARD::ListBoundaryGroupType*  GetBoundaryGroup();
-  void                   AddBoundaryGroup( const char* Boundary, const char* Group);
-
-  void                   SetPyram( CORBA::Long Pyram );
-  CORBA::Long            GetPyram();
+  char*                  GetDumpPython();
 
   std::string            Dump() const;
   bool                   Restore( const std::string& stream );
 
-  char *		 GetDumpPython();
+// Caracteristiques
+  void                   SetDirName( const char* NomDir );
+  char*                  GetDirName();
+
   CORBA::Long            GetNumber();
+
+  void                   SetConfType( CORBA::Long ConfType );
+  CORBA::Long            GetConfType();
+
+  void                   SetBoundingBox( const HOMARD::extrema& LesExtremes );
+  HOMARD::extrema*       GetBoundingBox();
+
+  void                   AddGroup( const char* Group);
+  void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
+  HOMARD::ListGroupType* GetGroups();
+
+  void                   AddBoundaryGroup( const char* Boundary, const char* Group);
+  HOMARD::ListBoundaryGroupType*  GetBoundaryGroup();
+
+  void                   SetPyram( CORBA::Long Pyram );
+  CORBA::Long            GetPyram();
+
+// Liens avec les autres structures
+  char*                  GetIter0Name();
+  HOMARD::HOMARD_Iteration_ptr GetIter0() ;
+
+  HOMARD::HOMARD_Iteration_ptr  NextIteration( const char* Name ) ;
+
+  HOMARD::HOMARD_Iteration_ptr  LastIteration() ;
+
+  void                   AddIteration( const char* NomIteration );
 
 private:
   ::HOMARD_Cas*          myHomardCas;

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateHypothesis.ui'
 **
-** Created: Wed Nov 14 11:07:43 2012
+** Created: Mon Jan 14 14:54:59 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -75,6 +75,8 @@ public:
     QDoubleSpinBox *SpinBox_RRel;
     QRadioButton *RBRAbs;
     QDoubleSpinBox *SpinBox_RAbs;
+    QRadioButton *RBRMuSigma;
+    QDoubleSpinBox *SpinBox_RMuSigma;
     QRadioButton *RBRNo;
     QGroupBox *GBCoarseningThresholds;
     QGridLayout *gridLayout4;
@@ -84,6 +86,8 @@ public:
     QDoubleSpinBox *SpinBox_CRel;
     QRadioButton *RBCAbs;
     QDoubleSpinBox *SpinBox_CAbs;
+    QRadioButton *RBCMuSigma;
+    QDoubleSpinBox *SpinBox_CMuSigma;
     QRadioButton *RBCNo;
     QGroupBox *GBAreaManagement;
     QGridLayout *gridLayout_4;
@@ -395,10 +399,25 @@ public:
 
         gridLayout3->addWidget(SpinBox_RAbs, 2, 1, 1, 1);
 
+        RBRMuSigma = new QRadioButton(GBRefinementThresholds);
+        RBRMuSigma->setObjectName(QString::fromUtf8("RBRMuSigma"));
+
+        gridLayout3->addWidget(RBRMuSigma, 3, 0, 1, 1);
+
+        SpinBox_RMuSigma = new QDoubleSpinBox(GBRefinementThresholds);
+        SpinBox_RMuSigma->setObjectName(QString::fromUtf8("SpinBox_RMuSigma"));
+        SpinBox_RMuSigma->setEnabled(false);
+        SpinBox_RMuSigma->setDecimals(8);
+        SpinBox_RMuSigma->setMinimum(0);
+        SpinBox_RMuSigma->setMaximum(1e+12);
+        SpinBox_RMuSigma->setSingleStep(0.1);
+
+        gridLayout3->addWidget(SpinBox_RMuSigma, 3, 1, 1, 1);
+
         RBRNo = new QRadioButton(GBRefinementThresholds);
         RBRNo->setObjectName(QString::fromUtf8("RBRNo"));
 
-        gridLayout3->addWidget(RBRNo, 3, 0, 1, 1);
+        gridLayout3->addWidget(RBRNo, 4, 0, 1, 1);
 
 
         hboxLayout4->addWidget(GBRefinementThresholds);
@@ -458,11 +477,26 @@ public:
 
         gridLayout4->addWidget(SpinBox_CAbs, 2, 1, 1, 1);
 
+        RBCMuSigma = new QRadioButton(GBCoarseningThresholds);
+        RBCMuSigma->setObjectName(QString::fromUtf8("RBCMuSigma"));
+
+        gridLayout4->addWidget(RBCMuSigma, 3, 0, 1, 1);
+
+        SpinBox_CMuSigma = new QDoubleSpinBox(GBCoarseningThresholds);
+        SpinBox_CMuSigma->setObjectName(QString::fromUtf8("SpinBox_CMuSigma"));
+        SpinBox_CMuSigma->setEnabled(false);
+        SpinBox_CMuSigma->setDecimals(8);
+        SpinBox_CMuSigma->setMinimum(0);
+        SpinBox_CMuSigma->setMaximum(1e+12);
+        SpinBox_CMuSigma->setSingleStep(0.1);
+
+        gridLayout4->addWidget(SpinBox_CMuSigma, 3, 1, 1, 1);
+
         RBCNo = new QRadioButton(GBCoarseningThresholds);
         RBCNo->setObjectName(QString::fromUtf8("RBCNo"));
         RBCNo->setChecked(true);
 
-        gridLayout4->addWidget(RBCNo, 3, 0, 1, 1);
+        gridLayout4->addWidget(RBCNo, 4, 0, 1, 1);
 
 
         hboxLayout4->addWidget(GBCoarseningThresholds);
@@ -748,6 +782,7 @@ public:
         RBRRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0, QApplication::UnicodeUTF8));
         SpinBox_RRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
         RBRAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0, QApplication::UnicodeUTF8));
+        RBRMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean + n*(std deviation)", 0, QApplication::UnicodeUTF8));
         RBRNo->setText(QApplication::translate("CreateHypothesis", "No refinement", 0, QApplication::UnicodeUTF8));
         GBCoarseningThresholds->setTitle(QApplication::translate("CreateHypothesis", "Coarsening threshold", 0, QApplication::UnicodeUTF8));
         RBCPE->setText(QApplication::translate("CreateHypothesis", "Percentage of meshes", 0, QApplication::UnicodeUTF8));
@@ -755,6 +790,7 @@ public:
         RBCRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0, QApplication::UnicodeUTF8));
         SpinBox_CRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
         RBCAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0, QApplication::UnicodeUTF8));
+        RBCMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean - n*(std deviation)", 0, QApplication::UnicodeUTF8));
         RBCNo->setText(QApplication::translate("CreateHypothesis", "No coarsening", 0, QApplication::UnicodeUTF8));
         GBAreaManagement->setTitle(QApplication::translate("CreateHypothesis", "Zone management", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem2 = TWZone->horizontalHeaderItem(0);

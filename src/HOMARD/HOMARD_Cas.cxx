@@ -21,6 +21,15 @@
 //  File   : HOMARD_Cas.cxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Cas.hxx"
 #include "utilities.h"
@@ -47,49 +56,22 @@ HOMARD_Cas::~HOMARD_Cas()
 {
   MESSAGE("~HOMARD_Cas");
 }
-
 //=============================================================================
-void HOMARD_Cas::SetDirName( const char* NomDir )
 //=============================================================================
-{
-     MESSAGE("SetDirName, NomDir :  "<<NomDir);
-     if (chdir(NomDir) == 0)
-     {
-       _NomDir = std::string( NomDir );
-     }
-    else
-    {
-       // GERALD -- QMESSAGE BOX
-       // std::cerr << "Pb pour entrer dans le repertoire :  "<<NomDir << std::endl;
-       _NomDir = "/tmp";
-    };
-}
-
+// Generalites
 //=============================================================================
-std::string HOMARD_Cas::GetDirName() const
-//=============================================================================
-{
-  return _NomDir;
-}
-
 //=============================================================================
 void HOMARD_Cas::SetName( const char* Name )
-//=============================================================================
 {
   _Name = std::string( Name );
 }
-
 //=============================================================================
 std::string HOMARD_Cas::GetName() const
-//=============================================================================
 {
   return _Name;
 }
-
-
 //=============================================================================
 std::string HOMARD_Cas::GetDumpPython() const
-//=============================================================================
 {
   std::ostringstream aScript;
   aScript << "\t" <<_Name << ".SetDirName(\"";
@@ -115,69 +97,57 @@ std::string HOMARD_Cas::GetDumpPython() const
   return aScript.str();
 }
 //=============================================================================
-void HOMARD_Cas::AddIteration( const char* NomIteration )
 //=============================================================================
+// Caracteristiques
+//=============================================================================
+//=============================================================================
+void HOMARD_Cas::SetDirName( const char* NomDir )
 {
-  _ListIter.push_back( std::string( NomIteration ) );
+     MESSAGE("SetDirName, NomDir :  "<<NomDir);
+     if (chdir(NomDir) == 0)
+     {
+       _NomDir = std::string( NomDir );
+     }
+    else
+    {
+       // GERALD -- QMESSAGE BOX
+       // std::cerr << "Pb pour entrer dans le repertoire :  "<<NomDir << std::endl;
+       _NomDir = "/tmp";
+    };
 }
-
 //=============================================================================
-const std::list<std::string>& HOMARD_Cas::GetIterations() const
-//=============================================================================
+std::string HOMARD_Cas::GetDirName() const
 {
-  return _ListIter;
+  return _NomDir;
 }
-
 //=============================================================================
-void HOMARD_Cas::SupprIterations()
-//=============================================================================
+int HOMARD_Cas::GetNumber()
 {
-  _ListIter.clear();
+  return _ListIter.size();
 }
-
-//=============================================================================
-std::string HOMARD_Cas::GetIter0Name() const
-//=============================================================================
-{
-// Par construction de la liste, l'iteration a ete mise en tete.
-  return (*(_ListIter.begin()));
-}
-
 //=============================================================================
 void HOMARD_Cas::SetConfType( int Conftype )
-//=============================================================================
 {
   _ConfType = Conftype;
 }
 //=============================================================================
 const int HOMARD_Cas::GetConfType() const
-//=============================================================================
 {
   return _ConfType;
-}
-//=============================================================================
-int HOMARD_Cas::GetNumber()
-//=============================================================================
-
-{
-  return _ListIter.size();
 }
 //
 // La boite englobante
 //
 //=============================================================================
 void HOMARD_Cas::SetBoundingBox( const std::vector<double>& extremas )
-//=============================================================================
 {
   _Boite.clear();
   _Boite.resize( extremas.size() );
   for ( int i = 0; i < extremas.size(); i++ )
     _Boite[i] = extremas[i];
 }
-
 //=============================================================================
 const std::vector<double>& HOMARD_Cas::GetBoundingBox() const
-//=============================================================================
 {
   return _Boite;
 }
@@ -185,20 +155,12 @@ const std::vector<double>& HOMARD_Cas::GetBoundingBox() const
 // Les groupes
 //
 //=============================================================================
-const std::list<std::string>& HOMARD_Cas::GetGroups() const
-//=============================================================================
+void HOMARD_Cas::AddGroup( const char* Group )
 {
-  return _ListGroup;
-}
-//=============================================================================
-void HOMARD_Cas::SupprGroups()
-//=============================================================================
-{
-  _ListGroup.clear();
+  _ListGroup.push_back(Group);
 }
 //=============================================================================
 void HOMARD_Cas::SetGroups( const std::list<std::string>& ListGroup )
-//=============================================================================
 {
   _ListGroup.clear();
   std::list<std::string>::const_iterator it = ListGroup.begin();
@@ -208,19 +170,18 @@ void HOMARD_Cas::SetGroups( const std::list<std::string>& ListGroup )
   }
 }
 //=============================================================================
-void HOMARD_Cas::AddGroup( const char* Group )
+const std::list<std::string>& HOMARD_Cas::GetGroups() const
 {
-  _ListGroup.push_back(Group);
+  return _ListGroup;
+}
+//=============================================================================
+void HOMARD_Cas::SupprGroups()
+{
+  _ListGroup.clear();
 }
 //
 // Les frontieres
 //
-//=============================================================================
-const std::list<std::string>& HOMARD_Cas::GetBoundaryGroup() const
-//=============================================================================
-{
-  return _ListBoundaryGroup;
-}
 //=============================================================================
 void HOMARD_Cas::AddBoundaryGroup( const char* Boundary, const char* Group )
 {
@@ -228,20 +189,49 @@ void HOMARD_Cas::AddBoundaryGroup( const char* Boundary, const char* Group )
   _ListBoundaryGroup.push_back( Group    );
 }
 //=============================================================================
-void HOMARD_Cas::SupprBoundaryGroup()
+const std::list<std::string>& HOMARD_Cas::GetBoundaryGroup() const
+{
+  return _ListBoundaryGroup;
+}
 //=============================================================================
+void HOMARD_Cas::SupprBoundaryGroup()
 {
   _ListBoundaryGroup.clear();
 }
 //=============================================================================
 void HOMARD_Cas::SetPyram( int Pyram )
-//=============================================================================
 {
   _Pyram = Pyram;
 }
 //=============================================================================
 const int HOMARD_Cas::GetPyram() const
-//=============================================================================
 {
   return _Pyram;
 }
+//=============================================================================
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
+//=============================================================================
+std::string HOMARD_Cas::GetIter0Name() const
+{
+// Par construction de la liste, l'iteration a ete mise en tete.
+  return (*(_ListIter.begin()));
+}
+//=============================================================================
+void HOMARD_Cas::AddIteration( const char* NomIteration )
+{
+  _ListIter.push_back( std::string( NomIteration ) );
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Cas::GetIterations() const
+{
+  return _ListIter;
+}
+//=============================================================================
+void HOMARD_Cas::SupprIterations()
+{
+  _ListIter.clear();
+}
+
+

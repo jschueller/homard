@@ -21,6 +21,15 @@
 //  File   : HOMARD_Iteration.cxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Iteration.hxx"
 #include "utilities.h"
@@ -51,28 +60,20 @@ HOMARD_Iteration::~HOMARD_Iteration()
 {
   MESSAGE("~HOMARD_Iteration");
 }
-
 //=============================================================================
-/*!
-*/
+//=============================================================================
+// Generalites
+//=============================================================================
 //=============================================================================
 void HOMARD_Iteration::SetName( const char* Name )
 {
   _Name = std::string( Name );
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Iteration::GetName() const
 {
   return _Name;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Iteration::GetDumpPython() const
 {
@@ -118,144 +119,59 @@ std::string HOMARD_Iteration::GetDumpPython() const
   return aScript.str();
 }
 //=============================================================================
-/*!
-*/
 //=============================================================================
-void HOMARD_Iteration::SetEtat( bool etat )
+// Caracteristiques
+//=============================================================================
+//=============================================================================
+void HOMARD_Iteration::SetDirName( const char* NomDir )
 {
-  _Etat = etat;
+  _NomDir = std::string( NomDir );
 }
-
 //=============================================================================
-/*!
-*/
-//=============================================================================
-bool HOMARD_Iteration::GetEtat() const
+std::string HOMARD_Iteration::GetDirName() const
 {
-  return _Etat;
+   return _NomDir;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Iteration::SetNumber( int NumIter )
 {
   _NumIter = NumIter;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 int HOMARD_Iteration::GetNumber() const
 {
   return _NumIter;
 }
-
 //=============================================================================
-/*!
-*/
+void HOMARD_Iteration::SetEtat( bool etat )
+{
+  _Etat = etat;
+}
+//=============================================================================
+bool HOMARD_Iteration::GetEtat() const
+{
+  return _Etat;
+}
 //=============================================================================
 void HOMARD_Iteration::SetMeshName( const char* NomMesh )
 {
   _NomMesh = std::string( NomMesh );
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Iteration::GetMeshName() const
 {
   return _NomMesh;
 }
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::SetIterParentName( const char* IterParent )
-{
-  _IterParent = IterParent;
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Iteration::GetIterParentName() const
-{
-  return _IterParent;
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::AddIteration( const char* NomIteration )
-{
-  _mesIterFilles.push_back( std::string( NomIteration ) );
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-const std::list<std::string>& HOMARD_Iteration::GetIterations() const
-{
-  return _mesIterFilles;
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::SupprIterations()
-{
-  _mesIterFilles.clear();
-}
-
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::SetHypoName( const char* NomHypo )
-{
-  _NomHypo = std::string( NomHypo );
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Iteration::GetHypoName() const
-{
-  return _NomHypo;
-}
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Iteration::SetMeshFile( const char* MeshFile )
 {
   _MeshFile = std::string( MeshFile );
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Iteration::GetMeshFile() const
 {
   return _MeshFile;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Iteration::SetFieldFile( const char* FieldFile )
 {
@@ -266,10 +182,6 @@ std::string HOMARD_Iteration::GetFieldFile() const
 {
   return _FieldFile;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Iteration::SetTimeStepRank( int TimeStep, int Rank )
 {
@@ -286,53 +198,76 @@ int HOMARD_Iteration::GetRank() const
 {
   return _Rank;
 }
-
 //=============================================================================
-/*!
-*/
+void HOMARD_Iteration::SetMessFile( const char* MessFile )
+{
+  _MessFile = std::string( MessFile );
+}
+//=============================================================================
+std::string HOMARD_Iteration::GetMessFile() const
+{
+  return _MessFile;
+}
+//=============================================================================
+//=============================================================================
+// Liens avec les autres iterations
+//=============================================================================
+//=============================================================================
+void HOMARD_Iteration::LinkNextIteration( const char* NomIteration )
+{
+  _mesIterFilles.push_back( std::string( NomIteration ) );
+}
+//=============================================================================
+void HOMARD_Iteration::UnLinkNextIteration( const char* NomIteration )
+{
+  std::list<std::string>::iterator it = find( _mesIterFilles.begin(), _mesIterFilles.end(), NomIteration ) ;
+  if ( it != _mesIterFilles.end() )
+  {
+    MESSAGE ("Dans UnLinkNextIteration pour " << NomIteration) ;
+    _mesIterFilles.erase( it ) ;
+  }
+}
+//=============================================================================
+void HOMARD_Iteration::UnLinkNextIterations()
+{
+  _mesIterFilles.clear();
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Iteration::GetIterations() const
+{
+  return _mesIterFilles;
+}
+//=============================================================================
+void HOMARD_Iteration::SetIterParentName( const char* IterParent )
+{
+  _IterParent = IterParent;
+}
+//=============================================================================
+std::string HOMARD_Iteration::GetIterParentName() const
+{
+  return _IterParent;
+}
+//=============================================================================
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
 //=============================================================================
 void HOMARD_Iteration::SetCaseName( const char* NomCas )
 {
   _NomCas = std::string( NomCas );
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Iteration::GetCaseName() const
 {
   return _NomCas;
 }
 //=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::SetDirName( const char* NomDir )
+void HOMARD_Iteration::SetHypoName( const char* NomHypo )
 {
-  _NomDir = std::string( NomDir );
+  _NomHypo = std::string( NomHypo );
 }
 //=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Iteration::GetDirName() const
+std::string HOMARD_Iteration::GetHypoName() const
 {
-   return _NomDir;
-}
-/*!
-*/
-//=============================================================================
-void HOMARD_Iteration::SetMessFile( const char* MessFile )
-{
-  _MessFile = std::string( MessFile );
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Iteration::GetMessFile() const
-{
-  return _MessFile;
+  return _NomHypo;
 }

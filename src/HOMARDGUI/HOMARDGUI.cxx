@@ -126,7 +126,7 @@ void HOMARDGUI::initialize( CAM_Application* app )
 //================================================
 void HOMARDGUI::createHOMARDAction( const int id, const QString& po_id, const QString& icon_id, const int key, const bool toggle  )
 {
-//   MESSAGE("HOMARDGUI::createHOMARDAction");
+//   MESSAGE("createHOMARDAction");
   QIcon icon;
   QWidget* parent = application()->desktop();
   SUIT_ResourceMgr* resMgr = application()->resourceMgr();
@@ -155,12 +155,11 @@ void HOMARDGUI::createActions(){
   createHOMARDAction( 1101, "NEW_CASE",       "cas_calcule.png"  );
   createHOMARDAction( 1102, "NEW_ITERATION",  "iter_next.png"    );
   createHOMARDAction( 1111, "COMPUTE",        "mesh_compute.png" );
-  createHOMARDAction( 1120, "EDIT_CASE",      "whatis.png"       );
-  createHOMARDAction( 1121, "EDIT_ITERATION", "whatis.png"       );
-  createHOMARDAction( 1122, "EDIT_HYPO",      "whatis.png"       );
-  createHOMARDAction( 1123, "EDIT_ZONE",      "whatis.png"       );
-  createHOMARDAction( 1124, "EDIT_BOUNDARY",  "whatis.png"       );
-  createHOMARDAction( 1130, "EDIT_MESS_FILE", "texte.png"        );
+//
+  createHOMARDAction( 1201, "EDIT",           "whatis.png"       );
+  createHOMARDAction( 1211, "DELETE",         "delete.png"       );
+//
+  createHOMARDAction( 1301, "EDIT_MESS_FILE", "texte.png"        );
 //
 }
 
@@ -182,26 +181,30 @@ void HOMARDGUI::createPreferences(){
 //                Verifier l'avant dernier nombre passe en parametre
 //================================================
 void HOMARDGUI::createMenus(){
-  MESSAGE("HOMARDGUI::createMenus")
-  int HOMARD_Id  = createMenu( tr( "HOMARD" ),  -1,  5, 10 );
+  MESSAGE("createMenus")
+//
+  int HOMARD_Id  = createMenu( tr( "HOM_MEN_HOMARD" ),  -1,  5, 10 );
   createMenu( 1101, HOMARD_Id, -1 ); //Create_Case
   createMenu( 1102, HOMARD_Id, -1 ); //Create_Iteration
   createMenu( 1111, HOMARD_Id, -1 ); //COMPUTE
+//
+  HOMARD_Id  = createMenu( tr( "HOM_MEN_MODIFICATION" ),  -1,  5, 10 );
+  createMenu( 1201, HOMARD_Id, -1 ); //Edit
+  createMenu( 1211, HOMARD_Id, -1 ); //Delete
+//
+  HOMARD_Id  = createMenu( tr( "HOM_MEN_INFORMATION" ),  -1,  5, 10 );
+  createMenu( 1301, HOMARD_Id, -1 ); //EditAsciiFile pour le fichier listeStd ou bilan
   createMenu( separator(), HOMARD_Id,-1);
-  createMenu( 1120, HOMARD_Id, -1 ); //Edit_Case
-  createMenu( 1121, HOMARD_Id, -1 ); //Edit_Iteration
-  createMenu( 1122, HOMARD_Id, -1 ); //Edit Hypo
-  createMenu( 1123, HOMARD_Id, -1 ); //Edit_Zone
-  createMenu( 1124, HOMARD_Id, -1 ); //Edit_Boundary
+  createMenu( 1201, HOMARD_Id, -1 ); //Edit
   createMenu( separator(), HOMARD_Id,-1);
-  createMenu( 1130, HOMARD_Id, -1 ); //EditAsciiFile pour le fichier listeStd ou bilan
+//   createMenu( 1201, HOMARD_Id, -1 ); //Edit
 }
 
 //================================================
 void HOMARDGUI::OnGUIEvent()
 //================================================
 {
-  MESSAGE("HOMARDGUI::OnGUIEvent()")
+  MESSAGE("OnGUIEvent()")
   setOrb();
   const QObject* obj = sender();
   if ( !obj || !obj->inherits( "QAction" ) )
@@ -210,7 +213,7 @@ void HOMARDGUI::OnGUIEvent()
   bool ret;
   if ( id != -1 )
       ret = OnGUIEvent( id );
-  MESSAGE("************** End of HOMARDGUI::OnGUIEvent()");
+  MESSAGE("************** End of OnGUIEvent()");
 }
 
 //=======================================================================
@@ -218,7 +221,7 @@ void HOMARDGUI::OnGUIEvent()
 //=======================================================================
 bool HOMARDGUI::OnGUIEvent (int theCommandID)
 {
-  MESSAGE("HOMARDGUI::OnGUIEvent(int)");
+  MESSAGE("OnGUIEvent(int)");
   SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
   if ( !app ) return false;
 
@@ -286,72 +289,134 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1120: // Edition d un cas
+    case 1201: // Edition d'un objet
     {
-      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      MESSAGE("command " << theCommandID << " activated");
+      QString nomObjet = HOMARD_QT_COMMUN::SelectionArbreEtude(QString(""), 1);
+      if (nomObjet == QString("")) break;
       _PTR(SObject) obj = chercheMonObjet();
-      if ((obj) and (HOMARD_UTILS::isCase(obj)))
+      if (obj)
       {
+        // Edition d'un cas
+        if (HOMARD_UTILS::isCase(obj))
+        {
           MonEditCase *aDlg = new MonEditCase(parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
           aDlg->show();
-      }
-    }
-
-    case 1121: // Edition d une iteration
-    {
-      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
-      _PTR(SObject) obj = chercheMonObjet();
-      if ((obj) and (HOMARD_UTILS::isIter(obj)))
-      {
+        }
+        // Edition d'une iteration
+        else if (HOMARD_UTILS::isIter(obj))
+        {
           MonEditIteration *aDlg = new MonEditIteration(parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
           aDlg->show();
-      }
-    }
-
-    case 1122: // Edition d une hypothese
-    {
-      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
-      _PTR(SObject) obj = chercheMonObjet();
-      if ((obj) and (HOMARD_UTILS::isHypo(obj)))
-      {
+        }
+        // Edition d'une hypothese
+        else if (HOMARD_UTILS::isHypo(obj))
+        {
           MonEditHypothesis *aDlg = new MonEditHypothesis(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen),  _ObjectName, QString(""), QString("")) ;
           aDlg->show();
-      }
-    }
-
-    case 1123: // Edition d une zone
-    {
-      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
-      _PTR(SObject) obj = chercheMonObjet();
-      if ((obj) and (HOMARD_UTILS::isZone(obj)))
-      {
+        }
+        // Edition d'une zone
+        else if (HOMARD_UTILS::isZone(obj))
+        {
           MonEditZone *aDlg = new MonEditZone(0, TRUE, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
           aDlg->show();
+        }
+        // Edition d'une frontiere discrete
+        else if (HOMARD_UTILS::isBoundaryDi(obj))
+        {
+            MESSAGE(".. Lancement de MonEditBoundaryDi" );
+            MonEditBoundaryDi *aDlg = new MonEditBoundaryDi(0, TRUE, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+            aDlg->show();
+        }
+        // Edition d'une frontiere analytique
+        else if (HOMARD_UTILS::isBoundaryAn(obj))
+        {
+            MESSAGE(".. Lancement de MonEditBoundaryAn" );
+            MonEditBoundaryAn *aDlg = new MonEditBoundaryAn(0, TRUE, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+            aDlg->show();
+        }
       }
+      break;
     }
 
-    case 1124: // Edition d une frontiere
+    case 1211: // Suppression d'un objet
     {
-      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      MESSAGE("command " << theCommandID << " activated");
+      QString nomObjet = HOMARD_QT_COMMUN::SelectionArbreEtude(QString(""), 1);
+      if (nomObjet == QString("")) break;
       _PTR(SObject) obj = chercheMonObjet();
-      if ((obj))
+      if (obj)
       {
-          if (HOMARD_UTILS::isBoundaryDi(obj))
+        // Suppression d'un cas
+        if (HOMARD_UTILS::isCase(obj))
+        {
+          try
+          { homardGen->DeleteCase(_ObjectName.toStdString().c_str()); }
+          catch( SALOME::SALOME_Exception& S_ex )
           {
-              MESSAGE(".. Lancement de MonEditBoundaryDi" );
-              MonEditBoundaryDi *aDlg = new MonEditBoundaryDi(0, TRUE, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
-              aDlg->show();
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QString(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
           }
-          if (HOMARD_UTILS::isBoundaryAn(obj))
+        }
+        // Suppression d'une iteration
+        else if (HOMARD_UTILS::isIter(obj))
+        {
+          try
+          { homardGen->DeleteIteration(_ObjectName.toStdString().c_str()); }
+          catch( SALOME::SALOME_Exception& S_ex )
           {
-              MESSAGE(".. Lancement de MonEditBoundaryAn" );
-              MonEditBoundaryAn *aDlg = new MonEditBoundaryAn(0, TRUE, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
-              aDlg->show();
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QString(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
           }
+        }
+        // Suppression d'une hypothese
+        else if (HOMARD_UTILS::isHypo(obj))
+        {
+          try
+          { homardGen->DeleteHypo(_ObjectName.toStdString().c_str()); }
+          catch( SALOME::SALOME_Exception& S_ex )
+          {
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QString(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
+          }
+        }
+        // Suppression d'une zone
+        else if (HOMARD_UTILS::isZone(obj))
+        {
+          try
+          { homardGen->DeleteZone(_ObjectName.toStdString().c_str()); }
+          catch( SALOME::SALOME_Exception& S_ex )
+          {
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QString(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
+          }
+        }
+        // Suppression d'une frontiere
+        else if ( HOMARD_UTILS::isBoundaryDi(obj) or HOMARD_UTILS::isBoundaryAn(obj) )
+        {
+          try
+          { homardGen->DeleteBoundary(_ObjectName.toStdString().c_str()); }
+          catch( SALOME::SALOME_Exception& S_ex )
+          {
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QString(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
+          }
+        }
       }
+      break;
     }
 
-    case 1130: // Edition du fichier mess
+    case 1301: // Affichage du fichier mess
     {
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       _PTR(SObject) obj = chercheMonObjet();
@@ -360,7 +425,9 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
           MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
           aDlg->show();
       }
+      break;
      }
+
   }
   getApp()->updateObjectBrowser();
   return true;
@@ -457,7 +524,7 @@ _PTR(SObject) HOMARDGUI::chercheMonObjet()
 void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& title )
 //=============================================================================
 {
-  MESSAGE("Debut de HOMARDGUI::contextMenuPopup");
+  MESSAGE("Debut de contextMenuPopup");
   _PTR(SObject) obj = chercheMonObjet();
   if ( obj )
   {
@@ -465,44 +532,60 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     _ObjectName = title;
     SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr();
 //
+    QPixmap pix ;
+    bool DeleteObject = false ;
+    bool EditObject = false ;
+//
     if ( HOMARD_UTILS::isBoundaryAn(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_BOUNDARY").toLatin1().data()), this,SLOT(EditBoDi()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isBoundaryDi(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_BOUNDARY").toLatin1().data()), this,SLOT(EditBoDi()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isZone(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_ZONE").toLatin1().data()), this,SLOT(EditZone()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isHypo(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_HYPO").toLatin1().data()), this,SLOT(EditHypo()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isIter(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "iter_next.png" );
+      pix = resMgr->loadPixmap( "HOMARD", "iter_next.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_NEW_ITERATION").toLatin1().data()), this,SLOT(NextIter()));
-      QPixmap pix1 = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix1), tr(QString("HOM_MEN_EDIT_ITERATION").toLatin1().data()), this,SLOT(EditIter()));
       QPixmap pix2 = resMgr->loadPixmap( "HOMARD", "mesh_compute.png" );
       menu->addAction(QIcon(pix2), tr(QString("HOM_MEN_COMPUTE").toLatin1().data()), this,SLOT(LanceCalcul()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isCase(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_CASE").toLatin1().data()), this,SLOT(EditCase()));
+      EditObject = true ;
+      DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isFileMess(obj) or HOMARD_UTILS::isFileSummary(obj) )
     {
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
+      pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this,SLOT(EditAsciiFile()));
+    }
+//  Ajout d'un menu d'edition pour les objets qui le proposent
+    if ( EditObject )
+    {
+      pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT").toLatin1().data()), this,SLOT(Edit()));
+    }
+//  Ajout d'un menu de destruction pour les objets qui le proposent
+    if ( DeleteObject )
+    {
+      pix = resMgr->loadPixmap( "HOMARD", "delete.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_DELETE").toLatin1().data()), this,SLOT(Delete()));
     }
   }
 }
@@ -517,35 +600,21 @@ void HOMARDGUI::LanceCalcul()
   this->OnGUIEvent(1111);
 }
 
-void HOMARDGUI::EditCase()
+void HOMARDGUI::Edit()
 {
-  this->OnGUIEvent(1120);
+  this->OnGUIEvent(1201);
 }
 
-void HOMARDGUI::EditIter()
+void HOMARDGUI::Delete()
 {
-  this->OnGUIEvent(1121);
-}
-
-void HOMARDGUI::EditHypo()
-{
-  this->OnGUIEvent(1122);
-}
-
-void HOMARDGUI::EditZone()
-{
-  this->OnGUIEvent(1123);
-}
-
-void HOMARDGUI::EditBoDi()
-{
-  this->OnGUIEvent(1124);
+  this->OnGUIEvent(1211);
 }
 
 void HOMARDGUI::EditAsciiFile()
 {
-  this->OnGUIEvent(1130);
+  this->OnGUIEvent(1301);
 }
+
 //
 //=============================================================================
 // Export the module

@@ -21,6 +21,15 @@
 //  File   : HOMARD_Zone.hxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #ifndef _HOMARD_Zone_HXX_
 #define _HOMARD_Zone_HXX_
@@ -35,30 +44,36 @@ public:
   HOMARD_Zone();
   ~HOMARD_Zone();
 
+// Generalites
   void                          SetName( const char* Name );
   std::string                   GetName() const;
+
   std::string                   GetDumpPython() const;
+
+// Caracteristiques
+  void                          SetType( int Type );
+  int                           GetType() const;
 
   void                          SetBox( double X0, double X1, double X2,
                                         double X3, double X4, double X5 );
-  std::vector<double>           GetCoords() const;
-
-  void                          SetSphere( double X0, double X1, double X2, double X3 );
 
   void                          SetCylinder( double X0, double X1, double X2, double X3,
                                              double X4, double X5, double X6, double X7 );
+
   void                          SetPipe( double X0, double X1, double X2, double X3,
                                          double X4, double X5, double X6, double X7, double X8 );
+
+  void                          SetSphere( double X0, double X1, double X2, double X3 );
+
+  std::vector<double>           GetCoords() const;
 
   void                          SetLimit( double X0, double X1, double X2 );
   std::vector<double>           GetLimit() const;
 
-  void                          SetType( int Type );
-  int                           GetType() const;
-
+// Liens avec les autres structures
   void                          AddHypo( const char* NomHypo );
-  void                          SupprHypo( const char* NomHypo );
   const std::list<std::string>& GetHypo() const;
+  void                          SupprHypo( const char* NomHypo );
   void                          SupprHypos();
 
 private:

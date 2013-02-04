@@ -21,6 +21,15 @@
 //  File   : HOMARD_Hypothesis.cxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Hypothesis.hxx"
 #include "utilities.h"
@@ -49,36 +58,15 @@ HOMARD_Hypothesis::~HOMARD_Hypothesis()
 {
   MESSAGE("~HOMARD_Hypothesis");
 }
-
 //=============================================================================
-/*!
- */
 //=============================================================================
-void HOMARD_Hypothesis::SetCaseCreation( const char* NomCasCreation )
-{
-  _NomCasCreation = std::string( NomCasCreation );
-}
-
+// Generalites
 //=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Hypothesis::GetCaseCreation() const
-{
-  return _NomCasCreation;
-}
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Hypothesis::SetName( const char* Name )
 {
   _Name = std::string( Name );
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 std::string HOMARD_Hypothesis::GetName() const
 {
@@ -161,30 +149,21 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
 
   return aScript.str();
 }
-
-
 //=============================================================================
-/*!
-*/
+//=============================================================================
+// Caracteristiques
+//=============================================================================
 //=============================================================================
 void HOMARD_Hypothesis::SetAdapType( int TypeAdap )
 {
   ASSERT (!((TypeAdap < -1) or (TypeAdap > 1)));
   _TypeAdap = TypeAdap;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 int HOMARD_Hypothesis::GetAdapType() const
 {
   return _TypeAdap;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Hypothesis::SetRefinTypeDera( int TypeRaff, int TypeDera )
 {
@@ -193,28 +172,16 @@ void HOMARD_Hypothesis::SetRefinTypeDera( int TypeRaff, int TypeDera )
   ASSERT(! ((TypeDera < 0) or (TypeDera > 1)));
   _TypeDera = TypeDera;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 int HOMARD_Hypothesis::GetRefinType() const
 {
   return _TypeRaff;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 int HOMARD_Hypothesis::GetUnRefType() const
 {
   return _TypeDera;
 }
-
-//=============================================================================
-/*!
-*/
 //=============================================================================
 void HOMARD_Hypothesis::SetField( const char* FieldName )
 {
@@ -222,19 +189,20 @@ void HOMARD_Hypothesis::SetField( const char* FieldName )
   MESSAGE( "SetField : FieldName = " << FieldName );
 }
 //=============================================================================
-void HOMARD_Hypothesis::SetRefinThr( int TypeThR, double ThreshR )
+std::string HOMARD_Hypothesis::GetFieldName() const
 {
-  MESSAGE( "SetRefinThr : TypeThR = " << TypeThR << ", ThreshR = " << ThreshR );
-  ASSERT(!(( TypeThR < 0) or (TypeThR > 3 )));
-  _TypeThR = TypeThR;
-  _ThreshR = ThreshR;
+  return _Field;
 }
 //=============================================================================
-void HOMARD_Hypothesis::SetUnRefThr( int TypeThC, double ThreshC )
+void HOMARD_Hypothesis::SetUseField( int UsField )
 {
-  ASSERT(!((TypeThC < 0) or (TypeThC > 3)));
-  _TypeThC = TypeThC;
-  _ThreshC = ThreshC;
+  ASSERT(!((UsField < 0) or (UsField > 1 )));
+  _UsField = UsField;
+}
+//=============================================================================
+int HOMARD_Hypothesis::GetUseField() const
+{
+  return _UsField;
 }
 //=============================================================================
 void HOMARD_Hypothesis::SetUseComp( int UsCmpI )
@@ -243,19 +211,33 @@ void HOMARD_Hypothesis::SetUseComp( int UsCmpI )
   _UsCmpI = UsCmpI;
 }
 //=============================================================================
-void HOMARD_Hypothesis::SetUseField( int UsField )
+int HOMARD_Hypothesis::GetUseComp() const
 {
-  ASSERT(!((UsField < 0) or (UsField > 1 )));
-  _UsField = UsField;
+  return _UsCmpI;
 }
-
 //=============================================================================
-/*!
-*/
-//=============================================================================
-std::string HOMARD_Hypothesis::GetFieldName() const
+void HOMARD_Hypothesis::AddComp( const char* NomComposant )
 {
-  return _Field;
+  _ListComposant.push_back( std::string( NomComposant ) );
+}
+//=============================================================================
+void HOMARD_Hypothesis::SupprComp()
+{
+  MESSAGE ("SupprComp") ;
+  _ListComposant.clear();
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Hypothesis::GetListComp() const
+{
+  return _ListComposant;
+}
+//=============================================================================
+void HOMARD_Hypothesis::SetRefinThr( int TypeThR, double ThreshR )
+{
+  MESSAGE( "SetRefinThr : TypeThR = " << TypeThR << ", ThreshR = " << ThreshR );
+  ASSERT(!(( TypeThR < 0) or (TypeThR > 4 )));
+  _TypeThR = TypeThR;
+  _ThreshR = ThreshR;
 }
 //=============================================================================
 int HOMARD_Hypothesis::GetRefinThrType() const
@@ -268,36 +250,146 @@ double HOMARD_Hypothesis::GetThreshR() const
   return _ThreshR;
 }
 //=============================================================================
+void HOMARD_Hypothesis::SetUnRefThr( int TypeThC, double ThreshC )
+{
+  ASSERT(!((TypeThC < 0) or (TypeThC > 4)));
+  _TypeThC = TypeThC;
+  _ThreshC = ThreshC;
+}
+//=============================================================================
 int HOMARD_Hypothesis::GetUnRefThrType() const
 {
   return _TypeThC;
 }
-
 //=============================================================================
 double HOMARD_Hypothesis::GetThreshC() const
 {
   return _ThreshC;
 }
 //=============================================================================
-int HOMARD_Hypothesis::GetUseField() const
+void HOMARD_Hypothesis::SetNivMax( int NivMax )
+//=============================================================================
 {
-  return _UsField;
+  _NivMax = NivMax;
 }
 //=============================================================================
-int HOMARD_Hypothesis::GetUseCompI() const
+const int HOMARD_Hypothesis::GetNivMax() const
+//=============================================================================
 {
-  return _UsCmpI;
+  return _NivMax;
 }
 //=============================================================================
-/*!
-*/
+void HOMARD_Hypothesis::SetDiamMin( double DiamMin )
 //=============================================================================
-void HOMARD_Hypothesis::AddIteration( const char* NomIteration )
+{
+  _DiamMin = DiamMin;
+}
+//=============================================================================
+const double HOMARD_Hypothesis::GetDiamMin() const
+//=============================================================================
+{
+  return _DiamMin;
+}
+//=============================================================================
+void HOMARD_Hypothesis::SetAdapInit( int AdapInit )
+//=============================================================================
+{
+  _AdapInit = AdapInit;
+}
+//=============================================================================
+const int HOMARD_Hypothesis::GetAdapInit() const
+//=============================================================================
+{
+  return _AdapInit;
+}
+//=============================================================================
+void HOMARD_Hypothesis::SetLevelOutput( int LevelOutput )
+//=============================================================================
+{
+  _LevelOutput = LevelOutput;
+}
+//=============================================================================
+const int HOMARD_Hypothesis::GetLevelOutput() const
+//=============================================================================
+{
+  return _LevelOutput;
+}
+//=============================================================================
+void HOMARD_Hypothesis::AddGroup( const char* Group)
+{
+  _ListGroupSelected.push_back(Group);
+}
+//=============================================================================
+void HOMARD_Hypothesis::SetGroups( const std::list<std::string>& ListGroup )
+{
+  _ListGroupSelected.clear();
+  std::list<std::string>::const_iterator it = ListGroup.begin();
+  while(it != ListGroup.end())
+    _ListGroupSelected.push_back((*it++));
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Hypothesis::GetGroups() const
+{
+  return _ListGroupSelected;
+}
+//=============================================================================
+void HOMARD_Hypothesis::SetTypeFieldInterp( int TypeFieldInterp )
+{
+  ASSERT (!((TypeFieldInterp < -1) or (TypeFieldInterp > 2)));
+  _TypeFieldInterp = TypeFieldInterp;
+}
+//=============================================================================
+int HOMARD_Hypothesis::GetTypeFieldInterp() const
+{
+  return _TypeFieldInterp;
+}
+//=============================================================================
+void HOMARD_Hypothesis::AddFieldInterp( const char* FieldInterp )
+{
+  _ListFieldInterp.push_back( std::string( FieldInterp ) );
+}
+//=============================================================================
+void HOMARD_Hypothesis::SupprFieldInterp()
+{
+  MESSAGE ("SupprFieldInterp") ;
+  _ListFieldInterp.clear();
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Hypothesis::GetListFieldInterp() const
+{
+  return _ListFieldInterp;
+}
+//=============================================================================
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
+//=============================================================================
+void HOMARD_Hypothesis::SetCaseCreation( const char* NomCasCreation )
+{
+  _NomCasCreation = std::string( NomCasCreation );
+}
+//=============================================================================
+std::string HOMARD_Hypothesis::GetCaseCreation() const
+{
+  return _NomCasCreation;
+}
+//=============================================================================
+void HOMARD_Hypothesis::LinkIteration( const char* NomIteration )
 {
   _ListIter.push_back( std::string( NomIteration ) );
 }
 //=============================================================================
-void HOMARD_Hypothesis::SupprIterations()
+void HOMARD_Hypothesis::UnLinkIteration( const char* NomIteration )
+{
+  std::list<std::string>::iterator it = find( _ListIter.begin(), _ListIter.end(), NomIteration ) ;
+  if ( it != _ListIter.end() )
+  {
+    MESSAGE ("Dans UnLinkIteration pour " << NomIteration) ;
+    _ListIter.erase( it ) ;
+  }
+}
+//=============================================================================
+void HOMARD_Hypothesis::UnLinkIterations()
 {
   _ListIter.clear();
 }
@@ -307,11 +399,9 @@ const std::list<std::string>& HOMARD_Hypothesis::GetIterations() const
   return _ListIter;
 }
 //=============================================================================
-/*!
-*/
-//=============================================================================
 void HOMARD_Hypothesis::AddZone( const char* NomZone, int TypeUse )
 {
+  MESSAGE ("Dans AddZone pour " << NomZone) ;
   _ListZone.push_back( std::string( NomZone ) );
   std::stringstream saux1 ;
   saux1 << TypeUse ;
@@ -321,6 +411,7 @@ void HOMARD_Hypothesis::AddZone( const char* NomZone, int TypeUse )
 //=============================================================================
 void HOMARD_Hypothesis::SupprZone( const char* NomZone )
 {
+  MESSAGE ("Dans SupprZone pour " << NomZone) ;
   std::list<std::string>::iterator it = find( _ListZone.begin(), _ListZone.end(), NomZone );
   if ( it != _ListZone.end() )
   {
@@ -336,128 +427,4 @@ void HOMARD_Hypothesis::SupprZones()
 const std::list<std::string>& HOMARD_Hypothesis::GetZones() const
 {
   return _ListZone;
-}
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Hypothesis::AddComp( const char* NomComposant )
-{
-  _ListComposant.push_back( std::string( NomComposant ) );
-}
-//=============================================================================
-void HOMARD_Hypothesis::SupprComp()
-{
-  std::cerr << "HOMARD_Hypothesis::SupprComp" << std::endl;
-  _ListComposant.clear();
-}
-//=============================================================================
-const std::list<std::string>& HOMARD_Hypothesis::GetListComp() const
-{
-  return _ListComposant;
-}
-//=============================================================================
-/*!
-*/
-//=============================================================================
-const std::list<std::string>& HOMARD_Hypothesis::GetGroups() const
-{
-  return _ListGroupSelected;
-}
-//=============================================================================
-void HOMARD_Hypothesis::SetGroups( const std::list<std::string>& ListGroup )
-{
-  _ListGroupSelected.clear();
-  std::list<std::string>::const_iterator it = ListGroup.begin();
-  while(it != ListGroup.end())
-    _ListGroupSelected.push_back((*it++));
-}
-//=============================================================================
-void HOMARD_Hypothesis::AddGroup( const char* Group)
-{
-  _ListGroupSelected.push_back(Group);
-}
-//=============================================================================
-/*!
-*/
-//=============================================================================
-void HOMARD_Hypothesis::SetTypeFieldInterp( int TypeFieldInterp )
-{
-  ASSERT (!((TypeFieldInterp < -1) or (TypeFieldInterp > 2)));
-  _TypeFieldInterp = TypeFieldInterp;
-}
-
-//=============================================================================
-/*!
-*/
-//=============================================================================
-int HOMARD_Hypothesis::GetTypeFieldInterp() const
-{
-  return _TypeFieldInterp;
-}
-/*!
-*/
-//=============================================================================
-void HOMARD_Hypothesis::AddFieldInterp( const char* FieldInterp )
-{
-  _ListFieldInterp.push_back( std::string( FieldInterp ) );
-}
-//=============================================================================
-void HOMARD_Hypothesis::SupprFieldInterp()
-{
-  std::cerr << "HOMARD_Hypothesis::SupprFieldInterpp" << std::endl;
-  _ListFieldInterp.clear();
-}
-//=============================================================================
-const std::list<std::string>& HOMARD_Hypothesis::GetListFieldInterp() const
-{
-  return _ListFieldInterp;
-}
-//=============================================================================
-void HOMARD_Hypothesis::SetNivMax( int NivMax )
-//=============================================================================
-{
-  _NivMax = NivMax;
-}
-//=============================================================================
-const int HOMARD_Hypothesis::GetNivMax() const
-//=============================================================================
-{
-  return _NivMax;
-}
-//=============================================================================
-void HOMARD_Hypothesis::SetAdapInit( int AdapInit )
-//=============================================================================
-{
-  _AdapInit = AdapInit;
-}
-//=============================================================================
-const int HOMARD_Hypothesis::GetAdapInit() const
-//=============================================================================
-{
-  return _AdapInit;
-}
-//=============================================================================
-void HOMARD_Hypothesis::SetDiamMin( double DiamMin )
-//=============================================================================
-{
-  _DiamMin = DiamMin;
-}
-//=============================================================================
-const double HOMARD_Hypothesis::GetDiamMin() const
-//=============================================================================
-{
-  return _DiamMin;
-}
-//=============================================================================
-void HOMARD_Hypothesis::SetLevelOutput( int LevelOutput )
-//=============================================================================
-{
-  _LevelOutput = LevelOutput;
-}
-//=============================================================================
-const int HOMARD_Hypothesis::GetLevelOutput() const
-//=============================================================================
-{
-  return _LevelOutput;
 }

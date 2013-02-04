@@ -22,10 +22,11 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.4"
+__revision__ = "V1.5"
 
 #========================================================================
 Test_Name = "test_3"
+n_boucle = 2
 n_iter_test_file = 2
 #========================================================================
 import os
@@ -110,27 +111,46 @@ Copyright EDF-R&D 2010, 2013
     Case_1.AddBoundaryGroup('sphere_1', 'END_1')
     Case_1.AddBoundaryGroup('sphere_2', 'END_2')
 #
-# Creation of the iterations
-# ==========================
-# Creation of the iteration Iter_1
-    Iter_1 = Case_1.NextIteration('Iter_1')
-    Iter_1.SetMeshName('MOYEU_1')
-    Iter_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    Iter_1.AssociateHypo('Hypo')
-    error = Iter_1.Compute(1)
-    if error :
-      error = 1
-      break
+# Creation and destruction of the iterations
+# ==========================================
+#
+    for iaux in range (n_boucle+1) :
+#
+  # Creation of the iteration Iter_1
+      Iter_1 = Case_1.NextIteration('Iter_1')
+      Iter_1.SetMeshName('MOYEU_1')
+      Iter_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+      Iter_1.AssociateHypo('Hypo')
+      error = Iter_1.Compute(1)
+      if error :
+        error = 10*iaux + 1
+        break
 
-# Creation of the iteration Iter_2
-    Iter_2 = Iter_1.NextIteration('Iter_2')
-    Iter_2.SetMeshName('MOYEU_2')
-    Iter_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    Iter_2.AssociateHypo('Hypo')
-    error = Iter_2.Compute(1)
-    if error :
-      error = 2
-      break
+  # Creation of the iteration Iter_2
+      Iter_2 = Iter_1.NextIteration('Iter_2')
+      Iter_2.SetMeshName('MOYEU_2')
+      Iter_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+      Iter_2.AssociateHypo('Hypo')
+      error = Iter_2.Compute(1)
+      if error :
+        error = 10*iaux + 2
+        break
+
+  # Destruction
+      if ( iaux < n_boucle ) :
+  # Recursive destruction of the iterations
+        error = Iter_1.Delete()
+        if error :
+          error = 10*iaux + 3
+          break
+  # Destruction and creation of the hypothese
+        if ( iaux == 1 ) :
+          error = Hypo.Delete()
+          if error :
+            error = 10*iaux + 4
+            break
+          Hypo = homard.CreateHypothesis('Hypo')
+          Hypo.SetAdapRefinUnRef(-1, 1, 0)
 #
     break
 #
@@ -154,9 +174,8 @@ except Exception, e:
 #
 # Test of the result
 #
-s_iter_test_file = str(n_iter_test_file)
-test_file_suff = "apad.0" + s_iter_test_file + ".bilan"
-rep_test_file = "I0" + s_iter_test_file
+test_file_suff = "apad.%02d.bilan" % n_iter_test_file
+rep_test_file = "I%02d" % (n_iter_test_file*(n_boucle+1))
 #
 test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
 mess_error_ref = "\nReference file: " + test_file

@@ -21,6 +21,15 @@
 //  File   : HOMARD_Cas.hxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #ifndef _HOMARD_CAS_HXX_
 #define _HOMARD_CAS_HXX_
@@ -35,33 +44,28 @@ public:
   HOMARD_Cas();
   ~HOMARD_Cas();
 
+// Generalites
   void                          SetName( const char* Name );
   std::string                   GetName() const;
 
+  std::string                   GetDumpPython() const;
+
+// Caracteristiques
   void                          SetDirName( const char* NomDir );
   std::string                   GetDirName() const;
 
-  void                          SetConfType( int ConfType );
-  const int                     GetConfType() const;
   int                           GetNumber();
 
-  void                          AddIteration( const char* NomIteration );
-  const std::list<std::string>& GetIterations() const;
-  void                          SupprIterations();
-
-  std::string                   GetIter0Name() const;
-  std::string                   GetDumpPython() const;
+  void                          SetConfType( int ConfType );
+  const int                     GetConfType() const;
 
   void                          SetBoundingBox( const std::vector<double>& extremas );
   const std::vector<double>&    GetBoundingBox() const;
 
-  void                          SetGroups( const std::list<std::string>& ListGroup );
-
   void                          AddGroup( const char* Group);
+  void                          SetGroups( const std::list<std::string>& ListGroup );
   const std::list<std::string>& GetGroups() const;
   void                          SupprGroups();
-
-//   void                          SetBoundary( const std::list<std::string>& ListBoundary );
 
   void                          AddBoundaryGroup( const char* Boundary, const char* Group );
   const std::list<std::string>& GetBoundaryGroup() const;
@@ -69,6 +73,13 @@ public:
 
   void                          SetPyram( int Pyram );
   const int                     GetPyram() const;
+
+// Liens avec les autres structures
+  std::string                   GetIter0Name() const;
+
+  void                          AddIteration( const char* NomIteration );
+  const std::list<std::string>& GetIterations() const;
+  void                          SupprIterations();
 
 private:
   std::string                   _Name;

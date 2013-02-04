@@ -38,8 +38,8 @@ public:
     MonCreateCase( QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen);
     ~MonCreateCase();
 
-    void addBoundaryAn(QString newBoundary);
-    void addBoundaryDi(QString newBoundary);
+    void AddBoundaryAn(QString newBoundary);
+    void AddBoundaryDi(QString newBoundary);
 
 protected :
     QString _aCaseName;

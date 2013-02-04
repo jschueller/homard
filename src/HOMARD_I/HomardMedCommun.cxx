@@ -25,12 +25,24 @@
 #include <cstring>
 #include <algorithm>
 
-extern "C" 
+extern "C"
 {
 #include <med.h>
 }
 
 #include "utilities.h"
+// =======================================================================
+int MEDFileExist( const char * aFile )
+// Retourne 1 si le fichier existe, 0 sinon
+// =======================================================================
+{
+  int existe ;
+  med_idt medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
+  if ( medIdt < 0 ) { existe = 0 ; }
+  else              { MEDfileClose(medIdt);
+                      existe = 1 ; }
+  return existe ;
+}
 // =======================================================================
 std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
 // =======================================================================
@@ -64,15 +76,15 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
                           axisname,
                           axisunit);
    if ( aRet < 0 ) { return ListeGroupes; };
-   
+
    med_int nfam, ngro, natt;
    if ((nfam = MEDnFamily(medIdt,meshname)) < 0) { return ListeGroupes; };
-   
+
   char familyname[MED_NAME_SIZE+1];
   med_int numfam;
-  for (int i=0;i<nfam;i++) 
+  for (int i=0;i<nfam;i++)
   {
-    if ((ngro = MEDnFamilyGroup(medIdt,meshname,i+1)) < 0) 
+    if ((ngro = MEDnFamilyGroup(medIdt,meshname,i+1)) < 0)
     {
       // GERALD -- QMESSAGE BOX
       std::cerr << " Error : Families are unreadable" << std::endl;
@@ -81,7 +93,7 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
     }
     if (ngro == 0) continue;
 
-    if ((natt = MEDnFamily23Attribute(medIdt,meshname,i+1)) < 0) 
+    if ((natt = MEDnFamily23Attribute(medIdt,meshname,i+1)) < 0)
     {
       // GERALD -- QMESSAGE BOX
       std::cerr << " Error : Families are unreadable" << std::endl;
@@ -93,7 +105,7 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
     med_int* attval = (med_int*) malloc(sizeof(med_int)*natt);
     char*    attdes = (char *)   malloc(MED_COMMENT_SIZE*natt+1);
     char*    gro    = (char*)    malloc(MED_LNAME_SIZE*ngro+1);
-    
+
     med_err aRet = MEDfamily23Info(medIdt,
                                 meshname,
                                 i+1,
@@ -103,9 +115,9 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
                                 attdes,
                                 &numfam,
                                 gro);
-    
-    if (aRet < 0) 
-    { 
+
+    if (aRet < 0)
+    {
       // GERALD -- QMESSAGE BOX
       std::cerr << " Error : Families are unreadable" << std::endl;
       std::cerr << "Pb avec la famille : " << i+1 << std::endl;
@@ -116,7 +128,7 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
     free(attdes);
     if ((numfam )> 0) { continue;} // On ne garde que les familles d elts
 
-    for (int j=0;j<ngro;j++) 
+    for (int j=0;j<ngro;j++)
     {
           char str2[MED_LNAME_SIZE+1];
           strncpy(str2,gro+j*MED_LNAME_SIZE,MED_LNAME_SIZE);
@@ -140,10 +152,10 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
 //  9 distance max dans le maillage
 
    std::vector<double> LesExtremes;
-   
+
    // Ouverture du Fichier Med
    med_idt medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
-   if (medIdt <0) 
+   if (medIdt <0)
    {
           // GERALD -- QMESSAGE BOX
           std::cerr << "Error : mesh is unreadable" << std::endl;
@@ -153,7 +165,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
                                 // Le fichier Med est lisible
     // Boucle sur les noms de maillage
    med_int numberOfMeshes = MEDnMesh(medIdt) ;
-   if (numberOfMeshes != 1 ) 
+   if (numberOfMeshes != 1 )
    {
           // GERALD -- QMESSAGE BOX
           std::cerr << "Error : file contains more than one mesh" << std::endl;
@@ -185,7 +197,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
                           axisname,
                           axisunit);
 
-   if (aRet < 0) 
+   if (aRet < 0)
    {
           // GERALD -- QMESSAGE BOX
           std::cerr << "Error : mesh is unreadable" << std::endl;
@@ -203,7 +215,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
                             MED_NO_CMODE,
                             &chgt,
                             &trsf);
-   if ( nnoe < 0) 
+   if ( nnoe < 0)
    {
           // GERALD -- QMESSAGE BOX
           std::cerr << "Error : mesh is unreadable" << std::endl;
@@ -218,7 +230,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
                                       MED_NO_IT,
                                       MED_NO_INTERLACE,
                                       coo);
-   if ( aRet < 0) 
+   if ( aRet < 0)
    {
           // GERALD -- QMESSAGE BOX
           std::cerr << "Error : mesh coordinates are unreadable" << std::endl;
@@ -226,7 +238,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
    }
 
    med_float xmin,xmax,ymin,ymax,zmin,zmax;
-   
+
    xmin=coo[0];
    xmax=coo[0];
    for (int i=1;i<nnoe;i++)

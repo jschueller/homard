@@ -109,7 +109,7 @@ bool MonCreateBoundaryDi::PushOnApply()
    {
      _aBoundaryName=aBoundaryName;
      _aBoundary=_myHomardGen->CreateBoundaryDi(CORBA::string_dup(_aBoundaryName.toStdString().c_str()), aMeshName.toStdString().c_str(), aMeshFile.toStdString().c_str());
-     _parent->addBoundaryDi(_aBoundaryName);
+     _parent->AddBoundaryDi(_aBoundaryName);
      _aBoundary->SetCaseCreation(_aCaseName.toStdString().c_str());
    }
    catch( SALOME::SALOME_Exception& S_ex )

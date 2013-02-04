@@ -202,7 +202,7 @@ namespace HOMARD
     os << separator() << hypothesis.GetUnRefThrType();
     os << separator() << hypothesis.GetThreshC();
     os << separator() << hypothesis.GetUseField();
-    os << separator() << hypothesis.GetUseCompI();
+    os << separator() << hypothesis.GetUseComp();
     os << separator() << hypothesis.GetTypeFieldInterp();
 
     std::list<std::string> ListString = hypothesis.GetIterations();
@@ -458,7 +458,7 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      iteration.AddIteration( chunk.c_str() );
+      iteration.LinkNextIteration( chunk.c_str() );
     }
     //
     chunk = getNextChunk( stream, start, ok );
@@ -546,7 +546,7 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      hypothesis.AddIteration( chunk.c_str() );
+      hypothesis.LinkIteration( chunk.c_str() );
     }
 
     chunk = getNextChunk( stream, start, ok );

@@ -124,7 +124,7 @@ void MonCreateCase::InitBoundarys()
     myBoundary = _myHomardGen->GetBoundary(mesBoundarys[i]);
     int type_obj = myBoundary->GetType() ;
     if ( type_obj==0 ) { CBBoundaryDi->addItem(QString(mesBoundarys[i])); }
-    else               { addBoundaryAn(QString(mesBoundarys[i])); }
+    else               { AddBoundaryAn(QString(mesBoundarys[i])); }
   }
 // Ajustement
   TWBoundary->resizeColumnsToContents();
@@ -395,7 +395,7 @@ void MonCreateCase::SetBoundaryD()
   adjustSize();
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::addBoundaryDi(QString newBoundary)
+void MonCreateCase::AddBoundaryDi(QString newBoundary)
 // ------------------------------------------------------------------------
 {
   CBBoundaryDi->insertItem(0,newBoundary);
@@ -443,10 +443,10 @@ void MonCreateCase::SetBoundaryA()
 //   MESSAGE("Fin de SetBoundaryA ");
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::addBoundaryAn(QString newBoundary)
+void MonCreateCase::AddBoundaryAn(QString newBoundary)
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de addBoundaryAn ");
+  MESSAGE("Debut de AddBoundaryAn ");
 // Ajout d'une nouvelle colonne
   int nbcol = TWBoundary->columnCount();
 //   MESSAGE("nbcol " <<  nbcol);
@@ -468,7 +468,7 @@ void MonCreateCase::addBoundaryAn(QString newBoundary)
   }
   TWBoundary->resizeColumnToContents(nbcol-1);
 //   TWBoundary->resizeRowsToContents();
-//   MESSAGE("Fin de addBoundaryAn ");
+//   MESSAGE("Fin de AddBoundaryAn ");
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::PushBoundaryAnNew()

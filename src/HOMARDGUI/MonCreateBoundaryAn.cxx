@@ -268,7 +268,7 @@ bool MonCreateBoundaryAn:: CreateOrUpdateBoundaryAn()
         break;
       }
     }
-    _parent->addBoundaryAn(_aName);
+    _parent->AddBoundaryAn(_aName);
   }
 // Mise en place des attributs
   aBoundaryAn->SetLimit(_Xincr, _Yincr, _Zincr);

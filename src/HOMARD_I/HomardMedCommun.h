@@ -24,6 +24,7 @@
 #include <set>
 #include <string>
 
+int                    MEDFileExist( const char * aFile );
 std::vector<double>    GetBoundingBoxInMedFile( const char * aFile);
 std::set<std::string>  GetListeGroupesInMedFile(const char * aFile);
 

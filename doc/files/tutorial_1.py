@@ -24,14 +24,21 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.3"
+__revision__ = "V1.4"
+#
+import os
 #
 # ==================================
 # Repertoire a personnaliser
 # Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med, maill.03.med
-dircase = "/tmp"
+if os.environ.has_key("LOGNAME") :
+  user = os.environ ["LOGNAME"]
+else :
+  user = "anonymous"
+dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+if not os.path.isdir(dircase) :
+  os.mkdir (dircase)
 # ==================================
-import os
 # Ce repertoire contient les fichiers de donnees : tutorial_1.00.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
 data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")

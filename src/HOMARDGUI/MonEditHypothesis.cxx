@@ -285,6 +285,7 @@ void MonEditHypothesis::InitAdaptChamps()
   RBRAbs->setEnabled(false) ;
   RBRRel->setEnabled(false) ;
   RBRPE->setEnabled(false) ;
+  RBRMuSigma->setEnabled(false) ;
   RBRNo->setEnabled(false) ;
   if (_aTypeRaff== 0 )
   {
@@ -296,12 +297,14 @@ void MonEditHypothesis::InitAdaptChamps()
     if ( _TypeThR == 1 ) { SpinBox_RAbs->setValue(_ThreshR); SetRAbs(); RBRAbs->setEnabled(true);}
     if ( _TypeThR == 2 ) { SpinBox_RRel->setValue(_ThreshR); SetRRel(); RBRRel->setEnabled(true);}
     if ( _TypeThR == 3 ) { SpinBox_RPE->setValue(_ThreshR);  SetRPE();  RBRPE->setEnabled(true);}
+    if ( _TypeThR == 4 ) { SpinBox_RMuSigma->setValue(_ThreshR);  SetRMS();  RBRMuSigma->setEnabled(true);}
   }
 
   // Les seuils de deraffinement
   RBCAbs->setEnabled(false) ;
   RBCRel->setEnabled(false) ;
   RBCPE->setEnabled(false) ;
+  RBCMuSigma->setEnabled(false) ;
   RBCNo->setEnabled(false) ;
   if (_aTypeDera== 0 )
   {
@@ -313,6 +316,7 @@ void MonEditHypothesis::InitAdaptChamps()
     if ( _TypeThC == 1 ) { SpinBox_CAbs->setValue(_ThreshC); SetCAbs(); RBCAbs->setEnabled(true);}
     if ( _TypeThC == 2 ) { SpinBox_CRel->setValue(_ThreshC); SetCRel(); RBCRel->setEnabled(true);}
     if ( _TypeThC == 3 ) { SpinBox_CPE->setValue(_ThreshC);  SetCPE(); RBCPE->setEnabled(true);}
+    if ( _TypeThC == 4 ) { SpinBox_CMuSigma->setValue(_ThreshC);  SetCMS();  RBCMuSigma->setEnabled(true);}
   }
   // Le choix de la prise en compte des composantes
   if ( TWCMP->rowCount() == 1 )
@@ -405,6 +409,7 @@ bool MonEditHypothesis::PushOnApply()
       if (_TypeThR == 1) { _ThreshR = SpinBox_RAbs->value(); }
       if (_TypeThR == 2) { _ThreshR = SpinBox_RRel->value(); }
       if (_TypeThR == 3) { _ThreshR = SpinBox_RPE->value();  }
+      if (_TypeThR == 4) { _ThreshR = SpinBox_RMuSigma->value();  }
       _aHypothesis->SetRefinThr(_TypeThR, _ThreshR) ;
     }
     if (_aTypeDera!= 0 )
@@ -412,6 +417,7 @@ bool MonEditHypothesis::PushOnApply()
       if (_TypeThC == 1) { _ThreshC = SpinBox_CAbs->value() ; }
       if (_TypeThC == 2) { _ThreshC = SpinBox_CRel->value() ; }
       if (_TypeThC == 3) { _ThreshC = SpinBox_CPE->value() ; }
+      if (_TypeThC == 4) { _ThreshC = SpinBox_CMuSigma->value() ; }
       _aHypothesis->SetUnRefThr(_TypeThC, _ThreshC) ;
     }
 

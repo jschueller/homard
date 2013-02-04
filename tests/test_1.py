@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.7"
+__revision__ = "V1.8"
 
 #========================================================================
 Test_Name = "test_1"
@@ -166,9 +166,8 @@ except Exception, e:
 #
 # Test of the result
 #
-s_iter_test_file = str(n_iter_test_file)
-test_file_suff = "apad.0" + s_iter_test_file + ".bilan"
-rep_test_file = "I0" + s_iter_test_file
+test_file_suff = "apad.%02d.bilan" % n_iter_test_file
+rep_test_file = "I%02d" % n_iter_test_file
 #
 test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
 mess_error_ref = "\nReference file: " + test_file

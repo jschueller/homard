@@ -24,14 +24,21 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2011, 2013
 """
-__revision__ = "V1.4"
+__revision__ = "V2.1"
+#
+import os
 #
 # ==================================
 # Repertoire a personnaliser
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
-dircase = "/tmp"
+# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med, maill.03.med
+if os.environ.has_key("LOGNAME") :
+  user = os.environ ["LOGNAME"]
+else :
+  user = "anonymous"
+dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+if not os.path.isdir(dircase) :
+    os.mkdir (dircase)
 # ==================================
-import os
 # Ce repertoire contient les fichiers de donnees : tutorial_4.00.med, tutorial_4.fr.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
 data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
@@ -76,27 +83,33 @@ Hypo_2.AddGroup('T2_EXT')
 Case = homard.CreateCase('Case', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
 Case.SetDirName(dircase)
 Case.AddBoundaryGroup( 'intersection', '' )
-Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
-Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
-Case.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
+Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
 Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
+Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
 Case.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
+Case.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 #
 # Creation of the iterations
 # ==========================
-# Creation of the iteration Iter_1
+# Creation of the iteration Iter_1 : raffinement selon les faces internes
 Iter_1 = Case.NextIteration('Iter_1')
 Iter_1.SetMeshName('PIQUAGE_1')
 Iter_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_1.AssociateHypo('Hypo_1')
 codret = Iter_1.Compute(1)
-# Creation of the iteration Iter_2
+# Creation of the iteration Iter_2 : raffinement selon les faces externes
 Iter_2 = Iter_1.NextIteration('Iter_2')
 Iter_2.SetMeshName('PIQUAGE_2')
 Iter_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_2.AssociateHypo('Hypo_2')
 codret = Iter_2.Compute(1)
+# Creation of the iteration Iter_3 : second raffinement selon les faces externes
+Iter_3 = Iter_2.NextIteration('Iter_3')
+Iter_3.SetMeshName('PIQUAGE_3')
+Iter_3.SetMeshFile(dircase+'/maill.03.med')
+Iter_3.AssociateHypo('Hypo_2')
+codret = Iter_3.Compute(1)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

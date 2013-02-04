@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_HYPOTHESIS_I_HXX_
 #define _HOMARD_HYPOTHESIS_I_HXX_
@@ -43,59 +52,73 @@ public:
 
   virtual ~HOMARD_Hypothesis_i();
 
-  void                         SetName( const char* Name );
-  char*                        GetName();
-  void                         SetCaseCreation( const char* NomCaseCreation );
-  char*                        GetCaseCreation();
-  char*                        GetDumpPython();
+// Generalites
+  void                   SetName( const char* Name );
+  char*                  GetName();
 
-  void                         SetAdapRefinUnRef( CORBA::Long TypeAdap, CORBA::Long TypeRaff, CORBA::Long TypeDera );
-  HOMARD::listeTypes*          GetAdapRefinUnRef();
-  CORBA::Long                  GetAdapType();
-  CORBA::Long                  GetRefinType();
-  CORBA::Long                  GetUnRefType();
+  CORBA::Long            Delete();
 
-  void                         SetField( const char* FieldName );
-  char*                        GetFieldName();
-  void                         SetRefinThr(CORBA::Long TypeThR, CORBA::Double ThreshR);
-  CORBA::Long                  GetRefinThrType();
-  void                         SetUnRefThr(CORBA::Long TypeThC, CORBA::Double ThreshC);
-  CORBA::Long                  GetUnRefThrType();
-  void                         SetUseComp(CORBA::Long UsCmpI);
-  void                         SetUseField(CORBA::Long UsField);
-  HOMARD::InfosHypo*           GetField();
+  char*                  GetDumpPython();
 
-  void                         AddIteration( const char* NomIteration );
-  void                         AddZone( const char* NomZone, CORBA::Long TypeUse );
-  void                         SupprZone( const char* NomZone );
-  void                         AddComp( const char* NomComposant );
-  void                         SupprComp();
+  std::string            Dump() const;
+  bool                   Restore( const std::string& stream );
 
+// Caracteristiques
+  void                   SetAdapRefinUnRef( CORBA::Long TypeAdap, CORBA::Long TypeRaff, CORBA::Long TypeDera );
+  HOMARD::listeTypes*    GetAdapRefinUnRef();
+  CORBA::Long            GetAdapType();
+  CORBA::Long            GetRefinType();
+  CORBA::Long            GetUnRefType();
+
+  void                   SetField( const char* FieldName );
+  char*                  GetFieldName();
+  void                   SetUseField(CORBA::Long UsField);
+  HOMARD::InfosHypo*     GetField();
+
+  void                   SetUseComp(CORBA::Long UsCmpI);
+  void                   AddComp( const char* NomComposant );
+  void                   SupprComp();
   HOMARD::listeComposantsHypo* GetListComp();
-  HOMARD::listeIters*          GetIterations();
-  HOMARD::listeZonesHypo*      GetZones();
 
-  void                         AddGroup( const char* Group);
-  void                         SetGroups(const HOMARD::ListGroupType& ListGroup);
-  HOMARD::ListGroupType*       GetGroups();
+  void                   SetRefinThr(CORBA::Long TypeThR, CORBA::Double ThreshR);
+  CORBA::Long            GetRefinThrType();
+  void                   SetUnRefThr(CORBA::Long TypeThC, CORBA::Double ThreshC);
+  CORBA::Long            GetUnRefThrType();
 
-  void                         SetTypeFieldInterp( CORBA::Long TypeFieldInterp );
-  CORBA::Long                  GetTypeFieldInterp();
-  void                         AddFieldInterp( const char* FieldInterp );
-  void                         SupprFieldInterp();
+  void                   SetNivMax( CORBA::Long NivMax );
+  CORBA::Long            GetNivMax();
+
+  void                   SetDiamMin( CORBA::Double DiamMin );
+  CORBA::Double          GetDiamMin();
+
+  void                   SetAdapInit( CORBA::Long AdapInit );
+  CORBA::Long            GetAdapInit();
+
+  void                   SetLevelOutput( CORBA::Long LevelOutput );
+  CORBA::Long            GetLevelOutput();
+
+  void                   AddGroup( const char* Group);
+  void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
+  HOMARD::ListGroupType* GetGroups();
+
+  void                   SetTypeFieldInterp( CORBA::Long TypeFieldInterp );
+  CORBA::Long            GetTypeFieldInterp();
+  void                   AddFieldInterp( const char* FieldInterp );
+  void                   SupprFieldInterp();
   HOMARD::listFieldInterpHypo* GetListFieldInterp();
 
-  void                         SetNivMax( CORBA::Long NivMax );
-  CORBA::Long                  GetNivMax();
-  void                         SetDiamMin( CORBA::Double DiamMin );
-  CORBA::Double                GetDiamMin();
-  void                         SetAdapInit( CORBA::Long AdapInit );
-  CORBA::Long                  GetAdapInit();
-  void                         SetLevelOutput( CORBA::Long LevelOutput );
-  CORBA::Long                  GetLevelOutput();
+// Liens avec les autres structures
+  void                   SetCaseCreation( const char* NomCaseCreation );
+  char*                  GetCaseCreation();
 
-  std::string                  Dump() const;
-  bool                         Restore( const std::string& stream );
+  void                   LinkIteration( const char* NomIteration );
+  void                   UnLinkIteration( const char* NomIteration );
+  HOMARD::listeIters*    GetIterations();
+
+  void                   AddZone( const char* NomZone, CORBA::Long TypeUse );
+  void                   AddZone0( const char* NomZone, CORBA::Long TypeUse );
+  void                   SupprZone( const char* NomZone );
+  HOMARD::listeZonesHypo* GetZones();
 
 private:
   ::HOMARD_Hypothesis*         myHomardHypothesis;

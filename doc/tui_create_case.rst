@@ -109,6 +109,16 @@ Méthodes de la classe cas
 |     - ``group`` : nom d'un groupe de faces placées sur la     |
 |       frontière                                               |
 +---------------------------------------------------------------+
+| .. index:: single: Delete                                     |
+|                                                               |
+| **Delete()**                                                  |
+|     Detruit le cas et toutes les itérations associées.        |
+|     Le fichier du maillage associé est conservé.              |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 
 Les options avancées
 ^^^^^^^^^^^^^^^^^^^^

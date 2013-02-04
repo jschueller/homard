@@ -15,7 +15,7 @@
             <component-username>HOMARD</component-username>
             <component-type>OTHER</component-type>
             <component-author>HOMARD team - EDF RD</component-author>
-            <component-version>1.2</component-version>
+            <component-version>1.3</component-version>
             <component-comment>unknown</component-comment>
             <component-multistudy>1</component-multistudy>
             <component-impltype>1</component-impltype>
@@ -74,33 +74,6 @@
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
                                 <outParameter-type>HOMARD/HOMARD_Hypothesis</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>CreateIteration</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>PreviousIterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>HOMARD/HOMARD_Iteration</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>
@@ -641,28 +614,6 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>GetZone</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>ZoneName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>HOMARD/HOMARD_Zone</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
                         <service-name>GetHypothesis</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
@@ -701,6 +652,28 @@
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
                                 <outParameter-type>HOMARD/HOMARD_Iteration</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>GetZone</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>ZoneName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD/HOMARD_Zone</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>
@@ -787,6 +760,28 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
+                        <service-name>LastIteration</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>CaseName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD/HOMARD_Iteration</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
                         <service-name>SetCurrentStudy</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
@@ -800,198 +795,6 @@
                             </inParameter>
                         </inParameter-list>
                         <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>InvalideBoundary</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>BounName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>InvalideZone</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>ZoneName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>InvalideHypo</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>HypoName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>InvalideIter</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>Compute</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.2</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>etatMenage</inParameter-name>
-                                <inParameter-type>long</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>long</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>VerifieDir</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>IterName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>boolean</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>PublishFileUnderIteration</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>NomIter</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>NomFich</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>Commentaire</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>PublishResultInSmesh</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>NomFich</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                            <inParameter>
-                                <inParameter-name>IconeType</inParameter-name>
-                                <inParameter-type>long</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetCurrentStudy</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list></inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>SALOMEDS/Study</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetCurrentStudyID</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list></inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>long</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
                         <DataStream-list></DataStream-list>
                     </component-service>
                 </component-service-list>

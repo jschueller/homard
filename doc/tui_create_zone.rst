@@ -172,6 +172,15 @@ Méthodes de la classe zone
 |     Retourne un tableau contenant les coordonnées de la zone  |
 |     dans l'ordre d'entrée dans le CreateZoneXXXX associé      |
 +---------------------------------------------------------------+
+| .. index:: single: Delete                                     |
+|                                                               |
+| **Delete()**                                                  |
+|     Detruit la zone                                           |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 
 
 Exemple

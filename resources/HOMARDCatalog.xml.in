@@ -483,7 +483,7 @@
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
                             <inParameter>
-                                <inParameter-name>BounName</inParameter-name>
+                                <inParameter-name>BoundaryName</inParameter-name>
                                 <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
@@ -515,7 +515,7 @@
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
                             <inParameter>
-                                <inParameter-name>BounName</inParameter-name>
+                                <inParameter-name>BoundaryName</inParameter-name>
                                 <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
@@ -572,7 +572,7 @@
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
                             <inParameter>
-                                <inParameter-name>BounName</inParameter-name>
+                                <inParameter-name>BoundaryName</inParameter-name>
                                 <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
@@ -636,7 +636,7 @@
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
                             <inParameter>
-                                <inParameter-name>BounName</inParameter-name>
+                                <inParameter-name>BoundaryName</inParameter-name>
                                 <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
@@ -645,28 +645,6 @@
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
                                 <outParameter-type>HOMARD_Boundary</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetZone</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>ZoneName</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>HOMARD_Zone</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>
@@ -711,6 +689,28 @@
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
                                 <outParameter-type>HOMARD_Iteration</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>GetZone</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>ZoneName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD_Zone</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>
@@ -791,6 +791,28 @@
                             <outParameter>
                                 <outParameter-name>return</outParameter-name>
                                 <outParameter-type>HOMARD/listeIterations</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>LastIteration</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>CaseName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD_Iteration</outParameter-type>
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>

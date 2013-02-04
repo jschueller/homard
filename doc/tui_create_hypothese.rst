@@ -86,6 +86,15 @@ Généralités
 | **GetUnRefType()**                                            |
 |     Retourne le type de déraffinement                         |
 +---------------------------------------------------------------+
+| .. index:: single: Delete                                     |
+|                                                               |
+| **Delete()**                                                  |
+|     Detruit l'hypothèse                                       |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
 
 Le champ et les seuils
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -125,6 +134,7 @@ Le champ et les seuils
 |        * 1 : valeur absolue                                   |
 |        * 2 : valeur relative en %                             |
 |        * 3 : fraction des mailles en %                        |
+|        * 4 : moyenne + n fois l'écart-type                    |
 |                                                               |
 |     - ``threshold`` : valeur du seuil                         |
 +---------------------------------------------------------------+
@@ -144,6 +154,7 @@ Le champ et les seuils
 |        * 1 : valeur absolue                                   |
 |        * 2 : valeur relative en %                             |
 |        * 3 : fraction des mailles en %                        |
+|        * 4 : moyenne - n fois l'écart-type                    |
 |                                                               |
 |     - ``threshold`` : valeur du seuil                         |
 +---------------------------------------------------------------+

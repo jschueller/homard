@@ -535,6 +535,8 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
   { saux = "HRe" ; }
   if ( TypeThR == 3 )
   { saux = "HPE" ; }
+  if ( TypeThR == 4 )
+  { saux = "HMS" ; }
   if ( saux != " " )
   {
     std::stringstream saux1 ;
@@ -550,6 +552,8 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
   { saux = "BRe" ; }
   if ( TypeThC == 3 )
   { saux = "BPE" ; }
+  if ( TypeThC == 4 )
+  { saux = "BMS" ; }
   if ( saux != " " )
   {
     std::stringstream saux1 ;

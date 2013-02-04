@@ -16,6 +16,15 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
 
 #ifndef _HOMARD_Zone_I_HXX_
 #define _HOMARD_Zone_I_HXX_
@@ -43,38 +52,45 @@ public:
 
   virtual ~HOMARD_Zone_i();
 
+// Generalites
   void                   SetName( const char* Name );
   char*                  GetName();
+
+  CORBA::Long            Delete();
+
   char*                  GetDumpPython();
 
-  void                   SetType( CORBA::Long Type );
+  std::string            Dump() const;
+  bool                   Restore( const std::string& stream );
 
+// Caracteristiques
+  void                   SetType( CORBA::Long Type );
   CORBA::Long            GetType();
 
-  HOMARD::double_array*  GetCoords();
   void                   SetBox( double Xmini, double Xmaxi,
                                  double Ymini, double Ymaxi,
                                  double Zmini, double Zmaxi );
 
-  void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
-                                    double Rayon );
-
   void                   SetCylinder( double Xcentre, double Ycentre, double ZCentre,
                                       double Xaxis, double Yaxis, double Zaxis,
                                       double Rayon, double Haut );
+
   void                   SetPipe( double Xcentre, double Ycentre, double ZCentre,
                                   double Xaxis, double Yaxis, double Zaxis,
                                   double Rayon, double Haut, double Rayonint );
 
-  HOMARD::double_array*  GetLimit();
+  void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
+                                    double Rayon );
+
+  HOMARD::double_array*  GetCoords();
+
   void                   SetLimit( double Xincr, double Yincr, double Zincr);
+  HOMARD::double_array*  GetLimit();
 
+// Liens avec les autres structures
   void                   AddHypo( const char *NomHypo );
-  void                   SupprHypo( const char *NomHypo );
   HOMARD::listeHypo*     GetHypo();
-
-  std::string            Dump() const;
-  bool                   Restore( const std::string& stream );
+  void                   SupprHypo( const char *NomHypo );
 
 private:
   ::HOMARD_Zone*         myHomardZone;

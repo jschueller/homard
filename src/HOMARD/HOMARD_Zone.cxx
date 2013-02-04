@@ -21,6 +21,15 @@
 //  File   : HOMARD_Zone.cxx
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
+//
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Zone.hxx"
 #include "utilities.h"
@@ -45,19 +54,20 @@ HOMARD_Zone::~HOMARD_Zone()
 {
   MESSAGE("~HOMARD_Zone") ;
 }
-
+//=============================================================================
+//=============================================================================
+// Generalites
+//=============================================================================
 //=============================================================================
 void HOMARD_Zone::SetName( const char* Name )
 {
-  _Name = std::string( Name ) ;
+  _Name = std::string( Name );
 }
-
 //=============================================================================
 std::string HOMARD_Zone::GetName() const
 {
   return _Name;
 }
-
 //=============================================================================
 std::string HOMARD_Zone::GetDumpPython() const
 {
@@ -137,23 +147,19 @@ std::string HOMARD_Zone::GetDumpPython() const
 
   return aScript.str() ;
 }
-
+//=============================================================================
+//=============================================================================
+// Caracteristiques
+//=============================================================================
 //=============================================================================
 void HOMARD_Zone::SetType( int Type )
 {
   _Type = Type;
 }
-
 //=============================================================================
 int HOMARD_Zone::GetType() const
 {
   return _Type;
-}
-
-//======================================================================
-void HOMARD_Zone::SetLimit( double X0, double X1, double X2 )
-{
-  _Xincr = X0; _Yincr = X1; _Zincr = X2;
 }
 //=======================================================================================
 void HOMARD_Zone::SetBox( double X0, double X1, double X2, double X3, double X4, double X5 )
@@ -162,16 +168,6 @@ void HOMARD_Zone::SetBox( double X0, double X1, double X2, double X3, double X4,
   _Ymin = X2; _Ymax = X3;
   _Zmin = X4; _Zmax = X5;
 }
-
-//======================================================================
-void HOMARD_Zone::SetSphere( double X0, double X1, double X2, double X3 )
-{
-  _Xcentre = X0;
-  _Ycentre = X1;
-  _Zcentre = X2;
-  _Rayon = X3;
-}
-
 //=======================================================================================
 void HOMARD_Zone::SetCylinder( double X0, double X1, double X2,
                                double X3, double X4, double X5, double X6, double X7 )
@@ -199,17 +195,14 @@ void HOMARD_Zone::SetPipe( double X0, double X1, double X2,
   _Haut = X7;
   _Rayonint = X8;
 }
-
-//=======================================================================================
-std::vector<double> HOMARD_Zone::GetLimit() const
+//======================================================================
+void HOMARD_Zone::SetSphere( double X0, double X1, double X2, double X3 )
 {
-  std::vector<double> mesLimit;
-  mesLimit.push_back( _Xincr ) ;
-  mesLimit.push_back( _Yincr ) ;
-  mesLimit.push_back( _Zincr ) ;
-  return mesLimit;
+  _Xcentre = X0;
+  _Ycentre = X1;
+  _Zcentre = X2;
+  _Rayon = X3;
 }
-
 //=======================================================================================
 std::vector<double> HOMARD_Zone::GetCoords() const
 {
@@ -286,13 +279,34 @@ std::vector<double> HOMARD_Zone::GetCoords() const
   }
   return mesCoor;
 }
-
+//======================================================================
+void HOMARD_Zone::SetLimit( double X0, double X1, double X2 )
+{
+  _Xincr = X0; _Yincr = X1; _Zincr = X2;
+}
+//=======================================================================================
+std::vector<double> HOMARD_Zone::GetLimit() const
+{
+  std::vector<double> mesLimit;
+  mesLimit.push_back( _Xincr ) ;
+  mesLimit.push_back( _Yincr ) ;
+  mesLimit.push_back( _Zincr ) ;
+  return mesLimit;
+}
+//=============================================================================
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
 //=============================================================================
 void HOMARD_Zone::AddHypo( const char* NomHypo )
 {
   _ListHypo.push_back( std::string( NomHypo ) ) ;
 }
-
+//=============================================================================
+const std::list<std::string>& HOMARD_Zone::GetHypo() const
+{
+  return _ListHypo;
+}
 //=============================================================================
 void HOMARD_Zone::SupprHypo( const char* NomHypo )
 {
@@ -303,13 +317,6 @@ void HOMARD_Zone::SupprHypo( const char* NomHypo )
     _ListHypo.erase( it ) ;
   }
 }
-
-//=============================================================================
-const std::list<std::string>& HOMARD_Zone::GetHypo() const
-{
-  return _ListHypo;
-}
-
 //=============================================================================
 void HOMARD_Zone::SupprHypos()
 {
