@@ -82,8 +82,7 @@ static CORBA::ORB_var _orb;
 // purpose  : Constructor
 //=======================================================================
 HOMARDGUI::HOMARDGUI(const QString&) :
-           SalomeApp_Module( "HOMARD" ), // default name
-           LightApp_Module( "HOMARD" )
+           SalomeApp_Module( "HOMARD" ) // default name
 {
 }
 
