@@ -203,10 +203,19 @@ Informations sur le champ
 | **SetTimeStepRank(TimeStep, Rank)**                           |
 |     Définit les instants pour le champ                        |
 |                                                               |
+|     Si un seul instant est défini pour le champ, il est pris  |
+|     par défaut.                                               |
+|                                                               |
 |     Inutile si aucun instant n'est défini pour le champ       |
 |                                                               |
 |     - ``TimeStep`` : l'instant où est pris le champ           |
 |     - ``Rank`` : le numéro d'ordre où est pris le champ       |
++---------------------------------------------------------------+
+| .. module:: SetTimeStepRankLast                               |
+|                                                               |
+| **SetTimeStepRankLast()**                                     |
+|     Précise que le dernier instant enregistré pour le champ   |
+|     est utilisé                                               |
 +---------------------------------------------------------------+
 | .. module:: GetFieldFileName                                  |
 |                                                               |

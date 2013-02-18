@@ -73,6 +73,7 @@ void HomardDriver::TexteInit( const std::string DirCompute, const std::string Di
   _Texte += "HOMaiN__ Mai" + _siter   + " \"" + DirComputePa + "/maill." + _siter   + ".hom.med\"\n" ;
   _Texte += "HOMaiNP1 Mai" + _siterp1 + " \"" + DirCompute   + "/maill." + _siterp1 + ".hom.med\"\n" ;
   _Texte += "RepeTrav \"" + DirCompute + "\"\n" ;
+  _Texte += "RepeInfo \"" + DirCompute + "\"\n" ;
 //
 }
 

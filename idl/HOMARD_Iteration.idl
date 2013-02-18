@@ -67,6 +67,7 @@ module HOMARD
     string   GetFieldFile()                                raises (SALOME::SALOME_Exception);
     void     SetTimeStepRank(in long TimeStep, in long Rank)
                                                            raises (SALOME::SALOME_Exception);
+    void     SetTimeStepRankLast()                         raises (SALOME::SALOME_Exception);
     long     GetTimeStep()                                 raises (SALOME::SALOME_Exception);
     long     GetRank()                                     raises (SALOME::SALOME_Exception);
 

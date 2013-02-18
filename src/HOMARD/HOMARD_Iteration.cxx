@@ -98,8 +98,14 @@ std::string HOMARD_Iteration::GetDumpPython() const
 // Le fichier des champs, avec l'instant eventuel
   if ( _FieldFile != "" ) {
     aScript << "\t" << _Name << ".SetFieldFile(\"" << _FieldFile << "\")\n";
-    if ( ( _TimeStep != -1 ) and ( _Rank != -1 ) ) {
-      aScript << "\t" << _Name << ".SetTimeStepRank( " << _TimeStep << ", " << _Rank << " )\n";
+    if ( _TimeStep == -2 ) {
+      aScript << "\t" << _Name << ".SetTimeStepRankLast()\n";
+    }
+    else
+    {
+      if ( ( _TimeStep != -1 ) and ( _Rank != -1 ) ) {
+        aScript << "\t" << _Name << ".SetTimeStepRank( " << _TimeStep << ", " << _Rank << " )\n";
+      }
     }
   }
 
@@ -187,6 +193,11 @@ void HOMARD_Iteration::SetTimeStepRank( int TimeStep, int Rank )
 {
   _TimeStep = TimeStep;
   _Rank = Rank;
+}
+//=============================================================================
+void HOMARD_Iteration::SetTimeStepRankLast()
+{
+  _TimeStep = -2;
 }
 //=============================================================================
 int HOMARD_Iteration::GetTimeStep() const

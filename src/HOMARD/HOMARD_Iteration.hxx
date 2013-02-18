@@ -68,6 +68,7 @@ public:
   void                          SetFieldFile( const char* FieldFile );
   std::string                   GetFieldFile() const;
   void                          SetTimeStepRank( int TimeStep, int Rank );
+  void                          SetTimeStepRankLast();
   int                           GetTimeStep() const;
   int                           GetRank() const;
 

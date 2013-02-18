@@ -170,10 +170,11 @@ bool MonCreateIteration::PushOnApply()
   if ( LEFieldFile->text().trimmed() != QString(""))
   {
     QString FieldFile=LEFieldFile->text().trimmed();
+    aIter->SetFieldFile(CORBA::string_dup(FieldFile.toStdString().c_str()));
     int rank = SpinBox_Rank->value();
     int step = SpinBox_TimeStep->value();
-    aIter->SetFieldFile(CORBA::string_dup(FieldFile.toStdString().c_str()));
-    aIter->SetTimeStepRank(step,rank);
+    if ( step == -2 ) { aIter->SetTimeStepRankLast(); }
+    else              { aIter->SetTimeStepRank(step,rank); }
   }
   _myHomardGen->AssociateIterHypo (IterName, monHypoName.toStdString().c_str());
   aIter->SetMeshName(CORBA::string_dup(aMeshName_np1.toStdString().c_str()));

@@ -83,6 +83,7 @@ public:
   void                   SetFieldFile( const char* FieldFile );
   char*                  GetFieldFile();
   void                   SetTimeStepRank( CORBA::Long TimeStep, CORBA::Long Rank );
+  void                   SetTimeStepRankLast();
   CORBA::Long            GetTimeStep();
   CORBA::Long            GetRank();
 

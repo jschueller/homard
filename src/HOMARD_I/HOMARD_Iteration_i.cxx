@@ -192,6 +192,12 @@ void HOMARD_Iteration_i::SetTimeStepRank( CORBA::Long TimeStep, CORBA::Long Rank
   myHomardIteration->SetTimeStepRank( TimeStep, Rank );
 }
 //=============================================================================
+void HOMARD_Iteration_i::SetTimeStepRankLast()
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SetTimeStepRankLast();
+}
+//=============================================================================
 CORBA::Long HOMARD_Iteration_i::GetTimeStep()
 {
   ASSERT( myHomardIteration );

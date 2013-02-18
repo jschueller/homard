@@ -172,10 +172,11 @@ bool MonEditIteration::PushOnApply()
        (  _step != SpinBox_TimeStep->value()))
     {
       _FieldFile = LEFieldFile->text().trimmed();
+      aIter->SetFieldFile(CORBA::string_dup(_FieldFile.toStdString().c_str()));
       _rank = SpinBox_Rank->value();
       _step = SpinBox_TimeStep->value();
-      aIter->SetFieldFile(CORBA::string_dup(_FieldFile.toStdString().c_str()));
-      aIter->SetTimeStepRank(_step, _rank);
+      if ( _step == -2 ) { aIter->SetTimeStepRankLast(); }
+      else               { aIter->SetTimeStepRank(_step, _rank); }
       _myHomardGen->InvalideIter(_IterationName.toStdString().c_str());
       HOMARD_UTILS::updateObjBrowser();
     }

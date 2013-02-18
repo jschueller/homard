@@ -137,7 +137,7 @@ A ce stade, on va utiliser ce nouveau maillage pour un deuxième calcul, dans les
 .. image:: images/intro_38.png
    :align: center
 
-Comme on continue l'adaptation avec le même critére de saut de température entre noeuds voisins, on garde l'hypothèse "*Hypo_1*". Il suffit de désigner le fichier issu du calcul que l'on vient de faire et qui contient le nouveau champ de température.
+Comme on continue l'adaptation avec le même critère de saut de température entre noeuds voisins, on garde l'hypothèse "*Hypo_1*". Il suffit de désigner le fichier issu du calcul que l'on vient de faire et qui contient le nouveau champ de température.
 
 .. image:: images/intro_39.png
    :align: center
@@ -148,3 +148,36 @@ Comme précédemment, on lance l'adaptation et on récupère les résultats dans le r
    :align: center
 
 On peut alors lancer un nouveau calcul sur ce nouveau maillage et poursuiver cette alternance calcul/adaptation jusqu'à l'obtention du résultat attendu.
+
+
+Evolutions du module
+""""""""""""""""""""
+.. index:: single: évolution
+
+On trouvera ici les principales évolutions de HOMARD à partir de la première version livrée dans SALOME 6.5.
+
+SALOME VERSION 6.6 :
+   - Interfaçage avec med 3.0.6
+   - Valeurs par défaut des instants
+   - Acceptation des mailles de type TRIA7 et QUAD9
+   - Option de sortie dans le fichier MED du niveau de raffinement atteint dans chaque maille
+
+SALOME VERSION 7.1 :
+   - Correction d'une anomalie sur le filtrage du raffinement par les groupes
+   - Pilotage de l'adaptation par un seuil basé sur la moyenne et l'écart-type (voir :ref:`tui_create_hypothese`)
+   - En TUI, choix du dernier instant comme instant de pilotage par SetTimeStepRankLast (voir :ref:`tui_create_iteration`)
+   - Possibilité de détruire les objets (GUI et TUI)
+   - Modification des fonctions TUI pour qu'elles agissent sur les objets et non plus sur les noms :
+        homard.AssociateIterHypo(iter_name,hypo_name) devient iter.AssociateHypo(hypo_name)
+
+        homard.AssociateHypoZone(hypo_name,zone_name,type_use) devient hypo.AssociateHypo(zone_name,type_use)
+
+        homard.CreateIteration(iter_name,iter_parent_name) devient iter.NextIteration(iter_name) ou case.NextIteration(iter_name)
+   - Ajout de fonctions :
+        cas.LastIteration() : retourne la dernière itération de la descendance du cas (voir :ref:`tui_create_iteration`)
+
+
+
+
+
+

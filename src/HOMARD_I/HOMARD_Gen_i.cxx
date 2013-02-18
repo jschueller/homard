@@ -1420,10 +1420,12 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 {
   MESSAGE ( "Compute : calcul de " << NomIteration );
 
+// A. Prealable
+// A.1. La base
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration];
   ASSERT(!CORBA::is_nil(myIteration));
 
-// on ne calcule pas l iteration 0
+// A.2. On ne calcule pas l iteration 0
   int NumeIter = myIteration->GetNumber();
   if ( NumeIter == 0 )
   {
@@ -1434,7 +1436,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       return 1;
   };
 
-// on verifie qu il y a une hypothese (erreur improbable);
+// A.3. On verifie qu il y a une hypothese (erreur improbable);
   const char* nomHypo = myIteration->GetHypoName();
   if (std::string(nomHypo) == std::string(""))
   {
@@ -1461,10 +1463,12 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       }
   };
 
+  // A.5. Le cas
   const char* nomCas = myIteration->GetCaseName();
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
 
+  // A.6. Les numeros d'iterations
   int codret = 0;
   std::stringstream saux0 ;
   saux0 << NumeIter - 1 ;
@@ -1477,20 +1481,22 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   if (NumeIter < 10) { siterp1 = "0" + siterp1 ; }
 
   // B. Les repertoires
-  // B.1. Le repertoire du cas
+  // B.1. Le repertoire courant
+  char* nomDirWork = getenv("PWD") ;
+  // B.2. Le repertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
 
-  // B.2. Le sous-repertoire de l'iteration a calculer, puis le repertoire complet a creer
-  // B.2.1. Le nom du sous-repertoire
+  // B.3. Le sous-repertoire de l'iteration a calculer, puis le repertoire complet a creer
+  // B.3.1. Le nom du sous-repertoire
   const char* nomDirIt = myIteration->GetDirName();
 
-  // B.2.2. Le nom complet du sous-repertoire
+  // B.3.2. Le nom complet du sous-repertoire
   std::stringstream DirCompute ;
   DirCompute << nomDirCase << "/" << nomDirIt;
   MESSAGE (". DirCompute = " << DirCompute.str() );
 
-  // B.2.3. Si le sous-repertoire n'existe pas, on le cree
+  // B.3.3. Si le sous-repertoire n'existe pas, on le cree
   //        Si le sous-repertoire existe :
   //         etatMenage = 0 : on sort en erreur si le repertoire n'est pas vide
   //         etatMenage = 1 : on fait le menage du repertoire
@@ -1506,7 +1512,8 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   }
   else
   {
-//  Le repertoire existe et on fait le menage de son contenu :
+//  Le repertoire existe
+//  On demande de faire le menage de son contenu :
     if (etatMenage != 0)
     {
        MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
@@ -1519,9 +1526,9 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
          ASSERT("Pb au menage du repertoire de calcul" == 0);
        }
     }
+//  On n'a pas demande de faire le menage de son contenu : on sort en erreur :
     else
     {
-//  Le repertoire existe et s'il n'est pas vide, on sort en erreur :
        DIR *dp;
        struct dirent *dirp;
        dp  = opendir(DirCompute.str().c_str());
@@ -1544,7 +1551,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     }
   }
 
-  // B.3. Le sous-repertoire de l'iteration precedente
+  // B.4. Le sous-repertoire de l'iteration precedente
   const char* nomDirItPa ;
   std::stringstream DirComputePa ;
   if (NumeIter == 1)
@@ -1560,13 +1567,13 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   MESSAGE( ". nomDirItPa = " << nomDirItPa);
   MESSAGE( ". DirComputePa = " << DirComputePa.str() );
 
-  // B.4. Le fichier des messages
-  chdir(DirCompute.str().c_str()) ;
+  // B.5. Le fichier des messages
   std::string MessFile = DirCompute.str() + "/Liste." + siter + ".vers." + siterp1 ;
   MESSAGE (". MessFile = " << MessFile);
   myIteration->SetMessFile(MessFile.c_str());
 
    // C. On passe dans le repertoire de l'iteration a calculer
+  MESSAGE ( ". On passe dans DirCompute = " << DirCompute.str() );
   chdir(DirCompute.str().c_str()) ;
 
   // D. Les donnees du calcul HOMARD
@@ -1626,7 +1633,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   int TypeRaff = (*ListTypes)[1];
   int TypeDera = (*ListTypes)[2];
 
-  // D.6. L'option d'interpolation des champs
+  // D.5. L'option d'interpolation des champs
   int TypeFieldInterp = myHypo->GetTypeFieldInterp();
 
   // E. Texte du fichier de configuration
@@ -1935,7 +1942,8 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   if (codret == 0)
   {
     delete myDriver;
-    chdir(nomDirCase);
+    MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
+    chdir(nomDirWork);
   }
 
   return codretexec ;

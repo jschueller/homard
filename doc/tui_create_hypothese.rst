@@ -136,7 +136,8 @@ Le champ et les seuils
 |        * 3 : fraction des mailles en %                        |
 |        * 4 : moyenne + n fois l'écart-type                    |
 |                                                               |
-|     - ``threshold`` : valeur du seuil                         |
+|     - ``threshold`` : valeur numérique entrant dans la        |
+|                       définition du seuil                     |
 +---------------------------------------------------------------+
 | .. module:: GetRefinThrType                                   |
 |                                                               |
