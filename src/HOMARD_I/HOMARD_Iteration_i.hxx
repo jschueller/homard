@@ -87,12 +87,19 @@ public:
   CORBA::Long            GetTimeStep();
   CORBA::Long            GetRank();
 
-  void                   SetMessFile( const char* MessFile );
-  char*                  GetMessFile();
+  void                   SetLogFile( const char* LogFile );
+  char*                  GetLogFile();
 
   CORBA::Long            Compute(CORBA::Long etatMenage);
 
-// Liens avec les autres iterations
+  void                   MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte);
+
+  void                   MeshInfoOption(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte, CORBA::Long Option);
+
+  void                   SetFileInfo( const char* FileInfo );
+  char*                  GetFileInfo();
+
+  // Liens avec les autres iterations
   HOMARD::HOMARD_Iteration_ptr NextIteration( const char* Name) ;
 
   void                   LinkNextIteration( const char* NomIteration );

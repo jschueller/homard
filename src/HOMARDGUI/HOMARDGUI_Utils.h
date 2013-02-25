@@ -79,7 +79,7 @@ namespace HOMARD_UTILS {
   bool isHypo(_PTR(SObject)  MonObj);
   bool isIter(_PTR(SObject)  MonObj);
   bool isCase(_PTR(SObject)  MonObj);
-  bool isFileMess(_PTR(SObject)  MonObj);
+  bool isFilelog(_PTR(SObject)  MonObj);
   bool isFileSummary(_PTR(SObject)  MonObj);
   bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );
 

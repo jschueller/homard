@@ -254,9 +254,9 @@ bool HOMARD_UTILS::isCase(_PTR(SObject) MonObj)
 //================================================================
 // Retourne vrai si l objet est un fichier de messages
 //================================================================
-bool HOMARD_UTILS::isFileMess(_PTR(SObject) MonObj)
+bool HOMARD_UTILS::isFilelog(_PTR(SObject) MonObj)
 {
-   return isObject( MonObj, QString("Mess"), 0 ) ;
+   return isObject( MonObj, QString("log"), 0 ) ;
 }
 //================================================================
 // Retourne vrai si l objet est un fichier de bilan

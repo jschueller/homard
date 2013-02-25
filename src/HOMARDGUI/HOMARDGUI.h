@@ -63,6 +63,7 @@ private slots:
     void OnGUIEvent();
     void EditAsciiFile();
     void LanceCalcul();
+    void IterInfo();
     void NextIter();
     void Edit();
     void Delete();

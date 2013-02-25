@@ -499,29 +499,6 @@ void HOMARD_Gen_i::InvalideBoundary(const char* BoundaryName)
   };
 }
 //=============================================================================
-void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
-{
-  MESSAGE( "InvalideZone : ZoneName    = " << ZoneName );
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
-  if (CORBA::is_nil(myZone))
-  {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Zone ";
-      throw SALOME::SALOME_Exception(es);
-      return ;
-  };
-  HOMARD::listeHypo* maListe = myZone->GetHypo();
-  int numberOfHypo = maListe->length();
-  MESSAGE( ".. numberOfHypo = " << numberOfHypo );
-  for (int NumeHypo = 0; NumeHypo< numberOfHypo; NumeHypo++)
-  {
-      std::string nomHypo = std::string((*maListe)[NumeHypo]);
-      MESSAGE( ".. nomHypo = " << nomHypo );
-      InvalideHypo(nomHypo.c_str());
-  }
-}
-//=============================================================================
 void HOMARD_Gen_i::InvalideHypo(const char* nomHypo)
 {
   MESSAGE( "InvalideHypo : nomHypo    = " << nomHypo  );
@@ -597,11 +574,12 @@ void HOMARD_Gen_i::InvalideIter(const char* nomIter)
         throw SALOME::SALOME_Exception(es);
         return ;
     };
-    const char* dirParent  = myCase->GetDirName();
+    const char* dirCase    = myCase->GetDirName();
     const char* nomDir     = myIteration->GetDirName();
     const char* nomFichier = myIteration->GetMeshFile();
-    std::string commande= "rm -rf " + std::string(dirParent) + "/" + std::string(nomDir);
+    std::string commande= "rm -rf " + std::string(dirCase) + "/" + std::string(nomDir);
     commande = commande + ";rm -rf " + std::string(nomFichier);
+    MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
     {
           SALOME::ExceptionStruct es;
@@ -615,6 +593,85 @@ void HOMARD_Gen_i::InvalideIter(const char* nomIter)
     DeleteResultInSmesh(nomFichier, MeshName) ;
   };
 
+}
+//=============================================================================
+void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
+{
+  MESSAGE("InvalideIterInfo : nomIter = " << nomIter);
+  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  if (CORBA::is_nil(myIteration))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid Iteration ";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::ChildIterator_var  aIter = myCurrentStudy->NewChildIterator(aIterSO);
+  for (; aIter->More(); aIter->Next())
+  {
+      SALOMEDS::SObject_var so = aIter->Value();
+      SALOMEDS::GenericAttribute_var anAttr;
+      if (!so->FindAttribute(anAttr, "AttributeComment")) continue;
+      SALOMEDS::AttributeComment_var aCommentAttr = SALOMEDS::AttributeComment::_narrow(anAttr);
+      std::string value (aCommentAttr->Value());
+/*      MESSAGE("... value = " << value);*/
+      if( (value == std::string("logInfo")) or ( value == std::string("SummaryInfo")) )
+      {
+        SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+        aStudyBuilder->RemoveObject(so);
+      }
+  }
+
+  const char * nomCas = myIteration->GetCaseName();
+  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  if (CORBA::is_nil(myCase))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid Case Context ";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+  const char* dirCase  = myCase->GetDirName();
+  const char* nomDir   = myIteration->GetDirName();
+  std::string commande = "rm -f " + std::string(dirCase) + "/" + std::string(nomDir) + "/info* " ;
+  commande += std::string(dirCase) + "/" + std::string(nomDir) + "/Liste.*info" ;
+/*  MESSAGE ( "commande = " << commande );*/
+  if ((system(commande.c_str())) != 0)
+  {
+        SALOME::ExceptionStruct es;
+        es.type = SALOME::BAD_PARAM;
+        es.text = "Menage du repertoire de calcul impossible" ;
+        throw SALOME::SALOME_Exception(es);
+        return ;
+  }
+
+}
+//=============================================================================
+void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
+{
+  MESSAGE( "InvalideZone : ZoneName    = " << ZoneName );
+  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+  if (CORBA::is_nil(myZone))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid Zone ";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+  HOMARD::listeHypo* maListe = myZone->GetHypo();
+  int numberOfHypo = maListe->length();
+  MESSAGE( ".. numberOfHypo = " << numberOfHypo );
+  for (int NumeHypo = 0; NumeHypo< numberOfHypo; NumeHypo++)
+  {
+      std::string nomHypo = std::string((*maListe)[NumeHypo]);
+      MESSAGE( ".. nomHypo = " << nomHypo );
+      InvalideHypo(nomHypo.c_str());
+  }
 }
 //=============================================================================
 //=============================================================================
@@ -911,6 +968,28 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::GetBoundary(const char* nomBoundary)
 
 //=============================================================================
 //=============================================================================
+// Informations
+//=============================================================================
+//=============================================================================
+void HOMARD_Gen_i::MeshInfo(const char* nomCas, const char* MeshName, const char* MeshFile, const char* DirName, CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte)
+{
+  MESSAGE ( "MeshInfo : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile  );
+  MESSAGE ( "Qual = " << Qual << ", Diam = " << Diam << ", Conn = " << Conn << ", Tail = " << Tail << ", Inte = " << Inte  );
+  IsValidStudy () ;
+
+// Creation du cas
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase(nomCas, MeshName, MeshFile) ;
+  myCase->SetDirName(DirName) ;
+// Analyse
+  myCase->MeshInfo(Qual, Diam, Conn, Tail, Inte) ;
+
+  return ;
+}
+//=============================================================================
+//=============================================================================
+
+//=============================================================================
+//=============================================================================
 // Recuperation des structures par le contexte
 //=============================================================================
 //=============================================================================
@@ -1042,7 +1121,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
   HOMARD::HOMARD_Iteration_var anIter = newIteration();
   myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration] = anIter;
   std::ostringstream DirName;
-  DirName << "I_00";
+  DirName << "I00";
 
   anIter->SetDirName(DirName.str().c_str());
   anIter->SetName(NomIteration.c_str());
@@ -1413,20 +1492,215 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
 
 //=============================================================================
 //=============================================================================
-// Calcul d'une iteration
+// Traitement d'une iteration
+// etatMenage = 1 : destruction du repertoire d'execution
+// modeHOMARD  = 1 : adaptation
+//            != 1 : information avec les options modeHOMARD
+// Option >0 : appel depuis python
+//        <0 : appel depuis GUI
 //=============================================================================
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMenage)
+CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option)
 {
-  MESSAGE ( "Compute : calcul de " << NomIteration );
+  MESSAGE ( "Compute : traitement de " << NomIteration << ", avec modeHOMARD = " << modeHOMARD << ", avec Option = " << Option );
 
-// A. Prealable
-// A.1. La base
+  // A. Prealable
+  int codret = 0;
+
+  // A.1. L'objet iteration
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration];
   ASSERT(!CORBA::is_nil(myIteration));
 
-// A.2. On ne calcule pas l iteration 0
+  // A.2. Numero de l'iteration
+  //     siterp1 : numero de l'iteration a traiter
+  //     Si adaptation :
+  //        siter   : numero de l'iteration parent, ou 0 si deja au debut mais cela ne servira pas !
+  //     Ou si information :
+  //        siter = siterp1
   int NumeIter = myIteration->GetNumber();
+  std::string siterp1 ;
+  std::stringstream saux1 ;
+  saux1 << NumeIter ;
+  siterp1 = saux1.str() ;
+  if (NumeIter < 10) { siterp1 = "0" + siterp1 ; }
+
+  std::string siter ;
+  if ( modeHOMARD==1 )
+  {
+    std::stringstream saux0 ;
+    int iaux = max(0, NumeIter-1) ;
+    saux0 << iaux ;
+    siter = saux0.str() ;
+    if (NumeIter < 11) { siter = "0" + siter ; }
+  }
+  else
+  { siter = siterp1 ; }
+
+  // A.3. Le cas
+  const char* nomCas = myIteration->GetCaseName();
+  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  ASSERT(!CORBA::is_nil(myCase));
+
+  // B. Les repertoires
+  // B.1. Le repertoire courant
+  char* nomDirWork = getenv("PWD") ;
+  // B.2. Le sous-repertoire de l'iteration a traiter
+  char* DirCompute = ComputeDir(myCase, myIteration, etatMenage);
+  MESSAGE( ". DirCompute = " << DirCompute );
+
+  // C. Le fichier des messages
+  // C.1. Le deroulement de l'execution de HOMARD
+  std::string LogFile = DirCompute ;
+  LogFile += "/Liste" ;
+  if ( modeHOMARD == 1 ) { LogFile += "." + siter + ".vers." + siterp1 ; }
+  LogFile += ".log" ;
+  MESSAGE (". LogFile = " << LogFile);
+  if ( modeHOMARD == 1 ) { myIteration->SetLogFile(LogFile.c_str()); }
+  // C.2. Le bilan de l'analyse du maillage
+  std::string FileInfo = DirCompute ;
+  FileInfo += "/" ;
+  if ( modeHOMARD == 1 ) { FileInfo += "apad" ; }
+  else
+  { if ( NumeIter == 0 ) { FileInfo += "info_av" ; }
+    else                 { FileInfo += "info_ap" ; }
+  }
+  FileInfo += "." + siterp1 + ".bilan" ;
+  myIteration->SetFileInfo(FileInfo.c_str());
+
+   // D. On passe dans le repertoire de l'iteration a calculer
+  MESSAGE ( ". On passe dans DirCompute = " << DirCompute );
+  chdir(DirCompute) ;
+
+  // E. Les donnees de l'execution HOMARD
+  // E.1. L'objet du texte du fichier de configuration
+  HomardDriver* myDriver = new HomardDriver(siter, siterp1);
+  myDriver->TexteInit(DirCompute, LogFile);
+
+  // E.2. Le maillage associe a l'iteration
+  const char* NomMesh = myIteration->GetMeshName();
+  MESSAGE ( ". NomMesh = " << NomMesh );
+  const char* MeshFile = myIteration->GetMeshFile();
+  MESSAGE ( ". MeshFile = " << MeshFile );
+
+  // E.3. Les donnees du traitement HOMARD
+  int iaux ;
+  if ( modeHOMARD == 1 )
+  {
+    iaux = 1 ;
+    myDriver->TexteMaillageHOMARD( DirCompute, siterp1, iaux ) ;
+    myDriver->TexteMaillage(NomMesh, MeshFile, 1);
+    codret = ComputeAdap(myCase, myIteration, etatMenage, myDriver, Option) ;
+  }
+  else
+  {
+    InvalideIterInfo(NomIteration);
+    myDriver->TexteInfo( modeHOMARD, NumeIter ) ;
+    iaux = 0 ;
+    myDriver->TexteMaillageHOMARD( DirCompute, siterp1, iaux ) ;
+    myDriver->TexteMaillage(NomMesh, MeshFile, 0);
+    myDriver->CreeFichierDonn();
+  }
+
+  // E.4. Ajout des informations liees a l'eventuel suivi de frontiere
+  DriverTexteBoundary(myCase, myDriver) ;
+
+  // E.5. Ecriture du texte dans le fichier
+  if (codret == 0)
+  { myDriver->CreeFichier(); }
+
+// G. Execution
+//
+  int codretexec = 12 ;
+  if (codret == 0)
+  {
+    codretexec = myDriver->ExecuteHomard(Option);
+//
+    MESSAGE ( "Erreur en executant HOMARD : " << codretexec );
+    if ( modeHOMARD == 1 )
+    {
+      if (codretexec == 0) { SetEtatIter(NomIteration,true); }
+      else                 { SetEtatIter(NomIteration,false); }
+      // GERALD -- QMESSAGE BOX
+    }
+  }
+
+  // H. Gestion des resultats
+  if (codret == 0)
+  {
+    std::string Commentaire ;
+    // H.1. Le fichier des messages, dans tous les cas
+    Commentaire = "log" ;
+    if ( modeHOMARD == 1 ) { Commentaire += " " + siterp1 ; }
+    else                   { Commentaire += "Info" ; }
+    PublishFileUnderIteration(NomIteration, LogFile.c_str(), Commentaire.c_str());
+
+    // H.2. Si tout s'est bien passe :
+    if (codretexec == 0)
+    {
+    // H.2.1. Le fichier de bilan
+      Commentaire = "Summary" ;
+      if ( modeHOMARD == 1 ) { Commentaire += " " + siterp1 ; }
+      else                   { Commentaire += "Info" ; }
+      PublishFileUnderIteration(NomIteration, FileInfo.c_str(), Commentaire.c_str());
+    // H.2.2. Le fichier de  maillage obtenu
+      if ( modeHOMARD == 1 )
+      {
+        std::stringstream saux0 ;
+        Commentaire = "Iteration" ;
+        Commentaire += " " + siter ;
+        PublishFileUnderIteration(NomIteration, MeshFile, Commentaire.c_str());
+        PublishResultInSmesh(MeshFile, 1);
+      }
+    }
+  // H.3 Message d'erreur en cas de probleme
+    else
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      std::string text = "Error during the adaptation.\n" ;
+      try
+      {
+          ifstream fichier(LogFile.c_str(), ios::in);
+          string ligne;
+          while(getline(fichier, ligne) and (ligne != "===== HOMARD ===== STOP ====="));
+          while (getline(fichier, ligne)) { text += ligne+ "\n";};
+      }
+      catch (...) {
+        text += "no log file ....";
+      }
+      es.text = CORBA::string_dup(text.c_str());
+      throw SALOME::SALOME_Exception(es);
+    }
+  }
+
+  // I. Menage et retour dans le repertoire du cas
+  if (codret == 0)
+  {
+    delete myDriver;
+    MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
+    chdir(nomDirWork);
+  }
+
+  return codretexec ;
+}
+//=============================================================================
+// Calcul d'une iteration : partie specifique a l'adaptation
+//=============================================================================
+CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option)
+{
+  MESSAGE ( "ComputeAdap" );
+
+  // A. Prealable
+  // A.1. Bases
+  int codret = 0;
+  // Numero de l'iteration
+  int NumeIter = myIteration->GetNumber();
+  std::stringstream saux0 ;
+  saux0 << NumeIter-1 ;
+  std::string siter = saux0.str() ;
+  if (NumeIter < 11) { siter = "0" + siter ; }
+
+  // A.2. On ne calcule pas l iteration 0
   if ( NumeIter == 0 )
   {
       SALOME::ExceptionStruct es;
@@ -1436,7 +1710,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       return 1;
   };
 
-// A.3. On verifie qu il y a une hypothese (erreur improbable);
+  // A.3. On verifie qu il y a une hypothese (erreur improbable);
   const char* nomHypo = myIteration->GetHypoName();
   if (std::string(nomHypo) == std::string(""))
   {
@@ -1445,17 +1719,19 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       es.text= "This iteration does not have any associated hypothesis.";
       throw SALOME::SALOME_Exception(es);
       return 2;
-  }
+  };
   HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
   ASSERT(!CORBA::is_nil(myHypo));
 
-  // A.4. L'iteration parent
+  // B. L'iteration parent
   const char* nomIterationParent = myIteration->GetIterParentName();
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
   ASSERT(!CORBA::is_nil(myIterationParent));
+  // Si l'iteration parent n'est pas calculee, on le fait (recursivite amont)
   if ( ! myIterationParent->GetEtat() )
   {
-      int codret = Compute(nomIterationParent, etatMenage);
+      int iaux = 1 ;
+      int codret = Compute(nomIterationParent, etatMenage, iaux, Option);
       if (codret != 0)
       {
         // GERALD -- QMESSAGE BOX
@@ -1463,26 +1739,119 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       }
   };
 
-  // A.5. Le cas
-  const char* nomCas = myIteration->GetCaseName();
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
-  ASSERT(!CORBA::is_nil(myCase));
+  // C. Le sous-repertoire de l'iteration precedente
+  char* DirComputePa = ComputeDirPa(myCase, myIteration);
+  MESSAGE( ". DirComputePa = " << DirComputePa );
 
-  // A.6. Les numeros d'iterations
-  int codret = 0;
-  std::stringstream saux0 ;
-  saux0 << NumeIter - 1 ;
-  std::string siter = saux0.str() ;
-  if (NumeIter < 11) { siter = "0" + siter ; }
-//
-  std::stringstream saux1 ;
-  saux1 << NumeIter ;
-  std::string siterp1 = saux1.str() ;
-  if (NumeIter < 10) { siterp1 = "0" + siterp1 ; }
+  // D. Les donnees de l'adaptation HOMARD
+  // D.1. Le type de conformite
+  int ConfType = myCase->GetConfType();
+  MESSAGE ( ". ConfType = " << ConfType );
 
-  // B. Les repertoires
-  // B.1. Le repertoire courant
-  char* nomDirWork = getenv("PWD") ;
+  // D.2. Le maillage de depart
+  const char* NomMeshParent = myIterationParent->GetMeshName();
+  MESSAGE ( ". NomMeshParent = " << NomMeshParent );
+  const char* MeshFileParent = myIterationParent->GetMeshFile();
+  MESSAGE ( ". MeshFileParent = " << MeshFileParent );
+
+  // D.3. Le maillage associe a l'iteration
+  const char* MeshFile = myIteration->GetMeshFile();
+  MESSAGE ( ". MeshFile = " << MeshFile );
+  FILE *file = fopen(MeshFile,"r");
+  if (file != NULL)
+  {
+    fclose(file);
+    if (etatMenage == 0)
+    {
+          SALOME::ExceptionStruct es;
+          es.type = SALOME::BAD_PARAM;
+          std::string text = "MeshFile : " + std::string(MeshFile) + " already exists ";
+          es.text = CORBA::string_dup(text.c_str());
+          throw SALOME::SALOME_Exception(es);
+          return 4;
+    }
+    else
+    {
+        std::string commande = "rm -f " + std::string(MeshFile);
+        codret = system(commande.c_str());
+        if (codret != 0)
+        {
+          SALOME::ExceptionStruct es;
+          es.type = SALOME::BAD_PARAM;
+          std::string text = "PB with meshfile destruction ";
+          es.text = CORBA::string_dup(text.c_str());
+          throw SALOME::SALOME_Exception(es);
+          return 5;
+        }
+      }
+  }
+
+  // D.4. Les types de raffinement et de deraffinement
+  // Les appels corba sont lourds, il vaut mieux les grouper
+  HOMARD::listeTypes* ListTypes = myHypo->GetAdapRefinUnRef();
+  ASSERT(ListTypes->length() == 3);
+  int TypeAdap = (*ListTypes)[0];
+  int TypeRaff = (*ListTypes)[1];
+  int TypeDera = (*ListTypes)[2];
+
+  // E. Texte du fichier de configuration
+  // E.1. Incontournables du texte
+  myDriver->TexteAdap();
+  int iaux = 0 ;
+  myDriver->TexteMaillageHOMARD( DirComputePa, siter, iaux ) ;
+  myDriver->TexteMaillage(NomMeshParent, MeshFileParent, 0);
+  myDriver->TexteConfRaffDera(ConfType, TypeAdap, TypeRaff, TypeDera);
+
+  // E.2. Ajout des informations liees aux zones eventuelles
+  if ( TypeAdap == 0 )
+  { DriverTexteZone(myHypo, myDriver) ; }
+
+  // E.3. Ajout des informations liees aux champs eventuels
+  if ( TypeAdap == 1 )
+  { DriverTexteField(myIteration, myHypo, myDriver) ; }
+
+  // E.4. Ajout des informations liees au filtrage eventuel par les groupes
+  HOMARD::ListGroupType* listeGroupes = myHypo->GetGroups();
+  int numberOfGroups = listeGroupes->length();
+  MESSAGE( ". Filtrage par " << numberOfGroups << " groupes");
+  if (numberOfGroups > 0)
+  {
+    for (int NumGroup = 0; NumGroup< numberOfGroups; NumGroup++)
+    {
+      std::string GroupName = std::string((*listeGroupes)[NumGroup]);
+      MESSAGE( "... GroupName = " << GroupName );
+      myDriver->TexteGroup(GroupName);
+    }
+  }
+
+  // E.5. Ajout des informations liees a l'eventuelle interpolation des champs
+  DriverTexteFieldInterp(myIteration, myHypo, myDriver) ;
+
+  // E.6. Ajout des options avancees
+  int Pyram = myCase->GetPyram();
+  MESSAGE ( ". Pyram = " << Pyram );
+  int NivMax = myHypo->GetNivMax();
+  MESSAGE ( ". NivMax = " << NivMax );
+  double DiamMin = myHypo->GetDiamMin() ;
+  MESSAGE ( ". DiamMin = " << DiamMin );
+  int AdapInit = myHypo->GetAdapInit();
+  MESSAGE ( ". AdapInit = " << AdapInit );
+  int LevelOutput = myHypo->GetLevelOutput();
+  MESSAGE ( ". LevelOutput = " << LevelOutput );
+  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, LevelOutput);
+
+  return codret ;
+}
+//=============================================================================
+// Calcul d'une iteration : gestion du repertoire de calcul
+//        Si le sous-repertoire existe :
+//         etatMenage =  0 : on sort en erreur si le repertoire n'est pas vide
+//         etatMenage =  1 : on fait le menage du repertoire
+//         etatMenage = -1 : on ne fait rien
+//=============================================================================
+char* HOMARD_Gen_i::ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage)
+{
+  MESSAGE ( "ComputeDir : repertoires pour le calcul" );
   // B.2. Le repertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
@@ -1497,9 +1866,6 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   MESSAGE (". DirCompute = " << DirCompute.str() );
 
   // B.3.3. Si le sous-repertoire n'existe pas, on le cree
-  //        Si le sous-repertoire existe :
-  //         etatMenage = 0 : on sort en erreur si le repertoire n'est pas vide
-  //         etatMenage = 1 : on fait le menage du repertoire
   if (chdir(DirCompute.str().c_str()) != 0)
   {
 //  Creation du repertoire car il n'existe pas :
@@ -1514,7 +1880,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   {
 //  Le repertoire existe
 //  On demande de faire le menage de son contenu :
-    if (etatMenage != 0)
+    if (etatMenage == 1)
     {
        MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
        std::string commande= "rm -rf " + DirCompute.str()+"/*" ;
@@ -1529,223 +1895,155 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 //  On n'a pas demande de faire le menage de son contenu : on sort en erreur :
     else
     {
-       DIR *dp;
-       struct dirent *dirp;
-       dp  = opendir(DirCompute.str().c_str());
-       bool result = true;
-       while ((dirp = readdir(dp)) != NULL && result )
-       {
-            std::string file_name(dirp->d_name);
-            result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
-       }
-       closedir(dp);
-       if ( result == false)
-       {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          std::string text = "Directory : " + DirCompute.str() + "is not empty";
-          es.text = CORBA::string_dup(text.c_str());
-          throw SALOME::SALOME_Exception(es);
-          return 3;
-       }
+      if (etatMenage == 0)
+      {
+        DIR *dp;
+        struct dirent *dirp;
+        dp  = opendir(DirCompute.str().c_str());
+        bool result = true;
+        while ((dirp = readdir(dp)) != NULL && result )
+        {
+              std::string file_name(dirp->d_name);
+              result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
+        }
+        closedir(dp);
+        if ( result == false)
+        {
+            SALOME::ExceptionStruct es;
+            es.type = SALOME::BAD_PARAM;
+            std::string text = "Directory : " + DirCompute.str() + "is not empty";
+            es.text = CORBA::string_dup(text.c_str());
+            throw SALOME::SALOME_Exception(es);
+            ASSERT("Directory is not empty" == 0);
+        }
+      }
     }
   }
 
-  // B.4. Le sous-repertoire de l'iteration precedente
-  const char* nomDirItPa ;
+  return CORBA::string_dup( DirCompute.str().c_str() );
+}
+//=============================================================================
+// Calcul d'une iteration : gestion du repertoire de calcul de l'iteration parent
+//=============================================================================
+char* HOMARD_Gen_i::ComputeDirPa(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration)
+{
+  MESSAGE ( "ComputeDirPa : repertoires pour le calcul" );
+  // Le repertoire du cas
+  const char* nomDirCase = myCase->GetDirName();
+  MESSAGE ( ". nomDirCase = " << nomDirCase );
+
+  // Le sous-repertoire de l'iteration precedente
+
+  const char* nomIterationParent = myIteration->GetIterParentName();
+  HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
+  const char* nomDirItPa = myIterationParent->GetDirName();
   std::stringstream DirComputePa ;
-  if (NumeIter == 1)
-  {
-    nomDirItPa = nomDirIt;
-    DirComputePa << DirCompute.str();
-  }
-  else
-  {
-    nomDirItPa = myIterationParent->GetDirName();
-    DirComputePa << nomDirCase << "/" << nomDirItPa;
-  }
+  DirComputePa << nomDirCase << "/" << nomDirItPa;
   MESSAGE( ". nomDirItPa = " << nomDirItPa);
   MESSAGE( ". DirComputePa = " << DirComputePa.str() );
 
-  // B.5. Le fichier des messages
-  std::string MessFile = DirCompute.str() + "/Liste." + siter + ".vers." + siterp1 ;
-  MESSAGE (". MessFile = " << MessFile);
-  myIteration->SetMessFile(MessFile.c_str());
+  return CORBA::string_dup( DirComputePa.str().c_str() );
+}
+//=============================================================================
+// Calcul d'une iteration : ecriture des zones dans le fichier de configuration
+//=============================================================================
+void HOMARD_Gen_i::DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver)
+{
+  MESSAGE ( "... DriverTexteZone" );
+  HOMARD::listeZonesHypo* ListZone = myHypo->GetZones();
+  int numberOfZonesx2 = ListZone->length();
+  int NumZone ;
 
-   // C. On passe dans le repertoire de l'iteration a calculer
-  MESSAGE ( ". On passe dans DirCompute = " << DirCompute.str() );
-  chdir(DirCompute.str().c_str()) ;
-
-  // D. Les donnees du calcul HOMARD
-  // D.1. Le type de conformite
-  int ConfType = myCase->GetConfType();
-  MESSAGE ( ". ConfType = " << ConfType );
-
-  // D.2. Le maillage n
-  const char* NomMeshParent = myIterationParent->GetMeshName();
-  MESSAGE ( ". NomMeshParent = " << NomMeshParent );
-  const char* MeshFileParent = myIterationParent->GetMeshFile();
-  MESSAGE ( ". MeshFileParent = " << MeshFileParent );
-
-  // D.3. Le maillage n+1
-  const char* NomMesh = myIteration->GetMeshName();
-  MESSAGE ( ". NomMesh = " << NomMesh );
-  const char* MeshFile = myIteration->GetMeshFile();
-  MESSAGE ( ". MeshFile = " << MeshFile );
-  FILE *file = fopen(MeshFile,"r");
-  if (file != NULL)
+  for (int iaux = 0; iaux< numberOfZonesx2; iaux++)
   {
-     fclose(file);
-     if (etatMenage == 0)
-     {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          std::string text = "MeshFile : " + std::string(MeshFile) + " already exists ";
-          es.text = CORBA::string_dup(text.c_str());
-          throw SALOME::SALOME_Exception(es);
-          return 4;
-     }
-     else
-     {
-         std::string commande = "rm -f " + std::string(MeshFile);
-         codret = system(commande.c_str());
-         if (codret != 0)
-         {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          std::string text = "PB with meshfile destruction ";
-          es.text = CORBA::string_dup(text.c_str());
-          throw SALOME::SALOME_Exception(es);
-          return 5;
-         }
-      }
-  }
-  else
-  {
-     codret = 0 ;
-  };
+    std::string ZoneName = std::string((*ListZone)[iaux]);
+    MESSAGE ( "... ZoneName = " << ZoneName);
+    HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+    ASSERT(!CORBA::is_nil(myZone));
 
-  // D.4. Les types de raffinement et de deraffinement
-  // Les appels corba sont lourds, il vaut mieux les grouper
-  HOMARD::listeTypes* ListTypes = myHypo->GetAdapRefinUnRef();
-  ASSERT(ListTypes->length() == 3);
-  int TypeAdap = (*ListTypes)[0];
-  int TypeRaff = (*ListTypes)[1];
-  int TypeDera = (*ListTypes)[2];
-
-  // D.5. L'option d'interpolation des champs
-  int TypeFieldInterp = myHypo->GetTypeFieldInterp();
-
-  // E. Texte du fichier de configuration
-  // E.1. Incontournables du texte
-  HomardDriver* myDriver = new HomardDriver(siter, siterp1);
-  myDriver->TexteInit(DirCompute.str(), DirComputePa.str(),MessFile);
-  myDriver->TexteMaillage(NomMeshParent, MeshFileParent, 0);
-  myDriver->TexteMaillage(NomMesh, MeshFile, 1);
-  myDriver->TexteConfRaffDera(ConfType, TypeAdap, TypeRaff, TypeDera);
-
-  // E.2. Ajout des informations liees aux zones eventuelles
-  if (TypeAdap == 0)
-  {
-    HOMARD::listeZonesHypo* ListZone = myHypo->GetZones();
-    int numberOfZonesx2 = ListZone->length();
-    int NumZone ;
-
-    for (int iaux = 0; iaux< numberOfZonesx2; iaux++)
+    int ZoneType = myZone->GetType();
+    std::string TypeUsestr = std::string((*ListZone)[iaux+1]);
+    int TypeUse = atoi( TypeUsestr.c_str() );
+    MESSAGE ( "... ZoneType = " << ZoneType << ", TypeUse = "<<TypeUse);
+    NumZone = iaux/2 + 1 ;
+    HOMARD::double_array* zone = myZone->GetCoords();
+    if ( ZoneType == 2 or ( ZoneType>=11 and ZoneType <=13 ) ) // Cas d un parallelepipede ou d'un rectangle
     {
-      std::string ZoneName = std::string((*ListZone)[iaux]);
-      MESSAGE ( "... ZoneName = " << ZoneName);
-      HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
-      ASSERT(!CORBA::is_nil(myZone));
-
-      int ZoneType = myZone->GetType();
-      std::string TypeUsestr = std::string((*ListZone)[iaux+1]);
-      int TypeUse = atoi( TypeUsestr.c_str() );
-      MESSAGE ( "... ZoneType = " << ZoneType << ", TypeUse = "<<TypeUse);
-      NumZone = iaux/2 + 1 ;
-      HOMARD::double_array* zone = myZone->GetCoords();
-      if ( ZoneType == 2 or ( ZoneType>=11 and ZoneType <=13 ) ) // Cas d un parallelepipede ou d'un rectangle
-      {
-        myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], 0., 0., 0.);
-      }
-      else if ( ZoneType == 4 ) // Cas d une sphere
-      {
-        myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], 0., 0., 0., 0., 0.);
-      }
-      else if ( ZoneType == 5 or ( ZoneType>=31 and ZoneType <=33 ) ) // Cas d un cylindre ou d'un disque
-      {
-        myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.);
-      }
-      else if ( ZoneType == 7 or ( ZoneType>=61 and ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
-      {
-        myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]);
-      }
-      else { ASSERT("ZoneType est incorrect." == 0) ; }
-      iaux += 1 ;
+      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], 0., 0., 0.);
     }
+    else if ( ZoneType == 4 ) // Cas d une sphere
+    {
+      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], 0., 0., 0., 0., 0.);
+    }
+    else if ( ZoneType == 5 or ( ZoneType>=31 and ZoneType <=33 ) ) // Cas d un cylindre ou d'un disque
+    {
+      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.);
+    }
+    else if ( ZoneType == 7 or ( ZoneType>=61 and ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
+    {
+      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]);
+    }
+    else { ASSERT("ZoneType est incorrect." == 0) ; }
+    iaux += 1 ;
   }
-  // E.3. Ajout des informations liees aux champs eventuels
-  if (TypeAdap == 1)
-  {
+  return ;
+}
+//=============================================================================
+// Calcul d'une iteration : ecriture des champs dans le fichier de configuration
+//=============================================================================
+void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver)
+{
+  MESSAGE ( "... DriverTexteField" );
 //  Le fichier du champ
-    char* FieldFile = myIteration->GetFieldFile();
-    MESSAGE ( ". FieldFile = " << FieldFile );
-    if (strlen(FieldFile) == 0)
-    {
-      // GERALD -- QMESSAGE BOX
-      std::cerr << "Le fichier du champ n'a pas ete fourni." << std::endl;
-      ASSERT("The file for the field is not given." == 0);
-    }
+  char* FieldFile = myIteration->GetFieldFile();
+  MESSAGE ( ". FieldFile = " << FieldFile );
+  if (strlen(FieldFile) == 0)
+  {
+    // GERALD -- QMESSAGE BOX
+    std::cerr << "Le fichier du champ n'a pas ete fourni." << std::endl;
+    ASSERT("The file for the field is not given." == 0);
+  }
 //  Les caracteristiques d'instants
-    int TimeStep = myIteration->GetTimeStep();
-    MESSAGE( ". TimeStep = " << TimeStep );
-    int Rank = myIteration->GetRank();
-    MESSAGE( ". Rank = " << Rank );
+  int TimeStep = myIteration->GetTimeStep();
+  MESSAGE( ". TimeStep = " << TimeStep );
+  int Rank = myIteration->GetRank();
+  MESSAGE( ". Rank = " << Rank );
 //  Les informations sur les champ
-    HOMARD::InfosHypo* aInfosHypo = myHypo->GetField();
+  HOMARD::InfosHypo* aInfosHypo = myHypo->GetField();
 //  Le nom
-    const char* FieldName = aInfosHypo->FieldName;
+  const char* FieldName = aInfosHypo->FieldName;
 //  Les seuils
-    int TypeThR = aInfosHypo->TypeThR;
-    double ThreshR = aInfosHypo->ThreshR;
-    int TypeThC = aInfosHypo->TypeThC;
-    double ThreshC = aInfosHypo->ThreshC;
+  int TypeThR = aInfosHypo->TypeThR;
+  double ThreshR = aInfosHypo->ThreshR;
+  int TypeThC = aInfosHypo->TypeThC;
+  double ThreshC = aInfosHypo->ThreshC;
 //  Saut entre mailles ou non ?
-    int UsField = aInfosHypo->UsField;
-    MESSAGE( ". UsField = " << UsField );
+  int UsField = aInfosHypo->UsField;
+  MESSAGE( ". UsField = " << UsField );
 //  L'usage des composantes
-    int UsCmpI = aInfosHypo->UsCmpI;
-    MESSAGE( ". UsCmpI = " << UsCmpI );
+  int UsCmpI = aInfosHypo->UsCmpI;
+  MESSAGE( ". UsCmpI = " << UsCmpI );
 //
-    myDriver->TexteField(FieldName, FieldFile, TimeStep, Rank, TypeThR, ThreshR, TypeThC, ThreshC, UsField, UsCmpI);
+  myDriver->TexteField(FieldName, FieldFile, TimeStep, Rank, TypeThR, ThreshR, TypeThC, ThreshC, UsField, UsCmpI);
 //
 //  Les composantes
-    HOMARD::listeComposantsHypo* mescompo = myHypo->GetListComp();
-    int numberOfCompos = mescompo->length();
-    MESSAGE( ". numberOfCompos = " << numberOfCompos );
-    for (int NumeComp = 0; NumeComp< numberOfCompos; NumeComp++)
-    {
-      std::string nomCompo = std::string((*mescompo)[NumeComp]);
-      MESSAGE( "... nomCompo = " << nomCompo );
-      myDriver->TexteCompo(NumeComp, nomCompo);
-    }
-  }
-  // E.4. Ajout des informations liees au filtrage eventuel par les groupes
-  HOMARD::ListGroupType* listeGroupes = myHypo->GetGroups();
-  int numberOfGroups = listeGroupes->length();
-  MESSAGE( ". numberOfGroups = " << numberOfGroups );
-  if (numberOfGroups > 0)
+  HOMARD::listeComposantsHypo* mescompo = myHypo->GetListComp();
+  int numberOfCompos = mescompo->length();
+  MESSAGE( ". numberOfCompos = " << numberOfCompos );
+  for (int NumeComp = 0; NumeComp< numberOfCompos; NumeComp++)
   {
-
-    for (int NumGroup = 0; NumGroup< numberOfGroups; NumGroup++)
-    {
-      std::string GroupName = std::string((*listeGroupes)[NumGroup]);
-      MESSAGE( "... GroupName = " << GroupName );
-      myDriver->TexteGroup(GroupName);
-    }
+    std::string nomCompo = std::string((*mescompo)[NumeComp]);
+    MESSAGE( "... nomCompo = " << nomCompo );
+    myDriver->TexteCompo(NumeComp, nomCompo);
   }
-
-  // E.5. Ajout des informations liees a l'eventuel suivi de frontiere
+  return ;
+}
+//=============================================================================
+// Calcul d'une iteration : ecriture des frontieres dans le fichier de configuration
+//=============================================================================
+void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver)
+{
+  MESSAGE ( "... DriverTexteBoundary" );
   // On ecrit d'abord la definition des frontieres, puis les liens avec les groupes
   std::list<std::string>  ListeBoundaryTraitees ;
   HOMARD::ListBoundaryGroupType* ListBoundaryGroupType = myCase->GetBoundaryGroup();
@@ -1822,9 +2120,15 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     }
   }
   myDriver->TexteBoundaryOption(BoundaryOption);
-
-  // E.6. Ajout des informations liees a l'eventuelle interpolation des champs
-  MESSAGE( "... TypeFieldInterp = " << TypeFieldInterp );
+  return ;
+}
+//=============================================================================
+// Calcul d'une iteration : ecriture des interpolations dans le fichier de configuration
+//=============================================================================
+void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver)
+{
+  MESSAGE ( "... DriverTexteFieldInterp" );
+  int TypeFieldInterp = myHypo->GetTypeFieldInterp();
   if (TypeFieldInterp != 0)
   {
 //  Le fichier des champs
@@ -1836,14 +2140,15 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       std::cerr << "Le fichier du champ n'a pas ete fourni." << std::endl;
       ASSERT("The file for the field is not given." == 0);
     }
-//  Les caracteristiques d'instants
+  //  Les caracteristiques d'instants
     int TimeStep = myIteration->GetTimeStep();
     MESSAGE( ". TimeStep = " << TimeStep );
     int Rank = myIteration->GetRank();
     MESSAGE( ". Rank = " << Rank );
-//
+  //
+    const char* MeshFile = myIteration->GetMeshFile();
     myDriver->TexteFieldInterp(TypeFieldInterp, FieldFile, MeshFile, TimeStep, Rank);
-//  Les champs
+  //  Les champs
     if (TypeFieldInterp == 2)
     {
       HOMARD::listFieldInterpHypo* meschamps = myHypo->GetListFieldInterp();
@@ -1857,98 +2162,11 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       }
     }
   }
-  // E.7. Ajout des options avancees
-  int Pyram = myCase->GetPyram();
-  MESSAGE ( ". Pyram = " << Pyram );
-  int NivMax = myHypo->GetNivMax();
-  MESSAGE ( ". NivMax = " << NivMax );
-  double DiamMin = myHypo->GetDiamMin() ;
-  MESSAGE ( ". DiamMin = " << DiamMin );
-  int AdapInit = myHypo->GetAdapInit();
-  MESSAGE ( ". AdapInit = " << AdapInit );
-  int LevelOutput = myHypo->GetLevelOutput();
-  MESSAGE ( ". LevelOutput = " << LevelOutput );
-  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, LevelOutput);
-
-  // F. Ecriture du texte dans le fichier
-  if (codret == 0)
-  {
-    myDriver->CreeFichier();
-  }
-
-// G. Execution
-//
-  int codretexec = 12 ;
-  if (codret == 0)
-  {
-    codretexec = myDriver->ExecuteHomard();
-//
-    MESSAGE ( "Erreur en executant HOMARD : " << codretexec );
-    if (codretexec == 0)
-    {
-      SetEtatIter(NomIteration,true);
-    }
-    else
-    {
-      // GERALD -- QMESSAGE BOX
-      SetEtatIter(NomIteration,false);
-    }
-  }
-
-  // H. Gestion des resultats
-  if (codret == 0)
-  {
-    // H.1. Le fichier des messages, dans tous les cas
-    std::stringstream saux1 ;
-    saux1 << "Mess " << NumeIter ;
-    PublishFileUnderIteration(NomIteration, MessFile.c_str(), saux1.str().c_str());
-
-    // H.2. Si tout s'est bien passe :
-    if (codretexec == 0)
-    {
-    // H.2.1. Le fichier de bilan
-      std::stringstream saux2 ;
-      saux2 << "Summary " << NumeIter ;
-      std::string SummaryFile = DirCompute.str() + "/apad." + siterp1 + ".bilan" ;
-      PublishFileUnderIteration(NomIteration, SummaryFile.c_str(), saux2.str().c_str());
-    // H.2.2. Le fichier de  maillage obtenu
-      std::stringstream saux0 ;
-      saux0 <<"Iteration " << NumeIter ;
-      PublishFileUnderIteration(NomIteration, MeshFile, saux0.str().c_str());
-      PublishResultInSmesh(MeshFile, 1);
-    }
-  // H.3 Message d'erreur en cas de probleme
-    else
-    {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      std::string text = "Error during the adaptation.\n" ;
-      try
-      {
-          ifstream fichier(MessFile.c_str(), ios::in);
-          string ligne;
-          while(getline(fichier, ligne) and (ligne != "===== HOMARD ===== STOP ====="));
-          while (getline(fichier, ligne)) { text += ligne+ "\n";};
-      }
-      catch (...) {
-        text += "no log file ....";
-      }
-      es.text = CORBA::string_dup(text.c_str());
-      throw SALOME::SALOME_Exception(es);
-    }
-  }
-
-  // I. Menage et retour dans le repertoire du cas
-  if (codret == 0)
-  {
-    delete myDriver;
-    MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
-    chdir(nomDirWork);
-  }
-
-  return codretexec ;
+  return ;
 }
 //===========================================================================
+//===========================================================================
+
 
 //===========================================================================
 //===========================================================================
@@ -2317,7 +2535,6 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long IconeTy
            }
        }
      }
-
   }
 
 // On enregistre le fichier
@@ -2401,6 +2618,7 @@ void HOMARD_Gen_i::DeleteResultInSmesh(const char* NomFich, const char* MeshName
 //=============================================================================
 void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire)
 {
+//   MESSAGE (" PublishFileUnderIteration pour l'iteration " << NomIter << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
   if (CORBA::is_nil(myCurrentStudy))
   {
       SALOME::ExceptionStruct es;

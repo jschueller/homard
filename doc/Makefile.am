@@ -62,6 +62,7 @@ gui_create_iteration.rst \
 gui_create_zone.rst \
 gui_homard.rst \
 gui_usage.rst \
+gui_mesh_info.rst \
 index.rst \
 intro.rst \
 tui_create_boundary.rst \

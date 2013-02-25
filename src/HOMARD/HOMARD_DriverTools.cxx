@@ -156,7 +156,7 @@ namespace HOMARD
     os << separator() << iteration.GetEtat();
     os << separator() << iteration.GetNumber();
     os << separator() << iteration.GetMeshFile();
-    os << separator() << iteration.GetMessFile();
+    os << separator() << iteration.GetLogFile();
     os << separator() << iteration.GetMeshName();
     os << separator() << iteration.GetFieldFile();
     os << separator() << iteration.GetTimeStep();
@@ -432,7 +432,7 @@ namespace HOMARD
     iteration.SetMeshFile( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetMessFile( chunk.c_str() );
+    iteration.SetLogFile( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     iteration.SetMeshName( chunk.c_str() );

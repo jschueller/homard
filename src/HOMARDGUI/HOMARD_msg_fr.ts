@@ -36,6 +36,10 @@
         <translation>Supprimer</translation>
     </message>
     <message>
+        <source>HOM_MEN_MESH_INFO</source>
+        <translation>Analyse de maillage</translation>
+    </message>
+    <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
         <translation>Afficher le fichier</translation>
     </message>
@@ -648,6 +652,18 @@
         <translation>Groupes choisis</translation>
     </message>
     <message>
+        <source>HOM_MESH_INFO_0</source>
+        <translation>Analyse de maillage</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_1</source>
+        <translation>Choisir au moins une option.</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_2</source>
+        <translation>Bilan de l'analyse dans l'arbre d'études, fichier </translation>
+    </message>
+    <message>
         <source>Filtering with groups</source>
         <translation>Filtrage par les groupes</translation>
     </message>
@@ -662,6 +678,30 @@
     <message>
         <source>Group</source>
         <translation>Groupe</translation>
+    </message>
+    <message>
+        <source>Information on a mesh</source>
+        <translation>Analyse d'un maillage</translation>
+    </message>
+    <message>
+        <source>Group size</source>
+        <translation>Taille des domaines</translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation>Qualité</translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation>Connexité</translation>
+    </message>
+    <message>
+        <source>Diametre</source>
+        <translation>Diamètre</translation>
+    </message>
+    <message>
+        <source>Entanglement</source>
+        <translation>Interpénétration</translation>
     </message>
     <message>
         <source>Edit a file</source>

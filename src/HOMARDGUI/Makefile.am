@@ -45,6 +45,10 @@ salomeinclude_HEADERS =       \
 	MonCreateIteration.h  \
 	CreateIteration.h     \
 	MonEditIteration.h    \
+	MonMeshInfo.h         \
+	MeshInfo.h            \
+	MonIterInfo.h         \
+	IterInfo.h            \
 	HOMARDGUI.h           \
 	HOMARDGUI_Utils.h     \
 	EditFile.h            \
@@ -59,19 +63,21 @@ dist_libHOMARD_la_SOURCES =     \
 	HOMARDGUI.cxx           \
 	HOMARDGUI_Utils.cxx     \
 	MonCreateBoundaryAn.cxx \
-	MonEditBoundaryAn.cxx \
+	MonEditBoundaryAn.cxx   \
 	MonCreateBoundaryDi.cxx \
-	MonEditBoundaryDi.cxx \
+	MonEditBoundaryDi.cxx   \
 	MonCreateCase.cxx       \
 	MonEditCase.cxx         \
 	MonCreateHypothesis.cxx \
 	MonEditHypothesis.cxx   \
-	MonCreateListGroup.cxx \
-	MonEditListGroup.cxx \
+	MonCreateListGroup.cxx  \
+	MonEditListGroup.cxx    \
 	MonCreateIteration.cxx  \
 	MonEditIteration.cxx    \
 	MonCreateZone.cxx       \
 	MonEditZone.cxx         \
+	MonMeshInfo.cxx         \
+	MonIterInfo.cxx         \
 	MonEditFile.cxx         \
 	HomardQtCommun.cxx
 
@@ -92,6 +98,8 @@ MOC_FILES =                         \
 	MonEditListGroup_moc.cxx    \
 	MonCreateIteration_moc.cxx  \
 	MonEditIteration_moc.cxx    \
+	MonMeshInfo_moc.cxx         \
+	MonIterInfo_moc.cxx         \
 	MonEditFile_moc.cxx
 
 nodist_libHOMARD_la_SOURCES = $(MOC_FILES)
@@ -133,11 +141,13 @@ nodist_salomeres_DATA =  \
 UI_FILES = \
 CreateBoundaryAn.ui \
 CreateBoundaryDi.ui \
-CreateCase.ui \
+CreateCase.ui       \
 CreateHypothesis.ui \
-CreateIteration.ui \
-CreateListGroup.ui \
-CreateZone.ui \
+CreateIteration.ui  \
+CreateListGroup.ui  \
+CreateZone.ui       \
+MeshInfo.ui         \
+IterInfo.ui         \
 EditFile.ui
 
 EXTRA_DIST += $(UI_FILES)

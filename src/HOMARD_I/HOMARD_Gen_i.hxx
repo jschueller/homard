@@ -31,6 +31,7 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 
 #include "HOMARD_Gen.hxx"
+#include "HomardDriver.hxx"
 #include "SALOME_Component_i.hxx"
 #include "SALOME_NamingService.hxx"
 #include "Utils_CorbaException.hxx"
@@ -114,6 +115,10 @@ public:
   HOMARD::listeIterations*        GetAllIterationsName();
   HOMARD::listeZones*             GetAllZonesName();
 
+  void                            MeshInfo      (const char* nomCas,
+                                                 const char* MeshName, const char* FileName, const char* DirName,
+                                                 CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte);
+
   HOMARD::HOMARD_Iteration_ptr    LastIteration  (const char* nomCas);
 
 // L'etude
@@ -125,6 +130,7 @@ public:
   void                            InvalideBoundary(const char* nomBoundary);
   void                            InvalideHypo(const char* nomHypo);
   void                            InvalideIter(const char* nomIter);
+  void                            InvalideIterInfo(const char* nomIter);
   void                            InvalideZone(const char* nomZone);
 
   CORBA::Long                     DeleteBoundary(const char* nomBoundary);
@@ -144,7 +150,15 @@ public:
 
   void                            SetEtatIter(const char* nomIter,const CORBA::Boolean EtatCalcul);
 
-  CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage);
+  CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option);
+  CORBA::Long                     ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option);
+  char*                           ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage);
+  char*                           ComputeDirPa(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration);
+  void                            DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
+  void                            DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
+  void                            DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver);
+  void                            DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
+
   CORBA::Boolean                  VerifieDir(const char* nomDir);
 
   void                            PublishResultInSmesh(const char* NomFich, CORBA::Long IconeType);

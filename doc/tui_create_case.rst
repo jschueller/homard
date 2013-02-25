@@ -143,6 +143,27 @@ Les options avancées
 |     présentes dans le maillage initial                        |
 +---------------------------------------------------------------+
 
+Informations sur le maillage initial
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: MeshInfo                                          |
+|                                                               |
+| **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
+|     Donne des informations sur le maillage. Pour chaque       |
+|     option, le choix 0 correspond à ne rien faire, alors que  |
+|     le choix 1 active l'option.                               |
+|                                                               |
+|     - ``Qual`` : qualité des mailles                          |
+|     - ``Diam`` : diamètre des mailles                         |
+|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
+|       combien de trous, etc.                                  |
+|     - ``Tail`` : tailles des constituants du domaine, groupe  |
+|       par groupe                                              |
+|     - ``Inte`` : interpénétration des mailles, par dimension  |
++---------------------------------------------------------------+
+
 
 Exemple
 """""""

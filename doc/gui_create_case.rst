@@ -22,7 +22,7 @@ Un nom de cas est proposé automatiquement : Case_1, Case_2, etc. Ce nom peut êtr
 
 Le répertoire
 """""""""""""
-Le répertoire est celui qui contiendra les fichiers produits par les adaptations successives. Ce répertoire doit exister. Par défaut, Salome propose ``/tmp``. Ce choix peut être modifié, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, où ``xx`` est un numéro d'ordre créé automatiquement ; ces noms de fichiers seront visibles dans l'arbre d'études.
+Le répertoire est celui qui contiendra les fichiers produits par les adaptations successives. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, où ``xx`` est un numéro d'ordre créé automatiquement. Ces fichiers seront visibles dans l'arbre d'études.
 
 .. image:: images/create_case_2.png
    :align: center

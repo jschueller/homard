@@ -36,6 +36,10 @@
         <translation>Delete</translation>
     </message>
     <message>
+        <source>HOM_MEN_MESH_INFO</source>
+        <translation>Mesh analysis</translation>
+    </message>
+    <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
         <translation>Show the file</translation>
     </message>
@@ -302,6 +306,18 @@
     <message>
         <source>HOM_GROU_EDIT_WINDOW_TITLE</source>
         <translation>Selected groups</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_0</source>
+        <translation>Mesh analysis</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_1</source>
+        <translation>Select at least one option.</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_2</source>
+        <translation>Analysis in the object browser, file </translation>
     </message>
 </context>
 </TS>

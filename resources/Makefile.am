@@ -21,6 +21,7 @@ include $(top_srcdir)/adm_local/unix/make_common_starter.am
 
 dist_salomeres_DATA =   \
 	$(top_builddir)/resources/SalomeApp.xml \
+	advanced_mesh_info.png \
 	boxdxy.png \
 	boxdxy_2.png \
 	boxdxyz.png \

@@ -110,6 +110,9 @@ module HOMARD
     listeIterations GetAllIterationsName()                 raises (SALOME::SALOME_Exception);
     listeZones      GetAllZonesName()                      raises (SALOME::SALOME_Exception);
 
+    void            MeshInfo(in string CaseName, in string MeshName, in string FileName,  in string DirName, in long Qual, in long Diam, in long Conn, in long Tail, in long Inte )
+                                                           raises (SALOME::SALOME_Exception);
+
     HOMARD_Iteration LastIteration(in string CaseName)     raises (SALOME::SALOME_Exception);
 //
 // A.3. L'etude
@@ -146,7 +149,8 @@ module HOMARD
     void DissociateHypoZone(in string HypoName, in string ZoneName)
                                                            raises (SALOME::SALOME_Exception);
 
-    long Compute (in string IterName, in long CleanOption) raises (SALOME::SALOME_Exception);
+    long Compute (in string IterName, in long CleanOption, in long modeHOMARD, in long Option)
+                                                           raises (SALOME::SALOME_Exception);
 
     boolean  VerifieDir (in string IterName)               raises (SALOME::SALOME_Exception);
 

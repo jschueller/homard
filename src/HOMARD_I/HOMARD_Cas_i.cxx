@@ -185,7 +185,6 @@ void HOMARD_Cas_i::SetGroups( const HOMARD::ListGroupType& ListGroup )
   {
     ListString.push_back(std::string(ListGroup[i]));
   }
-
   myHomardCas->SetGroups( ListString );
 }
 //=============================================================================
@@ -257,6 +256,26 @@ CORBA::Long HOMARD_Cas_i::GetPyram()
   MESSAGE ("GetPyram");
   ASSERT( myHomardCas );
   return myHomardCas->GetPyram();
+}
+//=============================================================================
+void HOMARD_Cas_i::MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte)
+{
+  MESSAGE ( "MeshInfo : information sur le maillage initial du cas" );
+  ASSERT( myHomardCas );
+//
+// Nom de l'iteration
+  char* IterName = GetIter0Name() ;
+  CORBA::Long etatMenage = -1 ;
+  CORBA::Long modeHOMARD = 7 ;
+  CORBA::Long Option = 1 ;
+  if ( Qual != 0 ) { modeHOMARD = modeHOMARD*5 ; }
+  if ( Diam != 0 ) { modeHOMARD = modeHOMARD*19 ; }
+  if ( Conn != 0 ) { modeHOMARD = modeHOMARD*11 ; }
+  if ( Tail != 0 ) { modeHOMARD = modeHOMARD*13 ; }
+  if ( Inte != 0 ) { modeHOMARD = modeHOMARD*3 ; }
+  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+  MESSAGE ( "MeshInfo : codret = " << codret );
+  return ;
 }
 //=============================================================================
 //=============================================================================

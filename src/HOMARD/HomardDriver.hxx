@@ -31,9 +31,13 @@ public:
   HomardDriver(const std::string siter, const std::string siterp1);
   ~HomardDriver();
   //
-  void        TexteInit( const std::string DirCompute, const std::string DirComputePa, const std::string MessFile );
+  void        TexteInit( const std::string DirCompute, const std::string LogFile );
+  void        TexteInfo( int TypeBila, int NumeIter );
+  void        CreeFichierDonn();
+  void        TexteAdap( );
   void        CreeFichier();
   void        TexteMaillage( const std::string NomMesh, const std::string MeshFile, int apres );
+  void        TexteMaillageHOMARD( const std::string Dir, const std::string liter, int apres );
   void        TexteConfRaffDera( int ConfType, int TypeAdap, int TypeRaff, int TypeDera );
   void        TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8 );
   void        TexteGroup( const std::string GroupName );
@@ -55,7 +59,7 @@ public:
   void        TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput);
   void        CloseFichier();
   //
-  int         ExecuteHomard();
+  int         ExecuteHomard(int option);
   //
   bool        LireFichier();
   bool        EcrireFichier();
@@ -72,6 +76,7 @@ public:
   std::string _NomDir;
   std::string _NomFichierConfBase;
   std::string _NomFichierConf;
+  std::string _NomFichierDonn;
   std::string _siter;
   std::string _siterp1;
   std::string _Texte;

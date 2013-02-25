@@ -85,6 +85,8 @@ public:
   void                   SetPyram( CORBA::Long Pyram );
   CORBA::Long            GetPyram();
 
+  void                   MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte);
+
 // Liens avec les autres structures
   char*                  GetIter0Name();
   HOMARD::HOMARD_Iteration_ptr GetIter0() ;

@@ -210,27 +210,73 @@ CORBA::Long HOMARD_Iteration_i::GetRank()
   return  CORBA::Long( myHomardIteration->GetRank() );
 }
 //=============================================================================
-void HOMARD_Iteration_i::SetMessFile( const char* MessFile )
+void HOMARD_Iteration_i::SetLogFile( const char* LogFile )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->SetMessFile( MessFile );
+  myHomardIteration->SetLogFile( LogFile );
 }
 //=============================================================================
-char* HOMARD_Iteration_i::GetMessFile()
+char* HOMARD_Iteration_i::GetLogFile()
 {
   ASSERT( myHomardIteration );
-  return CORBA::string_dup( myHomardIteration->GetMessFile().c_str() );
+  return CORBA::string_dup( myHomardIteration->GetLogFile().c_str() );
 }
 //=============================================================================
-CORBA::Long  HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
+CORBA::Long HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
 {
   MESSAGE ( "Compute : calcul d'une iteration" );
   ASSERT( myHomardIteration );
 //
 // Nom de l'iteration
   char* IterName = GetName() ;
+  CORBA::Long modeHOMARD = 1 ;
+  CORBA::Long Option = 1 ;
   MESSAGE ( "Compute : calcul de l'teration " << IterName );
-  return _gen_i->Compute(IterName, etatMenage) ;
+  return _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+}
+//=============================================================================
+void HOMARD_Iteration_i::MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte)
+{
+  MESSAGE ( "MeshInfo : information sur le maillage associe a une iteration" );
+  ASSERT( myHomardIteration );
+//
+  int Option = 1 ;
+  MeshInfoOption( Qual, Diam, Conn, Tail, Inte, Option ) ;
+//
+  return ;
+}
+//=============================================================================
+void HOMARD_Iteration_i::MeshInfoOption(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte, CORBA::Long Option)
+{
+  MESSAGE ( "MeshInfoOption : information sur le maillage associe a une iteration" );
+  ASSERT( myHomardIteration );
+//
+// Nom de l'iteration
+  char* IterName = GetName() ;
+  CORBA::Long etatMenage = -1 ;
+  CORBA::Long modeHOMARD = 7 ;
+  if ( Qual != 0 ) { modeHOMARD = modeHOMARD*5 ; }
+  if ( Diam != 0 ) { modeHOMARD = modeHOMARD*19 ; }
+  if ( Conn != 0 ) { modeHOMARD = modeHOMARD*11 ; }
+  if ( Tail != 0 ) { modeHOMARD = modeHOMARD*13 ; }
+  if ( Inte != 0 ) { modeHOMARD = modeHOMARD*3 ; }
+  MESSAGE ( "MeshInfoOption : information sur le maillage de l'iteration " << IterName );
+  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+  MESSAGE ( "MeshInfoOption : codret = " << codret );
+//
+  return ;
+}
+//=============================================================================
+void HOMARD_Iteration_i::SetFileInfo( const char* FileInfo )
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SetFileInfo( FileInfo );
+}
+//=============================================================================
+char* HOMARD_Iteration_i::GetFileInfo()
+{
+  ASSERT( myHomardIteration );
+  return CORBA::string_dup( myHomardIteration->GetFileInfo().c_str() );
 }
 //=============================================================================
 //=============================================================================

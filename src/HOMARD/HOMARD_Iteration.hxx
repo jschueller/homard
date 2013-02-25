@@ -72,8 +72,11 @@ public:
   int                           GetTimeStep() const;
   int                           GetRank() const;
 
-  void                          SetMessFile( const char* MessFile );
-  std::string                   GetMessFile() const;
+  void                          SetLogFile( const char* LogFile );
+  std::string                   GetLogFile() const;
+
+  void                          SetFileInfo( const char* FileInfo );
+  std::string                   GetFileInfo() const;
 
 // Liens avec les autres iterations
   void                          LinkNextIteration( const char* NomIteration );
@@ -100,12 +103,13 @@ private:
   std::string                   _FieldFile;
   int                           _TimeStep;
   int                           _Rank;
-  std::string                   _MessFile;
+  std::string                   _LogFile;
   std::string                   _IterParent;
   std::string                   _NomHypo;
   std::string                   _NomCas;
   std::string                   _NomDir;
   std::list<std::string>        _mesIterFilles;
+  std::string                   _FileInfo;
 };
 
 #endif

@@ -35,4 +35,5 @@ Mode d'emploi de la saisie des données
    gui_create_zone
    gui_create_boundary
    gui_homard
+   gui_mesh_info
 

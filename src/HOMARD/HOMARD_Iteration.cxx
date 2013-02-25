@@ -44,9 +44,10 @@ HOMARD_Iteration::HOMARD_Iteration():
  _NumIter( -1 ),
   _NomMesh( "" ), _MeshFile( "" ),
   _FieldFile( "" ), _TimeStep( -1 ), _Rank( -1 ),
-  _MessFile( "" ),
+  _LogFile( "" ),
   _IterParent( "" ),
-  _NomHypo( "" ), _NomCas( "" ), _NomDir( "" )
+  _NomHypo( "" ), _NomCas( "" ), _NomDir( "" ),
+  _FileInfo( "" )
 {
   MESSAGE("HOMARD_Iter");
 }
@@ -210,14 +211,24 @@ int HOMARD_Iteration::GetRank() const
   return _Rank;
 }
 //=============================================================================
-void HOMARD_Iteration::SetMessFile( const char* MessFile )
+void HOMARD_Iteration::SetLogFile( const char* LogFile )
 {
-  _MessFile = std::string( MessFile );
+  _LogFile = std::string( LogFile );
 }
 //=============================================================================
-std::string HOMARD_Iteration::GetMessFile() const
+std::string HOMARD_Iteration::GetLogFile() const
 {
-  return _MessFile;
+  return _LogFile;
+}
+//=============================================================================
+void HOMARD_Iteration::SetFileInfo( const char* FileInfo )
+{
+  _FileInfo = std::string( FileInfo );
+}
+//=============================================================================
+std::string HOMARD_Iteration::GetFileInfo() const
+{
+  return _FileInfo;
 }
 //=============================================================================
 //=============================================================================
