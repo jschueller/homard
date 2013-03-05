@@ -93,6 +93,7 @@ uninstall-local:
 clean-local:
 	-rm -rf doctrees
 	if test -d "html"; then rm -rf html ; fi
+	if test -d "latex"; then rm -rf latex ; fi
 
 dist-hook:
 	if test -d "html"; then b=; else b="$(srcdir)/"; fi; \
