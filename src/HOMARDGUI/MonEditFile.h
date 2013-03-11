@@ -44,6 +44,7 @@ public:
                  HOMARD::HOMARD_Gen_var myHomardGen,
                  QString FileName );
     ~MonEditFile();
+    int _codret ;
 
 protected :
 

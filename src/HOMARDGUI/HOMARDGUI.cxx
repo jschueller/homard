@@ -379,7 +379,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
         else if (HOMARD_UTILS::isIter(obj))
         {
           try
-          { homardGen->DeleteIteration(_ObjectName.toStdString().c_str()); }
+          { homardGen->DeleteIteration(_ObjectName.toStdString().c_str(), 1); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -447,7 +447,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       if ((obj) and ((HOMARD_UTILS::isFilelog(obj) or HOMARD_UTILS::isFileSummary(obj))))
       {
           MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
-          aDlg->show();
+          if ( aDlg->_codret == 0 ) { aDlg->show(); }
       }
       break;
      }

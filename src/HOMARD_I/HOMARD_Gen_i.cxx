@@ -169,7 +169,7 @@ CORBA::Long HOMARD_Gen_i::GetCurrentStudyID()
 void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Boolean EtatCalcul)
 //=====================================================================================
 {
-  MESSAGE( "SetEtatIter : affectation de l etat " << EtatCalcul << " a l iteration " << nomIter );
+  MESSAGE( "SetEtatIter : affectation de l'etat '" << EtatCalcul << "' a l'iteration " << nomIter );
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
@@ -276,8 +276,9 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas)
   };
   // On commence par detruire toutes les iterations en partant de l'initiale et y compris elle
   CORBA::String_var nomIter = myCase->GetIter0Name();
-  CORBA::Long Option = 0 ;
-  if ( DeleteIterationOption(nomIter, Option) != 0 )
+  CORBA::Long Option1 = 0 ;
+  CORBA::Long Option2 = 1 ;
+  if ( DeleteIterationOption(nomIter, Option1, Option2) != 0 )
   {
     return 2;
   };
@@ -339,19 +340,25 @@ CORBA::Long HOMARD_Gen_i::DeleteHypo(const char* nomHypo)
   return 0 ;
 }
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::DeleteIteration(const char* nomIter)
+CORBA::Long HOMARD_Gen_i::DeleteIteration(const char* nomIter, CORBA::Long Option)
 {
+  //  Option = 0 : On ne supprime pas le fichier du maillage associe
+  //  Option = 1 : On supprime le fichier du maillage associe
+  //  Option = 2 : On supprime le fichier du maillage associe, sauf si c'est la derniere iteration
   // Pour detruire une iteration courante
-  MESSAGE ( "DeleteIteration : nomIter = " << nomIter );
-  CORBA::Long Option = 1 ;
-  return DeleteIterationOption(nomIter, Option);
+  MESSAGE ( "DeleteIteration : nomIter = " << nomIter << ", avec option = " << Option );
+  CORBA::Long Option1 = 1 ;
+  return DeleteIterationOption(nomIter, Option1, Option);
 }
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long Option)
+CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long Option1, CORBA::Long Option2)
 {
-  //  Option = 0 : On autorise la destruction de l'iteration 0
-  //  Option = 1 : On interdit la destruction de l'iteration 0
-  MESSAGE ( "DeleteIterationOption : nomIter = " << nomIter << ", avec option = " << Option );
+  //  Option1 = 0 : On autorise la destruction de l'iteration 0
+  //  Option1 = 1 : On interdit la destruction de l'iteration 0
+
+  //  Option2 = 0 : On ne supprime pas le fichier du maillage associe
+  //  Option2 = 1 : On supprime le fichier du maillage associe
+  MESSAGE ( "DeleteIterationOption : nomIter = " << nomIter << ", avec options = " << Option1<< ", " << Option2 );
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
@@ -364,7 +371,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
 
   int numero = myIteration->GetNumber();
   MESSAGE ( "DeleteIterationOption : numero = " << numero );
-  if ( numero == 0 and Option == 1 )
+  if ( numero == 0 and Option1 == 1 )
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -380,14 +387,14 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   {
     std::string nomIterFille = std::string((*maListe)[NumeIter]);
     MESSAGE ( ".. appel recursif de DeleteIterationOption pour nomIter = " << nomIterFille.c_str() );
-    DeleteIterationOption(nomIterFille.c_str(), Option);
+    DeleteIterationOption(nomIterFille.c_str(), Option1, Option2);
   }
 
   // On arrive ici pour une iteration sans fille
   MESSAGE ( "Destruction effective de " << nomIter );
   // On commence par invalider l'iteration pour faire le menage des dependances
-  // et des publications dans SMESH
-  InvalideIter(nomIter) ;
+  // et eventeullement du maillage associe
+  InvalideIterOption(nomIter, Option2) ;
 
   // Retrait dans la descendance de l'iteration parent
   if ( numero > 0 )
@@ -525,6 +532,16 @@ void HOMARD_Gen_i::InvalideHypo(const char* nomHypo)
 void HOMARD_Gen_i::InvalideIter(const char* nomIter)
 {
   MESSAGE("InvalideIter : nomIter = " << nomIter);
+  // Pour invalider totalement une iteration courante
+  CORBA::Long Option = 1 ;
+  return InvalideIterOption(nomIter, Option);
+}
+//=============================================================================
+void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
+{
+  //  Option = 0 : On ne supprime pas le fichier du maillage associe
+  //  Option = 1 : On supprime le fichier du maillage associe
+  MESSAGE ( "InvalideIterOption : nomIter = " << nomIter << ", avec option = " << Option );
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
@@ -578,7 +595,7 @@ void HOMARD_Gen_i::InvalideIter(const char* nomIter)
     const char* nomDir     = myIteration->GetDirName();
     const char* nomFichier = myIteration->GetMeshFile();
     std::string commande= "rm -rf " + std::string(dirCase) + "/" + std::string(nomDir);
-    commande = commande + ";rm -rf " + std::string(nomFichier);
+    if ( Option == 1 ) { commande = commande + ";rm -rf " + std::string(nomFichier) ; }
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
     {
@@ -589,7 +606,7 @@ void HOMARD_Gen_i::InvalideIter(const char* nomIter)
           return ;
     }
   // Suppression du maillage publie dans SMESH
-    const char* MeshName = myIteration->GetMeshName();
+    const char* MeshName = myIteration->GetMeshName() ;
     DeleteResultInSmesh(nomFichier, MeshName) ;
   };
 
@@ -2500,9 +2517,11 @@ void HOMARD_Gen_i::PublishBoundaryUnderCase(const char* CaseName, const char* Bo
 
 };
 //=============================================================================
-void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long IconeType)
+void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
+//  Option = 0 : fichier issu d'une importation
+//  Option = 1 : fichier issu d'une execution HOMARD
 {
-  MESSAGE( "PublishResultInSmesh " << NomFich);
+  MESSAGE( "PublishResultInSmesh " << NomFich << ", avec Option = " << Option);
   if (CORBA::is_nil(myCurrentStudy))
   {
       SALOME::ExceptionStruct es;
@@ -2529,9 +2548,22 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long IconeTy
            CORBA::String_var value=anAttr->Value();
            if (strcmp((const char*)value,NomFich) == 0)
            {
-                // GERALD -- QMESSAGE BOX
-                std::cerr << "fichier : "<< NomFich << " deja publie "<< std::endl;
+             MESSAGE ( "PublishResultInSmesh : le fichier " << NomFich << " est deja publie." );
+             // Pour un fichier importe, on ne republie pas
+             if ( Option == 0 )
+             {
                 return;
+             }
+             // Pour un fichier calcule, on commence par faire la depublication
+             else
+             {
+                MESSAGE ( "PublishResultInSmesh : depublication" );
+                SALOMEDS::AttributeName_var anAttr2 = SALOMEDS::AttributeName::_narrow(aGAttr);
+                CORBA::String_var value2=anAttr2->Value();
+                const char* MeshName = value2 ;
+                MESSAGE ( "PublishResultInSmesh : depublication de " << MeshName );
+                DeleteResultInSmesh(NomFich, MeshName) ;
+             }
            }
        }
      }
@@ -2559,11 +2591,9 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long IconeTy
     anAttr->SetValue(NomFich);
     SALOMEDS::GenericAttribute_var aPixMap = aStudyBuilder->FindOrCreateAttribute(aSO, "AttributePixMap" );
     SALOMEDS::AttributePixMap_var anAttr2 = SALOMEDS::AttributePixMap::_narrow(aPixMap);
-//  IconeType = 0 : fichier issu d'une importation
-//  IconeType = 1 : fichier issu d'une execution HOMARD
     const char* icone ;
-    if ( IconeType == 0 ) { icone = "mesh_tree_importedmesh.png" ; }
-    else                  { icone = "mesh_tree_mesh.png" ; }
+    if ( Option == 0 ) { icone = "mesh_tree_importedmesh.png" ; }
+    else               { icone = "mesh_tree_mesh.png" ; }
     anAttr2->SetPixMap( icone );
   }
 

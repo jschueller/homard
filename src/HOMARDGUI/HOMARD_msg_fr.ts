@@ -184,6 +184,10 @@
         <translation>Sélectionner un seul fichier.</translation>
     </message>
     <message>
+        <source>HOM_SELECT_FILE_3</source>
+        <translation>Impossible d'ouvrir ce fichier.</translation>
+    </message>
+    <message>
         <source>HOM_MED_FILE_1</source>
         <translation>Ce fichier MED est illisible.</translation>
     </message>

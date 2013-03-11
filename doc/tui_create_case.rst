@@ -112,8 +112,9 @@ Méthodes de la classe cas
 | .. index:: single: Delete                                     |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit le cas et toutes les itérations associées.        |
-|     Le fichier du maillage associé est conservé.              |
+|     Detruit le cas et toutes les itérations associées ainsi   |
+|     que tous les maillages produits. Le fichier du maillage   |
+|     initial associé est conservé.                             |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |

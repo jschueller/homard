@@ -157,9 +157,14 @@ Généralités
 +---------------------------------------------------------------+
 | .. index:: single: Delete                                     |
 |                                                               |
-| **Delete()**                                                  |
-|     Detruit l'itération et toutes ses filles éventuelles. Les |
-|     fichiers des maillages associés sont supprimés.           |
+| **Delete(option)**                                            |
+|     Detruit l'itération et toutes ses filles éventuelles.     |
+|                                                               |
+|     - ``option`` : un entier précisant ce qui est fait des    |
+|       fichiers de maillage associés                           |
+|                                                               |
+|         * 0 : les fichiers sont conservés                     |
+|         * 1 : les fichiers sont détruits                      |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |

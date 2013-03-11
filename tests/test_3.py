@@ -139,7 +139,7 @@ Copyright EDF-R&D 2010, 2013
   # Destruction
       if ( iaux < n_boucle ) :
   # Recursive destruction of the iterations
-        error = Iter_1.Delete()
+        error = Iter_1.Delete(1)
         if error :
           error = 10*iaux + 3
           break

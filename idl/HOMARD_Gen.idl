@@ -130,13 +130,16 @@ module HOMARD
     void InvalideBoundary (in string BoundaryName)         raises (SALOME::SALOME_Exception);
     void InvalideHypo (in string HypoName)                 raises (SALOME::SALOME_Exception);
     void InvalideIter (in string IterName)                 raises (SALOME::SALOME_Exception);
+    void InvalideIterOption (in string IterName, in long Option)
+                                                           raises (SALOME::SALOME_Exception);
     void InvalideZone (in string ZoneName)                 raises (SALOME::SALOME_Exception);
 
     long DeleteBoundary (in string BoundaryName)           raises (SALOME::SALOME_Exception);
     long DeleteCase(in string CaseName)                    raises (SALOME::SALOME_Exception);
     long DeleteHypo(in string HypoName)                    raises (SALOME::SALOME_Exception);
-    long DeleteIteration(in string IterName)               raises (SALOME::SALOME_Exception);
-    long DeleteIterationOption(in string IterName, in long Option)
+    long DeleteIteration(in string IterName, in long Option)
+                                                           raises (SALOME::SALOME_Exception);
+    long DeleteIterationOption(in string IterName, in long Option1, in long Option2)
                                                            raises (SALOME::SALOME_Exception);
     long DeleteZone (in string ZoneName)                   raises (SALOME::SALOME_Exception);
 //
@@ -157,7 +160,7 @@ module HOMARD
     void  PublishFileUnderIteration(in string IterName, in string FileName, in string Comment)
                                                            raises (SALOME::SALOME_Exception);
     void  PublishBoundaryUnderCase(in string CaseName, in string BoundaryName);
-    void  PublishResultInSmesh(in string FileName, in long IconeType)
+    void  PublishResultInSmesh(in string FileName, in long Option)
                                                            raises (SALOME::SALOME_Exception);
 
   };

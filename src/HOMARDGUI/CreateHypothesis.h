@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateHypothesis.ui'
 **
-** Created: Mon Jan 14 14:54:59 2013
+** Created: Thu Feb 28 13:29:51 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -43,7 +43,6 @@ public:
     QRadioButton *RBUniforme;
     QRadioButton *RBChamp;
     QRadioButton *RBZone;
-    QCheckBox *CBGroupe;
     QGroupBox *GBUniform;
     QGridLayout *gridLayout;
     QRadioButton *RBUniDera;
@@ -106,6 +105,7 @@ public:
     QRadioButton *RBFieldAll;
     QRadioButton *RBFieldChosen;
     QTableWidget *TWField;
+    QCheckBox *CBGroupe;
     QCheckBox *CBAdvanced;
     QGroupBox *GBAdvancedOptions;
     QGridLayout *gridLayout_1;
@@ -131,7 +131,7 @@ public:
     {
         if (CreateHypothesis->objectName().isEmpty())
             CreateHypothesis->setObjectName(QString::fromUtf8("CreateHypothesis"));
-        CreateHypothesis->resize(770, 1453);
+        CreateHypothesis->resize(794, 1481);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -176,11 +176,6 @@ public:
 
 
         gridLayout_3->addWidget(GBTypeAdaptation, 1, 0, 1, 2);
-
-        CBGroupe = new QCheckBox(CreateHypothesis);
-        CBGroupe->setObjectName(QString::fromUtf8("CBGroupe"));
-
-        gridLayout_3->addWidget(CBGroupe, 2, 0, 1, 2);
 
         GBUniform = new QGroupBox(CreateHypothesis);
         GBUniform->setObjectName(QString::fromUtf8("GBUniform"));
@@ -408,9 +403,10 @@ public:
         SpinBox_RMuSigma->setObjectName(QString::fromUtf8("SpinBox_RMuSigma"));
         SpinBox_RMuSigma->setEnabled(false);
         SpinBox_RMuSigma->setDecimals(8);
-        SpinBox_RMuSigma->setMinimum(0);
+        SpinBox_RMuSigma->setMinimum(-1e+12);
         SpinBox_RMuSigma->setMaximum(1e+12);
         SpinBox_RMuSigma->setSingleStep(0.1);
+        SpinBox_RMuSigma->setValue(3);
 
         gridLayout3->addWidget(SpinBox_RMuSigma, 3, 1, 1, 1);
 
@@ -486,9 +482,10 @@ public:
         SpinBox_CMuSigma->setObjectName(QString::fromUtf8("SpinBox_CMuSigma"));
         SpinBox_CMuSigma->setEnabled(false);
         SpinBox_CMuSigma->setDecimals(8);
-        SpinBox_CMuSigma->setMinimum(0);
+        SpinBox_CMuSigma->setMinimum(-1e+12);
         SpinBox_CMuSigma->setMaximum(1e+12);
         SpinBox_CMuSigma->setSingleStep(0.1);
+        SpinBox_CMuSigma->setValue(4);
 
         gridLayout4->addWidget(SpinBox_CMuSigma, 3, 1, 1, 1);
 
@@ -630,6 +627,11 @@ public:
 
         gridLayout_3->addWidget(GBField, 7, 0, 1, 2);
 
+        CBGroupe = new QCheckBox(CreateHypothesis);
+        CBGroupe->setObjectName(QString::fromUtf8("CBGroupe"));
+
+        gridLayout_3->addWidget(CBGroupe, 2, 0, 1, 2);
+
         CBAdvanced = new QCheckBox(CreateHypothesis);
         CBAdvanced->setObjectName(QString::fromUtf8("CBAdvanced"));
 
@@ -761,7 +763,6 @@ public:
         RBUniforme->setText(QApplication::translate("CreateHypothesis", "Uniform", 0, QApplication::UnicodeUTF8));
         RBChamp->setText(QApplication::translate("CreateHypothesis", "Driven by a field", 0, QApplication::UnicodeUTF8));
         RBZone->setText(QApplication::translate("CreateHypothesis", "With geometrical zones", 0, QApplication::UnicodeUTF8));
-        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0, QApplication::UnicodeUTF8));
         GBUniform->setTitle(QApplication::translate("CreateHypothesis", "Uniform adaptation", 0, QApplication::UnicodeUTF8));
         RBUniDera->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0, QApplication::UnicodeUTF8));
         RBUniRaff->setText(QApplication::translate("CreateHypothesis", "Refinement", 0, QApplication::UnicodeUTF8));
@@ -810,6 +811,7 @@ public:
         ___qtablewidgetitem5->setText(QApplication::translate("CreateHypothesis", "Selection", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem6 = TWField->horizontalHeaderItem(1);
         ___qtablewidgetitem6->setText(QApplication::translate("CreateHypothesis", "Field Name", 0, QApplication::UnicodeUTF8));
+        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0, QApplication::UnicodeUTF8));
         CBAdvanced->setText(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
         GBAdvancedOptions->setTitle(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
         TLMinimalDiameter->setText(QApplication::translate("CreateHypothesis", "Minimal diameter", 0, QApplication::UnicodeUTF8));

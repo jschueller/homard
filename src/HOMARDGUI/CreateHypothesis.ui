@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
-    <height>1453</height>
+    <width>794</width>
+    <height>1481</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -76,13 +76,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="CBGroupe">
-     <property name="text">
-      <string>Filtering with groups</string>
-     </property>
     </widget>
    </item>
    <item row="3" column="0" colspan="2">
@@ -435,13 +428,16 @@
               <number>8</number>
              </property>
              <property name="minimum">
-              <double>0.000000000000000</double>
+              <double>-1000000000000.000000000000000</double>
              </property>
              <property name="maximum">
               <double>1000000000000.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>3.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -567,13 +563,16 @@
               <number>8</number>
              </property>
              <property name="minimum">
-              <double>0.000000000000000</double>
+              <double>-1000000000000.000000000000000</double>
              </property>
              <property name="maximum">
               <double>1000000000000.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>4.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -781,6 +780,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="CBGroupe">
+     <property name="text">
+      <string>Filtering with groups</string>
+     </property>
     </widget>
    </item>
    <item row="8" column="0" colspan="2">

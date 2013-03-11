@@ -132,6 +132,10 @@
         <translation>Select only one file.</translation>
     </message>
     <message>
+        <source>HOM_SELECT_FILE_3</source>
+        <translation>This file cannot be opened.</translation>
+    </message>
+    <message>
         <source>HOM_MED_FILE_1</source>
         <translation>This MED file cannot be read.</translation>
     </message>

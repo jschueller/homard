@@ -47,7 +47,8 @@ MonEditFile::MonEditFile( QWidget* parent,  bool modal,
                           QString aFileName):
 //    QWidget(0),
     Ui_EditFile(),
-    _aFileName (aFileName)
+    _aFileName (aFileName),
+    _codret (0)
 {
   MESSAGE("Debut de MonEditFile " << aFileName.toStdString().c_str());
   setupUi(this);
@@ -94,7 +95,10 @@ void MonEditFile::EditText()
   else
   {
      // GERALD -- QMESSAGE BOX
-     MESSAGE( "EditText " << _aFileName.toStdString().c_str() << "est impossible a ouvrir ");
+     MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
+    QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                              QObject::tr("HOM_SELECT_FILE_3") );
+    _codret = 1 ;
   }
 }
 // ------------------------------------------------------------------------

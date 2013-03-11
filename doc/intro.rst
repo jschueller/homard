@@ -47,9 +47,8 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
 
 .. note::
   Pour une référence à HOMARD, utiliser :
- G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, Finite Elements in Analysis and Design, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
+  G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, Finite Elements in Analysis and Design, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
   `Acessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_ .
-
 
 
 Quelques illustrations de maillage adaptés

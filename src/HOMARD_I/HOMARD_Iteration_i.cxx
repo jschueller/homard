@@ -86,12 +86,12 @@ char* HOMARD_Iteration_i::GetName()
   return CORBA::string_dup( myHomardIteration->GetName().c_str() );
 }
 //=============================================================================
-CORBA::Long  HOMARD_Iteration_i::Delete()
+CORBA::Long  HOMARD_Iteration_i::Delete( CORBA::Long Option )
 {
   ASSERT( myHomardIteration );
   char* IterName = GetName() ;
-  MESSAGE ( "Delete : destruction de l'iteration " << IterName );
-  return _gen_i->DeleteIteration(IterName) ;
+  MESSAGE ( "Delete : destruction de l'iteration " << IterName << ", Option = " << Option );
+  return _gen_i->DeleteIteration(IterName, Option) ;
 }
 //=============================================================================
 char* HOMARD_Iteration_i::GetDumpPython()

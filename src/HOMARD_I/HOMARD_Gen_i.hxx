@@ -130,14 +130,15 @@ public:
   void                            InvalideBoundary(const char* nomBoundary);
   void                            InvalideHypo(const char* nomHypo);
   void                            InvalideIter(const char* nomIter);
+  void                            InvalideIterOption(const char* nomIter, CORBA::Long Option);
   void                            InvalideIterInfo(const char* nomIter);
   void                            InvalideZone(const char* nomZone);
 
   CORBA::Long                     DeleteBoundary(const char* nomBoundary);
   CORBA::Long                     DeleteCase(const char* nomCas);
   CORBA::Long                     DeleteHypo(const char* nomHypothesis);
-  CORBA::Long                     DeleteIteration(const char* nomIter);
-  CORBA::Long                     DeleteIterationOption(const char* nomIter, CORBA::Long Option);
+  CORBA::Long                     DeleteIteration(const char* nomIter, CORBA::Long Option);
+  CORBA::Long                     DeleteIterationOption(const char* nomIter, CORBA::Long Option1, CORBA::Long Option2);
   CORBA::Long                     DeleteZone(const char* nomZone);
 
   void                            AssociateIterHypo(const char* nomIter, const char* nomHypothesis);
@@ -161,7 +162,7 @@ public:
 
   CORBA::Boolean                  VerifieDir(const char* nomDir);
 
-  void                            PublishResultInSmesh(const char* NomFich, CORBA::Long IconeType);
+  void                            PublishResultInSmesh(const char* NomFich, CORBA::Long Option);
   void                            DeleteResultInSmesh(const char* NomFich, const char* MeshName);
   void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich,
                                                             const char* Commentaire);
