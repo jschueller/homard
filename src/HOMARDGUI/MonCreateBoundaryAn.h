@@ -52,11 +52,16 @@ protected :
     QString _aName;
     QString _aCaseName;
 
+    double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr, _DMax ;
     int _Type;
     double _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon;
     double _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis;
-    double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr, _DMax ;
     double _Xcentre, _Ycentre, _Zcentre, _Rayon ;
+    double _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1;
+    double _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2;
+    double _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone;
+    double _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnZorigCone;
+    double _BoundaryAngle;
 
 
     bool Chgt;
@@ -68,11 +73,15 @@ protected :
     virtual void InitValBoundaryAn();
     virtual void InitMinMax();
     virtual void SetNewBoundaryAnName();
+    virtual void convertRayonAngle(int option);
     virtual bool CreateOrUpdateBoundaryAn();
 
 public slots:
     virtual void SetCylinder();
     virtual void SetSphere();
+    virtual void SetCone();
+    virtual void SetConeR();
+    virtual void SetConeA();
     virtual void PushOnOK();
     virtual bool PushOnApply();
     virtual void PushOnHelp();

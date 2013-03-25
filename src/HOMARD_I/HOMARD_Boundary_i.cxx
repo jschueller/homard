@@ -161,6 +161,18 @@ void HOMARD_Boundary_i::SetSphere( double Xcentre, double Ycentre, double ZCentr
   myHomardBoundary->SetSphere( Xcentre, Ycentre, ZCentre, rayon );
 }
 //=============================================================================
+void HOMARD_Boundary_i::SetConeR( double Xcentre1, double Ycentre1, double Zcentre1, double Rayon1, double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2)
+{
+  ASSERT( myHomardBoundary );
+  myHomardBoundary->SetConeR( Xcentre1, Ycentre1, Zcentre1, Rayon1, Xcentre2, Ycentre2, Zcentre2, Rayon2 );
+}
+//=============================================================================
+void HOMARD_Boundary_i::SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle, double Xcentre, double Ycentre, double Zcentre)
+{
+  ASSERT( myHomardBoundary );
+  myHomardBoundary->SetConeA( Xaxe, Yaxe, Zaxe, Angle, Xcentre, Ycentre, Zcentre );
+}
+//=============================================================================
 HOMARD::double_array* HOMARD_Boundary_i::GetCoords()
 {
   ASSERT( myHomardBoundary );

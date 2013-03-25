@@ -666,12 +666,12 @@ void HomardDriver::TexteBoundaryDiGr(  const std::string GroupName )
 //
 }
 //===============================================================================
-void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6 )
+void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7 )
 {
   MESSAGE("TexteBoundaryAn, NameBoundary = "<<NameBoundary);
 //   MESSAGE("TexteBoundaryAn, NumeBoundary = "<<NumeBoundary);
   MESSAGE("TexteBoundaryAn, BoundaryType = "<<BoundaryType);
-//   MESSAGE("TexteBoundaryAn, coor         = "<< x0<<","<<x1<< ","<< x2<< ","<< x3<<","<<x4<<","<<x5<<","<<x6);
+//   MESSAGE("TexteBoundaryAn, coor         = "<< x0<<","<<x1<< ","<< x2<< ","<< x3<<","<<x4<<","<<x5<<","<<x6","<<x7);
 //
   std::string saux, saux2 ;
 //
@@ -685,6 +685,8 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   { saux += "# Cylindre\n" ; }
   if ( BoundaryType == 2 )
   { saux += "# Sphere\n" ; }
+  if ( BoundaryType == 3 or BoundaryType == 4 )
+  { saux += "# Cone\n" ; }
 //
 // Le nom de la frontiere
 //
@@ -736,7 +738,7 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
       saux2 = saux1.str() ;
       saux += "FAZAxe " + saux2 + "\n" ;
     }
-     { std::stringstream saux1 ;
+    { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
       saux2 = saux1.str() ;
       saux += "FARayon " + saux2 + "\n" ;
@@ -768,6 +770,93 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
       saux += "FARayon " + saux2 + "\n" ;
     }
   }
+//
+// Cas du cone defini par un axe et un angle
+//
+  if ( BoundaryType == 3 )
+  {
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x0 ;
+      saux2 = saux1.str() ;
+      saux += "FAXAxe " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x1 ;
+      saux2 = saux1.str() ;
+      saux += "FAYAxe " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x2 ;
+      saux2 = saux1.str() ;
+      saux += "FAZAxe " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x3 ;
+      saux2 = saux1.str() ;
+      saux += "FAAngle " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x4 ;
+      saux2 = saux1.str() ;
+      saux += "FAXCen " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x5 ;
+      saux2 = saux1.str() ;
+      saux += "FAYCen " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x6 ;
+      saux2 = saux1.str() ;
+      saux += "FAZCen " + saux2 + "\n" ;
+    }
+ }
+//
+// Cas du cone defini par les 2 rayons
+//
+  if ( BoundaryType == 4 )
+  {
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x0 ;
+      saux2 = saux1.str() ;
+      saux += "FAXCen " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x1 ;
+      saux2 = saux1.str() ;
+      saux += "FAYCen " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x2 ;
+      saux2 = saux1.str() ;
+      saux += "FAZCen " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x3 ;
+      saux2 = saux1.str() ;
+      saux += "FARayon " + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x4 ;
+      saux2 = saux1.str() ;
+      saux += "FAXCen2" + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x5 ;
+      saux2 = saux1.str() ;
+      saux += "FAYCen2" + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x6 ;
+      saux2 = saux1.str() ;
+      saux += "FAZCen2" + saux2 + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x7 ;
+      saux2 = saux1.str() ;
+      saux += "FARayon2" + saux2 + "\n" ;
+    }
+ }
 //
   _Texte += saux + "#\n" ;
 //

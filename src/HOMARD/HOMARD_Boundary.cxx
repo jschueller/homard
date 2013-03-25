@@ -93,9 +93,23 @@ std::string HOMARD_Boundary::GetDumpPython() const
     }
     case 2:
     {
-      aScript << "sphere" << _Name << "\n";
+      aScript << "sphere " << _Name << "\n";
       aScript << "\t" << _Name << " = homard.CreateBoundarySphere(\"" << _Name << "\", ";
       aScript << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _rayon << ")\n";
+      break ;
+    }
+    case 3:
+    {
+      aScript << "cone " << _Name << "\n";
+      aScript << "\t" << _Name << " = homard.CreateBoundaryConeA(\"" << _Name << "\", ";
+      aScript << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Angle << ", " << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ")\n";
+      break ;
+    }
+    case 4:
+    {
+      aScript << "cone " << _Name << "\n";
+      aScript << "\t" << _Name << " = homard.CreateBoundaryConeR(\"" << _Name << "\", ";
+      aScript << _Xcentre1 << ", " << _Ycentre1 << ", " << _Zcentre1 << ", " << _Rayon1 << ", " << _Xcentre2 << ", " << _Ycentre2 << ", " << _Zcentre2 << ", " << _Rayon2 << ")\n";
       break ;
     }
   }
@@ -140,9 +154,8 @@ std::string HOMARD_Boundary::GetMeshFile() const
 void HOMARD_Boundary::SetCylinder( double X0, double X1, double X2,
                                    double X3, double X4, double X5, double X6 )
 {
-  _Xcentre = X0; _Ycentre = X1;
-  _Zcentre = X2; _Xaxe = X3;
-  _Yaxe = X4; _Zaxe = X5;
+  _Xcentre = X0; _Ycentre = X1; _Zcentre = X2;
+  _Xaxe = X3; _Yaxe = X4; _Zaxe = X5;
   _rayon = X6;
 }
 //======================================================================
@@ -150,6 +163,23 @@ void HOMARD_Boundary::SetSphere( double X0, double X1, double X2, double X3 )
 {
   _Xcentre = X0; _Ycentre = X1; _Zcentre = X2;
   _rayon = X3;
+}
+//======================================================================
+void HOMARD_Boundary::SetConeR( double Xcentre1, double Ycentre1, double Zcentre1, double Rayon1,
+                                double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2)
+{
+  _Xcentre1 = Xcentre1; _Ycentre1 = Ycentre1; _Zcentre1 = Zcentre1;
+  _Rayon1 = Rayon1;
+  _Xcentre2 = Xcentre2; _Ycentre2 = Ycentre2; _Zcentre2 = Zcentre2;
+  _Rayon2 = Rayon2;
+}
+//======================================================================
+void HOMARD_Boundary::SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle,
+                                double Xcentre, double Ycentre, double Zcentre)
+{
+  _Xaxe = Xaxe; _Yaxe = Yaxe; _Zaxe = Zaxe;
+  _Angle = Angle;
+  _Xcentre = Xcentre; _Ycentre = Ycentre; _Zcentre = Zcentre;
 }
 //=======================================================================================
 std::vector<double> HOMARD_Boundary::GetCoords() const
@@ -177,6 +207,31 @@ std::vector<double> HOMARD_Boundary::GetCoords() const
       mesCoor.push_back( _Ycentre );
       mesCoor.push_back( _Zcentre );
       mesCoor.push_back( _rayon );
+      break ;
+    }
+//  Cone defini par un axe et un angle
+    case 3:
+    {
+      mesCoor.push_back( _Xaxe );
+      mesCoor.push_back( _Yaxe );
+      mesCoor.push_back( _Zaxe );
+      mesCoor.push_back( _Angle );
+      mesCoor.push_back( _Xcentre );
+      mesCoor.push_back( _Ycentre );
+      mesCoor.push_back( _Zcentre );
+      break ;
+    }
+//  Cone defini par les 2 rayons
+    case 4:
+    {
+      mesCoor.push_back( _Xcentre1 );
+      mesCoor.push_back( _Ycentre1 );
+      mesCoor.push_back( _Zcentre1 );
+      mesCoor.push_back( _Rayon1 );
+      mesCoor.push_back( _Xcentre2 );
+      mesCoor.push_back( _Ycentre2 );
+      mesCoor.push_back( _Zcentre2 );
+      mesCoor.push_back( _Rayon2 );
       break ;
     }
     ASSERT ( _Type == -1 ) ;

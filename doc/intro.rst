@@ -183,6 +183,9 @@ SALOME VERSION 7.1 :
      ``cas.LastIteration()`` : retourne la dernière itération de la descendance du cas (voir :ref:`tui_create_iteration`)
    - Analyse de maillages (voir :ref:`gui_mesh_info`)
 
+SALOME VERSION 7.2 :
+   - Possibilité d'utiliser un cone comme support de frontiere 2D (voir :ref:`tui_create_boundary`)
+
 
 
 

@@ -28,6 +28,9 @@ dist_salomeres_DATA =   \
 	boxdxyz_2.png \
 	cas_calcule.png \
 	cas_non_calcule.png \
+	conedxyz.png \
+	cone.png \
+	conepointvector.png \
 	cylinderpointvector.png \
 	cylinderpointvector_2.png \
 	delete.png \

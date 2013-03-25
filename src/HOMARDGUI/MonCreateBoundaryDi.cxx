@@ -115,7 +115,7 @@ bool MonCreateBoundaryDi::PushOnApply()
    catch( SALOME::SALOME_Exception& S_ex )
    {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QString(CORBA::string_dup(S_ex.details.text)) );
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
       return false;
    }
   }

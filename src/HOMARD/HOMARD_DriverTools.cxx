@@ -730,6 +730,10 @@ namespace HOMARD
       { boundary.SetCylinder(coords[0],coords[1],coords[2],coords[3],coords[4],coords[5],coords[6]); }
       else if ( BoundaryType == 2 )
       { boundary.SetSphere( coords[0], coords[1], coords[2], coords[3]); }
+      else if ( BoundaryType == 3 )
+      { boundary.SetConeA( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6]); }
+      else if ( BoundaryType == 4 )
+      { boundary.SetConeR( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]); }
       // Remarque : la taille de coords est suffisante pour les limites
       for ( int i = 0; i < 3; i++ ) {
         chunk = getNextChunk( stream, start, ok );

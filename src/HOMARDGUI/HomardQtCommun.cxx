@@ -310,7 +310,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeChamps(QString aFile)
   if (ncha < 1 )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_5") );
+                              QObject::tr("HOM_MED_FILE_5") );
     MEDfileClose(medIdt);
     return ListeChamp;
   }
@@ -364,7 +364,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeComposants(QString aFile, QString a
   if (ncha < 1 )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_5") );
+                              QObject::tr("HOM_MED_FILE_5") );
     MEDfileClose(medIdt);
     return ListeComposants;
   }

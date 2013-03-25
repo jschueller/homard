@@ -38,6 +38,7 @@
 #include CORBA_CLIENT_HEADER(SALOME_ModuleCatalog)
 #include CORBA_CLIENT_HEADER(SMESH_Gen)
 
+#include <cmath>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -175,7 +176,7 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Boolean EtatCal
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -212,11 +213,9 @@ CORBA::Long HOMARD_Gen_i::DeleteBoundary(const char* BoundaryName)
   HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
   if (CORBA::is_nil(myBoundary))
   {
-//     const char* message = "Invalid Boundary " ;
-//     SALOMEException(message) ;
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Boundary ";
+    es.text = "Invalid boundary";
     throw SALOME::SALOME_Exception(es);
     return 1 ;
   };
@@ -270,7 +269,7 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Case Context ";
+    es.text = "Invalid case context";
     throw SALOME::SALOME_Exception(es);
     return 1;
   };
@@ -301,7 +300,7 @@ CORBA::Long HOMARD_Gen_i::DeleteHypo(const char* nomHypo)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Hypothesis ";
+    es.text = "Invalid hypothesis";
     throw SALOME::SALOME_Exception(es);
     return 1 ;
   };
@@ -313,7 +312,7 @@ CORBA::Long HOMARD_Gen_i::DeleteHypo(const char* nomHypo)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "This hypothesis is used and cannot be deleted.";
+    es.text = "This hypothesis is used in an iteration and cannot be deleted.";
     throw SALOME::SALOME_Exception(es);
     return 2 ;
   };
@@ -364,7 +363,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Iteration ";
+    es.text = "Invalid iteration";
     throw SALOME::SALOME_Exception(es);
     return 1 ;
   };
@@ -406,7 +405,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
     {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return 3 ;
     };
@@ -449,7 +448,7 @@ CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Zone ";
+    es.text = "Invalid zone";
     throw SALOME::SALOME_Exception(es);
     return 1 ;
   };
@@ -462,7 +461,7 @@ CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "This zone is used and cannot be deleted.";
+    es.text = "This zone is used in an hypothesis and cannot be deleted.";
     throw SALOME::SALOME_Exception(es);
     return 2 ;
   };
@@ -492,7 +491,7 @@ void HOMARD_Gen_i::InvalideBoundary(const char* BoundaryName)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Boundary ";
+    es.text = "Invalid boundary";
     throw SALOME::SALOME_Exception(es);
     return ;
   }
@@ -514,7 +513,7 @@ void HOMARD_Gen_i::InvalideHypo(const char* nomHypo)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Hypothesis ";
+      es.text = "Invalid hypothesis";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -547,7 +546,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -587,7 +586,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
     {
         SALOME::ExceptionStruct es;
         es.type = SALOME::BAD_PARAM;
-        es.text = "Invalid Case Context ";
+        es.text = "Invalid case context";
         throw SALOME::SALOME_Exception(es);
         return ;
     };
@@ -599,11 +598,11 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
     {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          es.text = "Menage du repertoire de calcul impossible" ;
-          throw SALOME::SALOME_Exception(es);
-          return ;
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "The directory for the calculation cannot be cleared." ;
+      throw SALOME::SALOME_Exception(es);
+      return ;
     }
   // Suppression du maillage publie dans SMESH
     const char* MeshName = myIteration->GetMeshName() ;
@@ -620,7 +619,7 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -648,7 +647,7 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Case Context ";
+      es.text = "Invalid case context";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -661,7 +660,7 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
   {
         SALOME::ExceptionStruct es;
         es.type = SALOME::BAD_PARAM;
-        es.text = "Menage du repertoire de calcul impossible" ;
+        es.text = "The directory for the calculation cannot be cleared." ;
         throw SALOME::SALOME_Exception(es);
         return ;
   }
@@ -676,7 +675,7 @@ void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Zone ";
+      es.text = "Invalid zone";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -707,7 +706,7 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Case ";
+      es.text = "Invalid case";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -717,7 +716,7 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -728,7 +727,7 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Case ";
+      es.text = "Invalid case";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -1084,7 +1083,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "This case has already been defined";
+    es.text = "This case has already been defined.";
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
@@ -1166,7 +1165,7 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "This hypothesis is already defined.";
+      es.text = "This hypothesis has already been defined.";
       throw SALOME::SALOME_Exception(es);
       return 0;
     }
@@ -1210,7 +1209,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Case Context ";
+      es.text = "Invalid case context";
       throw SALOME::SALOME_Exception(es);
       return 0;
   };
@@ -1219,7 +1218,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "This iteration is already defined. ";
+      es.text = "This iteration has already been defined.";
       throw SALOME::SALOME_Exception(es);
       return 0;
   };
@@ -1229,7 +1228,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Unable to create Iteration ";
+      es.text = "Unable to create the iteration";
       throw SALOME::SALOME_Exception(es);
       return 0;
   };
@@ -1278,6 +1277,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
 
   if ((myContextMap[GetCurrentStudyID()]._mesBoundarys).find(BoundaryName)!=(myContextMap[GetCurrentStudyID()]._mesBoundarys).end())
   {
+      MESSAGE ("CreateBoundary : la frontiere " << BoundaryName << " existe deja");
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
       es.text = "This boundary has already been defined";
@@ -1309,12 +1309,29 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryDi(const char* BoundaryN
 //=============================================================================
 HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryCylinder(const char* BoundaryName,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
-                                      CORBA::Double Xaxis, CORBA::Double Yaxis, CORBA::Double Zaxis,
+                                      CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe,
                                       CORBA::Double Rayon)
 {
   MESSAGE ("CreateBoundaryCylinder : BoundaryName  = " << BoundaryName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The axis must be a non 0 vector." ;
+    error = 2 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 1) ;
-  myBoundary->SetCylinder( Xcentre, Ycentre, Zcentre, Xaxis, Yaxis, Zaxis, Rayon ) ;
+  myBoundary->SetCylinder( Xcentre, Ycentre, Zcentre, Xaxe, Yaxe, Zaxe, Rayon ) ;
 
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
 }
@@ -1324,8 +1341,81 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundarySphere(const char* Bound
                                       CORBA::Double Rayon)
 {
   MESSAGE ("CreateBoundarySphere : BoundaryName  = " << BoundaryName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 2) ;
   myBoundary->SetSphere( Xcentre, Ycentre, Zcentre, Rayon ) ;
+
+  return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
+}
+//=============================================================================
+HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeA(const char* BoundaryName,
+                                      CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe, CORBA::Double Angle,
+                                      CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre)
+{
+  MESSAGE ("CreateBoundaryConeA : BoundaryName  = " << BoundaryName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Angle <= 0.0 or Angle >= 90.0 )
+  { es.text = "The angle must be included higher than 0 degree and lower than 90 degrees." ;
+    error = 1 ; }
+  double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The axis must be a non 0 vector." ;
+    error = 2 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
+  HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 3) ;
+  myBoundary->SetConeA( Xaxe, Yaxe, Zaxe, Angle, Xcentre, Ycentre, Zcentre ) ;
+
+  return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
+}
+//=============================================================================
+HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeR(const char* BoundaryName,
+                                      CORBA::Double Xcentre1, CORBA::Double Ycentre1, CORBA::Double Zcentre1, CORBA::Double Rayon1,
+                                      CORBA::Double Xcentre2, CORBA::Double Ycentre2, CORBA::Double Zcentre2, CORBA::Double Rayon2)
+{
+  MESSAGE ("CreateBoundaryConeR : BoundaryName  = " << BoundaryName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon1 < 0.0 or Rayon2 < 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  double daux = fabs(Rayon2-Rayon1) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The radius must be different." ;
+    error = 2 ; }
+  daux = fabs(Xcentre2-Xcentre1) + fabs(Ycentre2-Ycentre1) + fabs(Zcentre2-Zcentre1) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The centers must be different." ;
+    error = 3 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
+  HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 4) ;
+  myBoundary->SetConeR( Xcentre1, Ycentre1, Zcentre1, Rayon1, Xcentre2, Ycentre2, Zcentre2, Rayon2 ) ;
 
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
 }
@@ -1362,6 +1452,25 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox(const char* ZoneName,
                                       CORBA::Double Zmini, CORBA::Double Zmaxi)
 {
   MESSAGE ("CreateZoneBox : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Xmini > Xmaxi )
+  { es.text = "The X coordinates are not coherent." ;
+    error = 1 ; }
+  if ( Ymini > Ymaxi )
+  { es.text = "The Y coordinates are not coherent." ;
+    error = 2 ; }
+  if ( Zmini > Zmaxi )
+  { es.text = "The Z coordinates are not coherent." ;
+    error = 3 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 2) ;
   myZone->SetBox ( Xmini, Xmaxi, Ymini, Ymaxi, Zmini, Zmaxi) ;
 
@@ -1372,6 +1481,19 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneSphere(const char* ZoneName,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre, CORBA::Double Rayon)
 {
   MESSAGE ("CreateZoneSphere : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 4) ;
   myZone->SetSphere( Xcentre, Ycentre, Zcentre, Rayon ) ;
 
@@ -1384,6 +1506,26 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneCylinder(const char* ZoneName,
                                       CORBA::Double Rayon, CORBA::Double Haut)
 {
   MESSAGE ("CreateZoneCylinder : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The axis must be a non 0 vector." ;
+    error = 2 ; }
+  if ( Haut <= 0.0 )
+  { es.text = "The height must be positive." ;
+    error = 3 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 5) ;
   myZone->SetCylinder( Xcentre, Ycentre, Zcentre, Xaxe, Yaxe, Zaxe, Rayon, Haut ) ;
 
@@ -1396,6 +1538,29 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZonePipe(const char* ZoneName,
                                       CORBA::Double Rayon, CORBA::Double Haut, CORBA::Double Rayonint)
 {
   MESSAGE ("CreateZonePipe : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 or Rayonint <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The axis must be a non 0 vector." ;
+    error = 2 ; }
+  if ( Haut <= 0.0 )
+  { es.text = "The height must be positive." ;
+    error = 3 ; }
+  if ( Rayon <= Rayonint )
+  { es.text = "The external radius must be higher than the internal radius." ;
+    error = 4 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 7) ;
   myZone->SetPipe( Xcentre, Ycentre, Zcentre, Xaxe, Yaxe, Zaxe, Rayon, Haut, Rayonint ) ;
 
@@ -1411,7 +1576,25 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox2D(const char* ZoneName,
 //   MESSAGE ("Umini = " << Umini << ", Umaxi =" << Umaxi ) ;
 //   MESSAGE ("Vmini = " << Vmini << ", Vmaxi =" << Vmaxi ) ;
 //   MESSAGE ("Orient = " << Orient ) ;
-
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Umini > Umaxi )
+  { es.text = "The first coordinates are not coherent." ;
+    error = 1 ; }
+  if ( Vmini > Vmaxi )
+  { es.text = "The second coordinates are not coherent." ;
+    error = 2 ; }
+  if ( Orient < 1 or Orient > 3 )
+  { es.text = "The orientation must be 1, 2 or 3." ;
+    error = 3 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   double Xmini, Xmaxi ;
   double Ymini, Ymaxi ;
   double Zmini, Zmaxi ;
@@ -1450,6 +1633,22 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDisk(const char* ZoneName,
                                       CORBA::Long Orient)
 {
   MESSAGE ("CreateZoneDisk : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  if ( Orient < 1 or Orient > 3 )
+  { es.text = "The orientation must be 1, 2 or 3." ;
+    error = 3 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   double Xcentre ;
   double Ycentre ;
   double Zcentre ;
@@ -1479,6 +1678,25 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
                                       CORBA::Long Orient)
 {
   MESSAGE ("CreateZoneDiskWithHole : ZoneName  = " << ZoneName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( Rayon <= 0.0 or Rayonint <= 0.0 )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  if ( Orient < 1 or Orient > 3 )
+  { es.text = "The orientation must be 1, 2 or 3." ;
+    error = 3 ; }
+  if ( Rayon <= Rayonint )
+  { es.text = "The external radius must be higher than the internal radius." ;
+    error = 4 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
   double Xcentre ;
   double Ycentre ;
   double Zcentre ;
@@ -1733,7 +1951,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text= "This iteration does not have any associated hypothesis.";
+      es.text = "This iteration does not have any associated hypothesis.";
       throw SALOME::SALOME_Exception(es);
       return 2;
   };
@@ -1795,8 +2013,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
         {
           SALOME::ExceptionStruct es;
           es.type = SALOME::BAD_PARAM;
-          std::string text = "PB with meshfile destruction ";
-          es.text = CORBA::string_dup(text.c_str());
+          es.text = "The mesh file cannot be deleted.";
           throw SALOME::SALOME_Exception(es);
           return 5;
         }
@@ -2101,12 +2318,22 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
         HOMARD::double_array* coor = myBoundary->GetCoords();
         if (BoundaryType == 1) // Cas d un cylindre
         {
-          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6]);
+          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], 0.);
           BoundaryOption = BoundaryOption*3 ;
         }
         else if (BoundaryType == 2) // Cas d une sphere
         {
-          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], 0., 0., 0.);
+          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], 0., 0., 0., 0.);
+          BoundaryOption = BoundaryOption*3 ;
+        }
+        else if (BoundaryType == 3) // Cas d un cone defini par un axe et un angle
+        {
+          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], 0.);
+          BoundaryOption = BoundaryOption*3 ;
+        }
+        else if (BoundaryType == 4) // Cas d un cone defini par les 2 rayons
+        {
+          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], (*coor)[7]);
           BoundaryOption = BoundaryOption*3 ;
         }
       }
@@ -2201,7 +2428,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Study Context ";
+    es.text = "Invalid study context";
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
@@ -2415,6 +2642,16 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
       icone = "spherepoint_2.png" ;
       break;
     }
+    case 3 :
+    { value = "BoundaryAnHomard" ;
+      icone = "conepointvector.png" ;
+      break;
+    }
+    case 4 :
+    { value = "BoundaryAnHomard" ;
+      icone = "conedxyz.png" ;
+      break;
+    }
   }
   PublishInStudyAttr(aStudyBuilder, aResultSO, theName, value, icone, _orb->object_to_string(theObject));
   return aResultSO._retn();
@@ -2526,7 +2763,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Study Context ";
+      es.text = "Invalid study context";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -2606,7 +2843,7 @@ void HOMARD_Gen_i::DeleteResultInSmesh(const char* NomFich, const char* MeshName
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Study Context ";
+      es.text = "Invalid study context";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -2653,7 +2890,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Study Context ";
+      es.text = "Invalid study context";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -2663,7 +2900,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration ";
+      es.text = "Invalid iteration";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -2672,7 +2909,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid Iteration Study Object";
+      es.text = "Invalid iterationStudy Object";
       throw SALOME::SALOME_Exception(es);
       return ;
   };
@@ -3267,7 +3504,7 @@ void HOMARD_Gen_i::IsValidStudy( )
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "Invalid Study Context";
+    es.text = "Invalid study context";
     throw SALOME::SALOME_Exception(es);
   };
   return ;

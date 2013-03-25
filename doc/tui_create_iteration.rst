@@ -148,7 +148,7 @@ Généralités
 |                                                               |
 | **GetLogFile()**                                              |
 |     Retourne le nom du fichier retraçant le déroulement de    |
-|     l'exécuion de HOMARD                                      |
+|     l'exécution de HOMARD                                     |
 +---------------------------------------------------------------+
 | .. module:: GetFileInfo                                       |
 |                                                               |

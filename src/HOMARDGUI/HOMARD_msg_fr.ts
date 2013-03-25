@@ -352,6 +352,74 @@
         <translation>Itération précédente</translation>
     </message>
     <message>
+        <source>Invalid boundary</source>
+        <translation>Frontière non valable</translation>
+    </message>
+    <message>
+        <source>Invalid case</source>
+        <translation>Cas non valable</translation>
+    </message>
+    <message>
+        <source>Invalid case context</source>
+        <translation>Cas contextuel non valable</translation>
+    </message>
+    <message>
+        <source>Invalid hypothesis</source>
+        <translation>Hypothèse non valable</translation>
+    </message>
+    <message>
+        <source>Invalid iteration</source>
+        <translation>Itération non valable</translation>
+    </message>
+    <message>
+        <source>Invalid zone</source>
+        <translation>Zone non valable</translation>
+    </message>
+    <message>
+        <source>This boundary has already been defined.</source>
+        <translation>Cette frontière est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This case has already been defined.</source>
+        <translation>Ce cas est déjà défini.</translation>
+    </message>
+    <message>
+        <source>This hypothesis has already been defined.</source>
+        <translation>Cette hypothèse est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This iteration has already been defined.</source>
+        <translation>Cette itération est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This zone has already been defined.</source>
+        <translation>Cette zone est déjà définie.</translation>
+    </message>
+    <message>
+        <source>The parent iteration is not defined.</source>
+        <translation>L'itération parent n'est pas définie.</translation>
+    </message>
+    <message>
+        <source>Unable to create the iteration.</source>
+        <translation>Impossible de créer l'itération.</translation>
+    </message>
+    <message>
+        <source>This iteration is the first of the case and cannot be computed.</source>
+        <translation>Cette itération définit le point de départ du cas. Elle ne peut pas être calculée.</translation>
+    </message>
+<message>
+        <source>This iteration does not have any associated hypothesis.</source>
+        <translation>Cette itération n'est associée à aucune hypothèse.</translation>
+    </message>
+    <message>
+        <source>The mesh file does not exist.</source>
+        <translation>Le fichier du maillage n'existe pas.</translation>
+    </message>
+    <message>
+        <source>The mesh file cannot be deleted.</source>
+        <translation>Impossible de supprimer le fichier du maillage.</translation>
+    </message>
+    <message>
         <source>Mesh n</source>
         <translation>Maillage n</translation>
     </message>
@@ -604,6 +672,14 @@
         <translation>Rayon</translation>
     </message>
     <message>
+        <source>Radius 1</source>
+        <translation>Rayon 1</translation>
+    </message>
+    <message>
+        <source>Radius 2</source>
+        <translation>Rayon 2</translation>
+    </message>
+    <message>
         <source>External radius</source>
         <translation>Rayon externe</translation>
     </message>
@@ -641,7 +717,7 @@
     </message>
     <message>
         <source>HOM_AXE</source>
-        <translation>L&apos;axe doit être un vecteur non nul.</translation>
+        <translation>L'axe doit être un vecteur non nul.</translation>
     </message>
     <message>
         <source>HOM_BOUN_A_EDIT_WINDOW_TITLE</source>
@@ -654,6 +730,58 @@
     <message>
         <source>HOM_GROU_EDIT_WINDOW_TITLE</source>
         <translation>Groupes choisis</translation>
+    </message>
+    <message>
+        <source>The height must be positive.</source>
+        <translation>La hauteur doit être positive.</translation>
+    </message>
+    <message>
+        <source>The radius must be positive.</source>
+        <translation>Un rayon doit être positif.</translation>
+    </message>
+    <message>
+        <source>The axis must be a non 0 vector.</source>
+        <translation>L'axe doit être un vecteur non nul.</translation>
+    </message>
+    <message>
+        <source>The angle must be included higher than 0 degree and lower than 90 degrees.</source>
+        <translation>L'angle doit être compris entre 0 et 90 degrés.</translation>
+    </message>
+    <message>
+        <source>The radius must be different.</source>
+        <translation>Les rayons doivent être différents.</translation>
+    </message>
+    <message>
+        <source>The centers must be different.</source>
+        <translation>Les centres doivent être différents.</translation>
+    </message>
+    <message>
+        <source>The external radius must be higher than the internal radius.</source>
+        <translation>Le rayon externe doit être supérieur au rayon interne.</translation>
+    </message>
+    <message>
+        <source>The X coordinates are not coherent.</source>
+        <translation>Les coordonnées en X ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The Y coordinates are not coherent.</source>
+        <translation>Les coordonnées en Y ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The Z coordinates are not coherent.</source>
+        <translation>Les coordonnées en Z ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The first coordinates are not coherent.</source>
+        <translation>Les premières coordonnées ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The second coordinates are not coherent.</source>
+        <translation>Les secondes coordonnées ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The orientation must be 1, 2 or 3.</source>
+        <translation>L'orientation vaut 1, 2 ou 3.</translation>
     </message>
     <message>
         <source>HOM_MESH_INFO_0</source>
@@ -708,12 +836,40 @@
         <translation>Interpénétration</translation>
     </message>
     <message>
+        <source>No change is allowed in a boundary. Ask for evolution.</source>
+        <translation>Impossible de changer une donnée dans une frontière. Demander une évolution.</translation>
+    </message>
+    <message>
+        <source>This boundary is used in a case and cannot be deleted.</source>
+        <translation>Cette frontière est utilisée dans un cas ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This hypothesis is used and cannot be deleted.</source>
+        <translation>Cette hypothèse est utilisée dans une itération ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This iteration cannot be deleted.</source>
+        <translation>Cette itération ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This zone is used in an hypothesis and cannot be deleted.</source>
+        <translation>Cette zone est utilisée dans une hypothèse ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>The directory for the calculation cannot be cleared.</source>
+        <translation>Menage du repertoire de calcul impossible</translation>
+    </message>
+    <message>
         <source>Edit a file</source>
         <translation>Affichage d&apos;un fichier</translation>
     </message>
     <message>
         <source>Print</source>
         <translation>Imprimer</translation>
+    </message>
+    <message>
+        <source>Invalid study context</source>
+        <translation>Etude contextuelle non valable</translation>
     </message>
 </context>
 </TS>

@@ -477,6 +477,9 @@ bool MonCreateZone::PushOnApply()
     }
   }
   bool bOK = CreateOrUpdateZone() ;
+
+  if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
+
   return bOK;
 
 }
@@ -489,81 +492,90 @@ bool MonCreateZone:: CreateOrUpdateZone()
   if (_aZoneName != LEZoneName->text().trimmed())
   {
     _aZoneName = LEZoneName->text().trimmed() ;
-    switch (_Type)
+    try
     {
-      case 11 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _Orient );
-        break;
-      }
-      case 12 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax, _Orient );
-        break;
-      }
-      case 13 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZmin, _ZoneZmax, _ZoneXmin, _ZoneXmax, _Orient );
-        break;
-      }
-      case 2 : // il s agit d un parallelepipede
-      { aZone = _myHomardGen->CreateZoneBox(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax );
-        break;
-      }
-      case 4 : // il s agit d une sphere
-      { aZone = _myHomardGen->CreateZoneSphere(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon );
-        break;
-      }
-      case 31 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _Orient );
-        break;
+      switch (_Type)
+      {
+        case 11 : // il s agit d un rectangle
+        { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _Orient );
+          break;
         }
-      case 32 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _Orient );
-        break;
+        case 12 : // il s agit d un rectangle
+        { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax, _Orient );
+          break;
+        }
+        case 13 : // il s agit d un rectangle
+        { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneZmin, _ZoneZmax, _ZoneXmin, _ZoneXmax, _Orient );
+          break;
+        }
+        case 2 : // il s agit d un parallelepipede
+        { aZone = _myHomardGen->CreateZoneBox(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax );
+          break;
+        }
+        case 4 : // il s agit d une sphere
+        { aZone = _myHomardGen->CreateZoneSphere(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon );
+          break;
+        }
+        case 31 : // il s agit d un disque issu d'un cylindre
+        { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _Orient );
+          break;
+          }
+        case 32 : // il s agit d un disque issu d'un cylindre
+        { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _Orient );
+          break;
+        }
+        case 33 : // il s agit d un disque issu d'un cylindre
+        { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _Orient );
+          break;
+        }
+        case 5 : // il s agit d un cylindre
+        { aZone = _myHomardGen->CreateZoneCylinder(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut );
+          break;
+        }
+        case 61 : // il s agit d un disque avec trou
+        { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 62 : // il s agit d un disque avec trou
+        { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 63 : // il s agit d un disque avec trou
+        { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 7 : // il s agit d un tuyau
+        { aZone = _myHomardGen->CreateZonePipe(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
+          break;
+          }
       }
-      case 33 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _Orient );
-        break;
-      }
-      case 5 : // il s agit d un cylindre
-      { aZone = _myHomardGen->CreateZoneCylinder(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut );
-        break;
-      }
-      case 61 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 62 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 63 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 7 : // il s agit d un tuyau
-      { aZone = _myHomardGen->CreateZonePipe(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
-        break;
-        }
+    }
+    catch( SALOME::SALOME_Exception& S_ex )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+      return false ;
     }
     _parent->addZoneinTWZone(_aZoneName) ;
-  }
 // Mise en place des attributs
-  aZone->SetLimit(_Xincr, _Yincr, _Zincr) ;
+    aZone->SetLimit(_Xincr, _Yincr, _Zincr) ;
 
-  HOMARD_UTILS::updateObjBrowser() ;
-  return true;
+    return true;
+  }
+  else { return false ; }
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::PushOnOK()

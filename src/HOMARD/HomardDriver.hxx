@@ -50,7 +50,7 @@ public:
   void        TexteBoundaryOption( int BoundaryOption );
   void        TexteBoundaryDi( const std::string MeshName, const std::string MeshFile );
   void        TexteBoundaryDiGr( const std::string GroupName );
-  void        TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6 );
+  void        TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7 );
   void        TexteBoundaryAnGr( const std::string NameBoundary, int NumeBoundary, const std::string GroupName );
 
   void        TexteFieldInterp( int TypeFieldInterp, const std::string FieldFile, const std::string MeshFile,

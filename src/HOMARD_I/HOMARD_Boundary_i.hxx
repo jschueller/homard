@@ -78,6 +78,10 @@ public:
                                       double rayon );
   void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
                                     double rayon );
+  void                   SetConeR( double Xcentre1, double Ycentre1, double Zcentre1, double Rayon1,
+                                   double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2);
+  void                   SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle,
+                                   double Xcentre, double Ycentre, double ZCentre);
 
   HOMARD::double_array*  GetCoords();
 

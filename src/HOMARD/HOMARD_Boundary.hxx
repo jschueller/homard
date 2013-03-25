@@ -63,6 +63,10 @@ public:
   void                          SetCylinder( double X0, double X1, double X2, double X3,
                                              double X4, double X5, double X6 );
   void                          SetSphere( double X0, double X1, double X2, double X3 );
+  void                          SetConeR( double Xcentre1, double Ycentre1, double Zcentre1, double Rayon1,
+                                          double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2);
+  void                          SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle,
+                                          double Xcentre, double Ycentre, double ZCentre);
 
   std::vector<double>           GetCoords() const;
 
@@ -87,6 +91,9 @@ private:
   double                        _Xaxe, _Yaxe, _Zaxe;
   double                        _Xcentre, _Ycentre, _Zcentre, _rayon;
   double                        _Xincr, _Yincr, _Zincr;
+  double                        _Xcentre1, _Ycentre1, _Zcentre1, _Rayon1;
+  double                        _Xcentre2, _Ycentre2, _Zcentre2, _Rayon2;
+  double                        _Angle;
 
   std::list<std::string>        _ListGroupSelected;
 

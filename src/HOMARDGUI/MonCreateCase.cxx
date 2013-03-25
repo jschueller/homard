@@ -224,7 +224,7 @@ bool MonCreateCase::PushOnApply()
     catch( SALOME::SALOME_Exception& S_ex )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QString(CORBA::string_dup(S_ex.details.text)) );
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
       try
       {
           aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
@@ -288,6 +288,7 @@ bool MonCreateCase::PushOnApply()
   }
 
   HOMARD_UTILS::updateObjBrowser();
+
   return true;
 }
 // ---------------------------

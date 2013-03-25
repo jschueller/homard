@@ -71,10 +71,11 @@ Cette opération est répétée autant de fois que l'on souhaite placer des faces du
   Inversement, une frontière peut très bien n'être retenue par aucun groupe. Cela arrive si elle a été définie pour un cas précédent et qu'elle est sans objet pour le cas en cours de définition.
 
 
-Il existe deux types de frontière analytique :
+Il existe trois types de frontière analytique :
 
   - Cylindre
   - Sphère
+  - Cône, décrit par un axe et un angle ou par deux rayons
 
 .. note::
   Les valeurs numériques proposées par défaut tiennent compte de la géométrie du maillage.
@@ -96,6 +97,24 @@ Une sphère
 La sphère est définie par son centre et son rayon. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
 
 .. image:: images/create_boundary_an_sp.png
+   :align: center
+
+.. index:: single: arbre d'étude
+
+Ue cône
+"""""""
+.. index:: single: cone
+
+Un cône est défini de deux manières différentes : le centre, l'axe et l'angle d'ouverture en degré ou par deux points centrés sur l'axe et le rayon associé. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
+
+Création par une origine, un axe et un angle d'ouverture :
+
+.. image:: images/create_boundary_an_co_1.png
+   :align: center
+
+Création par deux points centrés sur l'axe et le rayon associé :
+
+.. image:: images/create_boundary_an_co_2.png
    :align: center
 
 .. index:: single: arbre d'étude

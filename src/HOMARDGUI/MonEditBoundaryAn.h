@@ -38,13 +38,17 @@ public:
     virtual ~MonEditBoundaryAn();
 
 protected :
-    void SetCylinder();
-    void SetSphere();
     bool CreateOrUpdateBoundaryAn();
     void InitValEdit();
     void InitValBoundaryAnLimit();
+    void SetCylinder();
+    void SetSphere();
+    void SetConeR();
+    void SetConeA();
     void InitValBoundaryAnCylindre();
     void InitValBoundaryAnSphere();
+    void InitValBoundaryAnConeR();
+    void InitValBoundaryAnConeA();
 
 public slots:
 

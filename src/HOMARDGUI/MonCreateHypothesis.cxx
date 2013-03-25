@@ -186,7 +186,8 @@ bool MonCreateHypothesis::PushOnApply()
     _aHypothesis->SetLevelOutput(_LevelOutput);
   }
 
-  HOMARD_UTILS::updateObjBrowser();
+  HOMARD_UTILS::updateObjBrowser() ;
+
   return true;
 }
 
@@ -318,7 +319,7 @@ void MonCreateHypothesis::PushZoneDelete()
 {
   MESSAGE("Debut de MonCreateHypothesis::PushZoneDelete")
   QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                        QObject::tr("HOM_INACTIVE_BUTTON") );
+                          QObject::tr("HOM_INACTIVE_BUTTON") );
   return;
 }
 

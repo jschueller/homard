@@ -58,6 +58,14 @@ module HOMARD
                                       in double Xcentre, in double Ycentre, in double Zcentre,
                                       in double Radius)
                                                            raises (SALOME::SALOME_Exception);
+    HOMARD_Boundary   CreateBoundaryConeR (in string BoundaryName,
+                                      in double Xcentre1, in double Ycentre1, in double Zcentre1, in double Radius1,
+                                      in double Xcentre2, in double Ycentre2, in double Zcentre2, in double Radius2)
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Boundary   CreateBoundaryConeA (in string BoundaryName,
+                                      in double Xaxis, in double Yaxis, in double Zaxis, in double Angle,
+                                      in double Xcentre, in double Ycentre, in double Zcentre)
+                                                           raises (SALOME::SALOME_Exception);
     HOMARD_Cas        CreateCase(in string CaseName, in string MeshName, in string FileName )
                                                            raises (SALOME::SALOME_Exception);
     HOMARD_Hypothesis CreateHypothesis(in string HypoName )

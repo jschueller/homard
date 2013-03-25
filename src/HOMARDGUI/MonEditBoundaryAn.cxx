@@ -72,6 +72,18 @@ void MonEditBoundaryAn::InitValEdit()
       SetSphere();
       break;
     }
+    case 3: // il s agit d un cone defini par un axe et un angle
+    {
+      InitValBoundaryAnConeA();
+      SetConeA();
+      break;
+    }
+    case 4: // il s agit d un cone defini par les 2 rayons
+    {
+      InitValBoundaryAnConeR();
+      SetConeR();
+      break;
+    }
   };
 }
 // ------------------------------------------------------------------------
@@ -110,15 +122,48 @@ void MonEditBoundaryAn::InitValBoundaryAnSphere()
   _BoundaryAnRayon=mesCoordBoundary[3];
 }
 // ------------------------------------------------------------------------
+void MonEditBoundaryAn::InitValBoundaryAnConeA()
+// ------------------------------------------------------------------------
+{
+  HOMARD::double_array_var  mesCoordBoundary = aBoundaryAn->GetCoords();
+  ASSERT(mesCoordBoundary->length() == 7 );
+  _BoundaryAnXaxisCone=mesCoordBoundary[0];
+  _BoundaryAnYaxisCone=mesCoordBoundary[1];
+  _BoundaryAnZaxisCone=mesCoordBoundary[2];
+  _BoundaryAngle=mesCoordBoundary[3];
+  _BoundaryAnXorigCone=mesCoordBoundary[4];
+  _BoundaryAnYorigCone=mesCoordBoundary[5];
+  _BoundaryAnZorigCone=mesCoordBoundary[6];
+  convertRayonAngle(-1) ;
+}
+// ------------------------------------------------------------------------
+void MonEditBoundaryAn::InitValBoundaryAnConeR()
+// ------------------------------------------------------------------------
+{
+  HOMARD::double_array_var  mesCoordBoundary = aBoundaryAn->GetCoords();
+  ASSERT(mesCoordBoundary->length() == 8 );
+  _BoundaryAnXcone1=mesCoordBoundary[0];
+  _BoundaryAnYcone1=mesCoordBoundary[1];
+  _BoundaryAnZcone1=mesCoordBoundary[2];
+  _BoundaryAnRayon1=mesCoordBoundary[3];
+  _BoundaryAnXcone2=mesCoordBoundary[4];
+  _BoundaryAnYcone2=mesCoordBoundary[5];
+  _BoundaryAnZcone2=mesCoordBoundary[6];
+  _BoundaryAnRayon2=mesCoordBoundary[7];
+  convertRayonAngle(1) ;
+}
+// ------------------------------------------------------------------------
 void MonEditBoundaryAn::SetCylinder()
 // ------------------------------------------------------------------------
 {
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
+  gBCone->setVisible(0);
   RBCylindre->setChecked(1);
   adjustSize();
   _Type=1;
   RBSphere->setDisabled(true);
+  RBCone->setDisabled(true);
   adjustSize();
 
   SpinBox_Xcent->setValue(_BoundaryAnXcentre);
@@ -148,7 +193,9 @@ void MonEditBoundaryAn::SetSphere()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(1);
   RBSphere->setChecked(1);
+  gBCone->setVisible(0);
   RBCylindre->setDisabled(true);
+  RBCone->setDisabled(true);
   adjustSize();
   _Type=2 ;
 
@@ -167,6 +214,80 @@ void MonEditBoundaryAn::SetSphere()
   SpinBox_Rayon->setMinimum(0.);
   SpinBox_Rayon->setValue(_BoundaryAnRayon);
 }
+// ------------------------------------------------------------------------
+void MonEditBoundaryAn::SetConeA()
+// ------------------------------------------------------------------------
+{
+  gBCylindre->setVisible(0);
+  gBSphere->setVisible(0);
+  gBCone->setVisible(1);
+  RBCone->setChecked(1);
+  RB_Def_angle->setChecked(1);
+  RBCylindre->setDisabled(true);
+  RBSphere->setDisabled(true);
+  adjustSize();
+  _Type=3;
+//
+  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_X1->setValue(_BoundaryAnXaxisCone);
+  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Y1->setValue(_BoundaryAnYaxisCone);
+  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Z1->setValue(_BoundaryAnZaxisCone);
+//
+  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_X2->setValue(_BoundaryAnXorigCone);
+  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Y2->setValue(_BoundaryAnYorigCone);
+  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Z2->setValue(_BoundaryAnZorigCone);
+//
+  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Angle", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_V1->setValue(_BoundaryAngle);
+  SpinBox_Cone_V1->setSingleStep(1.);
+  SpinBox_Cone_V1->setMaximum(90.);
+//
+  TLCone_V2->setVisible(0);
+  SpinBox_Cone_V2->setVisible(0);
+}
+// ------------------------------------------------------------------------
+void MonEditBoundaryAn::SetConeR()
+// ------------------------------------------------------------------------
+{
+  gBCylindre->setVisible(0);
+  gBSphere->setVisible(0);
+  gBCone->setVisible(1);
+  RBCone->setChecked(1);
+  RB_Def_radius->setChecked(1);
+  RBCylindre->setDisabled(true);
+  RBSphere->setDisabled(true);
+  adjustSize();
+  _Type=4;
+//
+  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X centre 1", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_X1->setValue(_BoundaryAnXcone1);
+  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y centre 1", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Y1->setValue(_BoundaryAnYcone1);
+  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z centre 1", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Z1->setValue(_BoundaryAnZcone1);
+//
+  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Radius 1", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_V1->setSingleStep(_Rayon/10.);
+  SpinBox_Cone_V1->setMaximum(100000.*_DMax);
+  SpinBox_Cone_V1->setValue(_BoundaryAnRayon1);
+//
+  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre 2", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_X2->setValue(_BoundaryAnXcone2);
+  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre 2", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Y2->setValue(_BoundaryAnYcone2);
+  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre 2", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_Z2->setValue(_BoundaryAnZcone2);
+//
+  TLCone_V2->setVisible(1);
+  SpinBox_Cone_V2->setVisible(1);
+  TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "Radius 2", 0, QApplication::UnicodeUTF8));
+  SpinBox_Cone_V2->setValue(_BoundaryAnRayon2);
+}
 // ---------------------------------------------------
 bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
 //----------------------------------------------------
@@ -182,6 +303,20 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
     case 2 : // il s agit d une sphere
     {
       aBoundaryAn->SetSphere(_BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon);
+      break;
+    }
+    case 3 : // il s agit d un cone defini par un axe et un angle
+    {
+      aBoundaryAn = _myHomardGen->CreateBoundaryConeA(CORBA::string_dup(_aName.toStdString().c_str()), \
+      _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone, _BoundaryAngle, \
+      _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnYorigCone);
+      break;
+    }
+    case 4 : // il s agit d un cone defini par les 2 rayons
+      {
+      aBoundaryAn = _myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_aName.toStdString().c_str()), \
+        _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1, \
+        _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2);
       break;
     }
   }

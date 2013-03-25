@@ -158,7 +158,7 @@ bool MonCreateIteration::PushOnApply()
     catch( SALOME::SALOME_Exception& S_ex )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QString(CORBA::string_dup(S_ex.details.text)) );
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
        return false;
     }
   }
@@ -179,7 +179,8 @@ bool MonCreateIteration::PushOnApply()
   _myHomardGen->AssociateIterHypo (IterName, monHypoName.toStdString().c_str());
   aIter->SetMeshName(CORBA::string_dup(aMeshName_np1.toStdString().c_str()));
 
-  HOMARD_UTILS::updateObjBrowser();
+  HOMARD_UTILS::updateObjBrowser() ;
+
   return true;
 }
 

@@ -66,6 +66,15 @@ module HOMARD
     void     SetSphere (in double Xcentre, in double Ycentre, in double Zcentre, in double rayon)
                                                            raises (SALOME::SALOME_Exception);
 
+    void     SetConeR (in double Xcentre1, in double Ycentre1, in double Zcentre1, in double Rayon1,
+                       in double Xcentre2, in double Ycentre2, in double Zcentre2, in double Rayon2)
+                                                           raises (SALOME::SALOME_Exception);
+
+    void     SetConeA(in double Xaxe,in double Yaxe,in double Zaxe,in double Angle,
+                      in double Xcentre,in double Ycentre,in double ZCentre)
+                                                           raises (SALOME::SALOME_Exception);
+
+
     HOMARD::double_array GetCoords()                       raises (SALOME::SALOME_Exception);
 
     void     SetLimit (in double Xincr, in double Yincr, in double Zincr)

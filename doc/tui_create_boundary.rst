@@ -46,6 +46,29 @@ Ces méthodes retournent une instance de la classe boundary.
 |     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre de la sphère                |
 |     - ``R`` : rayon de la sphère                                                       |
 +----------------------------------------------------------------------------------------+
+| .. module:: CreateBoundaryConeA                                                        |
+|                                                                                        |
+| **CreateBoundaryConeA(boundary_name, Xaxe, Yaxe, Zaxe, Angle, Xcen, Ycen, Zcen)**      |
+|     Retourne une instance de la classe ``boundary`` analytique de type conique         |
+|     après sa création                                                                  |
+|                                                                                        |
+|     - ``boundary_name`` : le nom de la frontière analytique basée sur un cone          |
+|     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe                                  |
+|     - ``Angle`` : angle d'ouverture du cone en degre (entre 0 et 90)                   |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre du cone                     |
++----------------------------------------------------------------------------------------+
+| .. module:: CreateBoundaryConeR                                                        |
+|                                                                                        |
+| **CreateBoundaryConeR(boundary_name, Xc1, Yc1, Zc1, R1, Xc2, Yc2, Zc2, R2)**           |
+|     Retourne une instance de la classe ``boundary`` analytique de type conique         |
+|     après sa création                                                                  |
+|                                                                                        |
+|     - ``boundary_name`` : le nom de la frontière analytique basée sur un cone          |
+|     - ``Xc1``, ``Yc1``, ``Zc1`` : coordonnées du premier centre du cone                |
+|     - ``R1`` : rayon du cone à la hauteur du premier centre                            |
+|     - ``Xc2``, ``Yc2``, ``Zc2`` : coordonnées du second centre du cone                 |
+|     - ``R2`` : rayon du cone à la hauteur du second centre                             |
++----------------------------------------------------------------------------------------+
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -108,6 +131,8 @@ Méthodes de la classe boundary
 |         * 0 : discrète                                        |
 |         * 1 : cylindre                                        |
 |         * 2 : sphère                                          |
+|         * 3 : cone défini par un axe et un angle              |
+|         * 4 : cone défini par deux rayons                     |
 +---------------------------------------------------------------+
 | .. module:: GetCoords                                         |
 |                                                               |
