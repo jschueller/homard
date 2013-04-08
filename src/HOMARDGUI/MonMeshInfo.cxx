@@ -27,6 +27,7 @@ using namespace std;
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
+#include "MonEditFile.h"
 #include <utilities.h>
 
 
@@ -155,15 +156,23 @@ bool MonMeshInfo::PushOnApply()
     }
   }
 
-  HOMARD_UTILS::updateObjBrowser();
+  // Le bilan de l'analyse a afficher
+  aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
+  string iter0 = aCase->GetIter0Name();
+  HOMARD::HOMARD_Iteration_var aIter =  _myHomardGen->GetIteration(iter0.c_str());
+  aFileName = aIter->GetFileInfo() ;
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), aFileName ) ;
+  if ( aDlg->_codret == 0 ) { aDlg->show(); }
+
+HOMARD_UTILS::updateObjBrowser();
   return true;
 }
 // ---------------------------
 void MonMeshInfo::PushOnOK()
 // ---------------------------
 {
-     bool bOK = PushOnApply();
-     if ( bOK )  this->close();
+  bool bOK = PushOnApply();
+  if ( bOK )  this->close();
 }
 //------------------------------
 void MonMeshInfo::PushOnHelp()
@@ -183,18 +192,17 @@ void MonMeshInfo::SetNewCaseName()
     aCaseName.insert(0, QString("Case_")) ;
     for ( int i=0; i<MyCases->length(); i++)
     {
-      if ( aCaseName ==  QString((MyCases)[i]))
+      if ( aCaseName == QString((MyCases)[i]) )
       {
-          num=num+1;
-          aCaseName="";
-          break;
+        num += 1 ;
+        aCaseName="";
+        break;
       }
    }
   }
   LECaseName->clear() ;
   LECaseName->insert(aCaseName);
 }
-
 // ------------------------------------------------------------------------
 void MonMeshInfo::SetDirName()
 // ------------------------------------------------------------------------
@@ -215,11 +223,11 @@ void MonMeshInfo::SetFileName()
 void MonMeshInfo::CaseNameChanged()
 // ------------------------------------------------------------------------
 {
-    if (_aCaseName != LECaseName->text().trimmed())
-    {
-       LEFileName->setReadOnly(false);
-       PushFichier->show();
-    }
+  if (_aCaseName != LECaseName->text().trimmed())
+  {
+    LEFileName->setReadOnly(false);
+    PushFichier->show();
+  }
 }
 // ------------------------------------------------------------------------
 void MonMeshInfo::SetBlockSize()

@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2011, 2013
 """
-__revision__ = "V2.1"
+__revision__ = "V2.2"
 #
 import os
 #
@@ -97,19 +97,19 @@ Iter_1 = Case.NextIteration('Iter_1')
 Iter_1.SetMeshName('PIQUAGE_1')
 Iter_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_1.AssociateHypo('Hypo_1')
-codret = Iter_1.Compute(1)
+codret = Iter_1.Compute(1, 2)
 # Creation of the iteration Iter_2 : raffinement selon les faces externes
 Iter_2 = Iter_1.NextIteration('Iter_2')
 Iter_2.SetMeshName('PIQUAGE_2')
 Iter_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_2.AssociateHypo('Hypo_2')
-codret = Iter_2.Compute(1)
+codret = Iter_2.Compute(1, 2)
 # Creation of the iteration Iter_3 : second raffinement selon les faces externes
 Iter_3 = Iter_2.NextIteration('Iter_3')
 Iter_3.SetMeshName('PIQUAGE_3')
 Iter_3.SetMeshFile(dircase+'/maill.03.med')
 Iter_3.AssociateHypo('Hypo_2')
-codret = Iter_3.Compute(1)
+codret = Iter_3.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

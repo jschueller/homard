@@ -153,7 +153,7 @@ namespace HOMARD
     // ...
     MESSAGE( ". Sauvegarde de l'iteration "<<iteration.GetName());
     os << iteration.GetName();
-    os << separator() << iteration.GetEtat();
+    os << separator() << iteration.GetState();
     os << separator() << iteration.GetNumber();
     os << separator() << iteration.GetMeshFile();
     os << separator() << iteration.GetLogFile();
@@ -423,7 +423,7 @@ namespace HOMARD
     iteration.SetName( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetEtat( (bool)atoi( chunk.c_str() ) );
+    iteration.SetState( atoi( chunk.c_str() ) );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     iteration.SetNumber( atoi( chunk.c_str() ) );

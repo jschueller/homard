@@ -11,6 +11,9 @@ Les variables sont décrites dans :ref:`gui_create_case`.
 Méthodes de la classe homard
 """"""""""""""""""""""""""""
 
+Création d'un cas
+^^^^^^^^^^^^^^^^^
+
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: CreateCase                                        |
@@ -43,6 +46,47 @@ Méthodes de la classe homard
 |                                                               |
 +---------------------------------------------------------------+
 
+Création d'un cas par poursuite d'une itération calculée
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: CreateCaseFromIteration                           |
+|                                                               |
+| **CreateCaseFromIteration(case_name, dir_name)**              |
+|     Retourne une instance de la classe ``cas`` après sa       |
+|     création                                                  |
+|                                                               |
+|     - ``case_name`` : le nom du cas                           |
+|     - ``dir_name``  : le nom du répertoire contenant          |
+|       l'itération à poursuivre                                |
+|                                                               |
++---------------------------------------------------------------+
+| .. module:: CreateCaseFromCaseLastIteration                   |
+|                                                               |
+| **CreateCaseFromCaseLastIteration(case_name, dir_name)**      |
+|     Retourne une instance de la classe ``cas`` après sa       |
+|     création                                                  |
+|                                                               |
+|     - ``case_name`` : le nom du cas                           |
+|     - ``dir_name``  : le nom du répertoire contenant          |
+|       l'itération à poursuivre                                |
+|                                                               |
++---------------------------------------------------------------+
+| .. module:: CreateCaseFromCaseIteration                       |
+|                                                               |
+| **CreateCaseFromCaseIteration(case_name, dir_name, number)**  |
+|     Retourne une instance de la classe ``cas`` après sa       |
+|     création                                                  |
+|                                                               |
+|     - ``case_name`` : le nom du cas                           |
+|     - ``dir_name``  : le nom du répertoire contenant          |
+|       l'itération à poursuivre                                |
+|     - ``number`` : le numéro de l'itération du cas            |
+|                                                               |
++---------------------------------------------------------------+
+
+
 
 Méthodes de la classe cas
 """""""""""""""""""""""""
@@ -57,7 +101,9 @@ Méthodes de la classe cas
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dirname)**                                       |
-|     Affecte le répertoire des résutats associé au cas         |
+|     Affecte le répertoire des résutats associé au cas. Cela ne|
+|     peut se faire qu'après la création du cas et avant le     |
+|     premier calcul.                                           |
 |                                                               |
 |     - ``dirname`` : le nom du répertoire des résutats         |
 +---------------------------------------------------------------+
@@ -86,9 +132,11 @@ Méthodes de la classe cas
 | .. module:: GetIter0                                          |
 |                                                               |
 | **GetIter0()**                                                |
-|     Retourne l'itération 0, associée au maillage initial.     |
+|     Retourne l'itération associée au maillage initial.        |
 |     Cette itération est créée automatiquement par le module   |
 |     HOMARD et est utilisée pour enchaîner les adaptations.    |
+|     Elle correspond à un maillage initial ou à une itération  |
+|     de poursuite d'un cas précédent.                          |
 +---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
@@ -119,6 +167,13 @@ Méthodes de la classe cas
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |
 |         * autre valeur : problème                             |
++---------------------------------------------------------------+
+| .. module:: GetState                                          |
+|                                                               |
+| **GetState()**                                                |
+|     Retourne l'état du cas :                                  |
+|         * 0 : correspond à un maillage initial                |
+|         * autre valeur : poursuite d'une itération de numéro n|
 +---------------------------------------------------------------+
 
 Les options avancées

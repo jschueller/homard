@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
@@ -31,7 +31,7 @@ public:
   HomardDriver(const std::string siter, const std::string siterp1);
   ~HomardDriver();
   //
-  void        TexteInit( const std::string DirCompute, const std::string LogFile );
+  void        TexteInit( const std::string DirCompute, const std::string LogFile, const std::string Langue );
   void        TexteInfo( int TypeBila, int NumeIter );
   void        CreeFichierDonn();
   void        TexteAdap( );

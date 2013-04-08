@@ -79,14 +79,20 @@ Généralités
 +---------------------------------------------------------------+
 | .. index:: single: Compute                                    |
 |                                                               |
-| **Compute(option)**                                           |
+| **Compute(option1, option2)**                                 |
 |     Calcule le maillage correspondant à l'itération           |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui se passe quand  |
+|     - ``option1`` : un entier précisant ce qui se passe quand |
 |       des fichiers de résultats existent déjà                 |
 |                                                               |
 |         * 0 : arrêt en erreur                                 |
 |         * 1 : écrasement des anciens fichiers                 |
+|                                                               |
+|     - ``option2`` : un entier précisant ce qui est fait des   |
+|       résultats                                               |
+|                                                               |
+|         * 1 : aucune action particulière                      |
+|         * 2 : publication dans le module SMESH                |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : adaptation réussie                              |
@@ -141,8 +147,10 @@ Généralités
 | **GetState()**                                                |
 |     Retourne l'état de l'itération                            |
 |                                                               |
-|     - ``0`` : itération non calculée                          |
-|     - ``1`` : itération calculée correctement                 |
+|     - ``2`` : itération calculée correctement                 |
+|     - ``1`` : itération non calculée                          |
+|     - ``<=0`` : itération initiale à ne pas calculer, de      |
+|       numéro valant la valeur absolue de l'état               |
 +---------------------------------------------------------------+
 | .. module:: GetLogFile                                        |
 |                                                               |
@@ -277,7 +285,7 @@ Pour la création de la première itération, on part de celle qui correspond au ma
     iter_1.SetMeshName("maill_01")
     iter_1.SetMeshFile("/local00/M.01.med")
     iter_1.AssociateHypo("HypoField")
-    codret = iter_1.Compute(1)
+    codret = iter_1.Compute(1, 2)
 
 Ensuite, on crée une itération suivante à l'itération parent de laquelle on part. ::
 
@@ -288,7 +296,7 @@ Ensuite, on crée une itération suivante à l'itération parent de laquelle on part
     iter_2.SetMeshName("maill_02")
     iter_2.SetMeshFile("/local00/M.02.med")
     iter_2.AssociateHypo("HypoField")
-    codret = iter_2.Compute(1)
+    codret = iter_2.Compute(1, 2)
 
 
 Saisie graphique correspondante

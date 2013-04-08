@@ -56,7 +56,9 @@ module HOMARD
     void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
     string   GetDirName()                                  raises (SALOME::SALOME_Exception);
 
-    long     GetNumber()                                   raises (SALOME::SALOME_Exception);
+    long     GetState()                                    raises (SALOME::SALOME_Exception);
+
+    long     GetNumberofIter()                             raises (SALOME::SALOME_Exception);
 
     void     SetConfType(in long ConfType)                 raises (SALOME::SALOME_Exception);
     long     GetConfType()                                 raises (SALOME::SALOME_Exception);

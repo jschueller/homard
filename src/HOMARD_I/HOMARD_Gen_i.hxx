@@ -73,8 +73,12 @@ public:
                                       CORBA::Double Xaxis, CORBA::Double Yaxis, CORBA::Double Zaxis, CORBA::Double Angle,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre);
 
-  HOMARD::HOMARD_Cas_ptr          CreateCase      (const char* nomCas,
-                                                   const char* MeshName, const char* FileName);
+  HOMARD::HOMARD_Cas_ptr          CreateCase (const char* nomCas, const char* MeshName, const char* FileName);
+  HOMARD::HOMARD_Cas_ptr          CreateCaseFromIteration (const char* nomCas, const char* DirNameStart);
+  HOMARD::HOMARD_Cas_ptr          CreateCaseFromCaseLastIteration (const char* nomCas, const char* DirNameStart);
+  HOMARD::HOMARD_Cas_ptr          CreateCaseFromCaseIteration (const char* nomCas, const char* DirNameStart, CORBA::Long Number);
+  HOMARD::HOMARD_Cas_ptr          CreateCase0 (const char* nomCas, const char* MeshName, const char* FileName, CORBA::Long MeshOption, CORBA::Long NumeIter, CORBA::Long Option);
+  std::string                     CreateCase1 (const char* DirNameStart, CORBA::Long Number);
 
   HOMARD::HOMARD_Hypothesis_ptr   CreateHypothesis(const char* nomHypothesis);
 
@@ -155,12 +159,14 @@ public:
   void                            AssociateCaseIter(const char* nomCas, const char* nomIter,
                                                     const char* labelIter);
 
-  void                            SetEtatIter(const char* nomIter,const CORBA::Boolean EtatCalcul);
+// Actions
+  void                            SetEtatIter(const char* nomIter,const CORBA::Long Etat);
+  char*                           CreateDirNameIter(const char* nomrep, CORBA::Long num );
 
-  CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option);
-  CORBA::Long                     ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option);
-  char*                           ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage);
-  char*                           ComputeDirPa(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration);
+  CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option1, CORBA::Long Option2);
+  CORBA::Long                     ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option1, CORBA::Long Option2);
+  char*                           ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage);
+  char*                           ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration);
   void                            DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
   void                            DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
   void                            DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver);

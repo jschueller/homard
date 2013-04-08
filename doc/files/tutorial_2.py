@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.5"
+__revision__ = "V1.6"
 #
 import os
 #
@@ -87,7 +87,7 @@ Iter_0 = Case_1.NextIteration('Iter_0')
 Iter_0.SetMeshName('M_1')
 Iter_0.SetMeshFile(dircase+'/maill.01.med')
 Iter_0.AssociateHypo('Hypo_0')
-codret = Iter_0.Compute(1)
+codret = Iter_0.Compute(1, 2)
 #
 # Iteration "Iter_1"
 # ==================
@@ -95,7 +95,7 @@ Iter_1 = Iter_0.NextIteration('Iter_1')
 Iter_1.SetMeshName('M_2')
 Iter_1.SetMeshFile(dircase+'/maill.02.med')
 Iter_1.AssociateHypo('Hypo_1')
-codret = Iter_1.Compute(1)
+codret = Iter_1.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //

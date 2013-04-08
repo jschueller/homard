@@ -67,7 +67,9 @@ public:
   void                   SetDirName( const char* NomDir );
   char*                  GetDirName();
 
-  CORBA::Long            GetNumber();
+  CORBA::Long            GetState();
+
+  CORBA::Long            GetNumberofIter();
 
   void                   SetConfType( CORBA::Long ConfType );
   CORBA::Long            GetConfType();

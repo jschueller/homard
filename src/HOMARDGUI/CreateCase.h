@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateCase.ui'
 **
-** Created: Wed Feb 15 18:15:40 2012
+** Created: Wed Apr 3 11:25:34 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -44,7 +44,7 @@ public:
     QLineEdit *LEDirName;
     QSpacerItem *spacerItem;
     QHBoxLayout *hboxLayout2;
-    QLabel *Mesh_2;
+    QLabel *Mesh;
     QPushButton *PushFichier;
     QLineEdit *LEFileName;
     QSpacerItem *spacerItem1;
@@ -84,6 +84,8 @@ public:
     QCheckBox *CBPyramid;
     QSpacerItem *spacer_3;
     QSpacerItem *spacer_4;
+    QLabel *Comment;
+    QSpacerItem *verticalSpacer;
     QGroupBox *GroupButtons;
     QGridLayout *gridLayout3;
     QPushButton *buttonHelp;
@@ -96,7 +98,7 @@ public:
     {
         if (CreateCase->objectName().isEmpty())
             CreateCase->setObjectName(QString::fromUtf8("CreateCase"));
-        CreateCase->resize(601, 1070);
+        CreateCase->resize(601, 1100);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -125,7 +127,7 @@ public:
         hboxLayout->addWidget(LECaseName);
 
 
-        gridLayout_2->addLayout(hboxLayout, 0, 0, 1, 4);
+        gridLayout_2->addLayout(hboxLayout, 0, 0, 1, 3);
 
         hboxLayout1 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -163,10 +165,10 @@ public:
 #endif
         hboxLayout2->setContentsMargins(0, 0, 0, 0);
         hboxLayout2->setObjectName(QString::fromUtf8("hboxLayout2"));
-        Mesh_2 = new QLabel(CreateCase);
-        Mesh_2->setObjectName(QString::fromUtf8("Mesh_2"));
+        Mesh = new QLabel(CreateCase);
+        Mesh->setObjectName(QString::fromUtf8("Mesh"));
 
-        hboxLayout2->addWidget(Mesh_2);
+        hboxLayout2->addWidget(Mesh);
 
         PushFichier = new QPushButton(CreateCase);
         PushFichier->setObjectName(QString::fromUtf8("PushFichier"));
@@ -380,7 +382,7 @@ public:
         gridLayout2->addWidget(CBPyramid, 0, 0, 1, 1);
 
 
-        gridLayout_2->addWidget(GBAdvancedOptions, 15, 0, 1, 2);
+        gridLayout_2->addWidget(GBAdvancedOptions, 15, 0, 1, 1);
 
         spacer_3 = new QSpacerItem(128, 13, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
@@ -388,7 +390,16 @@ public:
 
         spacer_4 = new QSpacerItem(239, 41, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacer_4, 16, 0, 1, 2);
+        gridLayout_2->addItem(spacer_4, 16, 0, 1, 1);
+
+        Comment = new QLabel(CreateCase);
+        Comment->setObjectName(QString::fromUtf8("Comment"));
+
+        gridLayout_2->addWidget(Comment, 17, 0, 1, 3);
+
+        verticalSpacer = new QSpacerItem(20, 35, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_2->addItem(verticalSpacer, 18, 0, 1, 1);
 
         GroupButtons = new QGroupBox(CreateCase);
         GroupButtons->setObjectName(QString::fromUtf8("GroupButtons"));
@@ -425,11 +436,11 @@ public:
         gridLayout3->addWidget(buttonCancel, 0, 2, 1, 1);
 
 
-        gridLayout_2->addWidget(GroupButtons, 17, 0, 1, 3);
+        gridLayout_2->addWidget(GroupButtons, 19, 0, 1, 3);
 
         spacer_2 = new QSpacerItem(128, 25, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(spacer_2, 17, 3, 1, 1);
+        gridLayout_2->addItem(spacer_2, 19, 3, 1, 1);
 
 
         retranslateUi(CreateCase);
@@ -446,7 +457,7 @@ public:
         Name->setText(QApplication::translate("CreateCase", "Name", 0, QApplication::UnicodeUTF8));
         Directory->setText(QApplication::translate("CreateCase", "Directory", 0, QApplication::UnicodeUTF8));
         PushDir->setText(QString());
-        Mesh_2->setText(QApplication::translate("CreateCase", "Mesh", 0, QApplication::UnicodeUTF8));
+        Mesh->setText(QApplication::translate("CreateCase", "Mesh", 0, QApplication::UnicodeUTF8));
         PushFichier->setText(QString());
         GBTypeConf->setTitle(QApplication::translate("CreateCase", "Conformity type", 0, QApplication::UnicodeUTF8));
         RBConforme->setText(QApplication::translate("CreateCase", "Conformal", 0, QApplication::UnicodeUTF8));
@@ -470,6 +481,7 @@ public:
         CBAdvanced->setText(QApplication::translate("CreateCase", "Advanced options", 0, QApplication::UnicodeUTF8));
         GBAdvancedOptions->setTitle(QApplication::translate("CreateCase", "Advanced options", 0, QApplication::UnicodeUTF8));
         CBPyramid->setText(QApplication::translate("CreateCase", "Authorized pyramids", 0, QApplication::UnicodeUTF8));
+        Comment->setText(QApplication::translate("CreateCase", " No comment.", 0, QApplication::UnicodeUTF8));
         GroupButtons->setTitle(QString());
         buttonHelp->setText(QApplication::translate("CreateCase", "Help", 0, QApplication::UnicodeUTF8));
         buttonApply->setText(QApplication::translate("CreateCase", "Apply", 0, QApplication::UnicodeUTF8));

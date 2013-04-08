@@ -43,9 +43,10 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string>
+#include <cstring>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
-#include <sys/stat.h>
 #include <set>
 #include <vector>
 #include <stdio.h>
@@ -167,10 +168,10 @@ CORBA::Long HOMARD_Gen_i::GetCurrentStudyID()
 // Utilitaires pour l'iteration
 //=============================================================================
 //=============================================================================
-void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Boolean EtatCalcul)
+void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
 //=====================================================================================
 {
-  MESSAGE( "SetEtatIter : affectation de l'etat '" << EtatCalcul << "' a l'iteration " << nomIter );
+  MESSAGE( "SetEtatIter : affectation de l'etat " << Etat << " a l'iteration " << nomIter );
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
@@ -181,16 +182,15 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Boolean EtatCal
       return ;
   };
 
-  myIteration->SetEtat(EtatCalcul);
+  myIteration->SetState(Etat);
 
   SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
   SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
 
-  int number = myIteration->GetNumber() ;
   const char* icone ;
-  if ( number == 0 )
+  if ( Etat <= 0 )
     icone = "iter0.png" ;
-  else if (EtatCalcul)
+  else if ( Etat == 2 )
     icone = "iter_calculee.png" ;
   else
     icone = "iter_non_calculee.png" ;
@@ -576,10 +576,10 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
       aStudyBuilder->RemoveObject(so);
   }
 
-  int number = myIteration->GetNumber();
-  if ( number > 0 )
+  int etat = myIteration->GetState();
+  if ( etat > 0 )
   {
-    SetEtatIter(nomIter,false);
+    SetEtatIter(nomIter,1);
     const char * nomCas = myIteration->GetCaseName();
     HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
     if (CORBA::is_nil(myCase))
@@ -658,13 +658,12 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
 /*  MESSAGE ( "commande = " << commande );*/
   if ((system(commande.c_str())) != 0)
   {
-        SALOME::ExceptionStruct es;
-        es.type = SALOME::BAD_PARAM;
-        es.text = "The directory for the calculation cannot be cleared." ;
-        throw SALOME::SALOME_Exception(es);
-        return ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The directory for the calculation cannot be cleared." ;
+    throw SALOME::SALOME_Exception(es);
+    return ;
   }
-
 }
 //=============================================================================
 void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
@@ -699,37 +698,37 @@ void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
 //=============================================================================
 void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, const char* labelIter)
 {
-  MESSAGE( "AssociateCaseIter : " << nomCas << " ," << nomIter << ","  << labelIter );
+  MESSAGE( "AssociateCaseIter : " << nomCas << ", " << nomIter << ", "  << labelIter );
 
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid case";
-      throw SALOME::SALOME_Exception(es);
-      return ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Invalid case";
+    throw SALOME::SALOME_Exception(es);
+    return ;
   };
 
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid iteration";
-      throw SALOME::SALOME_Exception(es);
-      return ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Invalid iteration";
+    throw SALOME::SALOME_Exception(es);
+    return ;
   };
 
   SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
   SALOMEDS::SObject_var aCasSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myCase)));
   if (CORBA::is_nil(aCasSO))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid case";
-      throw SALOME::SALOME_Exception(es);
-      return ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Invalid case";
+    throw SALOME::SALOME_Exception(es);
+    return ;
   };
 
   aStudyBuilder->NewCommand();
@@ -994,7 +993,7 @@ void HOMARD_Gen_i::MeshInfo(const char* nomCas, const char* MeshName, const char
   IsValidStudy () ;
 
 // Creation du cas
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase(nomCas, MeshName, MeshFile) ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, 0, 1) ;
   myCase->SetDirName(DirName) ;
 // Analyse
   myCase->MeshInfo(Qual, Diam, Conn, Tail, Inte) ;
@@ -1075,10 +1074,395 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::newZone()
 //=============================================================================
 //=============================================================================
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* MeshName, const char* MeshFile)
+//
+// Creation d'un cas initial
+// nomCas : nom du cas a creer
+// MeshName, MeshFile : nom et fichier du maillage correspondant
+//
 {
   MESSAGE ( "CreateCase : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile );
+
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName,  MeshFile, 0, 0, 2) ;
+
+// Valeurs par defaut des filtrages
+  myCase->SetPyram(0);
+
+  return HOMARD::HOMARD_Cas::_duplicate(myCase);
+}
+//=============================================================================
+HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas, const char* DirNameStart)
+//
+// nomCas : nom du cas a creer
+// DirNameStart : nom du repertoire contenant l'iteration de reprise
+//
+{
+  MESSAGE ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
+  char* nomDirWork = getenv("PWD") ;
+  int codret ;
+
+  // A. Decodage du point de reprise
+  // A.1. Controle du repertoire de depart de l'iteration
+  codret = chdir(DirNameStart) ;
+  if ( codret != 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The directory of the iteration does not exist.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+  // A.2. Reperage des fichiers du repertoire de reprise
+  std::string file_configuration = "" ;
+  std::string file_maillage_homard = "" ;
+  int bilan ;
+  DIR *dp;
+  struct dirent *dirp;
+  dp  = opendir(DirNameStart);
+  while ( (dirp = readdir(dp)) != NULL )
+  {
+    std::string file_name(dirp->d_name);
+//     MESSAGE ( file_name );
+    bilan = file_name.find("HOMARD.Configuration.") ;
+    if ( bilan != string::npos ) { file_configuration = file_name ; }
+    bilan = file_name.find("maill.") ;
+    if ( bilan != string::npos )
+    {
+      bilan = file_name.find(".hom.med") ;
+      if ( bilan != string::npos ) { file_maillage_homard = file_name ; }
+    }
+  }
+  closedir(dp);
+  MESSAGE ( "==> file_configuration   : " << file_configuration ) ;
+  MESSAGE ( "==> file_maillage_homard : " << file_maillage_homard ) ;
+  // A.3. Controle
+  if ( ( file_configuration == "" ) or ( file_maillage_homard == "" ) )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text ;
+    if ( file_configuration == "" ) { text = "The configuration file cannot be found." ; }
+    else                            { text = "The HOMARD mesh file cannot be found." ; }
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+
+  // B. Lecture du fichier de configuration
+  // ATTENTION : on doit veiller a la coherence entre HomardDriver et CreateCaseFromIteration
+  int NumeIter ;
+  int TypeConf = 0 ;
+  int Pyram = 0 ;
+  char* MeshName ;
+  char* MeshFile ;
+  // le constructeur de ifstream permet d'ouvrir un fichier en lecture
+  std::ifstream fichier( file_configuration.c_str() );
+  if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+  {
+    std::string ligne; // variable contenant chaque ligne lue
+    std::string mot_cle;
+    std::string argument;
+    int decalage;
+    // cette boucle sur les lignes s'arrête dès qu'une erreur de lecture survient
+    while ( std::getline( fichier, ligne ) )
+    {
+      // B.1. Pour la ligne courante, on identifie le premier mot : le mot-cle
+      std::istringstream ligne_bis(ligne); // variable contenant chaque ligne sous forme de flux
+      ligne_bis >> mot_cle ;
+      // B.2. Des valeurs entieres : le second bloc de la ligne
+      if ( mot_cle == "NumeIter" )
+      {
+        ligne_bis >> NumeIter ;
+        NumeIter += 1 ;
+      }
+      // B.3. Des valeurs caracteres brutes : le second bloc de la ligne est la valeur
+      else if ( ( mot_cle == "TypeConf" ) or ( mot_cle == "TypeElem" ) )
+      {
+        ligne_bis >> argument ;
+
+        if ( mot_cle == "TypeConf" )
+        {
+          if      ( argument == "conforme" )                { TypeConf = 1 ; }
+          else if ( argument == "non_conforme_1_noeud" )    { TypeConf = 2 ; }
+          else if ( argument == "non_conforme_1_arete" )    { TypeConf = 3 ; }
+          else if ( argument == "non_conforme_indicateur" ) { TypeConf = 4 ; }
+        }
+        else if ( mot_cle == "TypeElem" )
+        {
+          if ( argument == "ignore_pyra" ) { Pyram = 1 ; }
+          else if ( argument == "HOMARD" ) { Pyram = 0 ; }
+        }
+      }
+      // B.4. Des valeurs caracteres : le deuxieme bloc de la ligne peut etre encadre par des quotes :
+      //                               il faut les supprimer
+      else if ( ( mot_cle == "CCNoMNP1" ) or ( mot_cle == "CCMaiNP1" ) )
+      {
+        ligne_bis >> argument ;
+        if ( argument[0] == '"' ) { decalage = 1 ; }
+        else                      { decalage = 0 ; }
+        size_t size = argument.size() + 1 - 2*decalage ;
+
+        if ( mot_cle == "CCNoMNP1" )
+        {
+          MeshName = new char[ size ];
+          strncpy( MeshName, argument.c_str()+decalage, size );
+          MeshName[size-1] = '\0' ;
+        }
+        else if ( mot_cle == "CCMaiNP1" )
+        {
+          MeshFile = new char[ size ];
+          strncpy( MeshFile, argument.c_str()+decalage, size );
+          MeshFile[size-1] = '\0' ;
+        }
+      }
+    }
+    MESSAGE ( "==> TypeConf   : " << TypeConf ) ;
+    MESSAGE ( "==> MeshName   : " << MeshName ) ;
+    MESSAGE ( "==> MeshFile   : " << MeshFile ) ;
+    MESSAGE ( "==> NumeIter   : " << NumeIter ) ;
+    MESSAGE ( "==> Pyram      : " << Pyram ) ;
+  }
+  else
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text = "The configuration file cannot be read." ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+
+  // C. Creation effective du cas
+
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName,  MeshFile, 1, NumeIter, 2) ;
+
+  // D. Parametrages lus dans le fichier de configuration
+
+  myCase->SetConfType (TypeConf) ;
+  myCase->SetPyram (Pyram) ;
+
+  // E. Copie du fichier de maillage homard
+  // E.1. Repertoire associe au cas
+  char* nomDirCase = myCase->GetDirName() ;
+  // E.2. Repertoire associe a l'iteration de ce cas
+  char* IterName ;
+  IterName = myCase->GetIter0Name() ;
+  HOMARD::HOMARD_Iteration_var Iter = GetIteration(IterName) ;
+  char* nomDirIter = CreateDirNameIter(nomDirCase, 0 );
+  Iter->SetDirName(nomDirIter);
+  std::string nomDirIterTotal ;
+  nomDirIterTotal = std::string(nomDirCase) + "/" + std::string(nomDirIter) ;
+  if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
+  {
+    MESSAGE ( "nomDirIterTotal : " << nomDirIterTotal ) ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text = "The directory for the computation cannot be created." ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+  // E.3. Copie du maillage HOMARD au format MED
+  codret = chdir(DirNameStart) ;
+  std::string commande = "cp " + file_maillage_homard + " " + nomDirIterTotal ;
+  MESSAGE ( "commande : " << commande ) ;
+  codret = system(commande.c_str()) ;
+  MESSAGE ( "codret : " << codret ) ;
+  if ( codret != 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The starting point for the case cannot be copied into the working directory.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+
+  // F. Menage
+
+  delete[] MeshName ;
+  delete[] MeshFile ;
+
+  chdir(nomDirWork);
+
+  return HOMARD::HOMARD_Cas::_duplicate(myCase);
+}
+//=============================================================================
+HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseLastIteration(const char* nomCas, const char* DirNameStart)
+//
+// nomCas : nom du cas a creer
+// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+//
+{
+  MESSAGE ( "CreateCaseFromCaseLastIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
+
+  std::string DirNameStartIter = CreateCase1(DirNameStart, -1) ;
+
+  DirNameStartIter = string(DirNameStart) + "/" + DirNameStartIter ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCaseFromIteration(nomCas, DirNameStartIter.c_str()) ;
+
+  return HOMARD::HOMARD_Cas::_duplicate(myCase);
+}
+//=============================================================================
+HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseIteration(const char* nomCas, const char* DirNameStart, CORBA::Long Number)
+//
+// nomCas : nom du cas a creer
+// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+// Number : numero de l'iteration de depart
+//
+{
+  MESSAGE ( "CreateCaseFromCaseIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart << ", Number = " << Number );
+  if ( Number < 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The number of iteration must be positive.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+
+  std::string DirNameStartIter = CreateCase1(DirNameStart, Number) ;
+
+  DirNameStartIter = string(DirNameStart) + "/" + DirNameStartIter ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCaseFromIteration(nomCas, DirNameStartIter.c_str()) ;
+
+  return HOMARD::HOMARD_Cas::_duplicate(myCase);
+}
+//=============================================================================
+std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Number)
+//
+// Retourne le nom du repertoire ou se trouve l'iteration voulue.
+// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+// Number : numero de l'iteration de depart ou -1 si on cherche la derniere
+//
+{
+  MESSAGE ( "CreateCase1 : DirNameStart = " << DirNameStart << ", Number = " << Number );
+  std::string nomDirWork = getenv("PWD") ;
+  std::string DirNameStartIter ;
+  int codret ;
+  int NumeIterMax = -1 ;
+
+  // A.1. Controle du repertoire de depart du cas
+  codret = chdir(DirNameStart) ;
+  if ( codret != 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This directory of the case does not exist.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+  // A.2. Reperage des sous-repertoire du repertoire de reprise
+  bool existe = false ;
+  DIR *dp;
+  struct dirent *dirp;
+  dp  = opendir(DirNameStart);
+  while ( (dirp = readdir(dp)) != NULL )
+  {
+    std::string DirName_1(dirp->d_name);
+    if ( ( DirName_1 != "." ) and ( DirName_1 != ".." ) )
+    {
+      if ( chdir(DirName_1.c_str()) == 0 )
+      {
+  //   On cherche le fichier de configuration dans ce sous-repertoire
+        codret = chdir(DirNameStart) ;
+        DIR *dp_1;
+        struct dirent *dirp_1;
+        dp_1  = opendir(DirName_1.c_str()) ;
+        while ( (dirp_1 = readdir(dp_1)) != NULL )
+        {
+          std::string file_name_1(dirp_1->d_name);
+          int bilan = file_name_1.find("HOMARD.Configuration.") ;
+          if ( bilan != string::npos )
+          {
+  // Decodage du fichier pour trouver le numero d'iteration
+            chdir(DirName_1.c_str()) ;
+            std::ifstream fichier( file_name_1.c_str() );
+            if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+            {
+              int NumeIter ;
+              std::string ligne; // variable contenant chaque ligne lue
+              std::string mot_cle;
+              // cette boucle sur les lignes s'arrête dès qu'une erreur de lecture survient
+              while ( std::getline( fichier, ligne ) )
+              {
+                // B.1. Pour la ligne courante, on identifie le premier mot : le mot-cle
+                std::istringstream ligne_bis(ligne); // variable contenant chaque ligne sous forme de flux
+                ligne_bis >> mot_cle ;
+                if ( mot_cle == "NumeIter" )
+                {
+                  ligne_bis >> NumeIter ;
+                  NumeIter += 1 ;
+//                   MESSAGE ( "==> NumeIter   : " << NumeIter ) ;
+                  if ( Number == - 1 )
+                  {
+                    if ( NumeIter >= NumeIterMax )
+                    {
+                      NumeIterMax = NumeIter ;
+                      DirNameStartIter = DirName_1 ;
+                    }
+                  }
+                  else
+                  {
+                    if ( NumeIter == Number )
+                    {
+                      DirNameStartIter = DirName_1 ;
+                      existe = true ;
+                      break ;
+                    }
+                  }
+                }
+              }
+            }
+            else
+            {
+              SALOME::ExceptionStruct es;
+              es.type = SALOME::BAD_PARAM;
+              std::string text = "The configuration file cannot be read." ;
+              es.text = CORBA::string_dup(text.c_str());
+              throw SALOME::SALOME_Exception(es);
+            }
+            chdir(DirNameStart) ;
+          }
+          if ( existe ) { break ; }
+        }
+        closedir(dp_1);
+        if ( existe ) { break ; }
+      }
+    }
+  }
+  closedir(dp);
+
+  chdir(nomDirWork.c_str());
+
+  if ( ( Number >= 0 and ( not existe ) ) or ( Number < 0 and ( NumeIterMax == -1 ) ) )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The directory of the iteration does not exist.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+
+  return DirNameStartIter ;
+}
+//=============================================================================
+HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char* MeshName, const char* MeshFile, CORBA::Long MeshOption, CORBA::Long NumeIter, CORBA::Long Option)
+//
+// nomCas : nom du cas a creer
+// MeshName, MeshFile : nom et fichier du maillage correspondant
+// MeshOption : 0 : le maillage fourni est obligatoirement present ==> erreur si absent
+//              1 : le maillage fourni peut ne pas exister ==> on continue si absent
+//             -1 : le maillage n'est pas fourni
+// NumeIter : numero de l'iteration correspondante : 0, pour un depart, n>0 pour une poursuite
+// Option : multiple de nombres premiers
+//         1 : aucune option
+//        x2 : publication du maillage dans SMESH
+{
+  MESSAGE ( "CreateCase0 : nomCas = " << nomCas );
+  MESSAGE ( "CreateCase0 : MeshName = " << MeshName << ", MeshFile = " << MeshFile << ", MeshOption = " << MeshOption );
+  MESSAGE ( "CreateCase0 : NumeIter = " << NumeIter << ", Option = " << Option );
+//
+  // A. Controles
+  // A.1. L'etude
   IsValidStudy () ;
 
+  // A.2. Controle du nom :
   if ((myContextMap[GetCurrentStudyID()]._mesCas).find(nomCas)!=(myContextMap[GetCurrentStudyID()]._mesCas).end())
   {
     SALOME::ExceptionStruct es;
@@ -1088,70 +1472,90 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
     return 0;
   };
 
-  int existe = MEDFileExist ( MeshFile ) ;
-  if ( existe == 0 )
+  // A.3. Controle du fichier du maillage
+  int existeMeshFile ;
+  if ( MeshOption >= 0 )
   {
-    SALOME::ExceptionStruct es;
-    es.type = SALOME::BAD_PARAM;
-    es.text = "The mesh file does not exist.";
-    throw SALOME::SALOME_Exception(es);
-    return 0;
+    existeMeshFile = MEDFileExist ( MeshFile ) ;
+    MESSAGE ( "CreateCase0 : existeMeshFile = " << existeMeshFile );
+    if ( ( existeMeshFile == 0 ) and ( MeshOption == 0 ) )
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "The mesh file does not exist.";
+      throw SALOME::SALOME_Exception(es);
+      return 0;
+    }
   }
+  else { existeMeshFile = 0 ; }
 
+  // B. Creation de l'objet cas et publication
+//   MESSAGE ( "CreateCase0 : Creation de l'objet" );
   HOMARD::HOMARD_Cas_var myCase = newCase();
   myCase->SetName(nomCas);
   SALOMEDS::SObject_var aSO;
   PublishInStudy(myCurrentStudy, aSO, myCase, nomCas);
   myContextMap[GetCurrentStudyID()]._mesCas[nomCas] = myCase;
 
-  std::vector<double> LesExtremes =GetBoundingBoxInMedFile(MeshFile);
-  HOMARD::extrema_var aSeq = new HOMARD::extrema();
-  if (LesExtremes.size()!=10) { return false; }
-  aSeq->length(10);
-  for (int i =0; i< LesExtremes.size(); i++)
-       aSeq[i]=LesExtremes[i];
-  myCase->SetBoundingBox(aSeq);
-
-  std::set<std::string> LesGroupes  =GetListeGroupesInMedFile(MeshFile);
-  HOMARD::ListGroupType_var aSeqGroupe = new HOMARD::ListGroupType;
-  aSeqGroupe->length(LesGroupes.size());
-  std::set<std::string>::const_iterator it;
-  int i = 0;
-  for (it=LesGroupes.begin() ; it != LesGroupes.end(); it++)
-     aSeqGroupe[i++]=(*it).c_str();
-  myCase->SetGroups(aSeqGroupe);
-
-// Recherche d'un nom pour l'iteration 0. Par defaut, on prend le nom
-// du maillage du cas. Si ce nom existe deja, on incremente avec 0, 1, 2, etc.
-  int monNum=0;
-  std::string NomIteration = std::string(MeshName) ;
-  while ((myContextMap[GetCurrentStudyID()]._mesIterations).find(NomIteration) != (myContextMap[GetCurrentStudyID()]._mesIterations.end()))
+  // C. Caracteristiques du maillage
+  if ( existeMeshFile != 0 )
   {
-     std::ostringstream nom;
-     nom << MeshName << monNum;
-     NomIteration=nom.str();
-     monNum = monNum+1;
+  // Les valeurs extremes des coordonnees
+//     MESSAGE ( "CreateCase0 : Les valeurs extremes des coordonnees" );
+    std::vector<double> LesExtremes =GetBoundingBoxInMedFile(MeshFile) ;
+    HOMARD::extrema_var aSeq = new HOMARD::extrema() ;
+    if (LesExtremes.size()!=10) { return false; }
+    aSeq->length(10) ;
+    for (int i =0 ; i< LesExtremes.size() ; i++)
+        aSeq[i]=LesExtremes[i] ;
+    myCase->SetBoundingBox(aSeq) ;
+  // Les groupes
+//     MESSAGE ( "CreateCase0 : Les groupes" );
+    std::set<std::string> LesGroupes  =GetListeGroupesInMedFile(MeshFile) ;
+    HOMARD::ListGroupType_var aSeqGroupe = new HOMARD::ListGroupType ;
+    aSeqGroupe->length(LesGroupes.size());
+    std::set<std::string>::const_iterator it ;
+    int i = 0 ;
+    for (it=LesGroupes.begin() ; it != LesGroupes.end() ; it++)
+      aSeqGroupe[i++]=(*it).c_str() ;
+    myCase->SetGroups(aSeqGroupe) ;
   }
-  MESSAGE ( "CreateCase : NomIteration = " << NomIteration );
 
+  // D. L'iteration initiale du cas
+  MESSAGE ( "CreateCase0 : iteration initiale du cas" );
+  // D.1. Recherche d'un nom : par defaut, on prend le nom du maillage correspondant.
+  // Si ce nom d'iteration existe deja, on incremente avec 0, 1, 2, etc.
+  int monNum = 0;
+  std::string NomIteration = std::string(MeshName) ;
+  while ( (myContextMap[GetCurrentStudyID()]._mesIterations).find(NomIteration) != (myContextMap[GetCurrentStudyID()]._mesIterations.end()) )
+  {
+    std::ostringstream nom;
+    nom << MeshName << monNum;
+    NomIteration = nom.str();
+    monNum += 1;
+  }
+  MESSAGE ( "CreateCas0 : ==> NomIteration = " << NomIteration );
+
+  // D.2. Creation de l'iteration
   HOMARD::HOMARD_Iteration_var anIter = newIteration();
   myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration] = anIter;
-  std::ostringstream DirName;
-  DirName << "I00";
-
-  anIter->SetDirName(DirName.str().c_str());
   anIter->SetName(NomIteration.c_str());
-  anIter->SetMeshFile(MeshFile);
+  AssociateCaseIter (nomCas, NomIteration.c_str(), "IterationHomard");
+
+  // D.4. Maillage correspondant
+  if ( existeMeshFile != 0 )
+  {
+    anIter->SetMeshFile(MeshFile);
+    if ( Option % 2 == 0 ) { PublishResultInSmesh(MeshFile, 0); }
+  }
   anIter->SetMeshName(MeshName);
-  anIter->SetNumber(0);
 
-  AssociateCaseIter (nomCas,NomIteration.c_str(),"IterationHomard");
-  SetEtatIter(NomIteration.c_str(),true);
+  // D.5. Numero d'iteration
+  anIter->SetNumber(NumeIter);
+
+  // D.6. Etat
+  SetEtatIter(NomIteration.c_str(), -NumeIter);
 //
-  PublishResultInSmesh(MeshFile, 0);
-
-// Valeurs par defaut des filtrages
-  myCase->SetPyram(0);
 
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
 }
@@ -1161,14 +1565,15 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   MESSAGE ( "CreateHypothesis : nomHypothesis  = " << nomHypothesis );
   IsValidStudy () ;
 
+  // Controle du nom :
   if ((myContextMap[GetCurrentStudyID()]._mesHypotheses).find(nomHypothesis) != (myContextMap[GetCurrentStudyID()]._mesHypotheses).end())
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "This hypothesis has already been defined.";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
-    }
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This hypothesis has already been defined.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  }
 
   HOMARD::HOMARD_Hypothesis_var myHypothesis = newHypothesis();
   myHypothesis->SetName(nomHypothesis);
@@ -1195,11 +1600,11 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterParent];
   if (CORBA::is_nil(myIterationParent))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "The parent iteration is not defined.";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The parent iteration is not defined.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
 
   const char* nomCas = myIterationParent->GetCaseName();
@@ -1207,47 +1612,47 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid case context";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Invalid case context";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
+  const char* nomDirCase = myCase->GetDirName();
 
+  // Controle du nom :
   if ((myContextMap[GetCurrentStudyID()]._mesIterations).find(NomIteration)!=(myContextMap[GetCurrentStudyID()]._mesIterations).end())
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "This iteration has already been defined.";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This iteration has already been defined.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
 
    HOMARD::HOMARD_Iteration_var myIteration = newIteration();
    if (CORBA::is_nil(myIteration))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Unable to create the iteration";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Unable to create the iteration";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
   myContextMap[GetCurrentStudyID()]._mesIterations[std::string(NomIteration)] = myIteration;
 // Nom de l'iteration et du maillage
   myIteration->SetName(NomIteration);
   myIteration->SetMeshName(NomIteration);
+  myIteration->SetState(1);
 
   int numero = myIterationParent->GetNumber() + 1;
   myIteration->SetNumber(numero);
 
 // Nombre d'iterations deja connues pour le cas, permettant
 // la creation d'un sous-repertoire unique
-   int nbitercase = myCase->GetNumber();
-   std::ostringstream iaux ;
-   iaux << std::setw(2) << std::setfill('0') << nbitercase ;
-   std::stringstream DirName;
-   DirName << "I" << iaux.str();
-   myIteration->SetDirName(DirName.str().c_str());
+  int nbitercase = myCase->GetNumberofIter();
+  char* nomDirIter = CreateDirNameIter(nomDirCase, nbitercase );
+  myIteration->SetDirName(nomDirIter);
 
 // Le nom du fichier du maillage MED est indice par le nombre d'iterations du cas.
 // Si on a une chaine unique depuis le depart, ce nombre est le meme que le
@@ -1255,10 +1660,17 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
 // situation la plus frequente.
 // Si on a plusieurs branches, donc des iterations du meme niveau d'adaptation, utiliser
 // le nombre d'iterations du cas permet d'eviter les collisions.
-   std::stringstream MeshFile;
-   const char* nomDir = myCase->GetDirName();
-   MeshFile << nomDir << "/maill." << iaux.str() << ".med";
-   myIteration->SetMeshFile(MeshFile.str().c_str());
+  int jaux ;
+  if      ( nbitercase <    100 ) { jaux = 2 ; }
+  else if ( nbitercase <   1000 ) { jaux = 3 ; }
+  else if ( nbitercase <  10000 ) { jaux = 4 ; }
+  else if ( nbitercase < 100000 ) { jaux = 5 ; }
+  else                            { jaux = 9 ; }
+  std::ostringstream iaux ;
+  iaux << std::setw(jaux) << std::setfill('0') << nbitercase ;
+  std::stringstream MeshFile;
+  MeshFile << nomDirCase << "/maill." << iaux.str() << ".med";
+  myIteration->SetMeshFile(MeshFile.str().c_str());
 
 // Association avec le cas
   std::string label = "IterationHomard_" + std::string(nomIterParent);
@@ -1275,14 +1687,15 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
   MESSAGE ("CreateBoundary : BoundaryName  = " << BoundaryName << ", BoundaryType = " << BoundaryType);
   IsValidStudy () ;
 
+  // Controle du nom :
   if ((myContextMap[GetCurrentStudyID()]._mesBoundarys).find(BoundaryName)!=(myContextMap[GetCurrentStudyID()]._mesBoundarys).end())
   {
-      MESSAGE ("CreateBoundary : la frontiere " << BoundaryName << " existe deja");
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "This boundary has already been defined";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    MESSAGE ("CreateBoundary : la frontiere " << BoundaryName << " existe deja");
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This boundary has already been defined";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
 
   HOMARD::HOMARD_Boundary_var myBoundary = newBoundary();
@@ -1425,13 +1838,14 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZone(const char* ZoneName, CORBA::Lo
   MESSAGE ("CreateZone : ZoneName  = " << ZoneName << ", ZoneType = " << ZoneType);
   IsValidStudy () ;
 
+  // Controle du nom :
   if ((myContextMap[GetCurrentStudyID()]._mesZones).find(ZoneName)!=(myContextMap[GetCurrentStudyID()]._mesZones).end())
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "This zone has already been defined";
-      throw SALOME::SALOME_Exception(es);
-      return 0;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This zone has already been defined";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
   };
 
   HOMARD::HOMARD_Zone_var myZone = newZone();
@@ -1731,13 +2145,15 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
 // etatMenage = 1 : destruction du repertoire d'execution
 // modeHOMARD  = 1 : adaptation
 //            != 1 : information avec les options modeHOMARD
-// Option >0 : appel depuis python
-//        <0 : appel depuis GUI
+// Option1 >0 : appel depuis python
+//         <0 : appel depuis GUI
+// Option2 : multiple de nombres premiers
+//         1 : aucune option
+//        x2 : publication du maillage dans SMESH
 //=============================================================================
-//=============================================================================
-CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option)
+CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option1, CORBA::Long Option2)
 {
-  MESSAGE ( "Compute : traitement de " << NomIteration << ", avec modeHOMARD = " << modeHOMARD << ", avec Option = " << Option );
+  MESSAGE ( "Compute : traitement de " << NomIteration << ", avec modeHOMARD = " << modeHOMARD << ", avec Option1 = " << Option1 << ", avec Option2 = " << Option2 );
 
   // A. Prealable
   int codret = 0;
@@ -1780,7 +2196,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   // B.1. Le repertoire courant
   char* nomDirWork = getenv("PWD") ;
   // B.2. Le sous-repertoire de l'iteration a traiter
-  char* DirCompute = ComputeDir(myCase, myIteration, etatMenage);
+  char* DirCompute = ComputeDirManagement(myCase, myIteration, etatMenage);
   MESSAGE( ". DirCompute = " << DirCompute );
 
   // C. Le fichier des messages
@@ -1809,7 +2225,8 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   // E. Les donnees de l'execution HOMARD
   // E.1. L'objet du texte du fichier de configuration
   HomardDriver* myDriver = new HomardDriver(siter, siterp1);
-  myDriver->TexteInit(DirCompute, LogFile);
+  std::string Langue = "Francais" ;
+  myDriver->TexteInit(DirCompute, LogFile, Langue);
 
   // E.2. Le maillage associe a l'iteration
   const char* NomMesh = myIteration->GetMeshName();
@@ -1824,7 +2241,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     iaux = 1 ;
     myDriver->TexteMaillageHOMARD( DirCompute, siterp1, iaux ) ;
     myDriver->TexteMaillage(NomMesh, MeshFile, 1);
-    codret = ComputeAdap(myCase, myIteration, etatMenage, myDriver, Option) ;
+    codret = ComputeAdap(myCase, myIteration, etatMenage, myDriver, Option1, Option2) ;
   }
   else
   {
@@ -1848,13 +2265,13 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   int codretexec = 12 ;
   if (codret == 0)
   {
-    codretexec = myDriver->ExecuteHomard(Option);
+    codretexec = myDriver->ExecuteHomard(Option1);
 //
     MESSAGE ( "Erreur en executant HOMARD : " << codretexec );
     if ( modeHOMARD == 1 )
     {
-      if (codretexec == 0) { SetEtatIter(NomIteration,true); }
-      else                 { SetEtatIter(NomIteration,false); }
+      if (codretexec == 0) { SetEtatIter(NomIteration,2); }
+      else                 { SetEtatIter(NomIteration,1); }
       // GERALD -- QMESSAGE BOX
     }
   }
@@ -1884,7 +2301,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
         Commentaire = "Iteration" ;
         Commentaire += " " + siter ;
         PublishFileUnderIteration(NomIteration, MeshFile, Commentaire.c_str());
-        PublishResultInSmesh(MeshFile, 1);
+        if ( Option2 % 2 == 0 ) { PublishResultInSmesh(MeshFile, 1); }
       }
     }
   // H.3 Message d'erreur en cas de probleme
@@ -1895,10 +2312,10 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       std::string text = "Error during the adaptation.\n" ;
       try
       {
-          ifstream fichier(LogFile.c_str(), ios::in);
-          string ligne;
-          while(getline(fichier, ligne) and (ligne != "===== HOMARD ===== STOP ====="));
-          while (getline(fichier, ligne)) { text += ligne+ "\n";};
+        ifstream fichier(LogFile.c_str(), ios::in);
+        string ligne;
+        while(getline(fichier, ligne) and (ligne != "===== HOMARD ===== STOP ====="));
+        while (getline(fichier, ligne)) { text += ligne+ "\n";};
       }
       catch (...) {
         text += "no log file ....";
@@ -1921,13 +2338,15 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 //=============================================================================
 // Calcul d'une iteration : partie specifique a l'adaptation
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option)
+CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option1, CORBA::Long Option2)
 {
   MESSAGE ( "ComputeAdap" );
 
   // A. Prealable
   // A.1. Bases
   int codret = 0;
+  // Etat de l'iteration
+  int etat = myIteration->GetState();
   // Numero de l'iteration
   int NumeIter = myIteration->GetNumber();
   std::stringstream saux0 ;
@@ -1935,14 +2354,15 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   std::string siter = saux0.str() ;
   if (NumeIter < 11) { siter = "0" + siter ; }
 
-  // A.2. On ne calcule pas l iteration 0
-  if ( NumeIter == 0 )
+  // A.2. On ne calcule pas l iteration initiale
+  if ( etat <= 0 )
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "This iteration is the first of the case and cannot be computed.";
-      throw SALOME::SALOME_Exception(es);
-      return 1;
+    MESSAGE ( "etat = "<<etat );
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This iteration is the first of the case and cannot be computed.";
+    throw SALOME::SALOME_Exception(es);
+    return 1;
   };
 
   // A.3. On verifie qu il y a une hypothese (erreur improbable);
@@ -1963,19 +2383,19 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
   ASSERT(!CORBA::is_nil(myIterationParent));
   // Si l'iteration parent n'est pas calculee, on le fait (recursivite amont)
-  if ( ! myIterationParent->GetEtat() )
+  if ( myIterationParent->GetState() == 1 )
   {
-      int iaux = 1 ;
-      int codret = Compute(nomIterationParent, etatMenage, iaux, Option);
-      if (codret != 0)
-      {
-        // GERALD -- QMESSAGE BOX
-        ASSERT("Pb au calcul de l'iteration precedente" == 0);
-      }
+    int iaux = 1 ;
+    int codret = Compute(nomIterationParent, etatMenage, iaux, Option1, Option2);
+    if (codret != 0)
+    {
+      // GERALD -- QMESSAGE BOX
+      ASSERT("Pb au calcul de l'iteration precedente" == 0);
+    }
   };
 
   // C. Le sous-repertoire de l'iteration precedente
-  char* DirComputePa = ComputeDirPa(myCase, myIteration);
+  char* DirComputePa = ComputeDirPaManagement(myCase, myIteration);
   MESSAGE( ". DirComputePa = " << DirComputePa );
 
   // D. Les donnees de l'adaptation HOMARD
@@ -1998,26 +2418,26 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
     fclose(file);
     if (etatMenage == 0)
     {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          std::string text = "MeshFile : " + std::string(MeshFile) + " already exists ";
-          es.text = CORBA::string_dup(text.c_str());
-          throw SALOME::SALOME_Exception(es);
-          return 4;
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      std::string text = "MeshFile : " + std::string(MeshFile) + " already exists ";
+      es.text = CORBA::string_dup(text.c_str());
+      throw SALOME::SALOME_Exception(es);
+      return 4;
     }
     else
     {
-        std::string commande = "rm -f " + std::string(MeshFile);
-        codret = system(commande.c_str());
-        if (codret != 0)
-        {
-          SALOME::ExceptionStruct es;
-          es.type = SALOME::BAD_PARAM;
-          es.text = "The mesh file cannot be deleted.";
-          throw SALOME::SALOME_Exception(es);
-          return 5;
-        }
+      std::string commande = "rm -f " + std::string(MeshFile);
+      codret = system(commande.c_str());
+      if (codret != 0)
+      {
+        SALOME::ExceptionStruct es;
+        es.type = SALOME::BAD_PARAM;
+        es.text = "The mesh file cannot be deleted.";
+        throw SALOME::SALOME_Exception(es);
+        return 5;
       }
+    }
   }
 
   // D.4. Les types de raffinement et de deraffinement
@@ -2077,15 +2497,72 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   return codret ;
 }
 //=============================================================================
+// Creation d'un nom de sous-repertoire pour l'iteration au sein d'un repertoire
+//  nomrep : nom du repertoire parent
+//  num : le nom du sous-repertoire est sous la forme 'In', n est >= num
+//=============================================================================
+char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
+{
+  MESSAGE ( "CreateDirNameIter : nomrep ="<< nomrep << ", num = "<<num);
+  char* nomDirActuel = getenv("PWD") ;
+  std::string DirName ;
+  // On boucle sur tous les noms possibles jusqu'a trouver un nom correspondant a un repertoire inconnu
+  bool a_chercher = true ;
+  while ( a_chercher )
+  {
+    // On passe dans le repertoire parent
+    chdir(nomrep);
+    // On recherche un nom sous la forme Iabc, avec abc representant le numero
+    int jaux ;
+    if      ( num <    100 ) { jaux = 2 ; }
+    else if ( num <   1000 ) { jaux = 3 ; }
+    else if ( num <  10000 ) { jaux = 4 ; }
+    else if ( num < 100000 ) { jaux = 5 ; }
+    else                     { jaux = 9 ; }
+    std::ostringstream iaux ;
+    iaux << std::setw(jaux) << std::setfill('0') << num ;
+    std::ostringstream DirNameA ;
+    DirNameA << "I" << iaux.str();
+    // Si on ne pas peut entrer dans le repertoire, on doit verifier
+    // que c'est bien un probleme d'absence
+    if ( chdir(DirNameA.str().c_str()) != 0 )
+    {
+      bool existe = false ;
+      DIR *dp;
+      struct dirent *dirp;
+      dp  = opendir(nomrep);
+      while ( (dirp = readdir(dp)) != NULL )
+      {
+        std::string file_name(dirp->d_name);
+        if ( file_name == DirNameA.str() ) { existe = true ; }
+      }
+      closedir(dp);
+      if ( not existe )
+      {
+        DirName = DirNameA.str() ;
+        a_chercher = false ;
+        break ;
+      }
+    }
+    num += 1;
+  }
+
+  MESSAGE ( "==> DirName = " << DirName);
+  MESSAGE ( ". On retourne dans nomDirActuel = " << nomDirActuel );
+  chdir(nomDirActuel);
+
+  return CORBA::string_dup( DirName.c_str() );
+}
+//=============================================================================
 // Calcul d'une iteration : gestion du repertoire de calcul
 //        Si le sous-repertoire existe :
 //         etatMenage =  0 : on sort en erreur si le repertoire n'est pas vide
 //         etatMenage =  1 : on fait le menage du repertoire
 //         etatMenage = -1 : on ne fait rien
 //=============================================================================
-char* HOMARD_Gen_i::ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage)
+char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage)
 {
-  MESSAGE ( "ComputeDir : repertoires pour le calcul" );
+  MESSAGE ( "ComputeDirManagement : repertoires pour le calcul" );
   // B.2. Le repertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
@@ -2116,15 +2593,15 @@ char* HOMARD_Gen_i::ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Ite
 //  On demande de faire le menage de son contenu :
     if (etatMenage == 1)
     {
-       MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
-       std::string commande= "rm -rf " + DirCompute.str()+"/*" ;
-       int codret = system(commande.c_str());
-       if (codret != 0)
-       {
-         // GERALD -- QMESSAGE BOX
-         std::cerr << ". Menage du repertoire de calcul" << DirCompute.str() << std::endl;
-         ASSERT("Pb au menage du repertoire de calcul" == 0);
-       }
+      MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
+      std::string commande= "rm -rf " + DirCompute.str()+"/*" ;
+      int codret = system(commande.c_str());
+      if (codret != 0)
+      {
+        // GERALD -- QMESSAGE BOX
+        std::cerr << ". Menage du repertoire de calcul" << DirCompute.str() << std::endl;
+        ASSERT("Pb au menage du repertoire de calcul" == 0);
+      }
     }
 //  On n'a pas demande de faire le menage de son contenu : on sort en erreur :
     else
@@ -2137,18 +2614,18 @@ char* HOMARD_Gen_i::ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Ite
         bool result = true;
         while ((dirp = readdir(dp)) != NULL && result )
         {
-              std::string file_name(dirp->d_name);
-              result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
+          std::string file_name(dirp->d_name);
+          result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
         }
         closedir(dp);
         if ( result == false)
         {
-            SALOME::ExceptionStruct es;
-            es.type = SALOME::BAD_PARAM;
-            std::string text = "Directory : " + DirCompute.str() + "is not empty";
-            es.text = CORBA::string_dup(text.c_str());
-            throw SALOME::SALOME_Exception(es);
-            ASSERT("Directory is not empty" == 0);
+          SALOME::ExceptionStruct es;
+          es.type = SALOME::BAD_PARAM;
+          std::string text = "Directory : " + DirCompute.str() + "is not empty";
+          es.text = CORBA::string_dup(text.c_str());
+          throw SALOME::SALOME_Exception(es);
+          ASSERT("Directory is not empty" == 0);
         }
       }
     }
@@ -2159,9 +2636,9 @@ char* HOMARD_Gen_i::ComputeDir(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Ite
 //=============================================================================
 // Calcul d'une iteration : gestion du repertoire de calcul de l'iteration parent
 //=============================================================================
-char* HOMARD_Gen_i::ComputeDirPa(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration)
+char* HOMARD_Gen_i::ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration)
 {
-  MESSAGE ( "ComputeDirPa : repertoires pour le calcul" );
+  MESSAGE ( "ComputeDirPaManagement : repertoires pour le calcul" );
   // Le repertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
@@ -2444,16 +2921,16 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
 
 // Controle de la non publication d'un objet de meme nom
    if ((!aHypo->_is_nil()) or (!aZone->_is_nil()) or (!aBoundary->_is_nil()))
+  {
+    SALOMEDS::Study::ListOfSObject_var listSO = theStudy->FindObjectByName(theName, ComponentDataType());
+    if (listSO->length() >= 1)
     {
-      SALOMEDS::Study::ListOfSObject_var listSO = theStudy->FindObjectByName(theName, ComponentDataType());
-      if (listSO->length() >= 1)
-      {
-          MESSAGE("This name "<<theName<<" is already used "<<listSO->length()<<" time(s)");
-          std::cerr <<"This name "<<theName<<" is already used "<<listSO->length()<<" time(s)" << std::endl;
-          aResultSO = listSO[0];
-          return aResultSO._retn();
-      }
+      MESSAGE("This name "<<theName<<" is already used "<<listSO->length()<<" time(s)");
+      std::cerr <<"This name "<<theName<<" is already used "<<listSO->length()<<" time(s)" << std::endl;
+      aResultSO = listSO[0];
+      return aResultSO._retn();
     }
+  }
 
   // Caracteristiques de l'etude
   SALOMEDS::StudyBuilder_var aStudyBuilder = theStudy->NewBuilder();
@@ -2761,11 +3238,11 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
   MESSAGE( "PublishResultInSmesh " << NomFich << ", avec Option = " << Option);
   if (CORBA::is_nil(myCurrentStudy))
   {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid study context";
-      throw SALOME::SALOME_Exception(es);
-      return ;
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "Invalid study context";
+    throw SALOME::SALOME_Exception(es);
+    return ;
   };
 
 // Le module SMESH est-il actif ?
@@ -2777,33 +3254,33 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
     SALOMEDS::ChildIterator_var aIter = myCurrentStudy->NewChildIterator(aSmeshSO);
     for (; aIter->More(); aIter->Next())
     {
-       SALOMEDS::SObject_var  aSO = aIter->Value();
-       SALOMEDS::GenericAttribute_var aGAttr;
-       if (aSO->FindAttribute(aGAttr,"AttributeExternalFileDef"))
-       {
-           SALOMEDS::AttributeExternalFileDef_var anAttr = SALOMEDS::AttributeExternalFileDef::_narrow(aGAttr);
-           CORBA::String_var value=anAttr->Value();
-           if (strcmp((const char*)value,NomFich) == 0)
-           {
-             MESSAGE ( "PublishResultInSmesh : le fichier " << NomFich << " est deja publie." );
-             // Pour un fichier importe, on ne republie pas
-             if ( Option == 0 )
-             {
-                return;
-             }
-             // Pour un fichier calcule, on commence par faire la depublication
-             else
-             {
-                MESSAGE ( "PublishResultInSmesh : depublication" );
-                SALOMEDS::AttributeName_var anAttr2 = SALOMEDS::AttributeName::_narrow(aGAttr);
-                CORBA::String_var value2=anAttr2->Value();
-                const char* MeshName = value2 ;
-                MESSAGE ( "PublishResultInSmesh : depublication de " << MeshName );
-                DeleteResultInSmesh(NomFich, MeshName) ;
-             }
-           }
-       }
-     }
+      SALOMEDS::SObject_var  aSO = aIter->Value();
+      SALOMEDS::GenericAttribute_var aGAttr;
+      if (aSO->FindAttribute(aGAttr,"AttributeExternalFileDef"))
+      {
+        SALOMEDS::AttributeExternalFileDef_var anAttr = SALOMEDS::AttributeExternalFileDef::_narrow(aGAttr);
+        CORBA::String_var value=anAttr->Value();
+        if (strcmp((const char*)value,NomFich) == 0)
+        {
+          MESSAGE ( "PublishResultInSmesh : le fichier " << NomFich << " est deja publie." );
+          // Pour un fichier importe, on ne republie pas
+          if ( Option == 0 )
+          {
+            return;
+          }
+          // Pour un fichier calcule, on commence par faire la depublication
+          else
+          {
+            MESSAGE ( "PublishResultInSmesh : depublication" );
+            SALOMEDS::AttributeName_var anAttr2 = SALOMEDS::AttributeName::_narrow(aGAttr);
+            CORBA::String_var value2=anAttr2->Value();
+            const char* MeshName = value2 ;
+            MESSAGE ( "PublishResultInSmesh : depublication de " << MeshName );
+            DeleteResultInSmesh(NomFich, MeshName) ;
+          }
+        }
+      }
+    }
   }
 
 // On enregistre le fichier

@@ -292,7 +292,7 @@ void HOMARD_Hypothesis_i::SetGroups(const HOMARD::ListGroupType& ListGroup)
   std::list<std::string> ListString;
   for ( int i = 0; i < ListGroup.length(); i++ )
   {
-      ListString.push_back(std::string(ListGroup[i]));
+    ListString.push_back(std::string(ListGroup[i]));
   }
   myHomardHypothesis->SetGroups( ListString );
 }

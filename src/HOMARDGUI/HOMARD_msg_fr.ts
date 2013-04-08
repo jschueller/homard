@@ -24,6 +24,10 @@
         <translation>Nouvelle itération</translation>
     </message>
     <message>
+        <source>HOM_MEN_PURSUE_ITERATION</source>
+        <translation>Poursuite d'une itération</translation>
+    </message>
+    <message>
         <source>HOM_MEN_COMPUTE</source>
         <translation>Calculer</translation>
     </message>
@@ -56,6 +60,10 @@
         <translation>Nouvelle itération</translation>
     </message>
     <message>
+        <source>HOM_TOP_PURSUE_ITERATION</source>
+        <translation>Poursuite d'une itération</translation>
+    </message>
+    <message>
         <source>HOM_TOP_COMPUTE</source>
         <translation>Calculer</translation>
     </message>
@@ -82,6 +90,10 @@
     <message>
         <source>HOM_STB_NEW_ITERATION</source>
         <translation>Nouvelle itération</translation>
+    </message>
+    <message>
+        <source>HOM_STB_PURSUE_ITERATION</source>
+        <translation>Poursuite d'une itération</translation>
     </message>
     <message>
         <source>HOM_STB_COMPUTE</source>
@@ -197,7 +209,7 @@
     </message>
     <message>
         <source>HOM_MED_FILE_3</source>
-        <translation>Ce fichier MED contient plus d&apos;un maillage.</translation>
+        <translation>Ce fichier MED contient plus d'un maillage.</translation>
     </message>
     <message>
         <source>HOM_MED_FILE_4</source>
@@ -217,7 +229,7 @@
     </message>
     <message>
         <source>Create a case</source>
-        <translation>Création d&apos;un cas</translation>
+        <translation>Création d'un cas</translation>
     </message>
     <message>
         <source>HOM_CASE_NAME</source>
@@ -241,19 +253,43 @@
     </message>
     <message>
         <source>HOM_CASE_GROUP</source>
-        <translation>Le groupe &quot;%1&quot; ne peut pas être attribué à plus d&apos;une frontière.</translation>
+        <translation>Le groupe &quot;%1&quot; ne peut pas être attribué à plus d'une frontière.</translation>
     </message>
     <message>
         <source>HOM_CASE_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;un cas</translation>
+        <translation>Edition d'un cas</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_EDIT_STATE_0</source>
+        <translation>Maillage initial.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_EDIT_STATE</source>
+        <translation>Poursuite d'une itération.</translation>
+    </message>
+    <message>
+        <source>Pursue an iteration</source>
+        <translation>Poursuite d'une itération</translation>
+    </message>
+    <message>
+        <source>The configuration file cannot be found.</source>
+        <translation>Le fichier de configuration de HOMARD est introuvable.</translation>
+    </message>
+    <message>
+        <source>The configuration file cannot be read.</source>
+        <translation>Le fichier de configuration de HOMARD est illisible.</translation>
+    </message>
+    <message>
+        <source>The HOMARD mesh file cannot be found.</source>
+        <translation>Le fichier de maillage de HOMARD est introuvable.</translation>
     </message>
     <message>
         <source>HOM_ITER_NAME</source>
-        <translation>Il faut donner un nom à l&apos;itération.</translation>
+        <translation>Il faut donner un nom à l'itération.</translation>
     </message>
     <message>
         <source>HOM_ITER_STARTING_POINT</source>
-        <translation>Il faut désigner l&apos;itération précédente.</translation>
+        <translation>Il faut désigner l'itération précédente.</translation>
     </message>
     <message>
         <source>HOM_ITER_MESH</source>
@@ -273,11 +309,15 @@
     </message>
     <message>
         <source>HOM_ITER_STARTING_POINT_1</source>
-        <translation>Itération initiale du cas</translation>
+        <translation>Itération initiale du cas.</translation>
+    </message>
+    <message>
+        <source>HOM_ITER_STARTING_POINT_2</source>
+        <translation>Itération initiale du cas pour la poursuite.</translation>
     </message>
     <message>
         <source>HOM_ITER_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;une itération</translation>
+        <translation>Edition d'une itération</translation>
     </message>
     <message>
         <source>Discrete boundary</source>
@@ -329,7 +369,7 @@
     </message>
     <message>
         <source>Initialization of adaptation</source>
-        <translation>Initialisation de l&apos;adaptation</translation>
+        <translation>Initialisation de l'adaptation</translation>
     </message>
     <message>
         <source>Maximal level</source>
@@ -341,11 +381,11 @@
     </message>
     <message>
         <source>Create an iteration</source>
-        <translation>Création d&apos;une itération</translation>
+        <translation>Création d'une itération</translation>
     </message>
     <message>
         <source>Iteration Name</source>
-        <translation>Nom de l&apos;itération</translation>
+        <translation>Nom de l'itération</translation>
     </message>
     <message>
         <source>Previous iteration</source>
@@ -404,10 +444,14 @@
         <translation>Impossible de créer l'itération.</translation>
     </message>
     <message>
+        <source>The directory for the computation cannot be created.</source>
+        <translation>Impossible de créer le répertoire pour le calcul de l'itération.</translation>
+    </message>
+    <message>
         <source>This iteration is the first of the case and cannot be computed.</source>
         <translation>Cette itération définit le point de départ du cas. Elle ne peut pas être calculée.</translation>
     </message>
-<message>
+    <message>
         <source>This iteration does not have any associated hypothesis.</source>
         <translation>Cette itération n'est associée à aucune hypothèse.</translation>
     </message>
@@ -453,7 +497,7 @@
     </message>
     <message>
         <source>Rank</source>
-        <translation>Numéro d&apos;ordre</translation>
+        <translation>Numéro d'ordre</translation>
     </message>
     <message>
         <source>Hypothesis</source>
@@ -461,11 +505,11 @@
     </message>
     <message>
         <source>Create an hypothesis</source>
-        <translation>Création d&apos;une hypothèse</translation>
+        <translation>Création d'une hypothèse</translation>
     </message>
     <message>
         <source>HOM_HYPO_NAME</source>
-        <translation>Il faut donner un nom à l&apos;hypothèse.</translation>
+        <translation>Il faut donner un nom à l'hypothèse.</translation>
     </message>
     <message>
         <source>HOM_HYPO_FIELD_FILE</source>
@@ -505,11 +549,11 @@
     </message>
     <message>
         <source>HOM_HYPO_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;une hypothèse</translation>
+        <translation>Edition d'une hypothèse</translation>
     </message>
     <message>
         <source>Type of adaptation</source>
-        <translation>Type d&apos;adaptation</translation>
+        <translation>Type d'adaptation</translation>
     </message>
     <message>
         <source>Uniform</source>
@@ -545,7 +589,7 @@
     </message>
     <message>
         <source>Governing field for the adaptation</source>
-        <translation>Champ pilotant l&apos;adaptation</translation>
+        <translation>Champ pilotant l'adaptation</translation>
     </message>
     <message>
         <source>Field name</source>
@@ -605,7 +649,7 @@
     </message>
     <message>
         <source>Create a zone</source>
-        <translation>Création d&apos;une zone</translation>
+        <translation>Création d'une zone</translation>
     </message>
     <message>
         <source>HOM_ZONE_NAME</source>
@@ -621,7 +665,7 @@
     </message>
     <message>
         <source>HOM_ZONE_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;une zone</translation>
+        <translation>Edition d'une zone</translation>
     </message>
     <message>
         <source>Type of zone</source>
@@ -657,11 +701,11 @@
     </message>
     <message>
         <source>Create an analytical boundary</source>
-        <translation>Création d&apos;une frontière analytique</translation>
+        <translation>Création d'une frontière analytique</translation>
     </message>
     <message>
         <source>Create a discrete boundary</source>
-        <translation>Création d&apos;une frontière discrète</translation>
+        <translation>Création d'une frontière discrète</translation>
     </message>
     <message>
         <source>Type of boundary</source>
@@ -721,11 +765,11 @@
     </message>
     <message>
         <source>HOM_BOUN_A_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;une frontière analytique</translation>
+        <translation>Edition d'une frontière analytique</translation>
     </message>
     <message>
         <source>HOM_BOUN_D_EDIT_WINDOW_TITLE</source>
-        <translation>Edition d&apos;une frontière discrète</translation>
+        <translation>Edition d'une frontière discrète</translation>
     </message>
     <message>
         <source>HOM_GROU_EDIT_WINDOW_TITLE</source>
@@ -860,8 +904,64 @@
         <translation>Menage du repertoire de calcul impossible</translation>
     </message>
     <message>
+        <source>Starting point</source>
+        <translation>Point de départ</translation>
+    </message>
+    <message>
+        <source>From an iteration</source>
+        <translation>A partir d'une itération</translation>
+    </message>
+    <message>
+        <source>From a case</source>
+        <translation>A partir d'un cas</translation>
+    </message>
+    <message>
+        <source>Iteration into the case</source>
+        <translation>Choix d'une itération dans le cas</translation>
+    </message>
+    <message>
+        <source>Last iteration</source>
+        <translation>A partir de la dernière itération</translation>
+    </message>
+    <message>
+        <source>Iteration number</source>
+        <translation>A partir d'une itération numérotée</translation>
+    </message>
+    <message>
+        <source>The directory for the case cannot be modified because some iterations are already defined.</source>
+        <translation>Impossible de changer le répertoire du cas car des itérations ont déjà été définies.</translation>
+    </message>
+    <message>
+        <source>The directory for the case cannot be reached.</source>
+        <translation>Impossible d'atteindre ce répertoire pour le cas.</translation>
+    </message>
+    <message>
+        <source>The starting point for the case cannot be copied into the working directory.</source>
+        <translation>Impossible de copier le point de départ du cas dans le répertoire de travail.</translation>
+    </message>
+    <message>
+        <source>The starting point for the case cannot be moved into the new directory.</source>
+        <translation>Impossible de déplacer le point de départ du cas dans le nouveau répertoire.</translation>
+    </message>
+    <message>
+        <source>This directory of the case does not exist.</source>
+        <translation>Le répertoire du cas de reprise n'existe pas.</translation>
+    </message>
+    <message>
+        <source>The directory of the iteration does not exist.</source>
+        <translation>Le répertoire de l'itération de reprise n'existe pas.</translation>
+    </message>
+    <message>
+        <source>The number of iteration must be positive.</source>
+        <translation>Le numéro de l'itération doit etre positif.</translation>
+    </message>
+    <message>
+        <source>Number of iteration</source>
+        <translation>Numéro de l'itération</translation>
+    </message>
+    <message>
         <source>Edit a file</source>
-        <translation>Affichage d&apos;un fichier</translation>
+        <translation>Affichage d'un fichier</translation>
     </message>
     <message>
         <source>Print</source>

@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_2
 """
-__revision__ = "V1.7"
+__revision__ = "V1.8"
 
 #========================================================================
 Test_Name = "test_2"
@@ -108,7 +108,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_1.SetMeshName('PLAQUE_1')
     Iter_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
     Iter_1.AssociateHypo('Hypo_1')
-    error = Iter_1.Compute(1)
+    error = Iter_1.Compute(1, 1)
     if error :
       error = 1
       break
@@ -118,7 +118,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_2.SetMeshName('PLAQUE_2')
     Iter_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
     Iter_2.AssociateHypo('Hypo_1')
-    error = Iter_2.Compute(1)
+    error = Iter_2.Compute(1, 1)
     if error :
       error = 2
       break
@@ -128,7 +128,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_3.SetMeshName('PLAQUE_3')
     Iter_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
     Iter_3.AssociateHypo('Hypo_2')
-    error = Iter_3.Compute(1)
+    error = Iter_3.Compute(1, 1)
     if error :
       error = 3
       break

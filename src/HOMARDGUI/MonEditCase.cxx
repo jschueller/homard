@@ -28,13 +28,13 @@ using namespace std;
 
 
 // -------------------------------------------------------------
-MonEditCase::MonEditCase ( QWidget* parent, bool modal,
-                           HOMARD::HOMARD_Gen_var myHomardGen,
-                           QString CaseName ):
-// -------------------------------------------------------------
 /* Constructs a MonEditCase
     herite de MonCreateCase
 */
+// -------------------------------------------------------------
+MonEditCase::MonEditCase ( QWidget* parent, bool modal,
+                           HOMARD::HOMARD_Gen_var myHomardGen,
+                           QString CaseName ):
    MonCreateCase(parent, modal, myHomardGen)
 {
     MESSAGE("Debut de MonEditCase" << CaseName.toStdString().c_str());
@@ -48,8 +48,6 @@ MonEditCase::~MonEditCase()
 // ------------------------------
 {
 }
-
-
 // ------------------------------
 void MonEditCase::InitValEdit()
 // ------------------------------
@@ -194,6 +192,14 @@ void MonEditCase::InitValEdit()
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
  }
+//
+// L'etat
+  int etat = aCase->GetState();
+  MESSAGE("etat "<<etat);
+  if ( etat == 0 ) { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE_0", 0, QApplication::UnicodeUTF8)); }
+  else             { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE", 0, QApplication::UnicodeUTF8)); }
+
+  Comment->setVisible(1);
 //
   adjustSize();
 }

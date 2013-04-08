@@ -29,6 +29,7 @@ using namespace std;
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
+#include "MonEditFile.h"
 #include <utilities.h>
 
 
@@ -112,31 +113,9 @@ bool MonIterInfo::PushOnApply()
 
   // Le bilan de l'analyse a afficher
   QString aFileName = aIter->GetFileInfo() ;
-// // Creation de l'objet fichier QT associe
-//   QFile file( aFileName );
-// // Ouverture
-//   bool bOpen = file.open( QIODevice::ReadOnly | QIODevice::Text ) ;
-// //
-//   if ( bOpen )
-//   {
-//      Ui_EditFile() ;
-// // Lecture
-// //    Remarque : il serait plus clair de tout lire d'un coup mais cela ne marche pas !
-// //               alors on fait ligne par ligne et on cumule en ajoutant un saut de ligne.
-//       QTextStream stream( &file );
-//       QString tout;
-//       while ( !stream.atEnd() )
-//       {
-//         tout = tout + stream.readLine() + "\n" ;
-//       }
-//       QTBEditFile->setPlainText( tout );
-//   QMessageBox::information( 0, QObject::tr("HOM_MESH_INFO_0"),
-//                                tout );
-//   }
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), aFileName ) ;
+  if ( aDlg->_codret == 0 ) { aDlg->show(); }
 
-  // Message simple en attendant de savoir faire
-  QMessageBox::information( 0, QObject::tr("HOM_MESH_INFO_0"),
-                               QObject::tr("HOM_MESH_INFO_2")+aFileName );
 
   HOMARD_UTILS::updateObjBrowser();
   return true;

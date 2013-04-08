@@ -35,32 +35,35 @@ using namespace std;
 
 
 // -----------------------------------------------------------------------------------------
-MonCreateCase::MonCreateCase(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen)
-// -----------------------------------------------------------------------------------------
 /* Constructs a MonCreateCase
  * Inherits from CasHomard
  * Sets attributes to default values
  */
+// -----------------------------------------------------------------------------------------
+MonCreateCase::MonCreateCase(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen)
     :
     Ui_CreateCase(),
     _aCaseName(""),_aDirName(""),
     _ConfType(1),
     _Pyram(0)
 {
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
-      setupUi(this);
-      setModal(modal);
-      InitConnect();
+  MESSAGE("Debut du constructeur de MonCreateCase");
+  _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+  setupUi(this);
+  setModal(modal);
+  InitConnect();
 
-      SetNewCaseName() ;
-      GBBoundaryA->setVisible(0);
-      GBBoundaryD->setVisible(0);
-      GBTypeNoConf->setVisible(0);
-      adjustSize();
-      GBAdvancedOptions->setVisible(0);
-      CBPyramid->setChecked(false);
+  SetNewCaseName() ;
+  GBBoundaryA->setVisible(0);
+  GBBoundaryD->setVisible(0);
+  GBTypeNoConf->setVisible(0);
+  GBAdvancedOptions->setVisible(0);
+  Comment->setVisible(0);
+  CBPyramid->setChecked(false);
+
+  adjustSize();
+  MESSAGE("Fin du constructeur de MonCreateCase");
 }
-
 // ------------------------------------------------------------------------
 MonCreateCase::~MonCreateCase()
 // ------------------------------------------------------------------------
@@ -71,6 +74,7 @@ MonCreateCase::~MonCreateCase()
 void MonCreateCase::InitConnect()
 // ------------------------------------------------------------------------
 {
+    connect( LECaseName,     SIGNAL(textChanged(QString)), this, SLOT(CaseNameChanged()));
     connect( PushDir,        SIGNAL(pressed()), this, SLOT(SetDirName()));
     connect( PushFichier,    SIGNAL(pressed()), this, SLOT(SetFileName()));
 
@@ -95,7 +99,6 @@ void MonCreateCase::InitConnect()
     connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply()));
     connect( buttonCancel,   SIGNAL(pressed()), this, SLOT(close()));
     connect( buttonHelp,     SIGNAL(pressed()), this, SLOT(PushOnHelp()));
-    connect( LECaseName,     SIGNAL(textChanged(QString)), this, SLOT(CaseNameChanged()));
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::InitBoundarys()
@@ -295,8 +298,8 @@ bool MonCreateCase::PushOnApply()
 void MonCreateCase::PushOnOK()
 // ---------------------------
 {
-     bool bOK = PushOnApply();
-     if ( bOK )  this->close();
+  bool bOK = PushOnApply();
+  if ( bOK ) this->close();
 }
 //------------------------------
 void MonCreateCase::PushOnHelp()

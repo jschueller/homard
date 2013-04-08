@@ -45,6 +45,8 @@ salomeinclude_HEADERS =       \
 	MonCreateIteration.h  \
 	CreateIteration.h     \
 	MonEditIteration.h    \
+	MonPursueIteration.h  \
+	PursueIteration.h     \
 	MonMeshInfo.h         \
 	MeshInfo.h            \
 	MonIterInfo.h         \
@@ -74,6 +76,7 @@ dist_libHOMARD_la_SOURCES =     \
 	MonEditListGroup.cxx    \
 	MonCreateIteration.cxx  \
 	MonEditIteration.cxx    \
+	MonPursueIteration.cxx  \
 	MonCreateZone.cxx       \
 	MonEditZone.cxx         \
 	MonMeshInfo.cxx         \
@@ -98,6 +101,7 @@ MOC_FILES =                         \
 	MonEditListGroup_moc.cxx    \
 	MonCreateIteration_moc.cxx  \
 	MonEditIteration_moc.cxx    \
+	MonPursueIteration_moc.cxx  \
 	MonMeshInfo_moc.cxx         \
 	MonIterInfo_moc.cxx         \
 	MonEditFile_moc.cxx
@@ -146,6 +150,7 @@ CreateHypothesis.ui \
 CreateIteration.ui  \
 CreateListGroup.ui  \
 CreateZone.ui       \
+PursueIteration.ui  \
 MeshInfo.ui         \
 IterInfo.ui         \
 EditFile.ui

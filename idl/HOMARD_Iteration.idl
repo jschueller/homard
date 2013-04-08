@@ -54,8 +54,8 @@ module HOMARD
     void     SetNumber(in long NumIter)                    raises (SALOME::SALOME_Exception);
     long     GetNumber()                                   raises (SALOME::SALOME_Exception);
 
-    void     SetEtat(in boolean State)                     raises (SALOME::SALOME_Exception);
-    boolean  GetEtat()                                     raises (SALOME::SALOME_Exception);
+    void     SetState(in long State)                       raises (SALOME::SALOME_Exception);
+    long     GetState()                                    raises (SALOME::SALOME_Exception);
 
     void     SetMeshName(in string NomMesh)                raises (SALOME::SALOME_Exception);
     string   GetMeshName()                                 raises (SALOME::SALOME_Exception);
@@ -74,7 +74,7 @@ module HOMARD
     void     SetLogFile(in string LogFile)                 raises (SALOME::SALOME_Exception);
     string   GetLogFile()                                  raises (SALOME::SALOME_Exception);
 
-    long     Compute(in long etatMenage)                   raises (SALOME::SALOME_Exception);
+    long     Compute(in long etatMenage, in long Option)   raises (SALOME::SALOME_Exception);
 
     void     MeshInfo(in long Qual, in long Diam, in long Conn, in long Tail, in long Inte)
                                                            raises (SALOME::SALOME_Exception);

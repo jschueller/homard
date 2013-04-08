@@ -71,8 +71,8 @@ public:
   void                   SetNumber( CORBA::Long NumIter );
   CORBA::Long            GetNumber();
 
-  void                   SetEtat( CORBA::Boolean etat );
-  CORBA::Boolean         GetEtat();
+  void                   SetState( CORBA::Long etat );
+  CORBA::Long            GetState();
 
   void                   SetMeshName( const char* NomMesh );
   char*                  GetMeshName();
@@ -90,7 +90,7 @@ public:
   void                   SetLogFile( const char* LogFile );
   char*                  GetLogFile();
 
-  CORBA::Long            Compute(CORBA::Long etatMenage);
+  CORBA::Long            Compute(CORBA::Long etatMenage, CORBA::Long Option);
 
   void                   MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte);
 

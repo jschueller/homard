@@ -83,21 +83,21 @@ void MonEditFile::EditText()
 // Lecture
 //    Remarque : il serait plus clair de tout lire d'un coup mais cela ne marche pas !
 //               alors on fait ligne par ligne et on cumule en ajoutant un saut de ligne.
-      QTextStream stream( &file );
-      QString tout;
-      while ( !stream.atEnd() )
-      {
-        tout = tout + stream.readLine() + "\n" ;
-      }
+    QTextStream stream( &file );
+    QString tout;
+    while ( !stream.atEnd() )
+    {
+      tout = tout + stream.readLine() + "\n" ;
+    }
 //       tout = stream.readAll() ;
-      QTBEditFile->setPlainText( tout );
+    QTBEditFile->setPlainText( tout );
   }
   else
   {
-     // GERALD -- QMESSAGE BOX
-     MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
+    // GERALD -- QMESSAGE BOX
+    MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
     QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                              QObject::tr("HOM_SELECT_FILE_3") );
+                             QObject::tr("HOM_SELECT_FILE_3") );
     _codret = 1 ;
   }
 }

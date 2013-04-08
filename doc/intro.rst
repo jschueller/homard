@@ -48,7 +48,7 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
 .. note::
   Pour une référence à HOMARD, utiliser :
   G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, Finite Elements in Analysis and Design, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
-  `Acessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_ .
+  `Acessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`.
 
 
 Quelques illustrations de maillage adaptés
@@ -115,7 +115,12 @@ Il faut fournir deux informations : le répertoire qui contiendra les fichiers pr
 .. image:: images/intro_32.png
    :align: center
 
-L'arbre d'études est enrichi de ce cas. On déplie le cas jusqu'à afficher le maillage correspondant à l'itération 0. On désigne cette itération initiale et on demande une nouvelle itération par "*Nouvelle itération*" dans le menu HOMARD ou à la souris. La fenêtre suivante apparaît :
+L'arbre d'études est enrichi de ce cas. On déplie le cas jusqu'à afficher le maillage correspondant à l'itération 0. On désigne cette itération initiale et on demande une nouvelle itération par "*Nouvelle itération*" dans le menu HOMARD ou à la souris.
+
+.. image:: images/intro_331.png
+   :align: center
+
+La fenêtre suivante apparaît :
 
 .. image:: images/intro_33.png
    :align: center
@@ -185,6 +190,9 @@ SALOME VERSION 7.1 :
 
 SALOME VERSION 7.2 :
    - Possibilité d'utiliser un cone comme support de frontiere 2D (voir :ref:`tui_create_boundary`)
+   - Choix de publier ou non le résultat dans SMESH (voir :ref:`tui_create_iteration`)
+     ``iter.Compute(option)`` devient ``iter.Compute(option1, option2)``
+   - Possibilité de poursuivre une suite d'itérations archivées dans un répertoire (voir :ref:`gui_create_case`)
 
 
 

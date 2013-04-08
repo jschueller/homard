@@ -130,10 +130,10 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
 
     for (int j=0;j<ngro;j++)
     {
-          char str2[MED_LNAME_SIZE+1];
-          strncpy(str2,gro+j*MED_LNAME_SIZE,MED_LNAME_SIZE);
-          str2[MED_LNAME_SIZE] = '\0';
-          ListeGroupes.insert(std::string(str2));
+      char str2[MED_LNAME_SIZE+1];
+      strncpy(str2,gro+j*MED_LNAME_SIZE,MED_LNAME_SIZE);
+      str2[MED_LNAME_SIZE] = '\0';
+      ListeGroupes.insert(std::string(str2));
     }
     free(gro);
   }

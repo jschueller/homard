@@ -24,6 +24,10 @@
         <translation>Next iteration</translation>
     </message>
     <message>
+        <source>HOM_MEN_PURSUE_ITERATION</source>
+        <translation>Pursuit of an iteration</translation>
+    </message>
+    <message>
         <source>HOM_MEN_COMPUTE</source>
         <translation>Compute</translation>
     </message>
@@ -56,6 +60,10 @@
         <translation>Next iteration</translation>
     </message>
     <message>
+        <source>HOM_TOP_PURSUE_ITERATION</source>
+        <translation>Pursuit of an iteration</translation>
+    </message>
+    <message>
         <source>HOM_TOP_COMPUTE</source>
         <translation>Compute</translation>
     </message>
@@ -82,6 +90,10 @@
     <message>
         <source>HOM_STB_NEW_ITERATION</source>
         <translation>Next iteration</translation>
+    </message>
+    <message>
+        <source>HOM_STB_PURSUE_ITERATION</source>
+        <translation>Pursuit of an iteration</translation>
     </message>
     <message>
         <source>HOM_STB_COMPUTE</source>
@@ -192,6 +204,18 @@
         <translation>Edition of a case</translation>
     </message>
     <message>
+        <source>HOM_CASE_EDIT_STATE_0</source>
+        <translation>Initial mesh.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_EDIT_STATE</source>
+        <translation>Pursuit of an iteration.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_PURSUE_WINDOW_TITLE</source>
+        <translation>Pursuit of an iteration</translation>
+    </message>
+    <message>
         <source>HOM_ITER_NAME</source>
         <translation>The iteration must be named.</translation>
     </message>
@@ -217,7 +241,11 @@
     </message>
     <message>
         <source>HOM_ITER_STARTING_POINT_1</source>
-        <translation>First iteration of the case</translation>
+        <translation>First iteration of the case.</translation>
+    </message>
+    <message>
+        <source>HOM_ITER_STARTING_POINT_2</source>
+        <translation>First iteration of the case for the pursuit.</translation>
     </message>
     <message>
         <source>HOM_ITER_EDIT_WINDOW_TITLE</source>

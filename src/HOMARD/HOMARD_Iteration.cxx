@@ -51,7 +51,6 @@ HOMARD_Iteration::HOMARD_Iteration():
 {
   MESSAGE("HOMARD_Iter");
 }
-
 //=============================================================================
 /*!
  *
@@ -113,14 +112,8 @@ std::string HOMARD_Iteration::GetDumpPython() const
 //   MESSAGE (".. Hypothese " << _NomHypo );
   aScript << "\t" << _Name << ".AssociateHypo(\"" << _NomHypo << "\")\n";
 
-  if (_Etat == true)
-  {
-     aScript << "\tcodret = " <<_Name << ".Compute(1)\n";
-  }
-  else
-  {
-     aScript << "\t#codret = " <<_Name << ".Compute(1)\n";
-  }
+  if (_Etat == true) { aScript << "\tcodret = "  <<_Name << ".Compute(1, 2)\n"; }
+  else               { aScript << "\t#codret = " <<_Name << ".Compute(1, 2)\n"; }
 //   MESSAGE (". Fin de l ecriture de l iteration " << _Name );
 
   return aScript.str();
@@ -150,12 +143,12 @@ int HOMARD_Iteration::GetNumber() const
   return _NumIter;
 }
 //=============================================================================
-void HOMARD_Iteration::SetEtat( bool etat )
+void HOMARD_Iteration::SetState( int etat )
 {
   _Etat = etat;
 }
 //=============================================================================
-bool HOMARD_Iteration::GetEtat() const
+int HOMARD_Iteration::GetState() const
 {
   return _Etat;
 }

@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
@@ -19,7 +19,9 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-#include <string.h>
+
+#include <cstring>
+// #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
@@ -58,15 +60,15 @@ HomardDriver::HomardDriver(const std::string siter, const std::string siterp1):
 HomardDriver::~HomardDriver()
 {
 }
-
 //===============================================================================
-void HomardDriver::TexteInit( const std::string DirCompute, const std::string LogFile )
+void HomardDriver::TexteInit( const std::string DirCompute, const std::string LogFile, const std::string Langue )
 {
   MESSAGE("TexteInit, DirCompute ="<<DirCompute<<", LogFile ="<<LogFile);
 //
   _Texte  = "ListeStd \"" + LogFile + "\"\n" ;
   _Texte += "RepeTrav \"" + DirCompute + "\"\n" ;
   _Texte += "RepeInfo \"" + DirCompute + "\"\n" ;
+  _Texte += "Langue \"" + Langue + "\"\n" ;
 //
 }
 //===============================================================================
@@ -214,7 +216,6 @@ void HomardDriver::TexteCompo( int NumeComp, const std::string NompCompo)
   MESSAGE("TexteCompo, NumeComp = "<<NumeComp<<", NompCompo = "<<NompCompo);
   _Texte +="CCCoChaI \"" + NompCompo + "\"\n" ;
 }
-
 //===============================================================================
 void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8 )
 {
@@ -533,7 +534,6 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
 //
 //   MESSAGE("A la fin de HomardDriver::TexteZone, _Texte ="<<_Texte);
 }
-
 //===============================================================================
 void HomardDriver::TexteField( const std::string FieldName, const std::string FieldFile, int TimeStep, int Rank,
                int TypeThR, double ThreshR, int TypeThC, double ThreshC,
@@ -625,7 +625,6 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
     _Texte += "CCUsCmpI " + saux  + "\n" ;
   }
 }
-
 //===============================================================================
 void HomardDriver::TexteGroup( const std::string GroupName )
 {
@@ -978,7 +977,6 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "NCNiveau NIVEAU\n" ;
   }
 }
-
 //===============================================================================
 void HomardDriver::CreeFichier( )
 {
@@ -993,7 +991,6 @@ void HomardDriver::CreeFichier( )
   Fic.close() ;
 //
 }
-
 //===============================================================================
 // Creation du fichier de donnees pour l'information
 //===============================================================================
@@ -1012,7 +1009,6 @@ void HomardDriver::CreeFichierDonn( )
   Fic.close() ;
 //
 }
-
 //===============================================================================
 int HomardDriver::ExecuteHomard(int option)
 {
@@ -1032,6 +1028,5 @@ int HomardDriver::ExecuteHomard(int option)
     if ( codret != 0) { MESSAGE ( "Erreur en executant HOMARD : " << codret ); };
     _NomFichierDonn = "" ;
   };
-
   return codret ;
 }

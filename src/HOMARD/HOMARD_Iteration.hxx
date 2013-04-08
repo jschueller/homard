@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
@@ -56,8 +56,8 @@ public:
   void                          SetNumber( int NumIter );
   int                           GetNumber() const;
 
-  void                          SetEtat( bool etat );
-  bool                          GetEtat() const;
+  void                          SetState( int etat );
+  int                           GetState() const;
 
   void                          SetMeshName( const char* NomMesh );
   std::string                   GetMeshName() const;
@@ -96,7 +96,7 @@ public:
 
 private:
   std::string                   _Name;
-  bool                          _Etat;
+  int                           _Etat;
   int                           _NumIter;
   std::string                   _NomMesh;
   std::string                   _MeshFile;

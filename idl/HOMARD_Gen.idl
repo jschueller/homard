@@ -68,6 +68,12 @@ module HOMARD
                                                            raises (SALOME::SALOME_Exception);
     HOMARD_Cas        CreateCase(in string CaseName, in string MeshName, in string FileName )
                                                            raises (SALOME::SALOME_Exception);
+    HOMARD_Cas        CreateCaseFromIteration(in string CaseName, in string DirNameStart )
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Cas        CreateCaseFromCaseLastIteration(in string CaseName, in string DirNameStart )
+                                                           raises (SALOME::SALOME_Exception);
+    HOMARD_Cas        CreateCaseFromCaseIteration(in string CaseName, in string DirNameStart, in long Number )
+                                                           raises (SALOME::SALOME_Exception);
     HOMARD_Hypothesis CreateHypothesis(in string HypoName )
                                                            raises (SALOME::SALOME_Exception);
     HOMARD_Zone       CreateZoneBox (in string ZoneName,
@@ -160,7 +166,7 @@ module HOMARD
     void DissociateHypoZone(in string HypoName, in string ZoneName)
                                                            raises (SALOME::SALOME_Exception);
 
-    long Compute (in string IterName, in long CleanOption, in long modeHOMARD, in long Option)
+    long Compute (in string IterName, in long CleanOption, in long modeHOMARD, in long Option1, in long Option2)
                                                            raises (SALOME::SALOME_Exception);
 
     boolean  VerifieDir (in string IterName)               raises (SALOME::SALOME_Exception);

@@ -44,9 +44,9 @@ MonEditIteration::MonEditIteration ( QWidget* parent, bool modal,
     aIter = _myHomardGen->GetIteration(_IterationName.toStdString().c_str());
 
 //  Attention au cas ou c'est une iteration initiale : il faut inhiber l'essentiel
-    int number = aIter->GetNumber() ;
-    if ( number == 0 ) { InitValEdit0(); }
-    else               { InitValEdit(); }
+    int etat = aIter->GetState() ;
+    if ( etat <= 0 ) { InitValEdit0(etat); }
+    else             { InitValEdit(); }
 }
 // ------------------------------
 MonEditIteration::~MonEditIteration()
@@ -55,9 +55,9 @@ MonEditIteration::~MonEditIteration()
 }
 
 // ------------------------------
-void MonEditIteration::InitValEdit0()
+void MonEditIteration::InitValEdit0(int etat)
 // ------------------------------
-//    Cas d'une iteration 0
+//    Cas d'une iteration initiale d'un cas (initial ou poursuite)
 {
 //
       LEIterationName->setText(_IterationName);
@@ -75,7 +75,8 @@ void MonEditIteration::InitValEdit0()
       LEMeshName_n->setReadOnly(1);
 
 //    Message general
-      Mesh_np1->setText(QObject::tr("HOM_ITER_STARTING_POINT_1"));
+      if ( etat == 0 ) { Mesh_np1->setText(QObject::tr("HOM_ITER_STARTING_POINT_1")) ; }
+      else             { Mesh_np1->setText(QObject::tr("HOM_ITER_STARTING_POINT_2")) ; }
       LEMeshName_np1->setVisible(0);
 //
 //    Invisibilite des hypotheses et des champs
@@ -87,76 +88,76 @@ void MonEditIteration::InitValEdit0()
 // ------------------------------
 void MonEditIteration::InitValEdit()
 // ------------------------------
-//    Cas d'une iteration > 0
+//    Cas d'une iteration courante
 {
 //    Affichage bloque du nom de l'iteration
-      LEIterationName->setText(_IterationName);
-      LEIterationName->setReadOnly(true);
+  LEIterationName->setText(_IterationName);
+  LEIterationName->setReadOnly(true);
 
 //    Affichage bloque du nom de l'iteration parent
-      _IterParentName = aIter->GetIterParentName();
-      LEIterationParentName->setText(_IterParentName);
-      LEIterationParentName->setReadOnly(true);
-      PBIterParent->setEnabled(false);
-      PBIterParent->setVisible(0);
+  _IterParentName = aIter->GetIterParentName();
+  LEIterationParentName->setText(_IterParentName);
+  LEIterationParentName->setReadOnly(true);
+  PBIterParent->setEnabled(false);
+  PBIterParent->setVisible(0);
 
 //    Affichage bloque du nom du maillage de l'iteration parent
-      aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str());
-      QString MeshNameParent = aIterParent->GetMeshName();
-      LEMeshName_n->setText(MeshNameParent);
-      LEMeshName_n->setReadOnly(1);
+  aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str());
+  QString MeshNameParent = aIterParent->GetMeshName();
+  LEMeshName_n->setText(MeshNameParent);
+  LEMeshName_n->setReadOnly(1);
 
 //    Affichage bloque du nom du maillage de l'iteration courante
-      QString MeshName = aIter->GetMeshName();
-      LEMeshName_np1->setText(MeshName);
-      LEMeshName_np1->setReadOnly(1);
+  QString MeshName = aIter->GetMeshName();
+  LEMeshName_np1->setText(MeshName);
+  LEMeshName_np1->setReadOnly(1);
 
 //    Affichage de la bonne hypothese
-      QString HypoName = aIter->GetHypoName();
-      CBHypothese->insertItem(0,HypoName);
-      CBHypothese->setCurrentIndex(0);
-      CBHypothese->setEnabled(false);
-      PBHypoNew->setVisible(0);
+  QString HypoName = aIter->GetHypoName();
+  CBHypothese->insertItem(0,HypoName);
+  CBHypothese->setCurrentIndex(0);
+  CBHypothese->setEnabled(false);
+  PBHypoNew->setVisible(0);
 
 //    Pour une adaptation selon un champ
-      HOMARD::HOMARD_Hypothesis_var myHypo = _myHomardGen->GetHypothesis(HypoName.toStdString().c_str()) ;
-      _aTypeAdap = myHypo->GetAdapType() ;
-      if ( _aTypeAdap == 1 )
-      {
-          _FieldFile = aIter->GetFieldFile();
-          LEFieldFile->setText(_FieldFile);
-          _step = aIter->GetTimeStep() ;
-          SpinBox_TimeStep->setValue(_step);
-          _rank = aIter->GetRank() ;
-          SpinBox_Rank->setValue(_rank);
+  HOMARD::HOMARD_Hypothesis_var myHypo = _myHomardGen->GetHypothesis(HypoName.toStdString().c_str()) ;
+  _aTypeAdap = myHypo->GetAdapType() ;
+  if ( _aTypeAdap == 1 )
+  {
+    _FieldFile = aIter->GetFieldFile();
+    LEFieldFile->setText(_FieldFile);
+    _step = aIter->GetTimeStep() ;
+    SpinBox_TimeStep->setValue(_step);
+    _rank = aIter->GetRank() ;
+    SpinBox_Rank->setValue(_rank);
 
 // Cas ou on prend le dernier pas de temps ou sans pas de temps
-          if ( _step <= -1 )
-          {
-            Rank->setVisible(0);
-            SpinBox_Rank->setVisible(0);
-            TimeStep->setVisible(0);
-            SpinBox_TimeStep->setVisible(0);
+    if ( _step <= -1 )
+    {
+      Rank->setVisible(0);
+      SpinBox_Rank->setVisible(0);
+      TimeStep->setVisible(0);
+      SpinBox_TimeStep->setVisible(0);
 
-            if ( _step == -2 ) { RBLast->setChecked(true); }
-            else               { RBNo->setChecked(true); }
-          }
+      if ( _step == -2 ) { RBLast->setChecked(true); }
+      else               { RBNo->setChecked(true); }
+    }
 
 // Cas avec pas de temps
-          else
-          {
-            Rank->setVisible(1);
-            SpinBox_Rank->setVisible(1);
-            TimeStep->setVisible(1);
-            SpinBox_TimeStep->setVisible(1);
-            RBChosen->setChecked(true);
-          }
-      }
-      else
-      {
-          GBField->setVisible(0);
-      }
-      adjustSize();
+    else
+    {
+      Rank->setVisible(1);
+      SpinBox_Rank->setVisible(1);
+      TimeStep->setVisible(1);
+      SpinBox_TimeStep->setVisible(1);
+      RBChosen->setChecked(true);
+    }
+  }
+  else
+  {
+    GBField->setVisible(0);
+  }
+  adjustSize();
 //
 }
 

@@ -1,7 +1,7 @@
 .. _gui_create_case:
 
-Le cas
-======
+La création d'un cas
+====================
 .. index:: single: cas
 
 La définition du cas se fait par la donnée des informations suivantes :
@@ -99,6 +99,43 @@ Par défaut, HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant
    - prismes
 
 Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois, si on est certain que les raffinements ultérieurs ne toucheront aucune des arêtes des pyramides, on cochera la case "Pyramides autorisées". Les adaptations se dérouleront normalement et les pyramides seront restituées telles quelles dans le maillage final.
+
+
+La poursuite d'un cas
+=====================
+.. index:: single: poursuite
+
+La poursuite d'un cas correspond à la situation suivante :
+Une série d'adaptations ont été conduites sur un cas puis Salome est fermé. On a gardé les répertoires de travail de ces itérations. On souhaite ensuite reprendre ces itérations pour les poursuivre là où on s'est arrêté. Cette fonctionnalité est particulièrement utile dans le cas de schémas YACS pour lesquels on scinde en plusieurs parties une longue série d'adaptations.
+
+La condition pour reprendre une itération est d'avoir conservé dans un même répertoire deux fichiers :
+   - le fichier de configuration qui a servi de données au module exécutable de HOMARD ; ce fichier se présente sous la forme ``HOMARD.Configuration.(n).vers.(n+1)``
+   - le fichier au format MED qui conserve l'historique des adaptations réalisées ; ce fichier se présente sous la forme ``maill.(n).hom.med``
+
+On peut choisir de partir d'une itération archivée désignée explicitement par son répertoire ou d'une itération repérée dans le répertoire archivant un cas.
+
+Pour poursuivre une itération connue par son répertoire d'archive, la définition du cas se fait par la donnée des informations suivantes :
+
+  - Un nom
+  - Un répertoire
+  - Le répertoire qui contient les archives
+
+.. image:: images/pursue_case_1.png
+   :align: center
+
+On peut choisir de partir d'un cas déjà calculé ; par défaut, le nouveau cas sera créé en partant de la dernière itération précédemment calculée.
+
+.. image:: images/pursue_case_2.png
+   :align: center
+
+Si on souhaite partir d'une itération qui ne soit pas la dernière, il suffit de le préciser :
+
+.. image:: images/pursue_case_3.png
+   :align: center
+
+.. note::
+  Les paramétrages du cas ainsi créé sont ceux de l'itération poursuivie : mode de conformité identique par exemple.
+
 
 L'arbre d'étude
 """""""""""""""

@@ -116,7 +116,39 @@ bool HOMARD_Cas_i::Restore( const std::string& stream )
 void HOMARD_Cas_i::SetDirName( const char* NomDir )
 {
   ASSERT( myHomardCas );
-  myHomardCas->SetDirName( NomDir );
+  int codret ;
+  // A. Changement/creation du repertoire
+  char* oldrep = GetDirName() ;
+  codret = myHomardCas->SetDirName( NomDir );
+  if ( codret != 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text ;
+    if ( codret == 1 ) { text = "The directory for the case cannot be modified because some iterations are already defined." ; }
+    else               { text = "The directory for the case cannot be reached." ; }
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+  // B. En cas de reprise, deplacement du point de depart
+  if ( GetState() != 0 )
+  {
+    MESSAGE ( "etat : " << GetState() ) ;
+    char* Iter0Name = GetIter0Name() ;
+    HOMARD::HOMARD_Iteration_ptr Iter = _gen_i->GetIteration(Iter0Name) ;
+    char* DirNameIter = Iter->GetDirName() ;
+    std::string commande = "mv " + std::string(oldrep) + "/" + std::string(DirNameIter) + " " + std::string(NomDir) ;
+    codret = system(commande.c_str()) ;
+    if ( codret != 0 )
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      std::string text = "The starting point for the case cannot be moved into the new directory." ;
+      es.text = CORBA::string_dup(text.c_str());
+      throw SALOME::SALOME_Exception(es);
+    }
+  }
+  return ;
 }
 //=============================================================================
 char* HOMARD_Cas_i::GetDirName()
@@ -125,10 +157,20 @@ char* HOMARD_Cas_i::GetDirName()
   return CORBA::string_dup( myHomardCas->GetDirName().c_str() );
 }
 //=============================================================================
-CORBA::Long HOMARD_Cas_i::GetNumber()
+CORBA::Long HOMARD_Cas_i::GetState()
 {
   ASSERT( myHomardCas );
-  return myHomardCas->GetNumber();
+// Nom de l'iteration initiale
+  char* Iter0Name = GetIter0Name() ;
+  HOMARD::HOMARD_Iteration_ptr Iter = _gen_i->GetIteration(Iter0Name) ;
+  int state = Iter->GetNumber() ;
+  return state ;
+}
+//=============================================================================
+CORBA::Long HOMARD_Cas_i::GetNumberofIter()
+{
+  ASSERT( myHomardCas );
+  return myHomardCas->GetNumberofIter();
 }
 //=============================================================================
 void HOMARD_Cas_i::SetConfType( CORBA::Long ConfType )
@@ -153,7 +195,6 @@ void HOMARD_Cas_i::SetBoundingBox( const HOMARD::extrema& LesExtrema )
   {
     VExtrema[i] = LesExtrema[i];
   }
-
   myHomardCas->SetBoundingBox( VExtrema );
 }
 //=============================================================================
@@ -267,13 +308,14 @@ void HOMARD_Cas_i::MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn
   char* IterName = GetIter0Name() ;
   CORBA::Long etatMenage = -1 ;
   CORBA::Long modeHOMARD = 7 ;
-  CORBA::Long Option = 1 ;
+  CORBA::Long Option1 = 1 ;
+  CORBA::Long Option2 = 1 ;
   if ( Qual != 0 ) { modeHOMARD = modeHOMARD*5 ; }
   if ( Diam != 0 ) { modeHOMARD = modeHOMARD*19 ; }
   if ( Conn != 0 ) { modeHOMARD = modeHOMARD*11 ; }
   if ( Tail != 0 ) { modeHOMARD = modeHOMARD*13 ; }
   if ( Inte != 0 ) { modeHOMARD = modeHOMARD*3 ; }
-  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option1, Option2) ;
   MESSAGE ( "MeshInfo : codret = " << codret );
   return ;
 }
@@ -290,7 +332,7 @@ char* HOMARD_Cas_i::GetIter0Name()
 //=============================================================================
 HOMARD::HOMARD_Iteration_ptr HOMARD_Cas_i::GetIter0()
 {
-// Nom de l'iteration parent
+// Nom de l'iteration initiale
   char* Iter0Name = GetIter0Name() ;
   MESSAGE ( "GetIter0 : Iter0Name      = " << Iter0Name );
   return _gen_i->GetIteration(Iter0Name) ;

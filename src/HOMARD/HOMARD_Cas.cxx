@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
@@ -34,6 +34,7 @@
 #include "HOMARD_Cas.hxx"
 #include "utilities.h"
 #include <iostream>
+#include <sys/stat.h>
 
 #ifndef WIN32
 # include <unistd.h>
@@ -101,19 +102,26 @@ std::string HOMARD_Cas::GetDumpPython() const
 // Caracteristiques
 //=============================================================================
 //=============================================================================
-void HOMARD_Cas::SetDirName( const char* NomDir )
+int HOMARD_Cas::SetDirName( const char* NomDir )
 {
-     MESSAGE("SetDirName, NomDir :  "<<NomDir);
-     if (chdir(NomDir) == 0)
-     {
-       _NomDir = std::string( NomDir );
-     }
-    else
+  MESSAGE("SetDirName,  NomDir : "<<NomDir);
+  MESSAGE("SetDirName, _NomDir : "<<_NomDir);
+  int erreur = 0 ;
+  // On vérifie qu'aucun calcul n'a eu lieu
+  MESSAGE("SetDirName, _ListIter.size() : "<<_ListIter.size());
+  if ( _ListIter.size() > 1 ) { erreur = 1 ; }
+  // Creation
+  if ( chdir(NomDir) == 0 ) { _NomDir = std::string( NomDir ); }
+  else
+  {
+    if ( mkdir(NomDir, S_IRWXU|S_IRGRP|S_IXGRP) == 0 )
     {
-       // GERALD -- QMESSAGE BOX
-       // std::cerr << "Pb pour entrer dans le repertoire :  "<<NomDir << std::endl;
-       _NomDir = "/tmp";
-    };
+      if ( chdir(NomDir) == 0 ) { _NomDir = std::string( NomDir ); }
+      else                      { erreur = 2 ; }
+    }
+    else { erreur = 2 ; }
+  };
+  return erreur ;
 }
 //=============================================================================
 std::string HOMARD_Cas::GetDirName() const
@@ -121,7 +129,7 @@ std::string HOMARD_Cas::GetDirName() const
   return _NomDir;
 }
 //=============================================================================
-int HOMARD_Cas::GetNumber()
+int HOMARD_Cas::GetNumberofIter()
 {
   return _ListIter.size();
 }

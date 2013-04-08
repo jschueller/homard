@@ -35,21 +35,21 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
   Iter_0.SetMeshName('MESH')
   Iter_0.SetMeshFile(dircase+'/maill.01.med')
   Iter_0.AssociateHypo('Hypo_0')
-  codret = Iter_0.Compute(1)
+  codret = Iter_0.Compute(1, 2)
 
   # Iteration "Iter_1"
   Iter_1 = Iter_0.NextIteration('Iter_1')
   Iter_1.SetMeshName('MESH')
   Iter_1.SetMeshFile(dircase+'/maill.02.med')
   Iter_1.AssociateHypo('Hypo_0')
-  codret = Iter_1.Compute(1)
+  codret = Iter_1.Compute(1, 2)
 
   # Iteration "Iter_2"
   Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('MESH')
   Iter_2.SetMeshFile(dircase+'/maill.03.med')
   Iter_2.AssociateHypo('Hypo_0')
-  codret = Iter_2.Compute(1)
+  codret = Iter_2.Compute(1, 2)
 
 .. note::
   Téléchargement des fichiers
@@ -102,7 +102,7 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial a
   Iter_0.SetMeshName('M_1')
   Iter_0.SetMeshFile(dircase+'/maill.01.med')
   Iter_0.AssociateHypo('Hypo_0')
-  codret = Iter_0.Compute(1)
+  codret = Iter_0.Compute(1, 2)
   #
   # Iteration "Iter_1"
   # ==================
@@ -110,7 +110,7 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial a
   Iter_1.SetMeshName('M_2')
   Iter_1.SetMeshFile(dircase+'/maill.02.med')
   Iter_1.AssociateHypo('Hypo_1')
-  codret = Iter_1.Compute(1)
+  codret = Iter_1.Compute(1, 2)
 
 .. note::
   Téléchargement des fichiers
@@ -182,7 +182,7 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
   Iter_1.SetFieldFile(data_dir+'/tutorial_3.00.med')
   Iter_1.SetTimeStepRank( 1, 1)
   Iter_1.AssociateHypo('Hypo_0vers1')
-  codret = Iter_1.Compute(1)
+  codret = Iter_1.Compute(1, 2)
   #
   # Iteration "Iter_2"
   # ==================
@@ -192,7 +192,7 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
   Iter_2.SetFieldFile(data_dir+'/tutorial_3.01.med')
   Iter_2.SetTimeStepRank(1, 1)
   Iter_2.AssociateHypo('Hypo_1vers2')
-  codret = Iter_2.Compute(1)
+  codret = Iter_2.Compute(1, 2)
   #
   # Iteration "Iter_2_bis"
   # ======================
@@ -202,7 +202,7 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
   Iter_2_bis.SetFieldFile(data_dir+'/tutorial_3.01.med')
   Iter_2_bis.SetTimeStepRank(1, 1)
   Iter_2_bis.AssociateHypo('Hypo_1vers2_bis')
-  codret = Iter_2_bis.Compute(1)
+  codret = Iter_2_bis.Compute(1, 2)
 
 .. note::
   Téléchargement des fichiers
@@ -267,19 +267,19 @@ Le schéma YACS réalisant cette adaptation est téléchargeable.
   Iter_1.SetMeshName('PIQUAGE_1')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
   Iter_1.AssociateHypo('Hypo_1')
-  codret = Iter_1.Compute(1)
+  codret = Iter_1.Compute(1, 2)
   # Creation of the iteration Iter_2 : raffinement selon les faces externes
   Iter_2 = Iter_1.NextIteration('Iter_2')
   Iter_2.SetMeshName('PIQUAGE_2')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
   Iter_2.AssociateHypo('Hypo_2')
-  codret = Iter_2.Compute(1)
+  codret = Iter_2.Compute(1, 2)
   # Creation of the iteration Iter_3 : second raffinement selon les faces externes
   Iter_3 = Iter_2.NextIteration('Iter_3')
   Iter_3.SetMeshName('PIQUAGE_3')
   Iter_3.SetMeshFile(dircase+'/maill.03.med')
   Iter_3.AssociateHypo('Hypo_2')
-  codret = Iter_3.Compute(1)
+  codret = Iter_3.Compute(1, 2)
 
 .. note::
   Téléchargement des fichiers
@@ -335,7 +335,7 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles conten
   Iter_1.SetMeshName('COEUR_2D_01')
   Iter_1.SetMeshFile(dircase+'/maill.01.med')
   Iter_1.AssociateHypo('Hypo_1')
-  codret = Iter_1.Compute(1)
+  codret = Iter_1.Compute(1, 2)
   #
   # Iteration "Iter_2"
   # ==================
@@ -343,7 +343,7 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles conten
   Iter_2.SetMeshName('COEUR_2D_02')
   Iter_2.SetMeshFile(dircase+'/maill.02.med')
   Iter_2.AssociateHypo('Hypo_2')
-  codret = Iter_2.Compute(1)
+  codret = Iter_2.Compute(1, 2)
 
 .. note::
   Téléchargement des fichiers

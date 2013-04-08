@@ -31,7 +31,6 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
-
 // -----------------------------------------------------------------------------------------------------
 MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
                                        HOMARD::HOMARD_Gen_var myHomardGen, QString IterParentName ):
@@ -60,7 +59,6 @@ MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
          {setModal(false); /* permet selection de l iteration dans l arbre d etude */}
       SetTSNo();
     }
-
 // ------------------------------------------------------------------------
 MonCreateIteration::~MonCreateIteration()
 // ------------------------------------------------------------------------
@@ -94,7 +92,6 @@ void MonCreateIteration::GetHypotheses()
          CBHypothese->addItem(QString(mesHypotheses[i]));
      }
 }
-
 // ------------------------------------------------------------------------
 bool MonCreateIteration::PushOnApply()
 // ------------------------------------------------------------------------
@@ -162,7 +159,6 @@ bool MonCreateIteration::PushOnApply()
        return false;
     }
   }
-
 // Mise en place des attributs
   const char* IterName = aIter->GetName() ;
   std::cerr << IterName << std::endl;
@@ -183,7 +179,6 @@ bool MonCreateIteration::PushOnApply()
 
   return true;
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushOnOK()
 // ------------------------------------------------------------------------
@@ -191,14 +186,12 @@ void MonCreateIteration::PushOnOK()
      bool bOK = PushOnApply();
      if ( bOK )  this->close();
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushOnHelp()
 // ------------------------------------------------------------------------
 {
   HOMARD_UTILS::PushOnHelp(QString("gui_create_iteration.html"));
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetIterParentName()
 // ------------------------------------------------------------------------
@@ -217,7 +210,6 @@ void MonCreateIteration::SetIterParentName()
 
   LEIterationParentName->setText(_IterParentName);
 }
-
 // -------------------------------------------------
 void MonCreateIteration::SetNewIterationName()
 // --------------------------------------------------
@@ -243,8 +235,6 @@ void MonCreateIteration::SetNewIterationName()
   }
   LEIterationName->setText(aIterationName);
 }
-
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushHypoEdit()
 // ------------------------------------------------------------------------
@@ -282,18 +272,16 @@ void MonCreateIteration::PushHypoNew()
   }
   if ( _CaseName == QString(""))
   {
-         HOMARD::HOMARD_Iteration_var aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
-        _CaseName = aIterParent->GetCaseName();
+    HOMARD::HOMARD_Iteration_var aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
+    _CaseName = aIterParent->GetCaseName();
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
   MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this,TRUE,HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),QString(""),_CaseName, aFieldFile) ;
   HypoDlg->show();
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetFieldFile()
 // ------------------------------------------------------------------------
-
 {
   QString fileName0 = LEFieldFile->text().trimmed();
   QString fileName = HOMARD_QT_COMMUN::PushNomFichier(false);

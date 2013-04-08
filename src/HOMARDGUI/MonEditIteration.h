@@ -45,7 +45,7 @@ protected :
     int _step ;
 
     virtual void InitValEdit();
-    virtual void InitValEdit0();
+    virtual void InitValEdit0(int etat);
     virtual bool PushOnApply();
 
 public slots:

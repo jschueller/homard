@@ -45,7 +45,6 @@ HOMARD_Iteration_i::HOMARD_Iteration_i()
   MESSAGE( "Default constructor, not for use" );
   ASSERT( 0 );
 }
-
 //=============================================================================
 /*!
  *  standard constructor
@@ -60,7 +59,6 @@ HOMARD_Iteration_i::HOMARD_Iteration_i( CORBA::ORB_ptr orb,
   myHomardIteration = new ::HOMARD_Iteration();
   ASSERT( myHomardIteration );
 }
-
 //=============================================================================
 /*!
  *  standard destructor
@@ -138,16 +136,16 @@ CORBA::Long HOMARD_Iteration_i::GetNumber()
   return  myHomardIteration->GetNumber() ;
 }
 //=============================================================================
-void HOMARD_Iteration_i::SetEtat( CORBA::Boolean Etat )
+void HOMARD_Iteration_i::SetState( CORBA::Long Etat )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->SetEtat( Etat );
+  myHomardIteration->SetState( Etat );
 }
 //=============================================================================
-CORBA::Boolean HOMARD_Iteration_i::GetEtat()
+CORBA::Long HOMARD_Iteration_i::GetState()
 {
   ASSERT( myHomardIteration );
-  return CORBA::Boolean( myHomardIteration->GetEtat());
+  return myHomardIteration->GetState() ;
 }
 //=============================================================================
 void HOMARD_Iteration_i::SetMeshName( const char* NomMesh )
@@ -222,17 +220,17 @@ char* HOMARD_Iteration_i::GetLogFile()
   return CORBA::string_dup( myHomardIteration->GetLogFile().c_str() );
 }
 //=============================================================================
-CORBA::Long HOMARD_Iteration_i::Compute(CORBA::Long etatMenage)
+CORBA::Long HOMARD_Iteration_i::Compute(CORBA::Long etatMenage, CORBA::Long Option)
 {
-  MESSAGE ( "Compute : calcul d'une iteration" );
+  MESSAGE ( "Compute : calcul d'une iteration"<<", Option = "<<Option );
   ASSERT( myHomardIteration );
 //
 // Nom de l'iteration
   char* IterName = GetName() ;
   CORBA::Long modeHOMARD = 1 ;
-  CORBA::Long Option = 1 ;
+  CORBA::Long Option1 = 1 ;
   MESSAGE ( "Compute : calcul de l'teration " << IterName );
-  return _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+  return _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option1, Option) ;
 }
 //=============================================================================
 void HOMARD_Iteration_i::MeshInfo(CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte)
@@ -261,7 +259,8 @@ void HOMARD_Iteration_i::MeshInfoOption(CORBA::Long Qual, CORBA::Long Diam, CORB
   if ( Tail != 0 ) { modeHOMARD = modeHOMARD*13 ; }
   if ( Inte != 0 ) { modeHOMARD = modeHOMARD*3 ; }
   MESSAGE ( "MeshInfoOption : information sur le maillage de l'iteration " << IterName );
-  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option) ;
+  CORBA::Long Option2 = 1 ;
+  CORBA::Long codret = _gen_i->Compute(IterName, etatMenage, modeHOMARD, Option, Option2) ;
   MESSAGE ( "MeshInfoOption : codret = " << codret );
 //
   return ;

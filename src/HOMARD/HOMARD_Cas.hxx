@@ -1,4 +1,4 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
 // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
@@ -51,10 +51,10 @@ public:
   std::string                   GetDumpPython() const;
 
 // Caracteristiques
-  void                          SetDirName( const char* NomDir );
+  int                           SetDirName( const char* NomDir );
   std::string                   GetDirName() const;
 
-  int                           GetNumber();
+  int                           GetNumberofIter();
 
   void                          SetConfType( int ConfType );
   const int                     GetConfType() const;
@@ -85,6 +85,7 @@ private:
   std::string                   _Name;
   std::string                   _NomDir;
   int                           _ConfType;
+  int                           _Etat;
 
   std::vector<double>           _Boite;         // cf HomardQTCommun pour structure du vecteur
   std::list<std::string>        _ListGroup;

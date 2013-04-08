@@ -59,6 +59,7 @@ using namespace std;
 #include <QMenu>
 #include "MonCreateCase.h"
 #include "MonCreateIteration.h"
+#include "MonPursueIteration.h"
 #include "MonEditFile.h"
 #include "MonEditCase.h"
 #include "MonEditIteration.h"
@@ -153,16 +154,17 @@ void HOMARDGUI::createHOMARDAction( const int id, const QString& po_id, const QS
 //================================================
 void HOMARDGUI::createActions(){
 //
-  createHOMARDAction( 1101, "NEW_CASE",       "cas_calcule.png"        );
-  createHOMARDAction( 1102, "NEW_ITERATION",  "iter_next.png"          );
-  createHOMARDAction( 1111, "COMPUTE",        "mesh_compute.png"       );
-  createHOMARDAction( 1121, "MESH_INFO",      "advanced_mesh_info.png" );
+  createHOMARDAction( 1101, "NEW_CASE",         "cas_calcule.png"        );
+  createHOMARDAction( 1102, "PURSUE_ITERATION", "iter_poursuite.png"     );
+  createHOMARDAction( 1103, "NEW_ITERATION",    "iter_next.png"          );
+  createHOMARDAction( 1111, "COMPUTE",          "mesh_compute.png"       );
+  createHOMARDAction( 1121, "MESH_INFO",        "advanced_mesh_info.png" );
 //
-  createHOMARDAction( 1201, "EDIT",           "whatis.png"       );
-  createHOMARDAction( 1211, "DELETE",         "delete.png"       );
+  createHOMARDAction( 1201, "EDIT",             "whatis.png"       );
+  createHOMARDAction( 1211, "DELETE",           "delete.png"       );
 //
-  createHOMARDAction( 1301, "MESH_INFO",      "advanced_mesh_info.png" );
-  createHOMARDAction( 1302, "EDIT_MESS_FILE", "texte.png"              );
+  createHOMARDAction( 1301, "MESH_INFO",        "advanced_mesh_info.png" );
+  createHOMARDAction( 1302, "EDIT_MESS_FILE",   "texte.png"              );
 //
 }
 
@@ -188,7 +190,8 @@ void HOMARDGUI::createMenus(){
 //
   int HOMARD_Id  = createMenu( tr( "HOM_MEN_HOMARD" ),  -1,  5, 10 );
   createMenu( 1101, HOMARD_Id, -1 ); //Create_Case
-  createMenu( 1102, HOMARD_Id, -1 ); //Create_Iteration
+  createMenu( 1102, HOMARD_Id, -1 ); //Pursue_Iteration
+  createMenu( 1103, HOMARD_Id, -1 ); //Create_Iteration
   createMenu( 1111, HOMARD_Id, -1 ); //COMPUTE
 //
   HOMARD_Id  = createMenu( tr( "HOM_MEN_MODIFICATION" ),  -1,  5, 10 );
@@ -256,7 +259,6 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
   {
     case 1101: // Creation d un Cas
     {
-      MESSAGE("etape 1101")
       MESSAGE("command " << theCommandID << " activated");
       MonCreateCase *aDlg = new MonCreateCase( parent, true,
                             HOMARD::HOMARD_Gen::_duplicate(homardGen) ) ;
@@ -264,7 +266,16 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1102: // Creation d une Iteration
+    case 1102: // Poursuite d une iteration
+    {
+      MESSAGE("command " << theCommandID << " activated");
+      MonPursueIteration *aDlg = new MonPursueIteration( parent, true,
+                                HOMARD::HOMARD_Gen::_duplicate(homardGen) ) ;
+      aDlg->show();
+      break;
+    }
+
+    case 1103: // Creation d une Iteration
     {
       MESSAGE("command " << theCommandID << " activated");
       QString IterParentName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("IterationHomard"), 0);
@@ -282,7 +293,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       if (monIter == QString("")) break;
       try
       {
-        homardGen->Compute(monIter.toStdString().c_str(), 0, 1, -1);
+        homardGen->Compute(monIter.toStdString().c_str(), 0, 1, -1, 2);
       }
       catch( SALOME::SALOME_Exception& S_ex )
       {
@@ -618,7 +629,7 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
 
 void HOMARDGUI::NextIter()
 {
-  this->OnGUIEvent(1102);
+  this->OnGUIEvent(1103);
 }
 
 void HOMARDGUI::LanceCalcul()

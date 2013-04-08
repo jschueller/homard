@@ -42,7 +42,6 @@ HOMARD_Boundary_i::HOMARD_Boundary_i()
   MESSAGE( "Default constructor, not for use" );
   ASSERT( 0 );
 }
-
 //=============================================================================
 /*!
  *  standard constructor
@@ -62,7 +61,6 @@ HOMARD_Boundary_i::HOMARD_Boundary_i( CORBA::ORB_ptr orb,
  *  standard destructor
  */
 //=============================================================================
-
 HOMARD_Boundary_i::~HOMARD_Boundary_i()
 {
 }
@@ -101,7 +99,6 @@ std::string HOMARD_Boundary_i::Dump() const
 {
   return HOMARD::Dump( *myHomardBoundary );
 }
-
 //=============================================================================
 bool HOMARD_Boundary_i::Restore( const std::string& stream )
 {
