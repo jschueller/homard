@@ -928,6 +928,10 @@
         <translation>A partir d'une itération numérotée</translation>
     </message>
     <message>
+        <source>The directory of the case does not exist.</source>
+        <translation>Le répertoire du cas n'existe pas.</translation>
+    </message>
+    <message>
         <source>The directory for the case cannot be modified because some iterations are already defined.</source>
         <translation>Impossible de changer le répertoire du cas car des itérations ont déjà été définies.</translation>
     </message>
@@ -944,7 +948,7 @@
         <translation>Impossible de déplacer le point de départ du cas dans le nouveau répertoire.</translation>
     </message>
     <message>
-        <source>This directory of the case does not exist.</source>
+        <source>The directory of the case for the pursuit does not exist.</source>
         <translation>Le répertoire du cas de reprise n'existe pas.</translation>
     </message>
     <message>

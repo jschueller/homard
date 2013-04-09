@@ -50,8 +50,8 @@ public:
   std::string                   GetDumpPython() const;
 
 // Caracteristiques
-  void                          SetDirName( const char* NomDir );
-  std::string                   GetDirName() const;
+  void                          SetDirNameLoc( const char* NomDir );
+  std::string                   GetDirNameLoc() const;
 
   void                          SetNumber( int NumIter );
   int                           GetNumber() const;

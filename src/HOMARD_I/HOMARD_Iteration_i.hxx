@@ -65,7 +65,9 @@ public:
   bool                   Restore( const std::string& stream );
 
 // Caracteristiques
-  void                   SetDirName( const char* NomDir );
+  void                   SetDirNameLoc( const char* NomDir );
+  char*                  GetDirNameLoc();
+
   char*                  GetDirName();
 
   void                   SetNumber( CORBA::Long NumIter );

@@ -48,7 +48,9 @@ module HOMARD
     string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
 
 // Caracteristiques
-    void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
+    void     SetDirNameLoc(in string NomDir)               raises (SALOME::SALOME_Exception);
+    string   GetDirNameLoc()                               raises (SALOME::SALOME_Exception);
+
     string   GetDirName()                                  raises (SALOME::SALOME_Exception);
 
     void     SetNumber(in long NumIter)                    raises (SALOME::SALOME_Exception);

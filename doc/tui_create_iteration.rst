@@ -161,7 +161,13 @@ Généralités
 | .. module:: GetFileInfo                                       |
 |                                                               |
 | **GetFileInfo()**                                             |
-|     Retourne le nom du fichier contenant l'abalyse du maillage|
+|     Retourne le nom du fichier contenant l'analyse du maillage|
++---------------------------------------------------------------+
+| .. module:: GetDirName                                        |
+|                                                               |
+| **GetDirName()**                                              |
+|     Retourne le nom du répertoire des résutats associé à      |
+|     l'itération                                               |
 +---------------------------------------------------------------+
 | .. index:: single: Delete                                     |
 |                                                               |

@@ -36,25 +36,24 @@ HomardDriver::HomardDriver(const std::string siter, const std::string siterp1):
   _NomFichierConf( "" ), _NomFichierDonn( "" ), _siter( "" ), _siterp1( "" ),
   _Texte( "" ), _bLu( false )
 {
+  MESSAGE("siter = "<<siter<<", siterp1 = "<<siterp1);
+// Le repertoire ou se trouve l'executable HOMARD
+  std::string dir ;
+  if ( getenv("HOMARD_REP_EXE_PRIVATE") != NULL ) { dir = getenv("HOMARD_REP_EXE_PRIVATE") ; }
+  else                                            { dir = getenv("HOMARD_REP_EXE") ; }
+  MESSAGE("dir ="<<dir);
+// L'executable HOMARD
+  std::string executable ;
+  if ( getenv("HOMARD_EXE_PRIVATE") != NULL ) { executable = getenv("HOMARD_EXE_PRIVATE") ; }
+  else                                        { executable = getenv("HOMARD_EXE") ; }
+  MESSAGE("executable ="<<executable);
 // Memorisation du nom complet de l'executable HOMARD
-  char* dirchar; char* execchar;
-  std::string dir;
-  std::string executable;
-  if ( !(dirchar = getenv("HOMARD_REP_EXE_PRIVATE")) )
-  { dirchar = getenv("HOMARD_REP_EXE") ; }
-  dir = std::string(dirchar);
-  MESSAGE("HomardDriver, dirchar ="<<dirchar<<", dir ="<<dir);
-  if ( !(execchar = getenv("HOMARD_EXE_PRIVATE")) )
-  { execchar = getenv("HOMARD_EXE"); }
-  executable = std::string(execchar);
-  MESSAGE("HomardDriver, execchar ="<<execchar<<", executable ="<<executable);
   _HOMARD_Exec = dir + "/" + executable ;
-  MESSAGE("HomardDriver, _HOMARD_Exec ="<<_HOMARD_Exec);
+  MESSAGE("==> _HOMARD_Exec ="<<_HOMARD_Exec) ;
 //
   _siter = siter ;
   _siterp1 = siterp1 ;
 }
-
 //=============================================================================
 //=============================================================================
 HomardDriver::~HomardDriver()

@@ -201,8 +201,6 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
   return aFile;
 
 }
-
-
 // =======================================================================
 int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 // =======================================================================
@@ -221,21 +219,40 @@ int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
 // ========================================================
 {
-  med_int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  med_int numberOfMeshes = MEDnMesh(medIdt) ;
-  if (numberOfMeshes == 0 )
+  QString nomMaillage = "" ;
+  int erreur = 0 ;
+  med_int medIdt ;
+  while ( erreur == 0 )
   {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_2") );
-  }
-  if (numberOfMeshes > 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_3") );
-  }
+    //  Ouverture du fichier
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
+    med_int numberOfMeshes = MEDnMesh(medIdt) ;
+    if (numberOfMeshes == 0 )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_MED_FILE_2") );
+      erreur = 2 ;
+      break ;
+    }
+    if (numberOfMeshes > 1 )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_MED_FILE_3") );
+      erreur = 3 ;
+      break ;
+    }
 
-  QString nomMaillage= HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
-  MEDfileClose(medIdt);
+    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
+    break ;
+  }
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return nomMaillage;
 }
 // =======================================================================
@@ -268,15 +285,13 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(int medIdt ,int meshId)
                           axisname,
                           axisunit);
 
-  if ( aRet < 0 )
-  {
-  QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_4") );
-  }
-  else
-  {
-    NomMaillage=QString(meshname);
-  }
+  if ( aRet < 0 ) { QMessageBox::critical( 0, QObject::tr("HOM_ERROR"), \
+                                              QObject::tr("HOM_MED_FILE_4") );  }
+  else            { NomMaillage=QString(meshname); }
+
+  delete[] axisname ;
+  delete[] axisunit ;
+
   return NomMaillage;
 }
 
@@ -288,53 +303,60 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeChamps(QString aFile)
 // Il faut voir si plusieurs maillages
 
   MESSAGE("GetListeChamps");
-  std::list<QString> ListeChamp;
+  std::list<QString> ListeChamp ;
 
-  char *comp, *unit;
-  char nomcha  [MED_NAME_SIZE+1];
-  char meshname[MED_NAME_SIZE+1];
-  med_field_type typcha;
-  med_int ncomp;
-  med_bool local;
-  med_int nbofcstp;
+  med_err erreur = 0 ;
+  med_int medIdt ;
 
-  SCRUTE(aFile.toStdString());
-  med_int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  if ( medIdt < 0 ) { return ListeChamp; }
-
-  // Le fichier Med est lisible
-  // Lecture du maillage
-
+  while ( erreur == 0 )
+  {
+    // Ouverture du fichier
+    SCRUTE(aFile.toStdString());
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
   // Lecture du nombre de champs
-  med_int ncha = MEDnField(medIdt) ;
-  if (ncha < 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_5") );
-    MEDfileClose(medIdt);
-    return ListeChamp;
-  }
-
-  for (int i=0; i< ncha; i++)
-  {
-    /* Lecture du type du champ, des noms des composantes et du nom de l'unite*/
-    ncomp = MEDfieldnComponent(medIdt,i+1);
-    comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    char dtunit[MED_SNAME_SIZE+1];
-    if ( MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) < 0 )
+    med_int ncha = MEDnField(medIdt) ;
+    if (ncha < 1 )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QObject::tr("HOM_MED_FILE_6") );
-      MEDfileClose(medIdt);
-      return ListeChamp;
+                                QObject::tr("HOM_MED_FILE_5") );
+      erreur = 2 ;
+      break ;
     }
-
-    ListeChamp.push_back(QString(nomcha));
-    free(comp);
-    free(unit);
+  // Lecture des caracteristiques des champs
+    for (int i=0; i< ncha; i++)
+    {
+//       Lecture du nombre de composantes
+      med_int ncomp = MEDfieldnComponent(medIdt,i+1);
+//       Lecture du type du champ, des noms des composantes et du nom de l'unite
+      char nomcha  [MED_NAME_SIZE+1];
+      char meshname[MED_NAME_SIZE+1];
+      char * comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char * unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char dtunit[MED_SNAME_SIZE+1];
+      med_bool local;
+      med_field_type typcha;
+      med_int nbofcstp;
+      erreur = MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) ;
+      free(comp);
+      free(unit);
+      if ( erreur < 0 )
+      {
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr("HOM_MED_FILE_6") );
+        break ;
+      }
+      ListeChamp.push_back(QString(nomcha));
+    }
+    break ;
   }
-  MEDfileClose(medIdt);
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return ListeChamp;
 }
 
@@ -347,61 +369,71 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeComposants(QString aFile, QString a
 
   std::list<QString> ListeComposants;
 
-  char *comp, *unit;
-  char nomcha  [MED_NAME_SIZE+1];
-  char meshname[MED_NAME_SIZE+1];
-  med_field_type typcha;
-  med_int ncomp;
-  med_bool local;
-  med_int nbofcstp;
+  med_err erreur = 0 ;
+  med_int medIdt ;
 
-  int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  if ( medIdt < 0 ) { return ListeComposants; }
-
-
+  while ( erreur == 0 )
+  {
+    // Ouverture du fichier
+    SCRUTE(aFile.toStdString());
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
   // Lecture du nombre de champs
-  med_int ncha = MEDnField(medIdt) ;
-  if (ncha < 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_5") );
-    MEDfileClose(medIdt);
-    return ListeComposants;
-  }
-
-  for (int i=0; i< ncha; i++)
-  {
-    /* Lecture du type du champ, des noms des composantes et du nom de l'unite*/
-    ncomp = MEDfieldnComponent(medIdt,i+1);
-    comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    char dtunit[MED_SNAME_SIZE+1];
-
-    if ( MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) < 0 )
+    med_int ncha = MEDnField(medIdt) ;
+    if (ncha < 1 )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QObject::tr("HOM_MED_FILE_6") );
-      MEDfileClose(medIdt);
-      return ListeComposants;
+                                QObject::tr("HOM_MED_FILE_5") );
+      erreur = 2 ;
+      break ;
     }
-
-    if ( QString(nomcha) != aChamp ) {
-      free(comp);
-      free(unit);
-      continue;
-    }
-
-    for (int j = 0; j <ncomp; j++)
+  // Lecture des caracteristiques des champs
+    for (int i=0; i< ncha; i++)
     {
-      char cible[MED_SNAME_SIZE +1];
-      strncpy(cible,comp+j*MED_SNAME_SIZE,MED_SNAME_SIZE );
-      cible[MED_SNAME_SIZE ]='\0';
-      ListeComposants.push_back(QString(cible));
+//       Lecture du nombre de composantes
+      med_int ncomp = MEDfieldnComponent(medIdt,i+1);
+//       Lecture du type du champ, des noms des composantes et du nom de l'unite
+      char nomcha  [MED_NAME_SIZE+1];
+      char meshname[MED_NAME_SIZE+1];
+      char * comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char * unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char dtunit[MED_SNAME_SIZE+1];
+      med_bool local;
+      med_field_type typcha;
+      med_int nbofcstp;
+      erreur = MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) ;
+      free(unit);
+      if ( erreur < 0 )
+      {
+        free(comp);
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr("HOM_MED_FILE_6") );
+        break ;
+      }
+      // Lecture des composantes si c'est le bon champ
+      if ( QString(nomcha) == aChamp )
+      {
+        for (int j = 0; j <ncomp; j++)
+        {
+          char cible[MED_SNAME_SIZE +1];
+          strncpy(cible,comp+j*MED_SNAME_SIZE,MED_SNAME_SIZE );
+          cible[MED_SNAME_SIZE ]='\0';
+          ListeComposants.push_back(QString(cible));
+        }
+      }
+      // Menage
+      free(comp);
+      // Sortie si c'est bon
+      if ( QString(nomcha) == aChamp ) { break ; }
     }
-    break;
+    break ;
   }
-  free(comp);
-  free(unit);
-  MEDfileClose(medIdt);
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return ListeComposants;
 }

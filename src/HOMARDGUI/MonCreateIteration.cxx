@@ -160,8 +160,7 @@ bool MonCreateIteration::PushOnApply()
     }
   }
 // Mise en place des attributs
-  const char* IterName = aIter->GetName() ;
-  std::cerr << IterName << std::endl;
+  std::string IterName = aIter->GetName() ;
 
   if ( LEFieldFile->text().trimmed() != QString(""))
   {
@@ -172,7 +171,7 @@ bool MonCreateIteration::PushOnApply()
     if ( step == -2 ) { aIter->SetTimeStepRankLast(); }
     else              { aIter->SetTimeStepRank(step,rank); }
   }
-  _myHomardGen->AssociateIterHypo (IterName, monHypoName.toStdString().c_str());
+  _myHomardGen->AssociateIterHypo (IterName.c_str(), monHypoName.toStdString().c_str());
   aIter->SetMeshName(CORBA::string_dup(aMeshName_np1.toStdString().c_str()));
 
   HOMARD_UTILS::updateObjBrowser() ;

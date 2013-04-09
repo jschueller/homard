@@ -187,14 +187,14 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
   SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
   SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
 
-  const char* icone ;
+  std::string icone ;
   if ( Etat <= 0 )
     icone = "iter0.png" ;
   else if ( Etat == 2 )
     icone = "iter_calculee.png" ;
   else
     icone = "iter_non_calculee.png" ;
-  PublishInStudyAttr(aStudyBuilder, aIterSO, NULL , NULL, icone, NULL) ;
+  PublishInStudyAttr(aStudyBuilder, aIterSO, NULL , NULL, icone.c_str(), NULL) ;
 
   aStudyBuilder->CommitCommand();
 
@@ -590,10 +590,9 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
         throw SALOME::SALOME_Exception(es);
         return ;
     };
-    const char* dirCase    = myCase->GetDirName();
     const char* nomDir     = myIteration->GetDirName();
     const char* nomFichier = myIteration->GetMeshFile();
-    std::string commande= "rm -rf " + std::string(dirCase) + "/" + std::string(nomDir);
+    std::string commande= "rm -rf " + std::string(nomDir);
     if ( Option == 1 ) { commande = commande + ";rm -rf " + std::string(nomFichier) ; }
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
@@ -651,10 +650,9 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
       throw SALOME::SALOME_Exception(es);
       return ;
   };
-  const char* dirCase  = myCase->GetDirName();
   const char* nomDir   = myIteration->GetDirName();
-  std::string commande = "rm -f " + std::string(dirCase) + "/" + std::string(nomDir) + "/info* " ;
-  commande += std::string(dirCase) + "/" + std::string(nomDir) + "/Liste.*info" ;
+  std::string commande = "rm -f " + std::string(nomDir) + "/info* " ;
+  commande += std::string(nomDir) + "/Liste.*info" ;
 /*  MESSAGE ( "commande = " << commande );*/
   if ((system(commande.c_str())) != 0)
   {
@@ -1097,7 +1095,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 //
 {
   MESSAGE ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
-  char* nomDirWork = getenv("PWD") ;
+  std::string nomDirWork = getenv("PWD") ;
   int codret ;
 
   // A. Decodage du point de reprise
@@ -1246,7 +1244,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   IterName = myCase->GetIter0Name() ;
   HOMARD::HOMARD_Iteration_var Iter = GetIteration(IterName) ;
   char* nomDirIter = CreateDirNameIter(nomDirCase, 0 );
-  Iter->SetDirName(nomDirIter);
+  Iter->SetDirNameLoc(nomDirIter);
   std::string nomDirIterTotal ;
   nomDirIterTotal = std::string(nomDirCase) + "/" + std::string(nomDirIter) ;
   if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
@@ -1278,7 +1276,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   delete[] MeshName ;
   delete[] MeshFile ;
 
-  chdir(nomDirWork);
+  chdir(nomDirWork.c_str());
 
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
 }
@@ -1343,7 +1341,7 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "This directory of the case does not exist.";
+    es.text = "The directory of the case for the pursuit does not exist.";
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
@@ -1652,7 +1650,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
 // la creation d'un sous-repertoire unique
   int nbitercase = myCase->GetNumberofIter();
   char* nomDirIter = CreateDirNameIter(nomDirCase, nbitercase );
-  myIteration->SetDirName(nomDirIter);
+  myIteration->SetDirNameLoc(nomDirIter);
 
 // Le nom du fichier du maillage MED est indice par le nombre d'iterations du cas.
 // Si on a une chaine unique depuis le depart, ce nombre est le meme que le
@@ -2194,7 +2192,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 
   // B. Les repertoires
   // B.1. Le repertoire courant
-  char* nomDirWork = getenv("PWD") ;
+  std::string nomDirWork = getenv("PWD") ;
   // B.2. Le sous-repertoire de l'iteration a traiter
   char* DirCompute = ComputeDirManagement(myCase, myIteration, etatMenage);
   MESSAGE( ". DirCompute = " << DirCompute );
@@ -2330,7 +2328,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   {
     delete myDriver;
     MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
-    chdir(nomDirWork);
+    chdir(nomDirWork.c_str());
   }
 
   return codretexec ;
@@ -2497,14 +2495,24 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   return codret ;
 }
 //=============================================================================
-// Creation d'un nom de sous-repertoire pour l'iteration au sein d'un repertoire
+// Creation d'un nom de sous-repertoire pour l'iteration au sein d'un repertoire parent
 //  nomrep : nom du repertoire parent
 //  num : le nom du sous-repertoire est sous la forme 'In', n est >= num
 //=============================================================================
 char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 {
   MESSAGE ( "CreateDirNameIter : nomrep ="<< nomrep << ", num = "<<num);
-  char* nomDirActuel = getenv("PWD") ;
+  // On verifie que le repertoire parent existe
+  int codret = chdir(nomrep) ;
+  if ( codret != 0 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The directory of the case does not exist.";
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+  std::string nomDirActuel = getenv("PWD") ;
   std::string DirName ;
   // On boucle sur tous les noms possibles jusqu'a trouver un nom correspondant a un repertoire inconnu
   bool a_chercher = true ;
@@ -2549,7 +2557,7 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 
   MESSAGE ( "==> DirName = " << DirName);
   MESSAGE ( ". On retourne dans nomDirActuel = " << nomDirActuel );
-  chdir(nomDirActuel);
+  chdir(nomDirActuel.c_str());
 
   return CORBA::string_dup( DirName.c_str() );
 }
@@ -2569,7 +2577,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
 
   // B.3. Le sous-repertoire de l'iteration a calculer, puis le repertoire complet a creer
   // B.3.1. Le nom du sous-repertoire
-  const char* nomDirIt = myIteration->GetDirName();
+  const char* nomDirIt = myIteration->GetDirNameLoc();
 
   // B.3.2. Le nom complet du sous-repertoire
   std::stringstream DirCompute ;
@@ -2647,7 +2655,7 @@ char* HOMARD_Gen_i::ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD
 
   const char* nomIterationParent = myIteration->GetIterParentName();
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
-  const char* nomDirItPa = myIterationParent->GetDirName();
+  const char* nomDirItPa = myIterationParent->GetDirNameLoc();
   std::stringstream DirComputePa ;
   DirComputePa << nomDirCase << "/" << nomDirItPa;
   MESSAGE( ". nomDirItPa = " << nomDirItPa);
@@ -3019,7 +3027,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
   else { MESSAGE("La categorie des zones existe deja."); }
 
   aResultSO = aStudyBuilder->NewObject(aSOZone);
-  const char* icone ;
+  std::string icone ;
   switch (ZoneType)
   {
     case 11 :
@@ -3063,7 +3071,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
       break ;
     }
   }
-  PublishInStudyAttr(aStudyBuilder, aResultSO, theName, "ZoneHomard", icone, _orb->object_to_string(theObject) ) ;
+  PublishInStudyAttr(aStudyBuilder, aResultSO, theName, "ZoneHomard", icone.c_str(), _orb->object_to_string(theObject) ) ;
 
   return aResultSO._retn();
 }
@@ -3100,8 +3108,8 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
   aResultSO = aStudyBuilder->NewObject(aSOBoundary);
   CORBA::Long BoundaryType = myBoundary->GetType();
 //   MESSAGE("BoundaryType : "<<BoundaryType);
-  const char* icone ;
-  const char* value ;
+  std::string icone ;
+  std::string value ;
   switch (BoundaryType)
   {
     case 0 :
@@ -3130,7 +3138,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
       break;
     }
   }
-  PublishInStudyAttr(aStudyBuilder, aResultSO, theName, value, icone, _orb->object_to_string(theObject));
+  PublishInStudyAttr(aStudyBuilder, aResultSO, theName, value.c_str(), icone.c_str(), _orb->object_to_string(theObject));
   return aResultSO._retn();
 }
 
@@ -3399,13 +3407,13 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 // Pour les fichiers med, on affiche une icone de maillage
 // Pour les fichiers qui sont texte, on affiche une icone de fichier texte 'texte'
 // Le reperage se fait par la 1ere lettre du commentaire : I pour Iteration n
-  const char* icone ;
-  const char* ior = " " ;
+  std::string icone ;
+  std::string ior = " " ;
   if ( Commentaire[0] == 'I' )
   { icone = "med.png" ; }
   else
   { icone = "texte_2.png" ; }
-  PublishInStudyAttr(aStudyBuilder, aSubSO, NomFich, Commentaire, icone, ior ) ;
+  PublishInStudyAttr(aStudyBuilder, aSubSO, NomFich, Commentaire, icone.c_str(), ior.c_str() ) ;
 
   aStudyBuilder->CommitCommand();
 }

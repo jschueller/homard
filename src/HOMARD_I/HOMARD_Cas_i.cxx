@@ -136,7 +136,7 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
     MESSAGE ( "etat : " << GetState() ) ;
     char* Iter0Name = GetIter0Name() ;
     HOMARD::HOMARD_Iteration_ptr Iter = _gen_i->GetIteration(Iter0Name) ;
-    char* DirNameIter = Iter->GetDirName() ;
+    char* DirNameIter = Iter->GetDirNameLoc() ;
     std::string commande = "mv " + std::string(oldrep) + "/" + std::string(DirNameIter) + " " + std::string(NomDir) ;
     codret = system(commande.c_str()) ;
     if ( codret != 0 )

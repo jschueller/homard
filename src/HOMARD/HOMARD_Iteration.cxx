@@ -123,12 +123,12 @@ std::string HOMARD_Iteration::GetDumpPython() const
 // Caracteristiques
 //=============================================================================
 //=============================================================================
-void HOMARD_Iteration::SetDirName( const char* NomDir )
+void HOMARD_Iteration::SetDirNameLoc( const char* NomDir )
 {
   _NomDir = std::string( NomDir );
 }
 //=============================================================================
-std::string HOMARD_Iteration::GetDirName() const
+std::string HOMARD_Iteration::GetDirNameLoc() const
 {
    return _NomDir;
 }

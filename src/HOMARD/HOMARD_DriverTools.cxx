@@ -34,7 +34,7 @@
 namespace HOMARD
 {
 
-  const char* const SEPARATOR = "|";
+  std::string SEPARATOR = "|" ;
 
   /*!
     \brief Read next chunk of data from the string
@@ -90,7 +90,7 @@ namespace HOMARD
   */
   std::string separator()
   {
-    return std::string( SEPARATOR );
+    return SEPARATOR ;
   }
 
 // =======================
@@ -171,7 +171,7 @@ namespace HOMARD
 
     os << separator() << iteration.GetHypoName();
     os << separator() << iteration.GetCaseName();
-    os << separator() << iteration.GetDirName();
+    os << separator() << iteration.GetDirNameLoc();
 
     saux = os.str();
 //     MESSAGE( ". Fin avec "<<saux);
@@ -469,7 +469,7 @@ namespace HOMARD
     iteration.SetCaseName( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetDirName( chunk.c_str() );
+    iteration.SetDirNameLoc( chunk.c_str() );
     return true;
   }
 

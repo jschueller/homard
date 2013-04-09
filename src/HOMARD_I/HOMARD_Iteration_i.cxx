@@ -112,16 +112,26 @@ bool HOMARD_Iteration_i::Restore( const std::string& stream )
 // Caracteristiques
 //=============================================================================
 //=============================================================================
-void HOMARD_Iteration_i::SetDirName( const char* NomDir )
+void HOMARD_Iteration_i::SetDirNameLoc( const char* NomDir )
 {
   ASSERT( myHomardIteration );
-  myHomardIteration->SetDirName( NomDir );
+  myHomardIteration->SetDirNameLoc( NomDir );
+}
+//=============================================================================
+char* HOMARD_Iteration_i::GetDirNameLoc()
+{
+  ASSERT( myHomardIteration );
+  return CORBA::string_dup( myHomardIteration->GetDirNameLoc().c_str() );
 }
 //=============================================================================
 char* HOMARD_Iteration_i::GetDirName()
 {
   ASSERT( myHomardIteration );
-  return CORBA::string_dup( myHomardIteration->GetDirName().c_str() );
+  std::string casename = myHomardIteration->GetCaseName() ;
+  HOMARD::HOMARD_Cas_ptr caseiter = _gen_i->GetCase(casename.c_str()) ;
+  std::string dirnamecase = caseiter->GetDirName() ;
+  std::string dirname = dirnamecase + "/" +  GetDirNameLoc() ;
+  return CORBA::string_dup( dirname.c_str() );
 }
 //=============================================================================
 void HOMARD_Iteration_i::SetNumber( CORBA::Long NumIter )
