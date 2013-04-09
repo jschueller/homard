@@ -257,7 +257,7 @@ if LastPb :
   Pb = LastPb
   MessInfo = "Erreur dans HOMARD pour l'adaptation numero %d" % LastPb
 else :
-  Error = Iter.Compute(1)
+  Error = Iter.Compute(1, 1)
 #
   if Error :
     Pb = NumAdapt+2
@@ -372,7 +372,7 @@ Iter.SetMeshName(MeshName)
 #
 # Calcul
 # ======
-Error = Iter.Compute(1)
+Error = Iter.Compute(1, 1)
 #
 # ============================
 # Arret si erreur
