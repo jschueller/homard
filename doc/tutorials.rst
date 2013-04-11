@@ -6,6 +6,27 @@ Exemples
 On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à adapter la valeur de la variable ``data_dir`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés.
 C'est dans le répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives. Ce répertoire est créé par défaut dans ``/tmp``.
 
+Chargement du module HOMARD
+"""""""""""""""""""""""""""
+.. index:: single: yacs
+
+Le chargement du module HOMARD se fait de manière analogue aux autres modules.
+
+ ::
+
+  import HOMARD
+  homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')
+  homard.SetCurrentStudy(salome.myStudy)
+
+Pour utiliser le module HOMARD au sein d'un schéma YACS distribué, le chargement se fait ainsi :
+
+ ::
+
+  import HOMARD
+  my_container.load_component_Library('HOMARD')
+  homard = my_container.create_component_instance('HOMARD',0)
+  homard.SetCurrentStudy(salome.myStudy)
+
 Raffinement uniforme
 """"""""""""""""""""
 .. index:: single: raffinement;uniforme
@@ -215,6 +236,7 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
 Suivi de frontières courbes
 """""""""""""""""""""""""""
 .. index:: single: champ
+.. index:: single: yacs
 
 On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
 Le schéma YACS réalisant cette adaptation est téléchargeable.
