@@ -837,22 +837,22 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x4 ;
       saux2 = saux1.str() ;
-      saux += "FAXCen2" + saux2 + "\n" ;
+      saux += "FAXCen2 " + saux2 + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x5 ;
       saux2 = saux1.str() ;
-      saux += "FAYCen2" + saux2 + "\n" ;
+      saux += "FAYCen2 " + saux2 + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
       saux2 = saux1.str() ;
-      saux += "FAZCen2" + saux2 + "\n" ;
+      saux += "FAZCen2 " + saux2 + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x7 ;
       saux2 = saux1.str() ;
-      saux += "FARayon2" + saux2 + "\n" ;
+      saux += "FARayon2 " + saux2 + "\n" ;
     }
  }
 //

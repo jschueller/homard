@@ -183,7 +183,7 @@ SALOME VERSION 7.1 :
    - En TUI, choix du dernier instant comme instant de pilotage par SetTimeStepRankLast (voir :ref:`tui_create_iteration`)
    - Possibilité de détruire les objets (GUI et TUI)
    - Modification des fonctions TUI pour qu'elles agissent sur les objets et non plus sur les noms :
-     ``homard.AssociateIterHypo(iter_name,hypo_name)`` devient ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` devient ``hypo.AssociateHypo(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` devient ``iter.NextIteration(iter_name)`` ou ``case.NextIteration(iter_name)``
+     ``homard.AssociateIterHypo(iter_name,hypo_name)`` devient ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` devient ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` devient ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
    - Ajout de fonctions :
      ``cas.LastIteration()`` : retourne la dernière itération de la descendance du cas (voir :ref:`tui_create_iteration`)
    - Analyse de maillages (voir :ref:`gui_mesh_info`)
