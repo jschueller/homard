@@ -86,7 +86,7 @@ Généralités
 | **GetUnRefType()**                                            |
 |     Retourne le type de déraffinement                         |
 +---------------------------------------------------------------+
-| .. index:: single: Delete                                     |
+| .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
 |     Detruit l'hypothèse                                       |

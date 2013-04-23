@@ -145,7 +145,7 @@ public:
   void                            InvalideZone(const char* nomZone);
 
   CORBA::Long                     DeleteBoundary(const char* nomBoundary);
-  CORBA::Long                     DeleteCase(const char* nomCas);
+  CORBA::Long                     DeleteCase(const char* nomCas, CORBA::Long Option);
   CORBA::Long                     DeleteHypo(const char* nomHypothesis);
   CORBA::Long                     DeleteIteration(const char* nomIter, CORBA::Long Option);
   CORBA::Long                     DeleteIterationOption(const char* nomIter, CORBA::Long Option1, CORBA::Long Option2);

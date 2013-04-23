@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.6"
+__revision__ = "V1.7"
 
 #========================================================================
 Test_Name = "test_3"
@@ -99,22 +99,22 @@ Copyright EDF-R&D 2010, 2013
     Hypo = homard.CreateHypothesis('Hypo')
     Hypo.SetAdapRefinUnRef(-1, 1, 0)
 #
-# Creation of the cases
-# =====================
+    for iaux in range (n_boucle+1) :
+#
 # Creation of the case Case_1
-    Case_1 = homard.CreateCase('Case_1', 'MOYEU', os.path.join(Rep_Test, Test_Name + '.00.med'))
-    Case_1.SetDirName(Rep_Test_Resu)
-    Case_1.SetConfType(1)
-    Case_1.AddBoundaryGroup('courbes', '')
-    Case_1.AddBoundaryGroup('cyl_ext', 'EXT')
-    Case_1.AddBoundaryGroup('cyl_int', 'INT')
-    Case_1.AddBoundaryGroup('sphere_1', 'END_1')
-    Case_1.AddBoundaryGroup('sphere_2', 'END_2')
+# ===========================
+      if ( iaux <= 1 ) :
+        Case_1 = homard.CreateCase('Case_1', 'MOYEU', os.path.join(Rep_Test, Test_Name + '.00.med'))
+        Case_1.SetDirName(Rep_Test_Resu)
+        Case_1.SetConfType(1)
+        Case_1.AddBoundaryGroup('courbes', '')
+        Case_1.AddBoundaryGroup('cyl_ext', 'EXT')
+        Case_1.AddBoundaryGroup('cyl_int', 'INT')
+        Case_1.AddBoundaryGroup('sphere_1', 'END_1')
+        Case_1.AddBoundaryGroup('sphere_2', 'END_2')
 #
 # Creation and destruction of the iterations
 # ==========================================
-#
-    for iaux in range (n_boucle+1) :
 #
   # Creation of the iteration Iter_1
       Iter_1 = Case_1.NextIteration('Iter_1')
@@ -137,7 +137,13 @@ Copyright EDF-R&D 2010, 2013
         break
 
   # Destruction
-      if ( iaux < n_boucle ) :
+  # After the first loop, the case is deleted, except the final mesh files
+      if ( iaux == 0 ) :
+        error = Case_1.Delete(0)
+        if error :
+          break
+  # After the second loop, the iterations are deleted, with the final mesh files
+      elif ( iaux == 1 ) :
   # Recursive destruction of the iterations
         error = Iter_1.Delete(1)
         if error :
@@ -175,7 +181,7 @@ except Exception, e:
 # Test of the result
 #
 test_file_suff = "apad.%02d.bilan" % n_iter_test_file
-rep_test_file = "I%02d" % (n_iter_test_file*(n_boucle+1))
+rep_test_file = "I%02d" % (n_iter_test_file*n_boucle)
 #
 test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
 mess_error_ref = "\nReference file: " + test_file

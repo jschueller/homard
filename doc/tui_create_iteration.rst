@@ -77,7 +77,7 @@ Généralités
 |                                                               |
 |  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
-| .. index:: single: Compute                                    |
+| .. module:: Compute                                           |
 |                                                               |
 | **Compute(option1, option2)**                                 |
 |     Calcule le maillage correspondant à l'itération           |
@@ -169,7 +169,7 @@ Généralités
 |     Retourne le nom du répertoire des résutats associé à      |
 |     l'itération                                               |
 +---------------------------------------------------------------+
-| .. index:: single: Delete                                     |
+| .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
 |     Detruit l'itération et toutes ses filles éventuelles.     |

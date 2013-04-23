@@ -149,7 +149,8 @@ module HOMARD
     void InvalideZone (in string ZoneName)                 raises (SALOME::SALOME_Exception);
 
     long DeleteBoundary (in string BoundaryName)           raises (SALOME::SALOME_Exception);
-    long DeleteCase(in string CaseName)                    raises (SALOME::SALOME_Exception);
+    long DeleteCase(in string CaseName, in long Option)
+                                                           raises (SALOME::SALOME_Exception);
     long DeleteHypo(in string HypoName)                    raises (SALOME::SALOME_Exception);
     long DeleteIteration(in string IterName, in long Option)
                                                            raises (SALOME::SALOME_Exception);

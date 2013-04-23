@@ -85,12 +85,12 @@ char* HOMARD_Cas_i::GetName()
   return CORBA::string_dup( myHomardCas->GetName().c_str() );
 }
 //=============================================================================
-CORBA::Long  HOMARD_Cas_i::Delete()
+CORBA::Long  HOMARD_Cas_i::Delete( CORBA::Long Option )
 {
   ASSERT( myHomardCas );
   char* CaseName = GetName() ;
-  MESSAGE ( "Delete : destruction du cas " << CaseName );
-  return _gen_i->DeleteCase(CaseName) ;
+  MESSAGE ( "Delete : destruction du cas " << CaseName << ", Option = " << Option );
+  return _gen_i->DeleteCase(CaseName, Option) ;
 }
 //=============================================================================
 char* HOMARD_Cas_i::GetDumpPython()

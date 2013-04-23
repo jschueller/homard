@@ -157,12 +157,17 @@ Méthodes de la classe cas
 |     - ``group`` : nom d'un groupe de faces placées sur la     |
 |       frontière                                               |
 +---------------------------------------------------------------+
-| .. index:: single: Delete                                     |
+| .. module:: Delete                                            |
 |                                                               |
-| **Delete()**                                                  |
-|     Detruit le cas et toutes les itérations associées ainsi   |
-|     que tous les maillages produits. Le fichier du maillage   |
-|     initial associé est conservé.                             |
+| **Delete(option)**                                            |
+|     Detruit le cas et toutes les itérations associées. Le     |
+|     fichier du maillage initial associé est conservé.         |
+|                                                               |
+|     - ``option`` : un entier précisant ce qui est fait des    |
+|       fichiers de maillage associés                           |
+|                                                               |
+|         * 0 : les fichiers sont conservés                     |
+|         * 1 : les fichiers sont détruits                      |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |

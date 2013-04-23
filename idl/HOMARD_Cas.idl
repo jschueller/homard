@@ -48,7 +48,7 @@ module HOMARD
     void     SetName(in string Name)                       raises (SALOME::SALOME_Exception);
     string   GetName()                                     raises (SALOME::SALOME_Exception);
 
-    long     Delete()                                      raises (SALOME::SALOME_Exception);
+    long     Delete(in long Option)                        raises (SALOME::SALOME_Exception);
 
     string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
 

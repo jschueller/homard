@@ -141,7 +141,7 @@ Méthodes de la classe boundary
 |     frontière dans l'ordre d'entrée dans le CreateBoundaryXXXX|
 |     associé                                                   |
 +---------------------------------------------------------------+
-| .. index:: single: Delete                                     |
+| .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
 |     Detruit la frontière.                                     |

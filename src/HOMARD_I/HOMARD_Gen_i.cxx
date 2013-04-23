@@ -260,10 +260,10 @@ CORBA::Long HOMARD_Gen_i::DeleteBoundary(const char* BoundaryName)
   return 0 ;
 }
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas)
+CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas, CORBA::Long Option)
 {
   // Pour detruire un cas
-  MESSAGE ( "DeleteCase : nomCas = " << nomCas );
+  MESSAGE ( "DeleteCase : nomCas = " << nomCas << ", avec option = " << Option );
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
@@ -276,8 +276,7 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas)
   // On commence par detruire toutes les iterations en partant de l'initiale et y compris elle
   CORBA::String_var nomIter = myCase->GetIter0Name();
   CORBA::Long Option1 = 0 ;
-  CORBA::Long Option2 = 1 ;
-  if ( DeleteIterationOption(nomIter, Option1, Option2) != 0 )
+  if ( DeleteIterationOption(nomIter, Option1, Option) != 0 )
   {
     return 2;
   };
@@ -343,7 +342,6 @@ CORBA::Long HOMARD_Gen_i::DeleteIteration(const char* nomIter, CORBA::Long Optio
 {
   //  Option = 0 : On ne supprime pas le fichier du maillage associe
   //  Option = 1 : On supprime le fichier du maillage associe
-  //  Option = 2 : On supprime le fichier du maillage associe, sauf si c'est la derniere iteration
   // Pour detruire une iteration courante
   MESSAGE ( "DeleteIteration : nomIter = " << nomIter << ", avec option = " << Option );
   CORBA::Long Option1 = 1 ;
@@ -392,8 +390,11 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   // On arrive ici pour une iteration sans fille
   MESSAGE ( "Destruction effective de " << nomIter );
   // On commence par invalider l'iteration pour faire le menage des dependances
-  // et eventeullement du maillage associe
-  InvalideIterOption(nomIter, Option2) ;
+  // et eventuellement du maillage associe
+  int option ;
+  if ( numero == 0 ) { option = 0 ; }
+  else               { option = Option2 ; }
+  InvalideIterOption(nomIter, option) ;
 
   // Retrait dans la descendance de l'iteration parent
   if ( numero > 0 )

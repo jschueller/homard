@@ -56,7 +56,7 @@ public:
   void                   SetName( const char* Name );
   char*                  GetName();
 
-  CORBA::Long            Delete();
+  CORBA::Long            Delete( CORBA::Long Option );
 
   char*                  GetDumpPython();
 

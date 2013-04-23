@@ -377,7 +377,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
         if (HOMARD_UTILS::isCase(obj))
         {
           try
-          { homardGen->DeleteCase(_ObjectName.toStdString().c_str()); }
+          { homardGen->DeleteCase(_ObjectName.toStdString().c_str(), 1); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
