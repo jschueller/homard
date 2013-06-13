@@ -25,8 +25,11 @@ include $(top_srcdir)/adm_local/unix/make_common_starter.am
 
 if SPHINX_IS_OK
 
-homarddoc_DATA=html/index.html
+homarddoc_DATA=html/index.html html/index_en.html
 html/index.html:$(RSTFILES)
+	make htm
+	make latex
+html/index_en.html:$(RSTFILES_EN)
 	make htm
 	make latex
 
@@ -54,6 +57,7 @@ latex:
 	@echo "Go into latex and apply twice : pdflatex HOMARD.tex to produce HOMARD.pdf"
 
 RSTFILES= \
+index.rst \
 glossaire.rst \
 gui_create_boundary.rst \
 gui_create_case.rst \
@@ -63,7 +67,6 @@ gui_create_zone.rst \
 gui_homard.rst \
 gui_usage.rst \
 gui_mesh_info.rst \
-index.rst \
 intro.rst \
 tui_create_boundary.rst \
 tui_create_case.rst \
@@ -74,9 +77,30 @@ tui_homard.rst \
 tui_usage.rst \
 tutorials.rst
 
+RSTFILES_EN= \
+index_en.rst \
+glossaire_en.rst \
+gui_create_boundary_en.rst \
+gui_create_case_en.rst \
+gui_create_hypothese_en.rst \
+gui_create_iteration_en.rst \
+gui_create_zone_en.rst \
+gui_homard_en.rst \
+gui_usage_en.rst \
+gui_mesh_info_en.rst \
+intro_en.rst \
+tui_create_boundary_en.rst \
+tui_create_case_en.rst \
+tui_create_hypothese_en.rst \
+tui_create_iteration_en.rst \
+tui_create_zone_en.rst \
+tui_homard_en.rst \
+tui_usage_en.rst \
+tutorials_en.rst
+
 EXTRA_DIST+= $(RSTFILES) images files
 
-usr_docs: 
+usr_docs:
 	make install-data-local
 
 docs: usr_docs

@@ -1,4 +1,4 @@
-.. _tui_create_case:
+.. _tui_create_case_en:
 
 Le cas
 ======
@@ -6,9 +6,9 @@ Le cas
 .. index:: single: type de conformité
 .. index:: single: maillage;initial
 
-Les variables sont décrites dans :ref:`gui_create_case`.
+The variables are described in :ref:`gui_create_case_en`.
 
-Méthodes de la classe homard
+Methods of the class homard
 """"""""""""""""""""""""""""
 
 Création d'un cas
@@ -19,14 +19,14 @@ Création d'un cas
 | .. module:: CreateCase                                        |
 |                                                               |
 | **CreateCase(case_name, mesh_name, mesh_file)**               |
-|     Retourne une instance de la classe ``cas`` après sa       |
+|     Returns an instance of the class ``cas`` après sa         |
 |     création                                                  |
 |                                                               |
-|     - ``case_name`` : le nom du cas                           |
-|     - ``mesh_name`` : le nom du maillage initial              |
-|     - ``mesh_file`` : le nom du fichier contenant ce maillage |
+|     - ``case_name``: le nom du cas                            |
+|     - ``mesh_name``: le nom du maillage initial               |
+|     - ``mesh_file``: le nom du fichier contenant ce maillage  |
 |                                                               |
-| Par défaut :                                                  |
+| Par défaut:                                                   |
 |                                                               |
 |  * le répertoire des résultats est ``/tmp``                   |
 |  * l'adaptation est conforme                                  |
@@ -34,10 +34,10 @@ Création d'un cas
 | .. module:: GetCase                                           |
 |                                                               |
 | **GetCase(case_name)**                                        |
-|     Retourne l'instance de la classe ``cas`` connue par       |
+|     Returns an instance of the class classe ``cas`` connue par|
 |     son nom                                                   |
 |                                                               |
-|     - ``case_name`` : le nom du cas                           |
+|     - ``case_name``: le nom du cas                            |
 +---------------------------------------------------------------+
 | .. module:: GetAllCasesName                                   |
 |                                                               |
@@ -54,41 +54,41 @@ Création d'un cas par poursuite d'une itération calculée
 | .. module:: CreateCaseFromIteration                           |
 |                                                               |
 | **CreateCaseFromIteration(case_name, dir_name)**              |
-|     Retourne une instance de la classe ``cas`` après sa       |
+|     Returns an instance of the class ``cas`` après sa         |
 |     création                                                  |
 |                                                               |
-|     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
+|     - ``case_name``: le nom du cas                            |
+|     - ``dir_name`` : le nom du répertoire contenant           |
 |       l'itération à poursuivre                                |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseLastIteration                   |
 |                                                               |
 | **CreateCaseFromCaseLastIteration(case_name, dir_name)**      |
-|     Retourne une instance de la classe ``cas`` après sa       |
+|     Returns an instance of the class ``cas`` après sa         |
 |     création                                                  |
 |                                                               |
-|     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
+|     - ``case_name``: le nom du cas                            |
+|     - ``dir_name`` : le nom du répertoire contenant           |
 |       le cas à poursuivre                                     |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseIteration                       |
 |                                                               |
 | **CreateCaseFromCaseIteration(case_name, dir_name, number)**  |
-|     Retourne une instance de la classe ``cas`` après sa       |
+|     Returns an instance of the class ``cas`` après sa         |
 |     création                                                  |
 |                                                               |
-|     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
+|     - ``case_name``: le nom du cas                            |
+|     - ``dir_name`` : le nom du répertoire contenant           |
 |       le cas à poursuivre                                     |
-|     - ``number`` : le numéro de l'itération du cas            |
+|     - ``number``: le numéro de l'itération du cas             |
 |                                                               |
 +---------------------------------------------------------------+
 
 
 
-Méthodes de la classe cas
+Methods of the class cas
 """""""""""""""""""""""""
 
 +---------------------------------------------------------------+
@@ -105,7 +105,7 @@ Méthodes de la classe cas
 |     peut se faire qu'après la création du cas et avant le     |
 |     premier calcul.                                           |
 |                                                               |
-|     - ``dirname`` : le nom du répertoire des résutats         |
+|     - ``dirname``: le nom du répertoire des résutats          |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
@@ -117,12 +117,12 @@ Méthodes de la classe cas
 | **SetConfType(conf_type)**                                    |
 |     Définit le mode de conformité associé au cas              |
 |                                                               |
-|     - ``conf_type`` : entier précisant le mode de conformité  |
+|     - ``conf_type``: entier précisant le mode de conformité   |
 |                                                               |
-|         * 1 : conforme                                        |
-|         * 2 : non conforme avec 1 noeud par maille            |
-|         * 3 : non conforme avec 1 noeud par arete de maille   |
-|         * 4 : non conforme quelconque                         |
+|         * 1: conforme                                         |
+|         * 2: non conforme avec 1 noeud par maille             |
+|         * 3: non conforme avec 1 noeud par arete de maille    |
+|         * 4: non conforme quelconque                          |
 +---------------------------------------------------------------+
 | .. module:: GetConfType                                       |
 |                                                               |
@@ -143,18 +143,18 @@ Méthodes de la classe cas
 | **AddBoundaryGroup(boundary, group)**                         |
 |     Ajoute une frontière à la définition du cas               |
 |                                                               |
-|     - ``boundary`` : nom d'une frontière courbe à suivre      |
+|     - ``boundary``: nom d'une frontière courbe à suivre       |
 |                                                               |
-|     Pour une frontière discrète :                             |
+|     Pour une frontière discrète:                              |
 |                                                               |
 |     . si toutes les lignes courbes sont suivies, le second    |
 |       argument est une chaîne vide.                           |
 |     . si seulement certaines lignes courbes sont suivies,     |
 |       ``group`` est le nom d'un groupe de segments à suivre.  |
 |                                                               |
-|     Pour une frontière analytique :                           |
+|     Pour une frontière analytique:                            |
 |                                                               |
-|     - ``group`` : nom d'un groupe de faces placées sur la     |
+|     - ``group``: nom d'un groupe de faces placées sur la      |
 |       frontière                                               |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
@@ -163,22 +163,22 @@ Méthodes de la classe cas
 |     Detruit le cas et toutes les itérations associées. Le     |
 |     fichier du maillage initial associé est conservé.         |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui est fait des    |
+|     - ``option``: un entier précisant ce qui est fait des     |
 |       fichiers de maillage associés                           |
 |                                                               |
-|         * 0 : les fichiers sont conservés                     |
-|         * 1 : les fichiers sont détruits                      |
+|         * 0: les fichiers sont conservés                      |
+|         * 1: les fichiers sont détruits                       |
 |                                                               |
-|     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|     Retourne un entier:                                       |
+|         * 0: destruction réussie                              |
+|         * autre valeur: problème                              |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'état du cas :                                  |
-|         * 0 : correspond à un maillage initial                |
-|         * autre valeur : poursuite d'une itération de numéro n|
+|     Retourne l'état du cas:                                   |
+|         * 0: correspond à un maillage initial                 |
+|         * autre valeur: poursuite d'une itération de numéro n |
 +---------------------------------------------------------------+
 
 Les options avancées
@@ -191,11 +191,11 @@ Les options avancées
 | **SetPyram(option)**                                          |
 |     Définit le statut des pyramides pour le cas               |
 |                                                               |
-|     - ``option`` : entier précisant le statut des pyramides   |
+|     - ``option``: entier précisant le statut des pyramides    |
 |       éventuellement présentes dans le maillage initial       |
 |                                                               |
-|         * 0 : pyramides refusées (défaut)                     |
-|         * 1 : pyramides autorisées                            |
+|         * 0: pyramides refusées (défaut)                      |
+|         * 1: pyramides autorisées                             |
 +---------------------------------------------------------------+
 | .. module:: GetPyram                                          |
 |                                                               |
@@ -216,19 +216,19 @@ Informations sur le maillage initial
 |     option, le choix 0 correspond à ne rien faire, alors que  |
 |     le choix 1 active l'option.                               |
 |                                                               |
-|     - ``Qual`` : qualité des mailles                          |
-|     - ``Diam`` : diamètre des mailles                         |
-|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
+|     - ``Qual``: qualité des mailles                           |
+|     - ``Diam``: diamètre des mailles                          |
+|     - ``Conn``: connexité du domaine ; en un seul morceau,    |
 |       combien de trous, etc.                                  |
-|     - ``Tail`` : tailles des constituants du domaine, groupe  |
+|     - ``Tail``: tailles des constituants du domaine, groupe   |
 |       par groupe                                              |
-|     - ``Inte`` : interpénétration des mailles, par dimension  |
+|     - ``Inte``: interpénétration des mailles, par dimension   |
 +---------------------------------------------------------------+
 
 
 Exemple
 """""""
-La création de l'objet case_1 se fait ainsi : ::
+La création de l'objet case_1 se fait ainsi: ::
 
     case_name = "CAS_1"
     mesh_name = "MAILL"
@@ -246,6 +246,6 @@ La création de l'objet case_1 se fait ainsi : ::
 
 Saisie graphique correspondante
 """""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_case`
+Consulter :ref:`gui_create_case_en`
 
 

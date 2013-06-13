@@ -34,6 +34,8 @@ dist_salomeres_DATA =   \
 	cylinderpointvector.png \
 	cylinderpointvector_2.png \
 	delete.png \
+	drapeau_en.gif \
+	drapeau_fr.gif \
 	disk.png \
 	disk_2.png \
 	diskwithhole.png \

@@ -18,7 +18,7 @@
   See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 
 -->
- 
+
 <document>
   <section name="HOMARD">
     <!-- Major module parameters -->
@@ -26,10 +26,15 @@
     <parameter name="icon"          value="HOMARD.png"/>
     <parameter name="version"       value="@VERSION@"/>
     <parameter name="documentation" value="homard_help"/>
+    <!-- Other module preferences -->
+<!--     <parameter name="use_precision"                value="false" /> -->
+    <!-- Input field precisions -->
+<!--     <parameter name="def_precision"                value="3"  /> -->
   </section>
   <section name="homard_help" >
     <parameter name="sub_menu"          value="%1 module"/>
-    <parameter name="User's Guide"      value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/index.html"/>
+    <parameter name="Mode d'emploi"     value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/index.html"/>
+    <parameter name="User's Guide"      value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/index_en.html"/>
   </section>
   <section name="resources">
     <!-- Module resources -->

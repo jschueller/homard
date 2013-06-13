@@ -1,10 +1,10 @@
-.. _gui_intro:
+.. _gui_intro_en:
 
 Introduction
 ============
 
-Présentation générale
-"""""""""""""""""""""
+General presentation
+""""""""""""""""""""
 Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes de calculs par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du code de calcul auquel il est couplé.
 
 Raffiner le maillage signifie découper des mailles désignées selon des indications founies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul pour ne plus tenir compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
@@ -19,9 +19,9 @@ HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles
    - prismes
 
 Ces mailles peuvent être présentes simultanément. Par exemple, HOMARD saura adapter un maillage comportant des triangles et des quadrangles.
-Les noeuds acceptés sont évidemment les noeuds qui sont les sommets des mailles, ce qui correspond à la description classique « en degré 1 » . Si les éléments sont décrits « en degré 2 », les noeuds complémentaires sont gérés. En revanche, il ne peut pas y avoir cohabitation de mailles décrites en degré 1 et d'autres décrites en degré 2. Enfin, HOMARD sait prendre en compte des noeuds isolés, qui n'appartiendraient à aucune définition de mailles : ils ressortiront tels quels du processus d'adaptation.
+Les noeuds acceptés sont évidemment les noeuds qui sont les sommets des mailles, ce qui correspond à la description classique « en degré 1 » . Si les éléments sont décrits « en degré 2 », les noeuds complémentaires sont gérés. En revanche, il ne peut pas y asee cohabitation de mailles décrites en degré 1 et d'autres décrites en degré 2. Enfin, HOMARD sait prendre en compte des noeuds isolés, qui n'appartiendraient à aucune définition de mailles : ils ressortiront tels quels du processus d'adaptation.
 
-Le cas des pyramides est à part. Pour un maillage comportant des hexaèdres ou des prismes, la mise en conformité du maillage issu du raffinement crée des pyramides pour assurer la liaison entre deux régions de niveaux de raffinement différents. Ces pyramides sont gérées comme toutes les mailles de transition et ne sont pas redécoupées par la suite. En revanche, si le maillage initial contient des pyramides, HOMARD ne saura pas l'adapter et émettra un message d'erreur. Dans certains cas particuliers, on pourra néanmoins traiter un tel maillage, comme il est décrit dans la rubrique 'Options avancées' de :ref:`gui_create_case`).
+Le cas des pyramides est à part. Pour un maillage comportant des hexaèdres ou des prismes, la mise en conformité du maillage issu du raffinement crée des pyramides pour assurer la liaison entre deux régions de niveaux de raffinement différents. Ces pyramides sont gérées comme toutes les mailles de transition et ne sont pas redécoupées par la suite. En revanche, si le maillage initial contient des pyramides, HOMARD ne saura pas l'adapter et émettra un message d'erreur. Dans certains cas particuliers, on pourra néanmoins traiter un tel maillage, comme il est décrit dans la rubrique 'Options avancées' de :ref:`gui_create_case_en`).
 
 Plusieurs motivations apparaissent pour adapter un maillage :
 
@@ -43,7 +43,7 @@ Au final, la chaîne complète part du maillage initial produit par un mailleur. E
 Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'est disponible dans le logiciel couplé, on peut utiliser un champ pour piloter l'adaptation. Un champ de contraintes en mécaniques peut être utilisé : raffiner là où les contraintes sont importantes est souvent efficace pour améliorer la qualité de la simulation. On peut également adapter en fonction du saut d'une variable d'une maille à sa voisine ou dans une zone connue a priori. Grâce à ses nombreuses options, HOMARD permet d'envisager de multiples scénarios d'adaptation de maillage.
 
 .. note::
-  Pour une description plus complète, voir :download:`Description générale de HOMARD <files/HOMARD_0.pdf>`.
+  Pour une description plus complète, see :download:`Description générale de HOMARD <files/HOMARD_0.pdf>`.
 
 .. note::
   Pour une référence à HOMARD, utiliser :
@@ -53,8 +53,8 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
   `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
 
-Quelques illustrations de maillage adaptés
-""""""""""""""""""""""""""""""""""""""""""
+Some illustrations of adapted meshes
+""""""""""""""""""""""""""""""""""""
 .. index:: single: illustration
 
 +---------------------------------------------------------------+
@@ -90,12 +90,12 @@ Quelques illustrations de maillage adaptés
 |                                                               |
 +---------------------------------------------------------------+
 
-Démarrage rapide
-""""""""""""""""
-.. index:: single: démarrage
-.. index:: single: exemple
+Quick start
+"""""""""""
+.. index:: single: start
+.. index:: single: example
 
-L'ensemble des options de pilotage du module HOMARD dans Salome est décrit dans le :ref:`gui_usage`. Mais on trouvera ici le B.A. BA pour découvrir l'utilisation de HOMARD à partir d'un exemple simple. Imaginons que l'on a effectué un calcul de thermique sur un maillage donné. On a récupéré en sortie de ce calcul un fichier au format MED, contenant le maillage et le champ des températures aux noeuds. On aimerait adapter le maillage de telle sorte que l'écart de température entre deux noeuds voisins soit inférieur à une valeur donnée.
+L'ensemble des options de pilotage du module HOMARD dans Salome est décrit dans le :ref:`gui_usage_en`. Mais on trouvera ici le B.A. BA pour découvrir l'utilisation de HOMARD à partir d'un exemple simple. Imaginons que l'on a effectué un calcul de thermique sur un maillage donné. On a récupéré en sortie de ce calcul un fichier au format MED, contenant le maillage et le champ des températures aux noeuds. On aimerait adapter le maillage de telle sorte que l'écart de température entre deux noeuds voisins soit inférieur à une valeur donnée.
 
 La première action nécessite de lancer le module HOMARD, en créant une nouvelle étude, selon le principe qui a été retenu pour tous les autres modules de Salome.
 
@@ -167,34 +167,34 @@ Comme précédemment, on lance l'adaptation et on récupère les résultats dans le r
 On peut alors lancer un nouveau calcul sur ce nouveau maillage et poursuiver cette alternance calcul/adaptation jusqu'à l'obtention du résultat attendu.
 
 
-Evolutions du module
-""""""""""""""""""""
-.. index:: single: évolution
+Evolutions of the module
+""""""""""""""""""""""""
+.. index:: single: evolution
 
-On trouvera ici les principales évolutions de HOMARD à partir de la première version livrée dans SALOME 6.5.
+Here are the main evolutions de HOMARD from the first release in SALOME 6.5.
 
-SALOME VERSION 6.6 :
-   - Interfaçage avec med 3.0.6
-   - Valeurs par défaut des instants
-   - Acceptation des mailles de type TRIA7 et QUAD9
-   - Option de sortie dans le fichier MED du niveau de raffinement atteint dans chaque maille
+SALOME RELEASE 6.6 :
+   - Interface with med 3.0.6
+   - Default values for the time steps
+   - New element types: TRIA7 and QUAD9
+   - Optional output into the MED file of the level of refinement of every element
 
-SALOME VERSION 7.1 :
-   - Correction d'une anomalie sur le filtrage du raffinement par les groupes
-   - Pilotage de l'adaptation par un seuil basé sur la moyenne et l'écart-type (voir :ref:`tui_create_hypothese`)
-   - En TUI, choix du dernier instant comme instant de pilotage par SetTimeStepRankLast (voir :ref:`tui_create_iteration`)
-   - Possibilité de détruire les objets (GUI et TUI)
-   - Modification des fonctions TUI pour qu'elles agissent sur les objets et non plus sur les noms :
-     ``homard.AssociateIterHypo(iter_name,hypo_name)`` devient ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` devient ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` devient ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
-   - Ajout de fonctions :
-     ``cas.LastIteration()`` : retourne la dernière itération de la descendance du cas (voir :ref:`tui_create_iteration`)
-   - Analyse de maillages (voir :ref:`gui_mesh_info`)
+SALOME RELEASE 7.1 :
+   - Correction of a bug in the filtering of the refinement by groups
+   - Driving of the adaptation by a threshold that is based upon the mean and the standard deviation (see :ref:`tui_create_hypothese_en`)
+   - TUI: the last time step for the driving instant can be selected by SetTimeStepRankLast (see :ref:`tui_create_iteration_en`)
+   - The destruction of the objects is available (GUI and TUI)
+   - The TUI functions are modified: they act onto the objects and no more by the names:
+     ``homard.AssociateIterHypo(iter_name,hypo_name)`` becomes ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` becomes ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` becomes ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
+   - Addition of a function:
+     ``cas.LastIteration()`` : returns the last iteration of the case (see :ref:`tui_create_iteration_en`)
+   - Mesh analysis (see :ref:`gui_mesh_info_en`)
 
-SALOME VERSION 7.2 :
-   - Possibilité d'utiliser un cone comme support de frontiere 2D (voir :ref:`tui_create_boundary`)
-   - Choix de publier ou non le résultat dans SMESH (voir :ref:`tui_create_iteration`)
-     ``iter.Compute(option)`` devient ``iter.Compute(option1, option2)``
-   - Possibilité de poursuivre une suite d'itérations archivées dans un répertoire (voir :ref:`gui_create_case`)
+SALOME RELEASE 7.2 :
+   - A cone can be used as a support for a 2D boundary (see :ref:`tui_create_boundary_en`)
+   - The result can be published or not published in SMESH (see :ref:`tui_create_iteration_en`)
+     ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
+   - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case_en`)
 
 
 

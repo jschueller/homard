@@ -170,8 +170,13 @@ module HOMARD
     long Compute (in string IterName, in long CleanOption, in long modeHOMARD, in long Option1, in long Option2)
                                                            raises (SALOME::SALOME_Exception);
 
-    boolean  VerifieDir (in string IterName)               raises (SALOME::SALOME_Exception);
+//
+    string CreateDirNameIter(in string NomDir, in long option )
+                                                           raises (SALOME::SALOME_Exception);
 
+    boolean VerifieDir (in string IterName)                raises (SALOME::SALOME_Exception);
+
+//
     void  PublishFileUnderIteration(in string IterName, in string FileName, in string Comment)
                                                            raises (SALOME::SALOME_Exception);
     void  PublishBoundaryUnderCase(in string CaseName, in string BoundaryName);

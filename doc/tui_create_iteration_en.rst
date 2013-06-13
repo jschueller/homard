@@ -1,0 +1,310 @@
+.. _tui_create_iteration_en:
+
+L'itération
+===========
+
+.. index:: single: itération
+.. index:: single: hypothèse
+.. index:: single: zone
+
+The variables are described in :ref:`gui_create_iteration_en`.
+
+Methods of the class homard
+""""""""""""""""""""""""""""
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: GetIteration                                      |
+|                                                               |
+| **GetIteration(iter_name)**                                   |
+|     Returns an instance of the class classe ``iteration``     |
+|     son nom                                                   |
+|                                                               |
+|     - ``iter_name``: le nom de l'itération                    |
++---------------------------------------------------------------+
+| .. module:: GetAllIterationsName                              |
+|                                                               |
+| **GetAllIterationsName()**                                    |
+|     Retourne la liste des noms de toutes les itérations créées|
+|                                                               |
++---------------------------------------------------------------+
+
+Methods of the class cas
+"""""""""""""""""""""""""
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: NextIteration                                     |
+|                                                               |
+| **NextIteration(iter_name)**                                  |
+|     Returns an instance of the class ``iteration`` après      |
+|     sa création: elle suit immédiatement l'itération          |
+|     initiale, correspondant au maillage définissant le cas    |
+|                                                               |
+|     - ``iter_name``: le nom à donner à la nouvelle itération  |
+|                                                               |
+| Par défaut:                                                   |
+|                                                               |
+|  * le maillage produit a le même nom que l'itération          |
++---------------------------------------------------------------+
+| .. module:: LastIteration                                     |
+|                                                               |
+| **LastIteration()**                                           |
+|     Returns an instance of the class ``iteration``: la        |
+|     dernière créée dans la descendance de l'itération initiale|
+|     du cas. C'est celle qui est sans fille. Il y a erreur s'il|
+|     existe plus d'une branche dans la descendance.            |
+|                                                               |
++---------------------------------------------------------------+
+
+Methods of the class iteration
+"""""""""""""""""""""""""""""""
+
+Généralités
+^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: NextIteration                                     |
+|                                                               |
+| **NextIteration(iter_name)**                                  |
+|     Returns an instance of the class ``iteration`` qui suit   |
+|     l'itération courante                                      |
+|                                                               |
+|     - ``iter_name``: le nom à donner à la nouvelle itération  |
+|                                                               |
+| Par défaut:                                                   |
+|                                                               |
+|  * le maillage produit a le même nom que l'itération          |
++---------------------------------------------------------------+
+| .. module:: Compute                                           |
+|                                                               |
+| **Compute(option1, option2)**                                 |
+|     Calcule le maillage correspondant à l'itération           |
+|                                                               |
+|     - ``option1``: un entier précisant ce qui se passe quand  |
+|       des fichiers de résultats existent déjà                 |
+|                                                               |
+|         * 0: arrêt en erreur                                  |
+|         * 1: écrasement des anciens fichiers                  |
+|                                                               |
+|     - ``option2``: un entier précisant ce qui est fait des    |
+|       résultats                                               |
+|                                                               |
+|         * 1: aucune action particulière                       |
+|         * 2 : publication dans le module SMESH                |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : adaptation réussie                              |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
+| .. module:: GetName                                           |
+|                                                               |
+| **GetName()**                                                 |
+|     Retourne le nom de l'itération                            |
++---------------------------------------------------------------+
+| .. module:: GetNumber                                         |
+|                                                               |
+| **GetNumber()**                                               |
+|     Retourne le numéro de l'itération.                        |
+|                                                               |
+|     L'itération 0 est celle associée au maillage initial.     |
+|     Ensuite, une itération de numéro N est issue de           |
+|     l'adaptation d'une itération de numéro N-1.               |
++---------------------------------------------------------------+
+| .. module:: GetIterParent                                     |
+|                                                               |
+| **GetIterParent()**                                           |
+|     Retourne l'itération mère                                 |
++---------------------------------------------------------------+
+| .. module:: LastIteration                                     |
+|                                                               |
+| **LastIteration()**                                           |
+|     Returns an instance of the class ``iteration`` : la       |
+|     dernière créée dans la descendance de l'itération. C'est  |
+|     celle qui est sans fille. Il y a erreur s'il existe plus  |
+|     d'une branche dans la descendance.                        |
++---------------------------------------------------------------+
+| .. module:: AssociateHypo                                     |
+|                                                               |
+| **AssociateHypo(hypo_name)**                                  |
+|     Associe une hypothèse à l'itération                       |
+|                                                               |
+|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
++---------------------------------------------------------------+
+| .. module:: GetHypoName                                       |
+|                                                               |
+| **GetHypoName()**                                             |
+|     Retourne le nom de l'hypothèse associée                   |
++---------------------------------------------------------------+
+| .. module:: GetCaseName                                       |
+|                                                               |
+| **GetCaseName()**                                             |
+|     Retourne le nom du cas associé                            |
++---------------------------------------------------------------+
+| .. module:: GetState                                          |
+|                                                               |
+| **GetState()**                                                |
+|     Retourne l'état de l'itération                            |
+|                                                               |
+|     - ``2`` : itération calculée correctement                 |
+|     - ``1`` : itération non calculée                          |
+|     - ``<=0`` : itération initiale à ne pas calculer, de      |
+|       numéro valant la valeur absolue de l'état               |
++---------------------------------------------------------------+
+| .. module:: GetLogFile                                        |
+|                                                               |
+| **GetLogFile()**                                              |
+|     Retourne le nom du fichier retraçant le déroulement de    |
+|     l'exécution de HOMARD                                     |
++---------------------------------------------------------------+
+| .. module:: GetFileInfo                                       |
+|                                                               |
+| **GetFileInfo()**                                             |
+|     Retourne le nom du fichier contenant l'analyse du maillage|
++---------------------------------------------------------------+
+| .. module:: GetDirName                                        |
+|                                                               |
+| **GetDirName()**                                              |
+|     Retourne le nom du répertoire des résutats associé à      |
+|     l'itération                                               |
++---------------------------------------------------------------+
+| .. module:: Delete                                            |
+|                                                               |
+| **Delete(option)**                                            |
+|     Detruit l'itération et toutes ses filles éventuelles.     |
+|                                                               |
+|     - ``option`` : un entier précisant ce qui est fait des    |
+|       fichiers de maillage associés                           |
+|                                                               |
+|         * 0 : les fichiers sont conservés                     |
+|         * 1 : les fichiers sont détruits                      |
+|                                                               |
+|     Retourne un entier :                                      |
+|         * 0 : destruction réussie                             |
+|         * autre valeur : problème                             |
++---------------------------------------------------------------+
+
+Informations sur les maillages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetMeshName                                       |
+|                                                               |
+| **SetMeshName(mesh_name)**                                    |
+|     Définit le nom du maillage produit                        |
+|                                                               |
+|     - ``mesh_name`` : le nom du maillage produit              |
++---------------------------------------------------------------+
+| .. module:: GetMeshName                                       |
+|                                                               |
+| **GetMeshName()**                                             |
+|     Retourne le nom du maillage produit                       |
++---------------------------------------------------------------+
+| .. module:: SetMeshFile                                       |
+|                                                               |
+| **SetMeshFile(mesh_file)**                                    |
+|     Définit le fichier du maillage produit                    |
+|                                                               |
+|     - ``mesh_file`` : le nom du fichier qui contiendra        |
+|       le maillage produit                                     |
++---------------------------------------------------------------+
+| .. module:: GetMeshFile                                       |
+|                                                               |
+| **GetMeshFile()**                                             |
+|     Retourne le nom du fichier du maillage produit            |
++---------------------------------------------------------------+
+| .. module:: MeshInfo                                          |
+|                                                               |
+| **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
+|     Donne des informations sur le maillage. Pour chaque       |
+|     option, le choix 0 correspond à ne rien faire, alors que  |
+|     le choix 1 active l'option.                               |
+|                                                               |
+|     - ``Qual`` : qualité des mailles                          |
+|     - ``Diam`` : diamètre des mailles                         |
+|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
+|       combien de trous, etc.                                  |
+|     - ``Tail`` : tailles des constituants du domaine, groupe  |
+|       par groupe                                              |
+|     - ``Inte`` : interpénétration des mailles, par dimension  |
++---------------------------------------------------------------+
+
+Informations sur le champ
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetFieldFile                                      |
+|                                                               |
+| **SetFieldFile(field_file)**                                  |
+|     Définit le fichier des champs utiles                      |
+|                                                               |
+|     - ``field_file`` : le nom du fichier contenant le champ   |
++---------------------------------------------------------------+
+| .. module:: SetTimeStepRank                                   |
+|                                                               |
+| **SetTimeStepRank(TimeStep, Rank)**                           |
+|     Définit les instants pour le champ                        |
+|                                                               |
+|     Si un seul instant est défini pour le champ, il est pris  |
+|     par défaut.                                               |
+|                                                               |
+|     Inutile si aucun instant n'est défini pour le champ       |
+|                                                               |
+|     - ``TimeStep`` : l'instant où est pris le champ           |
+|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
++---------------------------------------------------------------+
+| .. module:: SetTimeStepRankLast                               |
+|                                                               |
+| **SetTimeStepRankLast()**                                     |
+|     Précise que le dernier instant enregistré pour le champ   |
+|     est utilisé                                               |
++---------------------------------------------------------------+
+| .. module:: GetFieldFileName                                  |
+|                                                               |
+| **GetFieldFileName()**                                        |
+|     Retourne le nom du fichier du champ                       |
++---------------------------------------------------------------+
+| .. module:: GetTimeStep                                       |
+|                                                               |
+| **GetTimeStep()**                                             |
+|     Retourne l'instant où est pris le champ                   |
++---------------------------------------------------------------+
+| .. module:: GetRank                                           |
+|                                                               |
+| **GetRank()**                                                 |
+|     Retourne le numéro d'ordre où est pris le champ           |
++---------------------------------------------------------------+
+
+Exemple
+"""""""
+.. index:: single: maillage;initial
+
+Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas. ::
+
+    iter_name = "Iteration_1"
+    iter_1 = case_1.NextIteration(iter_name)
+    iter_1.SetField(field_file)
+    iter_1.SetTimeStepRank( 0, 0)
+    iter_1.SetMeshName("maill_01")
+    iter_1.SetMeshFile("/local00/M.01.med")
+    iter_1.AssociateHypo("HypoField")
+    codret = iter_1.Compute(1, 2)
+
+Ensuite, on crée une itération suivante à l'itération parent de laquelle on part. ::
+
+    iter_name = "Iteration_2"
+    iter_2 = iter_1.NextIteration(iter_name)
+    iter_2.SetField(field_file)
+    iter_2.SetTimeStepRank( 1, 1)
+    iter_2.SetMeshName("maill_02")
+    iter_2.SetMeshFile("/local00/M.02.med")
+    iter_2.AssociateHypo("HypoField")
+    codret = iter_2.Compute(1, 2)
+
+
+Saisie graphique correspondante
+"""""""""""""""""""""""""""""""
+Consulter :ref:`gui_create_iteration_en`

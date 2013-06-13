@@ -5,32 +5,32 @@
 
 .. |logo| image:: images/HOMARD.png
 
-Documentation du composant HOMARD |logo|
-----------------------------------------
-HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme Salome.
+Documentation of the component HOMARD |logo|
+--------------------------------------------
+The component HOMARD drives the mesh adaptation inside of the SALOME plateform.
 
-*HOMARD est une marque déposée d'EDF.*
+*HOMARD is a trade mark of EDF.*
 
-Table des matières de ce mode d'emploi
+Table of contents of this User's guide
 """"""""""""""""""""""""""""""""""""""
 
 .. toctree::
    :maxdepth: 2
 
-   intro
-   gui_usage
-   tui_usage
-   tutorials
+   intro_en
+   gui_usage_en
+   tui_usage_en
+   tutorials_en
 
 Licence
 """""""
 .. index:: single: Licence
 
-La licence pour ce module est la GNU Lesser General Public License (Lesser GPL), tel qu'il est déclaré ici et dans les fichiers source.
+The licence for this module is the GNU Lesser General Public License (Lesser GPL), as stated here and in the source files.
 
 .. literalinclude:: licence.txt
 
-En complément, nous souhaitons que toute publication décrivant un travail utilisant ce module, ou tout produit commercial l'utilisant, cite au moins l'une des références ci-dessous :
+In addition, we expect that all publications describing work using this software, or all commercial products using it, quote at least one of the references given below:
 
     * *HOMARD, a SALOME module for Mesh Adaptation*,
       http://www.salome-platform.org/
@@ -41,13 +41,13 @@ En complément, nous souhaitons que toute publication décrivant un travail utilis
     * G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, *Finite
       Elements in Analysis and Design*, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
-La documentation de ce module est aussi couverte par la licence et l'obligation de citation.
+The documentation of the module is also covered by the licence and the requirement of quoting.
 
-Index et tables
-"""""""""""""""
+Index and tables
+""""""""""""""""
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-* :ref:`glossaire`
+* :ref:`glossaire_en`
 
