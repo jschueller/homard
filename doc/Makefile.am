@@ -26,10 +26,10 @@ include $(top_srcdir)/adm_local/unix/make_common_starter.am
 if SPHINX_IS_OK
 
 homarddoc_DATA=html/index.html html/index_en.html
-html/index.html:$(RSTFILES)
-	make htm
-	make latex
-html/index_en.html:$(RSTFILES_EN)
+html/index.html:$(RSTFILES) dummy
+html/index_en.html:$(RSTFILES_EN) dummy 
+
+dummy:
 	make htm
 	make latex
 
