@@ -4,7 +4,7 @@ The boundary
 ============
 
 .. index:: single: boundary
-.. index:: single: cylindre
+.. index:: single: cylinder
 .. index:: single: sphere
 
 The variables are described in :ref:`gui_create_boundary_en`.
@@ -98,19 +98,20 @@ See also in :ref:`tui_create_case_en`.
 | **AddBoundaryGroup(boundary, group)**                         |
 |     Add a boundary to the definition of a case                |
 |                                                               |
-|     - ``boundary``: nom d'une frontière courbe à suivre       |
+|     - ``boundary``: name of the curved boundary               |
 |                                                               |
-|     Pour une frontière discrete:                              |
+|     Discrete boundary:                                        |
 |                                                               |
-|     . si toutes les lignes courbes sont suivies, le second    |
-|       argument est une chaîne vide.                           |
-|     . si seulement certaines lignes courbes sont suivies,     |
-|       ``group`` est the name d'un groupe de segments à suivre |
+|     . if all the curved lines are involved, the second        |
+|     argument is an empty string.                              |
 |                                                               |
-|     Pour une frontière analytique:                            |
+|     . if only some curved lines are involved, ``group`` is    |
+|     the name of the group of segments                         |
 |                                                               |
-|     - ``group``: nom d'un groupe de faces placées sur la      |
-|       frontière                                               |
+|     Analytical boundary:                                      |
+|                                                               |
+|     - ``group``: name of the groupe of faces located on the   |
+|       boundary                                                |
 +---------------------------------------------------------------+
 
 Methods of the class boundary
@@ -121,48 +122,48 @@ Methods of the class boundary
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne the name of the boundary                         |
+|     Returns the name of the boundary                          |
 +---------------------------------------------------------------+
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
-|     Retourne le type de la frontière:                         |
+|     Returns the type of the boundary:                         |
 |                                                               |
 |         * 0: discrete                                         |
-|         * 1: cylindre                                         |
+|         * 1: cylinder                                         |
 |         * 2: sphere                                           |
-|         * 3: cône défini par un axe et un angle               |
-|         * 4: cône défini par deux rayons                      |
+|         * 3: cone defined by an axis and an angle             |
+|         * 4: cone defined by 2 radius                         |
 +---------------------------------------------------------------+
 | .. module:: GetCoords                                         |
 |                                                               |
 | **GetCoords()**                                               |
-|     Retourne un tableau contenant les coordinates de la       |
-|     frontière dans l'ordre d'entrée dans le CreateBoundaryXXXX|
-|     associé                                                   |
+|     Returns the array of the coordinates of the boundary      |
+|     with the same order as in its definition with             |
+|     CreateBoundaryXXXX                                        |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit la frontière.                                     |
-|     Pour une frontière discrete, le fichier du maillage       |
-|     associé est conservé.                                     |
+|     Deletes the boundary.                                     |
+|     If the boundary is discrete, the file of the mesh is kept.|
 |                                                               |
-|     Retourne un entier:                                       |
-|         * 0: destruction réussie                              |
-|         * autre valeur: problème                              |
+|     Returns an integer:                                       |
+|         * 0: the destruction is done                          |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 
 
-Exemple
+Example
 """""""
-Création d'une frontière discrete, d'une frontière sphèrique, puis d'une frontière cylindrique: ::
+Creation of a discrete boundary, a spherical boundary, and a cylindrical boundary:
+::
 
     inter = homard.CreateBoundaryDi("INTERSECTION", 'PIQUAGE', dircase+'/tutorial_4.fr.med')
     fron_1 = homard.CreateBoundarySphere("FRON_1", 12.3, 3.4, .56, 6.5)
     fron_2 = homard.CreateBoundaryCylinder('CYL_1', 0.0, 25., -25., 25., 50., 75., 100.)
 
 
-Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_boundary_en`
+Similar graphical input
+"""""""""""""""""""""""
+Look at :ref:`gui_create_boundary_en`

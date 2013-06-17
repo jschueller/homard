@@ -1,15 +1,15 @@
 .. _tui_create_zone_en:
 
-La zone
-=======
+The zone
+========
 
 .. index:: single: zone
-.. index:: single: boite
+.. index:: single: box
 .. index:: single: sphere
-.. index:: single: cylindre
-.. index:: single: tuyau
-.. index:: single: disque
-.. index:: single: disque avec trou
+.. index:: single: cylinder
+.. index:: single: pipe
+.. index:: single: disk
+.. index:: single: disk with a hole
 .. index:: single: 2D
 
 The variables are described in :ref:`gui_create_zone_en`.
@@ -24,103 +24,100 @@ These methods returns an instance of the class zone.
 | .. module:: CreateZoneBox                                                        |
 |                                                                                  |
 | **CreateZoneBox(zone_name, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax)**                 |
-|     Returns an instance of the class ``zone`` de type parallélépipèdique         |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type box                        |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name``: le nom de la zone basée sur un parallélépipède              |
-|     - ``Xmin``, ``Xmax``: coordonnées extrêmes selon X                           |
-|     - ``Ymin``, ``Ymax``: coordonnées extrêmes selon Y                           |
-|     - ``Zmin``, ``Zmax``: coordonnées extrêmes selon Z                           |
+|     - ``zone_name``: the name of the zone based on a box                         |
+|     - ``Xmin``, ``Xmax``: min/max coordinates extrêmes along X                   |
+|     - ``Ymin``, ``Ymax``: min/max coordinates extrêmes along Y                   |
+|     - ``Zmin``, ``Zmax``: min/max coordinates extrêmes along Z                   |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneCylinder                                                   |
 |                                                                                  |
 | **CreateZoneCylinder(zone_name, Xbase, Ybase, Zbase, Xaxe, Yaxe, Zaxe, R, H)**   |
-|     Returns an instance of the class ``zone`` de type cylindrique                |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type cylinder                   |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name``: le nom de la zone basée sur un cylindre                     |
-|     - ``Xbase``, ``Ybase``, ``Zbase``: coordonnées d'un point de base            |
-|       positionné sur l'axe                                                       |
-|     - ``Xaxe``, ``Yaxe``, ``Zaxe``: vecteur de l'axe                             |
-|     - ``R`` : rayon du cylindre                                                  |
-|     - ``H`` : hauteur du cylindre                                                |
+|     - ``zone_name``: the name of the zone based on a cylinder                    |
+|     - ``Xbase``, ``Ybase``, ``Zbase``: coordinates of a point on the axis        |
+|     - ``Xaxe``, ``Yaxe``, ``Zaxe``: vector of the axis                           |
+|     - ``R``: radius of the cylinder                                              |
+|     - ``H``: height of the cylinder                                              |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZonePipe                                                       |
 |                                                                                  |
 | **CreateZonePipe(zone_name, Xbase, Ybase, Zbase, Xaxe, Yaxe, Zaxe, R, H, Rint)** |
-|     Returns an instance of the class ``zone`` de type tuyau                      |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type pipe                       |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name`` : le nom de la zone basée sur un tuyau                       |
-|     - ``Xbase``, ``Ybase``, ``Zbase`` : coordonnées d'un point de base           |
-|       positionné sur l'axe                                                       |
-|     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe                            |
-|     - ``R`` : rayon externe du tuyau                                             |
-|     - ``H`` : hauteur du tuyau                                                   |
-|     - ``R`` : rayon interne du tuyau                                             |
+|     - ``zone_name``: the name of the zone based on a pipe                        |
+|     - ``Xbase``, ``Ybase``, ``Zbase``: coordinates of a point on the axis        |
+|     - ``Xaxe``, ``Yaxe``, ``Zaxe``: vector of the axis                           |
+|     - ``R``: external radius of the pipe                                         |
+|     - ``H``: height of the pipe                                                  |
+|     - ``R``: internal radius of the pipe                                         |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneSphere                                                     |
 |                                                                                  |
 | **CreateZoneSphere(zone_name, Xcen, Ycen, Zcen, R)**                             |
-|     Returns an instance of the class ``zone`` de type sphérique                  |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type sphere                     |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name`` : le nom de la zone basée sur une sphère                     |
-|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre de la sphère          |
-|     - ``R`` : rayon de la sphère                                                 |
+|     - ``zone_name``: the name of the zone based on a sphere                      |
+|     - ``Xcen``, ``Ycen``, ``Zcen``: coordinates of the center of the sphere      |
+|     - ``R``: radius of the sphere                                                |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneBox2D                                                      |
 |                                                                                  |
 | **CreateZoneBox2D(zone_name, Umin, Umax, Vmin, Vmax, Orient)**                   |
-|     Returns an instance of the class ``zone`` de type rectangulaire              |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type rectangle                  |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name`` : le nom de la zone basée sur un rectangle                   |
-|     - ``Umin``, ``Umax`` : coordonnées extrêmes pour la 1ère dimension           |
-|     - ``Vmin``, ``Vmax`` : coordonnées extrêmes pour la 2nde dimension           |
-|     - ``Orient`` : entier précisant la convention d'orientation du plan          |
+|     - ``zone_name``: the name of the zone based on a rectangle                   |
+|     - ``Umin``, ``Umax``: min/max coordinates for the 1st dimension              |
+|     - ``Vmin``, ``Vmax``: min/max coordinates for the 2nd dimension              |
+|     - ``Orient``: integer that defines the convention for the plane              |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneDisk                                                       |
 |                                                                                  |
 | **CreateZoneDisk(zone_name, Ucen, Vcen, R, Orient)**                             |
-|     Returns an instance of the class ``zone`` de type disque                     |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type disk                       |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name`` : le nom de la zone basée sur un disque plein                |
-|     - ``Ucen``, ``Vcen`` : coordonnées du centre du disque                       |
-|     - ``R`` : rayon du disque                                                    |
-|     - ``Orient`` : entier précisant la convention d'orientation du plan          |
+|     - ``zone_name``: the name of the zone based on a full disk                   |
+|     - ``Ucen``, ``Vcen``: coordinates of the center of the disk                  |
+|     - ``R``: radius of the disk                                                  |
+|     - ``Orient``: integer that defines the convention for the plane              |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneDiskWithHole                                               |
 |                                                                                  |
 | **CreateZoneDiskWithHole(zone_name, Ucen, Vcen, R, Rint, Orient)**               |
-|     Returns an instance of the class ``zone`` de type disque troué               |
-|     après sa création                                                            |
+|     Returns an instance of the class ``zone`` of type disk with a hole           |
+|     after its creation                                                           |
 |                                                                                  |
-|     - ``zone_name`` : le nom de la zone basée sur un disque troué                |
-|     - ``Ucen``, ``Vcen`` : coordonnées du centre du disque                       |
-|     - ``R`` : rayon externe du disque                                            |
-|     - ``Rint`` : rayon interne du disque                                         |
-|     - ``Orient`` : entier précisant la convention d'orientation du plan          |
+|     - ``zone_name``: the name of the zone based on a disk with a hole            |
+|     - ``Ucen``, ``Vcen``: coordinates of the center of the disk                  |
+|     - ``R``: external radius of the disk                                         |
+|     - ``Rint``: internal radius of the disk                                      |
+|     - ``Orient``: integer that defines the convention for the plane              |
 +----------------------------------------------------------------------------------+
 
 
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-|   La convention d'orientation du plan est la même que celle   |
-|   utilisée dans les autres modules de Salome, en particulier  |
-|   GEOM :                                                      |
+|   The convention of the orientation of the plane is the same  |
+|   as the one that is applied in the other modules of SALOME,  |
+|   in particular GEOM:                                         |
 |                                                               |
-|     1. plan XY ; U <==> X et V <==> Y                         |
-|     2. plan YZ ; U <==> Y et V <==> Z                         |
-|     3. plan ZX ; U <==> Z et V <==> X                         |
+|     1. plane XY ; U <==> X and V <==> Y                       |
+|     2. plane YZ ; U <==> Y and V <==> Z                       |
+|     3. plane ZX ; U <==> Z and V <==> X                       |
 +---------------------------------------------------------------+
 
 
 .. note::
-  Les fonctions définissant des zones 2D ne doivent être utilisées que si l'intégralité du
-  maillage est 2D, dans un des plans de coordonnées.
+  The functions that define 2D zones should be used only of the whole mesh is 2D into a plane of coordinates.
 
 
 
@@ -130,73 +127,78 @@ These methods returns an instance of the class zone.
 | .. module:: GetZone                                           |
 |                                                               |
 | **GetZone(zone_name)**                                        |
-|     Returns an instance of the class classe ``zone`` connue   |
-|     son nom                                                   |
+|     Returns an instance of the class ``zone``                 |
+|     known by its name                                         |
 |                                                               |
-|     - ``zone_name`` : le nom de la zone                       |
+|     - ``zone_name``: the name of the zone                     |
 +---------------------------------------------------------------+
 | .. module:: GetAllZonesName                                   |
 |                                                               |
 | **GetAllZonesName()**                                         |
-|     Retourne la liste des noms de toutes les zones créées     |
+|     Returns the liste of the name of all the existing zones   |
 |                                                               |
 +---------------------------------------------------------------+
 
 
 Methods of the class zone
-""""""""""""""""""""""""""
+"""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de la zone                                |
+|     Returns the name of the zone                              |
 +---------------------------------------------------------------+
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
-|     Retourne le type de la zone                               |
+|     Returns the type of the zone                              |
 |                                                               |
-|         * 2 : parallélépipède                                 |
-|         * 3 : sphère                                          |
-|         * 5 : cylindre                                        |
-|         * 7 : tuyau                                           |
-|         * 11, 12, 13 : rectangle et orientation 1, 2 ou 3     |
-|         * 31, 32, 33 : disque et orientation 1, 2 ou 3        |
-|         * 61, 62, 63 : disque percé et orientation 1, 2 ou 3  |
+|         * 2: box                                              |
+|         * 3: sphere                                           |
+|         * 5: cylinder                                         |
+|         * 7: pipe                                             |
+|         * 11, 12, 13: rectangle and orientation 1, 2 ou 3     |
+|         * 31, 32, 33: disk and orientation 1, 2 ou 3          |
+|         * 61, 62, 63: disk with a hole and orientation 1, 2   |
+|           ou 3                                                |
 +---------------------------------------------------------------+
 | .. module:: GetCoords                                         |
 |                                                               |
 | **GetCoords()**                                               |
-|     Retourne un tableau contenant les coordonnées de la zone  |
-|     dans l'ordre d'entrée dans le CreateZoneXXXX associé      |
+|     Returns the array of the coordinates of the zone          |
+|     with the same order as in its definition with             |
+|     CreateZoneXXXX                                            |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit la zone                                           |
+|     Deletes the zone                                          |
 |                                                               |
-|     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|     Returns an integer:                                       |
+|         * 0: the destruction is done                          |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 
 
-Exemple
+Example
 """""""
-La création d'une boîte 3D ou d'un disque dans le plan XY se fait ainsi : ::
+The creation of a 3D box is done as follows:
+::
 
     zone_1 = homard.CreateZoneBox ("BLOC", -1., 1., -30., 40., 10.5, 20.8)
-    zone_2 = homard.CreateZoneDisk ("disque", 1., 3., 43.25, 1)
 
 
-Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_zone_en`
+The creation of a disk in the plane XY is done as follows:
+::
+
+    zone_2 = homard.CreateZoneDisk ("disk", 1., 3., 43.25, 1)
+
+
+Similar graphical input
+"""""""""""""""""""""""
+Look at :ref:`gui_create_zone_en`
 
 .. warning::
-  En mode graphique, si on édite une zone et que l'on modifie une des dimensions, toutes les itérations qui ont été calculées précédemment avec cette zone sont invalidées. En mode python, cela n'est plus vrai : les itérations restent telles quelles.
-
-
-
+  With the graphical input mode, if a zone is edited and if one of the dimensions is modified, all the iterations that were computed with this zone are unvalidated. In python mode, that is not true: the iterations stay as they are.

@@ -7,7 +7,7 @@
 
 Documentation du composant HOMARD |logo|
 ----------------------------------------
-HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme Salome.
+HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme SALOME.
 
 *HOMARD est une marque déposée d'EDF.*
 

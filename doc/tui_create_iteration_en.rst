@@ -1,10 +1,10 @@
 .. _tui_create_iteration_en:
 
-L'itération
-===========
+The iteration
+=============
 
-.. index:: single: itération
-.. index:: single: hypothèse
+.. index:: single: iteration
+.. index:: single: hypothesis
 .. index:: single: zone
 
 The variables are described in :ref:`gui_create_iteration_en`.
@@ -17,15 +17,16 @@ Methods of the class homard
 | .. module:: GetIteration                                      |
 |                                                               |
 | **GetIteration(iter_name)**                                   |
-|     Returns an instance of the class classe ``iteration``     |
-|     son nom                                                   |
+|     Returns an instance of the class ``iteration``            |
+|     known by its name                                         |
 |                                                               |
-|     - ``iter_name``: le nom de l'itération                    |
+|     - ``iter_name``: the name of the iteration                |
 +---------------------------------------------------------------+
 | .. module:: GetAllIterationsName                              |
 |                                                               |
 | **GetAllIterationsName()**                                    |
-|     Retourne la liste des noms de toutes les itérations créées|
+|     Returns the liste of the name of all the existing         |
+|     iterations                                                |
 |                                                               |
 +---------------------------------------------------------------+
 
@@ -37,252 +38,255 @@ Methods of the class cas
 | .. module:: NextIteration                                     |
 |                                                               |
 | **NextIteration(iter_name)**                                  |
-|     Returns an instance of the class ``iteration`` après      |
-|     sa création: elle suit immédiatement l'itération          |
-|     initiale, correspondant au maillage définissant le cas    |
+|     Returns an instance of the class ``iteration`` after      |
+|     its creation: it is the next iteration after the very     |
+|     first one that corresponds to the first mesh of the case  |
 |                                                               |
-|     - ``iter_name``: le nom à donner à la nouvelle itération  |
+|     - ``iter_name``: the name of this next iteration          |
 |                                                               |
-| Par défaut:                                                   |
+| Default:                                                      |
 |                                                               |
-|  * le maillage produit a le même nom que l'itération          |
+|  * the produced mesh has got the same name as the iteration   |
 +---------------------------------------------------------------+
 | .. module:: LastIteration                                     |
 |                                                               |
 | **LastIteration()**                                           |
-|     Returns an instance of the class ``iteration``: la        |
-|     dernière créée dans la descendance de l'itération initiale|
-|     du cas. C'est celle qui est sans fille. Il y a erreur s'il|
-|     existe plus d'une branche dans la descendance.            |
+|     Returns an instance of the class ``iteration``: the last  |
+|     iteration into the descendants of the initial iteration   |
+|     of the case. It is the one that has got no child. There is|
+|     an error if more than one branch exists into the          |
+|     descendants.                                              |
 |                                                               |
 +---------------------------------------------------------------+
 
 Methods of the class iteration
-"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""
 
-Généralités
-^^^^^^^^^^^
+General methods
+^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: NextIteration                                     |
 |                                                               |
 | **NextIteration(iter_name)**                                  |
-|     Returns an instance of the class ``iteration`` qui suit   |
-|     l'itération courante                                      |
+|     Returns an instance of the class ``iteration`` after      |
+|     its creation: it is the next iteration after the current  |
+|     one                                                       |
 |                                                               |
-|     - ``iter_name``: le nom à donner à la nouvelle itération  |
+|     - ``iter_name``: the name of this next iteration          |
 |                                                               |
-| Par défaut:                                                   |
+| Default:                                                      |
 |                                                               |
-|  * le maillage produit a le même nom que l'itération          |
+|  * the produced mesh has got the same name as the iteration   |
 +---------------------------------------------------------------+
 | .. module:: Compute                                           |
 |                                                               |
 | **Compute(option1, option2)**                                 |
-|     Calcule le maillage correspondant à l'itération           |
+|     Computes the mesh produced by the iteration               |
 |                                                               |
-|     - ``option1``: un entier précisant ce qui se passe quand  |
-|       des fichiers de résultats existent déjà                 |
+|     - ``option1``: an integer to decide what to do with       |
+|       existing files, if any                                  |
 |                                                               |
-|         * 0: arrêt en erreur                                  |
-|         * 1: écrasement des anciens fichiers                  |
+|         * 0: stop with error                                  |
+|         * 1: the old files are removed                        |
 |                                                               |
-|     - ``option2``: un entier précisant ce qui est fait des    |
-|       résultats                                               |
+|     - ``option2``: an integer to decide what to do with       |
+|       the results                                             |
 |                                                               |
-|         * 1: aucune action particulière                       |
-|         * 2 : publication dans le module SMESH                |
+|         * 1: no specific action                               |
+|         * 2: publication into the module SMESH                |
 |                                                               |
-|     Retourne un entier :                                      |
-|         * 0 : adaptation réussie                              |
-|         * autre valeur : problème                             |
+|     Returns an integer:                                       |
+|         * 0: successful adaptation                            |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de l'itération                            |
+|     Returns the name of the iteration                         |
 +---------------------------------------------------------------+
 | .. module:: GetNumber                                         |
 |                                                               |
 | **GetNumber()**                                               |
-|     Retourne le numéro de l'itération.                        |
+|     Returns the number of the iteration.                      |
 |                                                               |
-|     L'itération 0 est celle associée au maillage initial.     |
-|     Ensuite, une itération de numéro N est issue de           |
-|     l'adaptation d'une itération de numéro N-1.               |
+|     The iteration #0 is the one associated to the initial     |
+|     mesh. Then, an iteration with number #N comes from the    |
+|     adaptation of an iteration with number #(N-1).            |
 +---------------------------------------------------------------+
 | .. module:: GetIterParent                                     |
 |                                                               |
 | **GetIterParent()**                                           |
-|     Retourne l'itération mère                                 |
+|     Returns the iteration parent                              |
 +---------------------------------------------------------------+
 | .. module:: LastIteration                                     |
 |                                                               |
 | **LastIteration()**                                           |
-|     Returns an instance of the class ``iteration`` : la       |
-|     dernière créée dans la descendance de l'itération. C'est  |
-|     celle qui est sans fille. Il y a erreur s'il existe plus  |
-|     d'une branche dans la descendance.                        |
+|     Returns an instance of the class ``iteration``: the last  |
+|     iteration into the descendants of the current iteration.  |
+|     It is the one that has got no child. There is             |
+|     an error if more than one branch exists into the          |
+|     descendants.                                              |
 +---------------------------------------------------------------+
 | .. module:: AssociateHypo                                     |
 |                                                               |
 | **AssociateHypo(hypo_name)**                                  |
-|     Associe une hypothèse à l'itération                       |
+|     Associate an hypothesis with the iteration                |
 |                                                               |
-|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
+|     - ``hypo_name``: the name of the hypothesis               |
 +---------------------------------------------------------------+
 | .. module:: GetHypoName                                       |
 |                                                               |
 | **GetHypoName()**                                             |
-|     Retourne le nom de l'hypothèse associée                   |
+|     Returns the name of the associated hypothesis             |
 +---------------------------------------------------------------+
 | .. module:: GetCaseName                                       |
 |                                                               |
 | **GetCaseName()**                                             |
-|     Retourne le nom du cas associé                            |
+|     Returns the name of the associated case                   |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'état de l'itération                            |
+|     Returns the state of the iteration                        |
 |                                                               |
-|     - ``2`` : itération calculée correctement                 |
-|     - ``1`` : itération non calculée                          |
-|     - ``<=0`` : itération initiale à ne pas calculer, de      |
-|       numéro valant la valeur absolue de l'état               |
+|     - ``2``: computed iteration                               |
+|     - ``1``: non computed iteration                           |
+|     - ``<=0``: initial iteration not to be computed, with a   |
+|       number equal to the absolute valure of the state        |
 +---------------------------------------------------------------+
 | .. module:: GetLogFile                                        |
 |                                                               |
 | **GetLogFile()**                                              |
-|     Retourne le nom du fichier retraçant le déroulement de    |
-|     l'exécution de HOMARD                                     |
+|     Returns the name of the file with the messages all along  |
+|     the running of HOMARD                                     |
 +---------------------------------------------------------------+
 | .. module:: GetFileInfo                                       |
 |                                                               |
 | **GetFileInfo()**                                             |
-|     Retourne le nom du fichier contenant l'analyse du maillage|
+|     Returns the name of the file with the analysis of the mesh|
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé à      |
-|     l'itération                                               |
+|     Returns the name of the directory that contains the       |
+|     results of the iteration                                  |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
-|     Detruit l'itération et toutes ses filles éventuelles.     |
+|     Deletes the iteration and all its children                |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui est fait des    |
-|       fichiers de maillage associés                           |
+|     - ``option``: an integer to define what to do with the    |
+|       MED file of the associated meshes                       |
 |                                                               |
-|         * 0 : les fichiers sont conservés                     |
-|         * 1 : les fichiers sont détruits                      |
+|         * 0: the files are kept                               |
+|         * 1: the files are removed                            |
 |                                                               |
-|     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|     Returns an integer:                                       |
+|         * 0: the destruction is done                          |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 
-Informations sur les maillages
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Information about the meshes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetMeshName                                       |
 |                                                               |
 | **SetMeshName(mesh_name)**                                    |
-|     Définit le nom du maillage produit                        |
+|     Defines the name of the produced mesh                     |
 |                                                               |
-|     - ``mesh_name`` : le nom du maillage produit              |
+|     - ``mesh_name``: the name of the produced mesh            |
 +---------------------------------------------------------------+
 | .. module:: GetMeshName                                       |
 |                                                               |
 | **GetMeshName()**                                             |
-|     Retourne le nom du maillage produit                       |
+|     Returns the name of the produced mesh                     |
 +---------------------------------------------------------------+
 | .. module:: SetMeshFile                                       |
 |                                                               |
 | **SetMeshFile(mesh_file)**                                    |
-|     Définit le fichier du maillage produit                    |
+|     Defines the name of the MED file of the produced mesh     |
 |                                                               |
-|     - ``mesh_file`` : le nom du fichier qui contiendra        |
-|       le maillage produit                                     |
+|     - ``mesh_file``: the name of the MED file of the          |
+|       produced mesh                                           |
 +---------------------------------------------------------------+
 | .. module:: GetMeshFile                                       |
 |                                                               |
 | **GetMeshFile()**                                             |
-|     Retourne le nom du fichier du maillage produit            |
+|     Returns the name of the MED file of the produced mesh     |
 +---------------------------------------------------------------+
 | .. module:: MeshInfo                                          |
 |                                                               |
 | **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
-|     Donne des informations sur le maillage. Pour chaque       |
-|     option, le choix 0 correspond à ne rien faire, alors que  |
-|     le choix 1 active l'option.                               |
+|     Gives information about the current mesh. For every       |
+|     option, the choice #0 corresponds to 'no action', while   |
+|     the choice #1 launches the option.                        |
 |                                                               |
-|     - ``Qual`` : qualité des mailles                          |
-|     - ``Diam`` : diamètre des mailles                         |
-|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
-|       combien de trous, etc.                                  |
-|     - ``Tail`` : tailles des constituants du domaine, groupe  |
-|       par groupe                                              |
-|     - ``Inte`` : interpénétration des mailles, par dimension  |
+|     - ``Qual``: quality of the elements                       |
+|     - ``Diam``: diametre of the elements                      |
+|     - ``Conn``: connexity of the domain; a single block, how  |
+|       many holes, etc.                                        |
+|     - ``Tail``: size of the parts of the domain, group by     |
+|       group                                                   |
+|     - ``Inte``: staggered elements, by dimension              |
 +---------------------------------------------------------------+
 
-Informations sur le champ
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Information about the field
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetFieldFile                                      |
 |                                                               |
 | **SetFieldFile(field_file)**                                  |
-|     Définit le fichier des champs utiles                      |
+|     Defines the MED file of the field                         |
 |                                                               |
-|     - ``field_file`` : le nom du fichier contenant le champ   |
+|     - ``field_file``: the name of the MED file of the field   |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRank                                   |
 |                                                               |
 | **SetTimeStepRank(TimeStep, Rank)**                           |
-|     Définit les instants pour le champ                        |
+|     Defines the time steps for the fields                     |
 |                                                               |
-|     Si un seul instant est défini pour le champ, il est pris  |
-|     par défaut.                                               |
+|     Useless if no time step is defined for the field.         |
 |                                                               |
-|     Inutile si aucun instant n'est défini pour le champ       |
+|     If a single time step is defined for the filed, it is the |
+|     default choice.                                           |
 |                                                               |
-|     - ``TimeStep`` : l'instant où est pris le champ           |
-|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
+|     - ``TimeStep``: the selected time step                    |
+|     - ``Rank``: the selected rank                             |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRankLast                               |
 |                                                               |
 | **SetTimeStepRankLast()**                                     |
-|     Précise que le dernier instant enregistré pour le champ   |
-|     est utilisé                                               |
+|     The last time step will be used, whatever its value       |
 +---------------------------------------------------------------+
 | .. module:: GetFieldFileName                                  |
 |                                                               |
 | **GetFieldFileName()**                                        |
-|     Retourne le nom du fichier du champ                       |
+|     Returns the name of the MED file of the field             |
 +---------------------------------------------------------------+
 | .. module:: GetTimeStep                                       |
 |                                                               |
 | **GetTimeStep()**                                             |
-|     Retourne l'instant où est pris le champ                   |
+|     Returns the selected time step for the field              |
 +---------------------------------------------------------------+
 | .. module:: GetRank                                           |
 |                                                               |
 | **GetRank()**                                                 |
-|     Retourne le numéro d'ordre où est pris le champ           |
+|     Returns the selected rank for the field                   |
 +---------------------------------------------------------------+
 
-Exemple
+Example
 """""""
-.. index:: single: maillage;initial
+.. index:: single: mesh;initial
 
-Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas. ::
+To create the first iteration, the starting point is the iteration associated to the initial mesh. It is the one that defines the case.
+::
 
     iter_name = "Iteration_1"
     iter_1 = case_1.NextIteration(iter_name)
@@ -293,7 +297,8 @@ Pour la création de la première itération, on part de celle qui correspond au ma
     iter_1.AssociateHypo("HypoField")
     codret = iter_1.Compute(1, 2)
 
-Ensuite, on crée une itération suivante à l'itération parent de laquelle on part. ::
+Then, the next iteration is created from the current iteration.
+::
 
     iter_name = "Iteration_2"
     iter_2 = iter_1.NextIteration(iter_name)
@@ -305,6 +310,6 @@ Ensuite, on crée une itération suivante à l'itération parent de laquelle on part
     codret = iter_2.Compute(1, 2)
 
 
-Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_iteration_en`
+Similar graphical input
+"""""""""""""""""""""""
+Look at :ref:`gui_create_iteration_en`

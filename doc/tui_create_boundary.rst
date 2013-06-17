@@ -104,9 +104,10 @@ Voir également dans dans :ref:`tui_create_case`.
 |     Pour une frontière discrète :                             |
 |                                                               |
 |     . si toutes les lignes courbes sont suivies, le second    |
-|       argument est une chaîne vide.                           |
+|     argument est une chaîne vide.                             |
+|                                                               |
 |     . si seulement certaines lignes courbes sont suivies,     |
-|       ``group`` est le nom d'un groupe de segments à suivre.  |
+|     ``group`` est le nom d'un groupe de segments à suivre.    |
 |                                                               |
 |     Pour une frontière analytique :                           |
 |                                                               |

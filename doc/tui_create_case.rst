@@ -24,7 +24,8 @@ Création d'un cas
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
 |     - ``mesh_name`` : le nom du maillage initial              |
-|     - ``mesh_file`` : le nom du fichier contenant ce maillage |
+|     - ``mesh_file`` : le nom du fichier MED contenant ce      |
+|       ce maillage                                             |
 |                                                               |
 | Par défaut :                                                  |
 |                                                               |
@@ -42,7 +43,7 @@ Création d'un cas
 | .. module:: GetAllCasesName                                   |
 |                                                               |
 | **GetAllCasesName()**                                         |
-|     Retourne la liste des noms de tous les cas créés          |
+|     Retourne la liste des noms de tous les cas existant       |
 |                                                               |
 +---------------------------------------------------------------+
 
@@ -167,7 +168,7 @@ Méthodes de la classe cas
 |       fichiers de maillage associés                           |
 |                                                               |
 |         * 0 : les fichiers sont conservés                     |
-|         * 1 : les fichiers sont détruits                      |
+|         * 1 : les fichiers sont supprimés                     |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |

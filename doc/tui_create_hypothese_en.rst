@@ -1,10 +1,10 @@
 .. _tui_create_hypothese_en:
 
-L'hypothèse
-===========
+The hypothesis
+==============
 
-.. index:: single: itération
-.. index:: single: hypothèse
+.. index:: single: iteration
+.. index:: single: hypothesis
 .. index:: single: zone
 
 The variables are described in :ref:`gui_create_hypothese_en`.
@@ -19,185 +19,190 @@ Methods of the class homard
 | **CreateHypothesis(hypo_name)**                               |
 |     Returns an instance of the class ``hypothese``            |
 |                                                               |
-|     - ``hypo_name``: le nom de l'hypothèse                    |
+|     - ``hypo_name``: the name of the hypothesis               |
 +---------------------------------------------------------------+
 | .. module:: GetHypothesis                                     |
 |                                                               |
 | **GetHypothesis(hypo_name)**                                  |
-|     Returns an instance of the class classe ``hypothese``     |
-|     son nom                                                   |
+|     Returns an instance of the class ``hypothese``            |
+|     known by its name                                         |
 |                                                               |
-|     - ``hypo_name``: le nom de l'hypothèse                    |
+|     - ``hypo_name``: the name of the hypothesis               |
 +---------------------------------------------------------------+
 | .. module:: GetAllHypothesesName                              |
 |                                                               |
 | **GetAllHypothesesName()**                                    |
-|     Retourne la liste des noms de toutes les hypothèses créées|
+|     Returns the liste of the name of all the existing         |
+|     hypotheses                                                |
 |                                                               |
 +---------------------------------------------------------------+
 
 Methods of the class hypothese
 """""""""""""""""""""""""""""""
 
-Généralités
-^^^^^^^^^^^
+General methods
+^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de l'hypothèse                            |
+|     Returns the name of the hypothesis                        |
 +---------------------------------------------------------------+
 | .. module:: SetAdapRefinUnRef                                 |
 |                                                               |
 | **SetAdapRefinUnRef(Adap, Refin, UnRef)**                     |
-|     Affecte le mode d'adaptation associé à l'hypothèse        |
+|     Gives the type of adaptation to the hypothesis            |
 |                                                               |
-|     - ``Adap``: entier précisant le type d'adaptation         |
+|     - ``Adap``: integer that defines the type of adaptation   |
 |                                                               |
-|         * -1: uniforme                                        |
-|         * 0: selon des zones                                  |
-|         * 1: selon un champ                                   |
+|         * -1: uniform                                         |
+|         * 0: by zones                                         |
+|         * 1: by a field                                       |
 |                                                               |
-|     - ``Refin``: entier précisant si le raffinement est a ctif|
+|     - ``Refin``: integer that informs if the refinement is    |
+|       active or not                                           |
 |                                                               |
-|         * 0: inactif                                          |
-|         * 1: actif                                            |
+|         * 0: unactive                                         |
+|         * 1: active                                           |
 |                                                               |
-|     - ``UnRef``: entier précisant si déraffinement est actif  |
+|     - ``UnRef``: integer that informs if the refinement is    |
+|       active or not                                           |
 |                                                               |
-|         * 0: inactif                                          |
-|         * 1: actif                                            |
+|         * 0: unactive                                         |
+|         * 1: active                                           |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: GetAdapType                                       |
 |                                                               |
 | **GetAdapType()**                                             |
-|     Retourne le type d'adaptation                             |
+|     Returns the type of the adaptation                        |
 +---------------------------------------------------------------+
 | .. module:: GetRefinType                                      |
 |                                                               |
 | **GetRefinType()**                                            |
-|     Retourne le type de raffinement                           |
+|     Returns the type of the refinement                        |
 +---------------------------------------------------------------+
 | .. module:: GetUnRefType                                      |
 |                                                               |
 | **GetUnRefType()**                                            |
-|     Retourne le type de déraffinement                         |
+|     Returns the type of the unrefinement                      |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit l'hypothèse                                       |
+|     Deletes the hypothesis                                    |
 |                                                               |
-|     Retourne un entier:                                       |
-|         * 0: destruction réussie                              |
-|         * autre valeur: problème                              |
+|     Returns an integer:                                       |
+|         * 0: the destruction is done                          |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 
-Le champ et les seuils
-^^^^^^^^^^^^^^^^^^^^^^
+The field and the thresholds
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetField                                          |
 |                                                               |
 | **SetField(field_name)**                                      |
-|     Attribue un nom de champ à l'hypothèse                    |
+|     Gives the name of a field to the hypothesis               |
 |                                                               |
-|     - ``field_name``: le nom du champ                         |
+|     - ``field_name``: the name of the field                   |
 +---------------------------------------------------------------+
 | .. module:: GetFieldName                                      |
 |                                                               |
 | **GetFieldName()**                                            |
-|     Retourne le nom du champ                                  |
+|     Returns the name of the field                             |
 +---------------------------------------------------------------+
 | .. module:: SetUseField                                       |
 |                                                               |
 | **SetUseField(use_field)**                                    |
-|     Attribue un mode d'usage du champ à l'hypothèse           |
+|     Gives the usage of the field for the hypothesis           |
 |                                                               |
-|     - ``use_field``: entier précisant l'usage du champ        |
+|     - ``use_field``: integer that defines how the field is    |
+|       used                                                    |
 |                                                               |
-|        * 0: valeur par élément (défaut)                       |
-|        * 1: saut entre un élément et ses voisins              |
+|        * 0: value by element (default)                        |
+|        * 1: jump between an element and its neighbours        |
 +---------------------------------------------------------------+
 | .. module:: SetRefinThr                                       |
 |                                                               |
 | **SetRefinThr(type_thres, threshold)**                        |
-|     Définit les seuils en raffinement                         |
+|     Defines the thresholds for the refinement                 |
 |                                                               |
-|     - ``type_thres``: entier précisant le type de seuil en    |
-|       raffinement                                             |
+|     - ``type_thres``: integer that defines the type of the    |
+|       threshold for the refinement                            |
 |                                                               |
-|        * 1: valeur absolue                                    |
-|        * 2: valeur relative en %                              |
-|        * 3: fraction des mailles en %                         |
-|        * 4: moyenne + n fois l'écart-type                     |
+|        * 1: absolute value                                    |
+|        * 2: relative value in %                               |
+|        * 3: ratio of elements in %                            |
+|        * 4: mean + n times the standard deviation             |
 |                                                               |
-|     - ``threshold``: valeur numérique entrant dans la         |
-|                       définition du seuil                     |
+|     - ``threshold``: numerical value that defines the         |
+|       threshold                                               |
 +---------------------------------------------------------------+
 | .. module:: GetRefinThrType                                   |
 |                                                               |
 | **GetRefinThrType()**                                         |
-|     Retourne le type de seuil de raffinement                  |
+|     Returns the type of the threshold for the refinement      |
 +---------------------------------------------------------------+
 | .. module:: SetUnRefThr                                       |
 |                                                               |
 | **SetUnRefThr(type_thres, threshold)**                        |
-|     Définit les seuils en déraffinement                       |
+|     Defines the thresholds for the unrefinement               |
 |                                                               |
-|     - ``type_thres``: entier précisant le type de seuil en    |
-|       déraffinement                                           |
+|     - ``type_thres``: integer that defines the type of the    |
+|       threshold for the unrefinement                          |
 |                                                               |
-|        * 1: valeur absolue                                    |
-|        * 2: valeur relative en %                              |
-|        * 3: fraction des mailles en %                         |
-|        * 4: moyenne - n fois l'écart-type                     |
+|        * 1: absolute value                                    |
+|        * 2: relative value in %                               |
+|        * 3: ratio of elements in %                            |
+|        * 4: mean - n times the standard deviation             |
 |                                                               |
-|     - ``threshold``: valeur du seuil                          |
+|     - ``threshold``: numerical value that defines the         |
+|       threshold                                               |
 +---------------------------------------------------------------+
 | .. module:: GetUnRefThrType                                   |
 |                                                               |
 | **GetUnRefThrType()**                                         |
-|     Retourne le type de seuil de déraffinement                |
+|     Returns the type of the threshold for the unrefinement    |
 +---------------------------------------------------------------+
 
 
-Les composantes du champ
-^^^^^^^^^^^^^^^^^^^^^^^^
+The components of the field
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: AddComp                                           |
 |                                                               |
 | **AddComp(comp_name)**                                        |
-|     Ajoute une composante du champ à considérer               |
+|     Add a component of the field                              |
 |                                                               |
-|     - ``comp_name``: nom d'une composante à prendre en        |
-|       compte                                                  |
+|     - ``comp_name``: name of a component to take into account |
 +---------------------------------------------------------------+
 | .. module:: SetUseComp                                        |
 |                                                               |
 | **SetUseComp(use_comp)**                                      |
-|     Définit l'usage des composantes                           |
+|     Defines hom to use the components                         |
 |                                                               |
-|     - ``use_comp``: entier précisant l'usage des composantes  |
+|     - ``use_comp``: integer that defines how to use the       |
+|       components                                              |
 |                                                               |
-|        * 0: norme L2 (défaut)                                 |
-|        * 1: norme infinie                                     |
-|        * 2: valeur relative, si une seule composante          |
+|        * 0: L2 norm (default)                                 |
+|        * 1: infinite norm                                     |
+|        * 2: relative value, if only one component             |
 +---------------------------------------------------------------+
 | .. module:: GetListComp                                       |
 |                                                               |
 | **GetListComp()**                                             |
-|     Retourne la liste des composantes utilisées               |
+|     Returns the list of the used components                   |
 +---------------------------------------------------------------+
 
 
-Les zones
+The zones
 ^^^^^^^^^
 
 +---------------------------------------------------------------+
@@ -206,15 +211,15 @@ Les zones
 |                                                               |
 | **AddZone(zone_name, type_use)**                              |
 |                                                               |
-|     - ``zone_name``: le nom de la zone à ajouter              |
-|     - ``type_use``: entier précisant l'usage de la zone       |
+|     - ``zone_name``: the name of the zone to add              |
+|     - ``type_use``: integer that defines how to use the zone  |
 |                                                               |
-|         * 1: raffinement                                      |
-|         * -1: déraffinement                                   |
+|         * 1: refinement                                       |
+|         * -1: unrefinement                                    |
 +---------------------------------------------------------------+
 
 
-Le filtrage par les groupes
+The filtering by the groups
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
@@ -222,85 +227,88 @@ Le filtrage par les groupes
 | .. module:: AddGroup                                          |
 |                                                               |
 | **AddGroup(group_name)**                                      |
-|     Ajoute un groupe au filtrage                              |
+|     Add a group to the filtering                              |
 |                                                               |
-|     - ``group_name``: nom du groupe à prendre en compte       |
+|     - ``group_name``: name of the group to take into account  |
 +---------------------------------------------------------------+
 | .. module:: GetGroups                                         |
 |                                                               |
 | **GetGroups()**                                               |
-|     Retourne la liste des groupes utilisés pour le filtrage   |
+|     Returns the mist of the groups that are used in the       |
+|     filtering                                                 |
 +---------------------------------------------------------------+
 
-Les options avancées
-^^^^^^^^^^^^^^^^^^^^
+Advanced options
+^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetNivMax                                         |
 |                                                               |
 | **SetNivMax(nivmax)**                                         |
-|     Définit le niveau maximal de raffinement                  |
+|     Defines the maximum level for the refinement              |
 |                                                               |
-|     - ``nivmax``: niveau de raffinement à ne pas dépasser     |
+|     - ``nivmax``: level of refinement that must not be        |
+|       exceeded                                                |
 +---------------------------------------------------------------+
 | .. module:: GetNivMax                                         |
 |                                                               |
 | **GetNivMax()**                                               |
-|     Retourne le niveau maximal de raffinement                 |
+|     Returns the maximum level for the refinement              |
 +---------------------------------------------------------------+
 | .. module:: SetDiamMin                                        |
 |                                                               |
 | **SetDiamMin(diammin)**                                       |
-|     Définit le diamètre minimal des futures mailles           |
+|     Defines the minimum diameter of the future elements       |
 |                                                               |
-|     - ``diammin``: diamètre minimal voulu pour une maille     |
+|     - ``diammin``: minimum diameter for an element            |
 +---------------------------------------------------------------+
 | .. module:: GetDiamMin                                        |
 |                                                               |
 | **GetDiamMin()**                                              |
-|     Retourne le diamètre minimal voulu                        |
+|     Returns the minimum diameter of the future elements       |
 +---------------------------------------------------------------+
 | .. module:: SetAdapInit                                       |
 |                                                               |
 | **SetAdapInit(option)**                                       |
-|     Définit le traitement à appliquer aux mailles où          |
-|     le champ de pilotage du raffinement n'est pas défini      |
+|     Defines the treatment of the elements where the field that|
+|     governs the adaptation is not defined                     |
 |                                                               |
-|     - ``option``: entier précisant le choix retenu            |
+|     - ``option``: integer as follows:                         |
 |                                                               |
-|         *  0: aucun effet (défaut)                            |
-|         *  1: les mailles sans indicateurs sont raffinées     |
-|         * -1: les mailles sans indicateurs sont déraffinées   |
+|         *  0: no effect (default)                             |
+|         *  1: the elements without field are refined          |
+|         * -1: the elements without field are unrefined        |
 +---------------------------------------------------------------+
 | .. module:: GetAdapInit                                       |
 |                                                               |
 | **GetAdapInit()**                                             |
-|     Retourne le type de traitement à appliquer aux mailles où |
-|     le champ de pilotage du raffinement n'est pas défini      |
+|     Returns the treatment of the elements where the field that|
+|     governs the adaptation is not defined                     |
 +---------------------------------------------------------------+
 | .. module:: SetLevelOutput                                    |
 |                                                               |
 | **SetLevelOutput(option)**                                    |
-|     Précise si on veut récupérer le niveau de raffinement des |
-|     mailles sous la forme d'un champ                          |
+|     Acts if the level of refinement is returned as a field in |
+|     the output MED file                                       |
 |                                                               |
-|     - ``option``: entier précisant le choix retenu            |
+|     - ``option``: integer as follows:                         |
 |                                                               |
-|         *  0: aucun effet (défaut)                            |
-|         *  1: le champ est produit                            |
+|         *  0: no effect (default)                             |
+|         *  1: the field is produced                           |
 +---------------------------------------------------------------+
 | .. module:: GetLevelOutput                                    |
 |                                                               |
 | **GetLevelOutput()**                                          |
-|     Retourne le choix retenu pour la récupération du niveau   |
-|     de raffinement                                            |
+|     Returns the choice for the output of the level of         |
+|     refinement                                                |
 +---------------------------------------------------------------+
 
 
-Exemple
+Example
 """""""
-La création de l'objet hypo_1 se fait ainsi: ::
+The creation of the object hypo_1 is done as follows:
+::
 
     hypo_1 = homard.CreateHypothesis("HypoField")
     hypo_1.SetAdapRefinUnRef(1, 1, 0)
@@ -310,9 +318,9 @@ La création de l'objet hypo_1 se fait ainsi: ::
     hypo_1.SetRefinThr(1, 80.)
 
 
-Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_hypothese_en`
+Similar graphical input
+"""""""""""""""""""""""
+Look at :ref:`gui_create_hypothese_en`
 
 .. warning::
-  En mode graphique, si on édite une hypothèse et que l'on modifie une de ses caractéristiques, par exemple le seuil de raffinement, toutes les itérations qui ont été calculées précédemment avec cette hypothèse sont invalidées. En mode python, cela n'est plus vrai : les itérations restent telles quelles.
+  With the graphical input mode, if an hypothesis is edited and if one of the characteristic is modified, the value of the threshold for the refinement for example, all the iterations that were computed with this hypothesis are unvalidated. In python mode, that is not true: the iterations stay as they are.

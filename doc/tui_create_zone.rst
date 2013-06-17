@@ -109,7 +109,7 @@ Ces méthodes retournent une instance de la classe zone.
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 |   La convention d'orientation du plan est la même que celle   |
-|   utilisée dans les autres modules de Salome, en particulier  |
+|   appliquée dans les autres modules de SALOME, en particulier |
 |   GEOM :                                                      |
 |                                                               |
 |     1. plan XY ; U <==> X et V <==> Y                         |
@@ -185,9 +185,15 @@ Méthodes de la classe zone
 
 Exemple
 """""""
-La création d'une boîte 3D ou d'un disque dans le plan XY se fait ainsi : ::
+La création d'une boîte 3D se fait ainsi :
+::
 
     zone_1 = homard.CreateZoneBox ("BLOC", -1., 1., -30., 40., 10.5, 20.8)
+
+
+La création d'un disque dans le plan XY se fait ainsi :
+::
+
     zone_2 = homard.CreateZoneDisk ("disque", 1., 3., 43.25, 1)
 
 

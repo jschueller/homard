@@ -16,7 +16,7 @@ Glossaire
       Le déraffinement est une opération consistant à supprimer des mailles. Il s'agit en fait d'annuler un précédent découpage : on ne reviendra jamais 'plus haut' que le maillage initial.
 
    zone
-      Une zone est une région qui définit un pilotage de raffinement : toutes les mailles dont au moins une arête est dans une zone seront raffinées.
+      Une zone est une région qui définit un mode de pilotage de l'adaptation : toutes les mailles dont au moins une arête est dans une zone seront raffinées ou déraffinées selon le choix retenu.
 
    cas
       Un cas est défini par un maillage initial et une succession d'adaptations.
@@ -31,4 +31,4 @@ Glossaire
       Un champ est exprimé sur un maillage, par noeud ou par maille, avec une ou plusieurs composantes. La valeur de ce champ pilote l'adaptation.
 
    MED
-      C'est le format d'échange des maillages et des champs pour Salome.
+      C'est le format d'échange des maillages et des champs pour SALOME.

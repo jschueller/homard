@@ -40,7 +40,7 @@ Les deux fichiers de texte, Liste.n.vers.(n+1).log et apad.n.vers.(n+1).bilan, s
 
 
 .. note::
-  Par défaut, le calcul est lancé avec l'exécutable de HOMARD installé avec Salome. Si on souhaite utiliser une version privée de HOMARD, pour tester une évolution par exemple, il faut préciser où le nouvel exécutable est disponible. Pour cela, il faut renseigner deux variables d'environnement.
+  Par défaut, le calcul est lancé avec l'exécutable de HOMARD installé avec SALOME. Si on souhaite utiliser une version privée de HOMARD, pour tester une évolution par exemple, il faut préciser où le nouvel exécutable est disponible. Pour cela, il faut renseigner deux variables d'environnement.
   "*HOMARD_REP_EXE_PRIVATE*" définit le répertoire dans lequel se trouve l'exécutable voulu.
   "*HOMARD_EXE_PRIVATE*" définit le nom de l'exécutable dans ce répertoire, si ce nom est différent de "*homard*".
 

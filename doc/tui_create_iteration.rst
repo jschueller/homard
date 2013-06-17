@@ -205,15 +205,15 @@ Informations sur les maillages
 | .. module:: SetMeshFile                                       |
 |                                                               |
 | **SetMeshFile(mesh_file)**                                    |
-|     Définit le fichier du maillage produit                    |
+|     Définit le fichier MED du maillage produit                |
 |                                                               |
-|     - ``mesh_file`` : le nom du fichier qui contiendra        |
+|     - ``mesh_file`` : le nom du fichier MED qui contiendra    |
 |       le maillage produit                                     |
 +---------------------------------------------------------------+
 | .. module:: GetMeshFile                                       |
 |                                                               |
 | **GetMeshFile()**                                             |
-|     Retourne le nom du fichier du maillage produit            |
+|     Retourne le nom du fichier MED du maillage produit        |
 +---------------------------------------------------------------+
 | .. module:: MeshInfo                                          |
 |                                                               |
@@ -239,19 +239,20 @@ Informations sur le champ
 | .. module:: SetFieldFile                                      |
 |                                                               |
 | **SetFieldFile(field_file)**                                  |
-|     Définit le fichier des champs utiles                      |
+|     Définit le fichier MED des champs utiles                  |
 |                                                               |
-|     - ``field_file`` : le nom du fichier contenant le champ   |
+|     - ``field_file`` : le nom du fichier MED contenant le     |
+|       champ                                                   |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRank                                   |
 |                                                               |
 | **SetTimeStepRank(TimeStep, Rank)**                           |
 |     Définit les instants pour le champ                        |
 |                                                               |
+|     Inutile si aucun instant n'est défini pour le champ       |
+|                                                               |
 |     Si un seul instant est défini pour le champ, il est pris  |
 |     par défaut.                                               |
-|                                                               |
-|     Inutile si aucun instant n'est défini pour le champ       |
 |                                                               |
 |     - ``TimeStep`` : l'instant où est pris le champ           |
 |     - ``Rank`` : le numéro d'ordre où est pris le champ       |
@@ -265,7 +266,7 @@ Informations sur le champ
 | .. module:: GetFieldFileName                                  |
 |                                                               |
 | **GetFieldFileName()**                                        |
-|     Retourne le nom du fichier du champ                       |
+|     Retourne le nom du fichier MED du champ                   |
 +---------------------------------------------------------------+
 | .. module:: GetTimeStep                                       |
 |                                                               |

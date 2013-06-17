@@ -40,7 +40,7 @@ Si des frontières discrètes ont déjà été définies pour un autre cas, on peut sél
 
 Analytical boundary
 ===================
-Au démarrage, Salome affiche un tableau avec un seule colonne. Cette colonne contient la liste de tous les groupes du maillage initial définissant le cas.
+Au démarrage, SALOME affiche un tableau avec un seule colonne. Cette colonne contient la liste de tous les groupes du maillage initial définissant le cas.
 
 .. image:: images/create_boundary_an_1.png
    :align: center

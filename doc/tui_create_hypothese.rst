@@ -265,7 +265,7 @@ Les options avancées
 |                                                               |
 | **SetAdapInit(option)**                                       |
 |     Définit le traitement à appliquer aux mailles où          |
-|     le champ de pilotage du raffinement n'est pas défini      |
+|     le champ de pilotage de l'adaptation n'est pas défini     |
 |                                                               |
 |     - ``option`` : entier précisant le choix retenu           |
 |                                                               |
@@ -277,7 +277,7 @@ Les options avancées
 |                                                               |
 | **GetAdapInit()**                                             |
 |     Retourne le type de traitement à appliquer aux mailles où |
-|     le champ de pilotage du raffinement n'est pas défini      |
+|     le champ de pilotage de l'adaptation n'est pas défini     |
 +---------------------------------------------------------------+
 | .. module:: SetLevelOutput                                    |
 |                                                               |

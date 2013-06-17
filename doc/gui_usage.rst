@@ -12,7 +12,7 @@ Pour utiliser le module HOMARD, deux façons existent :
 #. en activant l'onglet HOMARD dans la liste des modules,
 #. en cliquant sur le bouton HOMARD dans la barre d'outils.
 
-L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une qui a été précédemment enregistrée, selon le principe qui a été retenu pour tous les autres modules de Salome.
+L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une qui a été précédemment enregistrée, selon le principe qui a été retenu pour tous les autres modules de SALOME.
 
 .. image:: images/homard_1.png
    :align: center

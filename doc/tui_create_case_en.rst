@@ -1,240 +1,242 @@
 .. _tui_create_case_en:
 
-Le cas
-======
+The case
+========
 .. index:: single: cas
-.. index:: single: type de conformité
-.. index:: single: maillage;initial
+.. index:: single: type of conformity
+.. index:: single: mesh;initial
 
 The variables are described in :ref:`gui_create_case_en`.
 
 Methods of the class homard
 """"""""""""""""""""""""""""
 
-Création d'un cas
-^^^^^^^^^^^^^^^^^
+Creation of a case
+^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: CreateCase                                        |
 |                                                               |
 | **CreateCase(case_name, mesh_name, mesh_file)**               |
-|     Returns an instance of the class ``cas`` après sa         |
-|     création                                                  |
+|     Returns an instance of the class ``cas`` after its        |
+|     creation                                                  |
 |                                                               |
-|     - ``case_name``: le nom du cas                            |
-|     - ``mesh_name``: le nom du maillage initial               |
-|     - ``mesh_file``: le nom du fichier contenant ce maillage  |
+|     - ``case_name``: the name of the case                     |
+|     - ``mesh_name``: the name of the initial mesh             |
+|     - ``mesh_file``: the name of the MED file of this mesh    |
 |                                                               |
-| Par défaut:                                                   |
+| Default:                                                      |
 |                                                               |
-|  * le répertoire des résultats est ``/tmp``                   |
-|  * l'adaptation est conforme                                  |
+|  * the directory for the results is ``/tmp``                  |
+|  * the adaptation is conformal                                |
 +---------------------------------------------------------------+
 | .. module:: GetCase                                           |
 |                                                               |
 | **GetCase(case_name)**                                        |
-|     Returns an instance of the class classe ``cas`` connue par|
-|     son nom                                                   |
+|     Returns an instance of the class ``cas`` known by its name|
 |                                                               |
-|     - ``case_name``: le nom du cas                            |
+|     - ``case_name``: the name of the case                     |
 +---------------------------------------------------------------+
 | .. module:: GetAllCasesName                                   |
 |                                                               |
 | **GetAllCasesName()**                                         |
-|     Retourne la liste des noms de tous les cas créés          |
+|     Returns the liste of the name of all the existing cases   |
 |                                                               |
 +---------------------------------------------------------------+
 
-Création d'un cas par poursuite d'une itération calculée
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Creation of a case by pursuit of a computed iteration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromIteration                           |
 |                                                               |
 | **CreateCaseFromIteration(case_name, dir_name)**              |
-|     Returns an instance of the class ``cas`` après sa         |
-|     création                                                  |
+|     Returns an instance of the class ``cas`` after its        |
+|     creation                                                  |
 |                                                               |
-|     - ``case_name``: le nom du cas                            |
-|     - ``dir_name`` : le nom du répertoire contenant           |
-|       l'itération à poursuivre                                |
+|     - ``case_name``: the name of the case                     |
+|     - ``dir_name``: the name of the directory that contains   |
+|       the iteration                                           |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseLastIteration                   |
 |                                                               |
 | **CreateCaseFromCaseLastIteration(case_name, dir_name)**      |
-|     Returns an instance of the class ``cas`` après sa         |
-|     création                                                  |
+|     Returns an instance of the class ``cas`` after its        |
+|     creation                                                  |
 |                                                               |
-|     - ``case_name``: le nom du cas                            |
-|     - ``dir_name`` : le nom du répertoire contenant           |
-|       le cas à poursuivre                                     |
+|     - ``case_name``: the name of the case                     |
+|     - ``dir_name``: the name of the directory that contains   |
+|       the case                                                |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseIteration                       |
 |                                                               |
 | **CreateCaseFromCaseIteration(case_name, dir_name, number)**  |
-|     Returns an instance of the class ``cas`` après sa         |
-|     création                                                  |
+|     Returns an instance of the class ``cas`` after its        |
+|     creation                                                  |
 |                                                               |
-|     - ``case_name``: le nom du cas                            |
-|     - ``dir_name`` : le nom du répertoire contenant           |
-|       le cas à poursuivre                                     |
-|     - ``number``: le numéro de l'itération du cas             |
+|     - ``case_name``: the name of the case                     |
+|     - ``dir_name``: the name of the directory that contains   |
+|       the case                                                |
+|     - ``number``: the number of the iteration of the case     |
 |                                                               |
 +---------------------------------------------------------------+
 
 
 
 Methods of the class cas
-"""""""""""""""""""""""""
+""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom du cas                                    |
+|     Returns the name of the case                              |
 +---------------------------------------------------------------+
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dirname)**                                       |
-|     Affecte le répertoire des résutats associé au cas. Cela ne|
-|     peut se faire qu'après la création du cas et avant le     |
-|     premier calcul.                                           |
+|     Gives a directory for the results of the case. It can be  |
+|     done only after the creation of the case and before the   |
+|     first computation.                                        |
 |                                                               |
-|     - ``dirname``: le nom du répertoire des résutats          |
+|     - ``dirname``: the name of the directory of the results   |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé au cas |
+|     Returns the name of the directory of the results of the   |
+|     case                                                      |
 +---------------------------------------------------------------+
 | .. module:: SetConfType                                       |
 |                                                               |
 | **SetConfType(conf_type)**                                    |
-|     Définit le mode de conformité associé au cas              |
+|     Defines the type of conformity for the case               |
 |                                                               |
-|     - ``conf_type``: entier précisant le mode de conformité   |
+|     - ``conf_type``: integer as follows:                      |
 |                                                               |
-|         * 1: conforme                                         |
-|         * 2: non conforme avec 1 noeud par maille             |
-|         * 3: non conforme avec 1 noeud par arete de maille    |
-|         * 4: non conforme quelconque                          |
+|         * 1: conformal                                        |
+|         * 2: non conformal with one hanging node per element  |
+|         * 3: non conformal with one hanging node per edge of  |
+|           element                                             |
+|         * 4: non conformal without any constraint             |
 +---------------------------------------------------------------+
 | .. module:: GetConfType                                       |
 |                                                               |
 | **GetConfType()**                                             |
-|     Retourne le type de conformité                            |
+|     Returns the type of conformity                            |
 +---------------------------------------------------------------+
 | .. module:: GetIter0                                          |
 |                                                               |
 | **GetIter0()**                                                |
-|     Retourne l'itération associée au maillage initial.        |
-|     Cette itération est créée automatiquement par le module   |
-|     HOMARD et est utilisée pour enchaîner les adaptations.    |
-|     Elle correspond à un maillage initial ou à une itération  |
-|     de poursuite d'un cas précédent.                          |
+|     Returns the iteration linked to the initial mesh.         |
+|     This iteration is automatically created by the module     |
+|     HOMARD. It is used to connect the iterations. It is       |
+|     connected to an initial mesh or to the iteration of a     |
+|     previous case.                                            |
 +---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
 | **AddBoundaryGroup(boundary, group)**                         |
-|     Ajoute une frontière à la définition du cas               |
+|     Add a boundary to the definition of a case                |
 |                                                               |
-|     - ``boundary``: nom d'une frontière courbe à suivre       |
+|     - ``boundary``: name of the curved boundary               |
 |                                                               |
-|     Pour une frontière discrète:                              |
+|     Discrete boundary:                                        |
 |                                                               |
-|     . si toutes les lignes courbes sont suivies, le second    |
-|       argument est une chaîne vide.                           |
-|     . si seulement certaines lignes courbes sont suivies,     |
-|       ``group`` est le nom d'un groupe de segments à suivre.  |
+|     . if all the curved lines are involved, the second        |
+|     argument is an empty string.                              |
+|     . if only some curved lines are involved, ``group`` is    |
+|     the name of the group of segments                         |
 |                                                               |
-|     Pour une frontière analytique:                            |
+|     Analytical boundary:                                      |
 |                                                               |
-|     - ``group``: nom d'un groupe de faces placées sur la      |
-|       frontière                                               |
+|     - ``group``: name of the group of faces located on the    |
+|       boundary                                                |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
-|     Detruit le cas et toutes les itérations associées. Le     |
-|     fichier du maillage initial associé est conservé.         |
+|     Deletes the case and all the connected iterations. The MED|
+|     file of the first mesh is kept.                           |
 |                                                               |
-|     - ``option``: un entier précisant ce qui est fait des     |
-|       fichiers de maillage associés                           |
+|     - ``option``: an integer to define what to do with the    |
+|       MED file of the associated meshes                       |
 |                                                               |
-|         * 0: les fichiers sont conservés                      |
-|         * 1: les fichiers sont détruits                       |
+|         * 0: the files are kept                               |
+|         * 1: the files are removed                            |
 |                                                               |
-|     Retourne un entier:                                       |
-|         * 0: destruction réussie                              |
-|         * autre valeur: problème                              |
+|     Returns an integer:                                       |
+|         * 0: the destruction is done                          |
+|         * other value: problem                                |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'état du cas:                                   |
-|         * 0: correspond à un maillage initial                 |
-|         * autre valeur: poursuite d'une itération de numéro n |
+|     Returns the state of the case:                            |
+|         * 0: corresponds to an initial mesh                   |
+|         * other value: pursuit of an iteration with number n  |
 +---------------------------------------------------------------+
 
-Les options avancées
-^^^^^^^^^^^^^^^^^^^^
+Advanced options
+^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetPyram                                          |
 |                                                               |
 | **SetPyram(option)**                                          |
-|     Définit le statut des pyramides pour le cas               |
+|     Defines the status of the pyramids in this case           |
 |                                                               |
-|     - ``option``: entier précisant le statut des pyramides    |
-|       éventuellement présentes dans le maillage initial       |
+|     - ``option``: integer that defines the status of the      |
+|       pyramids that could belongs to the initial mesh         |
 |                                                               |
-|         * 0: pyramides refusées (défaut)                      |
-|         * 1: pyramides autorisées                             |
+|         * 0: rejected pyramids (default)                      |
+|         * 1: authorized pyramids                              |
 +---------------------------------------------------------------+
 | .. module:: GetPyram                                          |
 |                                                               |
 | **GetPyram()**                                                |
-|     Retourne le statut accordé aux pyramides éventuellement   |
-|     présentes dans le maillage initial                        |
+|     Returns the status of the pyramids in this case           |
 +---------------------------------------------------------------+
 
-Informations sur le maillage initial
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Informations for the initial mesh
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: MeshInfo                                          |
 |                                                               |
 | **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
-|     Donne des informations sur le maillage. Pour chaque       |
-|     option, le choix 0 correspond à ne rien faire, alors que  |
-|     le choix 1 active l'option.                               |
+|     Gives information about the current mesh. For every       |
+|     option, the choice #0 corresponds to 'no action', while   |
+|     the choice #1 launches the option.                        |
 |                                                               |
-|     - ``Qual``: qualité des mailles                           |
-|     - ``Diam``: diamètre des mailles                          |
-|     - ``Conn``: connexité du domaine ; en un seul morceau,    |
-|       combien de trous, etc.                                  |
-|     - ``Tail``: tailles des constituants du domaine, groupe   |
-|       par groupe                                              |
-|     - ``Inte``: interpénétration des mailles, par dimension   |
+|     - ``Qual``: quality of the elements                       |
+|     - ``Diam``: diametre of the elements                      |
+|     - ``Conn``: connexity of the domain; a single block, how  |
+|       many holes, etc.                                        |
+|     - ``Tail``: size of the parts of the domain, group by     |
+|       group                                                   |
+|     - ``Inte``: staggered elements, by dimension              |
 +---------------------------------------------------------------+
 
 
-Exemple
+Example
 """""""
-La création de l'objet case_1 se fait ainsi: ::
+The creation of the object case_1 is done as follows:
+
+::
 
     case_name = "CAS_1"
     mesh_name = "MAILL"
-    mesh_file = "/local00/Salome/Adapt/m0.med"
+    mesh_file = "/scratch/Salome/Adapt/m0.med"
     case_1 = homard.CreateCase(case_name, mesh_name, mesh_file)
-    dirname = "/local00/Salome/Adapt/resu"
+    dirname = "/scratch/Salome/Adapt/resu"
     case_1.SetDirName(dirname)
     case_1.SetConfType(1)
     case_1.AddBoundaryGroup( 'intersection', '' )
@@ -244,8 +246,8 @@ La création de l'objet case_1 se fait ainsi: ::
 
 
 
-Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
-Consulter :ref:`gui_create_case_en`
+Similar graphical input
+"""""""""""""""""""""""
+Look at :ref:`gui_create_case_en`
 
 
