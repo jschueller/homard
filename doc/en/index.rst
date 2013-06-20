@@ -1,0 +1,53 @@
+.. HOMARD documentation master file, created by
+   sphinx-quickstart on Tue Jan  5 08:51:14 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. |logo| image:: ../images/HOMARD.png
+
+Documentation of the component HOMARD |logo|
+--------------------------------------------
+The component HOMARD drives the mesh adaptation inside of the SALOME plateform.
+
+*HOMARD is a trade mark of EDF.*
+
+Table of contents of this User's guide
+""""""""""""""""""""""""""""""""""""""
+
+.. toctree::
+   :maxdepth: 2
+
+   intro
+   gui_usage
+   tui_usage
+   tutorials
+
+Licence
+"""""""
+.. index:: single: Licence
+
+The licence for this module is the GNU Lesser General Public License (Lesser GPL), as stated here and in the source files.
+
+.. literalinclude:: ../licence.txt
+
+In addition, we expect that all publications describing work using this software, or all commercial products using it, quote at least one of the references given below:
+
+    * *HOMARD, a SALOME module for Mesh Adaptation*,
+      http://www.salome-platform.org/
+
+    * *SALOME The Open Source Integration Platform for Numerical Simulation*,
+      http://www.salome-platform.org/
+
+    * G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, *Finite
+      Elements in Analysis and Design*, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
+
+The documentation of the module is also covered by the licence and the requirement of quoting.
+
+Index and tables
+""""""""""""""""
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+* :ref:`glossaire`
+

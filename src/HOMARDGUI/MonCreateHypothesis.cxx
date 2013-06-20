@@ -203,7 +203,7 @@ void MonCreateHypothesis::PushOnOK()
 void MonCreateHypothesis::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""));
 }
 // -------------------------------------------------
 void MonCreateHypothesis::SetNewHypothesisName()

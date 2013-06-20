@@ -305,7 +305,7 @@ void MonCreateCase::PushOnOK()
 void MonCreateCase::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""));
 }
 // ---------------------------------
 void MonCreateCase::SetNewCaseName()
@@ -426,7 +426,7 @@ void MonCreateCase::PushBoundaryDiEdit()
 void MonCreateCase::PushBoundaryDiHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html#frontiere-discrete") ) ;
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete") ) ;
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryA()
@@ -504,7 +504,7 @@ void MonCreateCase::PushBoundaryAnEdit()
 void MonCreateCase::PushBoundaryAnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html#frontiere-analytique") ) ;
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-analytique") ) ;
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::CaseNameChanged()

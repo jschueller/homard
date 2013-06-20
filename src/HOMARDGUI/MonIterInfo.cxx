@@ -131,7 +131,7 @@ void MonIterInfo::PushOnOK()
 void MonIterInfo::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_mesh_info.html"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_mesh_info.html"), QString(""));
 }
 // ------------------------------------------------------------------------
 void MonIterInfo::SetBlockSize()

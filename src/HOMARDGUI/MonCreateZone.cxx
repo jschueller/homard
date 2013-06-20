@@ -587,7 +587,7 @@ void MonCreateZone::PushOnOK()
 void MonCreateZone::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html") ) ;
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html"), QString("") ) ;
 }
 
 // -----------------------------------

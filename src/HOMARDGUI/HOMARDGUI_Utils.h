@@ -83,7 +83,7 @@ namespace HOMARD_UTILS {
   bool isFileSummary(_PTR(SObject)  MonObj);
   bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );
 
-  void PushOnHelp(QString monFichierAide);
+  void PushOnHelp(QString monFichierAide, QString leContexte);
 
   extern SALOME_ListIO mySelected;
 }

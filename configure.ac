@@ -412,9 +412,12 @@ AC_OUTPUT([ \
 	bin/Makefile \
 	bin/VERSION \
 	doc/Makefile \
-	doc/conf.py \
-        HOMARD_version.h \
-  	src/Makefile \
+	doc/en/conf.py \
+  doc/en/Makefile \
+  doc/fr/conf.py \
+  doc/fr/Makefile \
+  HOMARD_version.h \
+  src/Makefile \
 	src/HOMARD_I/Makefile \
 	src/HOMARD/Makefile \
 	src/HOMARDGUI/Makefile \

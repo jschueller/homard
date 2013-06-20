@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+// #Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -456,7 +456,7 @@ void MonCreateBoundaryAn::PushOnOK()
 void MonCreateBoundaryAn::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html#un-cylindre") ) ;
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("un-cylindre") ) ;
 }
 
 // -----------------------------------

@@ -187,7 +187,7 @@ void MonPursueIteration::PushOnOK()
 void MonPursueIteration::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""));
 }
 // ---------------------------------
 void MonPursueIteration::SetNewCaseName()

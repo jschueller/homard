@@ -139,7 +139,7 @@ void MonCreateBoundaryDi::PushOnOK()
 void MonCreateBoundaryDi::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html#frontiere-discrete"));
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"));
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryDi::AssocieLesGroupes()

@@ -267,13 +267,14 @@ bool HOMARD_UTILS::isFileSummary(_PTR(SObject) MonObj)
 }
 
 //=========================================================================================================
-void HOMARD_UTILS::PushOnHelp(QString monFichierAide)
+void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString leContexte)
 {
-     LightApp_Application* app = (LightApp_Application*)(SUIT_Session::session()->activeApplication());
-     if (app) {
-        HOMARDGUI* aHomardGUI = dynamic_cast<HOMARDGUI*>( app->module( "Homard" ) );
-        app->onHelpContextModule(aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString(""), monFichierAide);
-     }
-
+  MESSAGE("Debut de PushOnHelp avec monFichierAide = "<< monFichierAide.toStdString().c_str());
+  LightApp_Application* app = (LightApp_Application*)(SUIT_Session::session()->activeApplication());
+  if (app) {
+    QString fichier = QString("fr/"+monFichierAide) ;
+    HOMARDGUI* aHomardGUI = dynamic_cast<HOMARDGUI*>( app->module( "Homard" ) );
+    app->onHelpContextModule(aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString(""), fichier, leContexte);
+  }
 }
 //=========================================================================================================
