@@ -4,23 +4,31 @@
    contain the root `toctree` directive.
 
 .. |logo| image:: ../images/HOMARD.png
+.. |flag| image:: ./images/drapeau_en.gif
 
 Documentation of the component HOMARD |logo|
 --------------------------------------------
 The component HOMARD drives the mesh adaptation inside of the SALOME plateform.
 
-*HOMARD is a trade mark of EDF.*
-
-Table of contents of this User's guide
-""""""""""""""""""""""""""""""""""""""
+User's guide
+""""""""""""
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
    gui_usage
    tui_usage
    tutorials
+
+General presentation
+""""""""""""""""""""
+
+.. toctree::
+   :maxdepth: 1
+
+   intro
+   applications
+   divers
 
 Licence
 """""""
@@ -50,4 +58,6 @@ Index and tables
 * :ref:`modindex`
 * :ref:`search`
 * :ref:`glossaire`
+
+*HOMARD is a trade mark of EDF.*
 

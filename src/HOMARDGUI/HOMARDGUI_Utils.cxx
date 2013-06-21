@@ -267,14 +267,29 @@ bool HOMARD_UTILS::isFileSummary(_PTR(SObject) MonObj)
 }
 
 //=========================================================================================================
-void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString leContexte)
+void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString contexte)
 {
   MESSAGE("Debut de PushOnHelp avec monFichierAide = "<< monFichierAide.toStdString().c_str());
   LightApp_Application* app = (LightApp_Application*)(SUIT_Session::session()->activeApplication());
-  if (app) {
-    QString fichier = QString("fr/"+monFichierAide) ;
+  if (app)
+  {
     HOMARDGUI* aHomardGUI = dynamic_cast<HOMARDGUI*>( app->module( "Homard" ) );
-    app->onHelpContextModule(aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString(""), fichier, leContexte);
+    // Repertoire de reference de la documentation
+    QString rep = aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString("") ;
+    // Recherche de la langue
+//     SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
+//     SUIT_ResourceMgr* resMgr = myModule->getApp()->resourceMgr();
+//     QString langue = resMgr->stringValue("language", "language", "en");
+    QString langue = "fr" ;
+    MESSAGE(". langue " << langue.toStdString().c_str()) ;
+    // Complement du fichier
+    QString fichier = QString(langue+"/"+monFichierAide) ;
+    MESSAGE(". Appel de onHelpContextModule avec :");
+    MESSAGE("    rep      = "<< rep.toStdString().c_str());
+    MESSAGE("    fichier  = "<< fichier.toStdString().c_str());
+    MESSAGE("    contexte = "<< contexte.toStdString().c_str());
+
+    app->onHelpContextModule(rep, fichier, contexte);
   }
 }
 //=========================================================================================================

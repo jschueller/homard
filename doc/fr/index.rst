@@ -4,23 +4,31 @@
    contain the root `toctree` directive.
 
 .. |logo| image:: ../images/HOMARD.png
+.. |flag| image:: ./images/drapeau_fr.gif
 
-Documentation du composant HOMARD |logo|
-----------------------------------------
+Documentation du composant HOMARD  |logo|
+-----------------------------------------
 HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme SALOME.
 
-*HOMARD est une marque déposée d'EDF.*
-
-Table des matières de ce mode d'emploi
-""""""""""""""""""""""""""""""""""""""
+Mode d'emploi
+"""""""""""""
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
    gui_usage
    tui_usage
    tutorials
+
+Présentation générale
+"""""""""""""""""""""
+
+.. toctree::
+   :maxdepth: 1
+
+   intro
+   applications
+   divers
 
 Licence
 """""""
@@ -51,3 +59,4 @@ Index et tables
 * :ref:`search`
 * :ref:`glossaire`
 
+*HOMARD est une marque déposée d'EDF.*

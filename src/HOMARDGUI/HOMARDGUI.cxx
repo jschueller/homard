@@ -206,10 +206,10 @@ void HOMARDGUI::createMenus(){
   createMenu( 1201, HOMARD_Id, -1 ); //Edit
   createMenu( separator(), HOMARD_Id,-1);
 //   createMenu( 1201, HOMARD_Id, -1 ); //Edit
-// La langue des preferences
+/*// La langue des preferences
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
-  QString lang = resMgr->stringValue("language", "language", "en");
-  MESSAGE("lang " << lang.toStdString().c_str() );
+  QString langue = resMgr->stringValue("language", "language", "en");
+  MESSAGE("langue " << langue.toStdString().c_str() );*/
 }
 
 //================================================

@@ -165,39 +165,3 @@ Comme précédemment, on lance l'adaptation et on récupère les résultats dans le r
    :align: center
 
 On peut alors lancer un nouveau calcul sur ce nouveau maillage et poursuiver cette alternance calcul/adaptation jusqu'à l'obtention du résultat attendu.
-
-
-Evolutions of the module
-""""""""""""""""""""""""
-.. index:: single: evolution
-
-Here are the main evolutions de HOMARD from the first release in SALOME 6.5.
-
-SALOME RELEASE 6.6 :
-   - Interface with med 3.0.6
-   - Default values for the time steps
-   - New element types: TRIA7 and QUAD9
-   - Optional output into the MED file of the level of refinement of every element
-
-SALOME RELEASE 7.1 :
-   - Correction of a bug in the filtering of the refinement by groups
-   - Driving of the adaptation by a threshold that is based upon the mean and the standard deviation (see :ref:`tui_create_hypothese`)
-   - TUI: the last time step for the driving instant can be selected by SetTimeStepRankLast (see :ref:`tui_create_iteration`)
-   - The destruction of the objects is available (GUI and TUI)
-   - The TUI functions are modified: they act onto the objects and no more by the names:
-     ``homard.AssociateIterHypo(iter_name,hypo_name)`` becomes ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` becomes ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` becomes ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
-   - Addition of a function:
-     ``cas.LastIteration()`` : returns the last iteration of the case (see :ref:`tui_create_iteration`)
-   - Mesh analysis (see :ref:`gui_mesh_info`)
-
-SALOME RELEASE 7.2 :
-   - A cone can be used as a support for a 2D boundary (see :ref:`tui_create_boundary`)
-   - The result can be published or not published in SMESH (see :ref:`tui_create_iteration`)
-     ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
-   - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case`)
-
-
-
-
-
-
