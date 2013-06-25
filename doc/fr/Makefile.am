@@ -34,21 +34,20 @@ endif
 
 homarddocdir=$(docdir)/gui/HOMARD/$(homarddoc_langue)
 
-SPHINXOPTS      =
-SOURCEDIR       = $(srcdir)
-SPHINXBUILD     = sphinx-build
-PAPEROPT_a4     = -D latex_paper_size=a4
-ALLSPHINXOPTS   = -d doctrees $(PAPEROPT_a4) $(SPHINXOPTS) $(SOURCEDIR)
+SPHINXOPTS  =
+SPHINXBUILD = sphinx-build
 
 htm:
-	mkdir -p html doctrees
-	$(SPHINXBUILD) -c $(top_builddir)/doc/$(homarddoc_langue) -b html $(ALLSPHINXOPTS) html
+#	mkdir -p html doctrees
+	mkdir -p html
+	$(SPHINXBUILD) $(SPHINXOPTS) -c $(top_builddir)/doc/$(homarddoc_langue) -b html $(srcdir) html
 	@echo
 	@echo "Build fini. Les pages HTML sont dans html."
 
 latex:
-	mkdir -p latex doctrees
-	$(SPHINXBUILD) -c $(top_builddir)/doc/$(homarddoc_langue) -b latex $(ALLSPHINXOPTS) latex
+#	mkdir -p latex doctrees
+	mkdir -p latex
+	$(SPHINXBUILD) $(SPHINXOPTS) -c $(top_builddir)/doc/$(homarddoc_langue) -b latex $(srcdir) latex
 	@echo
 	@echo "Build fini. Les pages sont en latex."
 	@echo "Aller dans latex et appliquer deux fois : pdflatex HOMARD.tex pour produire HOMARD.pdf"

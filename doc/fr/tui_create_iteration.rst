@@ -29,8 +29,8 @@ Méthodes de la classe homard
 |                                                               |
 +---------------------------------------------------------------+
 
-Méthodes de la classe cas
-"""""""""""""""""""""""""
+Méthodes communes aux classes cas et iteration
+""""""""""""""""""""""""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -38,22 +38,27 @@ Méthodes de la classe cas
 |                                                               |
 | **NextIteration(iter_name)**                                  |
 |     Retourne une instance de la classe ``iteration`` après    |
-|     sa création : elle suit immédiatement l'itération         |
-|     initiale, correspondant au maillage définissant le cas    |
+|     sa création. Elle suit immédiatement :                    |
+|                                                               |
+|     - pour un cas : l'itération initiale, correspondant au    |
+|       maillage définissant le cas                             |
+|     - pour une itération : l'itération courante               |
+|                                                               |
+| Par défaut, le maillage produit a le même nom que l'itération |
 |                                                               |
 |     - ``iter_name`` : le nom à donner à la nouvelle itération |
-|                                                               |
-| Par défaut :                                                  |
-|                                                               |
-|  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
 | .. module:: LastIteration                                     |
 |                                                               |
 | **LastIteration()**                                           |
-|     Retourne une instance de la classe ``iteration`` : la     |
-|     dernière créée dans la descendance de l'itération initiale|
-|     du cas. C'est celle qui est sans fille. Il y a erreur s'il|
-|     existe plus d'une branche dans la descendance.            |
+|     Retourne une instance de la classe ``iteration``. C'est   |
+|     la dernière créée dans la descendance de :                |
+|                                                               |
+|     - pour un cas : l'itération initiale du cas               |
+|     - pour une itération : l'itération courante               |
+|                                                               |
+|     C'est celle qui est sans fille. Il y a erreur s'il existe |
+|     plus d'une branche dans la descendance.                   |
 |                                                               |
 +---------------------------------------------------------------+
 
@@ -64,18 +69,6 @@ Généralités
 ^^^^^^^^^^^
 
 +---------------------------------------------------------------+
-+---------------------------------------------------------------+
-| .. module:: NextIteration                                     |
-|                                                               |
-| **NextIteration(iter_name)**                                  |
-|     Retourne une instance de la classe ``iteration`` qui suit |
-|     l'itération courante                                      |
-|                                                               |
-|     - ``iter_name`` : le nom à donner à la nouvelle itération |
-|                                                               |
-| Par défaut :                                                  |
-|                                                               |
-|  * le maillage produit a le même nom que l'itération          |
 +---------------------------------------------------------------+
 | .. module:: Compute                                           |
 |                                                               |
@@ -116,14 +109,6 @@ Généralités
 |                                                               |
 | **GetIterParent()**                                           |
 |     Retourne l'itération mère                                 |
-+---------------------------------------------------------------+
-| .. module:: LastIteration                                     |
-|                                                               |
-| **LastIteration()**                                           |
-|     Retourne une instance de la classe ``iteration`` : la     |
-|     dernière créée dans la descendance de l'itération. C'est  |
-|     celle qui est sans fille. Il y a erreur s'il existe plus  |
-|     d'une branche dans la descendance.                        |
 +---------------------------------------------------------------+
 | .. module:: AssociateHypo                                     |
 |                                                               |

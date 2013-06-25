@@ -30,8 +30,8 @@ Methods of the class homard
 |                                                               |
 +---------------------------------------------------------------+
 
-Methods of the class cas
-"""""""""""""""""""""""""
+Methods of both classes cas and iteration
+"""""""""""""""""""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -39,23 +39,29 @@ Methods of the class cas
 |                                                               |
 | **NextIteration(iter_name)**                                  |
 |     Returns an instance of the class ``iteration`` after      |
-|     its creation: it is the next iteration after the very     |
-|     first one that corresponds to the first mesh of the case  |
+|     its creation. It is the next iteration after:             |
+|                                                               |
+|     - for a case: the very first one that corresponds to the  |
+|       first mesh of the case                                  |
+|     - for an iteration: the current iteration                 |
+|                                                               |
+| Default:  the produced mesh has got the same name as the      |
+| iteration                                                     |
 |                                                               |
 |     - ``iter_name``: the name of this next iteration          |
-|                                                               |
-| Default:                                                      |
-|                                                               |
-|  * the produced mesh has got the same name as the iteration   |
 +---------------------------------------------------------------+
 | .. module:: LastIteration                                     |
 |                                                               |
 | **LastIteration()**                                           |
-|     Returns an instance of the class ``iteration``: the last  |
-|     iteration into the descendants of the initial iteration   |
-|     of the case. It is the one that has got no child. There is|
-|     an error if more than one branch exists into the          |
-|     descendants.                                              |
+|     Returns an instance of the class ``iteration`` that is    |
+|     the last iteration into the descendants of:               |
+|                                                               |
+|     - for a case: the very first one that corresponds to the  |
+|       first mesh of the case                                  |
+|     - for an iteration: the current iteration                 |
+|                                                               |
+|     It is the one that has got no child. There is an error if |
+|     more than one branch exists into the descendants.         |
 |                                                               |
 +---------------------------------------------------------------+
 
@@ -66,19 +72,6 @@ General methods
 ^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
-+---------------------------------------------------------------+
-| .. module:: NextIteration                                     |
-|                                                               |
-| **NextIteration(iter_name)**                                  |
-|     Returns an instance of the class ``iteration`` after      |
-|     its creation: it is the next iteration after the current  |
-|     one                                                       |
-|                                                               |
-|     - ``iter_name``: the name of this next iteration          |
-|                                                               |
-| Default:                                                      |
-|                                                               |
-|  * the produced mesh has got the same name as the iteration   |
 +---------------------------------------------------------------+
 | .. module:: Compute                                           |
 |                                                               |
@@ -119,15 +112,6 @@ General methods
 |                                                               |
 | **GetIterParent()**                                           |
 |     Returns the iteration parent                              |
-+---------------------------------------------------------------+
-| .. module:: LastIteration                                     |
-|                                                               |
-| **LastIteration()**                                           |
-|     Returns an instance of the class ``iteration``: the last  |
-|     iteration into the descendants of the current iteration.  |
-|     It is the one that has got no child. There is             |
-|     an error if more than one branch exists into the          |
-|     descendants.                                              |
 +---------------------------------------------------------------+
 | .. module:: AssociateHypo                                     |
 |                                                               |
