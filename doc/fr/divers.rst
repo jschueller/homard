@@ -1,4 +1,4 @@
-.. _gui_divers:
+.. _divers:
 
 Divers
 ======

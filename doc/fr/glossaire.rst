@@ -21,6 +21,9 @@ Glossaire
    cas
       Un cas est défini par un maillage initial et une succession d'adaptations.
 
+   indicateur d'erreur
+      L'indicateur d'erreur est un champ exprimé sur les mailles du calcul. Il représente l'écart entre la solution réelle et la solution calculée.
+
    itération
       Une itération est le processus qui permet de passer d'un maillage à un autre au sein d'un cas. Une itération met en oeuvre du raffinement et/ou du déraffinement selon l'hypothèse qui lui est attachée.
 

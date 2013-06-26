@@ -10,13 +10,13 @@ Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes d
 Raffiner le maillage signifie découper des mailles désignées selon des indications founies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul pour ne plus tenir compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
 
 HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
-   - mailles-points
+   - mesh-points
    - segments
    - triangles
    - quadrangles
-   - tétraèdres
-   - hexaèdres
-   - prismes
+   - tetrahedra
+   - hexahaedra
+   - prisms
 
 Ces mailles peuvent être présentes simultanément. Par exemple, HOMARD saura adapter un maillage comportant des triangles et des quadrangles.
 Les noeuds acceptés sont évidemment les noeuds qui sont les sommets des mailles, ce qui correspond à la description classique « en degré 1 » . Si les éléments sont décrits « en degré 2 », les noeuds complémentaires sont gérés. En revanche, il ne peut pas y asee cohabitation de mailles décrites en degré 1 et d'autres décrites en degré 2. Enfin, HOMARD sait prendre en compte des noeuds isolés, qui n'appartiendraient à aucune définition de mailles : ils ressortiront tels quels du processus d'adaptation.
@@ -43,14 +43,14 @@ Au final, la chaîne complète part du maillage initial produit par un mailleur. E
 Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'est disponible dans le logiciel couplé, on peut utiliser un champ pour piloter l'adaptation. Un champ de contraintes en mécaniques peut être utilisé : raffiner là où les contraintes sont importantes est souvent efficace pour améliorer la qualité de la simulation. On peut également adapter en fonction du saut d'une variable d'une maille à sa voisine ou dans une zone connue a priori. Grâce à ses nombreuses options, HOMARD permet d'envisager de multiples scénarios d'adaptation de maillage.
 
 .. note::
-  Pour une description plus complète, see :download:`Description générale de HOMARD <../files/HOMARD_0.pdf>`.
+  For a extensive description of HOMARD, see :download:`Description générale de HOMARD <../files/HOMARD_0.pdf>`.
 
 .. note::
-  Pour une référence à HOMARD, utiliser :
+  To quote HOMARD, please refer to:
 
   G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
-  `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
+  `Available here<http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
 
 Some illustrations of adapted meshes

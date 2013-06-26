@@ -21,6 +21,9 @@ Glossary
    case
       A case is defined with an initial mesh and a list of adaptations.
 
+   error indicator
+      The error indicator is a field that is expressed over the elements. It represents an estimation of the error between the real solution and the computed solution.
+
    iteration
       An iteration is the process that transform a mesh to another one into a case. An iteration implies refinement and/or unrefinement, following the associated hypothesis.
 

@@ -57,6 +57,8 @@ Quelques illustrations de maillage adaptés
 """"""""""""""""""""""""""""""""""""""""""
 .. index:: single: illustration
 
+On pourra trouver dans :ref:`applications` des exemples d'utilisations de l'adaptation de maillage.
+
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 |                                                               |

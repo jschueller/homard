@@ -110,12 +110,14 @@ html_theme = 'default'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = None
+html_logo = None
+#html_logo = "../images/HOMARD.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = None
+html_favicon = None
+#html_favicon = "../images/homard_d.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -166,11 +168,11 @@ htmlhelp_basename = 'HOMARDdoc'
 
 # -- Options for LaTeX output --------------------------------------------------
 
-# The paper size ('letter' or 'a4').
-latex_paper_size = 'a4'
+# Paper size option of the document class ('a4paper' or 'letterpaper'), default 'letterpaper'.
+paper_size = 'a4paper'
 
-# The font size ('10pt', '11pt' or '12pt').
-#latex_font_size = '10pt'
+# Point size option of the document class ('10pt', '11pt' or '12pt'), default '10pt'.
+pointsize = '10pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
@@ -181,7 +183,8 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = None
+#latex_logo = "../images/HOMARD.png"
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
