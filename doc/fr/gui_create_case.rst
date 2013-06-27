@@ -80,6 +80,8 @@ La définition des frontières est décrite dans :ref:`gui_create_boundary`.
 
 .. index:: single: pyramide
 
+.. _options_avancees:
+
 Les options avancées
 """"""""""""""""""""
 Par défaut, aucune option avancée n'est active.

@@ -16,6 +16,7 @@ Mode d'emploi
 .. toctree::
    :maxdepth: 1
 
+   demarrage_rapide
    gui_usage
    tui_usage
    tutorials
