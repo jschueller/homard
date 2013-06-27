@@ -71,7 +71,7 @@ The adaption goes on with the same criteria; the hypothesis "*Hypo_1*" is kept. 
 .. image:: images/intro_39.png
    :align: center
 
-As before, the iteration is computed ans the results are found into the directory of the case, including the mesh ``maill.02.med``.
+As before, the iteration is computed and the results are found into the directory of the case, including the mesh ``maill.02.med``.
 
 .. image:: ../images/intro_40.png
    :align: center

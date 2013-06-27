@@ -7,12 +7,12 @@ User's guide of the graphical interface
 
 Activation of the module HOMARD
 """""""""""""""""""""""""""""""
-Pour utiliser le module HOMARD, deux façons existent :
+Two ways can be used to launch the module HOMARD:
 
-#. en activant l'onglet HOMARD dans la liste des modules,
-#. en cliquant sur le bouton HOMARD dans la barre d'outils.
+#. by activating the tab HOMARD into the list of the modules
+#. by clicking the button HOMARD into tool bar
 
-L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une qui a été précédemment enregistrée, selon le principe qui a été retenu pour tous les autres modules de SALOME.
+The user can choose either to start a new study or to open an old stored one, as it can be done for every module of SALOME.
 
 .. image:: images/homard_1.png
    :align: center
@@ -20,7 +20,7 @@ L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une q
 Definition of an adaptation
 """""""""""""""""""""""""""
 
-Une fois que HOMARD a été activé, la permière action consiste à créer un cas. Il s'agit de sélectionner le maillage initial de la suite d'adaptations envisagée (voir :ref:`gui_create_case`). A partir de ce cas, on définira les itérations successives (voir :ref:`gui_create_iteration`) à partir des hypothèses (voir :ref:`gui_create_hypothese`). Les adaptations sont lancées tel que décrit dans :ref:`gui_homard`.
+Once the activation of the module HOMARD is done, a case is created. The initial mesh of the series of adapted meshes is selected (see :ref:`gui_create_case`). From this case, the successives iterations are defined (see :ref:`gui_create_iteration`) with hypotheses (see :ref:`gui_create_hypothese`). The adaptations are launched as described in :ref:`gui_homard`.
 
 
 User's guide of the graphical interface

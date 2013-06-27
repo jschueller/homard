@@ -1,7 +1,7 @@
 .. _gui_create_zone:
 
 La zone
-=======
+#######
 .. index:: single: zone
 .. index:: single: 2D
 
@@ -28,11 +28,11 @@ conformité pour produire un maillage correct.
   Les valeurs proposées par défaut pour les dimensions des zones tiennent compte de la géométrie du maillage.
 
 Nom de la zone
-""""""""""""""
+**************
 Un nom de zone est proposé automatiquement : Zone_1, Zone_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été déjà utilisé pour une autre zone.
 
 Un parallélépipède
-""""""""""""""""""
+******************
 .. index:: single: boite
 
 Le parallélépipède est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chaque direction.
@@ -41,7 +41,7 @@ Le parallélépipède est obligatoirement parallèle aux axes de coordonnées. Il est
    :align: center
 
 Un cylindre
-"""""""""""
+***********
 .. index:: single: cylindre
 
 Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa hauteur et son rayon. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
@@ -50,7 +50,7 @@ Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa ha
    :align: center
 
 Un tuyau
-""""""""
+********
 .. index:: single: tuyau
 
 Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa hauteur et ses rayons interne et externe. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
@@ -59,7 +59,7 @@ Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa ha
    :align: center
 
 Une sphère
-""""""""""
+**********
 .. index:: single: sphere
 
 La sphère est définie par son centre et son rayon.
@@ -68,7 +68,7 @@ La sphère est définie par son centre et son rayon.
    :align: center
 
 Un rectangle
-""""""""""""
+************
 .. index:: single: rectangle
 
 Le rectangle est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chacune des directions valides. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
@@ -77,7 +77,7 @@ Le rectangle est obligatoirement parallèle aux axes de coordonnées. Il est défin
    :align: center
 
 Un disque
-"""""""""
+*********
 .. index:: single: disque
 
 Le disque est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et son rayon. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
@@ -86,7 +86,7 @@ Le disque est obligatoirement dans le plan des axes de coordonnées. Il est défin
    :align: center
 
 Un disque avec trou
-"""""""""""""""""""
+*******************
 .. index:: single: disque avec trou
 
 Le disque avec trou est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et ses rayons externe et interne. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
@@ -97,5 +97,5 @@ Le disque avec trou est obligatoirement dans le plan des axes de coordonnées. Il
 
 
 Méthodes python correspondantes
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`tui_create_zone`

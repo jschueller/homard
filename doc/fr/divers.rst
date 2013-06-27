@@ -1,16 +1,16 @@
 .. _divers:
 
 Divers
-======
+######
 
 Références
-""""""""""
+**********
 .. index:: single: référence
 
 Le logiciel HOMARD a fait l'objet de publications techniques au cours de conférences ces dernières années. Les références des principaux documents sont présentées ici.
 
 Référence principale
-^^^^^^^^^^^^^^^^^^^^
+====================
 
 Pour une référence à HOMARD, utiliser :
 
@@ -20,7 +20,7 @@ G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Mes
 
 
 Découpage de maillage
-^^^^^^^^^^^^^^^^^^^^^
+=====================
 
   * G. Nicolas, T. Fouquet, Conformal hexaedral meshes and adaptive mesh refinement, VI International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2013*", J.P. Moitinho de Almeida, P. Diez, C. Tiago and N. Pares (Eds), Lisbonne, pp. 515-526, 2013
   * G. Nicolas, T. Fouquet, Hexaedral mesh adaptation for finite volume methods, III International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2007*", K. Runesson, P. Diez (Eds), Goteborg, pp. 174-177, 2007
@@ -28,7 +28,7 @@ Découpage de maillage
   * G. Nicolas, F. Arnoux-Guisse, O. Bonnin, Un logiciel d'adaptation de maillage en 2D et 3D, 27ème Congrès d'Analyse Numérique, Super-Besse, France, 29 mai-2 juin 1995.
 
 Estimateurs d'erreurs
-^^^^^^^^^^^^^^^^^^^^^
+=====================
 
   * A. Ern, S. Meunier, A posteriori error analysis of Euler-Galerkin approximations to coupled elliptic-parabolic problems", ESAIM: M2AN 43 (2009) 353-375.
   * J. Delmas, Stratégies de controle d'erreur en calcul de structures industrielles., Thèse de l'Université de Picardie, France, avril 2008
@@ -41,12 +41,12 @@ Estimateurs d'erreurs
   * O. Bonnin, B. Métivet, G. Nicolas, F. Arnoux-Guisse, L. Léal de Sousa, Adaptive Meshing for N3S Fluid Mechanics Code, "*Computational Fluid Dynamics '94*", ECCOMAS Stuttgart, Allemagne, pp. 201-208, Wiley 1994.
 
 Applications
-^^^^^^^^^^^^
+============
   * S. Meunier, R. Fernandes, Mesh Adaptation for Coupled Hydro-Mechanical Industrial Studies, V International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2011*", D. Aubry, P. Diez, B. Tie and N. Pares (Eds), Paris, pp. 337-338, 2011
   * O. Hartmann, O. Bonnin, D. Gasser, An Adaptive Meshing for Turbomachinery Geometries, "*Computational Fluid Dynamics '98*", ECCOMAS Athènes, Grèce, Wiley 1998.
 
 Evolutions du module
-""""""""""""""""""""
+********************
 .. index:: single: évolution
 
 On trouvera ici les principales évolutions de HOMARD à partir de la première version livrée dans SALOME 6.5.

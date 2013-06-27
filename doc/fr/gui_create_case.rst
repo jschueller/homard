@@ -1,7 +1,7 @@
 .. _gui_create_case:
 
 La création d'un cas
-====================
+####################
 .. index:: single: cas
 
 La définition du cas se fait par la donnée des informations suivantes :
@@ -17,11 +17,11 @@ La définition du cas se fait par la donnée des informations suivantes :
 
 
 Le nom du cas
-"""""""""""""
+*************
 Un nom de cas est proposé automatiquement : Case_1, Case_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour un autre cas.
 
 Le répertoire
-"""""""""""""
+*************
 Le répertoire est celui qui contiendra les fichiers produits par les adaptations successives. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, où ``xx`` est un numéro d'ordre créé automatiquement. Ces fichiers seront visibles dans l'arbre d'études.
 
 .. image:: images/create_case_2.png
@@ -31,7 +31,7 @@ Le répertoire est celui qui contiendra les fichiers produits par les adaptations
 .. index:: single: MED
 
 Le maillage initial
-"""""""""""""""""""
+*******************
 Le maillage initial doit se trouver dans un fichier au format MED. Classiquement, il aura été produit par le logiciel de calcul avec lequel on travaille. Mais il peut également avoir été créé avec le module SMESH et exporté au format MED. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
 
 .. image:: images/create_case_3.png
@@ -46,7 +46,7 @@ Le maillage initial doit se trouver dans un fichier au format MED. Classiquement
 .. index:: single: type de conformité
 
 Le type de conformité
-"""""""""""""""""""""
+*********************
 Les itérations qui seront calculées pour ce cas devront toutes respecter le même comportement vis-à-vis de la conformité.
 
 L'option par défaut, 'conforme', implique que les maillages produits par HOMARD seront conformes au sens des éléments finis. C'est le choix classique de la plupart des logiciels de simulation par éléments finis.
@@ -63,7 +63,7 @@ Néanmoins, si le calcul est possible avec des maillages non conformes, on a le c
 .. index:: single: frontière
 
 Les frontières courbes
-""""""""""""""""""""""
+**********************
 Quand le bord du domaine est courbe, HOMARD sait placer les nouveaux noeuds sur ces frontières pour éviter des singularités artificielles. Cette technique est aussi applicable à une courbure intérieure à un domaine.
 
 Deux cas de figure sont présents :
@@ -83,7 +83,7 @@ La définition des frontières est décrite dans :ref:`gui_create_boundary`.
 .. _options_avancees:
 
 Les options avancées
-""""""""""""""""""""
+********************
 Par défaut, aucune option avancée n'est active.
 
 Néanmoins, on peut définir une oprion avancée :
@@ -104,7 +104,7 @@ Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois
 
 
 La poursuite d'un cas
-=====================
+*********************
 .. index:: single: poursuite
 .. index:: single: yacs
 
@@ -141,7 +141,7 @@ Si on souhaite partir d'une itération qui ne soit pas la dernière, il suffit de 
 
 
 L'arbre d'étude
-"""""""""""""""
+***************
 A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau cas. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni.
 
 .. image:: images/create_case_6.png
@@ -150,6 +150,6 @@ A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau
 
 
 Méthodes python correspondantes
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`tui_create_case`
 

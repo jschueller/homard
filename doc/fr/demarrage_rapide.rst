@@ -1,7 +1,7 @@
 .. _demarrage_rapide:
 
 Démarrage rapide
-================
+################
 .. index:: single: démarrage
 .. index:: single: exemple
 

@@ -7,11 +7,11 @@
 .. |flag| image:: ./images/drapeau_fr.gif
 
 Documentation du composant HOMARD  |logo|
------------------------------------------
+#########################################
 HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme SALOME.
 
 Mode d'emploi
-"""""""""""""
+*************
 
 .. toctree::
    :maxdepth: 1
@@ -22,7 +22,7 @@ Mode d'emploi
    tutorials
 
 Présentation générale
-"""""""""""""""""""""
+*********************
 
 .. toctree::
    :maxdepth: 1
@@ -32,7 +32,7 @@ Présentation générale
    divers
 
 Licence
-"""""""
+*******
 .. index:: single: Licence
 
 La licence pour ce module est la GNU Lesser General Public License (Lesser GPL), tel qu'il est déclaré ici et dans les fichiers source.
@@ -53,7 +53,7 @@ En complément, nous souhaitons que toute publication décrivant un travail utilis
 La documentation de ce module est aussi couverte par la licence et l'obligation de citation.
 
 Index et tables
-"""""""""""""""
+***************
 
 * :ref:`genindex`
 * :ref:`modindex`

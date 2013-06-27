@@ -1,7 +1,7 @@
 .. _gui_create_hypothese:
 
 L'hypothèse
-===========
+###########
 .. index:: single: hypothèse
 
 L'hypothèse contient toutes les paramètres de pilotage d'une adaptation d'un maillage. Cette opération permet de réaliser l'itération à laquelle elle est attachée.
@@ -17,15 +17,15 @@ Il existe trois classes d'hypothèses :
 
 
 Nom de l'hypothèse
-""""""""""""""""""
+******************
 Un nom de l'hypothèse est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une hypothèse précédente.
 
 Adaptation uniforme
-"""""""""""""""""""
+*******************
 Par défaut on propose un raffinement uniforme. Quand on part d'un maillage qui a déjà été raffiné, l'option de déraffinement supprimera les mailles produites.
 
 Adaptation selon un champ
-"""""""""""""""""""""""""
+*************************
 
 .. note::
   Pour pouvoir adapter le maillage selon un champ il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :ref:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
@@ -59,7 +59,7 @@ La même convention s'applique au déraffinement, en remplaçant supérieur par infé
 
 
 Adaptation selon une zone
-"""""""""""""""""""""""""
+*************************
 .. index:: single: zone
 
 Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (voir :ref:`gui_create_zone`) :
@@ -74,7 +74,7 @@ Lorsque des zones ont déjà été créées, la liste apparaît dans la fenêtre, ce qui
 
 
 Filtrage par les groupes
-""""""""""""""""""""""""
+************************
 .. index:: single: groupe
 
 On peut restreindre l'application de l'hypothèse d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modidiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
@@ -90,7 +90,7 @@ La liste des groupes de mailles présents dans le maillage est affichée. Il suffi
 
 
 Interpolation de champs
-"""""""""""""""""""""""
+***********************
 .. index:: single: interpolation
 
 .. note::
@@ -108,7 +108,7 @@ Si on veut choisir les champs à interpoler, il faut les cocher dans la liste de 
 
 
 Les options avancées
-""""""""""""""""""""
+********************
 Si la case "Options avancées" n'est pas cochée, aucune contrainte supplémentaire n'est définie.
 Si la case est cochée, on définira les options avancées.
 
@@ -124,7 +124,7 @@ Le dernier choix porte sur une sortie supplémentaire de l'adaptation. Si la case
 .. index:: single: arbre d'étude
 
 L'arbre d'étude
-"""""""""""""""
+***************
 .. index:: single: arbre d'étude
 
 L'arbre d'études contient les hypothèses créées et les itérations qui les utilisent. La description des zones qui leur sont éventuellement attachées est présente.
@@ -135,5 +135,5 @@ L'arbre d'études contient les hypothèses créées et les itérations qui les utilis
 
 
 Méthodes python correspondantes
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`tui_create_hypothese`

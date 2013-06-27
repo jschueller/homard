@@ -4,13 +4,13 @@ The creation of a case
 ======================
 .. index:: single: case
 
-La définition du cas se fait par la donnée des informations suivantes :
+The definition of a case is done with the following data:
 
-  - Un nom
-  - Un répertoire
-  - Le fichier du maillage initial
-  - Le type de conformité pour la série d'adaptations envisagées
-  - Les éventuelles frontières courbes à respecter
+  - A name
+  - A directory
+  - The file of the initial mesh
+  - The type of conformity for the serie of adaptations
+  - Some curved boundaries
 
 .. image:: images/create_case_1.png
    :align: center
@@ -18,11 +18,11 @@ La définition du cas se fait par la donnée des informations suivantes :
 
 Name of the case
 """"""""""""""""
-Un nom de cas est proposé automatiquement : Case_1, Case_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour un autre cas.
+A name is automatically suggested for the case: Case_1, Case_2, etc. This name can be modified. It must be a new name.
 
 The directory
 """""""""""""
-Le répertoire est celui qui contiendra les fichiers produits par les adaptations successives. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, où ``xx`` est un numéro d'ordre créé automatiquement. Ces fichiers seront visibles dans l'arbre d'études.
+The directory will countain all the files producted by the successive adaptations. By default, nothing is suggested. The choice is made either by giving a name into the text zone or by a selection through the search window. In this directory, the MED files for the adapted mesh will be stored, with name ``maill.xx.med``, where ``xx`` is a rank number automatically created. These files can be seen into the object browser.
 
 .. image:: images/create_case_2.png
    :align: center
@@ -32,51 +32,54 @@ Le répertoire est celui qui contiendra les fichiers produits par les adaptations
 
 The initial mesh
 """"""""""""""""
-Le maillage initial doit se trouver dans un fichier au format MED. Classiquement, il aura été produit par le logiciel de calcul avec lequel on travaille. Mais il peut également avoir été créé avec le module SMESH et exporté au format MED. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
+The initial mesh must be stored into a MED file. Usually, it is produced by the software that solves the physical problem. But it also can be created by the module SMESH and exported with the MED format. The name of the file is choosen either by giving a name into the text zone or by a selection through the search window.
+
 
 .. image:: images/create_case_3.png
    :align: center
 
 .. note::
-  Le fichier ne doit contenir qu'un seul maillage.
+  Only one mesh into the file.
 
 .. warning::
-  Le maillage ne doit pas être lui-même le produit d'une adaptation de maillage par HOMARD, sous peine de perdre la cohérence entre les différents niveaux de raffinement/déraffinement
+  The initial mesh must not be itself the product of an adaptation by HOMARD. If it is, the coherence between the different levels of refinement will be lost.
+
 
 .. index:: single: conformity
 
 Type of conformity
 """"""""""""""""""
-Les itérations qui seront calculées pour ce cas devront toutes respecter le même comportement vis-à-vis de la conformité.
+The future iterations for this case must respect the the same behaviour regarding the type of conformity.
 
-L'option par défaut, 'conforme', implique que les maillages produits par HOMARD seront conformes au sens des éléments finis. C'est le choix classique de la plupart des logiciels de simulation par éléments finis.
+The default option, 'conformal', implies that the meshes produced by HOMARD will be conformal, as expected in the finite element method. This is a classical choice for most of the simulation software with the finite element method.
 
-Néanmoins, si le calcul est possible avec des maillages non conformes, on a le choix entre 3 possibilités :
+Nevertheless, if the computation is available with non conformal meshes, 3 possibilities are available:
+
 
 .. image:: images/create_case_4.png
    :align: center
 
-* 1 noeud par maille : une maille ne peut posséder qu'un seul noeud de non conformité avec ses voisines.
-* 1 noeud par arête : chaque arête d'une maille peut être découpée sans que la maille voisine par cette arête ne le soit.
-* quelconque : aucune limitation sur les raccords de conformité d'une maille à l'autre.
+* 1 node per element: an element must not have more than one hanging node with its neighbours.
+* 1 node per edge: every single edge of an element ban be split once while its neighbour is not.
+* free: no limit for the number of hanging node.
 
 .. index:: single: boundary
 
 The boundaries
 """"""""""""""
-Quand le bord du domaine est courbe, HOMARD sait placer les nouveaux noeuds sur ces frontières pour éviter des singularités artificielles. Cette technique est aussi applicable à une courbure intérieure à un domaine.
+If the limit of the domain is curved, HOMARD can put the new nodes onto these curved limits to avoid some artificial singularities. This technique is effective for external limits as well for internal limits.
 
-Deux cas de figure sont présents :
+Two situations:
 
-* courbe 1D : cette courbe peut être définie dans un plan, par exemple pour un calcul 2D. Elle peut également être définie dans l'espace 3D, par exemple pour l'intersection de deux surfaces. Une ligne à suivre est décrite de manière discrète.
-* surface : une surface à suivre est décrite de manière analytique.
+* 1D curve: this curve may be defined into a plane, for example for a 2D calculation. It can also be defined into the 3D space, for example to describe the intersection of two surfaces. Such a line is defined with a discrete desription.
+* a surface: such a surface is defined with an analytical description.
 
-On cochera le ou les boutons voulus :
+Check the button:
 
 .. image:: images/create_case_5.png
    :align: center
 
-La définition des frontières est décrite dans :ref:`gui_create_boundary`.
+The definition of the boundaries is described in :ref:`gui_create_boundary`.
 
 .. index:: single: pyramid
 

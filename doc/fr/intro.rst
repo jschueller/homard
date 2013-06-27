@@ -1,10 +1,10 @@
 .. _gui_intro:
 
 Introduction
-============
+############
 
 Présentation générale
-"""""""""""""""""""""
+*********************
 Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes de calculs par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du code de calcul auquel il est couplé.
 
 Raffiner le maillage signifie découper des mailles désignées selon des indications founies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul pour ne plus tenir compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
@@ -30,12 +30,13 @@ Plusieurs motivations apparaissent pour adapter un maillage :
   - les conditions du calcul changent au cours de son déroulement : les zones qui doivent être maillées finement se déplacent. Si on maille fin partout dès le début, le maillage est trop gros. En adaptant au fur et à mesure, le maillage ne sera fin qu'aux endroits nécessaires : sa taille sera réduite et la qualité de la solution sera bonne.
 
 Dans tous les cas, le principe de l'adaptation de maillage reste le même. Sur le maillage de départ, on réalise le calcul standard. Avec une analyse de la solution numérique obtenue, on estime l'erreur qui a été commise par rapport à la solution réelle. Cette estimation se représente par une valeur d'indicateur d'erreur dans chaque maille du calcul. A partir de là, on applique le principe suivant : les mailles où l'indicateur d'erreur est fort devraient être plus petites et, réciproquement, les mailles où l'indicateur d'erreur est faible pourraient être plus grandes. Avec cette information, on alimente HOMARD qui va modifier le maillage en conséquence. Sur le nouveau maillage, on recommencera alors le calcul.
+
 Schématiquement, une itération d'adaptation de maillage se présente ainsi. Le logiciel calcule la solution numérique sur le maillage n°k, puis en déduit les valeurs de l'indicateur d'erreur sur tout le maillage. A partir de la connaissance du maillage n°k et de l'indicateur n°k, HOMARD crée le nouveau maillage n°k+1.
 
 .. image:: images/intro_1.png
    :align: center
 
-Au final, la chaîne complète part du maillage initial produit par un mailleur. Elle comprend des maillons successifs (calcul d'indicateur / adaptation) comme sur la figure ci-après.
+Au final, la chaîne complète part du maillage initial, puis comprend des maillons successifs (calcul d'indicateur / adaptation). Pour des problèmes stationnaires en temps, cela équivaut à une succession de calculs indépendants sur différents maillages. Pour des problèmes transitoires, le calcul est suspendu à un instant donné ; après adaptation du maillage, le calcul est repris au même instant ou à un instant antérieur.
 
 .. image:: ../images/intro_2.png
    :align: center
@@ -53,8 +54,196 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
   `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
 
+Mode de découpage des mailles
+*****************************
+.. index:: single: découpage
+.. index:: single: conformité
+
+Globalement le processus de maillage adaptatif par découpage des mailles se résume en deux phases. Dans la première phase, on découpe toutes les mailles qui ont été désignées par les indications de pilotage. Cela produit un maillage qui n'est pas conforme : des noeuds sont pendants à la jonction entre une zone à raffiner et une zone à garder.
+La seconde phase vise à régler tous ces problèmes de conformité.
+
+A ces deux phases correspondent des modes de découpages différents.
+Dans la première phase, toutes les mailles sont découpées de la même manière ; c'est ce que nous appelons le découpage standard. Dans la seconde phase, une partie des conflits de conformité de maillage dans les zones de jonction se règle
+par les mêmes découpages standard de mailles et une autre partie se règle par des découpages spéciaux.
+
+Les modes de découpage décrits ci-dessous ont été choisis pour ne pas détériorer la qualité du maillage au cours des itérations d'adaptation.
+
+
+Le découpage standard
+=====================
+Le découpage standard des mailles se fait en ayant pour objectif de limiter les cas de figure.
+Ainsi, les arêtes sont-elles scindées en deux moitiés égales.
+
+Pour découper un triangle, on découpe ses trois arêtes en deux et on se trouve avec 4 triangles semblables. Ils conservent donc la même qualité.
+
+.. image:: ../images/dec_tria_1.gif
+   :align: center
+   :alt: Découpage standard d'un triangle
+   :width: 399
+   :height: 88
+
+Pour découper un quadrangle, on découpe ses quatre arêtes en deux et on se trouve avec 4 quadrangles non semblables au quadrangle père et donc de qualité différente.
+
+.. image:: ../images/dec_quad_1.png
+   :align: center
+   :alt: Découpage standard d'un quadrangle
+   :width: 399
+
+Le découpage des tétraèdres se fait en huit. Pour commencer, chacune des faces triangulaires est découpée en 4 faces triangulaires semblables.
+
+.. image:: ../images/dec_tetr_1.gif
+   :align: center
+   :alt: Découpage standard d'un tétraèdre - 1
+   :width: 328
+   :height: 115
+
+Ce découpage des faces produit 4 tétraèdres dans les angles du tétraèdre initial. On remarque que ces 4 nouveaux tétraèdres sont homothétiques de l'initial. Ils conservent donc la même qualité.
+
+.. image:: ../images/dec_tetr_2.gif
+   :align: center
+   :alt: Découpage standard d'un tétraèdre - 2
+   :width: 201
+   :height: 159
+
+Il reste au coeur du tétraèdre, un bloc qui a la forme de deux pyramides accolées par leur base. On crée une arête avec l'une des 3 diagonales possibles, puis les 4 faces qui contiennent cette arête et deux arêtes extérieures.
+
+.. image:: ../images/dec_tetr_3.gif
+   :align: center
+   :alt: Découpage standard d'un tétraèdre - 3
+   :width: 244
+   :height: 74
+
+Cela produit 4 nouveaux tétraèdres. On notera qu'ils sont semblables deux à deux, mais qu'ils ne peuvent jamais être semblables au tétraèdre initial. Ils ne pourront donc jamais avoir la même qualité que lui. Toutefois, selon le choix
+de la diagonale qui a servi à la découpe du bloc pyramidal interne, le résultat
+n'est pas le même. On montre que le meilleur choix, en terme de qualité, est celui
+de la plus petite des trois diagonales possibles.
+
+.. image:: ../images/dec_tetr_4.gif
+   :align: center
+   :alt: Découpage standard d'un tétraèdre - 4
+   :width: 229
+   :height: 116
+
+Le découpage des hexaèdres se fait en huit. Chacune des faces quadrangulaires est découpée en 4 faces quadrangulaires. 3 faces internes à l'hexaèdre sont créées, puis chacune est découpée en 4. Cette construction crée 6 points supplémentaires au centre de chaque face externe et un point supplémentaire à l'intérieur de l'hexaèdre.
+
+.. image:: ../images/dec_hex.png
+   :align: center
+   :alt: Découpage standard d'un hexaèdre
+   :scale: 70
+
+Le découpage des pentaèdres se fait en huit. Chacune des faces quadrangulaires est découpée en 4 faces quadrangulaires de manière standard, de même pour les faces triangulaires. On construit trois arêtes internes chacune parallèle à une des faces quadrangulaires au milieu du penatèdre. On construit ensuite 4 faces triangulaires s'appuyant sur ces arêtes et correspondant au découpage standard d'une face triangulaire à l'intérieur du pentaèdre. Six faces quadrangulaires internes sont créées deux à deux parallèles à chaque face quadrangulaire du pentaèdre.
+
+.. image:: ../images/dec.pent.png
+   :align: center
+   :alt: Découpage standard d'un pentaèdre
+   :scale: 20
+
+Le découpage de mise en conformité
+==================================
+
+Le découpage de mise en conformité s'appliquent aux mailles à l'interface entre deux niveaux de raffinement différent.
+Ces découpages produisent des mailles de qualité moindre par rapport aux mailles et on voit dans l'algorithme général comment cet inconvénient est pris en compte pour en minimiser les conséquences.
+
+Etant donné notre algorithme de maillage adaptatif, seules les quatre situations suivantes peuvent être rencontrées :
+
+Dans le cas d'un triangle, l'une de ses trois arêtes est coupée en deux. On joint son milieu au sommet opposé pour former deux nouveaux triangles.
+
+.. image:: ../images/dec_tria_2.gif
+   :align: center
+   :alt: Découpage de conformité d'un triangle
+   :width: 399
+   :height: 88
+
+Dans le cas d'un quadrangle, l'une de ses quatre arêtes est coupée en deux. On joint son milieu aux deux sommets opposés pour former trois triangles. Le maillage adapté obtenu est donc mixte.
+
+.. image:: ../images/dec_quad_2.png
+   :align: center
+   :alt: Découpage de conformité d'un quadrangle
+   :width: 399
+
+Pour un tétraèdre dont trois des arêtes sont coupées : cela n'est possible que si ces arêtes sont sur la même face. Cette face est donc coupée en quatre. On joint les milieux des arêtes découpées au sommet opposé. Cela coupe en deux les trois autres faces et il y a création de 4 tétraèdres.
+
+.. image:: ../images/dec_tetr_5.gif
+   :align: center
+   :alt: Découpage de conformité d'un tétraèdre - 1
+   :width: 116
+   :height: 116
+
+Pour un tétraèdre dont deux des arêtes sont coupées : cela n'est possible que si ces arêtes sont opposées. On fait toutes les jonctions entre les milieux de ces arêtes et les autres sommets, ainsi que entre les deux milieux d'arêtes. Les quatre faces sont coupées en deux et il y a création de 4 tétraèdres.
+
+.. image:: ../images/dec_tetr_6.gif
+   :align: center
+   :alt: Découpage de conformité d'un tétraèdre - 2
+   :width: 116
+   :height: 116
+
+Pour un tétraèdre dont une des arêtes est coupée : on joint le milieu de cette arête découpée au sommet opposé et il y a création de 2 tétraèdres.
+
+.. image:: ../images/dec_tetr_6.gif
+   :align: center
+   :alt: Découpage de conformité d'un tétraèdre - 3
+   :width: 116
+   :height: 116
+
+La conformité des hexaèdres est assurée par des combinaisons de tétraèdres et de pyramides. Les situations dépendent du nombre de non-conformités.
+
+Pour un hexaèdre dont une face est coupée il y a création de 4 arêtes, de 4 tétraèdres et de 5 pyramides.
+
+.. image:: ../images/hexaface.png
+   :align: center
+   :alt: Découpage de conformité d'un hexaèdre - 1 face
+   :width: 384
+   :height: 101
+
+Pour un hexaèdre dont une seule arête est coupée il y a création de deux arêtes et de 4 pyramides.
+
+.. image:: ../images/hexa1arete.png
+   :align: center
+   :alt: Découpage de conformité d'un hexaèdre - 1 arête
+   :width: 384
+   :height: 101
+
+Pour un hexaèdre dont deux arêtes sont coupées il y a création  d'un point central, de 10 arêtes, de 12 tétraèdres et de 2 pyramides.
+
+.. image:: ../images/hexa2aretes.png
+   :align: center
+   :alt: Découpage de conformité d'un hexaèdre - 2 arêtes
+   :width: 384
+   :height: 101
+
+Pour un hexaèdre dont trois arêtes sont coupées il y a création  d'un point central, de 11 arêtes et de 18 tétraèdres.
+
+.. image:: ../images/hexa3aretes.png
+   :align: center
+   :alt: Découpage de conformité d'un hexaèdre - 3 arêtes
+   :width: 384
+   :height: 101
+
+
+
+L'algorithme
+************
+.. index:: single: algorithme
+
+La stratégie retenue dans les algorithmes d'HOMARD consiste à forcer le découpage en quatre pour toutes les faces triangulaires ou quadrangulaires présentant deux points de non conformité. A la fin, les seuls triangles ou quadrangles présentant des points de non conformité sont des faces où une arête et une seule est découpée. La mise en conformité est
+alors assurée par la solution la plus simple possible comme vu ci-avant.
+Cette dernière étape de mise en conformité introduit des mailles dont la qualité peut être plus faible que celle
+des mailles dont elles sont issues. Cet inconvénient est contrôlé car nous avons choisi de donner un statut temporaire
+à ces mailles de mise en conformité : elles sont présentes pour produire un maillage acceptable par les logiciels
+de calcul, mais disparaissent s'il y a besoin de les découper ultérieurement.
+Ainsi, la modification de qualité ne se propage pas au fil des itérations d'adaptation de maillage et reste limitée autant en valeur qu'en nombre de mailles concernées.
+
+L'algorithme général est donc le suivant :
+
+    * Transfert des indications de raffinement ou de déraffinement des mailles en décisions de découpage ou de regroupement d'arêtes, de triangles et de quadrangles.
+    * Suppression des mailles temporaires de mise en conformité.
+    * Par examen de tous les triangles et quadrangles du niveau de découpage le plus bas vers le niveau le plus haut, règlement des conflits sur le déraffinement au moyen des règles de base.
+    * Par examen de tous les triangles et quadrangles du niveau de découpage le plus haut vers le niveau le plus bas, règlement des conflits sur le raffinement au moyen des règles de base.
+    * Création effective du nouveau maillage : découpage standard, suivi de mise en conformité.
+
+
 Quelques illustrations de maillage adaptés
-""""""""""""""""""""""""""""""""""""""""""
+******************************************
 .. index:: single: illustration
 
 On pourra trouver dans :ref:`applications` des exemples d'utilisations de l'adaptation de maillage.
