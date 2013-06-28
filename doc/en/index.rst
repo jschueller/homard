@@ -7,11 +7,11 @@
 .. |flag| image:: ./images/drapeau_en.gif
 
 Documentation of the component HOMARD |logo|
---------------------------------------------
+############################################
 The component HOMARD drives the mesh adaptation inside of the SALOME plateform.
 
 User's guide
-""""""""""""
+************
 
 .. toctree::
    :maxdepth: 1
@@ -22,17 +22,18 @@ User's guide
    tutorials
 
 General presentation
-""""""""""""""""""""
+********************
 
 .. toctree::
    :maxdepth: 1
 
    intro
+   regles
    applications
    divers
 
 Licence
-"""""""
+*******
 .. index:: single: Licence
 
 The licence for this module is the GNU Lesser General Public License (Lesser GPL), as stated here and in the source files.
@@ -53,7 +54,7 @@ In addition, we expect that all publications describing work using this software
 The documentation of the module is also covered by the licence and the requirement of quoting.
 
 Index and tables
-""""""""""""""""
+****************
 
 * :ref:`genindex`
 * :ref:`modindex`

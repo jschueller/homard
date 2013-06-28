@@ -1,15 +1,15 @@
 .. _gui_divers:
 
 Miscellaneous
-=============
+#############
 References
-""""""""""
+**********
 .. index:: single: reference
 
 The HOMARD software was subject of publications techniques in the course of conferences these last years. References of main documents are presented here.
 
 Main reference
-^^^^^^^^^^^^^^
+==============
 For a reference to HOMARD, use:
 
 G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
@@ -17,7 +17,7 @@ G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Mes
 `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
 Splitting meshing
-^^^^^^^^^^^^^^^^^
+=================
 
   * G. Nicolas, T. Fouquet, Conformal hexaedral meshes and adaptive mesh refinement, VI International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2013*", J.P. Moitinho de Almeida, P. Diez, C. Tiago and N. Pares (Eds), Lisbonne, pp. 515-526, 2013
   * G. Nicolas, T. Fouquet, Hexaedral mesh adaptation for finite volume methods, III International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2007*", K. Runesson, P. Diez (Eds), Goteborg, pp. 174-177, 2007
@@ -25,7 +25,7 @@ Splitting meshing
   * G. Nicolas, F. Arnoux-Guisse, O. Bonnin, Un logiciel d'adaptation de maillage en 2D et 3D, 27ème Congrès d'Analyse Numérique, Super-Besse, France, May 29-June 2, 1995.
 
 Error estimators
-^^^^^^^^^^^^^^^^
+================
 
   * A. Ern, S. Meunier, A posteriori error analysis of Euler-Galerkin approximations to coupled elliptic-parabolic problems", ESAIM: M2AN 43 (2009) 353-375.
   * J. Delmas, Stratégies de controle d'erreur en calcul de structures industrielles., PhD of the Université de Picardie, France, April 2008
@@ -38,13 +38,14 @@ Error estimators
   * O. Bonnin, B. Métivet, G. Nicolas, F. Arnoux-Guisse, L. Léal de Sousa, Adaptive Meshing for N3S Fluid Mechanics Code, "*Computational Fluid Dynamics '94*", ECCOMAS Stuttgart, Allemagne, pp. 201-208, Wiley 1994.
 
 Applications
-^^^^^^^^^^^^
+============
+
   * S. Meunier, R. Fernandes, Mesh Adaptation for Coupled Hydro-Mechanical Industrial Studies, V International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2011*", D. Aubry, P. Diez, B. Tie and N. Pares (Eds), Paris, pp. 337-338, 2011
   * O. Hartmann, O. Bonnin, D. Gasser, An Adaptive Meshing for Turbomachinery Geometries, "*Computational Fluid Dynamics '98*", ECCOMAS Athènes, Greece, Wiley 1998.
 
 
 Evolutions of the module
-""""""""""""""""""""""""
+************************
 .. index:: single: evolution
 
 Here are the main evolutions de HOMARD from the first release in SALOME 6.5.

@@ -1,7 +1,7 @@
 .. _gui_create_boundary:
 
 The boundary
-============
+############
 .. index:: single: boundary
 .. index:: single: frontière
 
@@ -14,7 +14,7 @@ Il existe deux modes de description d'une frontière :
 
 
 Discrete boundary
-=================
+*****************
 
 Le suivi d'une frontière discrète se fera en sélectionnant une frontière choisie dans la liste des frontières discrètes existantes.
 
@@ -39,7 +39,7 @@ Si des frontières discrètes ont déjà été définies pour un autre cas, on peut sél
 
 
 Analytical boundary
-===================
+*******************
 Au démarrage, SALOME affiche un tableau avec un seule colonne. Cette colonne contient la liste de tous les groupes du maillage initial définissant le cas.
 
 .. image:: images/create_boundary_an_1.png
@@ -82,7 +82,7 @@ Il existe trois types de frontière analytique :
 
 
 Cylindre
-""""""""
+========
 .. index:: single: cylindre
 
 Le cylindre est défini par un point de l'axe, son axe et son rayon. L'axe est défini par un vecteur. La norme de ce vecteur n'est pas nécessairement égale à 1 ; de même, son orientation n'a aucune importance. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
@@ -91,7 +91,7 @@ Le cylindre est défini par un point de l'axe, son axe et son rayon. L'axe est dé
    :align: center
 
 Sphere
-""""""
+======
 .. index:: single: sphere
 
 La sphère est définie par son centre et son rayon. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
@@ -100,7 +100,7 @@ La sphère est définie par son centre et son rayon. Un nom de frontière est propo
    :align: center
 
 Cone
-""""
+====
 .. index:: single: cone
 
 Un cône est défini de deux manières différentes : le centre, l'axe et l'angle d'ouverture en degré ou par deux points centrés sur l'axe et le rayon associé. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
@@ -118,14 +118,14 @@ Création par deux points centrés sur l'axe et le rayon associé :
 .. index:: single: object browser
 
 Object browser
-""""""""""""""
+**************
 A l'issue de cette création de frontières, l'arbre d'études a été enrichi. On y trouve toutes les frontières créées, identifiées par leur nom, avec la possibilité de les éditer.
 
 .. image:: images/create_boundary_1.png
    :align: center
 
 Corresponding python functions
-""""""""""""""""""""""""""""""
+******************************
 Look :ref:`tui_create_boundary`
 
 

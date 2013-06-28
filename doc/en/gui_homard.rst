@@ -1,12 +1,12 @@
 .. _gui_homard:
 
 The computation
-===============
+###############
 .. index:: single: iteration
 .. index:: single: computation
 
 To cumpute an iteration
-"""""""""""""""""""""""
+***********************
 Lancer une adaptation s'obtient en sélectionnant l'iteration à calculer. Elle est repérée par une icone "en attente". On choisit ensuite "*Calculer*" dans le menu HOMARD ou à la souris.
 
 .. image:: images/lancement_1.png
@@ -15,7 +15,7 @@ Lancer une adaptation s'obtient en sélectionnant l'iteration à calculer. Elle es
 .. index:: single: object browser
 
 Object browser
-""""""""""""""
+**************
 
 A l'issue de ce calcul, l'arbre d'études a été enrichi. L'icone devant l'iteration est validée. Sous l'iteration, on trouve la référence aux fichiers de résultats créés, identifiés par leur nom dans le répertoire *rep* qui a été défini à la création du cas :
 
@@ -32,7 +32,7 @@ Le fichier maill.(n+1).med est celui qui contient le maillage produit au format 
    :align: center
 
 To consult the result of an adaptation
-""""""""""""""""""""""""""""""""""""""
+**************************************
 Les deux fichiers de texte, Liste.n.vers.(n+1).log et apad.n.vers.(n+1).bilan, sont visibles en les sélectionnant. On choisit ensuite "*Afficher le fichier*" dans le menu HOMARD ou à la souris.
 
 .. image:: images/lancement_3.png
@@ -45,6 +45,6 @@ Les deux fichiers de texte, Liste.n.vers.(n+1).log et apad.n.vers.(n+1).bilan, s
   "*HOMARD_EXE_PRIVATE*" définit le nom de l'exécutable dans ce répertoire, si ce nom est différent de "*homard*".
 
 Corresponding python functions
-""""""""""""""""""""""""""""""
+******************************
 Look :ref:`tui_create_iteration`
 

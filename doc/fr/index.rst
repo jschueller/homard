@@ -28,6 +28,7 @@ Présentation générale
    :maxdepth: 1
 
    intro
+   regles
    applications
    divers
 

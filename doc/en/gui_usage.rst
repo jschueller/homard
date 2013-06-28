@@ -1,12 +1,12 @@
 .. _gui_usage:
 
 User's guide of the graphical interface
-=======================================
+#######################################
 .. index:: single: case
 .. index:: single: iteration
 
 Activation of the module HOMARD
-"""""""""""""""""""""""""""""""
+*******************************
 Two ways can be used to launch the module HOMARD:
 
 #. by activating the tab HOMARD into the list of the modules
@@ -18,13 +18,13 @@ The user can choose either to start a new study or to open an old stored one, as
    :align: center
 
 Definition of an adaptation
-"""""""""""""""""""""""""""
+***************************
 
 Once the activation of the module HOMARD is done, a case is created. The initial mesh of the series of adapted meshes is selected (see :ref:`gui_create_case`). From this case, the successives iterations are defined (see :ref:`gui_create_iteration`) with hypotheses (see :ref:`gui_create_hypothese`). The adaptations are launched as described in :ref:`gui_homard`.
 
 
 User's guide of the graphical interface
-"""""""""""""""""""""""""""""""""""""""
+***************************************
 
 .. toctree::
    :maxdepth: 2

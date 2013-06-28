@@ -1,7 +1,7 @@
 .. _gui_create_iteration:
 
 The iteration
-=============
+#############
 .. index:: single: iteration
 
 La définition d'une iteration se fait par la donnée des informations suivantes :
@@ -15,24 +15,24 @@ La définition d'une iteration se fait par la donnée des informations suivantes :
    :align: center
 
 Name of the iteration
-"""""""""""""""""""""
+*********************
 Un nom de cas est proposé automatiquement : Iter_1, Iter_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une iteration précédente.
 
 The previous iteration
-""""""""""""""""""""""
+**********************
 L'iteration précédente est choisie dans l'arbre d'étude. Le nom du maillage correspondant sera affiché.
 
 .. index:: single: mesh;result
 
 The name of the resulting mesh
-""""""""""""""""""""""""""""""
+******************************
 L'iteration en cours de création produira un maillage. Ce maillage sera connu sous un nom. Ce nom est fourni en le tapant dans la zone de texte. Par défaut, on propose un nom identique à celui de l'iteration précédente.
 
 .. index:: single: field
 .. index:: single: MED
 
 The field
-"""""""""
+*********
 Pour créer ou utiliser une hypothesis d'adaptation basée sur un champ exprimé sur le maillage, on doit fournir le fichier où se trouve le champ. C'est également le cas si on veut interpoler des champs du maillage n au maillage n+1. Ce fichier est au format MED. Classiquement, il aura été produit par le logiciel de calcul avec lequel on travaille. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
 
 
@@ -47,7 +47,7 @@ Dans le cas où des pas de temps ont été définis, une solution simple consiste à 
 .. index:: single: hypothesis
 
 The hypothesis
-""""""""""""""
+**************
 L'iteration en cours pilotera l'adaptation par HOMARD selon un scénario défini dans une hypothesis. Celle-ci est choisie dans la liste des hypothesiss existantes.
 
 Au démarrage, il faut créer une première hypothesis par activation du bouton "*Nouveau*" (voir :ref:`gui_create_hypothese`) :
@@ -67,7 +67,7 @@ Ensuite, si une hypothesis précédemment définie convient, il suffit de la sélect
 .. index:: single: object browser
 
 Object browser
-""""""""""""""
+**************
 A l'issue de cette création d'iteration, l'arbre d'études a été enrichi. On y trouve l'iteration initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni, l'iteration courante, identifiée par son nom. On trouve aussi l'hypothesis qui lui est attachée. L'icône en regard de l'iteration permet de différencier les iterations calculées ou non.
 
 .. image:: images/create_iteration_6.png
@@ -79,5 +79,5 @@ Quand plusieurs iterations s'enchaînent, leur hypothesis est visible dans l'arbr
    :align: center
 
 Corresponding python functions
-""""""""""""""""""""""""""""""
+******************************
 Look :ref:`tui_create_iteration`

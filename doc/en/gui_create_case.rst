@@ -1,7 +1,7 @@
 .. _gui_create_case:
 
 The creation of a case
-======================
+######################
 .. index:: single: case
 
 The definition of a case is done with the following data:
@@ -17,11 +17,11 @@ The definition of a case is done with the following data:
 
 
 Name of the case
-""""""""""""""""
+****************
 A name is automatically suggested for the case: Case_1, Case_2, etc. This name can be modified. It must be a new name.
 
 The directory
-"""""""""""""
+*************
 The directory will countain all the files producted by the successive adaptations. By default, nothing is suggested. The choice is made either by giving a name into the text zone or by a selection through the search window. In this directory, the MED files for the adapted mesh will be stored, with name ``maill.xx.med``, where ``xx`` is a rank number automatically created. These files can be seen into the object browser.
 
 .. image:: images/create_case_2.png
@@ -31,7 +31,7 @@ The directory will countain all the files producted by the successive adaptation
 .. index:: single: MED
 
 The initial mesh
-""""""""""""""""
+****************
 The initial mesh must be stored into a MED file. Usually, it is produced by the software that solves the physical problem. But it also can be created by the module SMESH and exported with the MED format. The name of the file is choosen either by giving a name into the text zone or by a selection through the search window.
 
 
@@ -48,7 +48,7 @@ The initial mesh must be stored into a MED file. Usually, it is produced by the 
 .. index:: single: conformity
 
 Type of conformity
-""""""""""""""""""
+******************
 The future iterations for this case must respect the the same behaviour regarding the type of conformity.
 
 The default option, 'conformal', implies that the meshes produced by HOMARD will be conformal, as expected in the finite element method. This is a classical choice for most of the simulation software with the finite element method.
@@ -66,7 +66,7 @@ Nevertheless, if the computation is available with non conformal meshes, 3 possi
 .. index:: single: boundary
 
 The boundaries
-""""""""""""""
+**************
 If the limit of the domain is curved, HOMARD can put the new nodes onto these curved limits to avoid some artificial singularities. This technique is effective for external limits as well for internal limits.
 
 Two situations:
@@ -84,7 +84,7 @@ The definition of the boundaries is described in :ref:`gui_create_boundary`.
 .. index:: single: pyramid
 
 Advanced options
-""""""""""""""""
+****************
 Par défaut, aucune option avancée n'est active.
 
 Néanmoins, on peut définir une oprion avancée :
@@ -105,7 +105,7 @@ Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois
 
 
 The pursuit of a case
-=====================
+*********************
 .. index:: single: pursuit
 .. index:: single: yacs
 
@@ -142,7 +142,7 @@ Si on souhaite partir d'une itération qui ne soit pas la dernière, il suffit de 
 
 
 Object browser
-""""""""""""""
+**************
 A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau cas. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni.
 
 .. image:: images/create_case_6.png
@@ -151,6 +151,6 @@ A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau
 
 
 Corresponding python functions
-""""""""""""""""""""""""""""""
+******************************
 Look :ref:`tui_create_case`
 

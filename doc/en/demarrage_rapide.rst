@@ -1,7 +1,7 @@
 .. _demarrage_rapide:
 
 Quick start
-===========
+###########
 .. index:: single: start
 .. index:: single: example
 

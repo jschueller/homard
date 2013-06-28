@@ -1,5 +1,5 @@
 User's guide of the TUI
-=======================
+#######################
 The functionnalities of the module HOMARD are available by python instructions. We shall find here the description of each of the functions.
 
 .. toctree::

@@ -1,7 +1,7 @@
 .. _gui_create_hypothese:
 
 The hypothesis
-==============
+##############
 .. index:: single: hypothesis
 
 L'hypothesis contient toutes les paramètres de pilotage d'une adaptation d'un maillage. Cette opération permet de réaliser l'itération à laquelle elle est attachée.
@@ -17,15 +17,15 @@ Il existe trois classes d'hypotheses :
 
 
 Name of the hypothesis
-""""""""""""""""""""""
+**********************
 Un nom de l'hypothesis est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas asee été utilisé pour une hypothesis précédente.
 
 Uniform adaptation
-""""""""""""""""""
+******************
 Par défaut on propose un raffinement uniforme. Quand on part d'un maillage qui a déjà été raffiné, l'option de déraffinement supprimera les mailles produites.
 
 Adaptation by a field
-"""""""""""""""""""""
+*********************
 
 .. note::
   Pour pousee adapter le maillage selon un champ il faut asee au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (see :ref:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
@@ -59,7 +59,7 @@ La même convention s'applique au déraffinement, en remplaçant supérieur par infé
 
 
 Adaptation by a zone
-""""""""""""""""""""
+********************
 .. index:: single: zone
 
 Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (see :ref:`gui_create_zone`) :
@@ -74,7 +74,7 @@ Lorsque des zones ont déjà été créées, la liste apparaît dans la fenêtre, ce qui
 
 
 Filtering by the groups
-"""""""""""""""""""""""
+***********************
 .. index:: single: group
 
 On peut restreindre l'application de l'hypothesis d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modidiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
@@ -90,7 +90,7 @@ La liste des groupes de mailles présents dans le maillage est affichée. Il suffi
 
 
 Interpolation of fields
-"""""""""""""""""""""""
+***********************
 .. index:: single: interpolation
 
 .. note::
@@ -108,7 +108,7 @@ Si on veut choisir les champs à interpoler, il faut les cocher dans la liste de 
 
 
 Advanced options
-""""""""""""""""
+****************
 Si la case "Options avancées" n'est pas cochée, aucune contrainte supplémentaire n'est définie.
 Si la case est cochée, on définira les options avancées.
 
@@ -122,7 +122,7 @@ Le dernier choix porte sur une sortie supplémentaire de l'adaptation. Si la case
    :align: center
 
 Object browser
-""""""""""""""
+**************
 .. index:: single: object browser
 
 L'arbre d'études contient les hypotheses créées et les itérations qui les utilisent. La description des zones qui leur sont éventuellement attachées est présente.
@@ -133,5 +133,5 @@ L'arbre d'études contient les hypotheses créées et les itérations qui les utilis
 
 
 Corresponding python functions
-""""""""""""""""""""""""""""""
+******************************
 Look :ref:`tui_create_hypothese`

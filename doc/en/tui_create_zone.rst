@@ -1,7 +1,7 @@
 .. _tui_create_zone:
 
 The zone
-========
+########
 
 .. index:: single: zone
 .. index:: single: box
@@ -15,7 +15,7 @@ The zone
 The variables are described in :ref:`gui_create_zone`.
 
 Methods of the class homard
-""""""""""""""""""""""""""""
+***************************
 
 These methods returns an instance of the class zone.
 
@@ -141,7 +141,7 @@ These methods returns an instance of the class zone.
 
 
 Methods of the class zone
-"""""""""""""""""""""""""
+*************************
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -183,7 +183,7 @@ Methods of the class zone
 
 
 Example
-"""""""
+*******
 The creation of a 3D box is done as follows:
 ::
 
@@ -197,7 +197,7 @@ The creation of a disk in the plane XY is done as follows:
 
 
 Similar graphical input
-"""""""""""""""""""""""
+***********************
 Look at :ref:`gui_create_zone`
 
 .. warning::

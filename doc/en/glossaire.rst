@@ -1,7 +1,7 @@
 .. _glossaire:
 
 Glossary
-========
+########
 
 .. glossary::
    :sorted:

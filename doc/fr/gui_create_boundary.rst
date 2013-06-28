@@ -14,7 +14,7 @@ Il existe deux modes de description d'une frontière :
 
 
 Frontière discrète
-==================
+******************
 
 Le suivi d'une frontière discrète se fera en sélectionnant une frontière choisie dans la liste des frontières discrètes existantes.
 
@@ -39,7 +39,7 @@ Si des frontières discrètes ont déjà été définies pour un autre cas, on peut sél
 
 
 Frontière analytique
-====================
+********************
 Au démarrage, SALOME affiche un tableau avec un seule colonne. Cette colonne contient la liste de tous les groupes du maillage initial définissant le cas.
 
 .. image:: images/create_boundary_an_1.png
@@ -120,7 +120,7 @@ Création par deux points centrés sur l'axe et le rayon associé :
 .. index:: single: arbre d'étude
 
 L'arbre d'étude
-===============
+***************
 A l'issue de cette création de frontières, l'arbre d'études a été enrichi. On y trouve toutes les frontières créées, identifiées par leur nom, avec la possibilité de les éditer.
 
 .. image:: images/create_boundary_1.png
@@ -128,7 +128,7 @@ A l'issue de cette création de frontières, l'arbre d'études a été enrichi. On y 
 
 
 Méthodes python correspondantes
-===============================
+*******************************
 Consulter : :ref:`tui_create_boundary`
 
 
