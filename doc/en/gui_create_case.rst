@@ -12,7 +12,7 @@ The definition of a case is done with the following data:
   - The type of conformity for the serie of adaptations
   - Some curved boundaries
 
-.. image:: images/create_case_1.png
+.. image:: images/intro_32.png
    :align: center
 
 
@@ -131,7 +131,7 @@ The pursuit of an iteration into a previous case can be operated; the default st
 .. image:: images/pursue_case_2.png
    :align: center
 
-If the starting iteration is not the last one, its number musr be given:
+If the starting iteration is not the last one, its number must be given:
 
 .. image:: images/pursue_case_3.png
    :align: center
