@@ -12,7 +12,7 @@ La définition du cas se fait par la donnée des informations suivantes :
   - Le type de conformité pour la série d'adaptations envisagées
   - Les éventuelles frontières courbes à respecter
 
-.. image:: images/create_case_1.png
+.. image:: images/intro_32.png
    :align: center
 
 
