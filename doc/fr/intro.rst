@@ -1,4 +1,4 @@
-.. _gui_intro:
+.. _intro:
 
 Introduction
 ############

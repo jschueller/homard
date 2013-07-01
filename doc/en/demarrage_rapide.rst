@@ -61,7 +61,7 @@ The adaptation is launched by the selection of the iteration. "*Compute*" is cho
 .. image:: images/intro_37.png
    :align: center
 
-Now, this new mesh can be used for a second thermal calculation, with the same conditions as for the first one. Once this second calcultion is done, the adaptive process can go on. First, go back into the module HOMARD of SALOME. The plast iteration "*Iter_1*" is selected and a new iteration is asked for. This window appears:
+Now, this new mesh can be used for a second thermal calculation, with the same conditions as for the first one. Once this second calcultion is done, the adaptive process can go on. First, go back into the module HOMARD of SALOME. The last iteration "*Iter_1*" is selected and a new iteration is asked for. This window appears:
 
 .. image:: images/intro_38.png
    :align: center

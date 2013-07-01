@@ -86,7 +86,7 @@ Les options avancées
 ********************
 Par défaut, aucune option avancée n'est active.
 
-Néanmoins, on peut définir une oprion avancée :
+Néanmoins, on peut définir une option avancée :
 
 .. image:: images/create_case_7.png
    :align: center

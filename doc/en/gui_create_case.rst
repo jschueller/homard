@@ -85,23 +85,23 @@ The definition of the boundaries is described in :ref:`gui_create_boundary`.
 
 Advanced options
 ****************
-Par défaut, aucune option avancée n'est active.
+Default: no advanced option.
 
-Néanmoins, on peut définir une oprion avancée :
+Nevertheless, some advanced options can be defined :
 
 .. image:: images/create_case_7.png
    :align: center
 
-Par défaut, HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
-   - mailles-points
-   - segments
-   - triangles
-   - quadrangles
-   - tétraèdres
-   - hexaèdres
-   - prismes
+HOMARD is able to work with 2D or 3D meshes as well, including the following elements:
+   - nodal element
+   - segment
+   - triangle
+   - quadrangle
+   - tetraedron
+   - hexaedron
+   - prism
 
-Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois, si on est certain que les raffinements ultérieurs ne toucheront aucune des arêtes des pyramides, on cochera la case "Pyramides autorisées". Les adaptations se dérouleront normalement et les pyramides seront restituées telles quelles dans le maillage final.
+If pyramids are present into the initial mesh, HOMARD stops with an error. However, if no refinement will be in contact with any edge of those pyramids, the "Authorized pyramids" whould be checked. The adaptation will go on and the pyramids will be back as they are into the initial mesh.
 
 
 The pursuit of a case
@@ -109,41 +109,40 @@ The pursuit of a case
 .. index:: single: pursuit
 .. index:: single: yacs
 
-La poursuite d'un cas correspond à la situation suivante :
-Une série d'adaptations ont été conduites sur un cas puis SALOME est fermé. On a gardé les répertoires de travail de ces itérations. On souhaite ensuite reprendre ces itérations pour les poursuivre là où on s'est arrêté. Cette fonctionnalité est particulièrement utile dans le cas de schémas YACS pour lesquels on scinde en plusieurs parties une longue série d'adaptations.
+The pursuit of a case is interesting in the following situation. A list of adaptations was done for a case and, at the end, SALOME is closed. The directories for these iterations are kept. Then, the user wants to go on these iterations from the final point of the previous list. This function is useful with a schema YACS if a long list of adaptations is cut into small parts.
 
-La condition pour reprendre une itération est d'avoir conservé dans un même répertoire deux fichiers :
-   - le fichier de configuration qui a servi de données au module exécutable de HOMARD ; ce fichier se présente sous la forme ``HOMARD.Configuration.(n).vers.(n+1)``
-   - le fichier au format MED qui conserve l'historique des adaptations réalisées ; ce fichier se présente sous la forme ``maill.(n).hom.med``
+The compulsatory condition to pursue an iteration is to keep two files into the same directory:
+   - the configuration file that was a data for the binary module of HOMARD; this file looks like ``HOMARD.Configuration.(n).vers.(n+1)``
+   - the MED file that saves the history of th eprevious adaptations; this file looks like ``maill.(n).hom.med``
 
-On peut choisir de partir d'une itération archivée désignée explicitement par son répertoire ou d'une itération repérée dans le répertoire archivant un cas.
+Either an iteration known by its directory or an iteration identified into the directory of a case can be selected.
 
-Pour poursuivre une itération connue par son répertoire d'archive, la définition du cas se fait par la donnée des informations suivantes :
+To pursuit of an iteration known by its directory, the definition of the case is made by the following data:
 
-  - Un nom
-  - Un répertoire
-  - Le répertoire qui contient les archives
+  - A name
+  - A directory
+  - The directory of the data base
 
 .. image:: images/pursue_case_1.png
    :align: center
 
-On peut choisir de partir d'un cas déjà calculé ; par défaut, le nouveau cas sera créé en partant de la dernière itération précédemment calculée.
+The pursuit of an iteration into a previous case can be operated; the default starting iteration is the last iteration of the case.
 
 .. image:: images/pursue_case_2.png
    :align: center
 
-Si on souhaite partir d'une itération qui ne soit pas la dernière, il suffit de le préciser :
+If the starting iteration is not the last one, its number musr be given:
 
 .. image:: images/pursue_case_3.png
    :align: center
 
 .. note::
-  Les paramétrages du cas ainsi créé sont ceux de l'itération poursuivie : mode de conformité identique par exemple.
+  The governing parameters of the created case are the same as the ones of the strating iteration: same mode for the conformity, for instance.
 
 
 Object browser
 **************
-A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau cas. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni.
+At the end of the creation, the case is included into the object browser. The initial iteration, known by the name of the associated mesh, is shown.
 
 .. image:: images/create_case_6.png
    :align: center
