@@ -5,11 +5,11 @@ Introduction
 
 General presentation
 ********************
-Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes de calculs par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du code de calcul auquel il est couplé.
+The software HOMARD is intended to adapt the meshes within the framework of the computer codes by finite elements or finite volumes. This software, carried out by EDF R&D, proceeds by refinement and unefinement of the two-dimensional or three-dimensional meshes. It is conceived to be used independently of the computer code with which it is coupled.
 
-Raffiner le maillage signifie découper des mailles désignées selon des indications founies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul pour ne plus tenir compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
+To refine the mesh means to cut out elements indicated according to indications provided by the user. Unrefine the mesh means to reconsider behind cuttings previously carried out: thus, to in no case HOMARD cannot simplify an existing mesh which will have been created too fine. Unrefinement takes all its importance in calculations when the zone of interest moves during calculation: one will not hold any more account of refinements previously carried out and which become useless. One will find of it an illustration with the bottom of this page.
 
-HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
+HOMARD can treat meshes into 2 or 3 dimensions and comprising the following elements:
    - mesh-points
    - segments
    - triangles
@@ -18,19 +18,18 @@ HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles
    - hexahaedra
    - prisms
 
-Ces mailles peuvent être présentes simultanément. Par exemple, HOMARD saura adapter un maillage comportant des triangles et des quadrangles.
-Les noeuds acceptés sont évidemment les noeuds qui sont les sommets des mailles, ce qui correspond à la description classique « en degré 1 » . Si les éléments sont décrits « en degré 2 », les noeuds complémentaires sont gérés. En revanche, il ne peut pas y asee cohabitation de mailles décrites en degré 1 et d'autres décrites en degré 2. Enfin, HOMARD sait prendre en compte des noeuds isolés, qui n'appartiendraient à aucune définition de mailles : ils ressortiront tels quels du processus d'adaptation.
+These elements can be present simultaneously. For example, HOMARD will be able to adapt a comprising mesh of the triangles and the quadrangles.
+The accepted nodes are obviously the nodes which are the vertices of the elements, which corresponds to a traditional description "in degree 1". If the elements are described "in degree 2", the additional nodes are managed. On the other hand, elements described in degree 1 and others described in degree 2 cannot be inthe same mesh. Lastly, HOMARD can take into account isolated nodes, which would not belong to any definition of elements: they will arise such as they are from the process of adaptation.
 
-Le cas des pyramides est à part. Pour un maillage comportant des hexaèdres ou des prismes, la mise en conformité du maillage issu du raffinement crée des pyramides pour assurer la liaison entre deux régions de niveaux de raffinement différents. Ces pyramides sont gérées comme toutes les mailles de transition et ne sont pas redécoupées par la suite. En revanche, si le maillage initial contient des pyramides, HOMARD ne saura pas l'adapter et émettra un message d'erreur. Dans certains cas particuliers, on pourra néanmoins traiter un tel maillage, comme il est décrit dans la rubrique 'Options avancées' de :ref:`gui_create_case`).
+The case of the pyramids is except for. For a comprising mesh of the hexahedrons or the prisms, the setting in conformity of the mesh resulting from refinement creates pyramids to ensure the connection between two areas of different levels of refinement. These pyramids are managed like all the elements of transition and are no more split thereafter. On the other hand, if the initial mesh contains pyramids, HOMARD will not be able to adapt it and will transmit an error message. In certain typical cases, one will be able nevertheless to treat such a mesh, as it is described in the heading advanced options of the creation of a case.
 
-Plusieurs motivations apparaissent pour adapter un maillage :
+Several motivations appear to adapt a mesh:
 
-  - on veut simplifier la réalisation du maillage d'une géométrie complexe : on part d'un maillage grossier et on confie à un processus automatique la charge de le raffiner.
-  - on veut s'assurer de la convergence de la solution numérique : plutôt que de réaliser à la main des maillages de plus en plus fins, on laisse le logiciel chercher lui-même les endroits où il faudrait affiner le maillage pour augmenter la précision du résultat.
-  - les conditions du calcul changent au cours de son déroulement : les zones qui doivent être maillées finement se déplacent. Si on maille fin partout dès le début, le maillage est trop gros. En adaptant au fur et à mesure, le maillage ne sera fin qu'aux endroits nécessaires : sa taille sera réduite et la qualité de la solution sera bonne.
+  - one wants to simplify the realization of the mesh of a complex geometry: one starts from a coarse mesh and one entrusts to an automatic process the load to refine it.
+  - one wants to make sure of the convergence of the numerical solution: rather than to realize with the hand of the increasingly fine meshs, one lets the software seek itself the places where it would be necessary to refine the mesh to increase the precision of the result.
+  - the conditions of calculation change during time: the zones which must be with a mesh finely move. If the mesh is fine everywhere as of the beginning, the mesh is too large. While adapting progressively, the mesh will be fine only at the places necessary: its size will be reduced and the quality of the solution will be good.
 
-Dans tous les cas, le principe de l'adaptation de maillage reste le même. Sur le maillage de départ, on réalise le calcul standard. Avec une analyse de la solution numérique obtenue, on estime l'erreur qui a été commise par rapport à la solution réelle. Cette estimation se représente par une valeur d'indicateur d'erreur dans chaque maille du calcul. A partir de là, on applique le principe suivant : les mailles où l'indicateur d'erreur est fort devraient être plus petites et, réciproquement, les mailles où l'indicateur d'erreur est faible pourraient être plus grandes. Avec cette information, on alimente HOMARD qui va modifier le maillage en conséquence. Sur le nouveau maillage, on recommencera alors le calcul.
-
+In all the cases, the principle of the adaptation of mesh remains the same one. On the starting mesh, one carries out standard calculation. With an analysis of the numerical solution obtained, one estimates the error which was made compared to the real solution. This estimate is represented by a value of indicator of error in each element of calculation. From there, the following principle is applied: the elements where the indicator of error is strong should be smaller and, reciprocally, the elements where the indicator of error is low could be larger. With this information, one feeds HOMARD which will modify the mesh consequently. On the new mesh, calculation then will be started again.
 
 Broadly speaking, an iteration for meshing adaptation is as shown on the figure below. The finite element software calculates the numerical solution on meshing Mk, then, from that, deduces the values for the error indicator over the whole meshing. Based on the knowledge of meshing #k and indicator #k, HOMARD generates a new meshing #k+1.
 
@@ -45,15 +44,20 @@ The complete chain starts from the initial meshing, then incorporates successive
 Some variations may exist. If no error indicator is available, another filed can be used to drive the adaptation. A stress field in mechanics can be used: the refinement of the elements where the stress is high is often efficient to improve the quality of the results. It is also possible to drive the adaptation according the variation of a filed from one element to its neighbours. The refinement can be filtered by zones or groups of elements.
 
 .. note::
-  For a extensive description of HOMARD, see :download:`Description générale de HOMARD <../files/HOMARD_0.pdf>`.
+  For a extensive description of HOMARD, see :download:`Description of HOMARD <../files/HOMARD_0.pdf>`.
 
 .. note::
   To quote HOMARD, please refer to:
 
   G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
-
   `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
+
+.. index:: single: yacs
+
+.. note::
+  This alternation (computation/adaptation) suits in the :ref:`yacs` schemes.
+
 
 Methods for splitting the elements
 **********************************
@@ -169,7 +173,7 @@ For a tetrahedron with two split edges, this is possible only if the edges are o
 
 For a tetrahedron with one split edge, the middle of the split edge is joined to the opposite apex, and two tetrahedrons are created.
 
-.. image:: ../images/dec_tetr_6.gif
+.. image:: ../images/dec_tetr_7.gif
    :align: center
    :alt: Découpage de conformité d'un tétraèdre - 3
    :width: 116

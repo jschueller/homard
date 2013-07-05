@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='iso-8859-1' ?>
+<proc name="HOMARD">
+   <property name="DefaultStudyID" value="1"/>
+   <objref name="CALCIUM_real" id="IDL:Ports/Calcium_Ports/Calcium_Real_Port:1.0"/>
+   <type name="string" kind="string"/>
+   <struct name="Engines/dataref">
+      <member name="ref" type="string"/>
+   </struct>
+   <objref name="GEOM_Object" id="IDL:GEOM/GEOM_Object:1.0"/>
+   <objref name="HOMARD_Cas" id="IDL:HOMARD/HOMARD_Cas:1.0"/>
+   <objref name="HOMARD_Hypothesis" id="IDL:HOMARD/HOMARD_Hypothesis:1.0"/>
+   <objref name="HOMARD_Iteration" id="IDL:HOMARD/HOMARD_Iteration:1.0"/>
+   <objref name="Study" id="IDL:SALOMEDS/Study:1.0"/>
+   <type name="bool" kind="bool"/>
+   <sequence name="boolvec" content="bool"/>
+   <type name="double" kind="double"/>
+   <sequence name="dblevec" content="double"/>
+   <objref name="file" id="file"/>
+   <type name="int" kind="int"/>
+   <sequence name="intvec" content="int"/>
+   <struct name="stringpair">
+      <member name="name" type="string"/>
+      <member name="value" type="string"/>
+   </struct>
+   <sequence name="propvec" content="stringpair"/>
+   <objref name="pyobj" id="python:obj:1.0"/>
+   <sequence name="seqboolvec" content="boolvec"/>
+   <sequence name="seqdblevec" content="dblevec"/>
+   <sequence name="seqint" content="int"/>
+   <sequence name="seqintvec" content="intvec"/>
+   <sequence name="seqstring" content="string"/>
+   <sequence name="stringvec" content="string"/>
+   <sequence name="seqstringvec" content="stringvec"/>
+   <container name="DefaultContainer">
+      <property name="container_name" value="FactoryServer"/>
+      <property name="name" value="localhost"/>
+   </container>
+   <bloc name="Etude_Initialisation">
+      <inline name="StudyCreation">
+         <script><code><![CDATA[
+import orbmodule
+import SALOMEDS_idl
+
+import HOMARD
+import HOMARD_Gen_idl
+import HOMARD_Cas_idl
+import HOMARD_Iteration_idl
+import HOMARD_Hypothesis_idl
+import HOMARD_Zone_idl
+import HOMARD_Boundary_idl
+
+clt = orbmodule.client()
+StudyManager = clt.Resolve("/myStudyManager")
+NewStudy = StudyManager.NewStudy("my_homard_study")
+]]></code></script>
+         <outport name="NewStudy" type="Study"/>
+      </inline>
+      <service name="SetCurrentStudy">
+         <component>HOMARD</component>
+         <load container="DefaultContainer"/>
+         <method>SetCurrentStudy</method>
+         <inport name="theStudy" type="Study"/>
+      </service>
+      <control> <fromnode>StudyCreation</fromnode> <tonode>SetCurrentStudy</tonode> </control>
+      <datalink control="false">
+         <fromnode>StudyCreation</fromnode> <fromport>NewStudy</fromport>
+         <tonode>SetCurrentStudy</tonode> <toport>theStudy</toport>
+      </datalink>
+   </bloc>
+   <datanode name="DataInit">
+      <parameter name="MeshFile" type="string">
+         <value><string>/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/maill.00.med</string></value>
+      </parameter>
+   </datanode>
+   <while name="Tant_que_le_calcul_n_a_pas_converge">
+      <bloc name="Alternance_Calcul_HOMARD">
+         <inline name="Analyse">
+            <script><code><![CDATA[
+global NumCalc
+global resu1
+# Valeurs par defaut
+NumCalcP1 = NumCalc + 1
+MeshName = " "
+FileName = " "
+#
+NbCalcMax = 50
+#
+MessInfo = None
+Error = 0
+while not Error :
+#
+# Si le calcul a fini en erreur, on arrete :
+#
+    if ErrCalc :
+        MessInfo = "Erreur de calcul numero %d" % ErrCalc
+        Error = abs(ErrCalc)
+        break
+#
+# Si le maillage n'a pas ete defini, on arrete :
+#
+    if dico_resu.has_key("MeshName") :
+        MeshName = dico_resu["MeshName"]
+    else :
+        MessInfo = "Le maillage n'a pas ete defini"
+        Error = -2
+        break
+#
+# Si le fichier n'a pas ete defini, on arrete :
+#
+    if dico_resu.has_key("FileName") :
+        FileName = dico_resu["FileName"]
+    else :
+        MessInfo = "Le fichier du maillage n'a pas ete defini"
+        Error = -3
+        break
+#
+# Si le critere est respecte, on arrete :
+#
+    if dico_resu.has_key("V00") :
+        valeur_v = dico_resu["V00"]
+        if NumCalc == 0 :
+            resu1 = [valeur_v]
+        else :
+            resu1.append(valeur_v)
+        if NumCalc > 2 :
+            solu_m1 = resu1[-2]
+            rap = ( resu1[-1] - solu_m1 ) / solu_m1
+            if abs(rap) < 0.001 :
+                MessInfo = ""
+                Error = -9999
+                break
+    else :
+        MessInfo = "La valeur a tester n'a pas ete fournie"
+        Error = -4
+        break
+#
+# Si on depasse le maximum, on arrete :
+#
+    if NumCalc > NbCalcMax :
+        MessInfo = "La limite en nombre de calculs a ete atteinte : %d" % NbCalcMax
+        Error = -1
+        break
+#
+    break
+]]></code></script>
+            <inport name="NumCalc" type="int"/>
+            <inport name="ErrCalc" type="int"/>
+            <inport name="dico_resu" type="pyobj"/>
+            <outport name="Error" type="int"/>
+            <outport name="NumCalcP1" type="int"/>
+            <outport name="MeshName" type="string"/>
+            <outport name="FileName" type="string"/>
+            <outport name="MessInfo" type="string"/>
+         </inline>
+         <inline name="Calcul">
+            <script><code><![CDATA[
+import sys
+import os
+# REPBASE : le repertoire de base de l'application
+REPBASE = os.environ["HOMARD_TRAINING"]
+rep_calc = os.path.join(REPBASE, "tet_aster_ther")
+rep_script = os.path.join(REPBASE, "script")
+sys.path.append(rep_script)
+from LanceCas import LanceCas
+#
+argu  = ["-v"]
+argu.append("--rep_calc=" + rep_calc)
+argu.append("--numero=%d" % numCalc)
+argu.append("--mesh_file="  + MeshFile)
+#
+LanceCas_A = LanceCas(argu)
+#
+Error, message_erreur, dico_resu = LanceCas_A.calcul ()
+#
+dico_resu["rep_calc"] = rep_calc
+#
+]]></code></script>
+            <inport name="numCalc" type="int"/>
+            <inport name="MeshFile" type="string"/>
+            <outport name="Error" type="int"/>
+            <outport name="dico_resu" type="pyobj"/>
+         </inline>
+         <switch name="Adaptation" select="0">
+            <default>
+               <bloc name="Arret_boucle">
+                  <inline name="Arret">
+                     <script><code><![CDATA[
+OK = 0
+MeshFile = " "
+]]></code></script>
+                     <inport name="MessInfo" type="string"/>
+                     <outport name="OK" type="bool"/>
+                     <outport name="MeshFile" type="string"/>
+                     <outport name="MessInfo" type="string"/>
+                  </inline>
+               </bloc>
+            </default>
+            <case id="0">
+               <bloc name="Adaptation_HOMARD">
+                  <switch name="HOMARD_Initialisation" select="0">
+                     <default>
+                        <bloc name="HOMARD_Init_ensuite">
+                           <service name="LastIteration">
+                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <method>LastIteration</method>
+                              <inport name="CaseName" type="string"/>
+                              <outport name="return" type="HOMARD_Iteration"/>
+                           </service>
+                           <service name="GetHypothesis">
+                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <method>GetHypothesis</method>
+                              <inport name="HypoName" type="string"/>
+                              <outport name="return" type="HOMARD_Hypothesis"/>
+                           </service>
+                           <control> <fromnode>LastIteration</fromnode> <tonode>GetHypothesis</tonode> </control>
+                        </bloc>
+                     </default>
+                     <case id="1">
+                        <bloc name="HOMARD_Init_au_debut">
+                           <service name="CreateCase">
+                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <method>CreateCase</method>
+                              <inport name="CaseName" type="string"/>
+                              <inport name="MeshName" type="string"/>
+                              <inport name="FileName" type="string"/>
+                              <outport name="return" type="HOMARD_Cas"/>
+                           </service>
+                           <inline name="Case_Options">
+                              <script><code><![CDATA[
+import os
+# Repertoire d'execution
+REPBASE = os.environ["HOMARD_TRAINING"]
+DirName = os.path.join(REPBASE, "tet_aster_ther", "resu")
+Case.SetDirName(DirName)
+# Options de conformite
+Case.SetConfType(1)
+# Iteration 0 associee
+Iter0 = Case.GetIter0()
+]]></code></script>
+                              <inport name="Case" type="HOMARD_Cas"/>
+                              <outport name="Iter0" type="HOMARD_Iteration"/>
+                           </inline>
+                           <service name="CreateHypothesis">
+                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <method>CreateHypothesis</method>
+                              <inport name="HypoName" type="string"/>
+                              <outport name="return" type="HOMARD_Hypothesis"/>
+                           </service>
+                           <control> <fromnode>CreateCase</fromnode> <tonode>Case_Options</tonode> </control>
+                           <control> <fromnode>Case_Options</fromnode> <tonode>CreateHypothesis</tonode> </control>
+                           <datalink control="false">
+                              <fromnode>CreateCase</fromnode> <fromport>return</fromport>
+                              <tonode>Case_Options</tonode> <toport>Case</toport>
+                           </datalink>
+                        </bloc>
+                     </case>
+                  </switch>
+                  <inline name="HOMARD_Exec">
+                     <script><code><![CDATA[
+import os
+# Repertoire d'execution
+REPBASE = os.environ["HOMARD_TRAINING"]
+DirName = os.path.join(REPBASE, "tet_aster_ther", "resu")
+#
+# Hypothese
+# =========
+# . Nom de l'hypothese
+# --------------------
+HypoName = Hypo.GetName()
+#
+# . Options
+# ---------
+# . Le mode d'adaptation : raffinement selon un champ
+Hypo.SetAdapRefinUnRef(1, 1, 0)
+# . Nom du champ
+Hypo.SetField('ERREUR')
+# . Nom de la composante
+Hypo.AddComp('ERTABS')
+# . Valeurs prises par maille
+Hypo.SetUseComp(0)
+# . Mode de pilotage
+if NumAdapt <= 2 :
+    seuil = 5.
+else :
+    seuil = 3.
+# Type de seuil : 3 : x% des mailles les pires
+Hypo.SetRefinThr(3, seuil)
+#
+# . Taille de maille limite
+aux = 0.0015
+Hypo.SetDiamMin(aux)
+#
+# Nom de la future iteration
+# ==========================
+# . Nom de l'iteration precedente
+LastIterName = LastIter.GetName()
+aux = '%03d' % NumAdapt
+# . A l'iteration 1, on complete
+if  NumAdapt == 1 :
+  IterName = LastIterName + "_" + aux
+# . Ensuite, on substitue
+else :
+  IterName = LastIterName[:-3] + aux
+#
+# Creation de l'iteration
+# =======================
+Iter = LastIter.NextIteration(IterName)
+#
+# Options de l'iteration
+# ======================
+# . Association de l'hypothese
+Iter.AssociateHypo(HypoName)
+#
+# . Le nom du futur maillage
+MeshName = dico_resu["MeshName"]
+Iter.SetMeshName(MeshName)
+#
+# . Le fichier du futur maillage
+aux = '%02d' % NumAdapt
+MeshFile = os.path.join (DirName, "maill."+aux+".med")
+Iter.SetMeshFile(MeshFile)
+#
+# . Le fichier contenant les champs
+FileName = dico_resu["FileName"]
+Iter.SetFieldFile(FileName)
+#
+# Calcul
+# ======
+Error = Iter.Compute(1,1)
+#
+# Arret de la boucle si erreur
+# ============================
+if Error :
+    OK = 0
+    MessInfo = "Erreur dans HOMARD pour l'adaptation numero %d" % NumAdapt
+else :
+    OK = 1
+    MessInfo = " "
+]]></code></script>
+                     <inport name="NumAdapt" type="int"/>
+                     <inport name="LastIter" type="HOMARD_Iteration"/>
+                     <inport name="Hypo" type="HOMARD_Hypothesis"/>
+                     <inport name="dico_resu" type="pyobj"/>
+                     <outport name="OK" type="bool"/>
+                     <outport name="MessInfo" type="string"/>
+                     <outport name="MeshFile" type="string"/>
+                  </inline>
+                  <control> <fromnode>HOMARD_Initialisation</fromnode> <tonode>HOMARD_Exec</tonode> </control>
+                  <datalink control="false">
+                     <fromnode>HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration</fromnode> <fromport>return</fromport>
+                     <tonode>HOMARD_Exec</tonode> <toport>LastIter</toport>
+                  </datalink>
+                  <datalink control="false">
+                     <fromnode>HOMARD_Initialisation.p1_HOMARD_Init_au_debut.Case_Options</fromnode> <fromport>Iter0</fromport>
+                     <tonode>HOMARD_Exec</tonode> <toport>LastIter</toport>
+                  </datalink>
+                  <datalink control="false">
+                     <fromnode>HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis</fromnode> <fromport>return</fromport>
+                     <tonode>HOMARD_Exec</tonode> <toport>Hypo</toport>
+                  </datalink>
+                  <datalink control="false">
+                     <fromnode>HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis</fromnode> <fromport>return</fromport>
+                     <tonode>HOMARD_Exec</tonode> <toport>Hypo</toport>
+                  </datalink>
+               </bloc>
+            </case>
+         </switch>
+         <control> <fromnode>Analyse</fromnode> <tonode>Adaptation</tonode> </control>
+         <control> <fromnode>Calcul</fromnode> <tonode>Analyse</tonode> </control>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>Error</fromport>
+            <tonode>Adaptation</tonode> <toport>select</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>NumCalcP1</fromport>
+            <tonode>Calcul</tonode> <toport>numCalc</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>NumCalcP1</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation</tonode> <toport>select</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>NumCalcP1</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</tonode> <toport>NumAdapt</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>MeshName</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode> <toport>MeshName</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>FileName</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode> <toport>FileName</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Analyse</fromnode> <fromport>MessInfo</fromport>
+            <tonode>Adaptation.default_Arret_boucle.Arret</tonode> <toport>MessInfo</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Calcul</fromnode> <fromport>Error</fromport>
+            <tonode>Analyse</tonode> <toport>ErrCalc</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Calcul</fromnode> <fromport>dico_resu</fromport>
+            <tonode>Analyse</tonode> <toport>dico_resu</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Calcul</fromnode> <fromport>dico_resu</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</tonode> <toport>dico_resu</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>MeshFile</fromport>
+            <tonode>Calcul</tonode> <toport>MeshFile</toport>
+         </datalink>
+         <datalink control="false">
+            <fromnode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>MeshFile</fromport>
+            <tonode>Calcul</tonode> <toport>MeshFile</toport>
+         </datalink>
+      </bloc>
+      <datalink control="false">
+         <fromnode>Alternance_Calcul_HOMARD.Analyse</fromnode> <fromport>NumCalcP1</fromport>
+         <tonode>Alternance_Calcul_HOMARD.Analyse</tonode> <toport>NumCalc</toport>
+      </datalink>
+   </while>
+   <inline name="Bilan">
+      <script><code><![CDATA[
+from PyQt4 import QtGui
+import sys
+app = QtGui.QApplication(sys.argv)
+MessageBoxTitle = "Bilan"
+if MessInfo == "" :
+    MessInfo = "Le calcul est converge."
+    QtGui.QMessageBox.information(None, MessageBoxTitle, MessInfo)
+else :
+    QtGui.QMessageBox.critical(None, MessageBoxTitle, MessInfo)
+]]></code></script>
+      <inport name="MessInfo" type="string"/>
+   </inline>
+   <control> <fromnode>Etude_Initialisation</fromnode> <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> </control>
+   <control> <fromnode>DataInit</fromnode> <tonode>Etude_Initialisation</tonode> </control>
+   <control> <fromnode>Tant_que_le_calcul_n_a_pas_converge</fromnode> <tonode>Bilan</tonode> </control>
+   <datalink control="false">
+      <fromnode>DataInit</fromnode> <fromport>MeshFile</fromport>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul</tonode> <toport>MeshFile</toport>
+   </datalink>
+   <datalink control="false">
+      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>OK</fromport>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> <toport>condition</toport>
+   </datalink>
+   <datalink control="false">
+      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>OK</fromport>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> <toport>condition</toport>
+   </datalink>
+   <datalink control="false">
+      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>MessInfo</fromport>
+      <tonode>Bilan</tonode> <toport>MessInfo</toport>
+   </datalink>
+   <datalink control="false">
+      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>MessInfo</fromport>
+      <tonode>Bilan</tonode> <toport>MessInfo</toport>
+   </datalink>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode><toport>CaseName</toport>
+      <value><string>Calcul</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul</tonode><toport>numCalc</toport>
+      <value><int>0</int></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation</tonode><toport>select</toport>
+      <value><int>0</int></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation</tonode><toport>select</toport>
+      <value><int>0</int></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration</tonode><toport>CaseName</toport>
+      <value><string>Calcul</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis</tonode><toport>HypoName</toport>
+      <value><string>Hypo</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis</tonode><toport>HypoName</toport>
+      <value><string>Hypo</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode><toport>condition</toport>
+      <value><boolean>true</boolean></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse</tonode><toport>NumCalc</toport>
+      <value><int>0</int></value>
+   </parameter>
+   <parameter>
+      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse</tonode><toport>ErrCalc</toport>
+      <value><int>0</int></value>
+   </parameter>
+   <presentation name="Etude_Initialisation" x="174.906" y="32" width="325" height="99" expanded="1" expx="174.906" expy="32" expWidth="325" expHeight="99" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase" x="4" y="32" width="158" height="117" expanded="1" expx="4" expy="32" expWidth="158" expHeight="117" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec" x="504.042" y="32" width="158" height="144" expanded="1" expx="504.042" expy="32" expWidth="158" expHeight="144" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut" x="5" y="59" width="483.5" height="153" expanded="1" expx="5" expy="59" expWidth="483.5" expHeight="153" shownState="0"/>
+   <presentation name="DataInit" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD" x="10" y="59" width="682.042" height="778" expanded="1" expx="10" expy="59" expWidth="682.042" expHeight="778" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul" x="4" y="32" width="158" height="90" expanded="1" expx="4" expy="32" expWidth="158" expHeight="90" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation" x="4" y="204" width="674.042" height="570" expanded="1" expx="4" expy="204" expWidth="674.042" expHeight="570" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle" x="4" y="59" width="166" height="153" expanded="1" expx="4" expy="59" expWidth="166" expHeight="153" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret" x="4" y="32" width="158" height="117" expanded="1" expx="4" expy="32" expWidth="158" expHeight="117" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.Case_Options" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD" x="4" y="213" width="666.042" height="353" expanded="1" expx="4" expy="213" expWidth="666.042" expHeight="353" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation" x="5" y="33" width="492.5" height="316" expanded="1" expx="5" expy="33" expWidth="492.5" expHeight="316" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite" x="4" y="213" width="325" height="99" expanded="1" expx="4" expy="213" expWidth="325" expHeight="99" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis" x="321.5" y="32" width="158" height="63" expanded="1" expx="321.5" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Bilan" x="535.69" y="36.4207" width="158" height="63" expanded="1" expx="535.69" expy="36.4207" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge" x="4" y="132" width="696.042" height="841" expanded="1" expx="4" expy="132" expWidth="696.042" expHeight="841" shownState="0"/>
+   <presentation name="Etude_Initialisation.StudyCreation" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.SetCurrentStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse" x="181.788" y="32" width="158" height="171" expanded="1" expx="181.788" expy="32" expWidth="158" expHeight="171" shownState="0"/>
+   <presentation name="__ROOT__" x="0" y="0" width="704.042" height="977" expanded="1" expx="0" expy="0" expWidth="704.042" expHeight="977" shownState="0"/>
+</proc>

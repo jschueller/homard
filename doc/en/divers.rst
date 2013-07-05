@@ -1,7 +1,8 @@
-.. _gui_divers:
+.. _divers:
 
 Miscellaneous
 #############
+
 References
 **********
 .. index:: single: reference
@@ -73,7 +74,58 @@ SALOME RELEASE 7.2.0 :
      ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
    - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case`)
 
+SALOME VERSION 7.2.1 :
+   - English documentation
 
+Contact
+*******
+.. index:: single: Contact
+
+Gérald NICOLAS, Software Manager
+
+Address:
+EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
+
+Phone : (33/0) 1.47.65.56.94
+
+Email : Gerald.Nicolas[at]edf.fr
+
+
+Thierry FOUQUET
+
+Address:
+EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
+
+Phone : (33/0) 1.47.65.41.45
+
+Email : Thierry.Fouquet[at]edf.fr
+
+
+Really miscellaneous
+********************
+
+HOMARD is an acronym for
+ - Outil de
+ - Maillage
+ - Adaptatif par
+ - Raffinement et
+ - Déraffinement
+
+which means:
+ - Tool for
+ - Adaptive
+ - Meshing by
+ - Refinement and
+ - Unrefinement
+
+HOMARD is the french name for lobster.
+Then, our mascot is very nice in `the city of the loabster <http://www.shediac.org.cfm>`_ : |M|
+
+.. |M| image:: ../images/mascotte.gif
+   :align: middle
+   :alt: Mascot
+   :width: 144
+   :height: 94
 
 
 

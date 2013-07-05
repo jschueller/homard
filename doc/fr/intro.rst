@@ -7,7 +7,7 @@ Présentation générale
 *********************
 Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes de calculs par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du code de calcul auquel il est couplé.
 
-Raffiner le maillage signifie découper des mailles désignées selon des indications founies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul pour ne plus tenir compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
+Raffiner le maillage signifie découper des mailles désignées selon des indications fournies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul : on ne tiendra plus compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
 
 HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
    - mailles-points
@@ -53,6 +53,10 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
 
   `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
+.. index:: single: yacs
+
+.. note::
+  Cet alternance de calculs et d'adaptions est très appropriée à la mise place de schémas :ref:`yacs`.
 
 Mode de découpage des mailles
 *****************************
@@ -179,7 +183,7 @@ Pour un tétraèdre dont deux des arêtes sont coupées : cela n'est possible que si
 
 Pour un tétraèdre dont une des arêtes est coupée : on joint le milieu de cette arête découpée au sommet opposé et il y a création de 2 tétraèdres.
 
-.. image:: ../images/dec_tetr_6.gif
+.. image:: ../images/dec_tetr_7.gif
    :align: center
    :alt: Découpage de conformité d'un tétraèdre - 3
    :width: 116

@@ -36,14 +36,16 @@ On veut modéliser ici un cas de mécanique des fluides pour lequel un écoulement 
 
 S'il s'avère que le maillage a besoin de découpage autour de la zone d'entrée, il va y avoir création de nouveaux noeuds. Tout le problème va consister à savoir à quelle catégorie appartient un nouveau noeud situé entre un noeud de paroi ou un noeud d'entrée. Si, comme sur le schéma de gauche, on privilégie la paroi, tout va bien. En revanche si, comme sur le schéma de droite, on privilégie l'entrée, il y a un problème : cela revient à agrandir artificiellement l'entrée ... et donc à fausser le calcul !
 
-.. image:: ../images/cl_2.gif
-   :align: left
+|cl_2| Paroi ------------------------------ Entrée |cl_3|
+
+.. |cl_2| image:: ../images/cl_2.gif
+   :align: middle
    :width: 244
    :height: 129
 
 
-.. image:: ../images/cl_3.gif
-   :align: right
+.. |cl_3| image:: ../images/cl_3.gif
+   :align: middle
    :width: 244
    :height: 128
 

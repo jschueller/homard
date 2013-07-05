@@ -103,7 +103,6 @@ HOMARD is able to work with 2D or 3D meshes as well, including the following ele
 
 If pyramids are present into the initial mesh, HOMARD stops with an error. However, if no refinement will be in contact with any edge of those pyramids, the "Authorized pyramids" whould be checked. The adaptation will go on and the pyramids will be back as they are into the initial mesh.
 
-
 The pursuit of a case
 *********************
 .. index:: single: pursuit

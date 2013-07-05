@@ -19,6 +19,7 @@ User's guide
    demarrage_rapide
    gui_usage
    tui_usage
+   yacs
    tutorials
 
 General presentation

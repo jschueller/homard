@@ -19,6 +19,7 @@ Mode d'emploi
    demarrage_rapide
    gui_usage
    tui_usage
+   yacs
    tutorials
 
 Présentation générale

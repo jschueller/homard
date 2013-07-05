@@ -74,7 +74,59 @@ SALOME VERSION 7.2.0 :
      ``iter.Compute(option)`` devient ``iter.Compute(option1, option2)``
    - Possibilité de poursuivre une suite d'itérations archivées dans un répertoire (voir :ref:`gui_create_case`)
 
+SALOME VERSION 7.2.1 :
+   - Documentation en anglais
 
+Contact
+*******
+.. index:: single: Contact
+
+Gérald NICOLAS, Responsable du Logiciel
+
+Adresse :
+EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
+
+Téléphone : (33/0) 1.47.65.56.94
+
+Email : Gerald.Nicolas[at]edf.fr
+
+
+Thierry FOUQUET
+
+Adresse :
+EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
+
+Téléphone : (33/0) 1.47.65.41.45
+
+Email : Thierry.Fouquet[at]edf.fr
+
+
+Vraiment divers ...
+*******************
+
+HOMARD est un acronyme pour :
+ - Outil de
+ - Maillage
+ - Adaptatif par
+ - Raffinement et
+ - Déraffinement
+
+Notre mascotte était toute trouvée dans `la ville du homard <http://www.shediac.org>`_  : |M|
+
+.. |M| image:: ../images/mascotte.gif
+   :align: middle
+   :alt: Mascotte
+   :width: 144
+   :height: 94
+
+West led the aaaaaaaaa |H| ffffffff |S| ccccccccccccccccc.
+
+.. |H| image:: ../images/mascotte.gif
+   :width: 144
+   :height: 94
+.. |S| image:: ../images/dec_tria_1.gif
+   :width: 399
+   :height: 88
 
 
 

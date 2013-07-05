@@ -3,14 +3,14 @@ Examples
 .. index:: single: example
 .. index:: single: python
 
-On trouvera ici les instructions python pour quelques configurations caractéristiques. Les fichiers de données associés sont téléchargeables. Il faut penser à adapter la valeur de la variable ``data_dir`` : c'est le répertoire dans lequel les fichiers med auront été enregistrés.
-C'est dans le répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives. Ce répertoire est créé par défaut dans ``/tmp``.
+One will find here the instructions python for some characteristic configurations. The associated data files are downloadable. It is necessary to think of adapting the value of the variable ``data_dir``: it is the directory in which the files med will have been recorded.
+It is in the directory ``dircase`` that the files will be written resulting from the successive adaptations. This directory is created by default in ``/tmp``.
 
 Loading of the module HOMARD
 ****************************
 .. index:: single: yacs
 
-Le chargement du module HOMARD se fait de manière analogue aux autres modules.
+The loading of the module HOMARD is done in a way similar to the other modules.
 
  ::
 
@@ -18,7 +18,7 @@ Le chargement du module HOMARD se fait de manière analogue aux autres modules.
   homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')
   homard.SetCurrentStudy(salome.myStudy)
 
-Pour utiliser le module HOMARD au sein d'un schéma YACS distribué, le chargement se fait ainsi :
+To use the module HOMARD within a distributed scheme YACS, the loading is made as follows:
 
  ::
 
@@ -31,9 +31,10 @@ Uniform refinement
 ******************
 .. index:: single: refinement;uniform
 
-On fera ici trois raffinements uniformes successifs du maillage contenu dans le fichier ``tutorial_1.00.med``. Quelques remarques :
-  * la même hypothèse est utilisée à chaque itération
-  * le maillage produit porte toujours le même nom. Cela ne pose pas de problème car il est stocké dans des fichiers différents.
+One will make here three successive uniform refinements of the mesh contained in the file ``tutorial_1.00.med``. Some notes:
+  * the same hypothesis is used with each iteration
+  * the produced mesh always bears the same name. That does not pose a problem because it is stored in different files.
+
 
 .. literalinclude:: ../files/tutorial_1.py
    :lines: 53-86
@@ -41,15 +42,15 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
 .. note::
   Download the files
 
-  * :download:`maillage initial<../files/tutorial_1.00.med.gz>`
-  * :download:`commandes python<../files/tutorial_1.py>`
+  * :download:`initial mesh<../files/tutorial_1.00.med.gz>`
+  * :download:`python script<../files/tutorial_1.py>`
 
 
 Refinement by zones
 *******************
 .. index:: single: zone
 
-On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine. On notera que le type de raffinement n'a pas été précisé ; par défaut, il sera donc conforme.
+One proceeds here to refinement according to zones. To pass from the initial mesh to the mesh 'M_1', one uses a box framing the z=1 plane and a sphere centered on the origin with radius 1.05. Then to pass from the mesh 'M_1' to the mesh 'M_2', one replaces the sphere by a box framing the cube on side 0.5, pointing on the origin. It will be noted that the type of refinement was not specified; by default, it will be thus in conformity.
 
 .. literalinclude:: ../files/tutorial_2.py
    :lines: 53-98
@@ -57,16 +58,16 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial a
 .. note::
   Download the files
 
-  * :download:`maillage initial<../files/tutorial_2.00.med.gz>`
-  * :download:`commandes python<../files/tutorial_2.py>`
+  * :download:`initial mesh<../files/tutorial_2.00.med.gz>`
+  * :download:`python script<../files/tutorial_2.py>`
 
 
 Refinement driven by a field
 ****************************
 .. index:: single: field
 
-On procède ici au raffinement selon un champ. Les hypothèses servent à définir le nom du champ et les seuils de raffinement/déraffinement. La donnée du fichier et des instants est faite dans l'itération. Des champs sur les noeuds ou sur les mailles sont interpolés.
-Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
+One proceeds here to refinement according to a field. The hypotheses are used to define the name of the field and the thresholds of refinement/unefinement. The input of the file and the instants is made in the iteration. Fields on the nodes or the elements are interpolated.
+To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are applied. In the first, Iter_2, the field is a scalar field of indicators of error and one cuts out the 1.5% of elements where the error is largest. In the second alternative, Iter_2_bis, one is based on a vector field and one examines the jump of this vector between an element and its neighbors: one will cut out where the infinite standard of this jump is higher than the absolute threshold of 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
    :lines: 53-128
@@ -74,9 +75,9 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
 .. note::
   Download the files
 
-  * :download:`maillage et champ étape 0<../files/tutorial_3.00.med.gz>`
-  * :download:`maillage et champ étape 1<../files/tutorial_3.01.med.gz>`
-  * :download:`commandes python<../files/tutorial_3.py>`
+  * :download:`mesh and field stage 0<../files/tutorial_3.00.med.gz>`
+  * :download:`mesh and field stage 1<../files/tutorial_3.01.med.gz>`
+  * :download:`python script<../files/tutorial_3.py>`
 
 
 Non plane boundaries
@@ -84,8 +85,8 @@ Non plane boundaries
 .. index:: single: field
 .. index:: single: yacs
 
-On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
-Le schéma YACS réalisant cette adaptation est téléchargeable.
+One tests the follow-up of the curved borders here: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. The driving of refinement is the following: uniform refinement of all the elements contained in indicated groups. One starts by refining the inner faces with the pipes; then, one refines continuation twice the external faces with the pipes.
+Scheme YACS carrying out this adaptation is downloadable.
 
 .. literalinclude:: ../files/tutorial_4.py
    :lines: 53-112
@@ -93,18 +94,18 @@ Le schéma YACS réalisant cette adaptation est téléchargeable.
 .. note::
   Download the files
 
-  * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
-  * :download:`maillage de la frontière discrète<../files/tutorial_4.fr.med.gz>`
-  * :download:`commandes python<../files/tutorial_4.py>`
-  * :download:`schéma YACS<../files/tutorial_4.xml>`
+  * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
+  * :download:`mesh of the discrete boundary<../files/tutorial_4.fr.med.gz>`
+  * :download:`python script<../files/tutorial_4.py>`
+  * :download:`YACS scheme<../files/tutorial_4.xml>`
 
 
 Specific instructions for a 2D mesh
 ***********************************
 .. index:: single: 2D
 
-Les instructions pour adapter un maillage 2D sont exactement identiques à celles nécessaires à l'adaptation d'un maillage 3D. La seule exception concerne le raffinement selon des zones géométriques : des fonctions différentes sont utilisées pour pouvoir définir des zones 2D. On donne alors les coordonnées 2D des zones, en précisant l'orientation du plan du maillage.
-Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
+The instructions to adapt a 2D mesh are exactly identical to those necessary to the adaptation of a 3D mesh. The only exception relates to refinement according to geometrical zones: different functions are used to be able to define 2D zones. One gives the 2D coordinates zones, by specifying the orientation of the plane of the mesh.
+In the case presented here, one for the first time refines all the elements contained in a bored disk, then in one second iteration, all the elements contained in a rectangle. One will note the use of the follow-up of the circular borders of the field.
 
 .. literalinclude:: ../files/tutorial_5.py
    :lines: 53-98
@@ -112,9 +113,9 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles conten
 .. note::
   Download the files
 
-  * :download:`maillage initial<../files/tutorial_5.00.med.gz>`
-  * :download:`maillage de la frontière discrète<../files/tutorial_5.fr.med.gz>`
-  * :download:`commandes python<../files/tutorial_5.py>`
+  * :download:`initial mesh<../files/tutorial_5.00.med.gz>`
+  * :download:`mesh of the discrete boundary<../files/tutorial_5.fr.med.gz>`
+  * :download:`python script<../files/tutorial_5.py>`
 
 
 .. toctree::

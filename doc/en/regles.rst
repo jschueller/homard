@@ -37,14 +37,17 @@ A case of fluid mechanics is to be modeled here, where a flow enters then exits 
 
 If the element needs to be split around the inlet area, new nodes are generated. The problem here is to find out to which category a new node located between a wall node or an inlet node belongs to. If -- left-hand side case -- the wall gets priority, everything is fine. Conversely, if -- right-hand side case -- it is the inlet that gets priority, there is a problem: this results in artificially expanding the inlet, therefore distorting the calculation!
 
-.. image:: ../images/cl_2.gif
-   :align: left
+
+|cl_2| Wall ------------------------------ Inlet |cl_3|
+
+.. |cl_2| image:: ../images/cl_2.gif
+   :align: middle
    :width: 244
    :height: 129
 
 
-.. image:: ../images/cl_3.gif
-   :align: right
+.. |cl_3| image:: ../images/cl_3.gif
+   :align: middle
    :width: 244
    :height: 128
 
