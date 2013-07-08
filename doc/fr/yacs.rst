@@ -33,7 +33,7 @@ Les boîtes principales sont :
 DataInit
 ========
 .. image:: ../images/yacs_a_01.png
-   :align: left
+   :align: center
    :alt: DataInit
    :width: 158
    :height: 61
@@ -51,7 +51,7 @@ La boîte Etude_Initialisation lance le composant HOMARD dans SALOME. C'est un bl
 - SetCurrentStudy : service du composant HOMARD
 
 .. image:: ../images/yacs_b_01.png
-   :align: left
+   :align: center
    :alt: Etude_Initialisation
    :width: 323
    :height: 97
@@ -72,7 +72,7 @@ Tant_que_le_calcul_n_a_pas_converge
 La boîte Tant_que_le_calcul_n_a_pas_converge est une boucle de type WhileLoop. La condition est initialisée à 1 : le bloc interne Alternance_Calcul_HOMARD est exécuté. Au sein de ce bloc, on calcule et on adapte le maillage ; quand le processus doit s'arrêter soit par suite d'erreur, soit par convergence, la condition passe à 0. La boucle s'achève et on passe à la boîte suivante, Bilan.
 
 .. image:: ../images/yacs_c_01.png
-   :align: left
+   :align: center
    :alt: Boucle
    :width: 195
    :height: 142
@@ -80,7 +80,7 @@ La boîte Tant_que_le_calcul_n_a_pas_converge est une boucle de type WhileLoop. L
 Bilan
 =====
 .. image:: ../images/yacs_d_01.png
-   :align: left
+   :align: center
    :alt: Bilan
    :width: 158
    :height: 63
@@ -94,7 +94,7 @@ Cette boîte est un noeud python qui prend en entrée une chaîne de caractères, Me
 La boucle de calculs
 ********************
 .. image:: ../images/yacs_c_02.png
-   :align: left
+   :align: center
    :alt: Boucle
    :width: 323
    :height: 158
@@ -104,7 +104,7 @@ Cette boîte est un bloc qui gère le calcul, l'adaptation et l'analyse.
 Calcul
 ======
 .. image:: ../images/yacs_c_03.png
-   :align: left
+   :align: center
    :alt: Calcul
    :width: 155
    :height: 87
@@ -131,7 +131,7 @@ En revanche la sortie du script doit obéir à la règle suivante. On récupère un c
 Adaptation
 ==========
 .. image:: ../images/yacs_c_04.png
-   :align: left
+   :align: center
    :alt: Adaptation
    :width: 672
    :height: 569
@@ -145,7 +145,7 @@ La première tâche à exécuter concerne l'initialisation des données nécessaires à
 Homard_init_au_debut
 ^^^^^^^^^^^^^^^^^^^^
 .. image:: ../images/yacs_c_06.png
-   :align: left
+   :align: center
    :alt: Homard_init_au_debut
    :width: 481
    :height: 150
@@ -172,7 +172,7 @@ Homard_Exec
 Une fois initialisée, l'adaptation peut être calculée. C'est le but de la boîte Homard_Exec, sous forme d'un script python.
 
 .. image:: ../images/yacs_c_09.png
-   :align: left
+   :align: center
    :alt: Homard_Exec
    :width: 153
    :height: 141
@@ -212,7 +212,7 @@ Après cette exécution, le processus sort du noeud Adaptation_HOMARD, puis du noe
 Homard_init_ensuite
 ^^^^^^^^^^^^^^^^^^^
 .. image:: ../images/yacs_c_07.png
-   :align: left
+   :align: center
    :alt: Homard_init_ensuite
    :width: 323
    :height: 97
@@ -227,7 +227,7 @@ On passe ensuite dans le noeud Homard_Exec pour calculer le nouveau maillage.
 Arret_boucle
 ------------
 .. image:: ../images/yacs_c_08.png
-   :align: left
+   :align: center
    :alt: Arret_boucle
    :width: 163
    :height: 152
@@ -240,7 +240,7 @@ Le bloc Arret_boucle n'est présent que pour faire transiter des variables car le
 Analyse
 =======
 .. image:: ../images/yacs_c_05.png
-   :align: left
+   :align: center
    :alt: Analyse
    :width: 155
    :height: 169

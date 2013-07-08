@@ -50,7 +50,7 @@ Le maillage à analyser doit se trouver dans un fichier au format MED. Le nom du 
   Le fichier ne doit contenir qu'un seul maillage.
 
 .. warning::
-  Le maillage ne doit pas être lui-même le produit d'une adaptation de maillage par HOMARD, sous peine de perdre l'analyse des différents niveaux de raffinement/déraffinement
+  Le maillage ne doit pas être lui-même le produit d'une adaptation de maillage par HOMARD, sous peine de perdre l'analyse des différents niveaux de raffinement/déraffinement.
 
 Options d'analyse
 =================

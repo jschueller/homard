@@ -5,9 +5,9 @@ The computation
 .. index:: single: iteration
 .. index:: single: computation
 
-To cumpute an iteration
+To compute an iteration
 ***********************
-Lancer une adaptation s'obtient en sélectionnant l'iteration à calculer. Elle est repérée par une icone "en attente". On choisit ensuite "*Calculer*" dans le menu HOMARD ou à la souris.
+To launch an adaptation obtains by selecting the iteration to calculate. It is identified by an icone "wait". We choose then "*Compute*" in the menu HOMARD or with the mouse.
 
 .. image:: images/lancement_1.png
    :align: center
@@ -17,15 +17,15 @@ Lancer une adaptation s'obtient en sélectionnant l'iteration à calculer. Elle es
 Object browser
 **************
 
-A l'issue de ce calcul, l'arbre d'études a été enrichi. L'icone devant l'iteration est validée. Sous l'iteration, on trouve la référence aux fichiers de résultats créés, identifiés par leur nom dans le répertoire *rep* qui a été défini à la création du cas :
+At the end of this calculation, the object browser was enriched. The icone in front of the iteration is validated. Under the iteration, we find the reference to the files of results created, identified by their name in the directory *rep* which was defined in the creation of the case:
 
   - *rep*/I(n+1)/Liste.n.vers.(n+1).log
   - *rep*/I(n+1)/apad.n.vers.(n+1).bilan
   - *rep*/maill.(n+1).med
 
-Les deux premiers fichiers sont des fichiers de texte, éditables. Liste.n.vers.(n+1).log contient des informations sur le déroulement de l'adaptation : récapitulatif du mode d'adaptation, pourcentage de mailles concernées, etc. Le fichier apad.n.vers.(n+1).bilan est un résumé des caractéristiques du maillage obtenu.
+The first two files are text files, editable. Liste.n.vers.(n+1).log contains information on the progress of the adaptation: summary of the mode of adaptation, percentage of concerned elements, etc. The file apad.n.vers.(n+1).bilan is a summary of the characteristics of the obtained mesh.
 
-Le fichier maill.(n+1).med est celui qui contient le maillage produit au format MED. On retrouve ce maillage dans la section de l'arbre d'études du module SMESH. Il est alors visible dans ce module et utilisable ensuite comme tout autre maillage.
+The file maill.(n+1).med is the one which contains the mesh produced in the format MED. We find this mesh in the section of the object browser of the module SMESH. It is then visible in this module and usable then as quite different mesh.
 
 
 .. image:: images/lancement_2.png
@@ -33,16 +33,16 @@ Le fichier maill.(n+1).med est celui qui contient le maillage produit au format 
 
 To consult the result of an adaptation
 **************************************
-Les deux fichiers de texte, Liste.n.vers.(n+1).log et apad.n.vers.(n+1).bilan, sont visibles en les sélectionnant. On choisit ensuite "*Afficher le fichier*" dans le menu HOMARD ou à la souris.
+Both text files, Liste.n.vers.(n+1).log and apad.n.vers.(n+1).bilan, are visible by selecting them. We choose then "*Edit file*" in the menu HOMARD or with the mouse.
 
 .. image:: images/lancement_3.png
    :align: center
 
 
 .. note::
-  Par défaut, le calcul est lancé avec l'exécutable de HOMARD installé avec SALOME. Si on souhaite utiliser une version privée de HOMARD, pour tester une évolution par exemple, il faut préciser où le nouvel exécutable est disponible. Pour cela, il faut renseigner deux variables d'environnement.
-  "*HOMARD_REP_EXE_PRIVATE*" définit le répertoire dans lequel se trouve l'exécutable voulu.
-  "*HOMARD_EXE_PRIVATE*" définit le nom de l'exécutable dans ce répertoire, si ce nom est différent de "*homard*".
+  By default, the calculation is launched with the load module of HOMARD installed with SALOME. If we wish to use a personal version of HOMARD, to test an evolution for example, it is necessary to specify where the new load module is available. For that purpose, it is necessary to have got two variables of environment.
+  "*HOMARD_REP_EXE_PRIVATE*" defines the directory in which is the load module
+  "*HOMARD_EXE_PRIVATE*" defines the name of the load module in this directory, if this name is different of "*homard*".
 
 Corresponding python functions
 ******************************

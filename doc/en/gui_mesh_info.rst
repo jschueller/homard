@@ -5,33 +5,33 @@ Mesh analysis
 .. index:: single: analysis
 .. index:: single: information
 
-La demande d'analysis d'un maillage se fait par la donnée des informations suivantes :
+The request of analysis of a mesh is made by the following information:
 
-  - Un répertoire
-  - Le fichier du maillage
+  - A directory
+  - A mesh file
 
-Si le maillage fait partie d'un cas enregistré, son analysis est faite à partir de son itération dans l'arbre d'études. Voir plus loin.
+If the mesh is a part of a registered case, its analysis is made from its iteration in the object browser. See farther.
 
 
 Importation of the mesh
 ***********************
-La sélection de la fonction d'analysis est faite par le menu de la barre supérieure de la fenêtre :
+The selection of the function of analysis is made by the menu of the superior bar of the window:
 
 .. image:: images/mesh_info_1.png
    :align: center
 
-La fenêtre de choix s'affiche.
+The window of choice is displayed.
 
 .. image:: images/mesh_info_2.png
    :align: center
 
 Name of the case
 ****************
-Un nom de cas est proposé automatiquement : Case_1, Case_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour un autre cas.
+A name of case is automatically proposed: Case_1, Case_2, etc. This name can be modified. He must not already have been used for another case.
 
 The directory
 *************
-Le répertoire est celui qui contiendra les fichiers produits par l'information. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les fichiers d'information de nom ``Liste.log`` et ``info_av.00.bilan``. Ces fichiers seront visibles dans l'arbre d'études.
+The directory is the one which will contain files produced by the information. By default, nothing is proposed. The choice is made, either by typing the name in the text field, or by activating the function of research. It is in this directory that will be exported the files of information of name "Liste.log" and "info_av.00.bilan". These files will be visible in the object browser.
 
 .. image:: images/create_case_2.png
    :align: center
@@ -41,31 +41,31 @@ Le répertoire est celui qui contiendra les fichiers produits par l'information. 
 
 Mesh to be analysed
 *******************
-Le maillage à analysisr doit se trouver dans un fichier au format MED. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
+The mesh to be analyzed has to be in a file in the format MED. The name of the file can be supplied, either by typing the name in the text field, or by activating the function of research.
 
 .. image:: images/create_case_3.png
    :align: center
 
 .. note::
-  Le fichier ne doit contenir qu'un seul maillage.
+  The file has to contain only a single mesh.
 
 .. warning::
-  Le maillage ne doit pas être lui-même le produit d'une adaptation de maillage par HOMARD, sous peine de perdre l'analysis des différents niveaux de raffinement/déraffinement
+  The mesh does not have to be produced of an adaptation of mesh by HOMARD itself, at the risk of losing the analysis of the various levels of refinement / unrefinement
 
 Options for the analysis
 ************************
-L'analysis est faite selon les options cochées.
-  - qualité des mailles
-  - diamètre des mailles
-  - connexité du domaine ; en un seul morceau, combien de trous, etc.
-  - tailles des constituants du domaine, groupe par groupe
-  - interpénétration des mailles, par dimension
+The analysis is made according to the marked options.
+  - Quality of elements
+  - Diameter of elements
+  - Connectivity of the domain; in a single piece, how many holes, etc.
+  - Sizes of the constituents of the domain, group by group
+  - Interpenetration of elements, by dimension
 
-Le résultat de l'analysis est contenu dans le fichier ``info_av.00.bilan`` ; ce fichier est à consulter en l'affichant après sa désignation avec "*Afficher le fichier*" dans le menu HOMARD ou à la souris.
+The result of the analysis is contained in the file "info_av.00.bilan"; this file is to be consulted by showing it after its name with "*Edit file*" in the menu HOMARD or with the mouse.
 
 Object browser
 **************
-A l'issue de cette demande d'information, l'arbre d'études a été enrichi de ce nouveau cas. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni, et les deux fichiers d'information de nom ``Liste.log`` et ``info_av.00.bilan``.
+At the end of this request of information, the object browser was enriched by this new case. We find the initial iteration there, identified by the name of the mesh which was read in the supplied file, and both files of information of name "Liste.log" and "info_av.00.bilan".
 
 .. image:: images/mesh_info_3.png
    :align: center
@@ -74,12 +74,12 @@ A l'issue de cette demande d'information, l'arbre d'études a été enrichi de ce n
 Computed iteration
 ******************
 
-Pour analysisr le maillage produit par une itération d'adaptation de maillage, on désigne à la souris cette itération dans l'arbre d'études et on lance l'analysis. On retrouve le menu similaire au cas initial :
+To analyze the mesh produced by an iteration of mesh adaptation, we indicate with the mouse this iteration in the object browser and we launch the analysis. We find the menu similar to the initial case:
 
 .. image:: images/mesh_info_4.png
    :align: center
 
-Comme pour un maillage importé, l'arbre d'études a été enrichi avec les deux fichiers d'information de nom ``Liste.log`` et ``info_ap.xx.bilan``, où xx est le numéro de l'itération dans le cas.
+As for an imported mesh, the object browser was enriched with both files of information of name "Liste.log" and "info_ap.xx.bilan", where xx is the number of the iteration in the case.
 
 .. image:: ../images/mesh_info_5.png
    :align: center

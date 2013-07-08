@@ -30,7 +30,6 @@ General presentation
 
    intro
    regles
-   applications
    divers
 
 Licence

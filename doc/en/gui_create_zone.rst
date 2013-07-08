@@ -5,46 +5,44 @@ The zone
 .. index:: single: zone
 .. index:: single: 2D
 
-L'objet zone contient toutes les définitions géométriques permettant de décrire une zone à raffiner.
+The object zone contains all the geometrical definitions allowing to describe a zone to be refined.
 
-En 3D, il existe quatre types de zone :
+In 3D, there are four types of zone:
 
-  - Parallélépipède
-  - Cylindre
-  - Tuyau
-  - Sphère
+  - Box
+  - Cylinder
+  - Pipe
+  - Sphere
 
-Leurs analogues en 2D sont :
+Their analogues in 2D are:
 
   - Rectangle
-  - Disque
-  - Disque percé
+  - Disk
+  - Disk with a hole
 
-Le principe du raffinement selon des zones est le suivant. Chaque arête de maille dont les deux extrémités
-sont incluses dans une même zone sera coupée. Ensuite HOMARD applique l'algorithme de traitement de la
-conformité pour produire un maillage correct.
+The principle of the refinement according to zones is the following one. Every edge of element among which both extremities are included in the same zone will be cut. Then HOMARD applies the algorithm of processing of it conformity to produce a correct mesh.
 
 .. note::
-  Les valeurs proposées par défaut pour les dimensions des zones tiennent compte de la géométrie du maillage.
+  The values proposed by default for the size of zones take into account the geometry of the mesh.
 
 Name of the zone
 ****************
-Un nom de zone est proposé automatiquement : Zone_1, Zone_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été déjà utilisé pour une autre zone.
+A name of zone is automatically proposed: Zone_1, Zone_2, etc. This name can be modified. He must not have been already used for another zone.
 
 Box
 ***
 .. index:: single: box
 
-Le parallélépipède est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chaque direction.
+The parallelepiped is necessarily parallel to coordinate system. It is defined by its extremes in every direction.
 
 .. image:: images/create_zone_1.png
    :align: center
 
-Cylindre
+Cylinder
 ********
 .. index:: single: cylindre
 
-Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa hauteur et son rayon. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
+The cylinder is defined by its axis, a basis point positioned on the axis, its height and its radius. The axis is defined by a vector which must be correctly directed: we shall retain the ready volume of the basis in the direction of the vector until the reserved height. The norm of this vector is not inevitably equal to 1.
 
 .. image:: images/create_zone_2.png
    :align: center
@@ -53,7 +51,7 @@ Pipe
 ****
 .. index:: single: pipe
 
-Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa hauteur et ses rayons interne et externe. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
+The pipe is defined by its axis, a basis point positioned on the axis, its height and its internal and external radius. The axis is defined by a vector which must be correctly directed: we shall retain the ready volume of the basis in the direction of the vector until the reserved height. The norm of this vector is not inevitably equal to 1.
 
 .. image:: images/create_zone_3.png
    :align: center
@@ -62,7 +60,7 @@ Sphere
 ******
 .. index:: single: sphere
 
-La sphère est définie par son centre et son rayon.
+The sphere is defined by its center and its radius.
 
 .. image:: images/create_zone_4.png
    :align: center
@@ -71,7 +69,7 @@ Rectangle
 *********
 .. index:: single: rectangle
 
-Le rectangle est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chacune des directions valides. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+The rectangle is necessarily parallel to coordinate system. It is defined by its extremes in each of the valid directions. The constant coordinate is shown for information, but is not modifiable.
 
 .. image:: images/create_zone_21.png
    :align: center
@@ -80,7 +78,7 @@ Disk
 ****
 .. index:: single: disk
 
-Le disque est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et son rayon. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+The disk is necessarily in the plan of coordinate system. It is defined by its center and its radius. The constant coordinate is shown for information, but is not modifiable.
 
 .. image:: images/create_zone_22.png
    :align: center
@@ -89,11 +87,10 @@ Disk with a hole
 ****************
 .. index:: single: disk with a hole
 
-Le disque avec trou est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et ses rayons externe et interne. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+The disk with hole is necessarily in the plan of coordinate system. It is defined by its center and its external and internal radius. The constant coordinate is shown for information, but is not modifiable.
 
 .. image:: images/create_zone_23.png
    :align: center
-
 
 
 Corresponding python functions

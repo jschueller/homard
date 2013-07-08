@@ -45,7 +45,7 @@ Au démarrage, SALOME affiche un tableau avec un seule colonne. Cette colonne con
 .. image:: images/create_boundary_an_1.png
    :align: center
 
-Il faut créer une première frontière analytique par activation du bouton "*Nouveau*". On aura le choix entre cylindre ou sphère. Une fois que la frontière sera validée, son nom figurera en en-tête d'une deuxième colonne.
+Il faut créer une première frontière analytique par activation du bouton "*Nouveau*". On aura le choix entre cylindre, sphère ou cône. Une fois que la frontière sera validée, son nom figurera en en-tête d'une deuxième colonne.
 
 .. image:: images/create_boundary_an_2.png
    :align: center

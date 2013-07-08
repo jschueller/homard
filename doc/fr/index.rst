@@ -30,7 +30,6 @@ Présentation générale
 
    intro
    regles
-   applications
    divers
 
 Licence

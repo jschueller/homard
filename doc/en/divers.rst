@@ -7,42 +7,11 @@ References
 **********
 .. index:: single: reference
 
-The HOMARD software was subject of publications techniques in the course of conferences these last years. References of main documents are presented here.
-
-Main reference
-==============
 For a reference to HOMARD, use:
 
 G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
 `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
-
-Splitting meshing
-=================
-
-  * G. Nicolas, T. Fouquet, Conformal hexaedral meshes and adaptive mesh refinement, VI International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2013*", J.P. Moitinho de Almeida, P. Diez, C. Tiago and N. Pares (Eds), Lisbonne, pp. 515-526, 2013
-  * G. Nicolas, T. Fouquet, Hexaedral mesh adaptation for finite volume methods, III International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2007*", K. Runesson, P. Diez (Eds), Goteborg, pp. 174-177, 2007
-  * G. Nicolas, F. Arnoux-Guisse, O. Bonnin, Adaptive meshing for 3D finite element software, IX International Conference on Finite Elements in Fluids, Venise, Italie, 15-21 Octobre 1995.
-  * G. Nicolas, F. Arnoux-Guisse, O. Bonnin, Un logiciel d'adaptation de maillage en 2D et 3D, 27ème Congrès d'Analyse Numérique, Super-Besse, France, May 29-June 2, 1995.
-
-Error estimators
-================
-
-  * A. Ern, S. Meunier, A posteriori error analysis of Euler-Galerkin approximations to coupled elliptic-parabolic problems", ESAIM: M2AN 43 (2009) 353-375.
-  * J. Delmas, Stratégies de controle d'erreur en calcul de structures industrielles., PhD of the Université de Picardie, France, April 2008
-  * S. Meunier, Analyse d'erreur a posteriori pour les couplages hydro-mécaniques et mise en oeuvre dans Code_Aster, PhD of the Ecole Nationale des Ponts et Chaussées, France, November 2007.
-  * J. Delmas, P. Coorevits, P.-B. Badel and M. Guessasma, An explicit estimator for goal oriented H-Adaptivity with mesh optimaly criteria, III International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2007*", K. Runesson, P. Diez (Eds), Goteborg, pp. 93-96, 2007.
-  * P. Destuynder, B. Métivet, Estimation d'erreur explicite dans une méthode d'éléments finis conforme, Compte Rendu Académie des Sciences Paris, tome 323, Série I, p. 679-684, 1996.
-  * P. Destuynder, B. Métivet, Estimation d'erreur explicite pour une méthode d'éléments finis non conforme, Compte Rendu Académie des Sciences Paris, tome 322, Série I, p. 1081-1086, 1996.
-  * C. Bernardi, O. Bonnin, C. Langouet, B. Métivet, Residual Error Indicators for Linear Problems - Extension to the Navier-Stokes Equations, IX International Conference on Finite Elements in Fluids, Venise, Italie, 15-21 Octobre 1995.
-  * F. Arnoux-Guisse, O. Bonnin, L. Léal De Sousa, G. Nicolas, An adaptive finite element method for turbulent flow simulation, ICFD Conference on Numerical Methods for Fluid Dynamics, University of Oxford, Grande-Bretagne, 3-6 Avril 1995.
-  * O. Bonnin, B. Métivet, G. Nicolas, F. Arnoux-Guisse, L. Léal de Sousa, Adaptive Meshing for N3S Fluid Mechanics Code, "*Computational Fluid Dynamics '94*", ECCOMAS Stuttgart, Allemagne, pp. 201-208, Wiley 1994.
-
-Applications
-============
-
-  * S. Meunier, R. Fernandes, Mesh Adaptation for Coupled Hydro-Mechanical Industrial Studies, V International Conference on Adaptive Modeling and Siumulation, "*ADMOS 2011*", D. Aubry, P. Diez, B. Tie and N. Pares (Eds), Paris, pp. 337-338, 2011
-  * O. Hartmann, O. Bonnin, D. Gasser, An Adaptive Meshing for Turbomachinery Geometries, "*Computational Fluid Dynamics '98*", ECCOMAS Athènes, Greece, Wiley 1998.
 
 
 Evolutions of the module
@@ -76,56 +45,6 @@ SALOME RELEASE 7.2.0 :
 
 SALOME VERSION 7.2.1 :
    - English documentation
-
-Contact
-*******
-.. index:: single: Contact
-
-Gérald NICOLAS, Software Manager
-
-Address:
-EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
-
-Phone : (33/0) 1.47.65.56.94
-
-Email : Gerald.Nicolas[at]edf.fr
-
-
-Thierry FOUQUET
-
-Address:
-EDF R&D, 1, avenue du Général de Gaulle, 92141 CLAMART Cedex, FRANCE
-
-Phone : (33/0) 1.47.65.41.45
-
-Email : Thierry.Fouquet[at]edf.fr
-
-
-Really miscellaneous
-********************
-
-HOMARD is an acronym for
- - Outil de
- - Maillage
- - Adaptatif par
- - Raffinement et
- - Déraffinement
-
-which means:
- - Tool for
- - Adaptive
- - Meshing by
- - Refinement and
- - Unrefinement
-
-HOMARD is the french name for lobster.
-Then, our mascot is very nice in `the city of the loabster <http://www.shediac.org.cfm>`_ : |M|
-
-.. |M| image:: ../images/mascotte.gif
-   :align: middle
-   :alt: Mascot
-   :width: 144
-   :height: 94
 
 
 

@@ -60,7 +60,6 @@ Ensuite, si une hypothèse précédemment définie convient, il suffit de la sélecti
 .. image:: images/create_iteration_5.png
    :align: center
 
-
 .. note::
   Si on envisage une adaptation selon les valeurs d'un champ sur le maillage, il faut avoir renseigné les informations sur ce champ avant de créer une nouvelle hypothèse.
 

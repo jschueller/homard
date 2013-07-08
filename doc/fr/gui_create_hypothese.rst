@@ -49,8 +49,8 @@ Pour le choix du critère, quatre variantes sont possible :
 
   - selon un pourcentage de mailles à raffiner, nombre réel compris entre 0 et 100 ; HOMARD raffinera les x% des mailles qui ont la plus grande valeur du champ.
   - selon une valeur relative du champ, nombre compris entre 0 et 100 ; HOMARD raffinera les mailles où le champ est supérieur à x% de l'intervalle [mini,maxi].
-  - au dela d'une valeur absolue ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
-  - au dela d'une valeur absolue valant la moyenne de la répartition du champ augmentée de n fois son écart-type ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
+  - au delà d'une valeur absolue ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
+  - au delà d'une valeur absolue valant la moyenne de la répartition du champ augmentée de n fois son écart-type ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
 
 La même convention s'applique au déraffinement, en remplaçant supérieur par inférieur. On peut inactiver une des fonctions (raffinement ou déraffinement) en cochant le bouton ad_hoc.
 
@@ -77,7 +77,7 @@ Filtrage par les groupes
 ************************
 .. index:: single: groupe
 
-On peut restreindre l'application de l'hypothèse d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modidiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
+On peut restreindre l'application de l'hypothèse d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modifiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
 On coche le bouton associé :
 
 .. image:: images/create_hypothese_gr_1.png

@@ -33,7 +33,7 @@ The main boxes are:
 DataInit
 ========
 .. image:: ../images/yacs_a_01.png
-   :align: left
+   :align: center
    :alt: DataInit
    :width: 158
    :height: 61
@@ -51,7 +51,7 @@ The box Etude_Initialisation launches the component HOMARD inside SALOME. It is 
 - SetCurrentStudy : service of the component HOMARD
 
 .. image:: ../images/yacs_b_01.png
-   :align: left
+   :align: center
    :alt: Etude_Initialisation
    :width: 323
    :height: 97
@@ -72,7 +72,7 @@ Tant_que_le_calcul_n_a_pas_converge
 The box Tant_que_le_calcul_n_a_pas_converge is type WhileLoop. The condition is initialized in 1: the internal block Alternance_Calcul_HOMARD is executed. Within this block, we calculate and we adapt the mesh; when the process has to stop either as a result of error, or by convergence, the condition passes in 0. The loop ends and we pass in the following box, Bilan.
 
 .. image:: ../images/yacs_c_01.png
-   :align: left
+   :align: center
    :alt: Boucle
    :width: 195
    :height: 142
@@ -80,7 +80,7 @@ The box Tant_que_le_calcul_n_a_pas_converge is type WhileLoop. The condition is 
 Bilan
 =====
 .. image:: ../images/yacs_d_01.png
-   :align: left
+   :align: center
    :alt: Bilan
    :width: 158
    :height: 63
@@ -94,7 +94,7 @@ This box is a node python that takes in input a character string, MessInfo. If e
 Loop for the calculations
 *************************
 .. image:: ../images/yacs_c_02.png
-   :align: left
+   :align: center
    :alt: Boucle
    :width: 323
    :height: 158
@@ -104,7 +104,7 @@ This box is a block that manages the computation, the adaptation and the analysi
 Calcul
 ======
 .. image:: ../images/yacs_c_03.png
-   :align: left
+   :align: center
    :alt: Calcul
    :width: 155
    :height: 87
@@ -131,7 +131,7 @@ On the other hand the output of the script has to obey the following rule. We ge
 Adaptation
 ==========
 .. image:: ../images/yacs_c_04.png
-   :align: left
+   :align: center
    :alt: Adaptation
    :width: 672
    :height: 569
@@ -145,7 +145,7 @@ The first task tries to execute concern the initialization of the data necessary
 Homard_init_au_debut
 ^^^^^^^^^^^^^^^^^^^^
 .. image:: ../images/yacs_c_06.png
-   :align: left
+   :align: center
    :alt: Homard_init_au_debut
    :width: 481
    :height: 150
@@ -172,7 +172,7 @@ Homard_Exec
 Once initialized, the adaptation can be calculated. It is the goal of the Homard_Exec box, in the form of a script python.
 
 .. image:: ../images/yacs_c_09.png
-   :align: left
+   :align: center
    :alt: Homard_Exec
    :width: 153
    :height: 141
@@ -212,7 +212,7 @@ After this execution, the process leaves the Adaptation_HOMARD node, then Adapta
 Homard_init_ensuite
 ^^^^^^^^^^^^^^^^^^^
 .. image:: ../images/yacs_c_07.png
-   :align: left
+   :align: center
    :alt: Homard_init_ensuite
    :width: 323
    :height: 97
@@ -227,7 +227,7 @@ One passes then in the Homard_Exec node to calculate the new mesh.
 Arret_boucle
 ------------
 .. image:: ../images/yacs_c_08.png
-   :align: left
+   :align: center
    :alt: Arret_boucle
    :width: 163
    :height: 152
@@ -240,7 +240,7 @@ The Arret_boucle block is present to only make forward variables because the inp
 Analyse
 =======
 .. image:: ../images/yacs_c_05.png
-   :align: left
+   :align: center
    :alt: Analyse
    :width: 155
    :height: 169

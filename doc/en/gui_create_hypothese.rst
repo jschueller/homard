@@ -4,13 +4,13 @@ The hypothesis
 ##############
 .. index:: single: hypothesis
 
-L'hypothesis contient toutes les paramètres de pilotage d'une adaptation d'un maillage. Cette opération permet de réaliser l'itération à laquelle elle est attachée.
+The hypothesis contains all parameters of driving of a mesh adaptation. This operation allows to realize the iteration to which it is attached.
 
-Il existe trois classes d'hypotheses :
+There are three classes of hypotheses:
 
-  - Uniforme sur tout le maillage,
-  - Selon un champ,
-  - En fonction de zone géométrique.
+  - Uniform over the whole mesh,
+  - According to a field,
+  - According to geometrical zone.
 
 .. image:: images/create_hypothese_1.png
    :align: center
@@ -18,41 +18,40 @@ Il existe trois classes d'hypotheses :
 
 Name of the hypothesis
 **********************
-Un nom de l'hypothesis est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas asee été utilisé pour une hypothesis précédente.
+A name of the hypothesis is automatically proposed: Hypo_1, Hypo_2, etc. This name can be modified. It must not have been used for a previous hypothesis.
 
 Uniform adaptation
 ******************
-Par défaut on propose un raffinement uniforme. Quand on part d'un maillage qui a déjà été raffiné, l'option de déraffinement supprimera les mailles produites.
+By default we propose a uniform refinement. When the starting point is a mesh which was already refined, the option of unefinement will eliminate the produced elements.
 
 Adaptation by a field
 *********************
 
 .. note::
-  Pour pousee adapter le maillage selon un champ il faut asee au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (see :ref:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
+  To be able to adapt the mesh according to a field it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :ref:`gui_create_iteration`). The name of the file which was selected is shown without possible modification here:
 
 .. image:: images/create_hypothese_ch_1.png
    :align: center
 
-Le champ voulu est à choisir dans la liste des champs contenus dans le fichier.
-Une fois ce champ choisi, la liste des ses composantes s'affiche. Il suffit de désigner la (ou les) composantes désirées.
+The deliberate field is to be chosen in the list of fields contained in the file.
+Once this field was chosen, the list of its components is displayed. It is enough to indicate the wished component(s).
 
-Si l'on choisit une seule composante, par défaut, c'est sa valeur absolue qui sera utilisée, mais il est possible d'utiliser la valeur relative. Dans le cas de plusieurs composantes, par défaut HOMARD utilisera la norme L2 (euclidienne). On peut toutefois choisir d'utiliser la norme infinie (le max des valeurs absolues des composantes).
+If we choose a single component, by default, it is the absolute value which will be used, but it is possible to use the relative value. In the case of several components, by default HOMARD will use the L2 norm (Euclidian). We can however choose the infinite norm (the max of the absolute values of the components).
 
-On peut choisir de ne pas utiliser directement le champ, mais sa variation d'un élément à ses voisins. Pour cela, on activera le bouton "*Saut entre éléments*".
+We can choose not to use directly the field, but its variation from an element to its neighbors. For that purpose, we shall check the button "*Jump between elements*".
 
 .. image:: images/create_hypothese_ch_2.png
    :align: center
 
+The refinement is made according to a threshold which defines a high criterion of refinement. All the elements for which the indicator is upper to this criterion will be refined.
+For the choice of the criterion, four variants are possible:
 
-Le raffinement se fait selon un seuil qui définit un critère haut de raffinement. Toutes les mailles pour lesquelles l'indicateur est supérieur à ce critère seront raffinées.
-Pour le choix du critère, quatre variantes sont possible :
+  - According to a percentage of elements to be refined, real number included between 0 and 100; HOMARD will refine x% of the elements which have the biggest value of the field.
+  - According to a relative value of the field, the number included between 0 and 100; HOMARD will refine the elements where the field is upper in x% of the interval [mini, maxi].
+  - Beyond an absolute value; all the elements with a value of field superior to this value will be refined.
+  - Beyond an absolute value that is equal to the average of the mean of the field increased of n times its standard deviation; all the elements with a value of field superior to this value will be refined.
 
-  - selon un pourcentage de mailles à raffiner, nombre réel compris entre 0 et 100 ; HOMARD raffinera les x% des mailles qui ont la plus grande valeur du champ.
-  - selon une valeur relative du champ, nombre compris entre 0 et 100 ; HOMARD raffinera les mailles où le champ est supérieur à x% de l'intervalle [mini,maxi].
-  - au dela d'une valeur absolue ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
-  - au dela d'une valeur absolue valant la moyenne de la répartition du champ augmentée de n fois son écart-type ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
-
-La même convention s'applique au déraffinement, en remplaçant supérieur par inférieur. On peut inactiver une des fonctions (raffinement ou déraffinement) en cochant le bouton ad_hoc.
+The same convention applies to the unefinement, the by replacing upper by lower. We can inactivate one of the functions (refinement or unefinement) by checking the button ad_hoc.
 
 .. image:: images/create_hypothese_ch_3.png
    :align: center
@@ -62,12 +61,12 @@ Adaptation by a zone
 ********************
 .. index:: single: zone
 
-Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (see :ref:`gui_create_zone`) :
+In the starting up, it is necessary to create a first zone by activation of the button "*New*" (see :ref:`gui_create_zone`) :
 
 .. image:: images/create_hypothese_zo_1.png
    :align: center
 
-Lorsque des zones ont déjà été créées, la liste apparaît dans la fenêtre, ce qui permet de sélectionner les zones voulues. On doit alors préciser si une zone est utilisée pour raffiner toutes les mailles dont une arête est contenue dans la zone, ou si la zone est utilisée pour déraffiner les mailles intérieures à la zone. Si aucun choix n'est fait, la zone est ignorée dans cette hypothesis.
+When zones were already created, the list appears in the window, what allows to select the deliberate zones. We then have to specify if a zone is used to refine all the elements a edge of which is contained in the zone, or if the zone is used for unrefine the internal elements in the zone. If no choice is made, the zone is ignored in this hypothesis.
 
 .. image:: images/create_hypothese_zo_2.png
    :align: center
@@ -77,13 +76,13 @@ Filtering by the groups
 ***********************
 .. index:: single: group
 
-On peut restreindre l'application de l'hypothesis d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modidiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
-On coche le bouton associé :
+We can restrict the application of the hypothesis of adaptation to groups. So elements not belonging to these groups will not be modified, except by later contamination of the refinement to assure the conformity of the final mesh.
+We check the associated button:
 
 .. image:: images/create_hypothese_gr_1.png
    :align: center
 
-La liste des groupes de mailles présents dans le maillage est affichée. Il suffit de cocher ceux voulus pour restreindre l'hypothesis d'adaptation.
+The list of the present groups of elements in the mesh is shown. It is enough to check those wanted to restrict the hypothesis of adaptation.
 
 .. image:: images/create_hypothese_gr_2.png
    :align: center
@@ -94,14 +93,14 @@ Interpolation of fields
 .. index:: single: interpolation
 
 .. note::
-  Pour pousee interpoler un champ de l'ancien vers le nouveau maillage, il faut asee au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (see :ref:`gui_create_iteration`).
+  To be able to interpolate a field from the former towards the new mesh, it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :ref:`gui_create_iteration`).
 
-Par défaut, aucun champ n'est interpolé. A contrario, on peut demander l'interpolation de tous les champs présents dans le fichier fourni :
+By default, no field is interpolated. On the contrary, we can ask for the interpolation of all the present fields in the supplied file:
 
 .. image:: images/create_hypothese_ch_4.png
    :align: center
 
-Si on veut choisir les champs à interpoler, il faut les cocher dans la liste de tous les champs présents dans le fichier fourni :
+If we want to choose fields to be interpolated, it is necessary to check them in the list of all the present fields in the supplied file:
 
 .. image:: images/create_hypothese_ch_5.png
    :align: center
@@ -109,14 +108,14 @@ Si on veut choisir les champs à interpoler, il faut les cocher dans la liste de 
 
 Advanced options
 ****************
-Si la case "Options avancées" n'est pas cochée, aucune contrainte supplémentaire n'est définie.
-Si la case est cochée, on définira les options avancées.
+If the compartment "*Advanced Options*" is not checked, no additional constraint is defined.
+If the compartment is checked, we shall define the advanced options.
 
-Une première série d'options portent sur la finesse maximale de maillage que l'on ne veut pas dépasser. Deux directives sont possibles, séparément ou ensemble. On peut imposer une taille de maille minimale : une maille dont le diamètre est inférieur à cette limite ne sera plus découpée. Par défaut, on propose un diamètre minimal nul, ce qui revient à ne rien imposer. On peut imposer un niveau de raffinement maximal. Par défaut, le maximum est à 99, ce qui équivaut en général à ne rien imposer.
+A first series of options concern the maximal sharpness of mesh which we do not want to exceed. Two directives are possible, separately or together. We can impose a size of minimal element: a element the diameter of which is lower than this limit will not be any more split. By default, we propose a minimal 0 diameter, what means imposing nothing. We can impose a level of maximal refinement. By default, the maximum is 99, what amounts generally to impose nothing.
 
-La deuxième série d'options n'a d'intérêt que dans le cas où l'adaptation est piloté par un champ et que ce champ n'est pas défini partout dans le maillage. Cela arrive par exemple quand on construit un champ basé sur une distance dans un plan alors que le domaine est 3D : le champ ne sera pas défini sur les noeuds hors du plan. Pour de tels champs, cette option permet de préciser le comportement que l'on souhaite dans les régions où le champ n'est pas défini. Par défaut, il ne se passe rien : les mailles sont gardées telles quelles. On peut choisir les deux autres variantes : raffiner, toutes les mailles seront a priori coupées, ou déraffiner, toutes les mailles seront candidates au déraffinement.
+The second series of options has interest only in case the adaptation is driven by a field and in case this field is not defined everywhere in the mesh. It arrives for example when we build a field based on a distance in a plan while the domain is 3D: the field will not be defined on nodes outside the plan. For such fields, this option allows to specify the behavior which we wish in the regions where the field is not defined. By default, there is nothing: elements are kept as they are. We can choose two other variants: to refine all the elements will a priori be cut, or to unrefine all the elements will be candidate in the unefinement.
 
-Le dernier choix porte sur une sortie supplémentaire de l'adaptation. Si la case est cochée, le fichier MED en sortie contiendra un champ contenant le niveau de raffinement de chaque maille. La convention est celle de HOMARD : une maille du maillage initial est de niveau 0, une maille issue d'un raffinement d'une maille initiale porte le niveau 1, etc. Les mailles de transition qui sont produites entre deux mailles de niveau différents, n et n+1, sont affectées du demi-niveau n+0,5. Par défaut, la case n'est pas cochée et le champ n'est pas produit.
+The last choice concerns an additional output of the adaptation. If the compartment is checked, the file MED in output will contain a field containing the level of refinement of every element. The convention is the one of HOMARD: a element of the initial mesh is of level 0, a element stemming from a refinement of an initial element carries the level 1, etc. The elements of transition which are produced between two level elements different, n and n+1, are affected by the half-level n+0,5. By default, the compartment is not checked and the field is not produced.
 
 .. image:: images/create_hypothese_av_1.png
    :align: center
@@ -125,7 +124,7 @@ Object browser
 **************
 .. index:: single: object browser
 
-L'arbre d'études contient les hypotheses créées et les itérations qui les utilisent. La description des zones qui leur sont éventuellement attachées est présente.
+The object browser contains the created hypotheses and the iterations which use them. The description of the zones which are possibly attached to them is present.
 
 .. image:: images/create_hypothese_2.png
    :align: center
