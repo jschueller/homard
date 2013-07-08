@@ -283,11 +283,16 @@ Enfin, on vérifie que l'on ne dépasse pas un nomber maximal d'adaptations :
 
 Utiliser ce schéma
 ******************
-Pour reproduire cet exemple, voici le :download:`schéma à télécharger <../files/yacs_01.xml>`. Il faut l'adapter à la simulation envisagée. En particulier, il faut :
+Pour reproduire cet exemple, on pourra télécharger :
+  * :download:`le schéma <../files/yacs_01.xml>`
+  * :download:`un exemple de script python <../files/yacs_script.tgz>`
+
+Il faut l'adapter à la simulation envisagée. En particulier, il faut :
 
 - ajuster les noms des fichiers et des répertoires
 - fournir un script de lancement du calcul respectant les consignes évoquées ci-avant
 - choisir les hypothèses de pilotage de l'adaptation
 - mettre en place le test d'arrêt
+
 
 

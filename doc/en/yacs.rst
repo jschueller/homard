@@ -283,7 +283,11 @@ Lastly, it is checked that a maximum nomber of adaptations is not exceeded:
 
 Use this scheme
 ***************
-To reproduce this example, here it :download:`scheme to be downloaded <../files/yacs_01.xml>`. It should be adapted to simulation considered. In particular, it is necessary:
+To reproduce this example, download:
+  * :download:`the scheme <../files/yacs_01.xml>`
+  * :download:`an example of python script <../files/yacs_script.tgz>`
+
+It should be adapted to simulation considered. In particular, it is necessary:
 
 - to adjust the names of the files and the directories
 - to provide a script of launching of calculation respecting the instructions evoked herebefore
