@@ -18,9 +18,9 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-# Tool for updating list of .in file for the SALOME project 
+# Tool for updating list of .in file for the SALOME project
 # and regenerating configure script
-# Author : 
+# Author :
 # Modified by : Alexander BORODIN (OCN) - autotools usage
 # Date : 10/10/2002
 #
@@ -31,7 +31,7 @@ CONF_DIR=`echo $0 | sed -e "s,[^/]*$,,;s,/$,,;s,^$,.,"`
 # Test if the KERNEL_ROOT_DIR is set correctly
 
 if test ! -d "${KERNEL_ROOT_DIR}"; then
-    echo "failed : KERNEL_ROOT_DIR variable is not correct !"
+    echo "failed : KERNEL_ROOT_DIR variable is not correct : $KERNEL_ROOT_DIR"
     exit
 fi
 
@@ -40,7 +40,7 @@ fi
 # Test if the GUI_ROOT_DIR is set correctly
 
 if test ! -d "${GUI_ROOT_DIR}"; then
-    echo "failed : GUI_ROOT_DIR variable is not correct !"
+    echo "failed : GUI_ROOT_DIR variable is not correct : $GUI_ROOT_DIR"
     exit
 fi
 
@@ -49,7 +49,7 @@ fi
 # Test if the MED_ROOT_DIR is set correctly
 
 if test ! -d "${MED_ROOT_DIR}"; then
-    echo "failed : MED_ROOT_DIR variable is not correct !"
+    echo "failed : MED_ROOT_DIR variable is not correct : $MED_ROOT_DIR"
     exit
 fi
 
@@ -58,7 +58,7 @@ fi
 # Test if the SMESH_ROOT_DIR is set correctly
 
 if test ! -d "${SMESH_ROOT_DIR}"; then
-    echo "failed : SMESH_ROOT_DIR variable is not correct !"
+    echo "failed : SMESH_ROOT_DIR variable is not correct : $SMESH_ROOT_DIR"
     exit
 fi
 

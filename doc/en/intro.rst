@@ -234,7 +234,7 @@ Some illustrations of adapted meshes
 ************************************
 .. index:: single: illustration
 
-Some examples of use case can be found into :ref:`applications` .
+Some examples of use cases can be found in the web page of `HOMARD <http://www.code-aster.org/outils/homard/en/applications.html>`_
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+

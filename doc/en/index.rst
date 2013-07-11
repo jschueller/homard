@@ -3,9 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |logo| image:: ../images/HOMARD.png
-.. |flag| image:: ./images/drapeau_en.gif
-
 Documentation of the component HOMARD |logo|
 ############################################
 The component HOMARD drives the mesh adaptation inside of the SALOME plateform.

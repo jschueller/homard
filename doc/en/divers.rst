@@ -13,6 +13,7 @@ G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Mes
 
 `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
+Other references are available on the site for `HOMARD <http://www.code-aster.org/outils/homard/en/divers.html>`_
 
 Evolutions of the module
 ************************

@@ -5,7 +5,7 @@ Introduction
 
 Présentation générale
 *********************
-Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des codes de calculs par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du code de calcul auquel il est couplé.
+Le logiciel HOMARD est destiné à adapter les maillages dans le cadre des simulations numériques par éléments ou volumes finis. Ce logiciel, réalisé par EDF R&D, procède par raffinement et déraffinement des maillages bidimensionnels ou tridimensionnels. Il est conçu pour être utilisé indépendamment du logiciel auquel il est couplé.
 
 Raffiner le maillage signifie découper des mailles désignées selon des indications fournies par l'utilisateur. Déraffiner le maillage signifie revenir en arrière sur des découpages précédemment réalisés : ainsi, en aucun cas HOMARD ne peut simplifier un maillage existant qui aura été créé trop fin. Le déraffinement prend toute son importance dans les calculs quand la zone d'intérêt se déplace au cours du calcul : on ne tiendra plus compte de raffinements précédemment réalisés et qui deviennent inutiles. On en trouvera une illustration au bas de cette page.
 
@@ -250,7 +250,7 @@ Quelques illustrations de maillage adaptés
 ******************************************
 .. index:: single: illustration
 
-On pourra trouver dans :ref:`applications` des exemples d'utilisations de l'adaptation de maillage.
+On pourra trouver des exemples d'utilisations de l'adaptation de maillage sur le site de `HOMARD <http://www.code-aster.org/outils/homard/fr/applications.html>`_
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
