@@ -32,7 +32,7 @@ salomeinclude_HEADERS =         \
 	HOMARD_Zone_i.hxx       \
 	HOMARD_Gen_i.hxx        \
 	HOMARD_Boundary_i.hxx   \
-        HomardMedCommun.h
+  HomardMedCommun.h
 
 # Libraries targets
 
@@ -45,7 +45,7 @@ dist_libHOMARDEngine_la_SOURCES = \
 	HOMARD_Gen_i.cxx          \
 	HOMARD_Zone_i.cxx         \
 	HOMARD_Boundary_i.cxx     \
-        HomardMedCommun.cxx
+  HomardMedCommun.cxx
 
 
 
@@ -61,9 +61,8 @@ libHOMARDEngine_la_CPPFLAGS = 		      \
 	-I$(srcdir)/../HOMARDGUI              \
 	-I$(top_builddir)                     \
 	-I$(top_builddir)/idl	    	      \
-        -I$(GEOM_ROOT_DIR)/include/salome     \
-        -I$(SMESH_ROOT_DIR)/include/salome    \
-        -I$(MED_ROOT_DIR)/include/salome      \
+  -I$(GEOM_ROOT_DIR)/include/salome     \
+  -I$(SMESH_ROOT_DIR)/include/salome    \
 	-I$(top_builddir)/adm_local/unix
 
 
@@ -79,5 +78,5 @@ libHOMARDEngine_la_LDFLAGS  =            \
 	-lSalomeLifeCycleCORBA           \
 	-lTOOLSDS                        \
 	-lSalomeGenericObj               \
-        $(SMESH_LDFLAGS)                 \
+  $(SMESH_LDFLAGS)                 \
 	-lSalomeIDLSMESH

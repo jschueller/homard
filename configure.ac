@@ -311,14 +311,6 @@ CHECK_MED3
 
 echo
 echo ---------------------------------------------
-echo Testing Med Module
-echo ---------------------------------------------
-echo
-
-CHECK_MED
-
-echo
-echo ---------------------------------------------
 echo Testing Smesh
 echo ---------------------------------------------
 echo
@@ -343,11 +335,11 @@ echo
 
 echo Configure
 if test "${HOMARD_WITH_GUI}" = "yes"; then
-variables="cc_ok fortran_ok boost_ok python_ok swig_ok threads_ok OpenGL_ok qt_ok  hdf5_ok omniORB_ok Kernel_ok med3_ok SalomeGUI_ok Med_ok SMesh_ok  sphinx_ok"
+variables="cc_ok fortran_ok boost_ok python_ok swig_ok threads_ok OpenGL_ok qt_ok  hdf5_ok omniORB_ok Kernel_ok med3_ok SalomeGUI_ok SMesh_ok  sphinx_ok"
 fi
 
 if test "${HOMARD_WITH_GUI}" = "no"; then
-variables="cc_ok fortran_ok boost_ok lex_yacc_ok python_ok swig_ok threads_ok hdf5_ok omniORB_ok  doxygen_ok graphviz_ok Kernel_ok Geom_ok Med_ok SMesh_ok  sphinx_ok"
+variables="cc_ok fortran_ok boost_ok lex_yacc_ok python_ok swig_ok threads_ok hdf5_ok omniORB_ok  doxygen_ok graphviz_ok Kernel_ok Geom_ok SMesh_ok  sphinx_ok"
 fi
 
 for var in $variables

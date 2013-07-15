@@ -52,7 +52,6 @@ libSalomeIDLHOMARD_la_CPPFLAGS =		\
 	$(KERNEL_CXXFLAGS)			\
 	-I$(top_builddir)/adm_local/unix	\
 	-I$(top_builddir)/idl			\
-	$(MED_CXXFLAGS) 			\
 	@CORBA_CXXFLAGS@			\
 	@CORBA_INCLUDES@
 
@@ -60,8 +59,6 @@ libSalomeIDLHOMARD_la_LDFLAGS = -no-undefined -version-info=0:0:0
 libSalomeIDLHOMARD_la_LIBADD  =			\
 	$(KERNEL_LDFLAGS) -lSalomeIDLKernel	\
 	@CORBA_LIBS@
-#        $(VISU_LDFLAGS) -lSalomeIDLVisu
-#        $(MED_LDFLAGS) -lSalomeIDLMed
 
 # These variables defines the building process of CORBA files
 OMNIORB_IDL         = @OMNIORB_IDL@
@@ -76,12 +73,10 @@ IDLCXXFLAGS = \
 	@IDLCXXFLAGS@ \
 	-I$(top_builddir)/idl/salome \
 	-I$(KERNEL_ROOT_DIR)/idl/salome \
-	-I$(MED_ROOT_DIR)/idl/salome \
 	-I$(top_builddir)/adm_local/unix
 IDLPYFLAGS  = \
 	@IDLPYFLAGS@ \
-	-I$(KERNEL_ROOT_DIR)/idl/salome \
-	-I$(MED_ROOT_DIR)/idl/salome
+	-I$(KERNEL_ROOT_DIR)/idl/salome 
 
 # potential problem on parallel make on the following - multiple outputs
 SUFFIXES = .idl .hh SK.cc
@@ -118,7 +113,7 @@ mostlyclean-local:
 	@for dep in $^ dummy; do \
 	  if [ $$dep != "dummy" ]; then \
 	    echo Building dependencies for $$dep; \
-	    $(CPP) $(C_DEPEND_FLAG) -x c -I$(srcdir) -I$(KERNEL_ROOT_DIR)/idl/salome  -I$(MED_ROOT_DIR)/idl/salome $$dep 2>/dev/null | \
+	    $(CPP) $(C_DEPEND_FLAG) -x c -I$(srcdir) -I$(KERNEL_ROOT_DIR)/idl/salome $$dep 2>/dev/null | \
 	    sed 's/\.o/\SK.cc/' >>$@; \
 	  fi; \
 	done ;
