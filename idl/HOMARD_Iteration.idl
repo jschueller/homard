@@ -104,6 +104,10 @@ module HOMARD
     void     AssociateHypo(in string NomHypo)              raises (SALOME::SALOME_Exception);
     void     SetHypoName(in string NomHypo)                raises (SALOME::SALOME_Exception);
     string   GetHypoName()                                 raises (SALOME::SALOME_Exception);
+
+// Divers
+    void     SetInfoCompute(in long MessInfo)              raises (SALOME::SALOME_Exception);
+    long     GetInfoCompute()                              raises (SALOME::SALOME_Exception);
   };
 };
 #endif

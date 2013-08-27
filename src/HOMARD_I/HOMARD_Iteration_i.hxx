@@ -120,6 +120,10 @@ public:
   void                   SetHypoName( const char* NomHypo );
   char*                  GetHypoName();
 
+// Divers
+  void                   SetInfoCompute( CORBA::Long MessInfo );
+  CORBA::Long            GetInfoCompute();
+
 private:
   ::HOMARD_Iteration*    myHomardIteration;
 

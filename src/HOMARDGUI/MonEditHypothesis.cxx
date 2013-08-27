@@ -194,21 +194,21 @@ void MonEditHypothesis::InitAdaptZone()
     HOMARD::listeZonesHypo_var mesZonesAvant = _aHypothesis->GetZones();
     for (int i=0; i<mesZonesAvant->length(); i++)
     {
-    MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
+      MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
       for ( int j =0 ; j < TWZone->rowCount(); j++)
       {
-    MESSAGE (". j"<<j<<", zone :"<<TWZone->item(j,2)->text().toStdString());
+        MESSAGE (". j"<<j<<", zone :"<<TWZone->item(j,2)->text().toStdString());
         if ( TWZone->item(j,2)->text().toStdString() == string(mesZonesAvant[i]) )
         {
-    MESSAGE ("OK avec "<<string(mesZonesAvant[i]));
+          MESSAGE ("OK avec "<<string(mesZonesAvant[i]));
           if ( string(mesZonesAvant[i+1]) == "1" )
           {
-    MESSAGE ("... RAFF");
+            MESSAGE ("... RAFF");
             TWZone->item( j,0 )->setCheckState( Qt::Checked );
             TWZone->item( j,1 )->setCheckState( Qt::Unchecked ); }
           else
           {
-    MESSAGE ("... DERA");
+            MESSAGE ("... DERA");
             TWZone->item( j,0 )->setCheckState( Qt::Unchecked );
             TWZone->item( j,1 )->setCheckState( Qt::Checked ); }
           break;
@@ -246,8 +246,6 @@ void MonEditHypothesis::InitAdaptChamps()
     RBChamp->setEnabled(false);
     RBZone->setEnabled(false);
 
-
-
     HOMARD::InfosHypo_var  aInfosHypo = _aHypothesis->GetField();
     _aFieldName =  aInfosHypo->FieldName;
     _TypeThR = aInfosHypo->TypeThR;
@@ -256,7 +254,6 @@ void MonEditHypothesis::InitAdaptChamps()
     _ThreshC = aInfosHypo->ThreshC;
     _UsField = aInfosHypo->UsField;
     _UsCmpI  = aInfosHypo->UsCmpI;
-
 
     CBFieldName->insertItem(0,_aFieldName);
     CBFieldName->setCurrentIndex(0);

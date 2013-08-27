@@ -2493,6 +2493,11 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   MESSAGE ( ". LevelOutput = " << LevelOutput );
   myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, LevelOutput);
 
+  // E.7. Ajout des informations sur le deroulement de l'execution
+  int MessInfo = myIteration->GetInfoCompute();
+  MESSAGE ( ". MessInfo = " << MessInfo );
+  myDriver->TexteInfoCompute(MessInfo);
+
   return codret ;
 }
 //=============================================================================

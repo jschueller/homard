@@ -55,8 +55,9 @@ public:
 
   void        TexteFieldInterp( int TypeFieldInterp, const std::string FieldFile, const std::string MeshFile,
                                 int TimeStep, int Rank );
-  void        TexteFieldInterpName( int NumeChamp, const std::string FieldName);
-  void        TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput);
+  void        TexteFieldInterpName( int NumeChamp, const std::string FieldName );
+  void        TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput );
+  void        TexteInfoCompute( int MessInfo );
   void        CloseFichier();
   //
   int         ExecuteHomard(int option);

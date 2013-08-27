@@ -94,6 +94,10 @@ public:
   void                          SetHypoName( const char* NomHypo );
   std::string                   GetHypoName() const;
 
+// Divers
+  void                          SetInfoCompute( int MessInfo );
+  int                           GetInfoCompute() const;
+
 private:
   std::string                   _Name;
   int                           _Etat;
@@ -110,6 +114,7 @@ private:
   std::string                   _NomDir;
   std::list<std::string>        _mesIterFilles;
   std::string                   _FileInfo;
+  int                           _MessInfo;
 };
 
 #endif

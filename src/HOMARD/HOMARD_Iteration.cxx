@@ -47,7 +47,8 @@ HOMARD_Iteration::HOMARD_Iteration():
   _LogFile( "" ),
   _IterParent( "" ),
   _NomHypo( "" ), _NomCas( "" ), _NomDir( "" ),
-  _FileInfo( "" )
+  _FileInfo( "" ),
+ _MessInfo( 1 )
 {
   MESSAGE("HOMARD_Iter");
 }
@@ -285,4 +286,18 @@ void HOMARD_Iteration::SetHypoName( const char* NomHypo )
 std::string HOMARD_Iteration::GetHypoName() const
 {
   return _NomHypo;
+}
+//=============================================================================
+//=============================================================================
+// Divers
+//=============================================================================
+//=============================================================================
+void HOMARD_Iteration::SetInfoCompute( int MessInfo )
+{
+  _MessInfo = MessInfo;
+}
+//=============================================================================
+int HOMARD_Iteration::GetInfoCompute() const
+{
+  return _MessInfo;
 }

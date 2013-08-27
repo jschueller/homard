@@ -932,7 +932,6 @@ void HomardDriver::TexteFieldInterpName( int NumeChamp, const std::string FieldN
 void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput )
 {
   MESSAGE("TexteAdvanced, Pyram ="<<Pyram<<", NivMax ="<<NivMax<<", DiamMin ="<<DiamMin<<", AdapInit ="<<AdapInit<<", LevelOutput ="<<LevelOutput);
-  std::string saux ;
 
   if ( Pyram > 0 )
   {
@@ -975,6 +974,21 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "# Sortie des niveaux de raffinement\n" ;
     _Texte += "NCNiveau NIVEAU\n" ;
   }
+}
+//===============================================================================
+void HomardDriver::TexteInfoCompute( int MessInfo )
+{
+  MESSAGE("TexteAdvanced, MessInfo ="<<MessInfo);
+
+  if ( MessInfo != 0 )
+  {
+     _Texte += "# Messages d'informations\n" ;
+    { std::stringstream saux1 ;
+      saux1 << MessInfo ;
+      std::string saux2 = saux1.str() ;
+      _Texte += "MessInfo " + saux2  + "\n" ;
+    }
+   }
 }
 //===============================================================================
 void HomardDriver::CreeFichier( )

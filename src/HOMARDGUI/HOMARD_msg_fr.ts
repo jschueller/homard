@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>HOM_MEN_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
     </message>
     <message>
         <source>HOM_MEN_PURSUE_ITERATION</source>
@@ -57,7 +57,7 @@
     </message>
     <message>
         <source>HOM_TOP_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
     </message>
     <message>
         <source>HOM_TOP_PURSUE_ITERATION</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
         <source>HOM_STB_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
     </message>
     <message>
         <source>HOM_STB_PURSUE_ITERATION</source>

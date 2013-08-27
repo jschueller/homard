@@ -384,3 +384,19 @@ char* HOMARD_Iteration_i::GetHypoName()
   ASSERT( myHomardIteration );
   return CORBA::string_dup( myHomardIteration->GetHypoName().c_str() );
 }
+//=============================================================================
+//=============================================================================
+// Divers
+//=============================================================================
+//=============================================================================
+void HOMARD_Iteration_i::SetInfoCompute( CORBA::Long MessInfo )
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SetInfoCompute( MessInfo );
+}
+//=============================================================================
+CORBA::Long HOMARD_Iteration_i::GetInfoCompute()
+{
+  ASSERT( myHomardIteration );
+  return  myHomardIteration->GetInfoCompute() ;
+}
