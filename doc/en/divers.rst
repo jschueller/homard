@@ -46,7 +46,5 @@ SALOME RELEASE 7.2.0 :
 
 SALOME VERSION 7.2.1 :
    - English documentation
-
-
-
-
+   - Addition of a function:
+     ``iter.SetInfoCompute(MessInfo)`` : gives options to track the computation (see :ref:`tui_create_iteration`)
