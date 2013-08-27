@@ -1,7 +1,7 @@
 .. _tui_create_iteration:
 
 The iteration
-#############
+=============
 
 .. index:: single: iteration
 .. index:: single: hypothesis
@@ -10,7 +10,7 @@ The iteration
 The variables are described in :ref:`gui_create_iteration`.
 
 Methods of the class homard
-***************************
+"""""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -31,7 +31,7 @@ Methods of the class homard
 +---------------------------------------------------------------+
 
 Methods of both classes cas and iteration
-*****************************************
+"""""""""""""""""""""""""""""""""""""""""
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -66,10 +66,10 @@ Methods of both classes cas and iteration
 +---------------------------------------------------------------+
 
 Methods of the class iteration
-******************************
+""""""""""""""""""""""""""""""
 
 General methods
-===============
+^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -174,7 +174,7 @@ General methods
 +---------------------------------------------------------------+
 
 Information about the meshes
-============================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -220,7 +220,7 @@ Information about the meshes
 +---------------------------------------------------------------+
 
 Information about the field
-===========================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -265,8 +265,33 @@ Information about the field
 |     Returns the selected rank for the field                   |
 +---------------------------------------------------------------+
 
+Miscellenaous
+^^^^^^^^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetInfoCompute                                    |
+|                                                               |
+| **SetInfoCompute(MessInfo)**                                  |
+|     Defines options to track the computation of the iteration |
+|                                                               |
+|     - ``MessInfo`` : integer that drives prints, as a multiple|
+|       of 2, 3 and 5                                           |
+|                                                               |
+|         * 1 : nothing (default)                               |
+|         * 2x : computational time                             |
+|         * 3x : MED files                                      |
+|         * 5x : memory                                         |
++---------------------------------------------------------------+
+| .. module:: GetInfoCompute                                    |
+|                                                               |
+| **GetInfoCompute()**                                          |
+|     Returns the options to track the computation              |
++---------------------------------------------------------------+
+
+
 Example
-*******
+"""""""
 .. index:: single: mesh;initial
 
 To create the first iteration, the starting point is the iteration associated to the initial mesh. It is the one that defines the case.
@@ -295,5 +320,5 @@ Then, the next iteration is created from the current iteration.
 
 
 Similar graphical input
-***********************
+"""""""""""""""""""""""
 Look at :ref:`gui_create_iteration`

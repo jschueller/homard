@@ -41,7 +41,7 @@ DataInit
 This box is type PresetNode's elementary node. Its only function is to initialize the variable MeshFile that contains the name of the file of the initial mesh.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 70-74
+   :lines: 38-42
 
 Etude_Initialisation
 ====================
@@ -59,12 +59,12 @@ The box Etude_Initialisation launches the component HOMARD inside SALOME. It is 
 The python node StudyCreation initialize the SALOME study that is given through the output:
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 39-57
+   :lines: 44-62
 
 The service SetCurrentStudy connects this study to an instance of HOMARD.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 58-63
+   :lines: 63-68
 
 
 Tant_que_le_calcul_n_a_pas_converge
@@ -112,7 +112,7 @@ Calcul
 This box is a node python that is going to drive the calculation. In input, we find the number of the calculation (0 at first) and the name of the file which contains the mesh on which to calculate. In output, we find an integer which represents the error on this calculation (0 so everything goes well) and a dictionary python gathering the results of the calculation. The body of the node is established by the launch of a script python that activates the calculation.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 155-182
+   :lines: 77-104
 
 In this example, we must define:
 
@@ -248,37 +248,37 @@ Analyse
 The Analyse block is a script python which ensures the complete control of the process by examining the causes of possible error successively.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 77-90
+   :lines: 105-118
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 145-154
+   :lines: 173-182
 
 One starts by analyzing the return of the computer code:
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 92-97
+   :lines: 120-125
 
 Checking of the presence of the name of the mesh in the dictionary of the results:
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 99-106
+   :lines: 127-134
 
 Checking of the presence of the name of the result file in the dictionary of the results:
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 108-115
+   :lines: 136-143
 
 Checking of convergence. That supposes that the value to be tested is present in the dictionary under the key 'V00'. Here, one set up a test on the variation of the value of one calculation at the other. With the first passage, nothing is tested. In the following passing, one tests if the relative variation is lower than 1 thousandths. One could have set up an absolute test if one had recovered a total level of error for example.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 117-135
+   :lines: 145-163
 
 Lastly, it is checked that a maximum nomber of adaptations is not exceeded:
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 137-142
+   :lines: 165-170
 
 
 Use this scheme

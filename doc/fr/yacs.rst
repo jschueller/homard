@@ -41,7 +41,7 @@ DataInit
 Cette boîte est un noeud élémentaire de type PresetNode. Sa seule fonction est d'initialiser la variable MeshFile qui contient le nom du fichier du maillage initial.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 70-74
+   :lines: 38-42
 
 Etude_Initialisation
 ====================
@@ -59,12 +59,12 @@ La boîte Etude_Initialisation lance le composant HOMARD dans SALOME. C'est un bl
 Le noeud python StudyCreation sert à initialiser l'étude SALOME qui est fournie en sortie :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 39-57
+   :lines: 44-62
 
 Le service SetCurrentStudy affecte cette étude à une instance de HOMARD.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 58-63
+   :lines: 63-68
 
 
 Tant_que_le_calcul_n_a_pas_converge
@@ -112,7 +112,7 @@ Calcul
 Cette boîte est un noeud python qui va piloter le calcul. En entrée, on trouve le numéro du calcul (0 au départ) et le nom du fichier qui contient le maillage sur lequel calculer. En sortie, on trouve un entier qui représente l'erreur sur ce calcul (0 si tout va bien) et un dictionnaire python rassemblant les résultats du calcul. Le corps du noeud est constitué par le lancement d'un script python qui active le calcul.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 155-182
+   :lines: 77-104
 
 Dans cet exemple, il faut définir :
 
@@ -248,37 +248,37 @@ Analyse
 Le bloc Analyse est un script python qui assure le contrôle complet du processus en examinant successivement les causes d'erreur possible.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 77-90
+   :lines: 105-118
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 145-154
+   :lines: 173-182
 
 On commence par analyser le retour du code de calcul :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 92-97
+   :lines: 120-125
 
 Vérification de la présence du nom du maillage dans le dictionnaire des résultats :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 99-106
+   :lines: 127-134
 
 Vérification de la présence du nom du fichier de résultats dans le dictionnaire des résultats :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 108-115
+   :lines: 136-143
 
 Vérification de la convergence. Cela suppose que la valeur à tester est présente dans le dictionnaire sous la clé 'V00'. Ici, on a mis en place un test sur la variation de la valeur d'un calcul à l'autre. Au premier passage, on ne teste rien. Aux passages suivants, on teste si la variation relative est inférieure à 1 millième. On aurait pu mettre en place un test absolu si on avait récupéré un niveau global d'erreur par exemple.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 117-135
+   :lines: 145-163
 
 Enfin, on vérifie que l'on ne dépasse pas un nomber maximal d'adaptations :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 137-142
+   :lines: 165-170
 
 
 Utiliser ce schéma

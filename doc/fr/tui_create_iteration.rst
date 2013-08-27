@@ -264,6 +264,33 @@ Informations sur le champ
 |     Retourne le numéro d'ordre où est pris le champ           |
 +---------------------------------------------------------------+
 
+Divers
+^^^^^^
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetInfoCompute                                    |
+|                                                               |
+| **SetInfoCompute(MessInfo)**                                  |
+|     Précise des options d'informations sur le déroulement du  |
+|     calcul de l'itération                                     |
+|                                                               |
+|     - ``MessInfo`` : entier pilotant des écritures, sous la   |
+|       forme d'un entier multiple de 2, 3 et 5                 |
+|                                                               |
+|         * 1 : aucune écriture (défaut)                        |
+|         * 2x : temps de calcul                                |
+|         * 3x : fichiers MED                                   |
+|         * 5x : mémoire                                        |
++---------------------------------------------------------------+
+| .. module:: GetInfoCompute                                    |
+|                                                               |
+| **GetInfoCompute()**                                          |
+|     Retourne les options d'informations sur le déroulement du |
+|     calcul de l'itération                                     |
++---------------------------------------------------------------+
+
+
 Exemple
 """""""
 .. index:: single: maillage;initial
