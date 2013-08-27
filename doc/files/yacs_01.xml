@@ -6,10 +6,11 @@
    <struct name="Engines/dataref">
       <member name="ref" type="string"/>
    </struct>
-   <objref name="GEOM_Object" id="IDL:GEOM/GEOM_Object:1.0"/>
+   <objref name="HOMARD_Boundary" id="IDL:HOMARD/HOMARD_Boundary:1.0"/>
    <objref name="HOMARD_Cas" id="IDL:HOMARD/HOMARD_Cas:1.0"/>
    <objref name="HOMARD_Hypothesis" id="IDL:HOMARD/HOMARD_Hypothesis:1.0"/>
    <objref name="HOMARD_Iteration" id="IDL:HOMARD/HOMARD_Iteration:1.0"/>
+   <objref name="HOMARD_Zone" id="IDL:HOMARD/HOMARD_Zone:1.0"/>
    <objref name="Study" id="IDL:SALOMEDS/Study:1.0"/>
    <type name="bool" kind="bool"/>
    <sequence name="boolvec" content="bool"/>
@@ -28,7 +29,6 @@
    <sequence name="seqdblevec" content="dblevec"/>
    <sequence name="seqint" content="int"/>
    <sequence name="seqintvec" content="intvec"/>
-   <sequence name="seqstring" content="string"/>
    <sequence name="stringvec" content="string"/>
    <sequence name="seqstringvec" content="stringvec"/>
    <container name="DefaultContainer">
