@@ -32,6 +32,7 @@
 
 #include "HOMARD_Gen.hxx"
 #include "HomardDriver.hxx"
+#include "YACSDriver.hxx"
 #include "SALOME_Component_i.hxx"
 #include "SALOME_NamingService.hxx"
 #include "Utils_CorbaException.hxx"
@@ -174,11 +175,15 @@ public:
 
   CORBA::Boolean                  VerifieDir(const char* nomDir);
 
-  void                            PublishResultInSmesh(const char* NomFich, CORBA::Long Option);
-  void                            DeleteResultInSmesh(const char* NomFich, const char* MeshName);
   void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich,
                                                             const char* Commentaire);
   void                            PublishBoundaryUnderCase(const char* CaseName, const char* BoundaryName);
+  void                            PublishResultInSmesh(const char* NomFich, CORBA::Long Option);
+  void                            DeleteResultInSmesh(std::string NomFich, std::string MeshName);
+
+// YACS
+  CORBA::Long                     WriteYACSSchema (const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
+  void                            YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
 
   void                            IsValidStudy();
 
@@ -272,6 +277,7 @@ PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
 					     CORBA::Boolean& isValidScript);
 
   virtual char*                   getVersion();
+  std::string GetStringInTexte( const std::string Texte, const std::string String, int option ) ;
 
 private:
   struct StudyContext

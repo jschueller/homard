@@ -19,9 +19,9 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
+// Pilote l'ecriture du fichier de configuration pour lancer l'execution de HOMARD
 
 #include <cstring>
-// #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
@@ -240,13 +240,11 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
 //
   std::stringstream saux1 ;
   saux1 << NumeZone ;
-  saux2 = saux1.str() ;
-  saux = "#\n# Zone numero " + saux2 + "\n" ;
+  saux = "#\n# Zone numero " + saux1.str() + "\n" ;
 //
   { std::stringstream saux1 ;
     saux1 << NumeZone << " " << ZoneTypeHOMARD ;
-    saux2 = saux1.str() ;
-    saux += "ZoRaType " + saux2 + "\n" ;
+    saux += "ZoRaType " + saux1.str() + "\n" ;
   }
 //
 // Cas du rectangle
@@ -257,23 +255,19 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "#Rectangle\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmin " + saux2 + "\n" ;
+      saux += "ZoRaXmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmax " + saux2 + "\n" ;
+      saux += "ZoRaXmax " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmin " + saux2 + "\n" ;
+      saux += "ZoRaYmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmax " + saux2 + "\n" ;
+      saux += "ZoRaYmax " + saux1.str() + "\n" ;
     }
   }
 //
@@ -283,23 +277,19 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "#Rectangle\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmin " + saux2 + "\n" ;
+      saux += "ZoRaXmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmax " + saux2 + "\n" ;
+      saux += "ZoRaXmax " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmin " + saux2 + "\n" ;
+      saux += "ZoRaYmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmax " + saux2 + "\n" ;
+      saux += "ZoRaYmax " + saux1.str() + "\n" ;
     }
   }
 //
@@ -309,23 +299,19 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "#Rectangle\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmin " + saux2 + "\n" ;
+      saux += "ZoRaXmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmax " + saux2 + "\n" ;
+      saux += "ZoRaXmax " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmin " + saux2 + "\n" ;
+      saux += "ZoRaYmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmax " + saux2 + "\n" ;
+      saux += "ZoRaYmax " + saux1.str() + "\n" ;
     }
   }
 //
@@ -336,33 +322,27 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "# Boite\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmin " + saux2 + "\n" ;
+      saux += "ZoRaXmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXmax " + saux2 + "\n" ;
+      saux += "ZoRaXmax " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmin " + saux2 + "\n" ;
+      saux += "ZoRaYmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYmax " + saux2 + "\n" ;
+      saux += "ZoRaYmax " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaZmin " + saux2 + "\n" ;
+      saux += "ZoRaZmin " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaZmax " + saux2 + "\n" ;
+      saux += "ZoRaZmax " + saux1.str() + "\n" ;
     }
   }
 //
@@ -373,13 +353,11 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXCen " + saux2 + "\n" ;
+      saux += "ZoRaXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYCen " + saux2 + "\n" ;
+      saux += "ZoRaYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x6 ;
@@ -390,8 +368,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     if ( ZoneType == 61 )
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x8 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaRayI " + saux2 + "\n" ;
+      saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
   else if ( ZoneType == 32 or ZoneType == 62 )
@@ -399,13 +376,11 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXCen " + saux2 + "\n" ;
+      saux += "ZoRaXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYCen " + saux2 + "\n" ;
+      saux += "ZoRaYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x6 ;
@@ -416,8 +391,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     if ( ZoneType == 62 )
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x8 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaRayI " + saux2 + "\n" ;
+      saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
   else if ( ZoneType == 33 or ZoneType == 63 )
@@ -425,13 +399,11 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXCen " + saux2 + "\n" ;
+      saux += "ZoRaXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYCen " + saux2 + "\n" ;
+      saux += "ZoRaYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x6 ;
@@ -442,8 +414,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     if ( ZoneType == 63 )
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x8 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaRayI " + saux2 + "\n" ;
+      saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
 //
@@ -454,23 +425,19 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXCen " + saux2 + "\n" ;
+      saux += "ZoRaXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYCen " + saux2 + "\n" ;
+      saux += "ZoRaYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaZCen " + saux2 + "\n" ;
+      saux += "ZoRaZCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaRayo " + saux2 + "\n" ;
+      saux += "ZoRaRayo " + saux1.str() + "\n" ;
     }
   }
 //
@@ -482,33 +449,27 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     else                 { saux += "# Tuyau\n" ; }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXBas " + saux2 + "\n" ;
+      saux += "ZoRaXBas " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYBas " + saux2 + "\n" ;
+      saux += "ZoRaYBas " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaZBas " + saux2 + "\n" ;
+      saux += "ZoRaZBas " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaXAxe " + saux2 + "\n" ;
+      saux += "ZoRaXAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaYAxe " + saux2 + "\n" ;
+      saux += "ZoRaYAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaZAxe " + saux2 + "\n" ;
+      saux += "ZoRaZAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x6 ;
@@ -518,14 +479,12 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
     }
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x7 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaHaut " + saux2 + "\n" ;
+      saux += "ZoRaHaut " + saux1.str() + "\n" ;
     }
     if ( ZoneType == 7 )
     { std::stringstream saux1 ;
       saux1 << NumeZone << " " << x8 ;
-      saux2 = saux1.str() ;
-      saux += "ZoRaRayI " + saux2 + "\n" ;
+      saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
 //
@@ -581,8 +540,7 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
   {
     std::stringstream saux1 ;
     saux1 << ThreshR ;
-    saux2 = saux1.str() ;
-    _Texte += "Seuil" + saux + " " + saux2  + "\n" ;
+    _Texte += "Seuil" + saux + " " + saux1.str()  + "\n" ;
   }
 //
   saux = " " ;
@@ -598,8 +556,7 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
   {
     std::stringstream saux1 ;
     saux1 << ThreshC ;
-    saux2 = saux1.str() ;
-    _Texte += "Seuil" + saux + " " + saux2  + "\n" ;
+    _Texte += "Seuil" + saux + " " + saux1.str()  + "\n" ;
   }
 //
   saux = " " ;
@@ -690,16 +647,14 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
 //
   { std::stringstream saux1 ;
     saux1 << NumeBoundary ;
-    saux2 = saux1.str() ;
-    saux += "FANom " + saux2 + " \"" + NameBoundary + "\"\n" ;
+    saux += "FANom " + saux1.str() + " \"" + NameBoundary + "\"\n" ;
   }
 //
 // Type de frontiere
 //
   { std::stringstream saux1 ;
     saux1 << NumeBoundary << " " << BoundaryType ;
-    saux2 = saux1.str() ;
-    saux += "FAType " + saux2 + "\n" ;
+    saux += "FAType " + saux1.str() + "\n" ;
   }
 //
 // Cas du cylindre
@@ -709,37 +664,31 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x0 ;
       saux2 = saux1.str() ;
-      saux += "FAXCen " + saux2 + "\n" ;
+      saux += "FAXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "FAYCen " + saux2 + "\n" ;
+      saux += "FAYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "FAZCen " + saux2 + "\n" ;
+      saux += "FAZCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "FAXAxe " + saux2 + "\n" ;
+      saux += "FAXAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "FAYAxe " + saux2 + "\n" ;
+      saux += "FAYAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "FAZAxe " + saux2 + "\n" ;
+      saux += "FAZAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
-      saux2 = saux1.str() ;
-      saux += "FARayon " + saux2 + "\n" ;
+      saux += "FARayon " + saux1.str() + "\n" ;
     }
  }
 //
@@ -749,23 +698,19 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   {
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "FAXCen " + saux2 + "\n" ;
+      saux += "FAXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "FAYCen " + saux2 + "\n" ;
+      saux += "FAYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "FAZCen " + saux2 + "\n" ;
+      saux += "FAZCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "FARayon " + saux2 + "\n" ;
+      saux += "FARayon " + saux1.str() + "\n" ;
     }
   }
 //
@@ -775,38 +720,31 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   {
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "FAXAxe " + saux2 + "\n" ;
+      saux += "FAXAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "FAYAxe " + saux2 + "\n" ;
+      saux += "FAYAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "FAZAxe " + saux2 + "\n" ;
+      saux += "FAZAxe " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "FAAngle " + saux2 + "\n" ;
+      saux += "FAAngle " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "FAXCen " + saux2 + "\n" ;
+      saux += "FAXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "FAYCen " + saux2 + "\n" ;
+      saux += "FAYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
-      saux2 = saux1.str() ;
-      saux += "FAZCen " + saux2 + "\n" ;
+      saux += "FAZCen " + saux1.str() + "\n" ;
     }
  }
 //
@@ -816,43 +754,35 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   {
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x0 ;
-      saux2 = saux1.str() ;
-      saux += "FAXCen " + saux2 + "\n" ;
+      saux += "FAXCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x1 ;
-      saux2 = saux1.str() ;
-      saux += "FAYCen " + saux2 + "\n" ;
+      saux += "FAYCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x2 ;
-      saux2 = saux1.str() ;
-      saux += "FAZCen " + saux2 + "\n" ;
+      saux += "FAZCen " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x3 ;
-      saux2 = saux1.str() ;
-      saux += "FARayon " + saux2 + "\n" ;
+      saux += "FARayon " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x4 ;
-      saux2 = saux1.str() ;
-      saux += "FAXCen2 " + saux2 + "\n" ;
+      saux += "FAXCen2 " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x5 ;
-      saux2 = saux1.str() ;
-      saux += "FAYCen2 " + saux2 + "\n" ;
+      saux += "FAYCen2 " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
-      saux2 = saux1.str() ;
-      saux += "FAZCen2 " + saux2 + "\n" ;
+      saux += "FAZCen2 " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x7 ;
-      saux2 = saux1.str() ;
-      saux += "FARayon2 " + saux2 + "\n" ;
+      saux += "FARayon2 " + saux1.str() + "\n" ;
     }
  }
 //
@@ -917,14 +847,12 @@ void HomardDriver::TexteFieldInterpName( int NumeChamp, const std::string FieldN
     {
       std::stringstream saux1 ;
       saux1 << _TimeStep ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "CCChaPdT " + saux + " " + saux2  + "\n" ;
+      _Texte += "CCChaPdT " + saux + " " + saux1.str()  + "\n" ;
     }
     {
       std::stringstream saux1 ;
       saux1 << _Rank ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "CCChaNuO " + saux + " " + saux2  + "\n" ;
+      _Texte += "CCChaNuO " + saux + " " + saux1.str()  + "\n" ;
     }
   }
 }
@@ -943,8 +871,7 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "# Niveaux extremes\n" ;
     { std::stringstream saux1 ;
       saux1 << NivMax ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "NiveauMa " + saux2 + "\n" ;
+      _Texte += "NiveauMa " + saux1.str() + "\n" ;
     }
   }
   if ( DiamMin > 0 )
@@ -952,8 +879,7 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "# Diametre minimal\n" ;
     { std::stringstream saux1 ;
       saux1 << DiamMin ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "DiametMi " + saux2  + "\n" ;
+      _Texte += "DiametMi " + saux1.str()  + "\n" ;
     }
   }
   if ( AdapInit != 0 )
@@ -965,8 +891,7 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += " des regions sans indicateur\n" ;
     { std::stringstream saux1 ;
       saux1 << AdapInit ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "AdapInit " + saux2 + "\n" ;
+      _Texte += "AdapInit " + saux1.str() + "\n" ;
     }
   }
   if ( LevelOutput != 0 )
@@ -985,8 +910,7 @@ void HomardDriver::TexteInfoCompute( int MessInfo )
      _Texte += "# Messages d'informations\n" ;
     { std::stringstream saux1 ;
       saux1 << MessInfo ;
-      std::string saux2 = saux1.str() ;
-      _Texte += "MessInfo " + saux2  + "\n" ;
+      _Texte += "MessInfo " + saux1.str()  + "\n" ;
     }
    }
 }

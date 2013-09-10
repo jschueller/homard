@@ -385,7 +385,7 @@ void HOMARD_Hypothesis::UnLinkIteration( const char* NomIteration )
   if ( it != _ListIter.end() )
   {
     MESSAGE ("Dans UnLinkIteration pour " << NomIteration) ;
-    _ListIter.erase( it ) ;
+    it = _ListIter.erase( it ) ;
   }
 }
 //=============================================================================
@@ -402,20 +402,28 @@ const std::list<std::string>& HOMARD_Hypothesis::GetIterations() const
 void HOMARD_Hypothesis::AddZone( const char* NomZone, int TypeUse )
 {
   MESSAGE ("Dans AddZone pour " << NomZone) ;
+// On commence par la supprimer au cas ou elle aurait deja ete inseree
+// Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
+// definition de l'hypothese
+  SupprZone( NomZone ) ;
+// Insertion veritable
+// . Nom de la zone
   _ListZone.push_back( std::string( NomZone ) );
+// . Usage de la zone
   std::stringstream saux1 ;
   saux1 << TypeUse ;
-  std::string saux2 = saux1.str() ;
-  _ListZone.push_back( saux2 );
+  _ListZone.push_back( saux1.str() );
 }
 //=============================================================================
 void HOMARD_Hypothesis::SupprZone( const char* NomZone )
 {
   MESSAGE ("Dans SupprZone pour " << NomZone) ;
   std::list<std::string>::iterator it = find( _ListZone.begin(), _ListZone.end(), NomZone );
+// Attention a supprimer le nom de zone et le type d'usage
   if ( it != _ListZone.end() )
   {
-    _ListZone.erase( it );
+    it = _ListZone.erase( it );
+    it = _ListZone.erase( it );
   }
 }
 //=============================================================================

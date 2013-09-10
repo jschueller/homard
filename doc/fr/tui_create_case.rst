@@ -91,6 +91,7 @@ Création d'un cas par poursuite d'une itération calculée
 
 Méthodes de la classe cas
 """""""""""""""""""""""""
+.. index:: single: yacs
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -180,6 +181,18 @@ Méthodes de la classe cas
 |     Retourne l'état du cas :                                  |
 |         * 0 : correspond à un maillage initial                |
 |         * autre valeur : poursuite d'une itération de numéro n|
++---------------------------------------------------------------+
+| .. module:: WriteYACSSchema                                   |
+|                                                               |
+| **WriteYACSSchema(ScriptFile, DirName, MeshFile)**            |
+|     Ecrit un schéma YACS correspondant au cas.                |
+|                                                               |
+|     - ``ScriptFile`` : nom du fichier contenant le script de  |
+|       lancement du calcul                                     |
+|     - ``DirName`` : le repertoire de lancement des calculs    |
+|       du schéma                                               |
+|     - ``MeshFile`` : nom du fichier contenant le maillage pour|
+|       le premier calcul                                       |
 +---------------------------------------------------------------+
 
 Les options avancées

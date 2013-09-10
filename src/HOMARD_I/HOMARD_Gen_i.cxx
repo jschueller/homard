@@ -26,6 +26,7 @@
 #include "HomardDriver.hxx"
 #include "HOMARD_DriverTools.hxx"
 #include "HomardMedCommun.h"
+#include "YACSDriver.hxx"
 
 #include "HOMARD_version.h"
 
@@ -399,7 +400,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   // Retrait dans la descendance de l'iteration parent
   if ( numero > 0 )
   {
-    const char* nomIterationParent = myIteration->GetIterParentName();
+    std::string nomIterationParent = myIteration->GetIterParentName();
     MESSAGE ( "Retrait dans la descendance de nomIterationParent " << nomIterationParent );
     HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
     if (CORBA::is_nil(myIterationParent))
@@ -416,7 +417,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   // suppression du lien avec l'hypothese
   if ( numero > 0 )
   {
-    const char* nomHypo = myIteration->GetHypoName();
+    std::string nomHypo = myIteration->GetHypoName();
     HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
     ASSERT(!CORBA::is_nil(myHypo));
     myHypo->UnLinkIteration(nomIter);
@@ -591,8 +592,8 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
         throw SALOME::SALOME_Exception(es);
         return ;
     };
-    const char* nomDir     = myIteration->GetDirName();
-    const char* nomFichier = myIteration->GetMeshFile();
+    std::string nomDir     = myIteration->GetDirName();
+    std::string nomFichier = myIteration->GetMeshFile();
     std::string commande= "rm -rf " + std::string(nomDir);
     if ( Option == 1 ) { commande = commande + ";rm -rf " + std::string(nomFichier) ; }
     MESSAGE ( "commande = " << commande );
@@ -605,7 +606,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
       return ;
     }
   // Suppression du maillage publie dans SMESH
-    const char* MeshName = myIteration->GetMeshName() ;
+    std::string MeshName = myIteration->GetMeshName() ;
     DeleteResultInSmesh(nomFichier, MeshName) ;
   };
 
@@ -2693,21 +2694,13 @@ void HOMARD_Gen_i::DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardD
     NumZone = iaux/2 + 1 ;
     HOMARD::double_array* zone = myZone->GetCoords();
     if ( ZoneType == 2 or ( ZoneType>=11 and ZoneType <=13 ) ) // Cas d un parallelepipede ou d'un rectangle
-    {
-      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], 0., 0., 0.);
-    }
+    { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], 0., 0., 0.); }
     else if ( ZoneType == 4 ) // Cas d une sphere
-    {
-      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], 0., 0., 0., 0., 0.);
-    }
+    { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], 0., 0., 0., 0., 0.); }
     else if ( ZoneType == 5 or ( ZoneType>=31 and ZoneType <=33 ) ) // Cas d un cylindre ou d'un disque
-    {
-      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.);
-    }
+    { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.); }
     else if ( ZoneType == 7 or ( ZoneType>=61 and ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
-    {
-      myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]);
-    }
+    { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]); }
     else { ASSERT("ZoneType est incorrect." == 0) ; }
     iaux += 1 ;
   }
@@ -2733,7 +2726,7 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
   MESSAGE( ". TimeStep = " << TimeStep );
   int Rank = myIteration->GetRank();
   MESSAGE( ". Rank = " << Rank );
-//  Les informations sur les champ
+//  Les informations sur les champs
   HOMARD::InfosHypo* aInfosHypo = myHypo->GetField();
 //  Le nom
   const char* FieldName = aInfosHypo->FieldName;
@@ -3288,7 +3281,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
             MESSAGE ( "PublishResultInSmesh : depublication" );
             SALOMEDS::AttributeName_var anAttr2 = SALOMEDS::AttributeName::_narrow(aGAttr);
             CORBA::String_var value2=anAttr2->Value();
-            const char* MeshName = value2 ;
+            std::string MeshName = string(value2) ;
             MESSAGE ( "PublishResultInSmesh : depublication de " << MeshName );
             DeleteResultInSmesh(NomFich, MeshName) ;
           }
@@ -3327,7 +3320,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
 
 }
 //=============================================================================
-void HOMARD_Gen_i::DeleteResultInSmesh(const char* NomFich, const char* MeshName)
+void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName)
 {
   MESSAGE (" DeleteResultInSmesh pour le maillage " << MeshName << " dans le fichier " << NomFich );
   if (CORBA::is_nil(myCurrentStudy))
@@ -3357,13 +3350,13 @@ void HOMARD_Gen_i::DeleteResultInSmesh(const char* NomFich, const char* MeshName
      {
        SALOMEDS::AttributeExternalFileDef_var anAttr = SALOMEDS::AttributeExternalFileDef::_narrow(aGAttr);
        CORBA::String_var value=anAttr->Value();
-       if (strcmp((const char*)value,NomFich) == 0)
+       if (strcmp((const char*)value,NomFich.c_str()) == 0)
        {
          if (aSO->FindAttribute(aGAttr,"AttributeName"))
          {
            SALOMEDS::AttributeName_var anAttr2 = SALOMEDS::AttributeName::_narrow(aGAttr);
            CORBA::String_var value2=anAttr2->Value();
-           if (strcmp((const char*)value2,MeshName) == 0)
+           if (strcmp((const char*)value2,MeshName.c_str()) == 0)
            {
              myBuilder->RemoveObjectWithChildren( aSO ) ;
            }
@@ -3423,8 +3416,225 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 
   aStudyBuilder->CommitCommand();
 }
+//
 //=============================================================================
 //=============================================================================
+// YACS
+//=============================================================================
+//=============================================================================
+//=============================================================================
+// Ecriture d'un schema YACS
+// nomCas : nom du cas a traiter
+// FileName : nom du fichier contenant le script de lancement du calcul
+// DirName : le repertoire de lancement des calculs du schéma
+//=============================================================================
+CORBA::Long HOMARD_Gen_i::WriteYACSSchema (const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
+{
+  MESSAGE ( "WriteYACSSchema : Schema YACS pour le cas " << nomCas);
+  MESSAGE ( "ScriptFile : " << ScriptFile);
+  MESSAGE ( "DirName    : " << DirName);
+  MESSAGE ( "MeshFile   : " << MeshFile);
+
+  int codret = 0;
+
+  // A. Le cas
+  // A.1. L'objet cas
+  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  ASSERT(!CORBA::is_nil(myCase));
+  // A.2. Le repertoire du cas
+  std::string nomDirCase = myCase->GetDirName();
+  MESSAGE ( ". nomDirCase = " << nomDirCase );
+  // A.3. Les instructions python associees au cas
+  CORBA::String_var dumpCorbaCase = myCase->GetDumpPython();
+  std::string pythonCas = dumpCorbaCase.in();
+  MESSAGE ("pythonCas :\n"<<pythonCas<<"\n");
+
+  // D. Les iterations
+  // D.1. L'iteration initiale
+  HOMARD::HOMARD_Iteration_var Iter0 = myCase->GetIter0() ;
+  std::string Iter0Name = myCase->GetIter0Name() ;
+  MESSAGE (". Iter0Name = " << Iter0Name);
+  // D.2. L'iteration numero 1
+  HOMARD::listeIterFilles* maListe = Iter0->GetIterations();
+  int numberOfIter = maListe->length();
+  if ( numberOfIter > 1 )
+  {
+    MESSAGE (". numberOfIter = " << numberOfIter);
+    SALOME::ExceptionStruct es ;
+    es.type = SALOME::BAD_PARAM;
+    std::string text = "Une seule iteration est permise." ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  }
+  std::string Iter1Name = std::string((*maListe)[0]);
+  MESSAGE ("... Iter1Name = " << Iter1Name);
+  HOMARD::HOMARD_Iteration_var Iter1 = GetIteration(Iter1Name.c_str()) ;
+  MESSAGE (". Iter1 = " << Iter1);
+
+  // C. L'hypothese
+  // C.1. La structure
+  std::string nomHypo = Iter1->GetHypoName();
+  MESSAGE (". nomHypo = " << nomHypo);
+  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  ASSERT(!CORBA::is_nil(myHypo));
+  // C.2. Les caracteristiques de l'adaptation
+  HOMARD::listeTypes* ListTypes = myHypo->GetAdapRefinUnRef();
+  ASSERT(ListTypes->length() == 3);
+  int TypeAdap = (*ListTypes)[0];
+//   int TypeRaff = (*ListTypes)[1];
+//   int TypeDera = (*ListTypes)[2];
+  // C.3. Les instructions python associees a l'hypothese
+  CORBA::String_var dumpCorbaHypo = myHypo->GetDumpPython();
+  std::string pythonHypo = dumpCorbaHypo.in();
+  MESSAGE ("pythonHypo :\n"<<pythonHypo<<"\n");
+
+  // E. Les fichiers du schema
+  // E.1. Le fichier du schema de reference
+  // Le repertoire ou se trouve l'executable HOMARD
+  std::string YACSFile_base ;
+  if ( getenv("HOMARD_ROOT_DIR") != NULL ) { YACSFile_base = getenv("HOMARD_ROOT_DIR") ; }
+  else                                     { ASSERT("HOMARD_ROOT_DIR est inconnu." == 0) ; }
+  YACSFile_base += "/share/salome/resources/homard/yacs_01.xml" ;
+  MESSAGE("YACSFile_base ="<<YACSFile_base);
+  // E.2. Le fichier du schema a creer
+  std::string YACSFile = nomDirCase ;
+  YACSFile += "/schema.xml" ;
+  MESSAGE (". YACSFile = " << YACSFile);
+  YACSDriver* myDriver = new YACSDriver(YACSFile, DirName);
+
+  // F. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
+  std::ifstream fichier( YACSFile_base.c_str() );
+  if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+  {
+    // F.1. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
+    std::string ligne; // variable contenant chaque ligne lue
+    std::string mot_cle;
+    while ( std::getline( fichier, ligne ) )
+    {
+      // F.1.1. Pour la ligne courante, on identifie le premier mot : le mot-cle eventuel
+      std::istringstream ligne_bis(ligne); // variable contenant chaque ligne sous forme de flux
+      ligne_bis >> mot_cle ;
+      // F.1.2. Le maillage initial
+      if ( mot_cle == "DataInit_MeshFile" )
+      {
+        myDriver->Texte_DataInit_MeshFile(MeshFile);
+      }
+      // F.1.3. Le script de lancement
+      else if ( mot_cle == "Alternance_Calcul_HOMARD_Calcul" )
+      {
+        myDriver->Texte_Alternance_Calcul_HOMARD_Calcul(ScriptFile);
+      }
+      // F.1.4. Les options du cas
+      else if ( mot_cle == "HOMARD_Init_au_debut_Case_Options" )
+      {
+        myDriver->Texte_HOMARD_Init_au_debut_Case_Options(pythonCas);
+      }
+      // F.1.5. Execution de HOMARD : le repertoire du cas
+      else if ( mot_cle == "HOMARD_Exec_DirName" )
+      {
+        myDriver->Texte_HOMARD_Exec_DirName();
+      }
+      // F.1.6. Execution de HOMARD : les options de l'hypothese
+      else if ( mot_cle == "HOMARD_Exec_Hypo_Options" )
+      {
+        myDriver->Texte_python( pythonHypo, 3, "Hypo" ) ;
+      }
+      // F.1.7. Zones : les creations
+      else if ( mot_cle == "HOMARD_Init_au_debut_Zone" )
+      {
+        std::string saux ;
+        if ( TypeAdap == 0 )
+        { YACSDriverTexteZone( myHypo, myDriver ) ; }
+        else
+        {
+          saux = myDriver->Texte_HOMARD_Init_au_debut_control();
+          myDriver->TexteAdd(saux);
+        }
+      }
+      // F.1.8. Zones : les parametres
+      else if ( mot_cle == "PARAMETRES" )
+      {
+        if ( TypeAdap == 0 )
+        { myDriver->TexteAddParametres(); }
+      }
+      // F.1.n. La ligne est recopiee telle quelle
+      else
+      {
+        myDriver->TexteAdd(ligne);
+      }
+    }
+    // F.2. Ecriture du texte dans le fichier
+    if ( codret == 0 )
+    { myDriver->CreeFichier(); }
+  }
+  else
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text = "The reference file for the YACS schema cannot be read." ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+
+  delete myDriver;
+
+  return codret ;
+}
+//=============================================================================
+// Ecriture d'un schema YACS : ecriture des zones associees a une hypothese
+//=============================================================================
+void HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver)
+{
+  MESSAGE ( "YACSDriverTexteZone" );
+  // A. Les zones associees a cette hypothese
+  HOMARD::listeZonesHypo* ListZone = myHypo->GetZones();
+  int numberOfZonesx2 = ListZone->length();
+
+  // B. Initialisation du texte de controle
+  std::string texte_control = myDriver->Texte_HOMARD_Init_au_debut_control() ;
+
+  // C. Parcours des zones
+  std::string noeud = "CreateHypothesis" ;
+  for (int iaux = 0; iaux< numberOfZonesx2; iaux++)
+  {
+    // 1. Reperage de la zone
+    std::string ZoneName = std::string((*ListZone)[iaux]);
+    MESSAGE ( "\n. ZoneName = " << ZoneName << " - " <<iaux);
+    HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+    ASSERT(!CORBA::is_nil(myZone));
+    // 2. Les instructions python associees a la zone
+    //    La premiere ligne est un commentaire a eliminer
+    //    La seconde ligne est l'instruction a proprement parler ; on ne garde que ce qui suit le "."
+    CORBA::String_var dumpCorbaZone = myZone->GetDumpPython();
+    std::string pythonZone_0 = dumpCorbaZone.in();
+    MESSAGE ("pythonZone_0 :"<<pythonZone_0);
+    std::istringstream tout (pythonZone_0) ;
+    std::string ligne ;
+    std::string pythonZone ;
+    while ( std::getline( tout, ligne ) )
+    { pythonZone = GetStringInTexte ( ligne, ".", 1 ) ; }
+    MESSAGE ("pythonZone :\n"<<pythonZone);
+    // 3. Decodage du nom du service
+    std::string methode = GetStringInTexte ( pythonZone, "(", 0 ) ;
+    MESSAGE ( "... methode = " << methode);
+    // 4. Mise en place des instructions
+    int ZoneType = myZone->GetType();
+    MESSAGE ( "... ZoneType = " << ZoneType);
+    std::string texte_control_zone ;
+    texte_control_zone = myDriver->Texte_HOMARD_Init_au_debut_Zone(ZoneType, pythonZone, methode, ZoneName, noeud );
+    texte_control += texte_control_zone ;
+    // 5. Decalage
+    noeud = methode + "_" + ZoneName ;
+    iaux += 1 ;
+  }
+
+  // D. Ajout du texte de controle
+  MESSAGE ( "... texte_control =\n" << texte_control);
+  myDriver->TexteAdd(texte_control) ;
+
+  return ;
+}
 //
 //=============================================================================
 //=============================================================================
@@ -4029,6 +4239,29 @@ char* HOMARD_Gen_i::getVersion()
 #else
   return CORBA::string_dup(HOMARD_VERSION_STR);
 #endif
+}
+//===============================================================================
+// Recuperation de la chaine de caracteres par rapport l'apparition d'un texte
+// ligne : la ligne a manipuler
+// texte : le texte a reperer
+// option : 0 : la chaine avant le texte
+//          1 : la chaine apres le texte
+// Si le texte est absent, on retourne la chaine totale
+//===============================================================================
+std::string HOMARD_Gen_i::GetStringInTexte( const std::string ligne, const std::string texte, int option )
+{
+//   MESSAGE("GetStringInTexte, recherche de '"<<texte<<"' dans '"<<ligne<<"'"<<", option = "<<option);
+//
+  std::string chaine = ligne ;
+  int position = ligne.find_first_of( texte ) ;
+  if ( position > 0 )
+  {
+    if ( option == 0 ) { chaine = ligne.substr( 0, position ) ; }
+    else               { chaine = ligne.substr( position+1 ) ; }
+  }
+// Conversion de type
+  return chaine ;
+//
 }
 
 //=============================================================================

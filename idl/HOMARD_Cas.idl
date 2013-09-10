@@ -90,6 +90,11 @@ module HOMARD
 
     void     AddIteration (in string IterName)             raises (SALOME::SALOME_Exception);
 
+// YACS
+    long     WriteYACSSchema(in string ScriptFile, in string DirName, in string MeshFile)
+                                                           raises (SALOME::SALOME_Exception);
+
+
   };
 };
 #endif

@@ -89,6 +89,7 @@ Creation of a case by pursuit of a computed iteration
 
 Methods of the class cas
 ************************
+.. index:: single: yacs
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -180,6 +181,17 @@ Methods of the class cas
 |     Returns the state of the case:                            |
 |         * 0: corresponds to an initial mesh                   |
 |         * other value: pursuit of an iteration with number n  |
++---------------------------------------------------------------+
+| .. module:: WriteYACSSchema                                   |
+|                                                               |
+| **WriteYACSSchema(ScriptFile, DirName, MeshFile)**            |
+|     Writes a schema YACS relative to the case.                |
+|                                                               |
+|     - ``ScriptFile`` : name of the file that contains the     |
+|       script to launch the computation                        |
+|     - ``DirName`` : the directory for the computation         |
+|     - ``MeshFile`` : name of the file that contains the mesh  |
+|       for the very first computation                          |
 +---------------------------------------------------------------+
 
 Advanced options

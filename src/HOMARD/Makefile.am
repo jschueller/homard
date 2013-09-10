@@ -31,7 +31,8 @@ salomeinclude_HEADERS = \
 	HOMARD_Zone.hxx \
 	HOMARD_Gen.hxx \
 	HOMARD_DriverTools.hxx \
-	HomardDriver.hxx
+	HomardDriver.hxx \
+	YACSDriver.hxx
 
 # Libraries targets
 lib_LTLIBRARIES = libHOMARDImpl.la
@@ -43,7 +44,8 @@ dist_libHOMARDImpl_la_SOURCES = \
 	HOMARD_Zone.cxx \
 	HOMARD_Gen.cxx \
 	HOMARD_DriverTools.cxx \
-	HomardDriver.cxx
+	HomardDriver.cxx \
+	YACSDriver.cxx
 
 libHOMARDImpl_la_CPPFLAGS = \
 	$(KERNEL_CXXFLAGS)

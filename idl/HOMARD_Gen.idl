@@ -44,6 +44,8 @@ module HOMARD
 // A. Les methodes qui suivent sont celles que l'on retrouvera dans
 //    le fichier resources/HOMARDCatalog.xml.in pour definir le composant HOMARD dans YACS
 //    A priori, ce sont les seules sont l'utilisateur doit connaitre l'existence.
+//    ATTENTION : si les noms des arguments changent dans les Createxxxx, il faudra les changer
+//                dans YACSDriver pour assurer la coherence
 //
 // A.1. Les creations
 //
@@ -181,6 +183,10 @@ module HOMARD
                                                            raises (SALOME::SALOME_Exception);
     void  PublishBoundaryUnderCase(in string CaseName, in string BoundaryName);
     void  PublishResultInSmesh(in string FileName, in long Option)
+                                                           raises (SALOME::SALOME_Exception);
+
+//
+    long   WriteYACSSchema(in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
                                                            raises (SALOME::SALOME_Exception);
 
   };

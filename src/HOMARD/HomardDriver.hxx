@@ -19,8 +19,8 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-# ifndef __HOMARDDRIVER_H__
-# define __HOMARDDRIVER_H__
+# ifndef _HOMARDDRIVER_HXX_
+# define _HOMARDDRIVER_HXX_
 
 #include <iostream>
 #include <fstream>
@@ -58,19 +58,9 @@ public:
   void        TexteFieldInterpName( int NumeChamp, const std::string FieldName );
   void        TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput );
   void        TexteInfoCompute( int MessInfo );
-  void        CloseFichier();
   //
   int         ExecuteHomard(int option);
   //
-  bool        LireFichier();
-  bool        EcrireFichier();
-  void        SetTexte( const std::string texte );
-  std::string GetTexte();
-  std::string GetFichierInfo();
-  std::string GetFichierBasic();
-  std::string GetFichierResultMed();
-  std::string GetFichierHomard();
-  int         GetFichierNumeroIter();
 
 public:
   std::string _HOMARD_Exec;
@@ -85,8 +75,6 @@ public:
   int         _Rank;
   bool _bLu;
 
-private :
-  std::string GetStringInTexte( std::string chaineCherchee, int longueur = 9 );
 };
 
-# endif         /* # ifndef __HOMARDDRIVER_H__ */
+# endif         /* # ifndef _HOMARDDRIVER_HXX_ */

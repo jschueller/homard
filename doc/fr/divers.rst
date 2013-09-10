@@ -48,6 +48,8 @@ SALOME VERSION 7.2.1 :
    - Documentation en anglais
    - Ajout de fonctions :
      ``iter.SetInfoCompute(MessInfo)`` : précise des options pour suivre le calcul de l'itération (voir :ref:`tui_create_iteration`)
+   - Creation automatique de schéma YACS :
+     ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)`` : écrit un schéma YACS correspondant au cas (voir :ref:`tui_create_case`)
 
 
 

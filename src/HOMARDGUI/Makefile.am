@@ -138,7 +138,8 @@ libHOMARD_la_LDFLAGS  =                 \
 # resources files
 nodist_salomeres_DATA =  \
 	HOMARD_msg_en.qm \
-	HOMARD_msg_fr.qm
+	HOMARD_msg_fr.qm \
+	HOMARD_msg_ja.qm
 
 UI_FILES = \
 CreateBoundaryAn.ui \

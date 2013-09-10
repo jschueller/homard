@@ -240,7 +240,7 @@ void HOMARD_Iteration::UnLinkNextIteration( const char* NomIteration )
   if ( it != _mesIterFilles.end() )
   {
     MESSAGE ("Dans UnLinkNextIteration pour " << NomIteration) ;
-    _mesIterFilles.erase( it ) ;
+    it = _mesIterFilles.erase( it ) ;
   }
 }
 //=============================================================================

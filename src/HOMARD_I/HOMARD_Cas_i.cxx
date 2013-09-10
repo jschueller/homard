@@ -416,3 +416,26 @@ void HOMARD_Cas_i::AddIteration( const char* NomIteration )
   ASSERT( myHomardCas );
   myHomardCas->AddIteration( NomIteration );
 }
+//=============================================================================
+//=============================================================================
+// YACS
+//=============================================================================
+//=============================================================================
+//=============================================================================
+// Ecriture d'un schema YACS
+// ScriptFile : nom du fichier contenant le script de lancement du calcul
+// DirName : le repertoire de lancement des calculs du schéma
+// MeshFile : nom du fichier contenant le maillage pour le premier calcul
+//=============================================================================
+CORBA::Long HOMARD_Cas_i::WriteYACSSchema( const char* ScriptFile, const char* DirName, const char* MeshFile )
+{
+//
+  ASSERT( myHomardCas );
+// Nom du cas
+  const char* CaseName = GetName() ;
+  MESSAGE ( "WriteYACSSchema : Schema YACS pour le cas " << CaseName);
+  MESSAGE ( "ScriptFile : " << ScriptFile);
+  MESSAGE ( "DirName    : " << DirName);
+  MESSAGE ( "MeshFile   : " << MeshFile);
+  return _gen_i->WriteYACSSchema(CaseName, ScriptFile, DirName, MeshFile) ;
+}

@@ -314,7 +314,7 @@ void HOMARD_Zone::SupprHypo( const char* NomHypo )
   if ( it != _ListHypo.end() )
   {
     MESSAGE ("Dans SupprHypo pour " << NomHypo) ;
-    _ListHypo.erase( it ) ;
+    it = _ListHypo.erase( it ) ;
   }
 }
 //=============================================================================

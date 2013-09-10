@@ -99,6 +99,9 @@ public:
 
   void                   AddIteration( const char* NomIteration );
 
+// YACS
+  CORBA::Long            WriteYACSSchema( const char* ScriptFile, const char* DirName, const char* MeshFile );
+
 private:
   ::HOMARD_Cas*          myHomardCas;
 

@@ -111,7 +111,7 @@ NumCalcP1 = NumCalc + 1
 MeshName = " "
 FileName = " "
 #
-NbCalcMax = 50
+NbCalcMax = 5
 #
 MessInfo = None
 Error = 0
