@@ -2794,7 +2794,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
         const char* MeshName = myBoundary->GetMeshName() ;
         const char* MeshFile = myBoundary->GetMeshFile() ;
         myDriver->TexteBoundaryDi( MeshName, MeshFile);
-        BoundaryOption = BoundaryOption*2 ;
+        if ( BoundaryOption % 2 != 0 ) { BoundaryOption = BoundaryOption*2 ; }
       }
       else // Cas d une frontiere analytique
       {
@@ -2803,22 +2803,22 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
         if (BoundaryType == 1) // Cas d un cylindre
         {
           myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], 0.);
-          BoundaryOption = BoundaryOption*3 ;
+          if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
         else if (BoundaryType == 2) // Cas d une sphere
         {
           myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], 0., 0., 0., 0.);
-          BoundaryOption = BoundaryOption*3 ;
+          if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
         else if (BoundaryType == 3) // Cas d un cone defini par un axe et un angle
         {
           myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], 0.);
-          BoundaryOption = BoundaryOption*3 ;
+          if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
         else if (BoundaryType == 4) // Cas d un cone defini par les 2 rayons
         {
           myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], (*coor)[7]);
-          BoundaryOption = BoundaryOption*3 ;
+          if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
       }
 // Memorisation du traitement
@@ -4135,7 +4135,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
            std::string dumpCas = std::string("\n# Creation of the case ") ;
            dumpCas +=  nomCas + std::string("\n");
            dumpCas += std::string("\t") + nomCas;
-           dumpCas += std::string(" = homard.CreateCase('") + nomCas + std::string("', '");
+           dumpCas += std::string(" = homard.CreateCase(\"") + nomCas + std::string("\", \"");
 
            HOMARD::HOMARD_Cas_var myCase = (*it_cas).second;
            CORBA::String_var cIter0= myCase->GetIter0Name();
@@ -4146,7 +4146,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
            std::string mesh0 = cMesh0.in();
            CORBA::String_var cMeshName0= myIteration->GetMeshName();
            std::string meshName0 = cMeshName0.in();
-           dumpCas += meshName0 + std::string("', '")+ mesh0 + std::string("')\n");
+           dumpCas += meshName0 + std::string("\", \"")+ mesh0 + std::string("\")\n");
            CORBA::String_var dumpCorbaCase = myCase->GetDumpPython();
            std::string dumpCas2= dumpCorbaCase.in();
 
