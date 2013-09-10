@@ -35,7 +35,8 @@ public:
   void        Texte_DataInit_MeshFile( const std::string Meshfile ) ;
   void        Texte_Alternance_Calcul_HOMARD_Calcul( const std::string FileName ) ;
   void        Texte_HOMARD_Init_au_debut_Case_Options( const std::string pythonCas ) ;
-  std::string Texte_HOMARD_Init_au_debut_Zone( int ZoneType, const std::string pythonZone, const std::string methode, const std::string ZoneName, const std::string noeud_1 ) ;
+  std::string Texte_HOMARD_Init_au_debut_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName ) ;
+  std::string Texte_HOMARD_Init_au_debut_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName ) ;
   std::string Texte_HOMARD_Init_au_debut_control() ;
   std::string Texte_control( const std::string noeud_1, const std::string noeud_2 ) ;
   std::string Texte_inport( const std::string inport_type, const std::string inport_nom ) ;
@@ -47,10 +48,11 @@ public:
   //
 
 public:
-  std::string _YACSFile;
-  std::string _DirName;
-  std::string _Texte;
-  std::string _Texte_parametres;
+  std::string _YACSFile ;
+  std::string _DirName ;
+  std::string _Texte ;
+  std::string _Texte_parametres ;
+  std::string _noeud_1 ;
   bool _bLu;
 
 private :

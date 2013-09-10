@@ -2777,7 +2777,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
     std::list<std::string>::const_iterator it = ListeBoundaryTraitees.begin();
     while (it != ListeBoundaryTraitees.end())
     {
-      MESSAGE ( "... BoundaryNameTraitee = " << *it);
+      MESSAGE ( "..... BoundaryNameTraitee = " << *it);
       if ( BoundaryName == *it ) { A_faire = 0 ; }
       it++;
     }
@@ -3540,17 +3540,13 @@ CORBA::Long HOMARD_Gen_i::WriteYACSSchema (const char* nomCas, const char* Scrip
       {
         myDriver->Texte_python( pythonHypo, 3, "Hypo" ) ;
       }
-      // F.1.7. Zones : les creations
-      else if ( mot_cle == "HOMARD_Init_au_debut_Zone" )
+      // F.1.7. Zones et frontieres : les creations
+      else if ( mot_cle == "HOMARD_Init_au_debut" )
       {
-        std::string saux ;
-        if ( TypeAdap == 0 )
-        { YACSDriverTexteZone( myHypo, myDriver ) ; }
-        else
-        {
-          saux = myDriver->Texte_HOMARD_Init_au_debut_control();
-          myDriver->TexteAdd(saux);
-        }
+        std::string texte_control = myDriver->Texte_HOMARD_Init_au_debut_control() ;
+        if ( TypeAdap == 0 ) { texte_control += YACSDriverTexteZone( myHypo, myDriver ) ; }
+        texte_control += YACSDriverTexteBoundary( myCase, myDriver ) ;
+        myDriver->TexteAdd(texte_control);
       }
       // F.1.8. Zones : les parametres
       else if ( mot_cle == "PARAMETRES" )
@@ -3584,18 +3580,15 @@ CORBA::Long HOMARD_Gen_i::WriteYACSSchema (const char* nomCas, const char* Scrip
 //=============================================================================
 // Ecriture d'un schema YACS : ecriture des zones associees a une hypothese
 //=============================================================================
-void HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver)
+std::string HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver)
 {
   MESSAGE ( "YACSDriverTexteZone" );
   // A. Les zones associees a cette hypothese
   HOMARD::listeZonesHypo* ListZone = myHypo->GetZones();
   int numberOfZonesx2 = ListZone->length();
 
-  // B. Initialisation du texte de controle
-  std::string texte_control = myDriver->Texte_HOMARD_Init_au_debut_control() ;
-
-  // C. Parcours des zones
-  std::string noeud = "CreateHypothesis" ;
+  // B. Parcours des zones
+  std::string texte_control ;
   for (int iaux = 0; iaux< numberOfZonesx2; iaux++)
   {
     // 1. Reperage de la zone
@@ -3607,33 +3600,88 @@ void HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YAC
     //    La premiere ligne est un commentaire a eliminer
     //    La seconde ligne est l'instruction a proprement parler ; on ne garde que ce qui suit le "."
     CORBA::String_var dumpCorbaZone = myZone->GetDumpPython();
-    std::string pythonZone_0 = dumpCorbaZone.in();
-    MESSAGE ("pythonZone_0 :"<<pythonZone_0);
-    std::istringstream tout (pythonZone_0) ;
+    std::string pythonStructure_0 = dumpCorbaZone.in();
+    MESSAGE ("pythonStructure_0 :"<<pythonStructure_0);
+    std::istringstream tout (pythonStructure_0) ;
     std::string ligne ;
-    std::string pythonZone ;
+    std::string pythonStructure ;
     while ( std::getline( tout, ligne ) )
-    { pythonZone = GetStringInTexte ( ligne, ".", 1 ) ; }
-    MESSAGE ("pythonZone :\n"<<pythonZone);
+    { pythonStructure = GetStringInTexte ( ligne, ".", 1 ) ; }
+    MESSAGE ("pythonStructure :\n"<<pythonStructure);
     // 3. Decodage du nom du service
-    std::string methode = GetStringInTexte ( pythonZone, "(", 0 ) ;
+    std::string methode = GetStringInTexte ( pythonStructure, "(", 0 ) ;
     MESSAGE ( "... methode = " << methode);
     // 4. Mise en place des instructions
     int ZoneType = myZone->GetType();
     MESSAGE ( "... ZoneType = " << ZoneType);
-    std::string texte_control_zone ;
-    texte_control_zone = myDriver->Texte_HOMARD_Init_au_debut_Zone(ZoneType, pythonZone, methode, ZoneName, noeud );
-    texte_control += texte_control_zone ;
+    std::string texte_control_0 ;
+    texte_control_0 = myDriver->Texte_HOMARD_Init_au_debut_Zone(ZoneType, pythonStructure, methode, ZoneName );
+    texte_control += texte_control_0 ;
     // 5. Decalage
-    noeud = methode + "_" + ZoneName ;
     iaux += 1 ;
   }
 
-  // D. Ajout du texte de controle
-  MESSAGE ( "... texte_control =\n" << texte_control);
-  myDriver->TexteAdd(texte_control) ;
+  return texte_control ;
+}
+//=============================================================================
+// Ecriture d'un schema YACS : ecriture des frontieres associees au cas
+//=============================================================================
+std::string HOMARD_Gen_i::YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver)
+{
+  MESSAGE ( "YACSDriverTexteBoundary" );
+  // A. Les frontieres associees au cas
+  HOMARD::ListBoundaryGroupType* ListBoundaryGroupType = myCase->GetBoundaryGroup();
+  int numberOfitems = ListBoundaryGroupType->length();
 
-  return ;
+  // B. Parcours des frontieres
+  std::string texte_control ;
+  std::list<std::string>  ListeBoundaryTraitees ;
+  for (int NumBoundary = 0; NumBoundary< numberOfitems; NumBoundary=NumBoundary+2)
+  {
+    std::string BoundaryName = std::string((*ListBoundaryGroupType)[NumBoundary]);
+    MESSAGE ( "... BoundaryName = " << BoundaryName);
+    // Attention a n'ecrire la definition qu'une seule fois car elle peut se trouver
+    // plusieurs fois dans la definition du cas, d'ou la liste ListeBoundaryTraitees
+    int A_faire = 1 ;
+    std::list<std::string>::const_iterator it = ListeBoundaryTraitees.begin();
+    while (it != ListeBoundaryTraitees.end())
+    {
+      MESSAGE ( "..... BoundaryNameTraitee = " << *it);
+      if ( BoundaryName == *it ) { A_faire = 0 ; }
+      it++;
+    }
+    if ( A_faire == 1 )
+    {
+    // 1. Caracteristiques de la frontiere
+      HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+      ASSERT(!CORBA::is_nil(myBoundary));
+      // 2. Les instructions python associees a la frontiere
+      //    La premiere ligne est un commentaire a eliminer
+      //    La seconde ligne est l'instruction a proprement parler ; on ne garde que ce qui suit le "."
+      CORBA::String_var dumpCorbaBoundary = myBoundary->GetDumpPython();
+      std::string pythonStructure_0 = dumpCorbaBoundary.in();
+      MESSAGE ("pythonStructure_0 :"<<pythonStructure_0);
+      std::istringstream tout (pythonStructure_0) ;
+      std::string ligne ;
+      std::string pythonStructure ;
+      while ( std::getline( tout, ligne ) )
+      { pythonStructure = GetStringInTexte ( ligne, ".", 1 ) ; }
+      MESSAGE ("pythonStructure :\n"<<pythonStructure);
+      // 3. Decodage du nom du service
+      std::string methode = GetStringInTexte ( pythonStructure, "(", 0 ) ;
+      MESSAGE ( "... methode = " << methode);
+      // 4. Mise en place des instructions
+      int BoundaryType = myBoundary->GetType();
+      MESSAGE ( "... BoundaryType = " << BoundaryType);
+      std::string texte_control_0 ;
+      texte_control_0 = myDriver->Texte_HOMARD_Init_au_debut_Boundary(BoundaryType, pythonStructure, methode, BoundaryName );
+      texte_control += texte_control_0 ;
+      // 5. Memorisation du traitement
+      ListeBoundaryTraitees.push_back( BoundaryName );
+    }
+  }
+
+  return texte_control ;
 }
 //
 //=============================================================================
