@@ -16,6 +16,10 @@
         <translation>Information</translation>
     </message>
     <message>
+        <source>HOM_MEN_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
         <source>HOM_MEN_NEW_CASE</source>
         <translation>Nouveau cas</translation>
     </message>
@@ -200,6 +204,10 @@
         <translation>Impossible d'ouvrir ce fichier.</translation>
     </message>
     <message>
+        <source>HOM_SCRIPT_FILE</source>
+        <translation>Il faut donner un fichier pour le script python.</translation>
+    </message>
+    <message>
         <source>HOM_MED_FILE_1</source>
         <translation>Ce fichier MED est illisible.</translation>
     </message>
@@ -246,6 +254,10 @@
     <message>
         <source>HOM_CASE_DIRECTORY_3</source>
         <translation>Un répertoire valide doit être choisi.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_DIRECTORY_4</source>
+        <translation>Il faut choisir un répertoire de travail pour le calcul.</translation>
     </message>
     <message>
         <source>HOM_CASE_MESH</source>
@@ -962,6 +974,22 @@
     <message>
         <source>Number of iteration</source>
         <translation>Numéro de l'itération</translation>
+    </message>
+    <message>
+        <source>Case</source>
+        <translation>Cas</translation>
+    </message>
+    <message>
+        <source>Mesh file</source>
+        <translation>Maillage initial</translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation>Statique</translation>
+    </message>
+    <message>
+        <source>Transient</source>
+        <translation>Transitoire</translation>
     </message>
     <message>
         <source>Edit a file</source>

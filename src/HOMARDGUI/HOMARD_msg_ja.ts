@@ -16,6 +16,10 @@
         <translation>Information</translation>
     </message>
     <message>
+        <source>HOM_MEN_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
         <source>HOM_MEN_NEW_CASE</source>
         <translation>New case</translation>
     </message>
@@ -200,6 +204,10 @@
         <translation>This file cannot be opened.</translation>
     </message>
     <message>
+        <source>HOM_SCRIPT_FILE</source>
+        <translation>A script file must be given.</translation>
+    </message>
+    <message>
         <source>HOM_MED_FILE_1</source>
         <translation>This MED file cannot be read.</translation>
     </message>
@@ -246,6 +254,10 @@
     <message>
         <source>HOM_CASE_DIRECTORY_3</source>
         <translation>A valid directory for the case must be selected.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_DIRECTORY_4</source>
+        <translation>A directory for the computation must be selected.</translation>
     </message>
     <message>
         <source>HOM_CASE_MESH</source>
@@ -962,6 +974,22 @@
     <message>
         <source>Number of iteration</source>
         <translation>Number of iteration</translation>
+    </message>
+    <message>
+        <source>Case</source>
+        <translation>Case</translation>
+    </message>
+    <message>
+        <source>Mesh file</source>
+        <translation>Mesh File</translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation>Static</translation>
+    </message>
+    <message>
+        <source>Transient</source>
+        <translation>Transient</translation>
     </message>
     <message>
         <source>Edit a file</source>

@@ -62,6 +62,7 @@ dist_salomeres_DATA =   \
 	texte_2.png \
 	triangle.png \
 	whatis.png \
+	yacs.png \
 	yacs_01.xml \
 	zone_boxdxyz.png \
 	zone_boxdxyz_2.png \

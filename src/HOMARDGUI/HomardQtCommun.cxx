@@ -48,7 +48,7 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
 // . si le commentaire est une chaine vide, on ne tient pas compte du type de l'objet
 //   et on retourne le nom de cet objet
 // . sinon :
-//   . si l'objet est du type defini par commentaitr, retourne le nom de cet objet
+//   . si l'objet est du type defini par commentaite, retourne le nom de cet objet
 //   . sinon on retourne une QString("")
 // option :
 // . Si option = 0, ce n'est pas grave de ne rien trouver ; aucun message n'est emis

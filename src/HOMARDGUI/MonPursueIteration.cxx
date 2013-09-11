@@ -32,7 +32,6 @@ using namespace std;
 
 // -----------------------------------------------------------------------------------------
 /* Constructs a MonPursueIteration
- * Inherits from CasHomard
  * Sets attributes to default values
  */
 // -----------------------------------------------------------------------------------------

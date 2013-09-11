@@ -68,6 +68,7 @@ using namespace std;
 #include "MonEditBoundaryAn.h"
 #include "MonEditBoundaryDi.h"
 #include "MonMeshInfo.h"
+#include "MonCreateYACS.h"
 #include "MonIterInfo.h"
 #include "HomardQtCommun.h"
 
@@ -166,6 +167,8 @@ void HOMARDGUI::createActions(){
   createHOMARDAction( 1301, "MESH_INFO",        "advanced_mesh_info.png" );
   createHOMARDAction( 1302, "EDIT_MESS_FILE",   "texte.png"              );
 //
+  createHOMARDAction( 1401, "YACS",             "yacs.png" );
+//
 }
 
 //================================================
@@ -206,6 +209,10 @@ void HOMARDGUI::createMenus(){
   createMenu( 1201, HOMARD_Id, -1 ); //Edit
   createMenu( separator(), HOMARD_Id,-1);
 //
+  HOMARD_Id  = createMenu( tr( "HOM_MEN_YACS" ),  -1,  5, 10 );
+  createMenu( 1401, HOMARD_Id, -1 ); // Création d'un schéma YACS
+  createMenu( separator(), HOMARD_Id,-1);
+//
 /*// La langue des preferences
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
   QString langue = resMgr->stringValue("language", "language", "en");
@@ -233,7 +240,7 @@ void HOMARDGUI::OnGUIEvent()
 //=======================================================================
 bool HOMARDGUI::OnGUIEvent (int theCommandID)
 {
-  MESSAGE("OnGUIEvent(int)");
+  MESSAGE("OnGUIEvent avec theCommandID = "<<theCommandID);
   SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
   if ( !app ) return false;
 
@@ -466,7 +473,18 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
           if ( aDlg->_codret == 0 ) { aDlg->show(); }
       }
       break;
-     }
+    }
+
+    case 1401: // Création d'un schéma YACS
+    {
+      MESSAGE("etape 1401")
+      MESSAGE("command " << theCommandID << " activated");
+      QString CaseName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
+      MESSAGE("CaseName " << CaseName.toStdString().c_str() << " choisi dans arbre");
+      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), CaseName ) ;
+      aDlg->show();
+      break;
+    }
 
   }
   getApp()->updateObjectBrowser();
@@ -543,22 +561,20 @@ void HOMARDGUI::setOrb()
 _PTR(SObject) HOMARDGUI::chercheMonObjet()
 //========================================
 {
-
-    SALOMEDSClient_SObject* aSO = NULL;
-    _PTR(SObject) obj;
-    SALOME_ListIO lst;
-    getApp()->selectionMgr()->selectedObjects( lst );
-    if (  lst.Extent() == 1 )
-    {
-	Handle(SALOME_InteractiveObject) io = lst.First();
-	SalomeApp_Study* appStudy = dynamic_cast<SalomeApp_Study*>( application()->activeStudy() );
-	_PTR(Study) study = appStudy->studyDS();
-	_PTR(SObject) obj = study->FindObjectID( io->getEntry() );
-	_ObjectName = QString( obj->GetName().c_str() );
-        return obj;
-     }
-     else
-         return _PTR(SObject)(aSO);
+  SALOMEDSClient_SObject* aSO = NULL;
+  _PTR(SObject) obj;
+  SALOME_ListIO lst;
+  getApp()->selectionMgr()->selectedObjects( lst );
+  if (  lst.Extent() == 1 )
+  {
+    Handle(SALOME_InteractiveObject) io = lst.First();
+    SalomeApp_Study* appStudy = dynamic_cast<SalomeApp_Study*>( application()->activeStudy() );
+    _PTR(Study) study = appStudy->studyDS();
+    _PTR(SObject) obj = study->FindObjectID( io->getEntry() );
+    _ObjectName = QString( obj->GetName().c_str() );
+    return obj;
+  }
+  else { return _PTR(SObject)(aSO); }
 }
 //=============================================================================
 void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& title )
@@ -609,6 +625,8 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     }
     else if ( HOMARD_UTILS::isCase(obj) )
     {
+      pix = resMgr->loadPixmap( "HOMARD", "yacs.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_YACS").toLatin1().data()), this, SLOT(YACS()));
       EditObject = true ;
       DeleteObject = true ;
     }
@@ -666,6 +684,12 @@ void HOMARDGUI::EditAsciiFile()
 {
   this->OnGUIEvent(1302);
 }
+
+void HOMARDGUI::YACS()
+{
+  this->OnGUIEvent(1401);
+}
+
 
 //
 //=============================================================================
