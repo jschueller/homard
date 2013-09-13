@@ -988,8 +988,8 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::GetBoundary(const char* nomBoundary)
 //=============================================================================
 void HOMARD_Gen_i::MeshInfo(const char* nomCas, const char* MeshName, const char* MeshFile, const char* DirName, CORBA::Long Qual, CORBA::Long Diam, CORBA::Long Conn, CORBA::Long Tail, CORBA::Long Inte)
 {
-  MESSAGE ( "MeshInfo : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile  );
-  MESSAGE ( "Qual = " << Qual << ", Diam = " << Diam << ", Conn = " << Conn << ", Tail = " << Tail << ", Inte = " << Inte  );
+  INFOS ( "MeshInfo : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile  );
+  INFOS ( "Qual = " << Qual << ", Diam = " << Diam << ", Conn = " << Conn << ", Tail = " << Tail << ", Inte = " << Inte  );
   IsValidStudy () ;
 
 // Creation du cas
@@ -1080,9 +1080,10 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
 // MeshName, MeshFile : nom et fichier du maillage correspondant
 //
 {
-  MESSAGE ( "CreateCase : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile );
+  INFOS ( "CreateCase : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile );
 
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName,  MeshFile, 0, 0, 2) ;
+  // Par defaut, on ne publie pas le maillage
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, 1) ;
 
 // Valeurs par defaut des filtrages
   myCase->SetPyram(0);
@@ -1096,7 +1097,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 // DirNameStart : nom du repertoire contenant l'iteration de reprise
 //
 {
-  MESSAGE ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
+  INFOS ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
   std::string nomDirWork = getenv("PWD") ;
   int codret ;
 
@@ -1231,7 +1232,8 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 
   // C. Creation effective du cas
 
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName,  MeshFile, 1, NumeIter, 2) ;
+  // Par defaut, on ne publie pas le maillage
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, NumeIter, 1) ;
 
   // D. Parametrages lus dans le fichier de configuration
 
@@ -1289,7 +1291,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseLastIteration(const char*
 // DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
 //
 {
-  MESSAGE ( "CreateCaseFromCaseLastIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
+  INFOS ( "CreateCaseFromCaseLastIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
 
   std::string DirNameStartIter = CreateCase1(DirNameStart, -1) ;
 
@@ -1306,7 +1308,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseIteration(const char* nom
 // Number : numero de l'iteration de depart
 //
 {
-  MESSAGE ( "CreateCaseFromCaseIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart << ", Number = " << Number );
+  INFOS ( "CreateCaseFromCaseIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart << ", Number = " << Number );
   if ( Number < 0 )
   {
     SALOME::ExceptionStruct es;
@@ -1562,7 +1564,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
 //=============================================================================
 HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypothesis)
 {
-  MESSAGE ( "CreateHypothesis : nomHypothesis  = " << nomHypothesis );
+  INFOS ( "CreateHypothesis : nomHypothesis  = " << nomHypothesis );
   IsValidStudy () ;
 
   // Controle du nom :
@@ -1594,7 +1596,7 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
 HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIteration, const char* nomIterParent)
 //=============================================================================
 {
-  MESSAGE ("CreateIteration : NomIteration  = " << NomIteration << ", nomIterParent = " << nomIterParent);
+  INFOS ("CreateIteration : NomIteration  = " << NomIteration << ", nomIterParent = " << nomIterParent);
   IsValidStudy () ;
 
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterParent];
@@ -1712,7 +1714,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
 //=============================================================================
 HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryDi(const char* BoundaryName, const char* MeshName, const char* MeshFile)
 {
-  MESSAGE ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << "MeshName = " << MeshName );
+  INFOS ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << "MeshName = " << MeshName );
   HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 0);
   myBoundary->SetMeshFile( MeshFile ) ;
   myBoundary->SetMeshName( MeshName ) ;
@@ -1725,7 +1727,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryCylinder(const char* Bou
                                       CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe,
                                       CORBA::Double Rayon)
 {
-  MESSAGE ("CreateBoundaryCylinder : BoundaryName  = " << BoundaryName ) ;
+  INFOS ("CreateBoundaryCylinder : BoundaryName  = " << BoundaryName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1753,7 +1755,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundarySphere(const char* Bound
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
                                       CORBA::Double Rayon)
 {
-  MESSAGE ("CreateBoundarySphere : BoundaryName  = " << BoundaryName ) ;
+  INFOS ("CreateBoundarySphere : BoundaryName  = " << BoundaryName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1777,7 +1779,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeA(const char* Bounda
                                       CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe, CORBA::Double Angle,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre)
 {
-  MESSAGE ("CreateBoundaryConeA : BoundaryName  = " << BoundaryName ) ;
+  INFOS ("CreateBoundaryConeA : BoundaryName  = " << BoundaryName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1805,7 +1807,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeR(const char* Bounda
                                       CORBA::Double Xcentre1, CORBA::Double Ycentre1, CORBA::Double Zcentre1, CORBA::Double Rayon1,
                                       CORBA::Double Xcentre2, CORBA::Double Ycentre2, CORBA::Double Zcentre2, CORBA::Double Rayon2)
 {
-  MESSAGE ("CreateBoundaryConeR : BoundaryName  = " << BoundaryName ) ;
+  INFOS ("CreateBoundaryConeR : BoundaryName  = " << BoundaryName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1865,7 +1867,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox(const char* ZoneName,
                                       CORBA::Double Ymini, CORBA::Double Ymaxi,
                                       CORBA::Double Zmini, CORBA::Double Zmaxi)
 {
-  MESSAGE ("CreateZoneBox : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneBox : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1894,7 +1896,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox(const char* ZoneName,
 HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneSphere(const char* ZoneName,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre, CORBA::Double Rayon)
 {
-  MESSAGE ("CreateZoneSphere : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneSphere : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1919,7 +1921,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneCylinder(const char* ZoneName,
                                       CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe,
                                       CORBA::Double Rayon, CORBA::Double Haut)
 {
-  MESSAGE ("CreateZoneCylinder : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneCylinder : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1951,7 +1953,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZonePipe(const char* ZoneName,
                                       CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe,
                                       CORBA::Double Rayon, CORBA::Double Haut, CORBA::Double Rayonint)
 {
-  MESSAGE ("CreateZonePipe : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZonePipe : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -1986,7 +1988,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox2D(const char* ZoneName,
                                       CORBA::Double Vmini, CORBA::Double Vmaxi,
                                       CORBA::Long Orient)
 {
-  MESSAGE ("CreateZoneBox2D : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneBox2D : ZoneName  = " << ZoneName ) ;
 //   MESSAGE ("Umini = " << Umini << ", Umaxi =" << Umaxi ) ;
 //   MESSAGE ("Vmini = " << Vmini << ", Vmaxi =" << Vmaxi ) ;
 //   MESSAGE ("Orient = " << Orient ) ;
@@ -2046,7 +2048,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDisk(const char* ZoneName,
                                       CORBA::Double Rayon,
                                       CORBA::Long Orient)
 {
-  MESSAGE ("CreateZoneDisk : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneDisk : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -2091,7 +2093,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
                                       CORBA::Double Rayon, CORBA::Double Rayonint,
                                       CORBA::Long Orient)
 {
-  MESSAGE ("CreateZoneDiskWithHole : ZoneName  = " << ZoneName ) ;
+  INFOS ("CreateZoneDiskWithHole : ZoneName  = " << ZoneName ) ;
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
@@ -2153,7 +2155,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
 //=============================================================================
 CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option1, CORBA::Long Option2)
 {
-  MESSAGE ( "Compute : traitement de " << NomIteration << ", avec modeHOMARD = " << modeHOMARD << ", avec Option1 = " << Option1 << ", avec Option2 = " << Option2 );
+  INFOS ( "Compute : traitement de " << NomIteration << ", avec modeHOMARD = " << modeHOMARD << ", Option1 = " << Option1 << ", Option2 = " << Option2 );
 
   // A. Prealable
   int codret = 0;
@@ -3430,10 +3432,10 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 //=============================================================================
 CORBA::Long HOMARD_Gen_i::WriteYACSSchema (const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
 {
-  MESSAGE ( "WriteYACSSchema : Schema YACS pour le cas " << nomCas);
-  MESSAGE ( "ScriptFile : " << ScriptFile);
-  MESSAGE ( "DirName    : " << DirName);
-  MESSAGE ( "MeshFile   : " << MeshFile);
+  INFOS ( "WriteYACSSchema : Schema YACS pour le cas " << nomCas);
+  INFOS ( "ScriptFile : " << ScriptFile);
+  INFOS ( "DirName    : " << DirName);
+  INFOS ( "MeshFile   : " << MeshFile);
 
   int codret = 0;
 
