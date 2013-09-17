@@ -34,7 +34,7 @@ class MonEditIteration : public MonCreateIteration
 public:
     MonEditIteration( QWidget* parent, bool modal,
                       HOMARD::HOMARD_Gen_var myHomardGen,
-                      QString IterParentName, QString IterName );
+                      QString IterParentName, QString Name );
     virtual ~MonEditIteration();
 
 protected :

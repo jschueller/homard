@@ -1003,5 +1003,9 @@
         <source>Invalid study context</source>
         <translation>Etude contextuelle non valable</translation>
     </message>
+    <message>
+        <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
+        <translation>Edition d'un schéma YACS</translation>
+    </message>
 </context>
 </TS>

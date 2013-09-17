@@ -39,7 +39,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="LECaseName">
+      <widget class="QLineEdit" name="LEName">
        <property name="minimumSize">
         <size>
          <width>382</width>

@@ -40,7 +40,7 @@ MonEditCase::MonEditCase ( QWidget* parent, bool modal,
     MESSAGE("Debut de MonEditCase" << CaseName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_CASE_EDIT_WINDOW_TITLE"));
     _aCaseName = CaseName;
-    aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
+    aCase = myHomardGen->GetCase(_aCaseName.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------
@@ -53,8 +53,8 @@ void MonEditCase::InitValEdit()
 // ------------------------------
 {
   MESSAGE("InitValEdit");
-  LECaseName->setText(_aCaseName);
-  LECaseName->setReadOnly(true);
+  LEName->setText(_aCaseName);
+  LEName->setReadOnly(true);
 
   QString aDirName = aCase->GetDirName();
   LEDirName->setText(aDirName);
@@ -62,7 +62,7 @@ void MonEditCase::InitValEdit()
   PushDir->setVisible(0);
 
   QString _aitername=aCase->GetIter0Name();
-  HOMARD::HOMARD_Iteration_var aIter = _myHomardGen->GetIteration(_aitername.toStdString().c_str());
+  HOMARD::HOMARD_Iteration_var aIter = myHomardGen->GetIteration(_aitername.toStdString().c_str());
   QString aFileName = aIter->GetMeshFile();
   LEFileName->setText(aFileName);
   LEFileName->setReadOnly(true);
@@ -110,7 +110,7 @@ void MonEditCase::InitValEdit()
       NomFron = mesBoundarys[i++];
       MESSAGE("NomFron "<<NomFron.toStdString().c_str());
 //        L'objet associe pour en deduire le type
-      HOMARD::HOMARD_Boundary_var myBoundary = _myHomardGen->GetBoundary(NomFron.toStdString().c_str());
+      HOMARD::HOMARD_Boundary_var myBoundary = myHomardGen->GetBoundary(NomFron.toStdString().c_str());
       int type_obj = myBoundary->GetType() ;
 //        C'est une frontiere discrete
 //        Rermarque : on ne gere pas les groupes

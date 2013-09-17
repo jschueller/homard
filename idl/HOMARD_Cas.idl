@@ -34,6 +34,7 @@
 #include "SALOMEDS.idl"
 
 #include "HOMARD_Iteration.idl"
+#include "HOMARD_YACS.idl"
 
 module HOMARD
 {
@@ -91,7 +92,7 @@ module HOMARD
     void     AddIteration (in string IterName)             raises (SALOME::SALOME_Exception);
 
 // YACS
-    long     WriteYACSSchema(in string ScriptFile, in string DirName, in string MeshFile)
+    HOMARD_YACS CreateYACSSchema(in string YACSName, in string ScriptFile, in string DirName, in string MeshFile)
                                                            raises (SALOME::SALOME_Exception);
 
 

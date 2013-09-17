@@ -48,7 +48,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentBound(parentBound)
 {
     MESSAGE("Debut de  MonCreateListGroup")
-     _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
     setupUi(this);
     setModal(modal);
     InitConnect();
@@ -65,7 +65,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentHyp(parentHyp),
     _parentBound(parentBound)
 {
-    _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+    myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
     setupUi(this);
     InitConnect();
 }
@@ -126,7 +126,7 @@ void MonCreateListGroup::InitGroupes()
       TWGroupe->removeRow(row);
   TWGroupe->setRowCount(0);
   if (_aCaseName == QString("")) { return; };
-  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
+  HOMARD::HOMARD_Cas_var monCas= myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
   for ( int i = 0; i < _listeGroupesCas->length(); i++ )
   {

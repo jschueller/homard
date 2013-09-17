@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateBoundaryAn.ui'
 **
-** Created: Thu Mar 21 17:06:19 2013
+** Created: Tue Sep 17 14:08:40 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -31,7 +31,7 @@ class Ui_CreateBoundaryAn
 public:
     QGridLayout *gridLayout_4;
     QLabel *Name;
-    QLineEdit *LEBoundaryName;
+    QLineEdit *LEName;
     QGroupBox *TypeBoundary;
     QGridLayout *gridLayout;
     QRadioButton *RBCylindre;
@@ -106,11 +106,11 @@ public:
 
         gridLayout_4->addWidget(Name, 0, 0, 1, 1);
 
-        LEBoundaryName = new QLineEdit(CreateBoundaryAn);
-        LEBoundaryName->setObjectName(QString::fromUtf8("LEBoundaryName"));
-        LEBoundaryName->setMaxLength(32);
+        LEName = new QLineEdit(CreateBoundaryAn);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMaxLength(32);
 
-        gridLayout_4->addWidget(LEBoundaryName, 0, 1, 1, 1);
+        gridLayout_4->addWidget(LEName, 0, 1, 1, 1);
 
         TypeBoundary = new QGroupBox(CreateBoundaryAn);
         TypeBoundary->setObjectName(QString::fromUtf8("TypeBoundary"));

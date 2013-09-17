@@ -50,11 +50,11 @@ protected :
     int _Pyram;
 
     HOMARD::HOMARD_Cas_var aCase ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
     virtual void InitBoundarys();
-    virtual void SetNewCaseName();
+    virtual void SetNewName();
 
 public slots:
     virtual void SetDirName();

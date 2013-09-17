@@ -34,13 +34,13 @@ using namespace std;
 // -------------------------------------------------------------------------------
 MonCreateBoundaryDi::MonCreateBoundaryDi(MonCreateCase* parent, bool modal,
                                          HOMARD::HOMARD_Gen_var myHomardGen,
-                                         QString caseName, QString aBoundaryName)
+                                         QString caseName, QString aName)
 // ---------------------------------------------------------------------------------
 /* Constructs a MonCreateBoundaryDi */
     :
     QDialog(0), Ui_CreateBoundaryDi(),
-    _parent(parent), _aBoundaryName(aBoundaryName),
-    _myHomardGen(HOMARD::HOMARD_Gen::_duplicate(myHomardGen)),
+    _parent(parent), _aName(aName),
+    myHomardGen(HOMARD::HOMARD_Gen::_duplicate(myHomardGen)),
     _aCaseName(caseName)
     {
       MESSAGE("Constructeur") ;
@@ -48,7 +48,7 @@ MonCreateBoundaryDi::MonCreateBoundaryDi(MonCreateCase* parent, bool modal,
       setModal(modal);
       InitConnect();
 
-     if ( _aBoundaryName == QString("") ) {SetNewBoundaryName();};
+     if ( _aName == QString("") ) {SetNewName();};
     }
 
 // ------------------------------------------------------------------------
@@ -77,8 +77,8 @@ bool MonCreateBoundaryDi::PushOnApply()
 {
 // Verifications
 
-  QString aBoundaryName=LEBoundaryName->text().trimmed();
-  if (aBoundaryName=="") {
+  QString aName=LEName->text().trimmed();
+  if (aName=="") {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_BOUN_NAME") );
     return false;
@@ -103,14 +103,14 @@ bool MonCreateBoundaryDi::PushOnApply()
   }
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
-  if ( _aBoundaryName != aBoundaryName )
+  if ( _aName != aName )
   {
    try
    {
-     _aBoundaryName=aBoundaryName;
-     _aBoundary=_myHomardGen->CreateBoundaryDi(CORBA::string_dup(_aBoundaryName.toStdString().c_str()), aMeshName.toStdString().c_str(), aMeshFile.toStdString().c_str());
-     _parent->AddBoundaryDi(_aBoundaryName);
-     _aBoundary->SetCaseCreation(_aCaseName.toStdString().c_str());
+     _aName=aName;
+     aBoundary=myHomardGen->CreateBoundaryDi(CORBA::string_dup(_aName.toStdString().c_str()), aMeshName.toStdString().c_str(), aMeshFile.toStdString().c_str());
+     _parent->AddBoundaryDi(_aName);
+     aBoundary->SetCaseCreation(_aCaseName.toStdString().c_str());
    }
    catch( SALOME::SALOME_Exception& S_ex )
    {
@@ -151,32 +151,32 @@ void MonCreateBoundaryDi::AssocieLesGroupes()
   int i=0;
   for (it = _listeGroupesBoundary.constBegin(); it != _listeGroupesBoundary.constEnd(); it++)
      aSeqGroupe[i++]=(*it).toStdString().c_str();
-  _aBoundary->SetGroups(aSeqGroupe);
+  aBoundary->SetGroups(aSeqGroupe);
 
 }
 
 // -------------------------------------------------
-void MonCreateBoundaryDi::SetNewBoundaryName()
+void MonCreateBoundaryDi::SetNewName()
 // --------------------------------------------------
 {
 
-  HOMARD::listeBoundarys_var  MyBoundarys = _myHomardGen->GetAllBoundarysName();
-  int num = 0; QString aBoundaryName="";
-  while (aBoundaryName == QString("") )
+  HOMARD::listeBoundarys_var  MyObjects = myHomardGen->GetAllBoundarysName();
+  int num = 0; QString aName="";
+  while (aName == QString("") )
   {
-    aBoundaryName.setNum(num+1) ;
-    aBoundaryName.insert(0, QString("Boun_")) ;
-    for ( int i=0; i<MyBoundarys->length(); i++)
+    aName.setNum(num+1) ;
+    aName.insert(0, QString("Boun_")) ;
+    for ( int i=0; i<MyObjects->length(); i++)
     {
-      if ( aBoundaryName ==  QString(MyBoundarys[i]))
+      if ( aName ==  QString(MyObjects[i]))
       {
           num=num+1;
-          aBoundaryName="";
+          aName="";
           break;
       }
    }
   }
-  LEBoundaryName->setText(aBoundaryName);
+  LEName->setText(aName);
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryDi::SetMeshFile()
@@ -203,7 +203,7 @@ void MonCreateBoundaryDi::SetFiltrage()
     return;
   }
 
-  MonCreateListGroup *aDlg = new MonCreateListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),
+  MonCreateListGroup *aDlg = new MonCreateListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
                             _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }

@@ -50,7 +50,7 @@ protected :
 
     MonCreateIteration *_parent;
 
-    QString _aHypothesisName;
+    QString _Name;
     QString _aFieldFile ;
     QString _aFieldName;
     QString _aCaseName;
@@ -73,8 +73,8 @@ protected :
     int _AdapInit;
     int _LevelOutput;
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
-    HOMARD::HOMARD_Hypothesis_var _aHypothesis;
+    HOMARD::HOMARD_Hypothesis_var aHypothesis;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     QStringList _aListeZone;
     QStringList _aListeComposant;
@@ -83,7 +83,7 @@ protected :
     virtual void InitConnect();
     virtual void InitFields();
     virtual void GetAllZones();
-    virtual void SetNewHypothesisName();
+    virtual void SetNewName();
 
     virtual void AssocieFieldInterp();
     virtual void AssocieLesZones();

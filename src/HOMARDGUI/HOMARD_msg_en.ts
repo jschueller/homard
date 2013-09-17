@@ -363,5 +363,9 @@
         <source>HOM_MESH_INFO_2</source>
         <translation>Analysis in the object browser, file </translation>
     </message>
+    <message>
+        <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
+        <translation>Edition of a schema YACS</translation>
+    </message>
 </context>
 </TS>

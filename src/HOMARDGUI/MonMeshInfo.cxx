@@ -47,7 +47,7 @@ MonMeshInfo::MonMeshInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myH
     _Entanglement(0),
     _Quality(0)
 {
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
       setupUi(this);
       setModal(modal);
       InitConnect();
@@ -101,7 +101,7 @@ bool MonMeshInfo::PushOnApply()
                               QObject::tr("HOM_CASE_DIRECTORY_1") );
     return false;
   }
-  if ((aDirName != _aDirName) and (_myHomardGen->VerifieDir( aDirName.toStdString().c_str()) == false))
+  if ((aDirName != _aDirName) and (myHomardGen->VerifieDir( aDirName.toStdString().c_str()) == false))
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_DIRECTORY_2") );
@@ -141,7 +141,7 @@ bool MonMeshInfo::PushOnApply()
     _aCaseName = aCaseName;
     try
     {
-      _myHomardGen->MeshInfo( \
+      myHomardGen->MeshInfo( \
             CORBA::string_dup(_aCaseName.toStdString().c_str()),  \
             CORBA::string_dup(aMeshName.toStdString().c_str()),  \
             CORBA::string_dup(aFileName.toStdString().c_str()),  \
@@ -157,11 +157,11 @@ bool MonMeshInfo::PushOnApply()
   }
 
   // Le bilan de l'analyse a afficher
-  aCase = _myHomardGen->GetCase(_aCaseName.toStdString().c_str());
+  aCase = myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   string iter0 = aCase->GetIter0Name();
-  HOMARD::HOMARD_Iteration_var aIter =  _myHomardGen->GetIteration(iter0.c_str());
+  HOMARD::HOMARD_Iteration_var aIter =  myHomardGen->GetIteration(iter0.c_str());
   aFileName = aIter->GetFileInfo() ;
-  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), aFileName ) ;
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName ) ;
   if ( aDlg->_codret == 0 ) { aDlg->show(); }
 
 HOMARD_UTILS::updateObjBrowser();
@@ -184,7 +184,7 @@ void MonMeshInfo::PushOnHelp()
 void MonMeshInfo::SetNewCaseName()
 // ------------------------------
 {
-  HOMARD::listeCases_var  MyCases = _myHomardGen->GetAllCasesName();
+  HOMARD::listeCases_var  MyCases = myHomardGen->GetAllCasesName();
   int num = 0; QString aCaseName="";
   while (aCaseName=="" )
   {

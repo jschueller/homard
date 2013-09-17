@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateYACS.ui'
 **
-** Created: Wed Sep 11 16:01:30 2013
+** Created: Tue Sep 17 15:43:52 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -31,6 +31,8 @@ class Ui_CreateYACS
 {
 public:
     QGridLayout *gridLayout_2;
+    QLabel *Name;
+    QLineEdit *LEName;
     QGridLayout *gridLayout;
     QLabel *Case;
     QPushButton *PBCaseName;
@@ -38,7 +40,7 @@ public:
     QHBoxLayout *_2;
     QLabel *Script;
     QPushButton *PushFile;
-    QLineEdit *LEFileNameScript;
+    QLineEdit *LEScriptFile;
     QHBoxLayout *hboxLayout;
     QLabel *DirectoryStart;
     QPushButton *PushDir;
@@ -46,7 +48,7 @@ public:
     QHBoxLayout *_3;
     QLabel *MeshFile;
     QPushButton *PushFile_2;
-    QLineEdit *LEFileNameMesh;
+    QLineEdit *LEMeshFile;
     QRadioButton *RBStatic;
     QRadioButton *RBTransient;
     QGroupBox *GroupButtons;
@@ -61,7 +63,7 @@ public:
     {
         if (CreateYACS->objectName().isEmpty())
             CreateYACS->setObjectName(QString::fromUtf8("CreateYACS"));
-        CreateYACS->resize(601, 300);
+        CreateYACS->resize(537, 304);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -70,6 +72,17 @@ public:
         CreateYACS->setAutoFillBackground(true);
         gridLayout_2 = new QGridLayout(CreateYACS);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        Name = new QLabel(CreateYACS);
+        Name->setObjectName(QString::fromUtf8("Name"));
+
+        gridLayout_2->addWidget(Name, 0, 0, 1, 1);
+
+        LEName = new QLineEdit(CreateYACS);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMaxLength(32);
+
+        gridLayout_2->addWidget(LEName, 0, 1, 1, 3);
+
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         Case = new QLabel(CreateYACS);
@@ -91,7 +104,7 @@ public:
         gridLayout->addWidget(LECaseName, 0, 2, 1, 1);
 
 
-        gridLayout_2->addLayout(gridLayout, 0, 0, 1, 3);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 4);
 
         _2 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -110,14 +123,14 @@ public:
 
         _2->addWidget(PushFile);
 
-        LEFileNameScript = new QLineEdit(CreateYACS);
-        LEFileNameScript->setObjectName(QString::fromUtf8("LEFileNameScript"));
-        LEFileNameScript->setMinimumSize(QSize(382, 21));
+        LEScriptFile = new QLineEdit(CreateYACS);
+        LEScriptFile->setObjectName(QString::fromUtf8("LEScriptFile"));
+        LEScriptFile->setMinimumSize(QSize(382, 21));
 
-        _2->addWidget(LEFileNameScript);
+        _2->addWidget(LEScriptFile);
 
 
-        gridLayout_2->addLayout(_2, 1, 0, 1, 3);
+        gridLayout_2->addLayout(_2, 2, 0, 1, 4);
 
         hboxLayout = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -143,7 +156,7 @@ public:
         hboxLayout->addWidget(LEDirName);
 
 
-        gridLayout_2->addLayout(hboxLayout, 2, 0, 1, 3);
+        gridLayout_2->addLayout(hboxLayout, 3, 0, 1, 4);
 
         _3 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -162,25 +175,25 @@ public:
 
         _3->addWidget(PushFile_2);
 
-        LEFileNameMesh = new QLineEdit(CreateYACS);
-        LEFileNameMesh->setObjectName(QString::fromUtf8("LEFileNameMesh"));
-        LEFileNameMesh->setMinimumSize(QSize(382, 21));
+        LEMeshFile = new QLineEdit(CreateYACS);
+        LEMeshFile->setObjectName(QString::fromUtf8("LEMeshFile"));
+        LEMeshFile->setMinimumSize(QSize(382, 21));
 
-        _3->addWidget(LEFileNameMesh);
+        _3->addWidget(LEMeshFile);
 
 
-        gridLayout_2->addLayout(_3, 3, 0, 1, 3);
+        gridLayout_2->addLayout(_3, 4, 0, 1, 4);
 
         RBStatic = new QRadioButton(CreateYACS);
         RBStatic->setObjectName(QString::fromUtf8("RBStatic"));
         RBStatic->setChecked(true);
 
-        gridLayout_2->addWidget(RBStatic, 4, 0, 1, 1);
+        gridLayout_2->addWidget(RBStatic, 5, 0, 1, 2);
 
         RBTransient = new QRadioButton(CreateYACS);
         RBTransient->setObjectName(QString::fromUtf8("RBTransient"));
 
-        gridLayout_2->addWidget(RBTransient, 4, 1, 1, 1);
+        gridLayout_2->addWidget(RBTransient, 5, 2, 1, 1);
 
         GroupButtons = new QGroupBox(CreateYACS);
         GroupButtons->setObjectName(QString::fromUtf8("GroupButtons"));
@@ -217,11 +230,11 @@ public:
         gridLayout1->addWidget(buttonCancel, 0, 2, 1, 1);
 
 
-        gridLayout_2->addWidget(GroupButtons, 5, 0, 1, 2);
+        gridLayout_2->addWidget(GroupButtons, 6, 0, 1, 3);
 
         spacer_2 = new QSpacerItem(128, 25, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(spacer_2, 5, 2, 1, 1);
+        gridLayout_2->addItem(spacer_2, 6, 3, 1, 1);
 
 
         retranslateUi(CreateYACS);
@@ -232,6 +245,7 @@ public:
     void retranslateUi(QDialog *CreateYACS)
     {
         CreateYACS->setWindowTitle(QApplication::translate("CreateYACS", "Create YACS", 0, QApplication::UnicodeUTF8));
+        Name->setText(QApplication::translate("CreateYACS", "Name", 0, QApplication::UnicodeUTF8));
         Case->setText(QApplication::translate("CreateYACS", "Case", 0, QApplication::UnicodeUTF8));
         PBCaseName->setText(QString());
         Script->setText(QApplication::translate("CreateYACS", "Script", 0, QApplication::UnicodeUTF8));

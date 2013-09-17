@@ -24,7 +24,7 @@
 #
 include $(top_srcdir)/adm_local/unix/make_common_starter.am
 
-BASEIDL_FILES = HOMARD_Gen.idl HOMARD_Cas.idl HOMARD_Hypothesis.idl HOMARD_Iteration.idl HOMARD_Zone.idl HOMARD_Boundary.idl
+BASEIDL_FILES = HOMARD_Gen.idl HOMARD_Cas.idl HOMARD_Hypothesis.idl HOMARD_Iteration.idl HOMARD_Zone.idl HOMARD_Boundary.idl HOMARD_YACS.idl
 
 BASEIDL_FILES_PY=$(BASEIDL_FILES:%.idl=%_idl.py)
 
@@ -41,7 +41,8 @@ nodist_libSalomeIDLHOMARD_la_SOURCES = \
         HOMARD_HypothesisSK.cc \
         HOMARD_IterationSK.cc \
         HOMARD_BoundarySK.cc \
-        HOMARD_GenSK.cc
+        HOMARD_GenSK.cc \
+        HOMARD_YACSSK.cc
 
 BUILT_SOURCES = $(nodist_libSalomeIDLHOMARD_la_SOURCES)
 

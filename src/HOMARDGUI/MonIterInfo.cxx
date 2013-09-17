@@ -52,7 +52,7 @@ MonIterInfo::MonIterInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myH
     _Option(-1)
 {
     MESSAGE("appel de _duplicate");
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
       setupUi(this);
       setModal(modal);
       InitConnect();
@@ -97,7 +97,7 @@ bool MonIterInfo::PushOnApply()
   }
 
   // Recuperation de l'iteration
-  aIter = _myHomardGen->GetIteration(_IterName.toStdString().c_str()) ;
+  aIter = myHomardGen->GetIteration(_IterName.toStdString().c_str()) ;
 
   // Lancement de l'analyse
   try
@@ -113,7 +113,7 @@ bool MonIterInfo::PushOnApply()
 
   // Le bilan de l'analyse a afficher
   QString aFileName = aIter->GetFileInfo() ;
-  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), aFileName ) ;
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName ) ;
   if ( aDlg->_codret == 0 ) { aDlg->show(); }
 
 

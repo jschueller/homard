@@ -48,7 +48,7 @@ protected :
 
     MonCreateHypothesis * _parent;
 
-    QString _aZoneName;
+    QString _Name;
     QString _aCaseName;
 
     int _Orient;
@@ -65,12 +65,12 @@ protected :
     bool Chgt;
 
     HOMARD::HOMARD_Zone_var aZone ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
     virtual void InitValZone();
     virtual void InitMinMax();
-    virtual void SetNewZoneName();
+    virtual void SetNewName();
     virtual bool CreateOrUpdateZone();
 
 public slots:

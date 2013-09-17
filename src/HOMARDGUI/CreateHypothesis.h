@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateHypothesis.ui'
 **
-** Created: Thu Feb 28 13:29:51 2013
+** Created: Tue Sep 17 14:10:20 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,7 +37,7 @@ class Ui_CreateHypothesis
 {
 public:
     QGridLayout *gridLayout_3;
-    QLineEdit *LEHypothesisName;
+    QLineEdit *LEName;
     QGroupBox *GBTypeAdaptation;
     QHBoxLayout *hboxLayout;
     QRadioButton *RBUniforme;
@@ -141,12 +141,12 @@ public:
         CreateHypothesis->setSizeGripEnabled(true);
         gridLayout_3 = new QGridLayout(CreateHypothesis);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        LEHypothesisName = new QLineEdit(CreateHypothesis);
-        LEHypothesisName->setObjectName(QString::fromUtf8("LEHypothesisName"));
-        LEHypothesisName->setMinimumSize(QSize(382, 31));
-        LEHypothesisName->setMaxLength(32);
+        LEName = new QLineEdit(CreateHypothesis);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMinimumSize(QSize(382, 31));
+        LEName->setMaxLength(32);
 
-        gridLayout_3->addWidget(LEHypothesisName, 0, 1, 1, 1);
+        gridLayout_3->addWidget(LEName, 0, 1, 1, 1);
 
         GBTypeAdaptation = new QGroupBox(CreateHypothesis);
         GBTypeAdaptation->setObjectName(QString::fromUtf8("GBTypeAdaptation"));
@@ -738,7 +738,7 @@ public:
 
         gridLayout_3->addWidget(Name, 0, 0, 1, 1);
 
-        LEHypothesisName->raise();
+        LEName->raise();
         GBTypeAdaptation->raise();
         GBUniform->raise();
         GBFieldFile->raise();

@@ -67,12 +67,12 @@ protected :
     bool Chgt;
 
     HOMARD::HOMARD_Boundary_var aBoundaryAn ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
     virtual void InitValBoundaryAn();
     virtual void InitMinMax();
-    virtual void SetNewBoundaryAnName();
+    virtual void SetNewName();
     virtual void convertRayonAngle(int option);
     virtual bool CreateOrUpdateBoundaryAn();
 

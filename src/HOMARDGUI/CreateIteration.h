@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateIteration.ui'
 **
-** Created: Wed Nov 14 11:09:41 2012
+** Created: Tue Sep 17 14:09:30 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -49,7 +49,7 @@ public:
     QPushButton *PushFieldFile;
     QLabel *FieldFile;
     QLabel *Iteration_Name;
-    QLineEdit *LEIterationName;
+    QLineEdit *LEName;
     QLabel *Iter_Parent;
     QSpacerItem *spacerItem4;
     QPushButton *PBIterParent;
@@ -182,12 +182,12 @@ public:
 
         gridLayout->addWidget(Iteration_Name, 0, 0, 1, 2);
 
-        LEIterationName = new QLineEdit(CreateIteration);
-        LEIterationName->setObjectName(QString::fromUtf8("LEIterationName"));
-        LEIterationName->setMinimumSize(QSize(290, 21));
-        LEIterationName->setMaxLength(200);
+        LEName = new QLineEdit(CreateIteration);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMinimumSize(QSize(290, 21));
+        LEName->setMaxLength(200);
 
-        gridLayout->addWidget(LEIterationName, 0, 2, 1, 2);
+        gridLayout->addWidget(LEName, 0, 2, 1, 2);
 
         Iter_Parent = new QLabel(CreateIteration);
         Iter_Parent->setObjectName(QString::fromUtf8("Iter_Parent"));

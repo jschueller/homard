@@ -32,6 +32,7 @@ salomeinclude_HEADERS =         \
 	HOMARD_Zone_i.hxx       \
 	HOMARD_Gen_i.hxx        \
 	HOMARD_Boundary_i.hxx   \
+	HOMARD_YACS_i.hxx  \
   HomardMedCommun.h
 
 # Libraries targets
@@ -45,6 +46,7 @@ dist_libHOMARDEngine_la_SOURCES = \
 	HOMARD_Gen_i.cxx          \
 	HOMARD_Zone_i.cxx         \
 	HOMARD_Boundary_i.cxx     \
+	HOMARD_YACS_i.cxx    \
   HomardMedCommun.cxx
 
 

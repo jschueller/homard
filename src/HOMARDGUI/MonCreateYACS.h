@@ -39,23 +39,30 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     virtual ~MonCreateYACS();
 
   protected :
+    QString _Name;
     QString _aCaseName;
-    QString _aFileNameScript;
+    QString _aScriptFile;
     QString _aDirName;
-    QString _aFileNameMesh;
+    QString _aMeshFile;
 
+    int _Type;
 
+    HOMARD::HOMARD_YACS_var aYACS;
     HOMARD::HOMARD_Cas_var aCase ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
 
   public slots:
+    virtual void SetNewName();
+
     virtual void SetCaseName();
     virtual void SetDirName();
 
-    virtual void SetFileNameScript();
-    virtual void SetFileNameMesh();
+    virtual void SetScriptFile();
+    virtual void SetMeshFile();
+
+    virtual void SetType(int Type);
 
     virtual void PushOnOK();
     virtual bool PushOnApply();

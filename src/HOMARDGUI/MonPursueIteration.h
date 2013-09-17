@@ -46,7 +46,7 @@ class MonPursueIteration : public QDialog, public Ui_PursueIteration
     int _Type ;
 
     HOMARD::HOMARD_Cas_var aCase ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
     virtual void SetNewCaseName();

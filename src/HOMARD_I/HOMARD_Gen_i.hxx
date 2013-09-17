@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+// // Copyright (C) 2011-2013  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,7 @@
 #include CORBA_SERVER_HEADER(HOMARD_Iteration)
 #include CORBA_SERVER_HEADER(HOMARD_Zone)
 #include CORBA_SERVER_HEADER(HOMARD_Boundary)
+#include CORBA_SERVER_HEADER(HOMARD_YACS)
 #include CORBA_CLIENT_HEADER(SALOMEDS)
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 
@@ -118,12 +119,14 @@ public:
   HOMARD::HOMARD_Cas_ptr          GetCase       (const char* nomCas);
   HOMARD::HOMARD_Hypothesis_ptr   GetHypothesis (const char* nomHypothesis);
   HOMARD::HOMARD_Iteration_ptr    GetIteration  (const char* nomIteration);
+  HOMARD::HOMARD_YACS_ptr         GetYACS       (const char* nomYACS);
   HOMARD::HOMARD_Zone_ptr         GetZone       (const char* nomZone);
 
   HOMARD::listeBoundarys*         GetAllBoundarysName();
   HOMARD::listeCases*             GetAllCasesName();
   HOMARD::listeHypotheses*        GetAllHypothesesName();
   HOMARD::listeIterations*        GetAllIterationsName();
+  HOMARD::listeYACSs*             GetAllYACSsName();
   HOMARD::listeZones*             GetAllZonesName();
 
   void                            MeshInfo      (const char* nomCas,
@@ -150,6 +153,7 @@ public:
   CORBA::Long                     DeleteHypo(const char* nomHypothesis);
   CORBA::Long                     DeleteIteration(const char* nomIter, CORBA::Long Option);
   CORBA::Long                     DeleteIterationOption(const char* nomIter, CORBA::Long Option1, CORBA::Long Option2);
+  CORBA::Long                     DeleteYACS(const char* nomYACS, CORBA::Long Option);
   CORBA::Long                     DeleteZone(const char* nomZone);
 
   void                            AssociateIterHypo(const char* nomIter, const char* nomHypothesis);
@@ -182,7 +186,8 @@ public:
   void                            DeleteResultInSmesh(std::string NomFich, std::string MeshName);
 
 // YACS
-  CORBA::Long                     WriteYACSSchema (const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
+  HOMARD::HOMARD_YACS_ptr         CreateYACSSchema (const char* YACSName, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
+  CORBA::Long                     YACSWriteOnFile(const char* nomYACS, const char* YACSFile);
   std::string                     YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
   std::string                     YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver);
 
@@ -249,27 +254,28 @@ public:
 
 private:
   void                            addInStudy(SALOMEDS::Study_ptr theStudy);
-  SALOMEDS::SObject_ptr           PublishCaseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
-                                                     HOMARD::HOMARD_Cas_ptr theObject, const char* theName);
-
-  SALOMEDS::SObject_ptr           PublishHypotheseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
-                                                     HOMARD::HOMARD_Hypothesis_ptr theObject, const char* theName);
-
-  SALOMEDS::SObject_ptr           PublishZoneInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
-                                                     HOMARD::HOMARD_Zone_ptr theObject, const char* theName);
   SALOMEDS::SObject_ptr           PublishBoundaryInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_Boundary_ptr theObject, const char* theName);
+  SALOMEDS::SObject_ptr           PublishCaseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Cas_ptr theObject, const char* theName);
+  SALOMEDS::SObject_ptr           PublishHypotheseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Hypothesis_ptr theObject, const char* theName);
+  SALOMEDS::SObject_ptr           PublishYACSInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_YACS_ptr theObject, const char* theName);
+  SALOMEDS::SObject_ptr           PublishZoneInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+                                                     HOMARD::HOMARD_Zone_ptr theObject, const char* theName);
   virtual void                    PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      SALOMEDS::SObject_var aResultSO,
                                                      const char* theName, const char* value, const char* icone, const char* ior);
 
-PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
+  PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
 
+  HOMARD::HOMARD_Boundary_ptr     newBoundary();
   HOMARD::HOMARD_Cas_ptr          newCase();
   HOMARD::HOMARD_Hypothesis_ptr   newHypothesis();
   HOMARD::HOMARD_Iteration_ptr    newIteration();
+  HOMARD::HOMARD_YACS_ptr         newYACS();
   HOMARD::HOMARD_Zone_ptr         newZone();
-  HOMARD::HOMARD_Boundary_ptr     newBoundary();
 
 
   virtual Engines::TMPFile*       DumpPython(CORBA::Object_ptr theStudy,
@@ -283,11 +289,12 @@ PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
 private:
   struct StudyContext
   {
+    std::map<std::string, HOMARD::HOMARD_Boundary_var>   _mesBoundarys;
     std::map<std::string, HOMARD::HOMARD_Cas_var>        _mesCas;
     std::map<std::string, HOMARD::HOMARD_Hypothesis_var> _mesHypotheses;
     std::map<std::string, HOMARD::HOMARD_Iteration_var>  _mesIterations;
+    std::map<std::string, HOMARD::HOMARD_YACS_var>       _mesYACSs;
     std::map<std::string, HOMARD::HOMARD_Zone_var>       _mesZones;
-    std::map<std::string, HOMARD::HOMARD_Boundary_var>   _mesBoundarys;
     std::map<int, PortableServer::ServantBase*>          _idmap;
   };
   typedef std::map<int, StudyContext> ContextMap;

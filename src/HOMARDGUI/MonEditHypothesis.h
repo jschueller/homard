@@ -34,7 +34,7 @@ class MonEditHypothesis : public MonCreateHypothesis
 public:
     MonEditHypothesis( MonCreateIteration* parent, bool modal,
                        HOMARD::HOMARD_Gen_var myHomardGen,
-                       QString caseName, QString HypothesisName, QString aFieldFile );
+                       QString caseName, QString Name, QString aFieldFile );
     virtual ~MonEditHypothesis();
 
 protected :

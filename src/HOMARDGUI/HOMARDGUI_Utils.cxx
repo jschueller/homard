@@ -224,11 +224,11 @@ bool HOMARD_UTILS::isBoundaryDi(_PTR(SObject) MonObj)
    return isObject( MonObj, QString("BoundaryDiHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est une zone
+// Retourne vrai si l objet est un cas
 //================================================================
-bool HOMARD_UTILS::isZone(_PTR(SObject) MonObj)
+bool HOMARD_UTILS::isCase(_PTR(SObject) MonObj)
 {
-   return isObject( MonObj, QString("ZoneHomard"), -1 ) ;
+   return isObject( MonObj, QString("CasHomard"), -1 ) ;
 }
 //================================================================
 // Retourne vrai si l objet est une Hypothese
@@ -245,11 +245,18 @@ bool HOMARD_UTILS::isIter(_PTR(SObject) MonObj)
    return isObject( MonObj, QString("IterationHomard"), 0 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est un cas
+// Retourne vrai si l objet est un schema YACS
 //================================================================
-bool HOMARD_UTILS::isCase(_PTR(SObject) MonObj)
+bool HOMARD_UTILS::isYACS(_PTR(SObject) MonObj)
 {
-   return isObject( MonObj, QString("CasHomard"), -1 ) ;
+   return isObject( MonObj, QString("YACSHomard"), -1 ) ;
+}
+//================================================================
+// Retourne vrai si l objet est une zone
+//================================================================
+bool HOMARD_UTILS::isZone(_PTR(SObject) MonObj)
+{
+   return isObject( MonObj, QString("ZoneHomard"), -1 ) ;
 }
 //================================================================
 // Retourne vrai si l objet est un fichier de messages

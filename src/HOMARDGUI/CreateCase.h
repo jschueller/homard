@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateCase.ui'
 **
-** Created: Wed Apr 3 11:25:34 2013
+** Created: Tue Sep 17 14:09:06 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,7 +37,7 @@ public:
     QGridLayout *gridLayout_2;
     QHBoxLayout *hboxLayout;
     QLabel *Name;
-    QLineEdit *LECaseName;
+    QLineEdit *LEName;
     QHBoxLayout *hboxLayout1;
     QLabel *Directory;
     QPushButton *PushDir;
@@ -120,11 +120,11 @@ public:
 
         hboxLayout->addWidget(Name);
 
-        LECaseName = new QLineEdit(CreateCase);
-        LECaseName->setObjectName(QString::fromUtf8("LECaseName"));
-        LECaseName->setMinimumSize(QSize(382, 21));
+        LEName = new QLineEdit(CreateCase);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMinimumSize(QSize(382, 21));
 
-        hboxLayout->addWidget(LECaseName);
+        hboxLayout->addWidget(LEName);
 
 
         gridLayout_2->addLayout(hboxLayout, 0, 0, 1, 3);

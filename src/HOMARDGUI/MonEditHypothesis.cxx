@@ -29,18 +29,18 @@ using namespace std;
 // ----------------------------------------------------------------------------
 MonEditHypothesis::MonEditHypothesis( MonCreateIteration* parent, bool modal,
                                       HOMARD::HOMARD_Gen_var myHomardGen,
-                                      QString aHypothesisName,
+                                      QString Name,
                                       QString caseName,  QString aFieldFile ):
 // ----------------------------------------------------------------------------
 /* Constructs a MonEditHypothesis
     herite de MonCreateHypothesis
 */
-    MonCreateHypothesis(parent, modal,myHomardGen, aHypothesisName, caseName, aFieldFile)
+    MonCreateHypothesis(parent, modal,myHomardGen, Name, caseName, aFieldFile)
 {
-    MESSAGE("Hypothese " << aHypothesisName.toStdString().c_str());
+    MESSAGE("Hypothese " << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_HYPO_EDIT_WINDOW_TITLE"));
-    _aHypothesis    = _myHomardGen->GetHypothesis(_aHypothesisName.toStdString().c_str());
-    if (caseName == QString("") ){ _aCaseName = _aHypothesis->GetCaseCreation();}
+    aHypothesis    = myHomardGen->GetHypothesis(_Name.toStdString().c_str());
+    if (caseName == QString("") ){ _aCaseName = aHypothesis->GetCaseCreation();}
     InitValEdit();
     InitGroupes();
 }
@@ -53,7 +53,7 @@ MonEditHypothesis::~MonEditHypothesis()
 void MonEditHypothesis::InitGroupes()
 // ------------------------------
 {
-    HOMARD::ListGroupType_var maListe = _aHypothesis->GetGroups();
+    HOMARD::ListGroupType_var maListe = aHypothesis->GetGroups();
     for ( int i = 0; i < maListe->length(); i++ )
        _aListeGroupes << QString(maListe[i]);
 
@@ -65,9 +65,9 @@ void MonEditHypothesis::InitValEdit()
 // ------------------------------
 {
   MESSAGE("Debut de InitValEdit");
-  LEHypothesisName->setText(_aHypothesisName);
-  LEHypothesisName->setReadOnly(true);
-  HOMARD::listeTypes_var ListTypes (_aHypothesis->GetAdapRefinUnRef());
+  LEName->setText(_Name);
+  LEName->setReadOnly(true);
+  HOMARD::listeTypes_var ListTypes (aHypothesis->GetAdapRefinUnRef());
   ASSERT( ListTypes->length()==3) ;
   _aTypeAdap = ListTypes[0];
   _aTypeRaff = ListTypes[1];
@@ -98,10 +98,10 @@ void MonEditHypothesis::InitValEdit()
   }
 // Les options avancees (non modifiables)
   CBAdvanced->setVisible(0) ;
-  int NivMax = _aHypothesis->GetNivMax();
-  double DiamMin = _aHypothesis->GetDiamMin();
-  int AdapInit = _aHypothesis->GetAdapInit();
-  int LevelOutput = _aHypothesis->GetLevelOutput();
+  int NivMax = aHypothesis->GetNivMax();
+  double DiamMin = aHypothesis->GetDiamMin();
+  int AdapInit = aHypothesis->GetAdapInit();
+  int LevelOutput = aHypothesis->GetLevelOutput();
   if ( NivMax > 0 or DiamMin > 0 or AdapInit != 0 or LevelOutput != 0 )
   { GBAdvancedOptions->setVisible(1);
     if ( NivMax > 0 )
@@ -191,7 +191,7 @@ void MonEditHypothesis::InitAdaptZone()
 
 //  Recuperation de toutes les zones decrites et notation de celles retenues
     GetAllZones();
-    HOMARD::listeZonesHypo_var mesZonesAvant = _aHypothesis->GetZones();
+    HOMARD::listeZonesHypo_var mesZonesAvant = aHypothesis->GetZones();
     for (int i=0; i<mesZonesAvant->length(); i++)
     {
       MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
@@ -246,7 +246,7 @@ void MonEditHypothesis::InitAdaptChamps()
     RBChamp->setEnabled(false);
     RBZone->setEnabled(false);
 
-    HOMARD::InfosHypo_var  aInfosHypo = _aHypothesis->GetField();
+    HOMARD::InfosHypo_var  aInfosHypo = aHypothesis->GetField();
     _aFieldName =  aInfosHypo->FieldName;
     _TypeThR = aInfosHypo->TypeThR;
     _ThreshR = aInfosHypo->ThreshR;
@@ -260,7 +260,7 @@ void MonEditHypothesis::InitAdaptChamps()
     CBFieldName->setEnabled(false);
     //SetFieldName(Qt::Unchecked);
 
-    HOMARD::listeComposantsHypo_var mesComposantsAvant = _aHypothesis->GetListComp();
+    HOMARD::listeComposantsHypo_var mesComposantsAvant = aHypothesis->GetListComp();
     TWCMP->clear();
     TWCMP->setRowCount(0);
     TWCMP->resizeRowsToContents();
@@ -350,7 +350,7 @@ void MonEditHypothesis::InitFieldInterp()
 {
     MESSAGE ("Debut de InitFieldInterp");
 //  Choix des options generales
-    _TypeFieldInterp = _aHypothesis->GetTypeFieldInterp();
+    _TypeFieldInterp = aHypothesis->GetTypeFieldInterp();
     MESSAGE ("_TypeFieldInterp = " << _TypeFieldInterp);
 //
 //  Aucune interpolation
@@ -371,7 +371,7 @@ void MonEditHypothesis::InitFieldInterp()
       RBFieldChosen->setChecked(true);
 //
       TWField->setVisible(1);
-      HOMARD::listFieldInterpHypo_var mesChampsAvant = _aHypothesis->GetListFieldInterp();
+      HOMARD::listFieldInterpHypo_var mesChampsAvant = aHypothesis->GetListFieldInterp();
       TWField->clear();
       TWField->setRowCount(0);
       TWField->resizeRowsToContents();
@@ -407,7 +407,7 @@ bool MonEditHypothesis::PushOnApply()
       if (_TypeThR == 2) { _ThreshR = SpinBox_RRel->value(); }
       if (_TypeThR == 3) { _ThreshR = SpinBox_RPE->value();  }
       if (_TypeThR == 4) { _ThreshR = SpinBox_RMuSigma->value();  }
-      _aHypothesis->SetRefinThr(_TypeThR, _ThreshR) ;
+      aHypothesis->SetRefinThr(_TypeThR, _ThreshR) ;
     }
     if (_aTypeDera!= 0 )
     {
@@ -415,10 +415,10 @@ bool MonEditHypothesis::PushOnApply()
       if (_TypeThC == 2) { _ThreshC = SpinBox_CRel->value() ; }
       if (_TypeThC == 3) { _ThreshC = SpinBox_CPE->value() ; }
       if (_TypeThC == 4) { _ThreshC = SpinBox_CMuSigma->value() ; }
-      _aHypothesis->SetUnRefThr(_TypeThC, _ThreshC) ;
+      aHypothesis->SetUnRefThr(_TypeThC, _ThreshC) ;
     }
 
-    _myHomardGen->InvalideHypo(_aHypothesisName.toStdString().c_str());
+    myHomardGen->InvalideHypo(_Name.toStdString().c_str());
     HOMARD_UTILS::updateObjBrowser();
   }
   return true;
@@ -429,7 +429,7 @@ void MonEditHypothesis::SetFiltrage()
 {
   if (CBGroupe->isChecked())
   {
-    MonEditListGroup *aDlg = new MonEditListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),_aCaseName, _aListeGroupes) ;
+    MonEditListGroup *aDlg = new MonEditListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
     aDlg->show();
   }
 }

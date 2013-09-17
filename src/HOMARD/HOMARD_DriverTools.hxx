@@ -31,15 +31,16 @@ class HOMARD_Cas;
 class HOMARD_Iteration;
 class HOMARD_Hypothesis;
 class HOMARD_Zone;
+class HOMARD_YACS;
 
 namespace HOMARD
 {
   //! persistence entity type
-  typedef enum { Case, Zone, Hypothesis, Iteration, Boundary } SignatureType;
+  typedef enum { Case, Zone, Hypothesis, Iteration, Boundary, YACS } SignatureType;
 
   //! get persistence signature
   std::string GetSignature( SignatureType type );
-  
+
   //! get data separator
   std::string separator();
 
@@ -53,6 +54,8 @@ namespace HOMARD
   std::string Dump( const ::HOMARD_Hypothesis& hypothesis );
   //! dump zone to the string
   std::string Dump( const ::HOMARD_Zone& zone );
+  //! dump yacs to the string
+  std::string Dump( const ::HOMARD_YACS& yacs );
 
   //! restore boundary from the string
   bool Restore( ::HOMARD_Boundary& boundary, const std::string& stream );
@@ -64,6 +67,8 @@ namespace HOMARD
   bool Restore( ::HOMARD_Iteration& iteration, const std::string& stream );
   //! restore zone from the string
   bool Restore( ::HOMARD_Zone& zone, const std::string& stream );
+  //! restore yacs from the string
+  bool Restore( ::HOMARD_YACS& yacs, const std::string& stream );
 };
 
 #endif // HOMARD_DRIVERTOOLS_H

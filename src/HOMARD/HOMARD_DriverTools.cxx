@@ -27,6 +27,7 @@
 #include "HOMARD_Hypothesis.hxx"
 #include "HOMARD_Iteration.hxx"
 #include "HOMARD_Zone.hxx"
+#include "HOMARD_YACS.hxx"
 #include <sstream>
 #include <cstdlib>
 #include "utilities.h"
@@ -78,6 +79,7 @@ namespace HOMARD
     case Hypothesis: signature = "HYPO"; break;
     case Iteration:  signature = "ITER"; break;
     case Boundary:   signature = "BOUNDARY"; break;
+    case YACS:       signature = "YACS"; break;
     default: break;
     }
     signature += separator();
@@ -94,7 +96,7 @@ namespace HOMARD
   }
 
 // =======================
-// Case
+// 1.1. Case
 // =======================
   /*!
     \brief Dump case to the string
@@ -138,8 +140,9 @@ namespace HOMARD
     return saux ;
   }
 //
-// Iteration
-// ==========
+// ==============
+// 1.2. Iteration
+// ==============
 //
   /*!
     \brief Dump iteration to the string
@@ -178,8 +181,9 @@ namespace HOMARD
     return saux ;
   }
 //
-// hypothese
-// ==============================
+// ==============
+// 1.3. hypothese
+// ==============
   /*!
     \brief Dump hypothesis to the string
     \param hypothesis hypothesis being dumped
@@ -241,8 +245,9 @@ namespace HOMARD
     return saux ;
   }
 //
-// Zone
-// =========================
+// =========
+// 1.4. Zone
+// =========
 
   /*!
     \brief Dump zone to the string
@@ -276,6 +281,7 @@ namespace HOMARD
     return saux ;
   }
 //
+// ==============================
 // 1.5. Archivage d'une frontiere
 // ==============================
 
@@ -322,9 +328,31 @@ namespace HOMARD
   }
 
 //
-// Restauration des objets
+// =========
+// 1.6. YACS
+// =========
+
+  /*!
+    \brief Dump YACS to the string
+    \param yacs yacs being dumped
+    \return string representation of the zone
+  */
+  std::string Dump( const HOMARD_YACS& yacs )
+  {
+    std::stringstream os;
+    std::string saux ;
+    MESSAGE( ". Sauvegarde du schema YACS "<<yacs.GetName());
+    os << yacs.GetName();
+    os << separator() << yacs.GetType();
+
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
+  }
+//
+// 2. Restauration des objets
 // ==========================
-// Case
+// 2.1. Case
 // ==========================
 //
   /*!
@@ -404,8 +432,9 @@ namespace HOMARD
     return true;
   }
 //
-//  Iteration
-// =================================
+// ==============
+// 2.2. Iteration
+// ==============
   /*!
     \brief Restore iteration from the string
     \param iteration iteration being restored
@@ -474,8 +503,9 @@ namespace HOMARD
   }
 
 //
-// hypothese
-// =================================
+// ==============
+// 2.3. hypothese
+// ==============
   /*!
     \brief Restore hypothesis from the string
     \param hypothesis hypothesis being restored
@@ -609,8 +639,9 @@ namespace HOMARD
   }
 
 //
-// Zone
-// ============================
+// =========
+// 2.4. Zone
+// =========
   /*!
     \brief Restore zone from the string
     \param zone zone being restored
@@ -673,6 +704,7 @@ namespace HOMARD
   }
 
 //
+// =================================
 // 2.5. Restauration d'une frontiere
 // =================================
 
@@ -680,7 +712,7 @@ namespace HOMARD
     \brief Restore boundary from the string
     \param boundary boundary being restored
     \param stream string representation of the boundary
-    \return \c true if zone is correctly restored or \c false otherwise
+    \return \c true if the boundary is correctly restored or \c false otherwise
   */
   bool Restore( HOMARD_Boundary& boundary, const std::string& stream )
   {
@@ -751,6 +783,35 @@ namespace HOMARD
       if ( !ok ) return false;
       boundary.AddGroup( chunk.c_str() );
     }
+
+    return true;
+  }
+
+//
+// ==================================
+// 2.6. Restauration d'un schema YACS
+// ==================================
+
+  /*!
+    \brief Restore a schema YACS from the string
+    \param yacs yacs being restored
+    \param stream string representation of the schema yacs
+    \return \c true if yacs is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_YACS& yacs, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    yacs.SetName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int YACSType = atoi( chunk.c_str() ) ;
+    yacs.SetType( YACSType );
 
     return true;
   }

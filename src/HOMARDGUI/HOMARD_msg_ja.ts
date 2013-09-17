@@ -1003,5 +1003,9 @@
         <source>Invalid study context</source>
         <translation>Invalid study context</translation>
     </message>
+    <message>
+        <source>HOM_CASE_EDIT_WINDOW_TITLE</source>
+        <translation>Edition of a schema YACS</translation>
+    </message>
 </context>
 </TS>

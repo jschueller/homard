@@ -34,7 +34,7 @@ class MonEditZone : public MonCreateZone
 public:
     MonEditZone( MonCreateHypothesis* parent, bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
-                 QString caseName, QString zoneName);
+                 QString caseName, QString Name);
     virtual ~MonEditZone();
 
 protected :

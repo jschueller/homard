@@ -34,17 +34,17 @@ using namespace std;
 // ------------------------------------------------------------------------
 MonEditZone::MonEditZone( MonCreateHypothesis* parent, bool modal,
                           HOMARD::HOMARD_Gen_var myHomardGen,
-                          QString caseName, QString zoneName ):
+                          QString caseName, QString Name ):
 // ------------------------------------------------------------------------
 /* Constructs a MonEditZone
     herite de MonCreateZone
 */
     MonCreateZone(parent, myHomardGen, caseName)
 {
-    MESSAGE("Debut de MonEditZone pour " << zoneName.toStdString().c_str());
+    MESSAGE("Debut de MonEditZone pour " << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_ZONE_EDIT_WINDOW_TITLE"));
-    _aZoneName=zoneName;
-    aZone = _myHomardGen->GetZone(_aZoneName.toStdString().c_str());
+    _Name=Name;
+    aZone = myHomardGen->GetZone(_Name.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------------------------------------------------
@@ -58,8 +58,8 @@ void MonEditZone::InitValEdit()
 // ------------------------------------------------------------------------
 {
   MESSAGE("InitValEdit ");
-  LEZoneName->setText(_aZoneName);
-  LEZoneName->setReadOnly(true);
+  LEName->setText(_Name);
+  LEName->setReadOnly(true);
   _Type = aZone->GetType();
   MESSAGE("InitValEdit _Type ="<<_Type);
   InitValZoneLimit();
@@ -425,7 +425,7 @@ bool MonEditZone::CreateOrUpdateZone()
         break;
       }
     }
-    if (Chgt) _myHomardGen->InvalideZone(_aZoneName.toStdString().c_str());
+    if (Chgt) myHomardGen->InvalideZone(_Name.toStdString().c_str());
     HOMARD_UTILS::updateObjBrowser();
   }
   catch( const SALOME::SALOME_Exception& S_ex ) {

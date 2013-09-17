@@ -34,7 +34,7 @@ class MonEditBoundaryDi : public MonCreateBoundaryDi
 public:
     MonEditBoundaryDi( MonCreateCase* parent, bool modal,
                        HOMARD::HOMARD_Gen_var myHomardGen,
-                       QString caseName, QString BoundaryName );
+                       QString caseName, QString Name );
     virtual ~MonEditBoundaryDi();
 
 protected :

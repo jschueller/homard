@@ -53,6 +53,7 @@ salomeinclude_HEADERS =       \
 	IterInfo.h            \
 	MonCreateYACS.h       \
 	CreateYACS.h          \
+	MonEditYACS.h         \
 	HOMARDGUI.h           \
 	HOMARDGUI_Utils.h     \
 	EditFile.h            \
@@ -84,6 +85,7 @@ dist_libHOMARD_la_SOURCES =     \
 	MonMeshInfo.cxx         \
 	MonIterInfo.cxx         \
 	MonCreateYACS.cxx       \
+	MonEditYACS.cxx         \
 	MonEditFile.cxx         \
 	HomardQtCommun.cxx
 
@@ -108,6 +110,7 @@ MOC_FILES =                         \
 	MonMeshInfo_moc.cxx         \
 	MonIterInfo_moc.cxx         \
 	MonCreateYACS_moc.cxx       \
+	MonEditYACS_moc.cxx         \
 	MonEditFile_moc.cxx
 
 nodist_libHOMARD_la_SOURCES = $(MOC_FILES)

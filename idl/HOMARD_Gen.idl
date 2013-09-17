@@ -29,6 +29,7 @@
 #include "HOMARD_Iteration.idl"
 #include "HOMARD_Zone.idl"
 #include "HOMARD_Boundary.idl"
+#include "HOMARD_YACS.idl"
 
 module HOMARD
 {
@@ -37,6 +38,7 @@ module HOMARD
   typedef sequence<string> listeIterations;
   typedef sequence<string> listeCases;
   typedef sequence<string> listeBoundarys;
+  typedef sequence<string> listeYACSs;
 
   interface HOMARD_Gen : Engines::EngineComponent, SALOMEDS::Driver
   {
@@ -118,12 +120,14 @@ module HOMARD
     HOMARD_Cas        GetCase(in string CaseName)          raises (SALOME::SALOME_Exception);
     HOMARD_Hypothesis GetHypothesis(in string HypoName)    raises (SALOME::SALOME_Exception);
     HOMARD_Iteration  GetIteration(in string IterName)     raises (SALOME::SALOME_Exception);
+    HOMARD_YACS       GetYACS(in string YACSName)          raises (SALOME::SALOME_Exception);
     HOMARD_Zone       GetZone(in string ZoneName)          raises (SALOME::SALOME_Exception);
 
     listeBoundarys  GetAllBoundarysName()                  raises (SALOME::SALOME_Exception);
     listeCases      GetAllCasesName()                      raises (SALOME::SALOME_Exception);
     listeHypotheses GetAllHypothesesName()                 raises (SALOME::SALOME_Exception);
     listeIterations GetAllIterationsName()                 raises (SALOME::SALOME_Exception);
+    listeYACSs      GetAllYACSsName()                      raises (SALOME::SALOME_Exception);
     listeZones      GetAllZonesName()                      raises (SALOME::SALOME_Exception);
 
     void            MeshInfo(in string CaseName, in string MeshName, in string FileName,  in string DirName, in long Qual, in long Diam, in long Conn, in long Tail, in long Inte )
@@ -158,6 +162,7 @@ module HOMARD
                                                            raises (SALOME::SALOME_Exception);
     long DeleteIterationOption(in string IterName, in long Option1, in long Option2)
                                                            raises (SALOME::SALOME_Exception);
+    long DeleteYACS(in string YacsName, in long Option)    raises (SALOME::SALOME_Exception);
     long DeleteZone (in string ZoneName)                   raises (SALOME::SALOME_Exception);
 //
     void AssociateIterHypo(in string IterName, in string HypoName)
@@ -186,7 +191,9 @@ module HOMARD
                                                            raises (SALOME::SALOME_Exception);
 
 //
-    long   WriteYACSSchema(in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
+    HOMARD_YACS CreateYACSSchema(in string YACSName, in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
+                                                           raises (SALOME::SALOME_Exception);
+    long YACSWriteOnFile (in string YACSName, in string YACSFile)
                                                            raises (SALOME::SALOME_Exception);
 
   };

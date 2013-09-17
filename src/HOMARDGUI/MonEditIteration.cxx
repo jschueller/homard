@@ -41,7 +41,7 @@ MonEditIteration::MonEditIteration ( QWidget* parent, bool modal,
     MESSAGE("Debut de  MonEditIteration" << IterName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_ITER_EDIT_WINDOW_TITLE"));
     _IterationName = IterName;
-    aIter = _myHomardGen->GetIteration(_IterationName.toStdString().c_str());
+    aIter = myHomardGen->GetIteration(_IterationName.toStdString().c_str());
 
 //  Attention au cas ou c'est une iteration initiale : il faut inhiber l'essentiel
     int etat = aIter->GetState() ;
@@ -60,8 +60,8 @@ void MonEditIteration::InitValEdit0(int etat)
 //    Cas d'une iteration initiale d'un cas (initial ou poursuite)
 {
 //
-      LEIterationName->setText(_IterationName);
-      LEIterationName->setReadOnly(true);
+      LEName->setText(_IterationName);
+      LEName->setReadOnly(true);
 
 //    Invisibilite de l'iteration parent
       Iter_Parent->setVisible(0);
@@ -91,8 +91,8 @@ void MonEditIteration::InitValEdit()
 //    Cas d'une iteration courante
 {
 //    Affichage bloque du nom de l'iteration
-  LEIterationName->setText(_IterationName);
-  LEIterationName->setReadOnly(true);
+  LEName->setText(_IterationName);
+  LEName->setReadOnly(true);
 
 //    Affichage bloque du nom de l'iteration parent
   _IterParentName = aIter->GetIterParentName();
@@ -102,7 +102,7 @@ void MonEditIteration::InitValEdit()
   PBIterParent->setVisible(0);
 
 //    Affichage bloque du nom du maillage de l'iteration parent
-  aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str());
+  aIterParent = myHomardGen->GetIteration(_IterParentName.toStdString().c_str());
   QString MeshNameParent = aIterParent->GetMeshName();
   LEMeshName_n->setText(MeshNameParent);
   LEMeshName_n->setReadOnly(1);
@@ -120,7 +120,7 @@ void MonEditIteration::InitValEdit()
   PBHypoNew->setVisible(0);
 
 //    Pour une adaptation selon un champ
-  HOMARD::HOMARD_Hypothesis_var myHypo = _myHomardGen->GetHypothesis(HypoName.toStdString().c_str()) ;
+  HOMARD::HOMARD_Hypothesis_var myHypo = myHomardGen->GetHypothesis(HypoName.toStdString().c_str()) ;
   _aTypeAdap = myHypo->GetAdapType() ;
   if ( _aTypeAdap == 1 )
   {
@@ -178,7 +178,7 @@ bool MonEditIteration::PushOnApply()
       _step = SpinBox_TimeStep->value();
       if ( _step == -2 ) { aIter->SetTimeStepRankLast(); }
       else               { aIter->SetTimeStepRank(_step, _rank); }
-      _myHomardGen->InvalideIter(_IterationName.toStdString().c_str());
+      myHomardGen->InvalideIter(_IterationName.toStdString().c_str());
       HOMARD_UTILS::updateObjBrowser();
     }
   }

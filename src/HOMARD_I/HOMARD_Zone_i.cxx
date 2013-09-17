@@ -84,11 +84,11 @@ char* HOMARD_Zone_i::GetName()
   return CORBA::string_dup( myHomardZone->GetName().c_str() );
 }
 //=============================================================================
-CORBA::Long  HOMARD_Zone_i::Delete()
+CORBA::Long HOMARD_Zone_i::Delete()
 {
   ASSERT( myHomardZone );
   char* ZoneName = GetName() ;
-  MESSAGE ( "Delete : destruction de la zonee " << ZoneName );
+  MESSAGE ( "Delete : destruction de la zone " << ZoneName );
   return _gen_i->DeleteZone(ZoneName) ;
 }
 //=============================================================================

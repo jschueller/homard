@@ -161,13 +161,13 @@ void HOMARDGUI::createActions(){
   createHOMARDAction( 1111, "COMPUTE",          "mesh_compute.png"       );
   createHOMARDAction( 1121, "MESH_INFO",        "advanced_mesh_info.png" );
 //
-  createHOMARDAction( 1201, "EDIT",             "whatis.png"       );
+  createHOMARDAction( 1201, "EDIT",             "loop.png"         );
   createHOMARDAction( 1211, "DELETE",           "delete.png"       );
 //
   createHOMARDAction( 1301, "MESH_INFO",        "advanced_mesh_info.png" );
   createHOMARDAction( 1302, "EDIT_MESS_FILE",   "texte.png"              );
 //
-  createHOMARDAction( 1401, "YACS",             "yacs.png" );
+  createHOMARDAction( 1401, "YACS",             "table_view.png" );
 //
 }
 
@@ -479,9 +479,20 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
     {
       MESSAGE("etape 1401")
       MESSAGE("command " << theCommandID << " activated");
-      QString CaseName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
-      MESSAGE("CaseName " << CaseName.toStdString().c_str() << " choisi dans arbre");
-      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), CaseName ) ;
+      QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
+      MESSAGE("Name " << Name.toStdString().c_str() << " choisi dans arbre");
+      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
+      aDlg->show();
+      break;
+    }
+
+    case 1402: // Ecriture d'un schéma YACS
+    {
+      MESSAGE("etape 1402")
+      MESSAGE("command " << theCommandID << " activated");
+      QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("YACSHomard"), 1);
+      MESSAGE("YACSHomard " << Name.toStdString().c_str() << " choisi dans arbre");
+      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
       aDlg->show();
       break;
     }
@@ -602,8 +613,10 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
       EditObject = true ;
       DeleteObject = true ;
     }
-    else if ( HOMARD_UTILS::isZone(obj) )
+    else if ( HOMARD_UTILS::isCase(obj) )
     {
+      pix = resMgr->loadPixmap( "HOMARD", "table_view.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_YACS").toLatin1().data()), this, SLOT(YACSCreate()));
       EditObject = true ;
       DeleteObject = true ;
     }
@@ -615,7 +628,7 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     else if ( HOMARD_UTILS::isIter(obj) )
     {
       pix = resMgr->loadPixmap( "HOMARD", "iter_next.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_NEW_ITERATION").toLatin1().data()), this,SLOT(NextIter()));
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_NEW_ITERATION").toLatin1().data()), this, SLOT(NextIter()));
       QPixmap pix2 = resMgr->loadPixmap( "HOMARD", "mesh_compute.png" );
       menu->addAction(QIcon(pix2), tr(QString("HOM_MEN_COMPUTE").toLatin1().data()), this, SLOT(LanceCalcul()));
       pix2 = resMgr->loadPixmap( "HOMARD", "advanced_mesh_info.png" );
@@ -623,29 +636,34 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
       EditObject = true ;
       DeleteObject = true ;
     }
-    else if ( HOMARD_UTILS::isCase(obj) )
+    else if ( HOMARD_UTILS::isYACS(obj) )
     {
-      pix = resMgr->loadPixmap( "HOMARD", "yacs.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_YACS").toLatin1().data()), this, SLOT(YACS()));
+      pix = resMgr->loadPixmap( "HOMARD", "save.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_YACS").toLatin1().data()), this, SLOT(YACSWrite()));
+      EditObject = true ;
+      DeleteObject = true ;
+    }
+    else if ( HOMARD_UTILS::isZone(obj) )
+    {
       EditObject = true ;
       DeleteObject = true ;
     }
     else if ( HOMARD_UTILS::isFilelog(obj) or HOMARD_UTILS::isFileSummary(obj) )
     {
       pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this,SLOT(EditAsciiFile()));
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this, SLOT(EditAsciiFile()));
     }
 //  Ajout d'un menu d'edition pour les objets qui le proposent
     if ( EditObject )
     {
-      pix = resMgr->loadPixmap( "HOMARD", "whatis.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT").toLatin1().data()), this,SLOT(Edit()));
+      pix = resMgr->loadPixmap( "HOMARD", "loop.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT").toLatin1().data()), this, SLOT(Edit()));
     }
 //  Ajout d'un menu de destruction pour les objets qui le proposent
     if ( DeleteObject )
     {
       pix = resMgr->loadPixmap( "HOMARD", "delete.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_DELETE").toLatin1().data()), this,SLOT(Delete()));
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_DELETE").toLatin1().data()), this, SLOT(Delete()));
     }
   }
 }
@@ -685,9 +703,13 @@ void HOMARDGUI::EditAsciiFile()
   this->OnGUIEvent(1302);
 }
 
-void HOMARDGUI::YACS()
+void HOMARDGUI::YACSCreate()
 {
   this->OnGUIEvent(1401);
+}
+void HOMARDGUI::YACSWrite()
+{
+  this->OnGUIEvent(1402);
 }
 
 

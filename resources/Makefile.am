@@ -49,6 +49,7 @@ dist_salomeres_DATA =   \
 	iter_next.png \
 	iter_non_calculee.png \
 	iter_poursuite.png \
+	loop.png \
 	med.png \
 	mesh_compute.png \
 	mesh_hypo_edit.png \

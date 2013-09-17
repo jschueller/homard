@@ -232,7 +232,7 @@ char* HOMARD_Iteration_i::GetLogFile()
 //=============================================================================
 CORBA::Long HOMARD_Iteration_i::Compute(CORBA::Long etatMenage, CORBA::Long Option)
 {
-  MESSAGE ( "Compute : calcul d'une iteration"<<", Option = "<<Option );
+  MESSAGE ( "Compute : calcul d'une iteration, etatMenage = "<<etatMenage<<", Option = "<<Option );
   ASSERT( myHomardIteration );
 //
 // Nom de l'iteration

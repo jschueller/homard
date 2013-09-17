@@ -48,7 +48,7 @@ public:
 
 protected :
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
     QString _aFileName ;
 
     virtual void InitConnect();

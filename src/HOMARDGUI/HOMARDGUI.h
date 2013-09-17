@@ -65,7 +65,8 @@ private slots:
     void LanceCalcul();
     void IterInfo();
     void NextIter();
-    void YACS();
+    void YACSCreate();
+    void YACSWrite();
     void Edit();
     void Delete();
     void XmGraceFichier();

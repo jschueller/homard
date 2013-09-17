@@ -36,13 +36,13 @@ using namespace std;
 // -------------------------------------------------------------------------------
 MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
                                          HOMARD::HOMARD_Gen_var myHomardGen,
-                                         QString aHypothesisName,
+                                         QString Name,
                                          QString caseName, QString aFieldFile)
 // ---------------------------------------------------------------------------------
 /* Constructs a MonCreateHypothesis */
     :
     QDialog(0), Ui_CreateHypothesis(),
-    _parent(parent), _aHypothesisName(aHypothesisName),
+    _parent(parent), _Name(Name),
     _aCaseName(caseName), _aFieldFile(aFieldFile),
     _aFieldName(""),
     _aTypeAdap(-2), _aTypeRaff(1), _aTypeDera(0),
@@ -56,12 +56,12 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
 
 {
       MESSAGE("Constructeur") ;
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
       setupUi(this);
       setModal(modal);
       InitConnect();
 
-      SetNewHypothesisName();
+      SetNewName();
       if (_aFieldFile != QString(""))
       { RBChamp->setChecked(1);
         SetChamp();
@@ -134,7 +134,7 @@ bool MonCreateHypothesis::PushOnApply()
 // Verifications
 
 
-  if (LEHypothesisName->text().trimmed()=="") {
+  if (LEName->text().trimmed()=="") {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_HYPO_NAME") );
     return false;
@@ -144,13 +144,13 @@ bool MonCreateHypothesis::PushOnApply()
   if (VerifieComposant() == false)  return false;
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
-  if (LEHypothesisName->text().trimmed() != _aHypothesisName)
+  if (LEName->text().trimmed() != _Name)
   {
-    _aHypothesisName=LEHypothesisName->text().trimmed();
+    _Name=LEName->text().trimmed();
     try
     {
-     _aHypothesis=_myHomardGen->CreateHypothesis(CORBA::string_dup(_aHypothesisName.toStdString().c_str()) );
-     _parent->addHypothese(_aHypothesisName);
+     aHypothesis=myHomardGen->CreateHypothesis(CORBA::string_dup(_Name.toStdString().c_str()) );
+     _parent->addHypothese(_Name);
     }
     catch( SALOME::SALOME_Exception& S_ex )
     {
@@ -161,9 +161,9 @@ bool MonCreateHypothesis::PushOnApply()
   }
 
 // Mise en place des attributs
-  _aHypothesis->SetAdapRefinUnRef(_aTypeAdap,_aTypeRaff,_aTypeDera);
-  _aHypothesis->SetTypeFieldInterp(_TypeFieldInterp);
-  _aHypothesis->SetCaseCreation(_aCaseName.toStdString().c_str());
+  aHypothesis->SetAdapRefinUnRef(_aTypeAdap,_aTypeRaff,_aTypeDera);
+  aHypothesis->SetTypeFieldInterp(_TypeFieldInterp);
+  aHypothesis->SetCaseCreation(_aCaseName.toStdString().c_str());
 
   AssocieLesZones();
   AssocieComposants();
@@ -175,15 +175,15 @@ bool MonCreateHypothesis::PushOnApply()
   {
 // Enregistrement du niveau maximal
     _NivMax = spinBoxNivMax->value() ;
-    _aHypothesis->SetNivMax(_NivMax);
+    aHypothesis->SetNivMax(_NivMax);
 // Enregistrement du diametre minimal
     _DiamMin = doubleSpinBoxDiamMin->value() ;
-    _aHypothesis->SetDiamMin(_DiamMin);
+    aHypothesis->SetDiamMin(_DiamMin);
 // Enregistrement de l'intialisation de l'adaptation
-    _aHypothesis->SetAdapInit(_AdapInit);
+    aHypothesis->SetAdapInit(_AdapInit);
 // Sortie des niveaux de raffinement
     if (CBLevelOutput->isChecked()) { _LevelOutput = 1 ; }
-    _aHypothesis->SetLevelOutput(_LevelOutput);
+    aHypothesis->SetLevelOutput(_LevelOutput);
   }
 
   HOMARD_UTILS::updateObjBrowser() ;
@@ -206,28 +206,28 @@ void MonCreateHypothesis::PushOnHelp()
   HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""));
 }
 // -------------------------------------------------
-void MonCreateHypothesis::SetNewHypothesisName()
+void MonCreateHypothesis::SetNewName()
 // --------------------------------------------------
 {
 
-  HOMARD::listeHypotheses_var  MyHypos = _myHomardGen->GetAllHypothesesName();
+  HOMARD::listeHypotheses_var  MyObjects = myHomardGen->GetAllHypothesesName();
   int num = 0;//
-  QString aHypothesisName="";
-  while (aHypothesisName=="" )
+  QString aName="";
+  while (aName=="" )
   {
-    aHypothesisName.setNum(num+1) ;
-    aHypothesisName.insert(0, QString("Hypo_")) ;
-    for ( int i=0; i<MyHypos->length(); i++)
+    aName.setNum(num+1) ;
+    aName.insert(0, QString("Hypo_")) ;
+    for ( int i=0; i<MyObjects->length(); i++)
     {
-      if ( aHypothesisName ==  QString(MyHypos[i]))
+      if ( aName ==  QString(MyObjects[i]))
       {
           num=num+1;
-          aHypothesisName="";
+          aName="";
           break;
       }
     }
   }
-  LEHypothesisName->setText(aHypothesisName);
+  LEName->setText(aName);
 }
 
 //
@@ -292,7 +292,7 @@ void MonCreateHypothesis::PushZoneNew()
 // ------------------------------------------------------------------------
 {
   MESSAGE("Debut de MonCreateHypothesis::PushZoneNew")
-  MonCreateZone *aDlg = new MonCreateZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), _aCaseName) ;
+  MonCreateZone *aDlg = new MonCreateZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName) ;
   aDlg->show();
 }
 
@@ -310,7 +310,7 @@ void MonCreateHypothesis::PushZoneEdit()
     return;
   }
   QString zoneName = monItem->text().trimmed();
-  MonEditZone *aDlg = new MonEditZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), _aCaseName, zoneName) ;
+  MonEditZone *aDlg = new MonEditZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, zoneName) ;
   aDlg->show();
 }
 // ------------------------------------------------------------------------
@@ -331,7 +331,7 @@ void MonCreateHypothesis::GetAllZones()
 // Par defaut, aucune n'est selectionnee
 {
   MESSAGE("Debut de GetAllZones") ;
-  HOMARD::listeZones_var mesZones = _myHomardGen->GetAllZonesName();
+  HOMARD::listeZones_var mesZones = myHomardGen->GetAllZonesName();
   int nbrow=TWZone->rowCount();
   for ( int row=0; row< nbrow; row++)
   {
@@ -460,7 +460,7 @@ void MonCreateHypothesis::AssocieFieldInterp()
   if ( _TypeFieldInterp != 2 ) return;
   for ( int row=0; row< TWField->rowCount(); row++)
       if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
-      { _aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str()); }
+      { aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str()); }
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetUniRaff()
@@ -680,7 +680,7 @@ void MonCreateHypothesis::SetFiltrage()
 // ------------------------------------------------------------------------
 {
   if (!CBGroupe->isChecked()) return;
-  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),_aCaseName, _aListeGroupes) ;
+  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
   aDlg->show();
 }
 
@@ -735,7 +735,7 @@ void MonCreateHypothesis::AssocieLesZones()
   for ( int i=0 ; i< _aListeZone.count() ; i++ )
   { if ( _aListeZone[i+1] == Raff ) { TypeUse =  1 ; }
     else                            { TypeUse = -1 ; }
-    _aHypothesis->AddZone(_aListeZone[i].toStdString().c_str(), TypeUse);
+    aHypothesis->AddZone(_aListeZone[i].toStdString().c_str(), TypeUse);
     i += 1 ;
   }
   MESSAGE( "Fin de AssocieLesZones" );
@@ -761,14 +761,14 @@ void MonCreateHypothesis::AssocieComposants()
   if ( _TypeThC == 4 ) { _ThreshC = SpinBox_CMuSigma->value(); }
 
   _aFieldName=CBFieldName->currentText();
-  _aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
-  _aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ;
-  _aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ;
-  _aHypothesis->SetUseField( _UsField ) ;
-  _aHypothesis->SetUseComp( _UsCmpI ) ;
+  aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
+  aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ;
+  aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ;
+  aHypothesis->SetUseField( _UsField ) ;
+  aHypothesis->SetUseComp( _UsCmpI ) ;
   _aListeComposant = GetListCompChecked() ;
   for ( int i=0 ; i< _aListeComposant.count() ; i++ )
-      { _aHypothesis->AddComp(_aListeComposant[i].toStdString().c_str()); }
+      { aHypothesis->AddComp(_aListeComposant[i].toStdString().c_str()); }
 };
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::AssocieLesGroupes()
@@ -780,7 +780,7 @@ void MonCreateHypothesis::AssocieLesGroupes()
   int i=0;
   for (it = _aListeGroupes.constBegin(); it != _aListeGroupes.constEnd(); it++)
      aSeqGroupe[i++]=(*it).toStdString().c_str();
-  _aHypothesis->SetGroups(aSeqGroupe);
+  aHypothesis->SetGroups(aSeqGroupe);
 
 }
 // ------------------------------------------------------------------------

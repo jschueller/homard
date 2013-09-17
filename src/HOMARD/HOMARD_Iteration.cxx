@@ -50,7 +50,7 @@ HOMARD_Iteration::HOMARD_Iteration():
   _FileInfo( "" ),
  _MessInfo( 1 )
 {
-  MESSAGE("HOMARD_Iter");
+  MESSAGE("HOMARD_Iteration");
 }
 //=============================================================================
 /*!

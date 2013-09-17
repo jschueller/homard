@@ -47,18 +47,18 @@ protected :
 
     MonCreateCase *_parent;
 
-    QString _aBoundaryName;
+    QString _aName;
     QString _aCaseName;
 
 
-    HOMARD::HOMARD_Boundary_var _aBoundary;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Boundary_var aBoundary;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     QStringList  _listeGroupesBoundary;
 
     virtual void AssocieLesGroupes();
     virtual void InitConnect();
-    virtual void SetNewBoundaryName();
+    virtual void SetNewName();
 
 public slots:
 

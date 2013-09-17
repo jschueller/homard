@@ -43,7 +43,7 @@ public:
 
 protected :
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     MonCreateHypothesis * _parentHyp;
     MonCreateBoundaryDi * _parentBound;

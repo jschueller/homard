@@ -31,6 +31,7 @@ salomeinclude_HEADERS = \
 	HOMARD_Zone.hxx \
 	HOMARD_Gen.hxx \
 	HOMARD_DriverTools.hxx \
+	HOMARD_YACS.hxx \
 	HomardDriver.hxx \
 	YACSDriver.hxx
 
@@ -44,6 +45,7 @@ dist_libHOMARDImpl_la_SOURCES = \
 	HOMARD_Zone.cxx \
 	HOMARD_Gen.cxx \
 	HOMARD_DriverTools.cxx \
+	HOMARD_YACS.cxx \
 	HomardDriver.cxx \
 	YACSDriver.cxx
 
@@ -54,10 +56,3 @@ libHOMARDImpl_la_LDFLAGS = \
 	$(KERNEL_LDFLAGS) \
 	-lSALOMELocalTrace
 
-# check_PROGRAMS = testhomard
-# 
-# TESTS = $(check_PROGRAMS)
-# 
-# testhomard_SOURCES = testhomard.cxx
-# 
-# testhomard_LDADD = libHOMARDImpl.la

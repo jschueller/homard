@@ -75,10 +75,11 @@ namespace HOMARD_UTILS {
   bool isXmgrace(_PTR(SObject)  MonObj);
   bool isBoundaryAn(_PTR(SObject)  MonObj);
   bool isBoundaryDi(_PTR(SObject)  MonObj);
-  bool isZone(_PTR(SObject)  MonObj);
+  bool isCase(_PTR(SObject)  MonObj);
   bool isHypo(_PTR(SObject)  MonObj);
   bool isIter(_PTR(SObject)  MonObj);
-  bool isCase(_PTR(SObject)  MonObj);
+  bool isYACS(_PTR(SObject)  MonObj);
+  bool isZone(_PTR(SObject)  MonObj);
   bool isFilelog(_PTR(SObject)  MonObj);
   bool isFileSummary(_PTR(SObject)  MonObj);
   bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );

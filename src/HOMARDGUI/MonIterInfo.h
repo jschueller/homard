@@ -56,7 +56,7 @@ protected :
     int _Option;
 
     HOMARD::HOMARD_Iteration_var aIter ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
 

@@ -34,7 +34,7 @@ class MonEditCase : public MonCreateCase
 public:
     MonEditCase( QWidget* parent, bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
-                 QString CaseName );
+                 QString Name );
     virtual ~MonEditCase();
 
 protected :

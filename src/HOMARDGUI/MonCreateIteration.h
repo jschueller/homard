@@ -33,7 +33,7 @@
 #include <QWidget>
 
 class MonCreateIteration : public QDialog, public Ui_CreateIteration
-{ 
+{
     Q_OBJECT
 
 public:
@@ -46,7 +46,7 @@ public:
 protected :
     MonCreateIteration( QWidget* parent, HOMARD::HOMARD_Gen_var myHomardGen, QString IterParentName );
 
-    QString _IterationName;
+    QString _Name;
     QString _IterParentName;
     QString _CaseName;
 
@@ -54,12 +54,12 @@ protected :
     HOMARD::HOMARD_Iteration_var aIter ;
     HOMARD::HOMARD_Iteration_var aIterParent ;
     HOMARD::HOMARD_Cas_var aCas ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
 
     virtual void InitConnect();
     virtual void GetHypotheses();
-    virtual void SetNewIterationName();
+    virtual void SetNewName();
 
 public slots:
     virtual void SetIterParentName();

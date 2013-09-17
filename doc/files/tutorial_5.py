@@ -41,7 +41,7 @@ if not os.path.isdir(dircase) :
 # ==================================
 # Ce repertoire contient les fichiers de donnees : tutorial_5.00.med, tutorial_5.fr.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
-data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/fr/_downloads")
 #
 import salome
 salome.salome_init()

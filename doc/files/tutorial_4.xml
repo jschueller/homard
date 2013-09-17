@@ -306,7 +306,7 @@ else :
    <inline name="DataInit">
       <script><code><![CDATA[import os
 pathHomard = os.getenv("HOMARD_ROOT_DIR")
-data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/_downloads")
+data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/fr/_downloads")
 print "data_dir =", data_dir
 print os.listdir(data_dir)
 #
