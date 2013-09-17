@@ -40,6 +40,7 @@ dist_salomeres_DATA =   \
 	disk_2.png \
 	diskwithhole.png \
 	diskwithhole_2.png \
+	full_view.png \
 	HOMARD.png \
 	HOMARD_2.png \
 	hypotheses.png \
@@ -56,8 +57,11 @@ dist_salomeres_DATA =   \
 	mesh_whatis.png \
 	pipe.png \
 	pipe_2.png \
+	save.png \
+	schema.png \
 	spherepoint.png \
 	spherepoint_2.png \
+	table_view.png \
 	texte.png \
 	texte_2.png \
 	triangle.png \
