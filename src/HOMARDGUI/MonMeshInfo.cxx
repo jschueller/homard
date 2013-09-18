@@ -32,7 +32,7 @@ using namespace std;
 
 
 // -----------------------------------------------------------------------------------------
-MonMeshInfo::MonMeshInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen)
+MonMeshInfo::MonMeshInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0)
 // -----------------------------------------------------------------------------------------
 /* Constructs a MonMeshInfo
  * Inherits from CasHomard
@@ -47,7 +47,7 @@ MonMeshInfo::MonMeshInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myH
     _Entanglement(0),
     _Quality(0)
 {
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
       setModal(modal);
       InitConnect();

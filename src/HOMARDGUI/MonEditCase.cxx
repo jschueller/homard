@@ -32,10 +32,10 @@ using namespace std;
     herite de MonCreateCase
 */
 // -------------------------------------------------------------
-MonEditCase::MonEditCase ( QWidget* parent, bool modal,
+MonEditCase::MonEditCase ( bool modal,
                            HOMARD::HOMARD_Gen_var myHomardGen,
                            QString CaseName ):
-   MonCreateCase(parent, modal, myHomardGen)
+   MonCreateCase(modal, myHomardGen)
 {
     MESSAGE("Debut de MonEditCase" << CaseName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_CASE_EDIT_WINDOW_TITLE"));

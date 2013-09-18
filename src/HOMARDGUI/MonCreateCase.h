@@ -35,7 +35,7 @@ class MonCreateCase : public QDialog, public Ui_CreateCase
     Q_OBJECT
 
 public:
-    MonCreateCase( QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen);
+    MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen);
     ~MonCreateCase();
 
     void AddBoundaryAn(QString newBoundary);

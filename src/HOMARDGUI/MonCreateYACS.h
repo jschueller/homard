@@ -39,6 +39,8 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     virtual ~MonCreateYACS();
 
   protected :
+    MonCreateYACS( QWidget* parent, HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName);
+
     QString _Name;
     QString _aCaseName;
     QString _aScriptFile;
@@ -46,6 +48,8 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     QString _aMeshFile;
 
     int _Type;
+
+    bool Chgt;
 
     HOMARD::HOMARD_YACS_var aYACS;
     HOMARD::HOMARD_Cas_var aCase ;

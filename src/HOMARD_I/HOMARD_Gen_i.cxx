@@ -91,6 +91,12 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   _NS = SINGLETON_<SALOME_NamingService>::Instance();
   ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
   _NS->init_orb(_orb);
+
+  _tag_gene = 0 ;
+  _tag_boun = 0 ;
+  _tag_hypo = 0 ;
+  _tag_yacs = 0 ;
+  _tag_zone = 0 ;
 }
 //=================================
 /*!
@@ -3038,7 +3044,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
 {
   MESSAGE("PublishBoundaryStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
-  SALOMEDS::GenericAttribute_var anAttr;
 
   // Caracteristique de la Boundary
   HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[theName];
@@ -3052,11 +3057,17 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
   }
 
   // On ajoute la categorie des boundarys dans l etude si necessaire
+  if ( _tag_boun == 0 )
+  {
+    _tag_gene += 1 ;
+    _tag_boun = _tag_gene ;
+  }
+  MESSAGE("PublishBoundaryInStudy _tag_gene = "<<_tag_gene << ", _tag_boun = "<<_tag_boun );
   SALOMEDS::SObject_var aSObject;
-  if (!theFatherHomard->FindSubObject(101, aSObject))
+  if (!theFatherHomard->FindSubObject(_tag_boun, aSObject))
   {
     MESSAGE("Ajout de la categorie des boundarys");
-    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, 101);
+    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, _tag_boun);
     PublishInStudyAttr(aStudyBuilder, aSObject, "Boundaries", "BoundList", "zone_icone_2.png", NULL ) ;
   }
   else { MESSAGE("La categorie des boundarys existe deja."); }
@@ -3104,7 +3115,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theSt
 {
   MESSAGE("PublishCaseInStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
-  SALOMEDS::GenericAttribute_var anAttr;
 
   if (CORBA::is_nil(theObject)) {
     MESSAGE("HOMARD_Gen_i::theObject->_is_nil()");
@@ -3115,6 +3125,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theSt
     return aResultSO._retn();
   }
 
+  // On recupere le module pere dans l etude
   SALOMEDS::SComponent_var theFatherHomard = theStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
@@ -3122,9 +3133,12 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theSt
     return aResultSO._retn();
   }
 
+  _tag_gene += 1 ;
+  MESSAGE("PublishCaseInStudy _tag_gene = "<<_tag_gene );
   aResultSO = aStudyBuilder->NewObject(theFatherHomard);
   PublishInStudyAttr(aStudyBuilder, aResultSO, theName, "CasHomard", "cas_calcule.png",
                      _orb->object_to_string(theObject) ) ;
+
   return aResultSO._retn();
 }
 //=============================================================================
@@ -3134,7 +3148,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::Study_ptr 
 {
   MESSAGE("PublishHypotheseInStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
-  SALOMEDS::GenericAttribute_var anAttr;
 
   // On recupere le module pere dans l etude
   // On ajoute la categorie des hypotheses dans l etude si necessaire
@@ -3144,11 +3157,19 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::Study_ptr 
     MESSAGE("theFatherHomard->_is_nil()");
     return aResultSO._retn();
   }
+
+  // On ajoute la categorie des hypotheses dans l etude si necessaire
   SALOMEDS::SObject_var aSObject;
-  if (!theFatherHomard->FindSubObject(0, aSObject))
+  if ( _tag_hypo == 0 )
+  {
+    _tag_gene += 1 ;
+    _tag_hypo = _tag_gene ;
+  }
+  MESSAGE("PublishHypotheseInStudy _tag_gene = "<<_tag_gene << ", _tag_hypo = "<<_tag_hypo );
+  if (!theFatherHomard->FindSubObject(_tag_hypo, aSObject))
   {
     MESSAGE("Ajout de la categorie des hypotheses");
-    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, 0);
+    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, _tag_hypo);
     PublishInStudyAttr(aStudyBuilder, aSObject, "Hypothesis", "HypoList", "hypotheses.png", NULL);
   }
   else { MESSAGE("La categorie des hypotheses existe deja."); }
@@ -3166,7 +3187,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::Study_ptr theSt
 {
   MESSAGE("PublishYACSInStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
-  SALOMEDS::GenericAttribute_var anAttr;
 
   // On recupere le module pere dans l etude
   // On ajoute la categorie des schemas YACS dans l etude si necessaire
@@ -3176,11 +3196,18 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::Study_ptr theSt
     MESSAGE("theFatherHomard->_is_nil()");
     return aResultSO._retn();
   }
+  // On ajoute la categorie des schemas YACS dans l etude si necessaire
+  if ( _tag_yacs == 0 )
+  {
+    _tag_gene += 1 ;
+    _tag_yacs = _tag_gene ;
+  }
+  MESSAGE("PublishZoneStudy _tag_gene = "<<_tag_gene << ", _tag_yacs = "<<_tag_yacs );
   SALOMEDS::SObject_var aSObject;
-  if (!theFatherHomard->FindSubObject(102, aSObject))
+  if (!theFatherHomard->FindSubObject(_tag_yacs, aSObject))
   {
     MESSAGE("Ajout de la categorie des schemas YACS");
-    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, 102);
+    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, _tag_yacs);
     PublishInStudyAttr(aStudyBuilder, aSObject, "YACS", "YACSList", "full_view.png", NULL);
   }
   else { MESSAGE("La categorie des schemas YACS existe deja."); }
@@ -3199,8 +3226,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
 {
   MESSAGE("PublishZoneStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
-  SALOMEDS::GenericAttribute_var anAttr;
-
   if (CORBA::is_nil(theObject))
   {
     MESSAGE("PublishZoneInStudy : theObject->_is_nil()");
@@ -3223,11 +3248,17 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
   CORBA::Long ZoneType = myZone->GetType();
 
   // On ajoute la categorie des zones dans l etude si necessaire
+  if ( _tag_zone == 0 )
+  {
+    _tag_gene += 1 ;
+    _tag_zone = _tag_gene ;
+  }
+  MESSAGE("PublishZoneStudy _tag_gene = "<<_tag_gene << ", _tag_zone = "<<_tag_zone );
   SALOMEDS::SObject_var aSObject;
-  if (!theFatherHomard->FindSubObject(100, aSObject))
+  if (!theFatherHomard->FindSubObject(_tag_zone, aSObject))
   {
     MESSAGE("Ajout de la categorie des zones");
-    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, 100);
+    aSObject = aStudyBuilder->NewObjectToTag(theFatherHomard, _tag_zone);
     PublishInStudyAttr(aStudyBuilder, aSObject, "Zones", "ZoneList", "zone_icone_2.png", NULL ) ;
   }
   else { MESSAGE("La categorie des zones existe deja."); }
@@ -3277,6 +3308,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
       break ;
     }
   }
+  MESSAGE("Appel de PublishInStudyAttr pour name = "<<theName);
   PublishInStudyAttr(aStudyBuilder, aResultSO, theName, "ZoneHomard", icone.c_str(), _orb->object_to_string(theObject) ) ;
 
   return aResultSO._retn();

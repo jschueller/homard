@@ -40,7 +40,7 @@ using namespace std;
  * Sets attributes to default values
  */
 // -----------------------------------------------------------------------------------------
-MonCreateCase::MonCreateCase(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen)
+MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0)
     :
     Ui_CreateCase(),
     _aCaseName(""),_aDirName(""),
@@ -48,7 +48,7 @@ MonCreateCase::MonCreateCase(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var
     _Pyram(0)
 {
   MESSAGE("Debut du constructeur de MonCreateCase");
-  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
   setupUi(this);
   setModal(modal);
   InitConnect();

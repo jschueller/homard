@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.6"
+__revision__ = "V1.7"
 #
 import os
 #
@@ -36,6 +36,9 @@ if os.environ.has_key("LOGNAME") :
 else :
   user = "anonymous"
 dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+if not os.path.isdir(dircase) :
+  os.mkdir (dircase)
+dircase = os.path.join( dircase, "tutorial_2" )
 if not os.path.isdir(dircase) :
   os.mkdir (dircase)
 # ==================================
@@ -62,40 +65,40 @@ Zone_1 = homard.CreateZoneSphere ('Zone_1', 0., 0., 0., 1.05)
 # Box "Zone_2"
 Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 #
-# Hypothesis "Hypo_0"
+# Hypothesis "Hypo_2"
 # ===================
-Hypo_0 = homard.CreateHypothesis('Hypo_0')
-Hypo_0.SetAdapRefinUnRef(0, 1, 0)
-Hypo_0.AddZone('Zone_1', 1)
-Hypo_0.AddZone('Zone_0', 1)
+Hypo_2 = homard.CreateHypothesis('Hypo_2')
+Hypo_2.SetAdapRefinUnRef(0, 1, 0)
+Hypo_2.AddZone('Zone_1', 1)
+Hypo_2.AddZone('Zone_0', 1)
 #
-# Hypothesis "Hypo_1"
+# Hypothesis "Hypo_2_bis"
 # ===================
-Hypo_1 = homard.CreateHypothesis('Hypo_1')
-Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-Hypo_1.AddZone('Zone_0', 1)
-Hypo_1.AddZone('Zone_2', 1)
+Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
+Hypo_2_bis.SetAdapRefinUnRef(0, 1, 0)
+Hypo_2_bis.AddZone('Zone_0', 1)
+Hypo_2_bis.AddZone('Zone_2', 1)
 #
-# Case "Case_1"
+# Case "Case_2"
 # =============
-Case_1 = homard.CreateCase('Case_1', 'MZERO', data_dir+'/tutorial_2.00.med')
-Case_1.SetDirName(dircase)
+Case_2 = homard.CreateCase('Case_2', 'MZERO', data_dir+'/tutorial_2.00.med')
+Case_2.SetDirName(dircase)
 #
-# Iteration "Iter_0"
+# Iteration "Iter_2_0"
 # ==================
-Iter_0 = Case_1.NextIteration('Iter_0')
-Iter_0.SetMeshName('M_1')
-Iter_0.SetMeshFile(dircase+'/maill.01.med')
-Iter_0.AssociateHypo('Hypo_0')
-codret = Iter_0.Compute(1, 2)
+Iter_2_0 = Case_2.NextIteration('Iter_2_0')
+Iter_2_0.SetMeshName('M_1')
+Iter_2_0.SetMeshFile(dircase+'/maill.01.med')
+Iter_2_0.AssociateHypo('Hypo_2')
+codret = Iter_2_0.Compute(1, 2)
 #
-# Iteration "Iter_1"
+# Iteration "Iter_2_1"
 # ==================
-Iter_1 = Iter_0.NextIteration('Iter_1')
-Iter_1.SetMeshName('M_2')
-Iter_1.SetMeshFile(dircase+'/maill.02.med')
-Iter_1.AssociateHypo('Hypo_1')
-codret = Iter_1.Compute(1, 2)
+Iter_2_1 = Iter_2_0.NextIteration('Iter_2_1')
+Iter_2_1.SetMeshName('M_2')
+Iter_2_1.SetMeshFile(dircase+'/maill.02.med')
+Iter_2_1.AssociateHypo('Hypo_2_bis')
+codret = Iter_2_1.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

@@ -35,7 +35,7 @@ using namespace std;
 
 // -------------------------------------------------------------------------------
 MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
-                                         HOMARD::HOMARD_Gen_var myHomardGen,
+                                         HOMARD::HOMARD_Gen_var myHomardGen0,
                                          QString Name,
                                          QString caseName, QString aFieldFile)
 // ---------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
 
 {
       MESSAGE("Constructeur") ;
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
       setModal(modal);
       InitConnect();

@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.9"
+__revision__ = "V1.10"
 
 #========================================================================
 Test_Name = "test_1"
@@ -77,11 +77,11 @@ Copyright EDF-R&D 2010, 2013
   #
   # Creation of the zones
   # =====================
-  # Creation of the box Zone_1
-    Zone_1 = homard.CreateZoneBox('Zone_1', -0.01, 1.01, -0.01, 0.4, -0.01, 0.6)
+  # Creation of the box Zone_1_1
+    Zone_1_1 = homard.CreateZoneBox('Zone_1_1', -0.01, 1.01, -0.01, 0.4, -0.01, 0.6)
 
-  # Creation of the sphere Zone_2
-    Zone_2 = homard.CreateZoneSphere('Zone_2', 0.5, 0.6, 0.7, 0.75)
+  # Creation of the sphere Zone_1_2
+    Zone_1_2 = homard.CreateZoneSphere('Zone_1_2', 0.5, 0.6, 0.7, 0.75)
   #
   # Creation of the hypotheses
   # ==========================
@@ -98,48 +98,48 @@ Copyright EDF-R&D 2010, 2013
   # Creation of the hypothesis Zones_1_et_2
     Zones_1_et_2 = homard.CreateHypothesis('Zones_1_et_2')
     Zones_1_et_2.SetAdapRefinUnRef(0, 1, 0)
-    Zones_1_et_2.AddZone('Zone_1', 1)
-    Zones_1_et_2.AddZone('Zone_2', 1)
+    Zones_1_et_2.AddZone('Zone_1_1', 1)
+    Zones_1_et_2.AddZone('Zone_1_2', 1)
   #
   # Creation of the cases
   # =====================
-    # Creation of the case zzzz121b
-    Case_1 = homard.CreateCase('zzzz121b', 'MAILL', os.path.join(Rep_Test, Test_Name + '.00.med'))
+    # Creation of the case Case_1
+    Case_1 = homard.CreateCase('Case_1', 'MAILL', os.path.join(Rep_Test, Test_Name + '.00.med'))
     Case_1.SetDirName(Rep_Test_Resu)
     Case_1.SetConfType(1)
   #
   # Creation of the iterations
   # ==========================
-  # Creation of the iteration I1
-    I1 = Case_1.NextIteration('I1')
-    I1.SetMeshName('M1')
-    I1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    I1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
-    I1.SetTimeStepRank(1, 1)
-    I1.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
-    error = I1.Compute(1, 1)
+  # Creation of the iteration I1_1
+    I1_1 = Case_1.NextIteration('I1_1')
+    I1_1.SetMeshName('M1')
+    I1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+    I1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
+    I1_1.SetTimeStepRank(1, 1)
+    I1_1.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    error = I1_1.Compute(1, 1)
     if error :
       error = 1
       break
 
-  # Creation of the iteration I2
-    I2 = I1.NextIteration('I2')
-    I2.SetMeshName('M2')
-    I2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    I2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
-    I2.SetTimeStepRank(1, 1)
-    I2.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
-    error = I2.Compute(1, 1)
+  # Creation of the iteration I1_2
+    I1_2 = I1_1.NextIteration('I1_2')
+    I1_2.SetMeshName('M2')
+    I1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+    I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
+    I1_2.SetTimeStepRank(1, 1)
+    I1_2.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    error = I1_2.Compute(1, 1)
     if error :
       error = 2
       break
 
-  # Creation of the iteration I3
-    I3 = I2.NextIteration('I3')
-    I3.SetMeshName('M3')
-    I3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    I3.AssociateHypo('Zones_1_et_2')
-    error = I3.Compute(1, 1)
+  # Creation of the iteration I1_3
+    I1_3 = I1_2.NextIteration('I1_3')
+    I1_3.SetMeshName('M3')
+    I1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
+    I1_3.AssociateHypo('Zones_1_et_2')
+    error = I1_3.Compute(1, 1)
     if error :
       error = 3
       break

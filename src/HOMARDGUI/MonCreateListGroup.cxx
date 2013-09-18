@@ -38,7 +38,7 @@ using namespace std;
 
 // --------------------------------------------------------------------------------------------------------------
 MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal,
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) :
+                                       HOMARD::HOMARD_Gen_var myHomardGen0, QString aCaseName,  QStringList listeGroupesHypo) :
 // --------------------------------------------------------------------------------------------------------------
 //
     QDialog(0), Ui_CreateListGroup(),
@@ -48,7 +48,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentBound(parentBound)
 {
     MESSAGE("Debut de  MonCreateListGroup")
-     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
     setupUi(this);
     setModal(modal);
     InitConnect();

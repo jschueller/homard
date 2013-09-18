@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.6"
+__revision__ = "V1.7"
 #
 import os
 #
@@ -36,6 +36,9 @@ if os.environ.has_key("LOGNAME") :
 else :
   user = "anonymous"
 dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+if not os.path.isdir(dircase) :
+  os.mkdir (dircase)
+dircase = os.path.join( dircase, "tutorial_3" )
 if not os.path.isdir(dircase) :
   os.mkdir (dircase)
 # ==================================
@@ -92,40 +95,40 @@ Hypo_1vers2_bis.SetRefinThr(1, 0.0001)
 Hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
 Hypo_1vers2_bis.SetTypeFieldInterp(0)
 #
-# Case "Case_1"
+# Case "Case_3"
 # =============
-Case_1 = homard.CreateCase('Case_1', 'G_0', data_dir+'/tutorial_3.00.med')
-Case_1.SetDirName(dircase)
+Case_3 = homard.CreateCase('Case_3', 'G_0', data_dir+'/tutorial_3.00.med')
+Case_3.SetDirName(dircase)
 #
-# Iteration "Iter_1"
+# Iteration "Iter_3_1"
 # ==================
-Iter_1 = Case_1.NextIteration('Iter_1')
-Iter_1.SetMeshName('H_1')
-Iter_1.SetMeshFile(dircase+'/maill.01.med')
-Iter_1.SetFieldFile(data_dir+'/tutorial_3.00.med')
-Iter_1.SetTimeStepRank( 1, 1)
-Iter_1.AssociateHypo('Hypo_0vers1')
-codret = Iter_1.Compute(1, 2)
+Iter_3_1 = Case_3.NextIteration('Iter_3_1')
+Iter_3_1.SetMeshName('H_1')
+Iter_3_1.SetMeshFile(dircase+'/maill.01.med')
+Iter_3_1.SetFieldFile(data_dir+'/tutorial_3.00.med')
+Iter_3_1.SetTimeStepRank( 1, 1)
+Iter_3_1.AssociateHypo('Hypo_0vers1')
+codret = Iter_3_1.Compute(1, 2)
 #
-# Iteration "Iter_2"
+# Iteration "Iter_3_2"
 # ==================
-Iter_2 = Iter_1.NextIteration('Iter_2')
-Iter_2.SetMeshName('H_2')
-Iter_2.SetMeshFile(dircase+'/maill.02.med')
-Iter_2.SetFieldFile(data_dir+'/tutorial_3.01.med')
-Iter_2.SetTimeStepRank(1, 1)
-Iter_2.AssociateHypo('Hypo_1vers2')
-codret = Iter_2.Compute(1, 2)
+Iter_3_2 = Iter_3_1.NextIteration('Iter_3_2')
+Iter_3_2.SetMeshName('H_2')
+Iter_3_2.SetMeshFile(dircase+'/maill.02.med')
+Iter_3_2.SetFieldFile(data_dir+'/tutorial_3.01.med')
+Iter_3_2.SetTimeStepRank(1, 1)
+Iter_3_2.AssociateHypo('Hypo_1vers2')
+codret = Iter_3_2.Compute(1, 2)
 #
-# Iteration "Iter_2_bis"
+# Iteration "Iter_3_2_bis"
 # ======================
-Iter_2_bis = Iter_1.NextIteration('Iter_2_bis')
-Iter_2_bis.SetMeshName('H_2_bis')
-Iter_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')
-Iter_2_bis.SetFieldFile(data_dir+'/tutorial_3.01.med')
-Iter_2_bis.SetTimeStepRank(1, 1)
-Iter_2_bis.AssociateHypo('Hypo_1vers2_bis')
-codret = Iter_2_bis.Compute(1, 2)
+Iter_3_2_bis = Iter_3_1.NextIteration('Iter_3_2_bis')
+Iter_3_2_bis.SetMeshName('H_2_bis')
+Iter_3_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')
+Iter_3_2_bis.SetFieldFile(data_dir+'/tutorial_3.01.med')
+Iter_3_2_bis.SetTimeStepRank(1, 1)
+Iter_3_2_bis.AssociateHypo('Hypo_1vers2_bis')
+codret = Iter_3_2_bis.Compute(1, 2)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

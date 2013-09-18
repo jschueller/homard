@@ -60,16 +60,17 @@ using namespace std;
 #include "MonCreateCase.h"
 #include "MonCreateIteration.h"
 #include "MonPursueIteration.h"
-#include "MonEditFile.h"
-#include "MonEditCase.h"
-#include "MonEditIteration.h"
-#include "MonEditHypothesis.h"
-#include "MonEditZone.h"
+#include "MonCreateYACS.h"
 #include "MonEditBoundaryAn.h"
 #include "MonEditBoundaryDi.h"
+#include "MonEditCase.h"
+#include "MonEditHypothesis.h"
+#include "MonEditIteration.h"
+#include "MonEditYACS.h"
+#include "MonEditZone.h"
 #include "MonMeshInfo.h"
-#include "MonCreateYACS.h"
 #include "MonIterInfo.h"
+#include "MonEditFile.h"
 #include "HomardQtCommun.h"
 
 // BOOST Includes
@@ -272,7 +273,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
     case 1101: // Creation d un Cas
     {
       MESSAGE("command " << theCommandID << " activated");
-      MonCreateCase *aDlg = new MonCreateCase( parent, true,
+      MonCreateCase *aDlg = new MonCreateCase( true,
                             HOMARD::HOMARD_Gen::_duplicate(homardGen) ) ;
       aDlg->show();
       break;
@@ -335,16 +336,22 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       _PTR(SObject) obj = chercheMonObjet();
       if (obj)
       {
-        // Edition d'un cas
-        if (HOMARD_UTILS::isCase(obj))
+        // Edition d'une frontiere discrete
+        if (HOMARD_UTILS::isBoundaryDi(obj))
         {
-          MonEditCase *aDlg = new MonEditCase(parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
+          MonEditBoundaryDi *aDlg = new MonEditBoundaryDi(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
           aDlg->show();
         }
-        // Edition d'une iteration
-        else if (HOMARD_UTILS::isIter(obj))
+        // Edition d'une frontiere analytique
+        else if (HOMARD_UTILS::isBoundaryAn(obj))
         {
-          MonEditIteration *aDlg = new MonEditIteration(parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+          MonEditBoundaryAn *aDlg = new MonEditBoundaryAn(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+          aDlg->show();
+        }
+        // Edition d'un cas
+        else if (HOMARD_UTILS::isCase(obj))
+        {
+          MonEditCase *aDlg = new MonEditCase(true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
           aDlg->show();
         }
         // Edition d'une hypothese
@@ -353,25 +360,23 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
           MonEditHypothesis *aDlg = new MonEditHypothesis(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen),  _ObjectName, QString(""), QString("")) ;
           aDlg->show();
         }
+        // Edition d'une iteration
+        else if (HOMARD_UTILS::isIter(obj))
+        {
+          MonEditIteration *aDlg = new MonEditIteration(parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+          aDlg->show();
+        }
+        // Edition d'un schema YACS
+        else if (HOMARD_UTILS::isYACS(obj))
+        {
+          MonEditYACS *aDlg = new MonEditYACS(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName) ;
+          aDlg->show();
+        }
         // Edition d'une zone
         else if (HOMARD_UTILS::isZone(obj))
         {
           MonEditZone *aDlg = new MonEditZone(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
           aDlg->show();
-        }
-        // Edition d'une frontiere discrete
-        else if (HOMARD_UTILS::isBoundaryDi(obj))
-        {
-            MESSAGE(".. Lancement de MonEditBoundaryDi" );
-            MonEditBoundaryDi *aDlg = new MonEditBoundaryDi(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
-            aDlg->show();
-        }
-        // Edition d'une frontiere analytique
-        else if (HOMARD_UTILS::isBoundaryAn(obj))
-        {
-            MESSAGE(".. Lancement de MonEditBoundaryAn" );
-            MonEditBoundaryAn *aDlg = new MonEditBoundaryAn(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
-            aDlg->show();
         }
       }
       break;

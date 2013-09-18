@@ -34,7 +34,7 @@ using namespace std;
 
 
 // -----------------------------------------------------------------------------------------
-MonIterInfo::MonIterInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen, QString IterName)
+MonIterInfo::MonIterInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, QString IterName)
 // -----------------------------------------------------------------------------------------
 /* Constructs a MonIterInfo
  * Inherits from CasHomard
@@ -52,7 +52,7 @@ MonIterInfo::MonIterInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myH
     _Option(-1)
 {
     MESSAGE("appel de _duplicate");
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
       setModal(modal);
       InitConnect();

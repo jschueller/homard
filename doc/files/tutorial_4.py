@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2011, 2013
 """
-__revision__ = "V2.2"
+__revision__ = "V2.3"
 #
 import os
 #
@@ -38,6 +38,9 @@ else :
 dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
 if not os.path.isdir(dircase) :
     os.mkdir (dircase)
+dircase = os.path.join( dircase, "tutorial_4" )
+if not os.path.isdir(dircase) :
+  os.mkdir (dircase)
 # ==================================
 # Ce repertoire contient les fichiers de donnees : tutorial_4.00.med, tutorial_4.fr.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
@@ -53,63 +56,63 @@ homard.SetCurrentStudy(salome.myStudy)
 #
 # Creation of the boundaries
 # ==========================
-Boundary_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
+Boun_4_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
 #
-Boundary_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
+Boun_4_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
 #
-Boundary_3 = homard.CreateBoundaryCylinder('cyl_2_ext', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
+Boun_4_3 = homard.CreateBoundaryCylinder('cyl_2_ext', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
 #
-Boundary_4 = homard.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 75., 75.)
+Boun_4_4 = homard.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 75., 75.)
 #
-Boundary_5 = homard.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
+Boun_4_5 = homard.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
 #
 # Hypothesis
 # ==========
-# Creation of the hypothesis Hypo_1
-Hypo_1 = homard.CreateHypothesis('Hypo_1')
-Hypo_1.SetAdapRefinUnRef(-1, 1, 0)
-Hypo_1.AddGroup('T1_INT_I')
-Hypo_1.AddGroup('T1_INT_O')
-Hypo_1.AddGroup('T2_INT')
-# Creation of the hypothesis Hypo_2
-Hypo_2 = homard.CreateHypothesis('Hypo_2')
-Hypo_2.SetAdapRefinUnRef(-1, 1, 0)
-Hypo_2.AddGroup('T1_EXT_I')
-Hypo_2.AddGroup('T1_EXT_O')
-Hypo_2.AddGroup('T2_EXT')
+# Creation of the hypothesis Hypo_4
+Hypo_4 = homard.CreateHypothesis('Hypo_4')
+Hypo_4.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_4.AddGroup('T1_INT_I')
+Hypo_4.AddGroup('T1_INT_O')
+Hypo_4.AddGroup('T2_INT')
+# Creation of the hypothesis Hypo_4_bis
+Hypo_4_bis = homard.CreateHypothesis('Hypo_4_bis')
+Hypo_4_bis.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_4_bis.AddGroup('T1_EXT_I')
+Hypo_4_bis.AddGroup('T1_EXT_O')
+Hypo_4_bis.AddGroup('T2_EXT')
 #
-# Case "Case"
+# Case "Case_4"
 # =============
-Case = homard.CreateCase('Case', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
-Case.SetDirName(dircase)
-Case.AddBoundaryGroup( 'intersection', '' )
-Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
-Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
-Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
-Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
-Case.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
-Case.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
+Case_4 = homard.CreateCase('Case_4', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
+Case_4.SetDirName(dircase)
+Case_4.AddBoundaryGroup( 'intersection', '' )
+Case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
+Case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
+Case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
+Case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
+Case_4.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
+Case_4.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 #
 # Creation of the iterations
 # ==========================
-# Creation of the iteration Iter_1 : raffinement selon les faces internes
-Iter_1 = Case.NextIteration('Iter_1')
-Iter_1.SetMeshName('PIQUAGE_1')
-Iter_1.SetMeshFile(dircase+'/maill.01.med')
-Iter_1.AssociateHypo('Hypo_1')
-codret = Iter_1.Compute(1, 2)
-# Creation of the iteration Iter_2 : raffinement selon les faces externes
-Iter_2 = Iter_1.NextIteration('Iter_2')
-Iter_2.SetMeshName('PIQUAGE_2')
-Iter_2.SetMeshFile(dircase+'/maill.02.med')
-Iter_2.AssociateHypo('Hypo_2')
-codret = Iter_2.Compute(1, 2)
-# Creation of the iteration Iter_3 : second raffinement selon les faces externes
-Iter_3 = Iter_2.NextIteration('Iter_3')
-Iter_3.SetMeshName('PIQUAGE_3')
-Iter_3.SetMeshFile(dircase+'/maill.03.med')
-Iter_3.AssociateHypo('Hypo_2')
-codret = Iter_3.Compute(1, 2)
+# Creation of the iteration Iter_4_1 : raffinement selon les faces internes
+Iter_4_1 = Case_4.NextIteration('Iter_4_1')
+Iter_4_1.SetMeshName('PIQUAGE_1')
+Iter_4_1.SetMeshFile(dircase+'/maill.01.med')
+Iter_4_1.AssociateHypo('Hypo_4')
+codret = Iter_4_1.Compute(1, 2)
+# Creation of the iteration Iter_4_2 : raffinement selon les faces externes
+Iter_4_2 = Iter_4_1.NextIteration('Iter_4_2')
+Iter_4_2.SetMeshName('PIQUAGE_2')
+Iter_4_2.SetMeshFile(dircase+'/maill.02.med')
+Iter_4_2.AssociateHypo('Hypo_4_bis')
+codret = Iter_4_2.Compute(1, 2)
+# Creation of the iteration Iter_4_3 : second raffinement selon les faces externes
+Iter_4_3 = Iter_4_2.NextIteration('Iter_4_3')
+Iter_4_3.SetMeshName('PIQUAGE_3')
+Iter_4_3.SetMeshFile(dircase+'/maill.03.med')
+Iter_4_3.AssociateHypo('Hypo_4_bis')
+codret = Iter_4_3.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

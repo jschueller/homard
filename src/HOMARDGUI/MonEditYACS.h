@@ -17,8 +17,8 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-#ifndef MON_EDITCASE_H
-#define MON_EDITCASE_H
+#ifndef MON_EDITYACS_H
+#define MON_EDITYACS_H
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -26,16 +26,16 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 
-#include <MonCreateCase.h>
+#include <MonCreateYACS.h>
 
-class MonEditCase : public MonCreateCase
+class MonEditYACS : public MonCreateYACS
 {
     Q_OBJECT
 public:
-    MonEditCase( bool modal,
+    MonEditYACS( QWidget* parent, bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
                  QString Name );
-    virtual ~MonEditCase();
+    virtual ~MonEditYACS();
 
 protected :
     virtual void InitValEdit();

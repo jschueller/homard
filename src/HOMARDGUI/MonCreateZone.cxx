@@ -36,11 +36,11 @@ using namespace std;
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
 
-// ------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName) :
-// ------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 /* Constructs a MonCreateZone
    appele pour une vraie creation
    initialise une boite et non une sphere
@@ -61,7 +61,7 @@ MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
     Chgt (false)
     {
       MESSAGE("Constructeur") ;
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen) ;
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0) ;
       setupUi(this) ;
       setModal(modal) ;
       InitConnect( ) ;
@@ -72,15 +72,15 @@ MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
       SetBox() ;                // Propose une boite en premier choix
 
     }
-// --------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 MonCreateZone::MonCreateZone(MonCreateHypothesis* parent,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName):
-// --------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 // Constructeur appele par MonEditZone
 //
     QDialog(0), Ui_CreateZone(),
-     myHomardGen(myHomardGen),
+     myHomardGen(myHomardGen0),
     _parent(parent),
     _Name (""),
     _aCaseName(caseName),

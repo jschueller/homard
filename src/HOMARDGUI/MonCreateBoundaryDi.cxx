@@ -33,14 +33,14 @@ using namespace std;
 
 // -------------------------------------------------------------------------------
 MonCreateBoundaryDi::MonCreateBoundaryDi(MonCreateCase* parent, bool modal,
-                                         HOMARD::HOMARD_Gen_var myHomardGen,
+                                         HOMARD::HOMARD_Gen_var myHomardGen0,
                                          QString caseName, QString aName)
 // ---------------------------------------------------------------------------------
 /* Constructs a MonCreateBoundaryDi */
     :
     QDialog(0), Ui_CreateBoundaryDi(),
     _parent(parent), _aName(aName),
-    myHomardGen(HOMARD::HOMARD_Gen::_duplicate(myHomardGen)),
+    myHomardGen(HOMARD::HOMARD_Gen::_duplicate(myHomardGen0)),
     _aCaseName(caseName)
     {
       MESSAGE("Constructeur") ;

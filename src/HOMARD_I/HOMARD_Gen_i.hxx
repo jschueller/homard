@@ -304,6 +304,12 @@ private:
   ContextMap                    myContextMap;
   SALOME_NamingService*         _NS;
 
+  int _tag_gene ;
+  int _tag_boun ;
+  int _tag_hypo ;
+  int _tag_yacs ;
+  int _tag_zone ;
+
 };
 
 #endif

@@ -33,7 +33,7 @@ using namespace std;
 
 // -----------------------------------------------------------------------------------------------------
 MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString IterParentName ):
+                                       HOMARD::HOMARD_Gen_var myHomardGen0, QString IterParentName ):
 // -----------------------------------------------------------------------------------------------------
 /* Constructs a MonCreateIteration
  * Inherits from CasHomard
@@ -46,7 +46,7 @@ MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
     _CaseName("")
     {
       MESSAGE("Constructeur");
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
       setModal(modal);
       InitConnect();

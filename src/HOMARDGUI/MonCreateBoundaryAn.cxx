@@ -40,7 +40,7 @@ using namespace std;
 #define PI 3.141592653589793
 // ------------------------------------------------------------------------------------------------------------------------
 MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName) :
 // ------------------------------------------------------------------------------------------------------------------------------
 /* Constructs a MonCreateBoundaryAn
@@ -63,7 +63,7 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
     Chgt (false)
     {
       MESSAGE("Constructeur") ;
-      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
       setModal(modal);
 
@@ -94,13 +94,13 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
     }
 // --------------------------------------------------------------------------------------------------------------
 MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName):
 // --------------------------------------------------------------------------------------------------------------
 // Constructeur appele par MonEditBoundaryAn
 //
     QDialog(0), Ui_CreateBoundaryAn(),
-     myHomardGen(myHomardGen),
+     myHomardGen(myHomardGen0),
     _parent(parent),
     _aName (""),
     _aCaseName(caseName),

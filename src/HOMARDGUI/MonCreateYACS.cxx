@@ -30,12 +30,12 @@ using namespace std;
 #include <utilities.h>
 
 
-// -----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 /* Constructs a MonCreateYACS
  * Sets attributes to default values
  */
-// -----------------------------------------------------------------------------------------
-MonCreateYACS::MonCreateYACS (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName )
+// ----------------------------------------------------------------------
+MonCreateYACS::MonCreateYACS (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, QString CaseName )
     :
     Ui_CreateYACS(),
     _aCaseName(CaseName),
@@ -44,7 +44,7 @@ MonCreateYACS::MonCreateYACS (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_va
     _aMeshFile("")
 {
   MESSAGE("Debut du constructeur de MonCreateYACS");
-  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
   setupUi(this);
   setModal(modal);
 
@@ -60,6 +60,24 @@ MonCreateYACS::MonCreateYACS (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_va
   adjustSize();
   MESSAGE("Fin du constructeur de MonCreateYACS");
 }
+
+// ----------------------------------------------------------------------
+MonCreateYACS::MonCreateYACS(QWidget* parent,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
+                             QString caseName):
+// ----------------------------------------------------------------------
+// Constructeur appele par MonEditYACS
+//
+    myHomardGen(myHomardGen0),
+    _Name (""),
+    Chgt (false)
+    {
+  //  MESSAGE("Debut de  MonCreateYACS")
+      setupUi(this) ;
+
+      setModal(true) ;
+      InitConnect() ;
+    }
 
 // ------------------------------------------------------------------------
 MonCreateYACS::~MonCreateYACS()

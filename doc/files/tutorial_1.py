@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.5"
+__revision__ = "V1.6"
 #
 import os
 #
@@ -36,6 +36,9 @@ if os.environ.has_key("LOGNAME") :
 else :
   user = "anonymous"
 dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+if not os.path.isdir(dircase) :
+  os.mkdir (dircase)
+dircase = os.path.join( dircase, "tutorial_1" )
 if not os.path.isdir(dircase) :
   os.mkdir (dircase)
 # ==================================
@@ -51,10 +54,10 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Hypothesis "Hypo_0"
+# Hypothesis "Hypo_1"
 # ===================
-Hypo_0 = homard.CreateHypothesis('Hypo_0')
-Hypo_0.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_1 = homard.CreateHypothesis('Hypo_1')
+Hypo_1.SetAdapRefinUnRef(-1, 1, 0)
 #
 # Case "Case_1"
 # =============
@@ -64,26 +67,26 @@ Case_1.SetConfType(1)
 #
 # Iterations
 # ==========
-# Iteration "Iter_0"
-Iter_0 = Case_1.NextIteration('Iter_0')
-Iter_0.SetMeshName('MESH')
-Iter_0.SetMeshFile(dircase+'/maill.01.med')
-Iter_0.AssociateHypo('Hypo_0')
-codret = Iter_0.Compute(1, 2)
+# Iteration "Iter_1_0"
+Iter_1_0 = Case_1.NextIteration('Iter_1_0')
+Iter_1_0.SetMeshName('MESH')
+Iter_1_0.SetMeshFile(dircase+'/maill.01.med')
+Iter_1_0.AssociateHypo('Hypo_1')
+codret = Iter_1_0.Compute(1, 2)
 
-# Iteration "Iter_1"
-Iter_1 = Iter_0.NextIteration('Iter_1')
-Iter_1.SetMeshName('MESH')
-Iter_1.SetMeshFile(dircase+'/maill.02.med')
-Iter_1.AssociateHypo('Hypo_0')
-codret = Iter_1.Compute(1, 2)
+# Iteration "Iter_1_1"
+Iter_1_1 = Iter_1_0.NextIteration('Iter_1_1')
+Iter_1_1.SetMeshName('MESH')
+Iter_1_1.SetMeshFile(dircase+'/maill.02.med')
+Iter_1_1.AssociateHypo('Hypo_1')
+codret = Iter_1_1.Compute(1, 2)
 
-# Iteration "Iter_2"
-Iter_2 = Iter_1.NextIteration('Iter_2')
-Iter_2.SetMeshName('MESH')
-Iter_2.SetMeshFile(dircase+'/maill.03.med')
-Iter_2.AssociateHypo('Hypo_0')
-codret = Iter_2.Compute(1, 2)
+# Iteration "Iter_1_2"
+Iter_1_2 = Iter_1_1.NextIteration('Iter_1_2')
+Iter_1_2.SetMeshName('MESH')
+Iter_1_2.SetMeshFile(dircase+'/maill.03.med')
+Iter_1_2.AssociateHypo('Hypo_1')
+codret = Iter_1_2.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

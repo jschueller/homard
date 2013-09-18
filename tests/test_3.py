@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.7"
+__revision__ = "V1.8"
 
 #========================================================================
 Test_Name = "test_3"
@@ -79,59 +79,59 @@ Copyright EDF-R&D 2010, 2013
 # Creation of the boundaries
 # ==========================
 # Creation of the discrete boundary
-    Boundary_1 = homard.CreateBoundaryDi('courbes', 'COURBES', os.path.join(Rep_Test, Test_Name + '.fr.med'))
+    Boundary_3_1 = homard.CreateBoundaryDi('courbes', 'COURBES', os.path.join(Rep_Test, Test_Name + '.fr.med'))
 #
 # Creation of the external cylinder
-    Boundary_2 = homard.CreateBoundaryCylinder('cyl_ext', 50.0, 25., -25., 1., 0., 0., 100.)
+    Boundary_3_2 = homard.CreateBoundaryCylinder('cyl_ext', 50.0, 25., -25., 1., 0., 0., 100.)
 #
 # Creation of the internal cylinder
-    Boundary_3 = homard.CreateBoundaryCylinder('cyl_int', 50.0, 25., -25., 1., 0., 0., 50.)
+    Boundary_3_3 = homard.CreateBoundaryCylinder('cyl_int', 50.0, 25., -25., 1., 0., 0., 50.)
 #
 # Creation of the first sphere
-    Boundary_4 = homard.CreateBoundarySphere('sphere_1', 50.0, 25., -25., 100.)
+    Boundary_3_4 = homard.CreateBoundarySphere('sphere_1', 50.0, 25., -25., 100.)
 #
 # Creation of the second sphere
-    Boundary_5 = homard.CreateBoundarySphere('sphere_2', 450.0, 25., -25., 100.)
+    Boundary_3_5 = homard.CreateBoundarySphere('sphere_2', 450.0, 25., -25., 100.)
 #
 # Creation of the hypotheses
 # ==========================
 # Uniform refinement
-    Hypo = homard.CreateHypothesis('Hypo')
-    Hypo.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_3_ = homard.CreateHypothesis('Hypo_3_')
+    Hypo_3_.SetAdapRefinUnRef(-1, 1, 0)
 #
     for iaux in range (n_boucle+1) :
 #
-# Creation of the case Case_1
+# Creation of the case Case_3
 # ===========================
       if ( iaux <= 1 ) :
-        Case_1 = homard.CreateCase('Case_1', 'MOYEU', os.path.join(Rep_Test, Test_Name + '.00.med'))
-        Case_1.SetDirName(Rep_Test_Resu)
-        Case_1.SetConfType(1)
-        Case_1.AddBoundaryGroup('courbes', '')
-        Case_1.AddBoundaryGroup('cyl_ext', 'EXT')
-        Case_1.AddBoundaryGroup('cyl_int', 'INT')
-        Case_1.AddBoundaryGroup('sphere_1', 'END_1')
-        Case_1.AddBoundaryGroup('sphere_2', 'END_2')
+        Case_3 = homard.CreateCase('Case_3', 'MOYEU', os.path.join(Rep_Test, Test_Name + '.00.med'))
+        Case_3.SetDirName(Rep_Test_Resu)
+        Case_3.SetConfType(1)
+        Case_3.AddBoundaryGroup('courbes', '')
+        Case_3.AddBoundaryGroup('cyl_ext', 'EXT')
+        Case_3.AddBoundaryGroup('cyl_int', 'INT')
+        Case_3.AddBoundaryGroup('sphere_1', 'END_1')
+        Case_3.AddBoundaryGroup('sphere_2', 'END_2')
 #
 # Creation and destruction of the iterations
 # ==========================================
 #
-  # Creation of the iteration Iter_1
-      Iter_1 = Case_1.NextIteration('Iter_1')
-      Iter_1.SetMeshName('MOYEU_1')
-      Iter_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-      Iter_1.AssociateHypo('Hypo')
-      error = Iter_1.Compute(1, 1)
+  # Creation of the iteration Iter_3_1
+      Iter_3_1 = Case_3.NextIteration('Iter_3_1')
+      Iter_3_1.SetMeshName('MOYEU_1')
+      Iter_3_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+      Iter_3_1.AssociateHypo('Hypo_3_')
+      error = Iter_3_1.Compute(1, 1)
       if error :
         error = 10*iaux + 1
         break
 
-  # Creation of the iteration Iter_2
-      Iter_2 = Iter_1.NextIteration('Iter_2')
-      Iter_2.SetMeshName('MOYEU_2')
-      Iter_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-      Iter_2.AssociateHypo('Hypo')
-      error = Iter_2.Compute(1, 1)
+  # Creation of the iteration Iter_3_2
+      Iter_3_2 = Iter_3_1.NextIteration('Iter_3_2')
+      Iter_3_2.SetMeshName('MOYEU_2')
+      Iter_3_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+      Iter_3_2.AssociateHypo('Hypo_3_')
+      error = Iter_3_2.Compute(1, 1)
       if error :
         error = 10*iaux + 2
         break
@@ -139,24 +139,24 @@ Copyright EDF-R&D 2010, 2013
   # Destruction
   # After the first loop, the case is deleted, except the final mesh files
       if ( iaux == 0 ) :
-        error = Case_1.Delete(0)
+        error = Case_3.Delete(0)
         if error :
           break
   # After the second loop, the iterations are deleted, with the final mesh files
       elif ( iaux == 1 ) :
   # Recursive destruction of the iterations
-        error = Iter_1.Delete(1)
+        error = Iter_3_1.Delete(1)
         if error :
           error = 10*iaux + 3
           break
   # Destruction and creation of the hypothese
         if ( iaux == 1 ) :
-          error = Hypo.Delete()
+          error = Hypo_3_.Delete()
           if error :
             error = 10*iaux + 4
             break
-          Hypo = homard.CreateHypothesis('Hypo')
-          Hypo.SetAdapRefinUnRef(-1, 1, 0)
+          Hypo_3_ = homard.CreateHypothesis('Hypo_3_')
+          Hypo_3_.SetAdapRefinUnRef(-1, 1, 0)
 #
     break
 #

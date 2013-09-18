@@ -61,7 +61,6 @@ protected :
     double _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayonInt, _ZoneHaut ;
     double _DMax ;
 
-
     bool Chgt;
 
     HOMARD::HOMARD_Zone_var aZone ;
