@@ -52,6 +52,10 @@
         <translation>Show the file</translation>
     </message>
     <message>
+        <source>HOM_MEN_WRITE</source>
+        <translation>Write</translation>
+    </message>
+    <message>
         <source>HOM_TOP_HOMARD</source>
         <translation>HOMARD</translation>
     </message>

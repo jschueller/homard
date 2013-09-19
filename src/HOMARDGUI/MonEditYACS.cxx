@@ -32,10 +32,10 @@ using namespace std;
     herite de MonCreateYACS
 */
 // -------------------------------------------------------------
-MonEditYACS::MonEditYACS ( QWidget* parent, bool modal,
+MonEditYACS::MonEditYACS ( bool modal,
                            HOMARD::HOMARD_Gen_var myHomardGen,
                            QString Name ):
-   MonCreateYACS(parent, modal, myHomardGen, Name)
+   MonCreateYACS(myHomardGen, Name)
 {
     MESSAGE("Debut de MonEditYACS" << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_YACS_EDIT_WINDOW_TITLE"));
@@ -56,25 +56,19 @@ void MonEditYACS::InitValEdit()
   LEName->setText(_Name);
   LEName->setReadOnly(true);
 
-  QString aCaseName = aYACS->GetCaseName();
-  LECaseName->setText(aCaseName);
+  QString _aCaseName = aYACS->GetCaseName();
+  LECaseName->setText(_aCaseName);
   LECaseName->setReadOnly(true);
-  PushDir->setVisible(0);
+  PBCaseName->setVisible(0);
 
   QString aScriptFile = aYACS->GetScriptFile();
   LEScriptFile->setText(aScriptFile);
-  LEScriptFile->setReadOnly(true);
-  PushDir->setVisible(0);
 
   QString aDirName = aYACS->GetDirName();
   LEDirName->setText(aDirName);
-  LEDirName->setReadOnly(true);
-  PushDir->setVisible(0);
 
   QString aMeshFile = aYACS->GetMeshFile();
   LEMeshFile->setText(aMeshFile);
-  LEMeshFile->setReadOnly(true);
-  PushDir->setVisible(0);
 
   int Type=aYACS->GetType();
   if(Type==1) { RBStatic->setChecked(true); }
@@ -85,9 +79,32 @@ void MonEditYACS::InitValEdit()
   adjustSize();
 }
 
-// -------------------------------------
-bool MonEditYACS::PushOnApply()
-// -------------------------------------
+// ---------------------------------------------------
+bool MonEditYACS:: CreateOrUpdate()
+//----------------------------------------------------
+//  Modification du schema
 {
+  MESSAGE("CreateOrUpdate");
+
+  // Les donnees
+  QString aScriptFile=LEScriptFile->text().trimmed();
+  if ( aScriptFile != _aScriptFile )
+  {
+    _aScriptFile = aScriptFile ;
+    aYACS->SetScriptFile(CORBA::string_dup(_aScriptFile.toStdString().c_str())) ;
+  }
+  QString aDirName=LEDirName->text().trimmed();
+  if ( aDirName != _aDirName )
+  {
+    _aDirName = aDirName ;
+    aYACS->SetDirName(CORBA::string_dup(_aDirName.toStdString().c_str())) ;
+  }
+  QString aMeshFile=LEMeshFile->text().trimmed();
+  if ( aMeshFile != _aMeshFile )
+  {
+    _aMeshFile = aMeshFile ;
+    aYACS->SetMeshFile(CORBA::string_dup(_aMeshFile.toStdString().c_str())) ;
+  }
+
   return true ;
-};
+}

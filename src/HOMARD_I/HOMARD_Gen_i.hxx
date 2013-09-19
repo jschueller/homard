@@ -179,14 +179,16 @@ public:
 
   CORBA::Boolean                  VerifieDir(const char* nomDir);
 
-  void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich,
-                                                            const char* Commentaire);
+  void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire);
+  void                            PublishFileUnderYACS(const char* NomYACS, const char* NomFich, const char* Commentaire);
   void                            PublishBoundaryUnderCase(const char* CaseName, const char* BoundaryName);
+  void                            PublishCaseUnderYACS(const char* YACSName, const char* CaseName);
   void                            PublishResultInSmesh(const char* NomFich, CORBA::Long Option);
   void                            DeleteResultInSmesh(std::string NomFich, std::string MeshName);
 
 // YACS
   HOMARD::HOMARD_YACS_ptr         CreateYACSSchema (const char* YACSName, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
+  CORBA::Long                     YACSWrite(const char* nomYACS);
   CORBA::Long                     YACSWriteOnFile(const char* nomYACS, const char* YACSFile);
   std::string                     YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
   std::string                     YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver);
@@ -266,7 +268,7 @@ private:
                                                      HOMARD::HOMARD_Zone_ptr theObject, const char* theName);
   virtual void                    PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      SALOMEDS::SObject_var aResultSO,
-                                                     const char* theName, const char* value, const char* icone, const char* ior);
+                                                     const char* theName, const char* comment, const char* icone, const char* ior);
 
   PortableServer::ServantBase_var GetServant(CORBA::Object_ptr theObject);
 

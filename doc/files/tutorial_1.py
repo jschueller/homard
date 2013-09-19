@@ -54,13 +54,13 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Hypothesis "Hypo_1"
-# ===================
+# Hypotheses
+# ==========
 Hypo_1 = homard.CreateHypothesis('Hypo_1')
 Hypo_1.SetAdapRefinUnRef(-1, 1, 0)
 #
-# Case "Case_1"
-# =============
+# Cas
+# ===
 Case_1 = homard.CreateCase('Case_1', 'MAILL', data_dir+'/tutorial_1.00.med')
 Case_1.SetDirName(dircase)
 Case_1.SetConfType(1)

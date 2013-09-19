@@ -178,17 +178,9 @@ char* HOMARD_YACS_i::GetCaseName()
 CORBA::Long HOMARD_YACS_i::Write()
 {
   MESSAGE ( "Write : ecriture du schema");
-  ASSERT( myHomardYACS );
 //
-// Le repertoire du cas
-  std::string casename = GetCaseName() ;
-  HOMARD::HOMARD_Cas_ptr caseyacs = _gen_i->GetCase(casename.c_str()) ;
-  std::string dirnamecase = caseyacs->GetDirName() ;
-// Le nom par defaut du fichier du schema
-  std::string YACSFile ;
-  YACSFile = dirnamecase + "/schema.xml" ;
-//
-  return WriteOnFile(YACSFile.c_str()) ;
+  char* nomYACS = GetName() ;
+  return _gen_i->YACSWrite(nomYACS) ;
 }
 //=============================================================================
 CORBA::Long HOMARD_YACS_i::WriteOnFile( const char* YACSFile )

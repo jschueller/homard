@@ -306,7 +306,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       if (monIter == QString("")) break;
       try
       {
-        homardGen->Compute(monIter.toStdString().c_str(), 0, 1, -1, 2);
+        homardGen->Compute(monIter.toStdString().c_str(), 0, 1, -1, 1);
       }
       catch( SALOME::SALOME_Exception& S_ex )
       {
@@ -369,7 +369,8 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
         // Edition d'un schema YACS
         else if (HOMARD_UTILS::isYACS(obj))
         {
-          MonEditYACS *aDlg = new MonEditYACS(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName) ;
+          MESSAGE("appel de MonEditYACS");
+          MonEditYACS *aDlg = new MonEditYACS(true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName) ;
           aDlg->show();
         }
         // Edition d'une zone
@@ -468,11 +469,11 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1302: // Affichage du fichier mess
+    case 1302: // Affichage de fichier texte
     {
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       _PTR(SObject) obj = chercheMonObjet();
-      if ((obj) and ((HOMARD_UTILS::isFilelog(obj) or HOMARD_UTILS::isFileSummary(obj))))
+      if ( (obj) and ( HOMARD_UTILS::isFileType(obj,QString("log")) or HOMARD_UTILS::isFileType(obj,QString("Summary")) or HOMARD_UTILS::isFileType(obj,QString("xml")) ) )
       {
           MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
           if ( aDlg->_codret == 0 ) { aDlg->show(); }
@@ -486,7 +487,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       MESSAGE("command " << theCommandID << " activated");
       QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
       MESSAGE("Name " << Name.toStdString().c_str() << " choisi dans arbre");
-      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
+      MonCreateYACS *aDlg = new MonCreateYACS( true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
       aDlg->show();
       break;
     }
@@ -496,9 +497,18 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       MESSAGE("etape 1402")
       MESSAGE("command " << theCommandID << " activated");
       QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("YACSHomard"), 1);
-      MESSAGE("YACSHomard " << Name.toStdString().c_str() << " choisi dans arbre");
-      MonCreateYACS *aDlg = new MonCreateYACS( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
-      aDlg->show();
+      if (Name == QString("")) break;
+      try
+      {
+        homardGen->YACSWrite(Name.toStdString().c_str());
+      }
+      catch( SALOME::SALOME_Exception& S_ex )
+      {
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+        getApp()->updateObjectBrowser();
+        return false;
+      }
       break;
     }
 
@@ -643,8 +653,8 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     }
     else if ( HOMARD_UTILS::isYACS(obj) )
     {
-      pix = resMgr->loadPixmap( "HOMARD", "save.png" );
-      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_YACS").toLatin1().data()), this, SLOT(YACSWrite()));
+      pix = resMgr->loadPixmap( "HOMARD", "write.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_WRITE").toLatin1().data()), this, SLOT(YACSWrite()));
       EditObject = true ;
       DeleteObject = true ;
     }
@@ -653,7 +663,7 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
       EditObject = true ;
       DeleteObject = true ;
     }
-    else if ( HOMARD_UTILS::isFilelog(obj) or HOMARD_UTILS::isFileSummary(obj) )
+    else if ( HOMARD_UTILS::isFileType(obj,QString("log")) or HOMARD_UTILS::isFileType(obj,QString("Summary")) or HOMARD_UTILS::isFileType(obj,QString("xml")) )
     {
       pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this, SLOT(EditAsciiFile()));
@@ -697,11 +707,6 @@ void HOMARDGUI::Delete()
 {
   this->OnGUIEvent(1211);
 }
-
-// void HOMARDGUI::EditAsciiFile()
-// {
-//   this->OnGUIEvent(1301);
-// }
 
 void HOMARDGUI::EditAsciiFile()
 {

@@ -113,8 +113,8 @@ std::string HOMARD_Iteration::GetDumpPython() const
 //   MESSAGE (".. Hypothese " << _NomHypo );
   aScript << "\t" << _Name << ".AssociateHypo(\"" << _NomHypo << "\")\n";
 
-  if (_Etat == true) { aScript << "\tcodret = "  <<_Name << ".Compute(1, 2)\n"; }
-  else               { aScript << "\t#codret = " <<_Name << ".Compute(1, 2)\n"; }
+  if (_Etat == true) { aScript << "\tcodret = "  <<_Name << ".Compute(1, 1)\n"; }
+  else               { aScript << "\t#codret = " <<_Name << ".Compute(1, 1)\n"; }
 //   MESSAGE (". Fin de l ecriture de l iteration " << _Name );
 
   return aScript.str();

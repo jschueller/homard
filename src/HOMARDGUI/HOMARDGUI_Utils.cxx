@@ -259,18 +259,11 @@ bool HOMARD_UTILS::isZone(_PTR(SObject) MonObj)
    return isObject( MonObj, QString("ZoneHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est un fichier de messages
+// Retourne vrai si l objet est un fichier de type TypeFile
 //================================================================
-bool HOMARD_UTILS::isFilelog(_PTR(SObject) MonObj)
+bool HOMARD_UTILS::isFileType(_PTR(SObject) MonObj, QString TypeFile)
 {
-   return isObject( MonObj, QString("log"), 0 ) ;
-}
-//================================================================
-// Retourne vrai si l objet est un fichier de bilan
-//================================================================
-bool HOMARD_UTILS::isFileSummary(_PTR(SObject) MonObj)
-{
-   return isObject( MonObj, QString("Summary"), 0 ) ;
+   return isObject( MonObj, TypeFile, 0 ) ;
 }
 
 //=========================================================================================================

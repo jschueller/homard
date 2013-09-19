@@ -14,8 +14,8 @@ On va décrire ici un schéma s'appliquant à un calcul pour lequel on cherche à st
 .. image:: ../images/yacs_01.png
    :align: center
    :alt: yacs - allure générale
-   :width: 535
-   :height: 362
+   :width: 512
+   :height: 306
 
 .. note::
   Parmi l'ensemble des données manipulées, certaines sont immuables : le nom du répertoire de calcul, le nom du cas, le nom de l'hypothèse d'adaptation, etc. Il a été choisi de les imposer 'en dur' dans les différents paramètres de service ou au sein des scripts python. On pourrait également les définir a priori dans un noeud PresetNode et ensuite les transmettre par des liens. Nous n'avons pas retenu cette solution car elle augmente fortement le nombre de paramètres et de liens attachés à chaque noeud. Cela est très pénalisant pour la lisibilité du schéma. Les seules données qui vont circuler sont celles imposées par la description du service et celles qui évoluent au cours de l'exécution du schéma.
@@ -27,7 +27,7 @@ Les boîtes principales sont :
 
 - DataInit : initialisation du maillage initial
 - Etude_Initialisation : lancement du module HOMARD dans SALOME
-- Tant_que_le_calcul_n_a_pas_converge : gestion de la boucle d'alternance calcul/adaptation
+- Boucle_de_convergence : gestion de la boucle d'alternance calcul/adaptation
 - Bilan : affichage final
 
 DataInit
@@ -67,15 +67,15 @@ Le service SetCurrentStudy affecte cette étude à une instance de HOMARD.
    :lines: 63-68
 
 
-Tant_que_le_calcul_n_a_pas_converge
+Boucle_de_convergence
 ===================================
-La boîte Tant_que_le_calcul_n_a_pas_converge est une boucle de type WhileLoop. La condition est initialisée à 1 : le bloc interne Alternance_Calcul_HOMARD est exécuté. Au sein de ce bloc, on calcule et on adapte le maillage ; quand le processus doit s'arrêter soit par suite d'erreur, soit par convergence, la condition passe à 0. La boucle s'achève et on passe à la boîte suivante, Bilan.
+La boîte Boucle_de_convergence est une boucle de type WhileLoop. La condition est initialisée à 1 : le bloc interne Alternance_Calcul_HOMARD est exécuté. Au sein de ce bloc, on calcule et on adapte le maillage ; quand le processus doit s'arrêter soit par suite d'erreur, soit par convergence, la condition passe à 0. La boucle s'achève et on passe à la boîte suivante, Bilan.
 
 .. image:: ../images/yacs_c_01.png
    :align: center
    :alt: Boucle
-   :width: 195
-   :height: 142
+   :width: 163
+   :height: 93
 
 Bilan
 =====
@@ -88,7 +88,7 @@ Bilan
 Cette boîte est un noeud python qui prend en entrée une chaîne de caractères, MessInfo. Si tout s'est bien passé, ce message est vide. Une fenêtre QT apparaît pour confirmer la convergence. S'il y a eu un problème, le message contient les messages émis au cours des calculs. La fenêtre QT affiche ce message.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 424-437
+   :lines: 406-419
 
 
 La boucle de calculs
@@ -96,8 +96,8 @@ La boucle de calculs
 .. image:: ../images/yacs_c_02.png
    :align: center
    :alt: Boucle
-   :width: 323
-   :height: 158
+   :width: 338
+   :height: 152
 
 Cette boîte est un bloc qui gère le calcul, l'adaptation et l'analyse.
 
@@ -112,58 +112,60 @@ Calcul
 Cette boîte est un noeud python qui va piloter le calcul. En entrée, on trouve le numéro du calcul (0 au départ) et le nom du fichier qui contient le maillage sur lequel calculer. En sortie, on trouve un entier qui représente l'erreur sur ce calcul (0 si tout va bien) et un dictionnaire python rassemblant les résultats du calcul. Le corps du noeud est constitué par le lancement d'un script python qui active le calcul.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 77-104
+   :lines: 77-103
 
 Dans cet exemple, il faut définir :
 
 - rep_calc : le répertoire dans lequel sera exécuté le calcul.
-- rep_script : le répertoire dans lequel se trouve le python qui lancera le calcul. Ce répertoire est à ajouter au PATH. Depuis ce répertoire, on importera LanceCas depuis le fichier LanceCas.py
+- rep_script : le répertoire dans lequel se trouve le python qui lancera le calcul. Ce répertoire est à ajouter au PATH. Depuis ce répertoire, on importera 'Script' depuis le fichier ScriptAster.py
 
-Le python LanceCas est programmé comme l'utilisateur le souhaite pour que le calcul puisse être effectué sur le maillage courant. Selon le mode de lancement du code de calcul, on peut avoir besoin d'autres informations, comme le numéro du calcul ou le répertoire du calcul par exemple. La liberté est totale. Dans notre cas, les arguments d'entrée sont le nom du fichier de maillage, le numéro du calcul et le répertoire de calcul sous la forme de la liste python ["--rep_calc=rep_calc", "--numero=numCalc", "--mesh_file=MeshFile"]
+Le python Script est programmé comme l'utilisateur le souhaite pour que le calcul puisse être effectué sur le maillage courant. Selon le mode de lancement du code de calcul, on peut avoir besoin d'autres informations, comme le numéro du calcul ou le répertoire du calcul par exemple. La liberté est totale. Dans notre cas, les arguments d'entrée sont le nom du fichier de maillage, le numéro du calcul et le répertoire de calcul sous la forme de la liste python ["--rep_calc=rep_calc", "--num=numCalc", "--mesh_file=MeshFile"]
 ].
 
 En revanche la sortie du script doit obéir à la règle suivante. On récupère un code d'erreur, un message d'erreur et un dictionnaire. Ce dictionnaire contient obligatoirement les clés suivantes :
 
 - "FileName" : le nom du fichier qui contient les résultats du calcul
-- "MeshName" : le nom du maillage utilisé
-- "V00" : la valeur dont on veut tester la convergence
+- "V_TEST" : la valeur dont on veut tester la convergence
 
 Adaptation
 ==========
 .. image:: ../images/yacs_c_04.png
    :align: center
    :alt: Adaptation
-   :width: 672
-   :height: 569
+   :width: 661
+   :height: 566
 
 La boîte Adaptation est un noeud Switch piloté par le code d'erreur du calcul précédent. Si ce code est nul, YACS activera la boîte Adaptation_HOMARD qui lancera l'adaptation. Si le code n'est pas nul, on passe directement dans la boîte Arret_boucle.
 
 Adaptation_HOMARD
 -----------------
-La première tâche à exécuter concerne l'initialisation des données nécessaires à HOMARD dans la boîte HOMARD_Initialisation. Cette boîte est un noeud switch piloté par le numéro du calcul. Au démarrage, le numéro est nul et YACS active la boîte Homard_init_au_debut.
+La première tâche à exécuter concerne l'initialisation des données nécessaires à HOMARD dans la boîte HOMARD_Initialisation. Cette boîte est un noeud switch piloté par le numéro du calcul. Au démarrage, le numéro est nul et YACS active la boîte Iter_1.
 
-Homard_init_au_debut
-^^^^^^^^^^^^^^^^^^^^
+Iter_1
+^^^^^^
 .. image:: ../images/yacs_c_06.png
    :align: center
-   :alt: Homard_init_au_debut
+   :alt: Iter_1
    :width: 481
-   :height: 150
+   :height: 151
 
 Cette boîte commence par créer le cas HOMARD en appelant le service CreateCase.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 220-227
+   :lines: 208-215
 
-Le nom du cas CaseName est imposé à "Calcul". Les paramètres d'entrée MeshName et FileName sont issus de la sortie du calcul précédent. Le paramètre de sortie est une instance de cas.
+Le nom du cas CaseName est imposé à "Calcul". Le paramètre d'entrée MeshName est imposé à "BOX". Le paramètre d'entrée FileName est issu de la sortie du calcul précédent. Le paramètre de sortie est une instance de cas.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 461-464
+   :lines: 443-446
+
+.. literalinclude:: ../files/yacs_01.xml
+   :lines: 483-486
 
 Les options de ce cas doivent maintenant être renseignées. C'est fait par le noeud python CaseOptions. Il est impératif de renseigner le répertoire de calcul. On regardera la description des fonctions dans :ref:`tui_create_case`. En sortie, on récupère l'instance de l'itération correspondant à l'état initial du cas.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 228-242
+   :lines: 216-228
 
 Enfin, une hypothèse est créée en appelant le service CreateHypothèse. Le paramètre de sortie est une instance d'hypothèse.
 
@@ -177,45 +179,45 @@ Une fois initialisée, l'adaptation peut être calculée. C'est le but de la boîte 
    :width: 153
    :height: 141
 
-Le répertoire de calcul est récupéré.
+Le répertoire de calcul est récupéré. Le nom du maillage est rappelé.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 258-263
+   :lines: 245-250
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 339-347
+   :lines: 325-333
 
 L'hypothèse transmise en paramètre d'entrée est caractérisée (voir :ref:`tui_create_hypothese`) :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 267-291
+   :lines: 254-278
 
 Il faut établir un nom pour la future itération. Pour s'assurer que le nom n'a jamais été utilisé, on met en place un mécanisme de nommage incrémental à partir du nom de l'itération initiale. Comme ce nom initial est le nom du maillage initial, on obtient une succession de noms sous la forme : M_001, M_002, M_003, etc.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 293-303
+   :lines: 280-290
 
 L'itération est complétée : hypothèse, futur maillage, champ (voir :ref:`tui_create_iteration`) :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 305-325
+   :lines: 292-311
 
 L'itération est calculée. Si tout s'est bien passé, la variable OK vaut 1 : on pourra continuer l'exécution du schéma. S'il y a eu un problème, la variable OK vaut 0 pour signifier que le calcul doit s'arrêter ; on donne alors un message d'erreur.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 327-338
+   :lines: 313-324
 
 Après cette exécution, le processus sort du noeud Adaptation_HOMARD, puis du noeud Adaptation. On arrive alors au noeud d'analyse.
 
-Homard_init_ensuite
-^^^^^^^^^^^^^^^^^^^
+Iter_n
+^^^^^^
 .. image:: ../images/yacs_c_07.png
    :align: center
-   :alt: Homard_init_ensuite
+   :alt: Iter_n
    :width: 323
-   :height: 97
+   :height: 92
 
 Aux passages suivants dans le bloc d'adaptation, il faut récupérer :
 
@@ -235,57 +237,52 @@ Arret_boucle
 Le bloc Arret_boucle n'est présent que pour faire transiter des variables car les paramètres d'entrée des noeuds doivent toujours être remplis. C'est un python très simple :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 185-196
+   :lines: 173-184
 
 Analyse
 =======
 .. image:: ../images/yacs_c_05.png
    :align: center
    :alt: Analyse
-   :width: 155
-   :height: 169
+   :width: 156
+   :height: 139
 
 Le bloc Analyse est un script python qui assure le contrôle complet du processus en examinant successivement les causes d'erreur possible.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 105-118
+   :lines: 104-116
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 173-182
+   :lines: 162-170
 
 On commence par analyser le retour du code de calcul :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 120-125
-
-Vérification de la présence du nom du maillage dans le dictionnaire des résultats :
-
-.. literalinclude:: ../files/yacs_01.xml
-   :lines: 127-134
+   :lines: 118-123
 
 Vérification de la présence du nom du fichier de résultats dans le dictionnaire des résultats :
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 136-143
+   :lines: 125-132
 
-Vérification de la convergence. Cela suppose que la valeur à tester est présente dans le dictionnaire sous la clé 'V00'. Ici, on a mis en place un test sur la variation de la valeur d'un calcul à l'autre. Au premier passage, on ne teste rien. Aux passages suivants, on teste si la variation relative est inférieure à 1 millième. On aurait pu mettre en place un test absolu si on avait récupéré un niveau global d'erreur par exemple.
-
-.. literalinclude:: ../files/yacs_01.xml
-   :lines: 145-163
-
-Enfin, on vérifie que l'on ne dépasse pas un nomber maximal d'adaptations :
+Vérification de la convergence. Cela suppose que la valeur à tester est présente dans le dictionnaire sous la clé 'V_TEST'. Ici, on a mis en place un test sur la variation de la valeur d'un calcul à l'autre. Au premier passage, on ne teste rien. Aux passages suivants, on teste si la variation relative est inférieure à 1 millième. On aurait pu mettre en place un test absolu si on avait récupéré un niveau global d'erreur par exemple.
 
 .. literalinclude:: ../files/yacs_01.xml
-   :lines: 165-170
+   :lines: 134-152
+
+Enfin, on vérifie que l'on ne dépasse pas un nombre maximal d'adaptations :
+
+.. literalinclude:: ../files/yacs_01.xml
+   :lines: 154-159
 
 
 Utiliser ce schéma
 ******************
 Pour reproduire cet exemple, on pourra télécharger :
   * :download:`le schéma <../files/yacs_01.xml>`
-  * :download:`un exemple de script python <../files/yacs_script.tgz>`
+  * :download:`un exemple de script python <../files/yacs_script.py>`
 
 Il faut l'adapter à la simulation envisagée. En particulier, il faut :
 

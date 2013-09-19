@@ -54,8 +54,8 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Creation of the boundaries
-# ==========================
+# Frontieres
+# ==========
 Boun_4_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
 #
 Boun_4_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
@@ -66,7 +66,7 @@ Boun_4_4 = homard.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 
 #
 Boun_4_5 = homard.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
 #
-# Hypothesis
+# Hypotheses
 # ==========
 # Creation of the hypothesis Hypo_4
 Hypo_4 = homard.CreateHypothesis('Hypo_4')
@@ -81,8 +81,8 @@ Hypo_4_bis.AddGroup('T1_EXT_I')
 Hypo_4_bis.AddGroup('T1_EXT_O')
 Hypo_4_bis.AddGroup('T2_EXT')
 #
-# Case "Case_4"
-# =============
+# Cas
+# ===
 Case_4 = homard.CreateCase('Case_4', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
 Case_4.SetDirName(dircase)
 Case_4.AddBoundaryGroup( 'intersection', '' )
@@ -93,21 +93,21 @@ Case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
 Case_4.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
 Case_4.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 #
-# Creation of the iterations
-# ==========================
-# Creation of the iteration Iter_4_1 : raffinement selon les faces internes
+# Iterations
+# ==========
+# Iteration Iter_4_1 : raffinement selon les faces internes
 Iter_4_1 = Case_4.NextIteration('Iter_4_1')
 Iter_4_1.SetMeshName('PIQUAGE_1')
 Iter_4_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_4_1.AssociateHypo('Hypo_4')
 codret = Iter_4_1.Compute(1, 2)
-# Creation of the iteration Iter_4_2 : raffinement selon les faces externes
+# Iteration Iter_4_2 : raffinement selon les faces externes
 Iter_4_2 = Iter_4_1.NextIteration('Iter_4_2')
 Iter_4_2.SetMeshName('PIQUAGE_2')
 Iter_4_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_4_2.AssociateHypo('Hypo_4_bis')
 codret = Iter_4_2.Compute(1, 2)
-# Creation of the iteration Iter_4_3 : second raffinement selon les faces externes
+# Iteration Iter_4_3 : second raffinement selon les faces externes
 Iter_4_3 = Iter_4_2.NextIteration('Iter_4_3')
 Iter_4_3.SetMeshName('PIQUAGE_3')
 Iter_4_3.SetMeshFile(dircase+'/maill.03.med')

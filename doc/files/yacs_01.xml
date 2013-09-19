@@ -72,27 +72,26 @@ NewStudy = StudyManager.NewStudy("my_homard_study")
          <tonode>SetCurrentStudy</tonode> <toport>theStudy</toport>
       </datalink>
    </bloc>
-   <while name="Tant_que_le_calcul_n_a_pas_converge">
+   <while name="Boucle_de_convergence">
       <bloc name="Alternance_Calcul_HOMARD">
          <inline name="Calcul">
             <script><code><![CDATA[
 import sys
 import os
-# REPBASE : le repertoire de base de l'application
-REPBASE = os.environ["HOMARD_TRAINING"]
-rep_calc = os.path.join(REPBASE, "tet_aster_ther")
-rep_script = os.path.join(REPBASE, "script")
+#
+rep_calc = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+rep_script = os.path.dirname("/scratch/D68518/Salome/HOMARD_SALOME/HOMARD_SRC/doc/files/ScriptAster.py")
 sys.path.append(rep_script)
-from LanceCas import LanceCas
+from ScriptAster import Script
 #
 argu  = ["-v"]
 argu.append("--rep_calc=" + rep_calc)
-argu.append("--numero=%d" % numCalc)
+argu.append("--num=%d" % numCalc)
 argu.append("--mesh_file="  + MeshFile)
 #
-LanceCas_A = LanceCas(argu)
+Script_A = Script(argu)
 #
-Error, message_erreur, dico_resu = LanceCas_A.calcul ()
+Error, message_erreur, dico_resu = Script_A.compute ()
 #
 dico_resu["rep_calc"] = rep_calc
 #
@@ -108,7 +107,6 @@ global NumCalc
 global resu1
 # Valeurs par defaut
 NumCalcP1 = NumCalc + 1
-MeshName = " "
 FileName = " "
 #
 NbCalcMax = 5
@@ -124,28 +122,19 @@ while not Error :
         Error = abs(ErrCalc)
         break
 #
-# Si le maillage n'a pas ete defini, on arrete :
-#
-    if dico_resu.has_key("MeshName") :
-        MeshName = dico_resu["MeshName"]
-    else :
-        MessInfo = "Le maillage n'a pas ete defini"
-        Error = -2
-        break
-#
 # Si le fichier n'a pas ete defini, on arrete :
 #
     if dico_resu.has_key("FileName") :
         FileName = dico_resu["FileName"]
     else :
         MessInfo = "Le fichier du maillage n'a pas ete defini"
-        Error = -3
+        Error = -2
         break
 #
 # Si le critere est respecte, on arrete :
 #
-    if dico_resu.has_key("V00") :
-        valeur_v = dico_resu["V00"]
+    if dico_resu.has_key("V_TEST") :
+        valeur_v = dico_resu["V_TEST"]
         if NumCalc == 0 :
             resu1 = [valeur_v]
         else :
@@ -159,7 +148,7 @@ while not Error :
                 break
     else :
         MessInfo = "La valeur a tester n'a pas ete fournie"
-        Error = -4
+        Error = -3
         break
 #
 # Si on depasse le maximum, on arrete :
@@ -176,7 +165,6 @@ while not Error :
             <inport name="dico_resu" type="pyobj"/>
             <outport name="Error" type="int"/>
             <outport name="NumCalcP1" type="int"/>
-            <outport name="MeshName" type="string"/>
             <outport name="FileName" type="string"/>
             <outport name="MessInfo" type="string"/>
          </inline>
@@ -199,7 +187,7 @@ MeshFile = " "
                <bloc name="Adaptation_HOMARD">
                   <switch name="HOMARD_Initialisation" select="0">
                      <default>
-                        <bloc name="HOMARD_Init_ensuite">
+                        <bloc name="Iter_n">
                            <service name="LastIteration">
                               <node>Etude_Initialisation.SetCurrentStudy</node>
                               <method>LastIteration</method>
@@ -216,7 +204,7 @@ MeshFile = " "
                         </bloc>
                      </default>
                      <case id="1">
-                        <bloc name="HOMARD_Init_au_debut">
+                        <bloc name="Iter_1">
                            <service name="CreateCase">
                               <node>Etude_Initialisation.SetCurrentStudy</node>
                               <method>CreateCase</method>
@@ -229,10 +217,8 @@ MeshFile = " "
                               <script><code><![CDATA[
 import os
 # Repertoire d'execution
-REPBASE = os.environ["HOMARD_TRAINING"]
-DirName = os.path.join(REPBASE, "tet_aster_ther", "resu")
+DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/HOMARD"
 Case.SetDirName(DirName)
-# Options de conformite
 Case.SetConfType(1)
 # Iteration 0 associee
 Iter0 = Case.GetIter0()
@@ -248,6 +234,7 @@ Iter0 = Case.GetIter0()
                            </service>
                            <control> <fromnode>CreateCase</fromnode> <tonode>Case_Options</tonode> </control>
                            <control> <fromnode>Case_Options</fromnode> <tonode>CreateHypothesis</tonode> </control>
+
                            <datalink control="false">
                               <fromnode>CreateCase</fromnode> <fromport>return</fromport>
                               <tonode>Case_Options</tonode> <toport>Case</toport>
@@ -259,8 +246,8 @@ Iter0 = Case.GetIter0()
                      <script><code><![CDATA[
 import os
 # Repertoire d'execution
-REPBASE = os.environ["HOMARD_TRAINING"]
-DirName = os.path.join(REPBASE, "tet_aster_ther", "resu")
+DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+MeshName = "BOX"
 #
 # Hypothese
 # =========
@@ -271,20 +258,20 @@ HypoName = Hypo.GetName()
 # . Options
 # ---------
 # . Le mode d'adaptation : raffinement selon un champ
-Hypo.SetAdapRefinUnRef(1, 1, 0)
+Hypo.SetAdapRefinUnRef(1, 1, 1)
 # . Nom du champ
-Hypo.SetField('ERREUR')
-# . Nom de la composante
-Hypo.AddComp('ERTABS')
+Hypo.SetField("ERREUR")
 # . Valeurs prises par maille
-Hypo.SetUseComp(0)
+Hypo.SetUseField(0)
+# . Composante
+Hypo.AddComp("ERTABS")
 # . Mode de pilotage
-if NumAdapt <= 2 :
-    seuil = 5.
-else :
-    seuil = 3.
-# Type de seuil : 3 : x% des mailles les pires
-Hypo.SetRefinThr(3, seuil)
+Hypo.SetRefinThr(4, 3)
+Hypo.SetUnRefThr(4, 4)
+#
+# . Interpolation
+Hypo.SetTypeFieldInterp(2)
+Hypo.AddFieldInterp("TEMPERATURE")
 #
 # . Taille de maille limite
 aux = 0.0015
@@ -312,7 +299,6 @@ Iter = LastIter.NextIteration(IterName)
 Iter.AssociateHypo(HypoName)
 #
 # . Le nom du futur maillage
-MeshName = dico_resu["MeshName"]
 Iter.SetMeshName(MeshName)
 #
 # . Le fichier du futur maillage
@@ -347,19 +333,19 @@ else :
                   </inline>
                   <control> <fromnode>HOMARD_Initialisation</fromnode> <tonode>HOMARD_Exec</tonode> </control>
                   <datalink control="false">
-                     <fromnode>HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration</fromnode> <fromport>return</fromport>
+                     <fromnode>HOMARD_Initialisation.default_Iter_n.LastIteration</fromnode> <fromport>return</fromport>
                      <tonode>HOMARD_Exec</tonode> <toport>LastIter</toport>
                   </datalink>
                   <datalink control="false">
-                     <fromnode>HOMARD_Initialisation.p1_HOMARD_Init_au_debut.Case_Options</fromnode> <fromport>Iter0</fromport>
+                     <fromnode>HOMARD_Initialisation.p1_Iter_1.Case_Options</fromnode> <fromport>Iter0</fromport>
                      <tonode>HOMARD_Exec</tonode> <toport>LastIter</toport>
                   </datalink>
                   <datalink control="false">
-                     <fromnode>HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis</fromnode> <fromport>return</fromport>
+                     <fromnode>HOMARD_Initialisation.default_Iter_n.GetHypothesis</fromnode> <fromport>return</fromport>
                      <tonode>HOMARD_Exec</tonode> <toport>Hypo</toport>
                   </datalink>
                   <datalink control="false">
-                     <fromnode>HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis</fromnode> <fromport>return</fromport>
+                     <fromnode>HOMARD_Initialisation.p1_Iter_1.CreateHypothesis</fromnode> <fromport>return</fromport>
                      <tonode>HOMARD_Exec</tonode> <toport>Hypo</toport>
                   </datalink>
                </bloc>
@@ -384,12 +370,8 @@ else :
             <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</tonode> <toport>NumAdapt</toport>
          </datalink>
          <datalink control="false">
-            <fromnode>Analyse</fromnode> <fromport>MeshName</fromport>
-            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode> <toport>MeshName</toport>
-         </datalink>
-         <datalink control="false">
             <fromnode>Analyse</fromnode> <fromport>FileName</fromport>
-            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode> <toport>FileName</toport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase</tonode> <toport>FileName</toport>
          </datalink>
          <datalink control="false">
             <fromnode>Analyse</fromnode> <fromport>MessInfo</fromport>
@@ -436,89 +418,95 @@ else :
       <inport name="MessInfo" type="string"/>
    </inline>
    <control> <fromnode>DataInit</fromnode> <tonode>Etude_Initialisation</tonode> </control>
-   <control> <fromnode>Etude_Initialisation</fromnode> <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> </control>
-   <control> <fromnode>Tant_que_le_calcul_n_a_pas_converge</fromnode> <tonode>Bilan</tonode> </control>
+   <control> <fromnode>Etude_Initialisation</fromnode> <tonode>Boucle_de_convergence</tonode> </control>
+   <control> <fromnode>Boucle_de_convergence</fromnode> <tonode>Bilan</tonode> </control>
    <datalink control="false">
       <fromnode>DataInit</fromnode> <fromport>MeshFile</fromport>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul</tonode> <toport>MeshFile</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Calcul</tonode> <toport>MeshFile</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>OK</fromport>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> <toport>condition</toport>
+      <fromnode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>OK</fromport>
+      <tonode>Boucle_de_convergence</tonode> <toport>condition</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>OK</fromport>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode> <toport>condition</toport>
+      <fromnode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>OK</fromport>
+      <tonode>Boucle_de_convergence</tonode> <toport>condition</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>MessInfo</fromport>
+      <fromnode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>MessInfo</fromport>
       <tonode>Bilan</tonode> <toport>MessInfo</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>MessInfo</fromport>
+      <fromnode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</fromnode> <fromport>MessInfo</fromport>
       <tonode>Bilan</tonode> <toport>MessInfo</toport>
    </datalink>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase</tonode><toport>CaseName</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase</tonode><toport>CaseName</toport>
       <value><string>Calcul</string></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul</tonode><toport>numCalc</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Calcul</tonode><toport>numCalc</toport>
       <value><int>0</int></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation</tonode><toport>select</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation</tonode><toport>select</toport>
       <value><int>0</int></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation</tonode><toport>select</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation</tonode><toport>select</toport>
       <value><int>0</int></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration</tonode><toport>CaseName</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_Iter_n.LastIteration</tonode><toport>CaseName</toport>
       <value><string>Calcul</string></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis</tonode><toport>HypoName</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_Iter_n.GetHypothesis</tonode><toport>HypoName</toport>
       <value><string>Hypo</string></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis</tonode><toport>HypoName</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateHypothesis</tonode><toport>HypoName</toport>
       <value><string>Hypo</string></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge</tonode><toport>condition</toport>
+      <tonode>Boucle_de_convergence</tonode><toport>condition</toport>
       <value><boolean>true</boolean></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse</tonode><toport>NumCalc</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Analyse</tonode><toport>NumCalc</toport>
       <value><int>0</int></value>
    </parameter>
    <parameter>
-      <tonode>Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse</tonode><toport>ErrCalc</toport>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Analyse</tonode><toport>ErrCalc</toport>
       <value><int>0</int></value>
    </parameter>
+   <parameter>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase</tonode><toport>MeshName</toport>
+      <value><string>BOX</string></value>
+   </parameter>
+
    <presentation name="__ROOT__" x="0" y="0" width="704" height="977" expanded="1" expx="0" expy="0" expWidth="704" expHeight="977" shownState="0"/>
    <presentation name="DataInit" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation" x="175" y="32" width="325" height="99" expanded="1" expx="175" expy="32" expWidth="325" expHeight="99" shownState="0"/>
-   <presentation name="Etude_Initialisation.StudyCreation" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation.SetCurrentStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge" x="4" y="132" width="696" height="841" expanded="1" expx="4" expy="132" expWidth="696" expHeight="841" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD" x="4" y="59" width="682" height="778" expanded="1" expx="10" expy="59" expWidth="682" expHeight="778" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Calcul" x="4" y="32" width="158" height="90" expanded="1" expx="4" expy="32" expWidth="158" expHeight="90" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Analyse" x="181" y="32" width="158" height="171" expanded="1" expx="181" expy="32" expWidth="158" expHeight="171" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation" x="4" y="204" width="674" height="570" expanded="1" expx="4" expy="204" expWidth="674" expHeight="570" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle" x="4" y="59" width="166" height="153" expanded="1" expx="4" expy="59" expWidth="166" expHeight="153" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret" x="4" y="32" width="158" height="117" expanded="1" expx="4" expy="32" expWidth="158" expHeight="117" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD" x="4" y="213" width="666" height="353" expanded="1" expx="4" expy="213" expWidth="666" expHeight="353" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation" x="4" y="32" width="492" height="316" expanded="1" expx="4" expy="32" expWidth="492" expHeight="316" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut" x="4" y="59" width="483" height="153" expanded="1" expx="4" expy="59" expWidth="483" expHeight="153" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateCase" x="4" y="32" width="158" height="117" expanded="1" expx="4" expy="32" expWidth="158" expHeight="117" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.Case_Options" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut.CreateHypothesis" x="322" y="32" width="158" height="63" expanded="1" expx="322" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite" x="4" y="213" width="325" height="99" expanded="1" expx="4" expy="213" expWidth="325" expHeight="99" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.LastIteration" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_HOMARD_Init_ensuite.GetHypothesis" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec" x="504" y="32" width="158" height="144" expanded="1" expx="504" expy="32" expWidth="158" expHeight="144" shownState="0"/>
-   <presentation name="Bilan" x="535" y="32" width="158" height="63" expanded="1" expx="535" expy="36" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation" x="175" y="32" width="158" height="38" expanded="0" expx="175" expy="32" expWidth="162.5" expHeight="40.5" shownState="1"/>
+   <presentation name="Etude_Initialisation.StudyCreation" x="0" y="0" width="158" height="36" expanded="1" expx="4" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Etude_Initialisation.SetCurrentStudy" x="0" y="0" width="158" height="36" expanded="1" expx="163" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence" x="4" y="103" width="569" height="514" expanded="1" expx="4" expy="103" expWidth="569" expHeight="514" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD" x="4" y="59" width="561" height="451" expanded="1" expx="10" expy="59" expWidth="561" expHeight="451" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Calcul" x="4" y="32" width="158" height="90" expanded="1" expx="4" expy="32" expWidth="158" expHeight="90" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Analyse" x="181" y="32" width="158" height="171" expanded="1" expx="181" expy="32" expWidth="158" expHeight="171" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation" x="4" y="204" width="553" height="243" expanded="1" expx="4" expy="204" expWidth="553" expHeight="243" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle" x="4" y="59" width="166" height="153" expanded="1" expx="4" expy="59" expWidth="166" expHeight="153" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.default_Arret_boucle.Arret" x="4" y="32" width="158" height="117" expanded="1" expx="4" expy="32" expWidth="158" expHeight="117" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD"  x="202" y="59" width="347" height="180" expanded="1" expx="202" expy="59" expWidth="347" expHeight="180" shownState="0"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation" x="4" y="32" width="158" height="65" expanded="0" expx="4" expy="32" expWidth="167" expHeight="67.5" shownState="1"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1" x="0" y="0" width="162.5" height="40.5" expanded="1" expx="4" expy="59" expWidth="162.5" expHeight="40.5" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase" x="0" y="0" width="158" height="36" expanded="1" expx="4" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.Case_Options" x="0" y="0" width="158" height="36" expanded="1" expx="163" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateHypothesis" x="0" y="0" width="158" height="36" expanded="1" expx="322" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_Iter_n" x="0" y="0" width="162.5" height="40.5" expanded="1" expx="4" expy="1639.5" expWidth="162.5" expHeight="40.5" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_Iter_n.LastIteration" x="0" y="0" width="158" height="36" expanded="1" expx="4" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.default_Iter_n.GetHypothesis" x="0" y="0" width="158" height="36" expanded="1" expx="163" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec" x="185" y="32" width="158" height="144" expanded="1" expx="185" expy="32" expWidth="158" expHeight="144" shownState="0"/>
+   <presentation name="Bilan" x="350" y="32" width="158" height="63" expanded="1" expx="350" expy="32" expWidth="158" expHeight="63" shownState="0"/>
 </proc>
+

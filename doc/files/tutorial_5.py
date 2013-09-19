@@ -54,19 +54,19 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Creation of the boundaries
-# ==========================
+# Frontiere
+# =========
 # Creation of the discrete boundary Boun_5_1
 Boun_5_1 = homard.CreateBoundaryDi('Boun_5_1', 'MAIL_EXT', data_dir+'/tutorial_5.fr.med')
 #
-# Creation of the zones
-# =====================
+# Creation des zones
+# ==================
 # Creation of the disk with hole enveloppe
 enveloppe = homard.CreateZoneDiskWithHole( 'enveloppe', 0., 0., 250., 193., 1 )
 # Creation of the rectangle quart_sup
 quart_sup = homard.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
 #
-# Hypothesis
+# Hypotheses
 # ==========
 # Creation of the hypothesis Hypo_5
 Hypo_5 = homard.CreateHypothesis('Hypo_5')
@@ -77,15 +77,15 @@ Hypo_5_bis = homard.CreateHypothesis('Hypo_5_bis')
 Hypo_5_bis.SetAdapRefinUnRef(0, 1, 0)
 Hypo_5_bis.AddZone('quart_sup', 1)
 #
-# Case "Case_5"
-# =============
+# Cas
+# ===
 Case_5 = homard.CreateCase('Case_5', 'COEUR_2D', data_dir+'/tutorial_5.00.med')
 Case_5.SetDirName(dircase)
 Case_5.SetConfType(3)
 Case_5.AddBoundaryGroup('Boun_5_1', '')
 #
 # Iteration "Iter_5_1"
-# ==================
+# ====================
 Iter_5_1 = Case_5.NextIteration('Iter_5_1')
 Iter_5_1.SetMeshName('COEUR_2D_01')
 Iter_5_1.SetMeshFile(dircase+'/maill.01.med')
@@ -93,7 +93,7 @@ Iter_5_1.AssociateHypo('Hypo_5')
 codret = Iter_5_1.Compute(1, 2)
 #
 # Iteration "Iter_5_2"
-# ==================
+# ====================
 Iter_5_2 = Iter_5_1.NextIteration('Iter_5_2')
 Iter_5_2.SetMeshName('COEUR_2D_02')
 Iter_5_2.SetMeshFile(dircase+'/maill.02.med')

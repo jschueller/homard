@@ -34,13 +34,14 @@ public:
   void        TexteAdd( const std::string ligne ) ;
   void        Texte_DataInit_MeshFile( const std::string Meshfile ) ;
   void        Texte_Alternance_Calcul_HOMARD_Calcul( const std::string FileName ) ;
-  void        Texte_HOMARD_Init_au_debut_Case_Options( const std::string pythonCas ) ;
-  std::string Texte_HOMARD_Init_au_debut_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName ) ;
-  std::string Texte_HOMARD_Init_au_debut_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName ) ;
-  std::string Texte_HOMARD_Init_au_debut_control() ;
+  void        Texte_Iter_1_Case_Options( const std::string pythonCas ) ;
+  std::string Texte_Iter_1_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName ) ;
+  std::string Texte_Iter_1_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName ) ;
+  std::string Texte_Iter_1_control() ;
   std::string Texte_control( const std::string noeud_1, const std::string noeud_2 ) ;
   std::string Texte_inport( const std::string inport_type, const std::string inport_nom ) ;
   void        Texte_HOMARD_Exec_DirName( ) ;
+  void        Texte_HOMARD_Exec_MeshName( const std::string MeshName ) ;
   void        Texte_python( const std::string pythonTexte, int indice, const std::string concept ) ;
   void        TexteParametre( const std::string node, const std::string port, const std::string type_value, const std::string value ) ;
   void        TexteAddParametres( ) ;

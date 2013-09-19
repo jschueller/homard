@@ -78,10 +78,15 @@ std::string HOMARD_YACS::GetDumpPython() const
   MESSAGE (". Ecriture du schema " << _Name );
   std::ostringstream aScript;
   aScript << "\n# Creation of the schema " << _Name << "\n";
-// Le fichier du maillage initial
-  aScript << "\t" << _Name << ".SetMeshFile(\"" << _MeshFile << "\")\n";
+// Creation du schema
+  aScript << "\t" << _Name << " = " << _NomCas << ".CreateYACSSchema(\"" << _Name << "\", \"" << _ScriptFile << "\", \"" << _NomDir << "\", \"" << _MeshFile << "\")\n";
+// Le type de schema
+  aScript << "\t" << _Name << ".SetType(" << _Type << ")\n";
 
-//   MESSAGE (". Fin de l ecriture du schema " << _Name );
+// L'ecriture eventuelle du schema
+  aScript << "\t#" << _Name << ".Write()\n";
+
+  MESSAGE (". Fin de l ecriture du schema " << _Name );
 
   return aScript.str();
 }

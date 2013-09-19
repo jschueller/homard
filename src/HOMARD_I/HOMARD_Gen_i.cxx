@@ -1023,9 +1023,9 @@ HOMARD::HOMARD_Iteration_ptr  HOMARD_Gen_i::GetIteration(const char* NomIteratio
   return HOMARD::HOMARD_Iteration::_duplicate(myIteration);
 }
 //=============================================================================
-HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::GetYACS(const char* YACSName)
+HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::GetYACS(const char* nomYACS)
 {
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[YACSName];
+  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
   return HOMARD::HOMARD_YACS::_duplicate(myYACS);
 }
@@ -3308,7 +3308,6 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
       break ;
     }
   }
-  MESSAGE("Appel de PublishInStudyAttr pour name = "<<theName);
   PublishInStudyAttr(aStudyBuilder, aResultSO, theName, "ZoneHomard", icone.c_str(), _orb->object_to_string(theObject) ) ;
 
   return aResultSO._retn();
@@ -3316,10 +3315,9 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
 //===========================================================================
 void HOMARD_Gen_i::PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                       SALOMEDS::SObject_var aResultSO,
-                                      const char* name, const char* value, const char* icone, const char* ior)
+                                      const char* name, const char* comment, const char* icone, const char* ior)
 {
-  MESSAGE("PublishInStudyAttr pour name = "<<name);
-  MESSAGE("value = "<<value);
+  MESSAGE("PublishInStudyAttr pour name = "<<name<<", comment = "<<comment);
 //   MESSAGE("icone = "<<icone);
 //   MESSAGE("ior   = "<<ior);
   SALOMEDS::GenericAttribute_var anAttr ;
@@ -3332,11 +3330,11 @@ void HOMARD_Gen_i::PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
   }
 
 //  Ajout du commentaire
-  if ( value != NULL )
+  if ( comment != NULL )
   {
     anAttr = aStudyBuilder->FindOrCreateAttribute(aResultSO, "AttributeComment");
     SALOMEDS::AttributeComment_var aCommentAttrib = SALOMEDS::AttributeComment::_narrow(anAttr);
-    aCommentAttrib->SetValue(value);
+    aCommentAttrib->SetValue(comment);
   }
 
 //  Ajout de l'icone
@@ -3377,6 +3375,31 @@ void HOMARD_Gen_i::PublishBoundaryUnderCase(const char* CaseName, const char* Bo
 
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aCaseSO);
   aStudyBuilder->Addreference(aSubSO, aBoundarySO);
+
+  aStudyBuilder->CommitCommand();
+
+};
+//=====================================================================================
+void HOMARD_Gen_i::PublishCaseUnderYACS(const char* nomYACS, const char* CaseName)
+{
+  MESSAGE ( "PublishCaseUnderYACS : nomYACS = " << nomYACS << ", CaseName= " << CaseName );
+
+  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  ASSERT(!CORBA::is_nil(myYACS));
+  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  ASSERT(!CORBA::is_nil(aYACSSO));
+
+  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[CaseName];
+  ASSERT(!CORBA::is_nil(myCase));
+  SALOMEDS::SObject_var aCaseSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myCase)));
+  ASSERT(!CORBA::is_nil(aCaseSO));
+
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+
+  aStudyBuilder->NewCommand();
+
+  SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aYACSSO);
+  aStudyBuilder->Addreference(aSubSO, aCaseSO);
 
   aStudyBuilder->CommitCommand();
 
@@ -3514,24 +3537,8 @@ void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName
 void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire)
 {
 //   MESSAGE (" PublishFileUnderIteration pour l'iteration " << NomIter << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
-  if (CORBA::is_nil(myCurrentStudy))
-  {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid study context";
-      throw SALOME::SALOME_Exception(es);
-      return ;
-  };
-
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIter];
-  if (CORBA::is_nil(myIteration))
-  {
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid iteration";
-      throw SALOME::SALOME_Exception(es);
-      return ;
-  };
+
   SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   if (CORBA::is_nil(myIteration))
   {
@@ -3548,7 +3555,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aIterSO);
 // Pour les fichiers med, on affiche une icone de maillage
-// Pour les fichiers qui sont texte, on affiche une icone de fichier texte 'texte'
+// Pour les fichiers qui sont du texte, on affiche une icone de fichier texte 'texte'
 // Le reperage se fait par la 1ere lettre du commentaire : I pour Iteration n
   std::string icone ;
   std::string ior = " " ;
@@ -3556,6 +3563,34 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
   { icone = "med.png" ; }
   else
   { icone = "texte_2.png" ; }
+  PublishInStudyAttr(aStudyBuilder, aSubSO, NomFich, Commentaire, icone.c_str(), ior.c_str() ) ;
+
+  aStudyBuilder->CommitCommand();
+}
+//
+//=============================================================================
+void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich, const char* Commentaire)
+{
+//   MESSAGE (" PublishFileUnderYACS pour le schema " << nomYACS << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
+  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+
+  SALOMEDS::SObject_var aYACSSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  if (CORBA::is_nil(myYACS))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid YACSStudy Object";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+
+  aStudyBuilder->NewCommand();
+
+  SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aYACSSO);
+  std::string icone = "texte_2.png" ;
+  std::string ior = " " ;
   PublishInStudyAttr(aStudyBuilder, aSubSO, NomFich, Commentaire, icone.c_str(), ior.c_str() ) ;
 
   aStudyBuilder->CommitCommand();
@@ -3572,16 +3607,16 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 // FileName : nom du fichier contenant le script de lancement du calcul
 // DirName : le repertoire de lancement des calculs du schéma
 //=============================================================================
-HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* YACSName, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
+HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
 {
-  INFOS ( "CreateYACSSchema : Schema YACS " << YACSName );
+  INFOS ( "CreateYACSSchema : Schema YACS " << nomYACS );
   INFOS ( ". nomCas     : " << nomCas);
   INFOS ( ". ScriptFile : " << ScriptFile);
   INFOS ( ". DirName    : " << DirName);
   INFOS ( ". MeshFile   : " << MeshFile);
 
   // A. Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesYACSs).find(YACSName) != (myContextMap[GetCurrentStudyID()]._mesYACSs).end())
+  if ((myContextMap[GetCurrentStudyID()]._mesYACSs).find(nomYACS) != (myContextMap[GetCurrentStudyID()]._mesYACSs).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -3600,13 +3635,15 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* YACSName, co
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
-  myYACS->SetName( YACSName ) ;
+  myYACS->SetName( nomYACS ) ;
 
   // C. Enregistrement
-  myContextMap[GetCurrentStudyID()]._mesYACSs[YACSName] = myYACS;
+  myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS] = myYACS;
 
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myYACS, YACSName);
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myYACS, nomYACS);
+
+  PublishCaseUnderYACS(nomYACS, nomCas);
 
   // D. Caracterisation
   myYACS->SetDirName( DirName ) ;
@@ -3616,6 +3653,26 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* YACSName, co
   myYACS->SetType( 1 ) ;
 
   return HOMARD::HOMARD_YACS::_duplicate(myYACS);
+}
+//=============================================================================
+// Ecriture d'un schema YACS
+//=============================================================================
+CORBA::Long HOMARD_Gen_i::YACSWrite(const char* nomYACS)
+{
+  INFOS ( "YACSWrite : Ecriture de " << nomYACS );
+// Le repertoire du cas
+  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  ASSERT(!CORBA::is_nil(myYACS));
+  std::string casename = myYACS->GetCaseName() ;
+  HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(casename.c_str()) ;
+  std::string dirnamecase = caseyacs->GetDirName() ;
+// Le nom par defaut du fichier du schema
+  std::string YACSFile ;
+  YACSFile = dirnamecase + "/schema.xml" ;
+
+  int codret = YACSWriteOnFile(nomYACS, YACSFile.c_str()) ;
+
+  return codret ;
 }
 //=============================================================================
 // Ecriture d'un schema YACS
@@ -3651,6 +3708,8 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
   HOMARD::HOMARD_Iteration_var Iter0 = myCase->GetIter0() ;
   std::string Iter0Name = myCase->GetIter0Name() ;
   MESSAGE (". Iter0Name = " << Iter0Name);
+  std::string MeshName = Iter0->GetMeshName();
+  MESSAGE (". MeshName = " << MeshName);
   // D.2. L'iteration numero 1
   HOMARD::listeIterFilles* maListe = Iter0->GetIterations();
   int numberOfIter = maListe->length();
@@ -3690,7 +3749,15 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
   // HOMARD_ROOT_DIR : repertoire ou se trouve le module HOMARD
   std::string YACSFile_base ;
   if ( getenv("HOMARD_ROOT_DIR") != NULL ) { YACSFile_base = getenv("HOMARD_ROOT_DIR") ; }
-  else                                     { ASSERT("HOMARD_ROOT_DIR est inconnu." == 0) ; }
+  else
+  {
+    SALOME::ExceptionStruct es ;
+    es.type = SALOME::BAD_PARAM;
+    std::string text = "HOMARD_ROOT_DIR est inconnu." ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  }
   YACSFile_base += "/share/salome/resources/homard/yacs_01.xml" ;
   MESSAGE("YACSFile_base ="<<YACSFile_base);
 
@@ -3709,48 +3776,39 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
       ligne_bis >> mot_cle ;
       // G.1.2. Le maillage initial
       if ( mot_cle == "DataInit_MeshFile" )
-      {
-        myDriver->Texte_DataInit_MeshFile(MeshFile);
-      }
+      { myDriver->Texte_DataInit_MeshFile(MeshFile); }
       // G.1.3. Le script de lancement
       else if ( mot_cle == "Alternance_Calcul_HOMARD_Calcul" )
-      {
-        myDriver->Texte_Alternance_Calcul_HOMARD_Calcul(ScriptFile);
-      }
+      { myDriver->Texte_Alternance_Calcul_HOMARD_Calcul(ScriptFile); }
       // G.1.4. Les options du cas
-      else if ( mot_cle == "HOMARD_Init_au_debut_Case_Options" )
-      {
-        myDriver->Texte_HOMARD_Init_au_debut_Case_Options(pythonCas);
-      }
+      else if ( mot_cle == "Iter_1_Case_Options" )
+      { myDriver->Texte_Iter_1_Case_Options(pythonCas); }
       // G.1.5. Execution de HOMARD : le repertoire du cas
       else if ( mot_cle == "HOMARD_Exec_DirName" )
+      { myDriver->Texte_HOMARD_Exec_DirName(); }
+      // G.1.6. Execution de HOMARD : le nom du maillage
+      else if ( mot_cle == "HOMARD_Exec_MeshName" )
       {
-        myDriver->Texte_HOMARD_Exec_DirName();
+        myDriver->Texte_HOMARD_Exec_MeshName(MeshName);
+        std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase" ;
+        myDriver->TexteParametre( node, "MeshName", "string", MeshName ) ;
       }
-      // G.1.6. Execution de HOMARD : les options de l'hypothese
+      // G.1.7. Execution de HOMARD : les options de l'hypothese
       else if ( mot_cle == "HOMARD_Exec_Hypo_Options" )
+      { myDriver->Texte_python( pythonHypo, 3, "Hypo" ) ;  }
+      // G.1.8. Zones et frontieres : les creations
+      else if ( mot_cle == "Iter_1" )
       {
-        myDriver->Texte_python( pythonHypo, 3, "Hypo" ) ;
-      }
-      // G.1.7. Zones et frontieres : les creations
-      else if ( mot_cle == "HOMARD_Init_au_debut" )
-      {
-        std::string texte_control = myDriver->Texte_HOMARD_Init_au_debut_control() ;
+        std::string texte_control = myDriver->Texte_Iter_1_control() ;
         if ( TypeAdap == 0 ) { texte_control += YACSDriverTexteZone( myHypo, myDriver ) ; }
         texte_control += YACSDriverTexteBoundary( myCase, myDriver ) ;
         myDriver->TexteAdd(texte_control);
       }
-      // G.1.8. Zones : les parametres
+      // G.1.9. Les parametres
       else if ( mot_cle == "PARAMETRES" )
-      {
-        if ( TypeAdap == 0 )
-        { myDriver->TexteAddParametres(); }
-      }
+      { myDriver->TexteAddParametres(); }
       // G.1.n. La ligne est recopiee telle quelle
-      else
-      {
-        myDriver->TexteAdd(ligne);
-      }
+      else { myDriver->TexteAdd(ligne);  }
     }
     // G.2. Ecriture du texte dans le fichier
     if ( codret == 0 )
@@ -3766,6 +3824,11 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
   }
 
   delete myDriver;
+
+  // H. Publication du fichier dans l'arbre
+
+    std::string Commentaire = "xml" ;
+    PublishFileUnderYACS(nomYACS, YACSFile, Commentaire.c_str());
 
   return codret ;
 }
@@ -3807,7 +3870,7 @@ std::string HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHy
     int ZoneType = myZone->GetType();
     MESSAGE ( "... ZoneType = " << ZoneType);
     std::string texte_control_0 ;
-    texte_control_0 = myDriver->Texte_HOMARD_Init_au_debut_Zone(ZoneType, pythonStructure, methode, ZoneName );
+    texte_control_0 = myDriver->Texte_Iter_1_Zone(ZoneType, pythonStructure, methode, ZoneName );
     texte_control += texte_control_0 ;
     // 5. Decalage
     iaux += 1 ;
@@ -3866,7 +3929,7 @@ std::string HOMARD_Gen_i::YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase,
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType);
       std::string texte_control_0 ;
-      texte_control_0 = myDriver->Texte_HOMARD_Init_au_debut_Boundary(BoundaryType, pythonStructure, methode, BoundaryName );
+      texte_control_0 = myDriver->Texte_Iter_1_Boundary(BoundaryType, pythonStructure, methode, BoundaryName );
       texte_control += texte_control_0 ;
       // 5. Memorisation du traitement
       ListeBoundaryTraitees.push_back( BoundaryName );
@@ -4347,8 +4410,8 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    for ( it_zone  = myContextMap[GetCurrentStudyID()]._mesZones.begin();
          it_zone != myContextMap[GetCurrentStudyID()]._mesZones.end(); ++it_zone)
    {
-    HOMARD::HOMARD_Zone_var maZone = (*it_zone).second;
-    CORBA::String_var dumpCorbaZone = maZone->GetDumpPython();
+    HOMARD::HOMARD_Zone_var myZone = (*it_zone).second;
+    CORBA::String_var dumpCorbaZone = myZone->GetDumpPython();
     std::string dumpZone = dumpCorbaZone.in();
     MESSAGE (dumpZone<<"\n");
     aScript += dumpZone;
@@ -4422,6 +4485,24 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
     std::string dumpIter = dumpCorbaIter.in();
     MESSAGE (dumpIter<<"\n");
     aScript += dumpIter;
+   }
+
+
+   if (myContextMap[GetCurrentStudyID()]._mesYACSs.size() > 0)
+   {
+    MESSAGE (". Ecritures des schemas YACS");
+    aScript += "#\n# Creation of the schemas YACS";
+    aScript +=  "\n# ============================";
+   }
+   std::map<std::string, HOMARD::HOMARD_YACS_var>::const_iterator it_yacs;
+   for ( it_yacs  = myContextMap[GetCurrentStudyID()]._mesYACSs.begin();
+         it_yacs != myContextMap[GetCurrentStudyID()]._mesYACSs.end(); ++it_yacs)
+   {
+    HOMARD::HOMARD_YACS_var myYACS = (*it_yacs).second;
+    CORBA::String_var dumpCorbaYACS = myYACS->GetDumpPython();
+    std::string dumpYACS = dumpCorbaYACS.in();
+    MESSAGE (dumpYACS<<"\n");
+    aScript += dumpYACS;
    }
 
   MESSAGE (". Ecritures finales");

@@ -35,11 +35,11 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     Q_OBJECT
 
   public:
-    MonCreateYACS( QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName);
+    MonCreateYACS( bool modal, HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName);
     virtual ~MonCreateYACS();
 
   protected :
-    MonCreateYACS( QWidget* parent, HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName);
+    MonCreateYACS( HOMARD::HOMARD_Gen_var myHomardGen, QString CaseName);
 
     QString _Name;
     QString _aCaseName;
@@ -52,10 +52,10 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     bool Chgt;
 
     HOMARD::HOMARD_YACS_var aYACS;
-    HOMARD::HOMARD_Cas_var aCase ;
     HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
+    virtual bool CreateOrUpdate();
 
   public slots:
     virtual void SetNewName();

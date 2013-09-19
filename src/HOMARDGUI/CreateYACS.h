@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateYACS.ui'
 **
-** Created: Tue Sep 17 15:43:52 2013
+** Created: Wed Sep 18 10:38:42 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -39,15 +39,15 @@ public:
     QLineEdit *LECaseName;
     QHBoxLayout *_2;
     QLabel *Script;
-    QPushButton *PushFile;
+    QPushButton *PBScriptFile;
     QLineEdit *LEScriptFile;
     QHBoxLayout *hboxLayout;
     QLabel *DirectoryStart;
-    QPushButton *PushDir;
+    QPushButton *PBDir;
     QLineEdit *LEDirName;
     QHBoxLayout *_3;
     QLabel *MeshFile;
-    QPushButton *PushFile_2;
+    QPushButton *PBMeshFile;
     QLineEdit *LEMeshFile;
     QRadioButton *RBStatic;
     QRadioButton *RBTransient;
@@ -117,11 +117,11 @@ public:
 
         _2->addWidget(Script);
 
-        PushFile = new QPushButton(CreateYACS);
-        PushFile->setObjectName(QString::fromUtf8("PushFile"));
-        PushFile->setAutoDefault(false);
+        PBScriptFile = new QPushButton(CreateYACS);
+        PBScriptFile->setObjectName(QString::fromUtf8("PBScriptFile"));
+        PBScriptFile->setAutoDefault(false);
 
-        _2->addWidget(PushFile);
+        _2->addWidget(PBScriptFile);
 
         LEScriptFile = new QLineEdit(CreateYACS);
         LEScriptFile->setObjectName(QString::fromUtf8("LEScriptFile"));
@@ -143,11 +143,11 @@ public:
 
         hboxLayout->addWidget(DirectoryStart);
 
-        PushDir = new QPushButton(CreateYACS);
-        PushDir->setObjectName(QString::fromUtf8("PushDir"));
-        PushDir->setAutoDefault(false);
+        PBDir = new QPushButton(CreateYACS);
+        PBDir->setObjectName(QString::fromUtf8("PBDir"));
+        PBDir->setAutoDefault(false);
 
-        hboxLayout->addWidget(PushDir);
+        hboxLayout->addWidget(PBDir);
 
         LEDirName = new QLineEdit(CreateYACS);
         LEDirName->setObjectName(QString::fromUtf8("LEDirName"));
@@ -169,11 +169,11 @@ public:
 
         _3->addWidget(MeshFile);
 
-        PushFile_2 = new QPushButton(CreateYACS);
-        PushFile_2->setObjectName(QString::fromUtf8("PushFile_2"));
-        PushFile_2->setAutoDefault(false);
+        PBMeshFile = new QPushButton(CreateYACS);
+        PBMeshFile->setObjectName(QString::fromUtf8("PBMeshFile"));
+        PBMeshFile->setAutoDefault(false);
 
-        _3->addWidget(PushFile_2);
+        _3->addWidget(PBMeshFile);
 
         LEMeshFile = new QLineEdit(CreateYACS);
         LEMeshFile->setObjectName(QString::fromUtf8("LEMeshFile"));
@@ -249,11 +249,11 @@ public:
         Case->setText(QApplication::translate("CreateYACS", "Case", 0, QApplication::UnicodeUTF8));
         PBCaseName->setText(QString());
         Script->setText(QApplication::translate("CreateYACS", "Script", 0, QApplication::UnicodeUTF8));
-        PushFile->setText(QString());
+        PBScriptFile->setText(QString());
         DirectoryStart->setText(QApplication::translate("CreateYACS", "Directory", 0, QApplication::UnicodeUTF8));
-        PushDir->setText(QString());
+        PBDir->setText(QString());
         MeshFile->setText(QApplication::translate("CreateYACS", "Mesh file", 0, QApplication::UnicodeUTF8));
-        PushFile_2->setText(QString());
+        PBMeshFile->setText(QString());
         RBStatic->setText(QApplication::translate("CreateYACS", "Static", 0, QApplication::UnicodeUTF8));
         RBTransient->setText(QApplication::translate("CreateYACS", "Transient", 0, QApplication::UnicodeUTF8));
         GroupButtons->setTitle(QString());

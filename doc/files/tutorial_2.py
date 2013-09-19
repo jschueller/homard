@@ -54,8 +54,8 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Creation of the zones
-# =====================
+# Creation des zones
+# ==================
 # Box "Zone_0"
 Zone_0 = homard.CreateZoneBox ('Zone_0', -0.1, 1.1, -0.1, 1.1, 0.9, 1.1)
 #
@@ -65,27 +65,27 @@ Zone_1 = homard.CreateZoneSphere ('Zone_1', 0., 0., 0., 1.05)
 # Box "Zone_2"
 Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 #
-# Hypothesis "Hypo_2"
-# ===================
+# Hypothese "Hypo_2"
+# ==================
 Hypo_2 = homard.CreateHypothesis('Hypo_2')
 Hypo_2.SetAdapRefinUnRef(0, 1, 0)
 Hypo_2.AddZone('Zone_1', 1)
 Hypo_2.AddZone('Zone_0', 1)
 #
-# Hypothesis "Hypo_2_bis"
-# ===================
+# Hypothese "Hypo_2_bis"
+# ======================
 Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
 Hypo_2_bis.SetAdapRefinUnRef(0, 1, 0)
 Hypo_2_bis.AddZone('Zone_0', 1)
 Hypo_2_bis.AddZone('Zone_2', 1)
 #
-# Case "Case_2"
-# =============
+# Cas
+# ===
 Case_2 = homard.CreateCase('Case_2', 'MZERO', data_dir+'/tutorial_2.00.med')
 Case_2.SetDirName(dircase)
 #
 # Iteration "Iter_2_0"
-# ==================
+# ====================
 Iter_2_0 = Case_2.NextIteration('Iter_2_0')
 Iter_2_0.SetMeshName('M_1')
 Iter_2_0.SetMeshFile(dircase+'/maill.01.med')
@@ -93,7 +93,7 @@ Iter_2_0.AssociateHypo('Hypo_2')
 codret = Iter_2_0.Compute(1, 2)
 #
 # Iteration "Iter_2_1"
-# ==================
+# ====================
 Iter_2_1 = Iter_2_0.NextIteration('Iter_2_1')
 Iter_2_1.SetMeshName('M_2')
 Iter_2_1.SetMeshFile(dircase+'/maill.02.med')

@@ -283,25 +283,42 @@ void HOMARD_Cas_i::AddBoundaryGroup( const char* BoundaryName, const char* Group
 {
   MESSAGE ("AddBoundaryGroup : BoundaryName = "<< BoundaryName << ", Group = " << Group );
   ASSERT( myHomardCas );
-  // La frontiere est-elle deja enregistree pour ce cas ?
+  // A. La liste des frontiere+groupes
   const std::list<std::string>& ListBoundaryGroup = myHomardCas->GetBoundaryGroup();
   std::list<std::string>::const_iterator it;
-  int existe = 0;
+  // B. La frontiere
+  // B.1. La frontiere est-elle deja enregistree pour ce cas ?
+  bool existe = false ;
   for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
   {
-    if ( *it == BoundaryName )
-    { existe = 1 ; }
+//     MESSAGE ("..  Frontiere : "<< *it );
+    if ( *it == BoundaryName ) { existe = true ; }
     it++ ;
   }
-  // Enregistrement de la frontiere dans la reference du cas
-  myHomardCas->AddBoundaryGroup( BoundaryName, Group );
-  // Pour une nouvelle frontiere, publication dans l'arbre d'etudes sous le cas
-  if ( existe == 0 )
+  // B.2. Pour une nouvelle frontiere, publication dans l'arbre d'etudes sous le cas
+  if ( !existe )
   {
     char* CaseName = GetName() ;
     MESSAGE ( "AddBoundaryGroup : insertion de la frontiere dans l'arbre de " << CaseName );
     _gen_i->PublishBoundaryUnderCase(CaseName, BoundaryName) ;
   }
+  // C. Le groupe est-il deja enregistre pour une frontiere de ce cas ?
+  for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+  {
+    std::string boun = *it ;
+    it++ ;
+//     MESSAGE ("..  Group : "<< *it );
+    if ( *it == Group )
+    { INFOS ("Le groupe " << Group << " est deja associe a la frontiere " << boun) ;
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid AddBoundaryGroup";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+    }
+  }
+  // D. Enregistrement du couple (frontiere,groupe) dans la reference du cas
+  myHomardCas->AddBoundaryGroup( BoundaryName, Group );
 }
 //=============================================================================
 HOMARD::ListBoundaryGroupType* HOMARD_Cas_i::GetBoundaryGroup()

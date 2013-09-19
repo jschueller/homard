@@ -54,8 +54,8 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Hypothesis "Hypo_0vers1"
-# ========================
+# Hypothese "Hypo_0vers1"
+# =======================
 Hypo_0vers1 = homard.CreateHypothesis('Hypo_0vers1')
 Hypo_0vers1.SetAdapRefinUnRef(1, 1, 0)
 # Characterization of the field
@@ -67,8 +67,8 @@ Hypo_0vers1.SetTypeFieldInterp(2)
 Hypo_0vers1.AddFieldInterp('SOLU_0__DEPL____________________')
 Hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
 #
-# Hypothesis "Hypo_1vers2"
-# ========================
+# Hypothese "Hypo_1vers2"
+# =======================
 Hypo_1vers2 = homard.CreateHypothesis('Hypo_1vers2')
 Hypo_1vers2.SetAdapRefinUnRef(1, 1, 1)
 # Characterization of the field
@@ -81,8 +81,8 @@ Hypo_1vers2.SetTypeFieldInterp(2)
 Hypo_1vers2.AddFieldInterp('SOLU_1__DEPL____________________')
 Hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
 #
-# Hypothesis "Hypo_1vers2_bis"
-# ============================
+# Hypothese "Hypo_1vers2_bis"
+# ===========================
 Hypo_1vers2_bis = homard.CreateHypothesis('Hypo_1vers2_bis')
 Hypo_1vers2_bis.SetAdapRefinUnRef(1, 1, 1)
 # Characterization of the field
@@ -95,13 +95,13 @@ Hypo_1vers2_bis.SetRefinThr(1, 0.0001)
 Hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
 Hypo_1vers2_bis.SetTypeFieldInterp(0)
 #
-# Case "Case_3"
-# =============
+# Cas
+# ===
 Case_3 = homard.CreateCase('Case_3', 'G_0', data_dir+'/tutorial_3.00.med')
 Case_3.SetDirName(dircase)
 #
 # Iteration "Iter_3_1"
-# ==================
+# ====================
 Iter_3_1 = Case_3.NextIteration('Iter_3_1')
 Iter_3_1.SetMeshName('H_1')
 Iter_3_1.SetMeshFile(dircase+'/maill.01.med')
@@ -111,7 +111,7 @@ Iter_3_1.AssociateHypo('Hypo_0vers1')
 codret = Iter_3_1.Compute(1, 2)
 #
 # Iteration "Iter_3_2"
-# ==================
+# ====================
 Iter_3_2 = Iter_3_1.NextIteration('Iter_3_2')
 Iter_3_2.SetMeshName('H_2')
 Iter_3_2.SetMeshFile(dircase+'/maill.02.med')
@@ -121,7 +121,7 @@ Iter_3_2.AssociateHypo('Hypo_1vers2')
 codret = Iter_3_2.Compute(1, 2)
 #
 # Iteration "Iter_3_2_bis"
-# ======================
+# ========================
 Iter_3_2_bis = Iter_3_1.NextIteration('Iter_3_2_bis')
 Iter_3_2_bis.SetMeshName('H_2_bis')
 Iter_3_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')

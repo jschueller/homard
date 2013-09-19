@@ -90,7 +90,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="PushFile">
+      <widget class="QPushButton" name="PBScriptFile">
        <property name="text">
         <string/>
        </property>
@@ -127,7 +127,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="PushDir">
+      <widget class="QPushButton" name="PBDir">
        <property name="text">
         <string/>
        </property>
@@ -164,7 +164,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="PushFile_2">
+      <widget class="QPushButton" name="PBMeshFile">
        <property name="text">
         <string/>
        </property>

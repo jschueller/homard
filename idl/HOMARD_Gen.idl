@@ -193,6 +193,7 @@ module HOMARD
 //
     HOMARD_YACS CreateYACSSchema(in string YACSName, in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
                                                            raises (SALOME::SALOME_Exception);
+    long YACSWrite (in string YACSName)                    raises (SALOME::SALOME_Exception);
     long YACSWriteOnFile (in string YACSName, in string YACSFile)
                                                            raises (SALOME::SALOME_Exception);
 

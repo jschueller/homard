@@ -86,15 +86,15 @@ void YACSDriver::Texte_Alternance_Calcul_HOMARD_Calcul( const std::string FileNa
   _Texte += "rep_calc = \"" + _DirName + "\"\n" ;
   _Texte += "rep_script = os.path.dirname(\"" + FileName + "\")\n" ;
   _Texte += "sys.path.append(rep_script)\n" ;
-  _Texte += "from " + nomfic + " import LanceCas\n" ;
+  _Texte += "from " + nomfic + " import Script\n" ;
 //
 }
 //===============================================================================
 // Les options du cas
 //===============================================================================
-void YACSDriver::Texte_HOMARD_Init_au_debut_Case_Options( const std::string pythonTexte )
+void YACSDriver::Texte_Iter_1_Case_Options( const std::string pythonTexte )
 {
-  MESSAGE("Texte_HOMARD_Init_au_debut_Case_Options, pythonTexte\n"<<pythonTexte);
+  MESSAGE("Texte_Iter_1_Case_Options, pythonTexte\n"<<pythonTexte);
 //
   _Texte += "DirName = \"" + _DirName + "/HOMARD\"\n" ;
   _Texte += "Case.SetDirName(DirName)\n" ;
@@ -109,14 +109,14 @@ void YACSDriver::Texte_HOMARD_Init_au_debut_Case_Options( const std::string pyth
 // methode : methode associee a la creation de la zone
 // ZoneName : nom de la zone
 //===============================================================================
-std::string YACSDriver::Texte_HOMARD_Init_au_debut_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName )
+std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName )
 {
-  MESSAGE("Texte_HOMARD_Init_au_debut_Zone, ZoneType = "<<ZoneType<<", pythonStructure = "<<pythonStructure);
+  MESSAGE("Texte_Iter_1_Zone, ZoneType = "<<ZoneType<<", pythonStructure = "<<pythonStructure);
   MESSAGE("methode = "<<methode<<", ZoneName = "<<ZoneName );
 //
 // 1. Le nom du noeud
   std::string noeud_2 = methode + "_" + ZoneName ;
-  std::string node = "Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut." ;
+  std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
 // 2. Texte de controle
   std::string texte_control = Texte_control (_noeud_1, noeud_2) ;
@@ -271,14 +271,14 @@ std::string YACSDriver::Texte_HOMARD_Init_au_debut_Zone( int ZoneType, const std
 // methode : methode associee a la creation de la frontiere
 // BoundaryName : nom de la frontiere
 //===============================================================================
-std::string YACSDriver::Texte_HOMARD_Init_au_debut_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName )
+std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName )
 {
-  MESSAGE("Texte_HOMARD_Init_au_debut_Boundary, BoundaryType = "<<BoundaryType<<", pythonStructure = "<<pythonStructure);
+  MESSAGE("Texte_Iter_1_Boundary, BoundaryType = "<<BoundaryType<<", pythonStructure = "<<pythonStructure);
   MESSAGE("methode = "<<methode<<", BoundaryName = "<<BoundaryName );
 //
 // 1. Le nom du noeud
   std::string noeud_2 = methode + "_" + BoundaryName ;
-  std::string node = "Tant_que_le_calcul_n_a_pas_converge.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_HOMARD_Init_au_debut." ;
+  std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
 // 2. Texte de controle
   std::string texte_control = Texte_control (_noeud_1, noeud_2) ;
@@ -415,11 +415,11 @@ std::string YACSDriver::Texte_HOMARD_Init_au_debut_Boundary( int BoundaryType, c
 //
 }
 //===============================================================================
-// Controle des enchainements de noeud dans le noeud HOMARD_Init_au_debut
+// Controle des enchainements de noeud dans le noeud Iter_1
 //===============================================================================
-  std::string YACSDriver::Texte_HOMARD_Init_au_debut_control()
+  std::string YACSDriver::Texte_Iter_1_control()
 {
-  MESSAGE("Texte_HOMARD_Init_au_debut_control");
+  MESSAGE("Texte_Iter_1_control");
 //
   std::string texte ;
   texte  = Texte_control ("CreateCase", "Case_Options") ;
@@ -472,6 +472,16 @@ void YACSDriver::Texte_HOMARD_Exec_DirName( )
   MESSAGE("Texte_HOMARD_Exec_DirName");
 //
   _Texte += "DirName = \"" + _DirName + "\"\n" ;
+//
+}
+//===============================================================================
+// Le nom du maillage
+//===============================================================================
+void YACSDriver::Texte_HOMARD_Exec_MeshName( const std::string MeshName )
+{
+  MESSAGE("Texte_HOMARD_Exec_MeshName pour "<<MeshName);
+//
+  _Texte += "MeshName = \"" + MeshName + "\"\n" ;
 //
 }
 //===============================================================================

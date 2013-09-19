@@ -31,39 +31,38 @@ using namespace std;
 
 
 // ----------------------------------------------------------------------
+MonCreateYACS::MonCreateYACS (bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, QString CaseName ):
+// ----------------------------------------------------------------------
 /* Constructs a MonCreateYACS
  * Sets attributes to default values
  */
 // ----------------------------------------------------------------------
-MonCreateYACS::MonCreateYACS (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, QString CaseName )
-    :
-    Ui_CreateYACS(),
-    _aCaseName(CaseName),
-    _aScriptFile(""),
-    _aDirName(""),
-    _aMeshFile("")
-{
-  MESSAGE("Debut du constructeur de MonCreateYACS");
-  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
-  setupUi(this);
-  setModal(modal);
+  Ui_CreateYACS(),
+  _aCaseName(CaseName),
+  _aScriptFile(""),
+  _aDirName(""),
+  _aMeshFile("")
+  {
+//     MESSAGE("Debut du constructeur de MonCreateYACS");
+    myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
+    setupUi(this);
+    setModal(modal);
 
-  InitConnect();
+    InitConnect();
 
-  SetNewName() ;
+    SetNewName() ;
 
-  if (_aCaseName != QString(""))
-    { SetCaseName(); }
-  else
-    {setModal(false); /* permet selection du cas dans l arbre d etude */}
+    if (_aCaseName != QString(""))
+      { SetCaseName(); }
+    else
+      {setModal(false); /* permet selection du cas dans l arbre d etude */}
 
-  adjustSize();
-  MESSAGE("Fin du constructeur de MonCreateYACS");
-}
+    adjustSize();
+//     MESSAGE("Fin du constructeur de MonCreateYACS");
+  }
 
 // ----------------------------------------------------------------------
-MonCreateYACS::MonCreateYACS(QWidget* parent,
-                             HOMARD::HOMARD_Gen_var myHomardGen0,
+MonCreateYACS::MonCreateYACS(HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName):
 // ----------------------------------------------------------------------
 // Constructeur appele par MonEditYACS
@@ -72,7 +71,7 @@ MonCreateYACS::MonCreateYACS(QWidget* parent,
     _Name (""),
     Chgt (false)
     {
-  //  MESSAGE("Debut de  MonCreateYACS")
+//       MESSAGE("Debut du constructeur de MonCreateYACS appele par MonEditYACS");
       setupUi(this) ;
 
       setModal(true) ;
@@ -90,9 +89,9 @@ void MonCreateYACS::InitConnect()
 // ------------------------------------------------------------------------
 {
     connect( PBCaseName,     SIGNAL(pressed()), this, SLOT(SetCaseName()));
-    connect( PushDir,        SIGNAL(pressed()), this, SLOT(SetDirName()));
-    connect( PushFile,       SIGNAL(pressed()), this, SLOT(SetScriptFile()));
-    connect( PushFile_2,     SIGNAL(pressed()), this, SLOT(SetMeshFile()));
+    connect( PBScriptFile,   SIGNAL(pressed()), this, SLOT(SetScriptFile()));
+    connect( PBDir,          SIGNAL(pressed()), this, SLOT(SetDirName()));
+    connect( PBMeshFile,     SIGNAL(pressed()), this, SLOT(SetMeshFile()));
 
     connect( RBStatic,       SIGNAL(clicked()), this, SLOT(SetType(1)));
     connect( RBTransient,    SIGNAL(clicked()), this, SLOT(SetType(2)));
@@ -108,12 +107,6 @@ bool MonCreateYACS::PushOnApply()
 {
   MESSAGE("PushOnApply");
 
-  if ( _aCaseName == QString (""))
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_CASE_NAME") );
-    return false;
-  }
 // Le fichier du script
   QString aFileName=LEScriptFile->text().trimmed();
   if (aFileName ==QString(""))
@@ -160,31 +153,76 @@ bool MonCreateYACS::PushOnApply()
     return false;
   }
 
-  HOMARD_UTILS::updateObjBrowser();
-  MESSAGE ("_aCaseName.toStdString " << _aCaseName.toStdString() );
+  bool bOK = CreateOrUpdate() ;
 
-// Creation de l'objet CORBA
+  if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
+
+  return bOK;
+}
+// ---------------------------------------------------
+bool MonCreateYACS:: CreateOrUpdate()
+//----------------------------------------------------
+//  Creation ou modification du schema
+{
+  MESSAGE("CreateOrUpdate");
+  bool bOK = true ;
+
+  // Le cas
+  if ( _aCaseName == QString (""))
+  {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_CASE_NAME") );
+    return false;
+  }
+  // Les donnees
+  QString aScriptFile=LEScriptFile->text().trimmed();
+  if ( aScriptFile != _aScriptFile )
+  {
+    _aScriptFile = aScriptFile ;
+    Chgt = true ;
+  }
+  QString aDirName=LEDirName->text().trimmed();
+  if ( aDirName != _aDirName )
+  {
+    _aDirName = aDirName ;
+    Chgt = true ;
+  }
+  QString aMeshFile=LEMeshFile->text().trimmed();
+  if ( aMeshFile != _aMeshFile )
+  {
+    _aMeshFile = aMeshFile ;
+    Chgt = true ;
+  }
+
+  // Creation de l'objet CORBA
   try
   {
     _Name=LEName->text().trimmed();
-    aYACS=myHomardGen->CreateYACSSchema(CORBA::string_dup(_Name.toStdString().c_str()), _aCaseName.toStdString().c_str(), _aScriptFile.toStdString().c_str(), _aDirName.toStdString().c_str(), _aMeshFile.toStdString().c_str());
-//     _parent->AddYACS(_Name);
+    aYACS=myHomardGen->CreateYACSSchema(CORBA::string_dup(_Name.toStdString().c_str()), CORBA::string_dup(_aCaseName.toStdString().c_str()), CORBA::string_dup(_aScriptFile.toStdString().c_str()), CORBA::string_dup(_aDirName.toStdString().c_str()), CORBA::string_dup(_aMeshFile.toStdString().c_str()));
   }
   catch( SALOME::SALOME_Exception& S_ex )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-    return false;
+    bOK = false;
   }
 
-return true;
+  // Options
+  if ( bOK )
+  { aYACS->SetType(_Type) ; }
+
+  // Ecriture du fichier
+  if ( bOK )
+  { aYACS->Write() ; }
+
+  return bOK;
 }
 // ---------------------------
 void MonCreateYACS::PushOnOK()
 // ---------------------------
 {
   bool bOK = PushOnApply();
-  if ( bOK )  this->close();
+  if ( bOK ) this->close();
 }
 //------------------------------
 void MonCreateYACS::PushOnHelp()
@@ -225,8 +263,6 @@ void MonCreateYACS::SetCaseName()
     _aCaseName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
     if (_aCaseName == QString("")) { raise();return;};
   }
-/*  MESSAGE ("appel de GetCase avec _aCaseName = " << _aCaseName.toStdString() );*/
-  aCase = myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   LECaseName->setText(_aCaseName);
 }
 // ------------------------------------------------------------------------

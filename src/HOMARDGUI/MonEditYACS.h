@@ -32,14 +32,14 @@ class MonEditYACS : public MonCreateYACS
 {
     Q_OBJECT
 public:
-    MonEditYACS( QWidget* parent, bool modal,
+    MonEditYACS( bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
                  QString Name );
     virtual ~MonEditYACS();
 
 protected :
     virtual void InitValEdit();
-    virtual bool PushOnApply();
+    virtual bool CreateOrUpdate();
 
 public slots:
 
