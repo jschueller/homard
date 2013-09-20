@@ -72,7 +72,6 @@ namespace HOMARD_UTILS {
                                       // Function returns the last selected object in the list
                                        // of selected objects
 
-  bool isXmgrace(_PTR(SObject)  MonObj);
   bool isBoundaryAn(_PTR(SObject)  MonObj);
   bool isBoundaryDi(_PTR(SObject)  MonObj);
   bool isCase(_PTR(SObject)  MonObj);
@@ -83,7 +82,7 @@ namespace HOMARD_UTILS {
   bool isFileType(_PTR(SObject)  MonObj, QString TypeFile);
   bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );
 
-  void PushOnHelp(QString monFichierAide, QString contexte);
+  void PushOnHelp(QString monFichierAide, QString contexte, QString LanguageShort);
 
   extern SALOME_ListIO mySelected;
 }

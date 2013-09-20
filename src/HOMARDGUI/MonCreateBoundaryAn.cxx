@@ -455,7 +455,8 @@ void MonCreateBoundaryAn::PushOnOK()
 void MonCreateBoundaryAn::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("un-cylindre") ) ;
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("un-cylindre"), QString(LanguageShort));
 }
 
 // -----------------------------------

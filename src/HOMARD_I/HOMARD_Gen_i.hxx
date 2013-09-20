@@ -139,6 +139,7 @@ public:
   SALOMEDS::Study_ptr             GetCurrentStudy();
   void                            SetCurrentStudy(SALOMEDS::Study_ptr theStudy);
   CORBA::Long                     GetCurrentStudyID();
+  void                            IsValidStudy();
 
 // Liens entre structures
   void                            InvalideBoundary(const char* nomBoundary);
@@ -193,7 +194,10 @@ public:
   std::string                     YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
   std::string                     YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver);
 
-  void                            IsValidStudy();
+// Divers
+  void                            SetLanguageShort(const char* LanguageShort);
+  char*                           GetLanguageShort();
+
 
   // ---------------------------------------------------------------
   // next functions are inherited from SALOMEDS::Driver interface
@@ -311,6 +315,8 @@ private:
   int _tag_hypo ;
   int _tag_yacs ;
   int _tag_zone ;
+  std::string _Langue ;
+  std::string _LangueShort ;
 
 };
 

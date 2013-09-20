@@ -320,15 +320,15 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
   }
 // La derniere valeur est toujours mise dans x7
   x7 = GetStringInTexte ( ligne, ")", 0 ) ;
-  MESSAGE("coor = "<< x0<<","<<x1<< ","<< x2<< ","<< x3<<","<<x4<<","<<x5<<","<<x6<<",x7"<<x7);
+  MESSAGE("Valeurs = "<< x0<<", "<<x1<< ", "<< x2<< ", "<< x3<<", "<<x4<<", "<<x5<<", "<<x6<<", x7"<<x7);
 //
 // 4.2. Cas d une frontiere discrete (0)
   if (BoundaryType == 0) // Cas d une frontiere discrete
   {
     _Texte += Texte_inport( "string", "MeshName" ) ;
-    TexteParametre( node, "MeshName", "string", BoundaryName ) ;
+    TexteParametre( node, "MeshName", "string", x0 ) ;
     _Texte += Texte_inport( "string", "FileName" ) ;
-    TexteParametre( node, "FileName", "string", BoundaryName ) ;
+    TexteParametre( node, "FileName", "string", x7 ) ;
   }
 // 4.2. Cas du cylindre (1)
   else if ( BoundaryType == 1 )

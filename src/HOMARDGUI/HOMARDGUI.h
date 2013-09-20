@@ -89,6 +89,7 @@ private:
 
    int anId;
    QString _ObjectName;
+   QString _LanguageShort ;
 };
 
 #endif

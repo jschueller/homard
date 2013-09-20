@@ -105,7 +105,7 @@ dico_resu["rep_calc"] = rep_calc
             <script><code><![CDATA[
 global NumCalc
 global resu1
-# Valeurs par defaut
+# Default values
 NumCalcP1 = NumCalc + 1
 FileName = " "
 #
@@ -115,23 +115,23 @@ MessInfo = None
 Error = 0
 while not Error :
 #
-# Si le calcul a fini en erreur, on arrete :
+# If the computation failed, stop:
 #
     if ErrCalc :
-        MessInfo = "Erreur de calcul numero %d" % ErrCalc
+        MessInfo = "Computation error # %d" % ErrCalc
         Error = abs(ErrCalc)
         break
 #
-# Si le fichier n'a pas ete defini, on arrete :
+# If the file is not defined, stop:
 #
     if dico_resu.has_key("FileName") :
         FileName = dico_resu["FileName"]
     else :
-        MessInfo = "Le fichier du maillage n'a pas ete defini"
+        MessInfo = "The file for the mesh is not defined."
         Error = -2
         break
 #
-# Si le critere est respecte, on arrete :
+# If the criterion is satisfied, stop:
 #
     if dico_resu.has_key("V_TEST") :
         valeur_v = dico_resu["V_TEST"]
@@ -147,14 +147,14 @@ while not Error :
                 Error = -9999
                 break
     else :
-        MessInfo = "La valeur a tester n'a pas ete fournie"
+        MessInfo = "The value for the test is not available."
         Error = -3
         break
 #
-# Si on depasse le maximum, on arrete :
+# If the maximum number of adaptations is reached, stop:
 #
     if NumCalc > NbCalcMax :
-        MessInfo = "La limite en nombre de calculs a ete atteinte : %d" % NbCalcMax
+        MessInfo = "The maximum number of adaptations is reached: %d" % NbCalcMax
         Error = -1
         break
 #
@@ -216,11 +216,11 @@ MeshFile = " "
                            <inline name="Case_Options">
                               <script><code><![CDATA[
 import os
-# Repertoire d'execution
+# Directory for the adaptation
 DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/HOMARD"
 Case.SetDirName(DirName)
 Case.SetConfType(1)
-# Iteration 0 associee
+# Associated iteration #0
 Iter0 = Case.GetIter0()
 ]]></code></script>
                               <inport name="Case" type="HOMARD_Cas"/>
@@ -245,27 +245,27 @@ Iter0 = Case.GetIter0()
                   <inline name="HOMARD_Exec">
                      <script><code><![CDATA[
 import os
-# Repertoire d'execution
+# Directory for the computation
 DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
 MeshName = "BOX"
 #
-# Hypothese
-# =========
-# . Nom de l'hypothese
-# --------------------
+# Hypothesis
+# ==========
+# . Name of the hypothesis
+# ------------------------
 HypoName = Hypo.GetName()
 #
 # . Options
 # ---------
-# . Le mode d'adaptation : raffinement selon un champ
+# . Type of adaptation: refinement and unrefinement driven by a field
 Hypo.SetAdapRefinUnRef(1, 1, 1)
-# . Nom du champ
+# . Name of the field
 Hypo.SetField("ERREUR")
-# . Valeurs prises par maille
+# . Values over meshes
 Hypo.SetUseField(0)
-# . Composante
+# . Compoment
 Hypo.AddComp("ERTABS")
-# . Mode de pilotage
+# . Driving options
 Hypo.SetRefinThr(4, 3)
 Hypo.SetUnRefThr(4, 4)
 #
@@ -273,52 +273,52 @@ Hypo.SetUnRefThr(4, 4)
 Hypo.SetTypeFieldInterp(2)
 Hypo.AddFieldInterp("TEMPERATURE")
 #
-# . Taille de maille limite
+# . Minimum limit size of the meshes
 aux = 0.0015
 Hypo.SetDiamMin(aux)
 #
-# Nom de la future iteration
+# Name of the next iteration
 # ==========================
-# . Nom de l'iteration precedente
+# . Name of the previous iteration
 LastIterName = LastIter.GetName()
 aux = '%03d' % NumAdapt
-# . A l'iteration 1, on complete
+# . At iteration #1, addition
 if  NumAdapt == 1 :
   IterName = LastIterName + "_" + aux
-# . Ensuite, on substitue
+# . Then, substitution
 else :
   IterName = LastIterName[:-3] + aux
 #
-# Creation de l'iteration
-# =======================
+# Creation of the iteration
+# =========================
 Iter = LastIter.NextIteration(IterName)
 #
-# Options de l'iteration
-# ======================
+# Options of the iteration
+# ========================
 # . Association de l'hypothese
 Iter.AssociateHypo(HypoName)
 #
-# . Le nom du futur maillage
+# . The name of the next mesh
 Iter.SetMeshName(MeshName)
 #
-# . Le fichier du futur maillage
+# . The file of the next mesh
 aux = '%02d' % NumAdapt
 MeshFile = os.path.join (DirName, "maill."+aux+".med")
 Iter.SetMeshFile(MeshFile)
 #
-# . Le fichier contenant les champs
+# . The file for the fields
 FileName = dico_resu["FileName"]
 Iter.SetFieldFile(FileName)
 #
-# Calcul
-# ======
+# Calculation
+# ===========
 Error = Iter.Compute(1,1)
 #
-# Arret de la boucle si erreur
-# ============================
+# The loops stops if problem
+# ==========================
 if Error :
     OK = 0
-    MessInfo = "Erreur dans HOMARD pour l'adaptation numero %d" % NumAdapt
+    MessInfo = "Error in HOMARD in the adaptation # %d" % NumAdapt
 else :
     OK = 1
     MessInfo = " "
@@ -410,7 +410,7 @@ import sys
 app = QtGui.QApplication(sys.argv)
 MessageBoxTitle = "Bilan"
 if MessInfo == "" :
-    MessInfo = "Le calcul est converge."
+    MessInfo = "The convergence is reached."
     QtGui.QMessageBox.information(None, MessageBoxTitle, MessInfo)
 else :
     QtGui.QMessageBox.critical(None, MessageBoxTitle, MessInfo)

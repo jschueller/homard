@@ -131,7 +131,8 @@ void MonIterInfo::PushOnOK()
 void MonIterInfo::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_mesh_info.html"), QString(""));
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_mesh_info.html"), QString(""), QString(LanguageShort));
 }
 // ------------------------------------------------------------------------
 void MonIterInfo::SetBlockSize()

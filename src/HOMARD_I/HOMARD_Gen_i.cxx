@@ -97,6 +97,8 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   _tag_hypo = 0 ;
   _tag_yacs = 0 ;
   _tag_zone = 0 ;
+  _Langue = "Francais" ;
+  _LangueShort = "fr" ;
 }
 //=================================
 /*!
@@ -2305,8 +2307,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   // E. Les donnees de l'execution HOMARD
   // E.1. L'objet du texte du fichier de configuration
   HomardDriver* myDriver = new HomardDriver(siter, siterp1);
-  std::string Langue = "Francais" ;
-  myDriver->TexteInit(DirCompute, LogFile, Langue);
+  myDriver->TexteInit(DirCompute, LogFile, _Langue);
 
   // E.2. Le maillage associe a l'iteration
   const char* NomMesh = myIteration->GetMeshName();
@@ -2378,8 +2379,8 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
       if ( modeHOMARD == 1 )
       {
         std::stringstream saux0 ;
-        Commentaire = "Iteration" ;
-        Commentaire += " " + siter ;
+        Commentaire = "Mesh" ;
+        Commentaire += " " + siterp1 ;
         PublishFileUnderIteration(NomIteration, MeshFile, Commentaire.c_str());
         if ( Option2 % 2 == 0 ) { PublishResultInSmesh(MeshFile, 1); }
       }
@@ -3489,7 +3490,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
 //=============================================================================
 void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName)
 {
-  MESSAGE (" DeleteResultInSmesh pour le maillage " << MeshName << " dans le fichier " << NomFich );
+  MESSAGE ("DeleteResultInSmesh pour le maillage " << MeshName << " dans le fichier " << NomFich );
   if (CORBA::is_nil(myCurrentStudy))
   {
       SALOME::ExceptionStruct es;
@@ -3531,12 +3532,12 @@ void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName
        }
      }
   }
-
+  return ;
 }
 //=============================================================================
 void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire)
 {
-//   MESSAGE (" PublishFileUnderIteration pour l'iteration " << NomIter << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
+//   MESSAGE ("PublishFileUnderIteration pour l'iteration " << NomIter << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIter];
 
   SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
@@ -3571,7 +3572,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 //=============================================================================
 void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich, const char* Commentaire)
 {
-//   MESSAGE (" PublishFileUnderYACS pour le schema " << nomYACS << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
+//   MESSAGE ("PublishFileUnderYACS pour le schema " << nomYACS << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
   HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
 
   SALOMEDS::SObject_var aYACSSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
@@ -3758,7 +3759,8 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
     throw SALOME::SALOME_Exception(es);
     return 0;
   }
-  YACSFile_base += "/share/salome/resources/homard/yacs_01.xml" ;
+  YACSFile_base += "/share/salome/resources/homard/yacs_01." + _LangueShort + ".xml" ;
+//   if ( _Langue ==
   MESSAGE("YACSFile_base ="<<YACSFile_base);
 
   // G. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
@@ -3948,7 +3950,7 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
                                       const char* theURL,
                                       CORBA::Boolean isMultiFile)
 {
-  MESSAGE (" Save for theURL = "<< theURL);
+  MESSAGE ("Save for theURL = "<< theURL);
   SALOMEDS::TMPFile_var aStreamFile;
 
   // get temporary directory name
@@ -4068,7 +4070,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
 				   const char* theURL,
 				   CORBA::Boolean isMultiFile)
 {
-  MESSAGE (" Load pour theURL = "<< theURL);
+  MESSAGE ("Load pour theURL = "<< theURL);
   SALOMEDS::Study_var aStudy = theComponent->GetStudy();
 
   // set current study
@@ -4115,7 +4117,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
     std::string yacsSignature = HOMARD::GetSignature(HOMARD::YACS);
     if (line.substr(0, bounSignature.size()) == bounSignature) {
       // re-create boundary
-      MESSAGE (" Recreation de la frontiere" );
+      MESSAGE ("Recreation de la frontiere" );
       HOMARD::HOMARD_Boundary_var aBoundary = newBoundary();
       PortableServer::ServantBase_var aServant = GetServant(aBoundary);
       HOMARD_Boundary_i* aBoundaryServant = dynamic_cast<HOMARD_Boundary_i*>(aServant.in());
@@ -4126,7 +4128,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
     }
     else if (line.substr(0, caseSignature.size()) == caseSignature) {
       // re-create case
-      MESSAGE (" Recreation du cas" );
+      MESSAGE ("Recreation du cas" );
       HOMARD::HOMARD_Cas_var aCase = newCase();
       PortableServer::ServantBase_var aServant = GetServant(aCase);
       HOMARD_Cas_i* aCaseServant = dynamic_cast<HOMARD_Cas_i*>(aServant.in());
@@ -4137,7 +4139,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
     }
     else if (line.substr(0, hypoSignature.size()) == hypoSignature) {
       // re-create hypothesis
-      MESSAGE (" Recreation de l hypothese" );
+      MESSAGE ("Recreation de l hypothese" );
       HOMARD::HOMARD_Hypothesis_var aHypo = newHypothesis();
       PortableServer::ServantBase_var aServant = GetServant(aHypo);
       HOMARD_Hypothesis_i* aHypoServant = dynamic_cast<HOMARD_Hypothesis_i*>(aServant.in());
@@ -4148,7 +4150,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
     }
     else if (line.substr(0, iterSignature.size()) == iterSignature) {
       // re-create iteration
-      MESSAGE (" Recreation de l iteration" );
+      MESSAGE ("Recreation de l iteration" );
       HOMARD::HOMARD_Iteration_var aIter = newIteration();
       PortableServer::ServantBase_var aServant = GetServant(aIter);
       HOMARD_Iteration_i* aIterServant = dynamic_cast<HOMARD_Iteration_i*>(aServant.in());
@@ -4158,7 +4160,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
       }
     }
     else if (line.substr(0, zoneSignature.size()) == zoneSignature) {
-      MESSAGE (" Recreation de la zone" );
+      MESSAGE ("Recreation de la zone" );
       // re-create zone
       HOMARD::HOMARD_Zone_var aZone = newZone();
       PortableServer::ServantBase_var aServant = GetServant(aZone);
@@ -4169,7 +4171,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
       }
     }
     else if (line.substr(0, zoneSignature.size()) == yacsSignature) {
-      MESSAGE (" Recreation du schema YACS" );
+      MESSAGE ("Recreation du schema YACS" );
       // re-create YACS
       HOMARD::HOMARD_YACS_var aYACS = newYACS();
       PortableServer::ServantBase_var aServant = GetServant(aYACS);
@@ -4574,7 +4576,7 @@ char* HOMARD_Gen_i::getVersion()
 #endif
 }
 //===============================================================================
-// Recuperation de la chaine de caracteres par rapport l'apparition d'un texte
+// Recuperation de la chaine de caracteres par rapport a l'apparition d'un texte
 // ligne : la ligne a manipuler
 // texte : le texte a reperer
 // option : 0 : la chaine avant le texte
@@ -4592,9 +4594,24 @@ std::string HOMARD_Gen_i::GetStringInTexte( const std::string ligne, const std::
     if ( option == 0 ) { chaine = ligne.substr( 0, position ) ; }
     else               { chaine = ligne.substr( position+1 ) ; }
   }
-// Conversion de type
   return chaine ;
 //
+}
+// //===============================================================================
+// // Langue de SALOME
+// //===============================================================================
+void HOMARD_Gen_i::SetLanguageShort(const char* LanguageShort)
+{
+  MESSAGE ("SetLanguageShort pour LanguageShort = " << LanguageShort );
+  _LangueShort = LanguageShort ;
+  if ( _LangueShort == "fr" ) { _Langue = "Francais" ; }
+  else                        { _Langue = "English" ; }
+  return ;
+}
+char* HOMARD_Gen_i::GetLanguageShort()
+{
+//   MESSAGE ("GetLanguageShort");
+  return CORBA::string_dup( _LangueShort.c_str() );
 }
 
 //=============================================================================

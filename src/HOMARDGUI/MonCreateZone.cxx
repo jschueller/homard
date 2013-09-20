@@ -586,7 +586,8 @@ void MonCreateZone::PushOnOK()
 void MonCreateZone::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html"), QString("") ) ;
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html"), QString(""), QString(LanguageShort));
 }
 
 // -----------------------------------

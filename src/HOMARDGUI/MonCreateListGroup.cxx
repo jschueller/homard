@@ -115,7 +115,8 @@ void MonCreateListGroup::PushOnOK()
 void MonCreateListGroup::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""));
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""), QString(LanguageShort));
 }
 // ------------------------------------------------------------------------
 void MonCreateListGroup::InitGroupes()

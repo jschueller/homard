@@ -40,7 +40,7 @@ DataInit
 
 This box is type PresetNode's elementary node. Its only function is to initialize the variable MeshFile that contains the name of the file of the initial mesh.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 38-42
 
 Etude_Initialisation
@@ -58,12 +58,12 @@ The box Etude_Initialisation launches the component HOMARD inside SALOME. It is 
 
 The python node StudyCreation initialize the SALOME study that is given through the output:
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 44-62
 
 The service SetCurrentStudy connects this study to an instance of HOMARD.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 63-68
 
 
@@ -87,7 +87,7 @@ Bilan
 
 This box is a node python that takes in input a character string, MessInfo. If everything passed well, this message is empty. A window QT appears to confirm the convergence. If there was a problem, the message contains messages emitted during the calculations. The window QT shows this message.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 406-419
 
 
@@ -111,7 +111,7 @@ Calcul
 
 This box is a node python that is going to drive the calculation. In input, we find the number of the calculation (0 at first) and the name of the file which contains the mesh on which to calculate. In output, we find an integer which represents the error on this calculation (0 so everything goes well) and a dictionary python gathering the results of the calculation. The body of the node is established by the launch of a script python that activates the calculation.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 77-103
 
 In this example, we must define:
@@ -151,23 +151,23 @@ Iter_1
 
 This box begins by creating the case HOMARD by calling the CreateCase service.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 208-215
 
 The name of the case CaseName is imposed on "Calcul". The name of the case MeshName is imposed on "BOX". The parameters of input FileName arise from the output of the previous calculation. The parameter of output is an instance of case.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 443-446
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 483-486
 
-The options of this case must be now given. It is made by the node python CaseOptions. It is imperative to give the directory of calculation. We shall look at the description of the functions in:ref: ' tui_create_case '. In output, we get back the instance of the iteration corresponding to the initial state of the case.
+The options of this case must be now given. It is made by the node python CaseOptions. It is imperative to give the directory of calculation. We shall look at the description of the functions in :ref:`tui_create_case`. In output, we get back the instance of the iteration corresponding to the initial state of the case.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 216-228
 
-Finally, a hypothesis is created by calling the CreateHypothèse service. The parameter of output is an instance of hypothese.
+Finally, a hypothesis is created by calling the CreateHypothese service. The parameter of output is an instance of hypothese.
 
 Homard_Exec
 ^^^^^^^^^^^
@@ -181,32 +181,32 @@ Once initialized, the adaptation can be calculated. It is the goal of the Homard
 
 The directory of calculation is recovered. The name of the mesh is given.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 245-250
 
 ../..
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 325-333
 
 The hypothesis transmitted in input parameter characterized (look :ref:`tui_create_hypothese`) :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 254-278
 
 It is necessary to establish a name for the future iteration. To make sure that the name was never used, one installs a mechanism of incremental naming starting from the name of the initial iteration. As this initial name is the name of the initial mesh, one obtains a succession of names in the form: M_001, M_002, M_003, etc
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 280-290
 
 The iteration is supplemented : hypothesis, future mesh, field (look :ref:`tui_create_iteration`) :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 292-311
 
 The iteration is calculated. If it were correct, variable OK equals 1: one will be able to continue the execution of the scheme. If there were a problem, variable OK equals 0 to mean that calculation must stop; an error message then is given.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 313-324
 
 After this execution, the process leaves the Adaptation_HOMARD node, then Adaptation node. One arrives then at the node of analysis.
@@ -236,7 +236,7 @@ Arret_boucle
 
 The Arret_boucle block is present to only make forward variables because the input parameters of the nodes must always be filled. It is a very simple python:
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 173-184
 
 Analyse
@@ -249,39 +249,39 @@ Analyse
 
 The Analyse block is a script python which ensures the complete control of the process by examining the causes of possible error successively.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 104-116
 
 ../..
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 162-170
 
 One starts by analyzing the return of the computer code:
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 118-123
 
 Checking of the presence of the name of the result file in the dictionary of the results:
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 125-132
 
 Checking of convergence. That supposes that the value to be tested is present in the dictionary under the key 'V_TEST'. Here, one set up a test on the variation of the value of one calculation at the other. With the first passage, nothing is tested. In the following passing, one tests if the relative variation is lower than 1 thousandths. One could have set up an absolute test if one had recovered a total level of error for example.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 134-152
 
 Lastly, it is checked that a maximum nomber of adaptations is not exceeded:
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.en.xml
    :lines: 154-159
 
 
 Use this scheme
 ***************
 To reproduce this example, download:
-  * :download:`the scheme <../files/yacs_01.xml>`
+  * :download:`the scheme <../files/yacs_01.en.xml>`
   * :download:`an example of python script <../files/yacs_script.py>`
 
 It should be adapted to simulation considered. In particular, it is necessary:

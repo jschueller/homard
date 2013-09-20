@@ -228,7 +228,8 @@ void MonCreateYACS::PushOnOK()
 void MonCreateYACS::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""));
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("yacs.html"), QString(""), QString(LanguageShort));
 }
 // -------------------------------------------------
 void MonCreateYACS::SetNewName()

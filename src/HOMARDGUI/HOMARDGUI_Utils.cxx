@@ -56,7 +56,6 @@ SALOME_ListIO HOMARD_UTILS::mySelected;
     return theStudy->studyDS();
 }
 
-
 //================================================================
 // Function : GetActiveStudy
 // Returne un pointeur sur l'etude active
@@ -120,7 +119,6 @@ const SALOME_ListIO& HOMARD_UTILS::selectedIO()
 		 SCRUTE(it.Value()->getEntry());
       };
       return mySelected;
-
 }
 
 //================================================================
@@ -160,19 +158,6 @@ Handle(SALOME_InteractiveObject) HOMARD_UTILS::lastIObject()
       return aList.Extent() > 0 ? aList.Last() : Handle(SALOME_InteractiveObject)();
 }
 
-//================================================================
-// Function : isXmgrace
-// Retourne vrai si le fichier associe est de type ASCII
-//================================================================
-bool HOMARD_UTILS::isXmgrace(_PTR(SObject) MonObj)
-{
-   _PTR(GenericAttribute) anAttr;
-   if (!MonObj->FindAttribute(anAttr, "AttributeComment")) return false;
-   _PTR(AttributeComment) aFileComment (anAttr);
-   std::string Type = aFileComment->Value();
-   if (QString(Type.c_str()) == QString("HomardOuputQual")) return true;
-   return false;
-}
 //================================================================
 // Retourne vrai si l objet est du type voulu
 // . Dans le cas d'un cas, d'une hypothese, d'une zone, on se contente
@@ -267,7 +252,7 @@ bool HOMARD_UTILS::isFileType(_PTR(SObject) MonObj, QString TypeFile)
 }
 
 //=========================================================================================================
-void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString contexte)
+void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString contexte, QString LanguageShort)
 {
   MESSAGE("Debut de PushOnHelp avec monFichierAide = "<< monFichierAide.toStdString().c_str());
   LightApp_Application* app = (LightApp_Application*)(SUIT_Session::session()->activeApplication());
@@ -276,14 +261,14 @@ void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString contexte)
     HOMARDGUI* aHomardGUI = dynamic_cast<HOMARDGUI*>( app->module( "Homard" ) );
     // Repertoire de reference de la documentation
     QString rep = aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString("") ;
-    // Recherche de la langue
+    // WARNING/ATTENTION : si on savait recuperer la langue depuis les preferences, on ne fera pas le passage par argument
 //     SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
 //     SUIT_ResourceMgr* resMgr = myModule->getApp()->resourceMgr();
 //     QString langue = resMgr->stringValue("language", "language", "en");
-    QString langue = "fr" ;
-    MESSAGE(". langue " << langue.toStdString().c_str()) ;
+//     QString langue = "fr" ;
+    MESSAGE(". LanguageShort " << LanguageShort.toStdString().c_str()) ;
     // Complement du fichier
-    QString fichier = QString(langue+"/"+monFichierAide) ;
+    QString fichier = QString(LanguageShort+"/"+monFichierAide) ;
     MESSAGE(". Appel de onHelpContextModule avec :");
     MESSAGE("    rep      = "<< rep.toStdString().c_str());
     MESSAGE("    fichier  = "<< fichier.toStdString().c_str());

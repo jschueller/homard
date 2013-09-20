@@ -37,7 +37,7 @@
    </container>
    <datanode name="DataInit">
       <parameter name="MeshFile" type="string">
-DataInit_MeshFile
+         <value><string>/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/maill.00.med</string></value>
       </parameter>
    </datanode>
    <bloc name="Etude_Initialisation">
@@ -79,7 +79,10 @@ NewStudy = StudyManager.NewStudy("my_homard_study")
 import sys
 import os
 #
-Alternance_Calcul_HOMARD_Calcul
+rep_calc = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+rep_script = os.path.dirname("/scratch/D68518/Salome/HOMARD_SALOME/HOMARD_SRC/doc/files/ScriptAster.py")
+sys.path.append(rep_script)
+from ScriptAster import Script
 #
 argu  = ["-v"]
 argu.append("--rep_calc=" + rep_calc)
@@ -214,7 +217,9 @@ MeshFile = " "
                               <script><code><![CDATA[
 import os
 # Repertoire d'adaptation
-Iter_1_Case_Options
+DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/HOMARD"
+Case.SetDirName(DirName)
+Case.SetConfType(1)
 # Iteration 0 associee
 Iter0 = Case.GetIter0()
 ]]></code></script>
@@ -227,7 +232,9 @@ Iter0 = Case.GetIter0()
                               <inport name="HypoName" type="string"/>
                               <outport name="return" type="HOMARD_Hypothesis"/>
                            </service>
-Iter_1
+                           <control> <fromnode>CreateCase</fromnode> <tonode>Case_Options</tonode> </control>
+                           <control> <fromnode>Case_Options</fromnode> <tonode>CreateHypothesis</tonode> </control>
+
                            <datalink control="false">
                               <fromnode>CreateCase</fromnode> <fromport>return</fromport>
                               <tonode>Case_Options</tonode> <toport>Case</toport>
@@ -239,8 +246,8 @@ Iter_1
                      <script><code><![CDATA[
 import os
 # Repertoire d'execution
-HOMARD_Exec_DirName
-HOMARD_Exec_MeshName
+DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+MeshName = "BOX"
 #
 # Hypothese
 # =========
@@ -250,7 +257,25 @@ HypoName = Hypo.GetName()
 #
 # . Options
 # ---------
-HOMARD_Exec_Hypo_Options
+# . Le mode d'adaptation : raffinement et deraffinement selon un champ
+Hypo.SetAdapRefinUnRef(1, 1, 1)
+# . Nom du champ
+Hypo.SetField("ERREUR")
+# . Valeurs prises par maille
+Hypo.SetUseField(0)
+# . Composante
+Hypo.AddComp("ERTABS")
+# . Mode de pilotage
+Hypo.SetRefinThr(4, 3)
+Hypo.SetUnRefThr(4, 4)
+#
+# . Interpolation
+Hypo.SetTypeFieldInterp(2)
+Hypo.AddFieldInterp("TEMPERATURE")
+#
+# . Taille de maille limite
+aux = 0.0015
+Hypo.SetDiamMin(aux)
 #
 # Nom de la future iteration
 # ==========================
@@ -455,7 +480,11 @@ else :
       <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Analyse</tonode><toport>ErrCalc</toport>
       <value><int>0</int></value>
    </parameter>
-PARAMETRES
+   <parameter>
+      <tonode>Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase</tonode><toport>MeshName</toport>
+      <value><string>BOX</string></value>
+   </parameter>
+
    <presentation name="__ROOT__" x="0" y="0" width="704" height="977" expanded="1" expx="0" expy="0" expWidth="704" expHeight="977" shownState="0"/>
    <presentation name="DataInit" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
    <presentation name="Etude_Initialisation" x="175" y="32" width="158" height="38" expanded="0" expx="175" expy="32" expWidth="162.5" expHeight="40.5" shownState="1"/>
@@ -480,3 +509,4 @@ PARAMETRES
    <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec" x="185" y="32" width="158" height="144" expanded="1" expx="185" expy="32" expWidth="158" expHeight="144" shownState="0"/>
    <presentation name="Bilan" x="350" y="32" width="158" height="63" expanded="1" expx="350" expy="32" expWidth="158" expHeight="63" shownState="0"/>
 </proc>
+

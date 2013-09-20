@@ -305,7 +305,8 @@ void MonCreateCase::PushOnOK()
 void MonCreateCase::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""));
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""), QString(LanguageShort));
 }
 // ---------------------------------
 void MonCreateCase::SetNewName()
@@ -426,7 +427,8 @@ void MonCreateCase::PushBoundaryDiEdit()
 void MonCreateCase::PushBoundaryDiHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete") ) ;
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"), QString(LanguageShort));
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryA()
@@ -504,7 +506,8 @@ void MonCreateCase::PushBoundaryAnEdit()
 void MonCreateCase::PushBoundaryAnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-analytique") ) ;
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-analytique"), QString(LanguageShort));
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::CaseNameChanged()

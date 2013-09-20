@@ -187,7 +187,6 @@ void HOMARDGUI::createPreferences(){
 
 //================================================
 // function : createMenus
-//                Verifier l'avant dernier nombre passe en parametre
 //================================================
 void HOMARDGUI::createMenus(){
   MESSAGE("createMenus")
@@ -214,10 +213,14 @@ void HOMARDGUI::createMenus(){
   createMenu( 1401, HOMARD_Id, -1 ); // Création d'un schéma YACS
   createMenu( separator(), HOMARD_Id,-1);
 //
-/*// La langue des preferences
+// La langue des preferences
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
-  QString langue = resMgr->stringValue("language", "language", "en");
-  MESSAGE("langue " << langue.toStdString().c_str() );*/
+  _LanguageShort = resMgr->stringValue("language", "language", "en");
+  MESSAGE("_LanguageShort " << _LanguageShort.toStdString().c_str() );
+//
+  SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
+  HOMARD::HOMARD_Gen_var homardGen = HOMARDGUI::InitHOMARDGen(app);
+  homardGen->SetLanguageShort(_LanguageShort.toStdString().c_str());
 }
 
 //================================================

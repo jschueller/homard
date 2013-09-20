@@ -40,7 +40,7 @@ DataInit
 
 Cette boîte est un noeud élémentaire de type PresetNode. Sa seule fonction est d'initialiser la variable MeshFile qui contient le nom du fichier du maillage initial.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 38-42
 
 Etude_Initialisation
@@ -58,12 +58,12 @@ La boîte Etude_Initialisation lance le composant HOMARD dans SALOME. C'est un bl
 
 Le noeud python StudyCreation sert à initialiser l'étude SALOME qui est fournie en sortie :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 44-62
 
 Le service SetCurrentStudy affecte cette étude à une instance de HOMARD.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 63-68
 
 
@@ -87,7 +87,7 @@ Bilan
 
 Cette boîte est un noeud python qui prend en entrée une chaîne de caractères, MessInfo. Si tout s'est bien passé, ce message est vide. Une fenêtre QT apparaît pour confirmer la convergence. S'il y a eu un problème, le message contient les messages émis au cours des calculs. La fenêtre QT affiche ce message.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 406-419
 
 
@@ -111,7 +111,7 @@ Calcul
 
 Cette boîte est un noeud python qui va piloter le calcul. En entrée, on trouve le numéro du calcul (0 au départ) et le nom du fichier qui contient le maillage sur lequel calculer. En sortie, on trouve un entier qui représente l'erreur sur ce calcul (0 si tout va bien) et un dictionnaire python rassemblant les résultats du calcul. Le corps du noeud est constitué par le lancement d'un script python qui active le calcul.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 77-103
 
 Dans cet exemple, il faut définir :
@@ -151,23 +151,23 @@ Iter_1
 
 Cette boîte commence par créer le cas HOMARD en appelant le service CreateCase.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 208-215
 
 Le nom du cas CaseName est imposé à "Calcul". Le paramètre d'entrée MeshName est imposé à "BOX". Le paramètre d'entrée FileName est issu de la sortie du calcul précédent. Le paramètre de sortie est une instance de cas.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 443-446
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 483-486
 
 Les options de ce cas doivent maintenant être renseignées. C'est fait par le noeud python CaseOptions. Il est impératif de renseigner le répertoire de calcul. On regardera la description des fonctions dans :ref:`tui_create_case`. En sortie, on récupère l'instance de l'itération correspondant à l'état initial du cas.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 216-228
 
-Enfin, une hypothèse est créée en appelant le service CreateHypothèse. Le paramètre de sortie est une instance d'hypothèse.
+Enfin, une hypothèse est créée en appelant le service CreateHypothese. Le paramètre de sortie est une instance d'hypothèse.
 
 Homard_Exec
 ^^^^^^^^^^^
@@ -181,32 +181,32 @@ Une fois initialisée, l'adaptation peut être calculée. C'est le but de la boîte 
 
 Le répertoire de calcul est récupéré. Le nom du maillage est rappelé.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 245-250
 
 ../..
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 325-333
 
 L'hypothèse transmise en paramètre d'entrée est caractérisée (voir :ref:`tui_create_hypothese`) :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 254-278
 
 Il faut établir un nom pour la future itération. Pour s'assurer que le nom n'a jamais été utilisé, on met en place un mécanisme de nommage incrémental à partir du nom de l'itération initiale. Comme ce nom initial est le nom du maillage initial, on obtient une succession de noms sous la forme : M_001, M_002, M_003, etc.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 280-290
 
 L'itération est complétée : hypothèse, futur maillage, champ (voir :ref:`tui_create_iteration`) :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 292-311
 
 L'itération est calculée. Si tout s'est bien passé, la variable OK vaut 1 : on pourra continuer l'exécution du schéma. S'il y a eu un problème, la variable OK vaut 0 pour signifier que le calcul doit s'arrêter ; on donne alors un message d'erreur.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 313-324
 
 Après cette exécution, le processus sort du noeud Adaptation_HOMARD, puis du noeud Adaptation. On arrive alors au noeud d'analyse.
@@ -236,7 +236,7 @@ Arret_boucle
 
 Le bloc Arret_boucle n'est présent que pour faire transiter des variables car les paramètres d'entrée des noeuds doivent toujours être remplis. C'est un python très simple :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 173-184
 
 Analyse
@@ -249,39 +249,39 @@ Analyse
 
 Le bloc Analyse est un script python qui assure le contrôle complet du processus en examinant successivement les causes d'erreur possible.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 104-116
 
 ../..
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 162-170
 
 On commence par analyser le retour du code de calcul :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 118-123
 
 Vérification de la présence du nom du fichier de résultats dans le dictionnaire des résultats :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 125-132
 
 Vérification de la convergence. Cela suppose que la valeur à tester est présente dans le dictionnaire sous la clé 'V_TEST'. Ici, on a mis en place un test sur la variation de la valeur d'un calcul à l'autre. Au premier passage, on ne teste rien. Aux passages suivants, on teste si la variation relative est inférieure à 1 millième. On aurait pu mettre en place un test absolu si on avait récupéré un niveau global d'erreur par exemple.
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 134-152
 
 Enfin, on vérifie que l'on ne dépasse pas un nombre maximal d'adaptations :
 
-.. literalinclude:: ../files/yacs_01.xml
+.. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 154-159
 
 
 Utiliser ce schéma
 ******************
 Pour reproduire cet exemple, on pourra télécharger :
-  * :download:`le schéma <../files/yacs_01.xml>`
+  * :download:`le schéma <../files/yacs_01.fr.xml>`
   * :download:`un exemple de script python <../files/yacs_script.py>`
 
 Il faut l'adapter à la simulation envisagée. En particulier, il faut :

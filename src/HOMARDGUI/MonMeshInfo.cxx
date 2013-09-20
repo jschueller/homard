@@ -178,7 +178,8 @@ void MonMeshInfo::PushOnOK()
 void MonMeshInfo::PushOnHelp()
 //-------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""));
+  char* LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""), QString(LanguageShort));
 }
 // ---------------------------------
 void MonMeshInfo::SetNewCaseName()
