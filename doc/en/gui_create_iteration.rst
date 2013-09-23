@@ -16,7 +16,7 @@ The definition of an iteration is done by the following information:
 
 Name of the iteration
 *********************
-A name of case is proposed automatically: Iter_1, Iter_2, etc This name can be modified. It must not have been used for a preceding iteration.
+A name of iteration is proposed automatically: Iter_1, Iter_2, etc This name can be modified. It must not have been used for a preceding iteration.
 
 The preceding iteration
 ***********************

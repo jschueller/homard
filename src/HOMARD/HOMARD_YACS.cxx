@@ -104,6 +104,7 @@ int HOMARD_YACS::GetType() const
 {
   return _Type;
 }
+//=============================================================================
 void HOMARD_YACS::SetDirName( const char* NomDir )
 {
   _NomDir = std::string( NomDir );

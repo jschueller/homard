@@ -106,7 +106,7 @@ If pyramids are present into the initial mesh, HOMARD stops with an error. Howev
 The pursuit of a case
 *********************
 .. index:: single: pursuit
-.. index:: single: yacs
+.. index:: single: YACS
 
 The pursuit of a case is interesting in the following situation. A list of adaptations was done for a case and, at the end, SALOME is closed. The directories for these iterations are kept. Then, the user wants to go on these iterations from the final point of the previous list. This function is useful with a schema YACS if a long list of adaptations is cut into small parts.
 

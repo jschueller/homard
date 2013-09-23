@@ -1,7 +1,7 @@
 .. _tui_create_case:
 
 Le cas
-======
+######
 .. index:: single: cas
 .. index:: single: type de conformité
 .. index:: single: maillage;initial
@@ -9,10 +9,10 @@ Le cas
 Les variables sont décrites dans :ref:`gui_create_case`.
 
 Méthodes de la classe homard
-""""""""""""""""""""""""""""
+****************************
 
 Création d'un cas
-^^^^^^^^^^^^^^^^^
+=================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -48,7 +48,7 @@ Création d'un cas
 +---------------------------------------------------------------+
 
 Création d'un cas par poursuite d'une itération calculée
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+========================================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -90,8 +90,8 @@ Création d'un cas par poursuite d'une itération calculée
 
 
 Méthodes de la classe cas
-"""""""""""""""""""""""""
-.. index:: single: yacs
+*************************
+.. index:: single: YACS
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -182,21 +182,23 @@ Méthodes de la classe cas
 |         * 0 : correspond à un maillage initial                |
 |         * autre valeur : poursuite d'une itération de numéro n|
 +---------------------------------------------------------------+
-| .. module:: WriteYACSSchema                                   |
+| .. module:: CreateYACSSchema                                  |
 |                                                               |
-| **WriteYACSSchema(ScriptFile, DirName, MeshFile)**            |
-|     Ecrit un schéma YACS correspondant au cas.                |
+| **CreateYACSSchema(yacs_name, ScriptFile, DirName, MeshFile)**|
+|     Retourne une instance de la classe ``yacs`` après sa      |
+|     création                                                  |
 |                                                               |
-|     - ``ScriptFile`` : nom du fichier contenant le script de  |
-|       lancement du calcul                                     |
-|     - ``DirName`` : le repertoire de lancement des calculs    |
-|       du schéma                                               |
-|     - ``MeshFile`` : nom du fichier contenant le maillage pour|
-|       le premier calcul                                       |
+|     - ``yacs_name`` : le nom du schéma                        |
+|     - ``ScriptFile`` : le fichier du script python qui permet |
+|       de lancer le calcul à coupler avec l'adaptation de      |
+|       maillage                                                |
+|     - ``DirName`` : le répertoire où a lieu le calcul         |
+|     - ``MeshFile`` : le fichier MED contenant le tout premier |
+|       maillage de calcul                                      |
 +---------------------------------------------------------------+
 
 Les options avancées
-^^^^^^^^^^^^^^^^^^^^
+====================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -219,7 +221,7 @@ Les options avancées
 +---------------------------------------------------------------+
 
 Informations sur le maillage initial
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+====================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -241,7 +243,7 @@ Informations sur le maillage initial
 
 
 Exemple
-"""""""
+*******
 La création de l'objet case_1 se fait ainsi : ::
 
     case_name = "CAS_1"
@@ -259,7 +261,7 @@ La création de l'objet case_1 se fait ainsi : ::
 
 
 Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`gui_create_case`
 
 

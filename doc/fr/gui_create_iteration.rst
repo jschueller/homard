@@ -16,7 +16,7 @@ La définition d'une itération se fait par la donnée des informations suivantes :
 
 Le nom de l'itération
 *********************
-Un nom de cas est proposé automatiquement : Iter_1, Iter_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une itération précédente.
+Un nom d'iteration est proposé automatiquement : Iter_1, Iter_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une itération précédente.
 
 L'itération précédente
 **********************

@@ -11,3 +11,4 @@ The functionnalities of the module HOMARD are available by python instructions. 
    tui_create_zone
    tui_create_boundary
    tui_homard
+   tui_create_yacs

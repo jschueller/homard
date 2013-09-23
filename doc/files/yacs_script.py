@@ -3,7 +3,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.2"
+__revision__ = "V5.3"
 #
 import sys
 import os
@@ -43,14 +43,16 @@ class Script :
 Mode d'emploi :
 ---------------
 
-Cette procedure lance un calcul Aster. Le mode de lancement est le suivant :
+Cette procedure lance un calcul Aster. Avant de lancer ce script, il faut avoir cree un repertoire pour le calcul. Dans ce repertoire, on aura mis le fichier de commandes sous le nom 'calcul.comm'. Apres un premier calcul, lance traditionnellement, on aura copie le fichier '*export' sous le nom 'calcul.ref.export' dans ce repertoire.
+
+Le mode de lancement est le suivant :
 
 ScriptAster --rep_calc=rep_calc --num=nro --mesh_file=mesh_file [-dump] [-h|-help] [-v] [-v_max] options
 
 Arguments obligatoires :
 --rep_calc=rep_calc : le repertoire du calcul.
 --num=nro : le numero du calcul, depuis 0.
---mesh_file=mesh_file : le fichier contenant le maillage sur lequel on veut calculer.
+--mesh_file=mesh_file : le fichier contenant le maillage sur lequel on veut calculer. Le nom est absolu ou relatif par rapport au repertoire de calcul.
 
 Options supplementaires, selon les cas :
 . Pour un cas transitoire :
@@ -379,12 +381,15 @@ Controle les arguments et stockage de quelques informations
       if ( self.mesh_file[:1] == "~" ) :
         self.mesh_file = os.path.join(HOME, self.mesh_file[2:])
       if not os.path.isfile(self.mesh_file) :
-        self.message_info += "Fichier " + self.mesh_file
-        erreur = -4
-        break
-      else :
-        aux = os.path.join(os.getcwd(),self.mesh_file)
-        self.mesh_file = os.path.normpath(aux)
+        aux = os.path.join(self.rep_calc, self.mesh_file)
+        if not os.path.isfile(aux) :
+          self.message_info += "Fichier " + self.mesh_file
+          erreur = -4
+          break
+        else :
+          self.mesh_file = os.path.normpath(aux)
+      aux = os.path.join(os.getcwd(),self.mesh_file)
+      self.mesh_file = os.path.normpath(aux)
 #
 # 2. On en deduit le cas
 #
@@ -1342,6 +1347,8 @@ Dump du resultat du calcul
     if self.verbose_max :
       print blabla
       print ". erreur :", erreur
+#
+    os.remove(nomfic_donn)
 #
     if erreur :
       message_erreur = messages_erreur[erreur]

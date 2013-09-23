@@ -988,12 +988,16 @@
         <translation>Mesh File</translation>
     </message>
     <message>
-        <source>Static</source>
-        <translation>Static</translation>
+        <source>Constant</source>
+        <translation>Constant</translation>
     </message>
     <message>
-        <source>Transient</source>
-        <translation>Transient</translation>
+        <source>Variable</source>
+        <translation>Variable</translation>
+    </message>
+    <message>
+        <source>Type of schema</source>
+        <translation>Type of schema</translation>
     </message>
     <message>
         <source>Edit a file</source>

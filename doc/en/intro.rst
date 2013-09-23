@@ -53,7 +53,7 @@ Some variations may exist. If no error indicator is available, another filed can
 
   `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
-.. index:: single: yacs
+.. index:: single: YACS
 
 .. note::
   This alternation (computation/adaptation) suits in the :ref:`yacs` schemes.

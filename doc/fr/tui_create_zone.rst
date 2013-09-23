@@ -1,7 +1,7 @@
 .. _tui_create_zone:
 
 La zone
-=======
+#######
 
 .. index:: single: zone
 .. index:: single: boite
@@ -15,7 +15,7 @@ La zone
 Les variables sont décrites dans :ref:`gui_create_zone`.
 
 Méthodes de la classe homard
-""""""""""""""""""""""""""""
+****************************
 
 Ces méthodes retournent une instance de la classe zone.
 
@@ -144,7 +144,7 @@ Ces méthodes retournent une instance de la classe zone.
 
 
 Méthodes de la classe zone
-""""""""""""""""""""""""""
+**************************
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -184,7 +184,7 @@ Méthodes de la classe zone
 
 
 Exemple
-"""""""
+*******
 La création d'une boîte 3D se fait ainsi :
 ::
 
@@ -198,7 +198,7 @@ La création d'un disque dans le plan XY se fait ainsi :
 
 
 Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`gui_create_zone`
 
 .. warning::

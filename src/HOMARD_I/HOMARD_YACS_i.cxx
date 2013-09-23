@@ -123,6 +123,7 @@ CORBA::Long HOMARD_YACS_i::GetType()
   ASSERT( myHomardYACS );
   return  CORBA::Long( myHomardYACS->GetType() );
 }
+//=============================================================================
 void HOMARD_YACS_i::SetDirName( const char* NomDir )
 {
   ASSERT( myHomardYACS );

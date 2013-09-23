@@ -93,8 +93,8 @@ void MonCreateYACS::InitConnect()
     connect( PBDir,          SIGNAL(pressed()), this, SLOT(SetDirName()));
     connect( PBMeshFile,     SIGNAL(pressed()), this, SLOT(SetMeshFile()));
 
-    connect( RBStatic,       SIGNAL(clicked()), this, SLOT(SetType(1)));
-    connect( RBTransient,    SIGNAL(clicked()), this, SLOT(SetType(2)));
+    connect( RBConstant,     SIGNAL(clicked()), this, SLOT(SetType(1)));
+    connect( RBVariable,     SIGNAL(clicked()), this, SLOT(SetType(2)));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
     connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply()));

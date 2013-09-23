@@ -1,7 +1,7 @@
 .. _tui_create_boundary:
 
 La frontière
-============
+############
 
 .. index:: single: boundary
 .. index:: single: frontière
@@ -11,7 +11,7 @@ La frontière
 Les variables sont décrites dans :ref:`gui_create_boundary`.
 
 Méthodes de la classe homard
-""""""""""""""""""""""""""""
+****************************
 Ces méthodes retournent une instance de la classe boundary.
 
 +----------------------------------------------------------------------------------------+
@@ -89,8 +89,8 @@ Ces méthodes retournent une instance de la classe boundary.
 +---------------------------------------------------------------+
 
 Méthodes de la classe cas
-"""""""""""""""""""""""""
-Voir également dans dans :ref:`tui_create_case`.
+*************************
+Voir également dans :ref:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -116,7 +116,7 @@ Voir également dans dans :ref:`tui_create_case`.
 +---------------------------------------------------------------+
 
 Méthodes de la classe boundary
-""""""""""""""""""""""""""""""
+******************************
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -157,7 +157,7 @@ Méthodes de la classe boundary
 
 
 Exemple
-"""""""
+*******
 Création d'une frontière discrète, d'une frontière sphèrique, puis d'une frontière cylindrique : ::
 
     inter = homard.CreateBoundaryDi("INTERSECTION", 'PIQUAGE', dircase+'/tutorial_4.fr.med')
@@ -166,5 +166,5 @@ Création d'une frontière discrète, d'une frontière sphèrique, puis d'une frontiè
 
 
 Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`gui_create_boundary`

@@ -71,10 +71,10 @@ void MonEditYACS::InitValEdit()
   LEMeshFile->setText(aMeshFile);
 
   int Type=aYACS->GetType();
-  if(Type==1) { RBStatic->setChecked(true); }
-  else        { RBTransient->setChecked(true); };
-  RBStatic->setEnabled(false);
-  RBTransient->setEnabled(false);
+  if(Type==1) { RBConstant->setChecked(true); }
+  else        { RBVariable->setChecked(true); };
+  RBConstant->setEnabled(false);
+  RBVariable->setEnabled(false);
 //
   adjustSize();
 }

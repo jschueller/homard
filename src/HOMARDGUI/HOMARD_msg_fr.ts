@@ -988,12 +988,16 @@
         <translation>Maillage initial</translation>
     </message>
     <message>
-        <source>Static</source>
-        <translation>Statique</translation>
+        <source>Constant</source>
+        <translation>Constant</translation>
     </message>
     <message>
-        <source>Transient</source>
-        <translation>Transitoire</translation>
+        <source>Variable</source>
+        <translation>Variable</translation>
+    </message>
+    <message>
+        <source>Type of schema</source>
+        <translation>Type de schema</translation>
     </message>
     <message>
         <source>Edit a file</source>

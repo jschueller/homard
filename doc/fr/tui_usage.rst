@@ -1,5 +1,5 @@
 Mode d'emploi pour TUI
-======================
+######################
 Le module HOMARD peut se lancer à partir d'instructions python. On trouvera ici la description de chacune des fonctions accessibles par l'utilisateur.
 
 .. toctree::
@@ -11,3 +11,4 @@ Le module HOMARD peut se lancer à partir d'instructions python. On trouvera ici 
    tui_create_zone
    tui_create_boundary
    tui_homard
+   tui_create_yacs

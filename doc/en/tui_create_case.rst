@@ -89,7 +89,7 @@ Creation of a case by pursuit of a computed iteration
 
 Methods of the class cas
 ************************
-.. index:: single: yacs
+.. index:: single: YACS
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>304</height>
+    <width>538</width>
+    <height>340</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,14 +30,14 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="3">
+   <item row="0" column="1">
     <widget class="QLineEdit" name="LEName">
      <property name="maxLength">
       <number>32</number>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="3">
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="Case">
@@ -74,7 +74,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="4">
+   <item row="2" column="0" colspan="3">
     <layout class="QHBoxLayout" name="_2">
      <property name="spacing">
       <number>6</number>
@@ -111,7 +111,7 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="4">
+   <item row="3" column="0" colspan="3">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -148,7 +148,7 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0" colspan="4">
+   <item row="4" column="0" colspan="3">
     <layout class="QHBoxLayout" name="_3">
      <property name="spacing">
       <number>6</number>
@@ -186,23 +186,38 @@
     </layout>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QRadioButton" name="RBStatic">
-     <property name="text">
-      <string>Static</string>
+    <widget class="QGroupBox" name="GBTypeSchema">
+     <property name="title">
+      <string>Type of schema</string>
      </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
+     <layout class="QHBoxLayout" name="_4">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="margin">
+       <number>9</number>
+      </property>
+      <item>
+       <widget class="QRadioButton" name="RBConstant">
+        <property name="text">
+         <string>Constant</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="RBVariable">
+        <property name="text">
+         <string>Variable</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="QRadioButton" name="RBTransient">
-     <property name="text">
-      <string>Transient</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
+   <item row="6" column="0" colspan="2">
     <widget class="QGroupBox" name="GroupButtons">
      <property name="title">
       <string/>
@@ -257,7 +272,7 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="3">
+   <item row="6" column="2">
     <spacer name="spacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

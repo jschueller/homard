@@ -8,7 +8,7 @@ It is in the directory ``dircase`` that the files will be written resulting from
 
 Loading of the module HOMARD
 ****************************
-.. index:: single: yacs
+.. index:: single: YACS
 
 The loading of the module HOMARD is done in a way similar to the other modules.
 
@@ -83,7 +83,7 @@ To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are 
 Non plane boundaries
 ********************
 .. index:: single: field
-.. index:: single: yacs
+.. index:: single: YACS
 
 One tests the follow-up of the curved borders here: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. The driving of refinement is the following: uniform refinement of all the elements contained in indicated groups. One starts by refining the inner faces with the pipes; then, one refines continuation twice the external faces with the pipes.
 Scheme YACS carrying out this adaptation is downloadable.

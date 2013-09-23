@@ -2,12 +2,17 @@
 
 YACS
 ####
-.. index:: single: yacs
-
-Introduction
-************
+.. index:: single: YACS
 
 L'utilisation de schémas YACS va permettre de coupler un calcul et une adaptation comme il est décrit dans :ref:`intro`. Ce couplage peut être répété au sein d'une boucle jusqu'à l'obtention d'un critère de convergence par exemple. Il existe de nombreuses façons de programmer un schéma YACS. La solution proposée ici fonctionne mais on peut très bien faire autrement !
+
+On trouvera ici la description exhaustive d'un schéma YACS pour un calcul statique.
+
+.. note::
+  Le module HOMARD propose une création automatique de schéma YASC à partir d'un cas précédemment créé. Pour la mettre en oeuvre, consulter :ref:`gui_create_yacs`
+
+Présentation générale
+*********************
 
 On va décrire ici un schéma s'appliquant à un calcul pour lequel on cherche à stabiliser une valeur. Le calcul démarre sur un maillage initial puis HOMARD enchaîne avec une adaptation. On refait un calcul sur ce nouveau maillage et son résultat est analysé. En fonction de cette analyse, le couplage continue ou non. L'allure générale du schéma est la suivante :
 

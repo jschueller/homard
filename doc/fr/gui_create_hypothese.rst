@@ -18,7 +18,7 @@ Il existe trois classes d'hypothèses :
 
 Nom de l'hypothèse
 ******************
-Un nom de l'hypothèse est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une hypothèse précédente.
+Un nom d'hypothèse est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une hypothèse précédente.
 
 Adaptation uniforme
 *******************

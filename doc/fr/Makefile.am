@@ -71,7 +71,9 @@ tui_create_iteration.rst \
 tui_create_zone.rst \
 tui_homard.rst \
 tui_usage.rst \
-tutorials.rst
+tutorials.rst \
+gui_create_yacs.rst \
+tui_create_yacs.rst
 
 EXTRA_DIST += $(RSTFILES) images ../images ../files
 

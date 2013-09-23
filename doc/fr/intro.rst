@@ -53,7 +53,7 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'es
 
   `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
-.. index:: single: yacs
+.. index:: single: YACS
 
 .. note::
   Cet alternance de calculs et d'adaptions est très appropriée à la mise place de schémas :ref:`yacs`.

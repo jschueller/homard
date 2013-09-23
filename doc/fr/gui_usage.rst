@@ -1,12 +1,12 @@
 .. _gui_usage:
 
 Mode d'emploi pour l'interface graphique
-========================================
+########################################
 .. index:: single: cas
 .. index:: single: itération
 
 Activer le module HOMARD
-""""""""""""""""""""""""
+************************
 Pour utiliser le module HOMARD, deux façons existent :
 
 #. en activant l'onglet HOMARD dans la liste des modules,
@@ -18,13 +18,13 @@ L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une q
    :align: center
 
 Définir une adaptation
-""""""""""""""""""""""
+**********************
 
 Une fois que HOMARD a été activé, la permière action consiste à créer un cas. Il s'agit de sélectionner le maillage initial de la suite d'adaptations envisagée (voir :ref:`gui_create_case`). A partir de ce cas, on définira les itérations successives (voir :ref:`gui_create_iteration`) à partir des hypothèses (voir :ref:`gui_create_hypothese`). Les adaptations sont lancées tel que décrit dans :ref:`gui_homard`.
 
 
 Mode d'emploi de la saisie des données
-""""""""""""""""""""""""""""""""""""""
+**************************************
 
 .. toctree::
    :maxdepth: 2
@@ -37,3 +37,13 @@ Mode d'emploi de la saisie des données
    gui_homard
    gui_mesh_info
 
+
+Création d'un schéma YACS
+*************************
+
+Le module HOMARD propose la création automatique de schémas YACS alternant un calcul et une adaptation de maillage.
+
+.. toctree::
+   :maxdepth: 2
+
+   gui_create_yacs

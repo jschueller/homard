@@ -1,5 +1,5 @@
 Exemples
-========
+########
 .. index:: single: exemple
 .. index:: single: python
 
@@ -7,8 +7,8 @@ On trouvera ici les instructions python pour quelques configurations caractérist
 C'est dans le répertoire ``dircase`` que seront écrits les fichiers résultant des adaptations successives. Ce répertoire est créé par défaut dans ``/tmp``.
 
 Chargement du module HOMARD
-"""""""""""""""""""""""""""
-.. index:: single: yacs
+***************************
+.. index:: single: YACS
 
 Le chargement du module HOMARD se fait de manière analogue aux autres modules.
 
@@ -28,7 +28,7 @@ Pour utiliser le module HOMARD au sein d'un schéma YACS distribué, le chargement
   homard.SetCurrentStudy(salome.myStudy)
 
 Raffinement uniforme
-""""""""""""""""""""
+********************
 .. index:: single: raffinement;uniforme
 
 On fera ici trois raffinements uniformes successifs du maillage contenu dans le fichier ``tutorial_1.00.med``. Quelques remarques :
@@ -46,7 +46,7 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
 
 
 Raffinement par des zones
-"""""""""""""""""""""""""
+*************************
 .. index:: single: zone
 
 On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine. On notera que le type de raffinement n'a pas été précisé ; par défaut, il sera donc conforme.
@@ -62,7 +62,7 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial a
 
 
 Raffinement selon un champ
-""""""""""""""""""""""""""
+**************************
 .. index:: single: champ
 
 On procède ici au raffinement selon un champ. Les hypothèses servent à définir le nom du champ et les seuils de raffinement/déraffinement. La donnée du fichier et des instants est faite dans l'itération. Des champs sur les noeuds ou sur les mailles sont interpolés.
@@ -80,9 +80,9 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
 
 
 Suivi de frontières courbes
-"""""""""""""""""""""""""""
+***************************
 .. index:: single: champ
-.. index:: single: yacs
+.. index:: single: YACS
 
 On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
 Le schéma YACS réalisant cette adaptation est téléchargeable.
@@ -100,7 +100,7 @@ Le schéma YACS réalisant cette adaptation est téléchargeable.
 
 
 Instructions spécifiques au 2D
-""""""""""""""""""""""""""""""
+******************************
 .. index:: single: 2D
 
 Les instructions pour adapter un maillage 2D sont exactement identiques à celles nécessaires à l'adaptation d'un maillage 3D. La seule exception concerne le raffinement selon des zones géométriques : des fonctions différentes sont utilisées pour pouvoir définir des zones 2D. On donne alors les coordonnées 2D des zones, en précisant l'orientation du plan du maillage.

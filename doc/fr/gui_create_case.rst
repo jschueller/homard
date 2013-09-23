@@ -106,7 +106,7 @@ Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois
 La poursuite d'un cas
 *********************
 .. index:: single: poursuite
-.. index:: single: yacs
+.. index:: single: YACS
 
 La poursuite d'un cas correspond à la situation suivante :
 Une série d'adaptations ont été conduites sur un cas puis SALOME est fermé. On a gardé les répertoires de travail de ces itérations. On souhaite ensuite reprendre ces itérations pour les poursuivre là où on s'est arrêté. Cette fonctionnalité est particulièrement utile dans le cas de schémas YACS pour lesquels on scinde en plusieurs parties une longue série d'adaptations.

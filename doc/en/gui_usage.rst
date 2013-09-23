@@ -37,3 +37,15 @@ User's guide of the graphical interface
    gui_homard
    gui_mesh_info
 
+
+Creation of a schema YACS
+*************************
+
+An automatic creation of a schema YACS is available in the module HOMARD.
+
+.. toctree::
+   :maxdepth: 2
+
+   gui_create_yacs
+
+

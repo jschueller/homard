@@ -1,7 +1,7 @@
 .. _tui_create_iteration:
 
 L'itération
-===========
+###########
 
 .. index:: single: itération
 .. index:: single: hypothèse
@@ -10,7 +10,7 @@ L'itération
 Les variables sont décrites dans :ref:`gui_create_iteration`.
 
 Méthodes de la classe homard
-""""""""""""""""""""""""""""
+****************************
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -30,7 +30,8 @@ Méthodes de la classe homard
 +---------------------------------------------------------------+
 
 Méthodes communes aux classes cas et iteration
-""""""""""""""""""""""""""""""""""""""""""""""
+**********************************************
+Voir également dans :ref:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -63,10 +64,10 @@ Méthodes communes aux classes cas et iteration
 +---------------------------------------------------------------+
 
 Méthodes de la classe iteration
-"""""""""""""""""""""""""""""""
+*******************************
 
 Généralités
-^^^^^^^^^^^
+===========
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -171,7 +172,7 @@ Généralités
 +---------------------------------------------------------------+
 
 Informations sur les maillages
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==============================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -217,7 +218,7 @@ Informations sur les maillages
 +---------------------------------------------------------------+
 
 Informations sur le champ
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -265,7 +266,7 @@ Informations sur le champ
 +---------------------------------------------------------------+
 
 Divers
-^^^^^^
+======
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -292,10 +293,11 @@ Divers
 
 
 Exemple
-"""""""
+*******
 .. index:: single: maillage;initial
 
-Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas. ::
+Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas.
+::
 
     iter_name = "Iteration_1"
     iter_1 = case_1.NextIteration(iter_name)
@@ -306,7 +308,8 @@ Pour la création de la première itération, on part de celle qui correspond au ma
     iter_1.AssociateHypo("HypoField")
     codret = iter_1.Compute(1, 2)
 
-Ensuite, on crée une itération suivante à l'itération parent de laquelle on part. ::
+Ensuite, on crée une itération suivante à l'itération parent de laquelle on part.
+::
 
     iter_name = "Iteration_2"
     iter_2 = iter_1.NextIteration(iter_name)
@@ -319,5 +322,5 @@ Ensuite, on crée une itération suivante à l'itération parent de laquelle on part
 
 
 Saisie graphique correspondante
-"""""""""""""""""""""""""""""""
+*******************************
 Consulter :ref:`gui_create_iteration`

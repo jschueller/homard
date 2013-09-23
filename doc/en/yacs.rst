@@ -2,12 +2,17 @@
 
 YACS
 ####
-.. index:: single: yacs
+.. index:: single: YACS
+
+Using a YACS scheme allows the coupling between a computation and an adaptation as described into :ref:`intro`. This coupling can be repeated inside a loop as long as a criteria for the convergence is reached for instance. Many ways are available to program a YACS scheme. The solution that is shown here is correct but many others are too!
+
+In this part, an extensive description of a schema YACS is available.
+
+.. note::
+  The module HOMARD proposes an automatic creation of a schema YASC starting from a defined case. To do that, see :ref:`gui_create_yacs`
 
 Introduction
 ************
-
-Using a YACS scheme allows the coupling between a computation and an adaptation as described into :ref:`intro`. This coupling can be repeated inside a loop as long as a criteria for the convergence is reached for instance. Many ways are available to program a YACS scheme. The solution that is shown here is correct but many others are too!
 
 Here is the description of a scheme for a computation in which a value is to be stabilized. The computation starts over an initial mesh, then HOMARD makes an adaptation. A new computation is done over this new mesh and its result is analyzed. Depending on this analysis, the coupling goes on or does not. The general look of the scheme is this one:
 

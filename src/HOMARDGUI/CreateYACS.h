@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateYACS.ui'
 **
-** Created: Wed Sep 18 10:38:42 2013
+** Created: Mon Sep 23 13:29:12 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -49,8 +49,10 @@ public:
     QLabel *MeshFile;
     QPushButton *PBMeshFile;
     QLineEdit *LEMeshFile;
-    QRadioButton *RBStatic;
-    QRadioButton *RBTransient;
+    QGroupBox *GBTypeSchema;
+    QHBoxLayout *_4;
+    QRadioButton *RBConstant;
+    QRadioButton *RBVariable;
     QGroupBox *GroupButtons;
     QGridLayout *gridLayout1;
     QPushButton *buttonHelp;
@@ -63,7 +65,7 @@ public:
     {
         if (CreateYACS->objectName().isEmpty())
             CreateYACS->setObjectName(QString::fromUtf8("CreateYACS"));
-        CreateYACS->resize(537, 304);
+        CreateYACS->resize(538, 340);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -81,7 +83,7 @@ public:
         LEName->setObjectName(QString::fromUtf8("LEName"));
         LEName->setMaxLength(32);
 
-        gridLayout_2->addWidget(LEName, 0, 1, 1, 3);
+        gridLayout_2->addWidget(LEName, 0, 1, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -104,7 +106,7 @@ public:
         gridLayout->addWidget(LECaseName, 0, 2, 1, 1);
 
 
-        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 4);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 3);
 
         _2 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -130,7 +132,7 @@ public:
         _2->addWidget(LEScriptFile);
 
 
-        gridLayout_2->addLayout(_2, 2, 0, 1, 4);
+        gridLayout_2->addLayout(_2, 2, 0, 1, 3);
 
         hboxLayout = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -156,7 +158,7 @@ public:
         hboxLayout->addWidget(LEDirName);
 
 
-        gridLayout_2->addLayout(hboxLayout, 3, 0, 1, 4);
+        gridLayout_2->addLayout(hboxLayout, 3, 0, 1, 3);
 
         _3 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -182,18 +184,31 @@ public:
         _3->addWidget(LEMeshFile);
 
 
-        gridLayout_2->addLayout(_3, 4, 0, 1, 4);
+        gridLayout_2->addLayout(_3, 4, 0, 1, 3);
 
-        RBStatic = new QRadioButton(CreateYACS);
-        RBStatic->setObjectName(QString::fromUtf8("RBStatic"));
-        RBStatic->setChecked(true);
+        GBTypeSchema = new QGroupBox(CreateYACS);
+        GBTypeSchema->setObjectName(QString::fromUtf8("GBTypeSchema"));
+        _4 = new QHBoxLayout(GBTypeSchema);
+#ifndef Q_OS_MAC
+        _4->setSpacing(6);
+#endif
+#ifndef Q_OS_MAC
+        _4->setContentsMargins(9, 9, 9, 9);
+#endif
+        _4->setObjectName(QString::fromUtf8("_4"));
+        RBConstant = new QRadioButton(GBTypeSchema);
+        RBConstant->setObjectName(QString::fromUtf8("RBConstant"));
+        RBConstant->setChecked(true);
 
-        gridLayout_2->addWidget(RBStatic, 5, 0, 1, 2);
+        _4->addWidget(RBConstant);
 
-        RBTransient = new QRadioButton(CreateYACS);
-        RBTransient->setObjectName(QString::fromUtf8("RBTransient"));
+        RBVariable = new QRadioButton(GBTypeSchema);
+        RBVariable->setObjectName(QString::fromUtf8("RBVariable"));
 
-        gridLayout_2->addWidget(RBTransient, 5, 2, 1, 1);
+        _4->addWidget(RBVariable);
+
+
+        gridLayout_2->addWidget(GBTypeSchema, 5, 0, 1, 2);
 
         GroupButtons = new QGroupBox(CreateYACS);
         GroupButtons->setObjectName(QString::fromUtf8("GroupButtons"));
@@ -230,11 +245,11 @@ public:
         gridLayout1->addWidget(buttonCancel, 0, 2, 1, 1);
 
 
-        gridLayout_2->addWidget(GroupButtons, 6, 0, 1, 3);
+        gridLayout_2->addWidget(GroupButtons, 6, 0, 1, 2);
 
         spacer_2 = new QSpacerItem(128, 25, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(spacer_2, 6, 3, 1, 1);
+        gridLayout_2->addItem(spacer_2, 6, 2, 1, 1);
 
 
         retranslateUi(CreateYACS);
@@ -254,8 +269,9 @@ public:
         PBDir->setText(QString());
         MeshFile->setText(QApplication::translate("CreateYACS", "Mesh file", 0, QApplication::UnicodeUTF8));
         PBMeshFile->setText(QString());
-        RBStatic->setText(QApplication::translate("CreateYACS", "Static", 0, QApplication::UnicodeUTF8));
-        RBTransient->setText(QApplication::translate("CreateYACS", "Transient", 0, QApplication::UnicodeUTF8));
+        GBTypeSchema->setTitle(QApplication::translate("CreateYACS", "Type of schema", 0, QApplication::UnicodeUTF8));
+        RBConstant->setText(QApplication::translate("CreateYACS", "Constant", 0, QApplication::UnicodeUTF8));
+        RBVariable->setText(QApplication::translate("CreateYACS", "Variable", 0, QApplication::UnicodeUTF8));
         GroupButtons->setTitle(QString());
         buttonHelp->setText(QApplication::translate("CreateYACS", "Help", 0, QApplication::UnicodeUTF8));
         buttonApply->setText(QApplication::translate("CreateYACS", "Apply", 0, QApplication::UnicodeUTF8));
