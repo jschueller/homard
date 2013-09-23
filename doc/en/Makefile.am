@@ -73,6 +73,7 @@ tui_homard.rst \
 tui_usage.rst \
 tutorials.rst \
 gui_create_yacs.rst \
+gui_create_yacs_aster.rst \
 tui_create_yacs.rst
 
 EXTRA_DIST += $(RSTFILES) images ../images ../files

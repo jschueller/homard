@@ -83,6 +83,61 @@ L'option par défaut, 'constant', alterne le lancement d'un calcul qui est toujou
 
 L'option 'variable' est inactive aujourd'hui.
 
+Enregistrement du schéma
+************************
+Par défaut, le schéma produit est écrit dans le fichier `schema.xml` dans le répertoire lié au cas qui en est le support. Si on a détruit le fichier, on peut le recréer en activant le fonction "Ecrire le fichier" à la souris.
+
+L'arbre d'étude
+***************
+.. index:: single: arbre d'étude
+
+A l'issue de cette création de schéma, l'arbre d'études a été enrichi. On y trouve tous les schémas créés, identifiés par leur nom, avec la possibilité de les éditer. Sous chaque référence de schéma, on trouve le lien avec le cas qui en est le support ainsi que le fichier `xml` qui a été créé. On peut lire ce fichier.
+
+.. image:: images/create_yacs_1.png
+   :align: center
+
 Méthodes python correspondantes
 *******************************
 Consulter :ref:`tui_create_yacs`
+
+Utilisation du schéma
+#####################
+
+Le schéma produit par cette saisie est directement importable dans le module YCAS. Il peut se lancer sans modification. Dans ce cas, l'arrêt dans la boucle a lieu ainsi :
+
+- soit on a atteint le nombre maximal d'itérations dans la boucle d'alternance (calcul,adaptation) ;
+- soit le test de convergence sur la variable ``V_TEST`` est satisfait.
+
+Par défaut le nombre maximal d'itérations est fixé à 5 et le test de convergence est satisfait si la variable bouge de moins de 1 pour mille en valeur relative entre deux itérations successives. On peut évidemment modifier ces tests.
+
+Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décrit dans :ref:`yacs`.
+
+Le nombre maximal d'itérations est modifiable par la variable `NbCalcMax` :
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 111-113
+
+La valeur de test est stockée dans une liste au fur et à mesure des passages :
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 137-141
+
+et le test a lieu à partir du deuxième passage :
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 143-148
+
+Si on veut remplacer ce test par un autre, c'est ici qu'il faut le faire. Il faut simplement conserver le contenu produit à la convergence pour assurer la bonne marche de la suite du schéma :
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 146-148
+
+Exemples
+########
+.. index:: single: Code_Aster
+
+Un mode d'emploi associé à la création de schéma avec Code_Aster est disponible en consultant : :ref:`gui_create_yacs_aster`.
+
+
+
+

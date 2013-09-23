@@ -121,8 +121,6 @@ Le dernier choix porte sur une sortie supplémentaire de l'adaptation. Si la case
 .. image:: images/create_hypothese_av_1.png
    :align: center
 
-.. index:: single: arbre d'étude
-
 L'arbre d'étude
 ***************
 .. index:: single: arbre d'étude

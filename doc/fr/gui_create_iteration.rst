@@ -63,10 +63,10 @@ Ensuite, si une hypothèse précédemment définie convient, il suffit de la sélecti
 .. note::
   Si on envisage une adaptation selon les valeurs d'un champ sur le maillage, il faut avoir renseigné les informations sur ce champ avant de créer une nouvelle hypothèse.
 
-.. index:: single: arbre d'étude
-
 L'arbre d'étude
 ***************
+.. index:: single: arbre d'étude
+
 A l'issue de cette création d'itération, l'arbre d'études a été enrichi. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni, l'itération courante, identifiée par son nom. On trouve aussi l'hypothèse qui lui est attachée. L'icône en regard de l'itération permet de différencier les itérations calculées ou non.
 
 .. image:: images/create_iteration_6.png

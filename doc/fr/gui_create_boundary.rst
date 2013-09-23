@@ -99,8 +99,6 @@ La sphère est définie par son centre et son rayon. Un nom de frontière est propo
 .. image:: images/create_boundary_an_sp.png
    :align: center
 
-.. index:: single: arbre d'étude
-
 Un cône
 =======
 .. index:: single: cone
@@ -117,10 +115,10 @@ Création par deux points centrés sur l'axe et le rayon associé :
 .. image:: images/create_boundary_an_co_2.png
    :align: center
 
-.. index:: single: arbre d'étude
-
 L'arbre d'étude
 ***************
+.. index:: single: arbre d'étude
+
 A l'issue de cette création de frontières, l'arbre d'études a été enrichi. On y trouve toutes les frontières créées, identifiées par leur nom, avec la possibilité de les éditer.
 
 .. image:: images/create_boundary_1.png

@@ -47,3 +47,5 @@ Le module HOMARD propose la création automatique de schémas YACS alternant un ca
    :maxdepth: 2
 
    gui_create_yacs
+   gui_create_yacs_aster
+

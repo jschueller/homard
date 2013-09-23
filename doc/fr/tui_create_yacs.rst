@@ -105,13 +105,20 @@ Informations sur le schéma
 | **GetName()**                                                 |
 |     Retourne le nom du schéma                                 |
 +---------------------------------------------------------------+
+| .. module:: SetType                                           |
+|                                                               |
+| **SetType(Type)**                                             |
+|     Définit le type de schéma.                                |
+|                                                               |
+|     - ``Type`` : le type de schéma                            |
+|                                                               |
+|         * 1 : constant                                        |
+|         * 2 : variable                                        |
++---------------------------------------------------------------+
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
 |     Retourne le type du schéma                                |
-|                                                               |
-|         * 1 : statique                                        |
-|         * 2 : transitoire                                     |
 +---------------------------------------------------------------+
 | .. module:: SetScriptFile                                     |
 |                                                               |

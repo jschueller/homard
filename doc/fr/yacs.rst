@@ -6,7 +6,7 @@ YACS
 
 L'utilisation de schémas YACS va permettre de coupler un calcul et une adaptation comme il est décrit dans :ref:`intro`. Ce couplage peut être répété au sein d'une boucle jusqu'à l'obtention d'un critère de convergence par exemple. Il existe de nombreuses façons de programmer un schéma YACS. La solution proposée ici fonctionne mais on peut très bien faire autrement !
 
-On trouvera ici la description exhaustive d'un schéma YACS pour un calcul statique.
+On trouvera ici la description exhaustive d'un schéma YACS.
 
 .. note::
   Le module HOMARD propose une création automatique de schéma YASC à partir d'un cas précédemment créé. Pour la mettre en oeuvre, consulter :ref:`gui_create_yacs`

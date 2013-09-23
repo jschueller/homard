@@ -82,7 +82,61 @@ The default choice, 'constant', alternate a computation that is always the same 
 
 The option 'variable' is inactive today.
 
+Saving the schema
+*****************
+By default, the schema is saved into the file `schema.xml` in the directory of the case that is under the schema. If the file is deleted, it can be rewritten by the mouse option "Write".
+
+Object browser
+**************
+.. index:: single: object browser
+
+The object browser contains the created schemas, identified by their names. They can be edited. Under every schema, there is a link to the case and the reference to the `xml` file that is written. This file can be read.
+
+.. image:: images/create_yacs_1.png
+   :align: center
+
 Corresponding python functions
 ******************************
 Look :ref:`tui_create_yacs`
+
+How to use the schema
+#####################
+
+The schema that is produced by this procedure can be imported into the module YACS. It can be executed without any modification. It this case, the stop into the loop is done:
+
+- either the maximal number of iterations for the loop (calcul,adaptation) is reached;
+- or the test for the convergence over the variable ``V_TEST`` is satisfied.
+
+By default, the maximal number of iterations is equal to 5 and the test for the convergence is satisfied if the variable varies less than one per a thousand in a relative value, between two successive iterations. These tests can be modified.
+
+These tests ares done into the node "Analyse" of the schema, as described in :ref:`yacs`.
+
+The maximal number of iterations is given by the variable `NbCalcMax`:
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 111-113
+
+The value for the test is saved in a list all along the calculations:
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 137-141
+
+and the test is calculated after the second iteration:
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 143-148
+
+If this test is modified, it must be done here. But the instructions when it is converged must be kept to guarantee a good execution:
+
+.. literalinclude:: ../files/yacs_01.fr.xml
+   :lines: 146-148
+
+Examples
+########
+.. index:: single: Code_Aster
+
+A user's guide for schemas with Code_Aster is available here: :ref:`gui_create_yacs_aster`.
+
+
+
 

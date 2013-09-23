@@ -95,6 +95,16 @@ Le disque avec trou est obligatoirement dans le plan des axes de coordonnées. Il
    :align: center
 
 
+L'arbre d'étude
+***************
+.. index:: single: arbre d'étude
+
+A l'issue de cette création de zone, l'arbre d'études a été enrichi. On y trouve toutes les zones créées, identifiées par leur nom, avec la possibilité de les éditer.
+
+.. image:: images/create_zone_01.png
+   :align: center
+   :alt: zone - arbre d'études
+
 
 Méthodes python correspondantes
 *******************************

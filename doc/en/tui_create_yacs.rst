@@ -105,13 +105,20 @@ Informations about the schema
 | **GetName()**                                                 |
 |     Returns the name of the schema                            |
 +---------------------------------------------------------------+
+| .. module:: SetType                                           |
+|                                                               |
+| **SetType(Type)**                                             |
+|     Defines the type of the schema.                           |
+|                                                               |
+|     - ``Type`` : the type of the schema                       |
+|                                                               |
+|         * 1 : constant                                        |
+|         * 2 : variable                                        |
++---------------------------------------------------------------+
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
 |     Returns the type of the schema                            |
-|                                                               |
-|         * 1 : static                                          |
-|         * 2 : transitory                                      |
 +---------------------------------------------------------------+
 | .. module:: SetScriptFile                                     |
 |                                                               |
