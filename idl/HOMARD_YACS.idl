@@ -58,6 +58,9 @@ module HOMARD
     void     SetScriptFile(in string ScriptFile)           raises (SALOME::SALOME_Exception);
     string   GetScriptFile()                               raises (SALOME::SALOME_Exception);
 
+    void     SetXMLFile(in string XMLFile)                 raises (SALOME::SALOME_Exception);
+    string   GetXMLFile()                                  raises (SALOME::SALOME_Exception);
+
     long     Write()                                       raises (SALOME::SALOME_Exception);
     long     WriteOnFile( in string YACSFile )             raises (SALOME::SALOME_Exception);
 

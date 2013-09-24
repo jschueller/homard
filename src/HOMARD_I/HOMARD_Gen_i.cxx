@@ -455,7 +455,6 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
 {
   //  Option = 0 : On ne supprime pas le fichier du schema associe
   //  Option = 1 : On supprime le fichier du schema associe
-  // Pour detruire une iteration courante
   MESSAGE ( "DeleteYACS : nomYACS = " << nomYACS << ", avec option = " << Option );
   HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
   if (CORBA::is_nil(myYACS))
@@ -466,7 +465,21 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
     throw SALOME::SALOME_Exception(es);
     return 1 ;
   };
-  ASSERT("Programmer le menage du fichier"!=0);
+  // Suppression eventuelle du fichier XML
+  if ( Option == 1 )
+  {
+    std::string nomFichier = myYACS->GetXMLFile();
+    std::string commande = "rm -rf " + nomFichier ;
+    MESSAGE ( "commande = " << commande );
+    if ((system(commande.c_str())) != 0)
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "The xml file for the schema YACS cannot be removed." ;
+      throw SALOME::SALOME_Exception(es);
+      return 2 ;
+    }
+  }
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
   myContextMap[GetCurrentStudyID()]._mesYACSs.erase(nomYACS);
   SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomYACS, ComponentDataType());
@@ -629,7 +642,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
     };
     std::string nomDir     = myIteration->GetDirName();
     std::string nomFichier = myIteration->GetMeshFile();
-    std::string commande= "rm -rf " + std::string(nomDir);
+    std::string commande = "rm -rf " + std::string(nomDir);
     if ( Option == 1 ) { commande = commande + ";rm -rf " + std::string(nomFichier) ; }
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
@@ -2690,7 +2703,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
     if (etatMenage == 1)
     {
       MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
-      std::string commande= "rm -rf " + DirCompute.str()+"/*" ;
+      std::string commande = "rm -rf " + DirCompute.str()+"/*" ;
       int codret = system(commande.c_str());
       if (codret != 0)
       {
@@ -3029,10 +3042,10 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
     aResultSO = PublishCaseInStudy(theStudy, aStudyBuilder, aCase, theName);
   else if(!aHypo->_is_nil())
     aResultSO = PublishHypotheseInStudy(theStudy, aStudyBuilder, aHypo, theName);
-  else if(!aZone->_is_nil())
-    aResultSO = PublishZoneInStudy(theStudy, aStudyBuilder, aZone, theName);
   else if(!aYACS->_is_nil())
     aResultSO = PublishYACSInStudy(theStudy, aStudyBuilder, aYACS, theName);
+  else if(!aZone->_is_nil())
+    aResultSO = PublishZoneInStudy(theStudy, aStudyBuilder, aZone, theName);
 
   aStudyBuilder->CommitCommand();
 
@@ -3647,11 +3660,20 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   PublishCaseUnderYACS(nomYACS, nomCas);
 
   // D. Caracterisation
+  // D.1. Options
   myYACS->SetDirName( DirName ) ;
   myYACS->SetMeshFile( MeshFile ) ;
   myYACS->SetScriptFile( ScriptFile ) ;
   myYACS->SetCaseName( nomCas ) ;
+  // D.2. Defaut
+  // D.2.1. Type constant
   myYACS->SetType( 1 ) ;
+  // D.2.2. Fichier de sauvegarde dans le repertoire du cas
+  HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(nomCas) ;
+  std::string dirnamecase = caseyacs->GetDirName() ;
+  std::string XMLFile ;
+  XMLFile = dirnamecase + "/schema.xml" ;
+  myYACS->SetXMLFile( XMLFile.c_str() ) ;
 
   return HOMARD::HOMARD_YACS::_duplicate(myYACS);
 }
@@ -3664,23 +3686,20 @@ CORBA::Long HOMARD_Gen_i::YACSWrite(const char* nomYACS)
 // Le repertoire du cas
   HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
-  std::string casename = myYACS->GetCaseName() ;
-  HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(casename.c_str()) ;
-  std::string dirnamecase = caseyacs->GetDirName() ;
-// Le nom par defaut du fichier du schema
-  std::string YACSFile ;
-  YACSFile = dirnamecase + "/schema.xml" ;
+// Le nom du fichier du schema
+  std::string XMLFile ;
+  XMLFile = myYACS->GetXMLFile() ;
 
-  int codret = YACSWriteOnFile(nomYACS, YACSFile.c_str()) ;
+  int codret = YACSWriteOnFile(nomYACS, XMLFile.c_str()) ;
 
   return codret ;
 }
 //=============================================================================
-// Ecriture d'un schema YACS
+// Ecriture d'un schema YACS sur un fichier donne
 //=============================================================================
-CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSFile)
+CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFile)
 {
-  INFOS ( "YACSWriteOnFile : Ecriture de " << nomYACS << " sur " << YACSFile );
+  INFOS ( "YACSWriteOnFile : Ecriture de " << nomYACS << " sur " << XMLFile );
 
   // A. Prealable
   int codret = 0;
@@ -3747,8 +3766,8 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
 
   // F. Le fichier du schema de reference
   // HOMARD_ROOT_DIR : repertoire ou se trouve le module HOMARD
-  std::string YACSFile_base ;
-  if ( getenv("HOMARD_ROOT_DIR") != NULL ) { YACSFile_base = getenv("HOMARD_ROOT_DIR") ; }
+  std::string XMLFile_base ;
+  if ( getenv("HOMARD_ROOT_DIR") != NULL ) { XMLFile_base = getenv("HOMARD_ROOT_DIR") ; }
   else
   {
     SALOME::ExceptionStruct es ;
@@ -3758,13 +3777,13 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
     throw SALOME::SALOME_Exception(es);
     return 0;
   }
-  YACSFile_base += "/share/salome/resources/homard/yacs_01." + _LangueShort + ".xml" ;
+  XMLFile_base += "/share/salome/resources/homard/yacs_01." + _LangueShort + ".xml" ;
 //   if ( _Langue ==
-  MESSAGE("YACSFile_base ="<<YACSFile_base);
+  MESSAGE("XMLFile_base ="<<XMLFile_base);
 
   // G. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
-  YACSDriver* myDriver = new YACSDriver(YACSFile, DirName);
-  std::ifstream fichier( YACSFile_base.c_str() );
+  YACSDriver* myDriver = new YACSDriver(XMLFile, DirName);
+  std::ifstream fichier( XMLFile_base.c_str() );
   if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
   {
     // G.1. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
@@ -3829,7 +3848,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
   // H. Publication du fichier dans l'arbre
 
     std::string Commentaire = "xml" ;
-    PublishFileUnderYACS(nomYACS, YACSFile, Commentaire.c_str());
+    PublishFileUnderYACS(nomYACS, XMLFile, Commentaire.c_str());
 
   return codret ;
 }

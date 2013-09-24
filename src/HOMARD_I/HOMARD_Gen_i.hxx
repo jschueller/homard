@@ -190,7 +190,7 @@ public:
 // YACS
   HOMARD::HOMARD_YACS_ptr         CreateYACSSchema (const char* YACSName, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
   CORBA::Long                     YACSWrite(const char* nomYACS);
-  CORBA::Long                     YACSWriteOnFile(const char* nomYACS, const char* YACSFile);
+  CORBA::Long                     YACSWriteOnFile(const char* nomYACS, const char* XMLFile);
   std::string                     YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
   std::string                     YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver);
 

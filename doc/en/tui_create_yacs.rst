@@ -62,6 +62,10 @@ General methods
 | **Write()**                                                   |
 |     Writes the schema into the file ``schema.xml``, in the    |
 |     directory of the case                                     |
+|     Writes the schema into the file of the schema             |
+|     By default, it is the file ``schema.xml``, in the         |
+|     directory of the case. If ``WriteOnFile`` was used before |
+|     the writings are into this new file.                      |
 |                                                               |
 |     Returns an integer:                                       |
 |         * 0: the writing is done                              |
@@ -161,6 +165,18 @@ Informations about the schema
 | **GetMeshFile()**                                             |
 |     Returns the name of the MED file of the very first mesh   |
 |     for the computation                                       |
++---------------------------------------------------------------+
+| .. module:: SetXMLFile                                        |
+|                                                               |
+| **SetXMLFile(xml_file)**                                      |
+|     Defines the xml file                                      |
+|                                                               |
+|     - ``mesh_file`` : the name of the xml file                |
++---------------------------------------------------------------+
+| .. module:: GetXMLFile                                        |
+|                                                               |
+| **GetXMLFile()**                                              |
+|     Returns the name of the xml file                          |
 +---------------------------------------------------------------+
 
 

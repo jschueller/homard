@@ -62,6 +62,9 @@ public:
   void                          SetScriptFile( const char* ScriptFile );
   std::string                   GetScriptFile() const;
 
+  void                          SetXMLFile( const char* XMLFile );
+  std::string                   GetXMLFile() const;
+
 // Liens avec les autres structures
   void                          SetCaseName( const char* NomCas );
   std::string                   GetCaseName() const;
@@ -76,6 +79,7 @@ private:
   std::string                   _MeshFile;
   std::string                   _ScriptFile;
   int                           _Type;
+  std::string                   _XMLFile;
 };
 
 #endif

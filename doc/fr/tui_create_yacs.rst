@@ -60,8 +60,10 @@ Généralités
 | .. module:: Write                                             |
 |                                                               |
 | **Write()**                                                   |
-|     Ecrit le schéma dans le fichier ``schema.xml``, dans le   |
-|     répertoire du cas                                         |
+|     Ecrit le schéma dans le fichier lié au schéma             |
+|     Par défaut, c'est le fichier ``schema.xml``, dans le      |
+|     répertoire du cas. Si ``WriteOnFile`` a été utilisé       |
+|     auparavant, l'écriture a lieu dans le nouveau fichier.    |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : écriture réussie                                |
@@ -159,6 +161,18 @@ Informations sur le schéma
 | **GetMeshFile()**                                             |
 |     Retourne le nom du fichier MED du tout premier maillage   |
 |     de calcul                                                 |
++---------------------------------------------------------------+
+| .. module:: SetXMLFile                                        |
+|                                                               |
+| **SetXMLFile(xml_file)**                                      |
+|     Définit le fichier xml pour l'écriture                    |
+|                                                               |
+|     - ``xml_file`` : le nom du fichier xml                    |
++---------------------------------------------------------------+
+| .. module:: GetXMLFile                                        |
+|                                                               |
+| **GetXMLFile()**                                              |
+|     Retourne le nom du fichier xml                            |
 +---------------------------------------------------------------+
 
 

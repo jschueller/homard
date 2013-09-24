@@ -77,9 +77,11 @@ public:
   void                   SetScriptFile( const char* ScriptFile );
   char*                  GetScriptFile();
 
+  void                   SetXMLFile( const char* XMLFile );
+  char*                  GetXMLFile();
 
   CORBA::Long            Write() ;
-  CORBA::Long            WriteOnFile( const char* YACSFile ) ;
+  CORBA::Long            WriteOnFile( const char* XMLFile ) ;
 
   // Liens avec les autres structures
   void                   SetCaseName( const char* NomCas );

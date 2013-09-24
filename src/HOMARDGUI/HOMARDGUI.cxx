@@ -394,11 +394,11 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       _PTR(SObject) obj = chercheMonObjet();
       if (obj)
       {
-        // Suppression d'un cas
-        if (HOMARD_UTILS::isCase(obj))
+        // Suppression d'une frontiere
+        if ( HOMARD_UTILS::isBoundaryDi(obj) or HOMARD_UTILS::isBoundaryAn(obj) )
         {
           try
-          { homardGen->DeleteCase(_ObjectName.toStdString().c_str(), 1); }
+          { homardGen->DeleteBoundary(_ObjectName.toStdString().c_str()); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -407,11 +407,11 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
             return false;
           }
         }
-        // Suppression d'une iteration
-        else if (HOMARD_UTILS::isIter(obj))
+        // Suppression d'un cas
+        else if (HOMARD_UTILS::isCase(obj))
         {
           try
-          { homardGen->DeleteIteration(_ObjectName.toStdString().c_str(), 1); }
+          { homardGen->DeleteCase(_ObjectName.toStdString().c_str(), 1); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -433,11 +433,11 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
             return false;
           }
         }
-        // Suppression d'une zone
-        else if (HOMARD_UTILS::isZone(obj))
+        // Suppression d'une iteration
+        else if (HOMARD_UTILS::isIter(obj))
         {
           try
-          { homardGen->DeleteZone(_ObjectName.toStdString().c_str()); }
+          { homardGen->DeleteIteration(_ObjectName.toStdString().c_str(), 1); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -446,11 +446,24 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
             return false;
           }
         }
-        // Suppression d'une frontiere
-        else if ( HOMARD_UTILS::isBoundaryDi(obj) or HOMARD_UTILS::isBoundaryAn(obj) )
+        // Suppression d'un schema YACS
+        else if (HOMARD_UTILS::isYACS(obj))
         {
           try
-          { homardGen->DeleteBoundary(_ObjectName.toStdString().c_str()); }
+          { homardGen->DeleteYACS(_ObjectName.toStdString().c_str(), 1); }
+          catch( SALOME::SALOME_Exception& S_ex )
+          {
+            QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                      QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+            getApp()->updateObjectBrowser();
+            return false;
+          }
+        }
+        // Suppression d'une zone
+        else if (HOMARD_UTILS::isZone(obj))
+        {
+          try
+          { homardGen->DeleteZone(_ObjectName.toStdString().c_str()); }
           catch( SALOME::SALOME_Exception& S_ex )
           {
             QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),

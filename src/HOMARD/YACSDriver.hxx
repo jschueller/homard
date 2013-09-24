@@ -28,7 +28,7 @@
 class YACSDriver
 {
 public:
-  YACSDriver(const std::string YACSFile, const std::string DirName) ;
+  YACSDriver(const std::string XMLFile, const std::string DirName) ;
   ~YACSDriver() ;
   //
   void        TexteAdd( const std::string ligne ) ;
@@ -49,7 +49,7 @@ public:
   //
 
 public:
-  std::string _YACSFile ;
+  std::string _XMLFile ;
   std::string _DirName ;
   std::string _Texte ;
   std::string _Texte_parametres ;

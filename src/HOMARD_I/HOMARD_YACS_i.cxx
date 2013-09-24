@@ -160,6 +160,19 @@ char* HOMARD_YACS_i::GetScriptFile()
   return CORBA::string_dup( myHomardYACS->GetScriptFile().c_str() );
 }
 //=============================================================================
+void HOMARD_YACS_i::SetXMLFile( const char* XMLFile )
+{
+  ASSERT( myHomardYACS );
+  MESSAGE ( "SetXMLFile : SetXMLFile = " << XMLFile );
+  myHomardYACS->SetXMLFile( XMLFile );
+}
+//=============================================================================
+char* HOMARD_YACS_i::GetXMLFile()
+{
+  ASSERT( myHomardYACS );
+  return CORBA::string_dup( myHomardYACS->GetXMLFile().c_str() );
+}
+//=============================================================================
 //=============================================================================
 // Liens avec les autres structures
 //=============================================================================
@@ -178,21 +191,22 @@ char* HOMARD_YACS_i::GetCaseName()
 //=============================================================================
 CORBA::Long HOMARD_YACS_i::Write()
 {
-  MESSAGE ( "Write : ecriture du schema");
 //
   char* nomYACS = GetName() ;
   return _gen_i->YACSWrite(nomYACS) ;
 }
 //=============================================================================
-CORBA::Long HOMARD_YACS_i::WriteOnFile( const char* YACSFile )
+CORBA::Long HOMARD_YACS_i::WriteOnFile( const char* XMLFile )
 {
-  MESSAGE ( "WriteOnFile : ecriture du schema sur " << YACSFile );
+  MESSAGE ( "WriteOnFile : ecriture du schema sur " << XMLFile );
   ASSERT( myHomardYACS );
+//
+// Memorisation du fichier associe
+  SetXMLFile( XMLFile ) ;
 //
 // Nom du schema
   char* nomYACS = GetName() ;
-  MESSAGE ( "WriteOnFile : ecriture du schema " << nomYACS);
-  return _gen_i->YACSWriteOnFile(nomYACS, YACSFile) ;
+  return _gen_i->YACSWriteOnFile(nomYACS, XMLFile) ;
 }
 //=============================================================================
 //=============================================================================

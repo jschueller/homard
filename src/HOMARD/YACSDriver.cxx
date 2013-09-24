@@ -31,15 +31,15 @@
 
 //=============================================================================
 //=============================================================================
-YACSDriver::YACSDriver(const std::string YACSFile, const std::string DirName):
-  _YACSFile( "" ), _DirName( "" ),
+YACSDriver::YACSDriver(const std::string XMLFile, const std::string DirName):
+  _XMLFile( "" ), _DirName( "" ),
   _Texte( "" ),
   _Texte_parametres( "" ),
   _noeud_1( "CreateHypothesis" ),
   _bLu( false )
 {
-  MESSAGE("YACSFile = "<<YACSFile<<", DirName ="<<DirName);
-  _YACSFile = YACSFile;
+  MESSAGE("XMLFile = "<<XMLFile<<", DirName ="<<DirName);
+  _XMLFile = XMLFile;
   _DirName = DirName;
 }
 //=============================================================================
@@ -547,8 +547,8 @@ void YACSDriver::TexteAddParametres( )
 void YACSDriver::CreeFichier( )
 {
 //
-  MESSAGE("CreeFichier sur le fichier "<<_YACSFile);
-  std::ofstream Fic(_YACSFile.c_str(), std::ios::out ) ;
+  MESSAGE("CreeFichier sur le fichier "<<_XMLFile);
+  std::ofstream Fic(_XMLFile.c_str(), std::ios::out ) ;
   if (Fic.is_open() == true) { Fic << _Texte << std::endl ; }
   Fic.close() ;
 //
