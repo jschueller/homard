@@ -37,18 +37,18 @@ Licence
 
 La licence pour ce module est la GNU Lesser General Public License (Lesser GPL), tel qu'il est déclaré ici et dans les fichiers source.
 
-.. literalinclude:: ../licence.txt
+.. literalinclude:: ../files/licence.fr.txt
 
 En complément, nous souhaitons que toute publication décrivant un travail utilisant ce module, ou tout produit commercial l'utilisant, cite au moins l'une des références ci-dessous :
+
+    * G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, *Finite
+      Elements in Analysis and Design*, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
     * *HOMARD, a SALOME module for Mesh Adaptation*,
       http://www.salome-platform.org/
 
     * *SALOME The Open Source Integration Platform for Numerical Simulation*,
       http://www.salome-platform.org/
-
-    * G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, *Finite
-      Elements in Analysis and Design*, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
 La documentation de ce module est aussi couverte par la licence et l'obligation de citation.
 

@@ -66,7 +66,9 @@ class MonCreateYACS : public QDialog, public Ui_CreateYACS
     virtual void SetScriptFile();
     virtual void SetMeshFile();
 
-    virtual void SetType(int Type);
+//     virtual void SetType(int Type);
+    virtual void SetConstant();
+    virtual void SetVariable();
 
     virtual void PushOnOK();
     virtual bool PushOnApply();

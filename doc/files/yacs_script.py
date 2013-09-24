@@ -3,7 +3,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.3"
+__revision__ = "V5.4"
 #
 import sys
 import os
@@ -67,7 +67,7 @@ Aucune option supplementaire.
 
 Arguments optionnels :
 
---wait=attente : temps d'attente en secondes entre deux examens de l'etat d'un calcul batch ; si absent, on prend 10.
+--wait=wait : temps d'attente en secondes entre deux examens de l'etat d'un calcul batch ; si absent, on prend 10.
 
 -dump : produit le fichier dump du fichier med de resultats ; par defaut, pas de dump.
 
@@ -1175,18 +1175,21 @@ Affichage de resultats selon les cas
       chaine = "V_TEST"
       nuocc = 1
       erreur, message_erreur, info = self.post_aster_1 ( nomfic, chaine, nuocc )
-      if erreur :
+      if ( erreur > 0 ) :
         break
       self.message_info += info[:-1]
 #
 # 1.2. Details
 #
-      info = info.replace(chaine, " ")
-      laux = info[:-1].split()
-      aux = laux[0]
-      if ( "D" in aux ) :
-        aux = aux.replace("D", "E")
-      dico_resu[chaine] = float(aux)
+      if ( erreur == 0 ) :
+        info = info.replace(chaine, " ")
+        laux = info[:-1].split()
+        aux = laux[0]
+        if ( "D" in aux ) :
+          aux = aux.replace("D", "E")
+        dico_resu[chaine] = float(aux)
+      else :
+        erreur = 0
 #
 # 2. Exploration du fichier mess
 # 2.1. Que chercher ?
@@ -1201,27 +1204,30 @@ Affichage de resultats selon les cas
         else :
           nuocc = 1
         erreur, message_erreur, info = self.post_aster_1 ( nomfic, chaine, nuocc )
-        if erreur :
+        if ( erreur > 0 ) :
           break
         self.message_info += info[:-1]
 #
 # 2.3. Details
 #
-        if chaine == "INSTANT" :
-          l_aux = info[:-1].split()
-          lg_aux = len(l_aux)
-          for iaux in range(lg_aux) :
-            if ( "ORDRE" in l_aux[iaux] ) :
-              if l_aux[iaux+1] == ":" :
-                jaux = iaux+2
-              else :
-                jaux = iaux+1
-              ordre = int(l_aux[jaux])
-              dico_resu["ORDRE"] = ordre
-              dico_resu["PAS_DE_TEMPS"] = ordre
-        elif chaine in ( "NOMBRE DE NOEUDS", "NOMBRE DE MAILLES" ) :
-          l_aux = info[:-1].split(chaine)
-          dico_resu[chaine] = int(l_aux[1])
+        if ( erreur == 0 ) :
+          if chaine == "INSTANT" :
+            l_aux = info[:-1].split()
+            lg_aux = len(l_aux)
+            for iaux in range(lg_aux) :
+              if ( "ORDRE" in l_aux[iaux] ) :
+                if l_aux[iaux+1] == ":" :
+                  jaux = iaux+2
+                else :
+                  jaux = iaux+1
+                ordre = int(l_aux[jaux])
+                dico_resu["ORDRE"] = ordre
+                dico_resu["PAS_DE_TEMPS"] = ordre
+          elif chaine in ( "NOMBRE DE NOEUDS", "NOMBRE DE MAILLES" ) :
+            l_aux = info[:-1].split(chaine)
+            dico_resu[chaine] = int(l_aux[1])
+        else :
+          erreur = 0
 #
       if erreur :
         break
@@ -1253,9 +1259,17 @@ Decodage de fichier
 nomfic = nom du fichier a decoder
 chaine = chaine a chercher
 nuocc = numero de l'occurence a chercher, 0 si toutes
+Retour :
+codret = 0 : tout va bien
+         1 : le fichier de resultats est absent
+        -1 : la chaine est absente
+message_erreur = "" : tout va bien
+               != "" si probleme
+info = la ou les lignes recherchees
     """
 #
     messages_erreur = { 0 : None,
+                       -1 : "La chaine est absente.",
                         1 : "Ce fichier est inconnu." }
 #
     nom_fonction = __name__ + "/post_aster_1"
@@ -1263,7 +1277,7 @@ nuocc = numero de l'occurence a chercher, 0 si toutes
     if self.verbose_max :
       print blabla, "chaine =", chaine, ", nuocc =", nuocc
 #
-    erreur = 0
+    erreur = -1
     message_erreur = " "
     info = ""
 #
@@ -1298,12 +1312,13 @@ nuocc = numero de l'occurence a chercher, 0 si toutes
             iaux += 1
             if ( ( nuocc == 0 ) or ( iaux == nuocc ) ) :
               info += ligne
+              erreur = 0
 #
       break
 #
-    if self.verbose_max :
-      print blabla
-      print ". erreur :", erreur
+    if ( self.verbose_max or ( erreur>0 ) ) :
+      print blabla, "chaine =", chaine, ", nuocc =", nuocc
+      print ". erreur =", erreur
 #
     if erreur :
       message_erreur = messages_erreur[erreur]

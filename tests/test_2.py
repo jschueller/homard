@@ -140,6 +140,7 @@ Copyright EDF-R&D 2010, 2013
     ScriptFile = os.path.normpath(ScriptFile)
     DirName = Rep_Test_Resu
     YACS_2 = Case_2.CreateYACSSchema("YACS_2", ScriptFile, DirName, MeshFile)
+    YACS_2.SetType(1)
     filexml = os.path.join(Rep_Test_Resu, 'YACS_2.xml')
     error = YACS_2.WriteOnFile(filexml)
     if error :

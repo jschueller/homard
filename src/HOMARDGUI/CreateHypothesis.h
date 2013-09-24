@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateHypothesis.ui'
 **
-** Created: Tue Sep 17 14:10:20 2013
+** Created: Tue Sep 24 14:35:06 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -651,7 +651,7 @@ public:
 
         doubleSpinBoxDiamMin = new QDoubleSpinBox(GBAdvancedOptions);
         doubleSpinBoxDiamMin->setObjectName(QString::fromUtf8("doubleSpinBoxDiamMin"));
-        doubleSpinBoxDiamMin->setDecimals(5);
+        doubleSpinBoxDiamMin->setDecimals(7);
 
         gridLayout_1->addWidget(doubleSpinBoxDiamMin, 0, 1, 1, 1);
 

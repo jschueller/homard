@@ -3727,7 +3727,6 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* YACSF
   std::string Iter1Name = std::string((*maListe)[0]);
   MESSAGE ("... Iter1Name = " << Iter1Name);
   HOMARD::HOMARD_Iteration_var Iter1 = GetIteration(Iter1Name.c_str()) ;
-  MESSAGE (". Iter1 = " << Iter1);
 
   // E. L'hypothese pour passer de l'iteration initiale a la suivante
   // E.1. La structure

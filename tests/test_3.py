@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.9"
+__revision__ = "V1.10"
 
 #========================================================================
 Test_Name = "test_3"
@@ -154,6 +154,7 @@ Copyright EDF-R&D 2010, 2013
       YACSName = "YACS_3"
       print "-------- Creation of the schema", YACSName
       YACS_3 = Case_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
+      YACS_3.SetType(2)
       error = YACS_3.Write()
       if error :
         error = 10*num + 5

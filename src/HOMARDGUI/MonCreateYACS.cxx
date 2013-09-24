@@ -41,7 +41,10 @@ MonCreateYACS::MonCreateYACS (bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, Q
   _aCaseName(CaseName),
   _aScriptFile(""),
   _aDirName(""),
-  _aMeshFile("")
+  _aMeshFile(""),
+  _Type(1)
+  // La valeur de _Type doit etre la meme que celle dans HOMARD_Gen_i::CreateYACSSchema
+  // et doit correspondre aux defauts des boutons
   {
 //     MESSAGE("Debut du constructeur de MonCreateYACS");
     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
@@ -93,8 +96,8 @@ void MonCreateYACS::InitConnect()
     connect( PBDir,          SIGNAL(pressed()), this, SLOT(SetDirName()));
     connect( PBMeshFile,     SIGNAL(pressed()), this, SLOT(SetMeshFile()));
 
-    connect( RBConstant,     SIGNAL(clicked()), this, SLOT(SetType(1)));
-    connect( RBVariable,     SIGNAL(clicked()), this, SLOT(SetType(2)));
+    connect( RBConstant,     SIGNAL(clicked()), this, SLOT(SetConstant()));
+    connect( RBVariable,     SIGNAL(clicked()), this, SLOT(SetVariable()));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
     connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply()));
@@ -213,7 +216,10 @@ bool MonCreateYACS:: CreateOrUpdate()
 
   // Ecriture du fichier
   if ( bOK )
-  { aYACS->Write() ; }
+  {
+    int codret = aYACS->Write() ;
+    if ( codret != 0 ) { bOK = false ; }
+  }
 
   return bOK;
 }
@@ -292,8 +298,14 @@ void MonCreateYACS::SetMeshFile()
   LEMeshFile->setText(fileName);
 }
 // ------------------------------------------------------------------------
-void MonCreateYACS::SetType(int Type)
+void MonCreateYACS::SetConstant()
 // ------------------------------------------------------------------------
 {
-  _Type=Type;
+  _Type = 1 ;
+}
+// ------------------------------------------------------------------------
+void MonCreateYACS::SetVariable()
+// ------------------------------------------------------------------------
+{
+  _Type = 2 ;
 }

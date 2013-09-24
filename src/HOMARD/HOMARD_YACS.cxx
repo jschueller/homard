@@ -83,8 +83,8 @@ std::string HOMARD_YACS::GetDumpPython() const
 // Le type de schema
   aScript << "\t" << _Name << ".SetType(" << _Type << ")\n";
 
-// L'ecriture eventuelle du schema
-  aScript << "\t#" << _Name << ".Write()\n";
+// L'ecriture du schema
+  aScript << "\tcodret = " << _Name << ".Write()\n";
 
   MESSAGE (". Fin de l ecriture du schema " << _Name );
 
