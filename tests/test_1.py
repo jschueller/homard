@@ -22,20 +22,20 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.10"
+__revision__ = "V1.11"
 
 #========================================================================
 Test_Name = "test_1"
 n_iter_test_file = 3
 #========================================================================
 import os
-import sys
 import tempfile
 import HOMARD
 import salome
 #
-pathHomard=os.getenv('HOMARD_ROOT_DIR')
-Rep_Test = os.path.join(pathHomard,"share/salome/resources/homard")
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
+Rep_Test = os.path.normpath(Rep_Test)
 Rep_Test_Resu = tempfile.mktemp()
 os.mkdir(Rep_Test_Resu)
 
@@ -104,7 +104,8 @@ Copyright EDF-R&D 2010, 2013
   # Creation of the cases
   # =====================
     # Creation of the case Case_1
-    Case_1 = homard.CreateCase('Case_1', 'MAILL', os.path.join(Rep_Test, Test_Name + '.00.med'))
+    MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
+    Case_1 = homard.CreateCase('Case_1', 'MAILL', MeshFile)
     Case_1.SetDirName(Rep_Test_Resu)
     Case_1.SetConfType(1)
   #
@@ -144,9 +145,20 @@ Copyright EDF-R&D 2010, 2013
       error = 3
       break
   #
+  # Creation of the schema YACS
+  # ===========================
+    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
+    ScriptFile = os.path.normpath(ScriptFile)
+    DirName = Rep_Test_Resu
+    YACS_1 = Case_1.CreateYACSSchema("YACS_1", ScriptFile, DirName, MeshFile)
+    error = YACS_1.Write()
+    if error :
+      error = 4
+      break
+  #
     break
   #
-    return error
+  return error
 
 #========================================================================
 
@@ -162,7 +174,6 @@ try :
     raise Exception('Pb in homard_exec at iteration %d' %error_main )
 except Exception, e:
   raise Exception('Pb in homard_exec: '+e.message)
-
 #
 # Test of the result
 #
@@ -178,33 +189,29 @@ try :
 except :
   mess_error = mess_error_ref + "\nThis file does not exist.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 #
 test_file = os.path.join(Rep_Test_Resu, rep_test_file, test_file_suff)
 if os.path.isfile (test_file) :
-   file = open (test_file, "r")
-   mess = file.readlines()
-   file.close()
+  file = open (test_file, "r")
+  mess = file.readlines()
+  file.close()
 else :
   mess_error  = "\nResult file: " + test_file
   mess_error += "\nThis file does not exist.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 
 nblign = len(mess_ref)
 if ( len(mess) != nblign ):
   mess_error = mess_error_ref +  "\nResult file: " + test_file
   mess_error += "\nThe number of lines of the files are not the same.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 
 for num in range(nblign) :
-   if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
-       message_erreur = "\nRefe : " + mess_ref[num]
-       message_erreur += "Test : " + mess[num][:-1]
-       message_erreur += "\nThe test is different from the reference."
-       raise Exception(message_erreur)
-       sys.exit(10)
+  if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
+    message_erreur = "\nRefe : " + mess_ref[num]
+    message_erreur += "Test : " + mess[num][:-1]
+    message_erreur += "\nThe test is different from the reference."
+    raise Exception(message_erreur)
 #
 remove_dir(Rep_Test_Resu)
 #

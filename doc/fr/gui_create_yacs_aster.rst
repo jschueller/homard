@@ -5,61 +5,75 @@ Un schéma YACS pour Code_Aster
 .. index:: single: YACS
 .. index:: single: Code_Aster
 
-Dans le cas où le schéma implique un couplage entre Code_Aster et HOMARD, une façon de faire est décrite ici.
+Dans le cas où le schéma implique un couplage entre *Code_Aster* et HOMARD, une façon de faire est décrite ici. Les seules contraintes sont des conventions pour que le script de pilotage de *Code_Aster* fonctionne correctement au sein du schéma.
 
-Préalable
-*********
-La création automatique du schéma va se faire en trois phases :
+Préparations
+************
+Le répertoire de calcul
+=======================
+La première phase consiste à créer un répertoire qui abritera les fichiers du calcul et les fichiers des maillages successifs.
 
-- Au départ, il faut avoir fait un calcul sur un tout premier maillage. Ce calcul aura produit des résultats dans un fichier MED.
-- Ensuite, on crée un cas dans le module HOMARD, tel qu'il est décrit dans :ref:`gui_create_case`. Dans ce cas, on crée une itération suivante du maillage en définissant une hypothèse d'adaptation ; voir :ref:`gui_create_iteration`.
-- Enfin, de ce cas, on va créer le schéma qui se basera sur l'hypothèse d'adapation définie.
+Les commandes
+=============
+Le fichier
+----------
+Les commandes du calcul sont à définir comme pour n'importe quel calcul. Elles sont à archiver dans le répertoire de calcul, dans un fichier nommé ``calcul.comm``.
 
-
-.. image:: images/create_yacs_01.png
-   :align: center
-   :alt: yacs - création
-   :width: 551
-   :height: 295
-
-Nom du schéma
-*************
-Un nom de schéma est proposé automatiquement : YACS_1, YACS_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été déjà utilisé pour un autre schéma.
-
-Le script
-*********
-
-Le fichier contenant le script qui permet de lancer le calcul lié à la modélisation physique est fourni ici. C'est un script python qui doit respecter les règles suivantes :
-
-- le nom de la classe qui gère le calcul est ``Script``
-- le lancement du calcul se fait par la méthode ``Compute()``
-- le résultat du calcul est sous la forme de trois variables : le code d'erreur, un message, un dictionnaire python.
-
-S'ils sont nécessaires à la création de la classe, on peut passer des arguments sous la forme :
-
-- ``--rep_calc=rep_calc``, où ``rep_calc`` est le répertoire de calcul
-- ``--num=num``, où ``num`` est le numéro du calcul  : 0 pour le tout premier, puis 1, 2 etc.
-- ``--mesh_file=meshfile``, où ``meshfile`` est le fichier contenant le maillage sur lequel calculer.
-- ``-v``, pour des messages
-
-Les arguments de retour :
-
-- ``erreur`` : le code d'erreur, entier : 0 si le calcul est correct, non nul sinon
-- ``message`` : un éventuel message d'information sur le calcul
-- ``dico_resu`` : un dictionnaire python qui comprend a minima les deux clés suivantes : ``FileName`` est la clé pour le nom du fichier MED qui contient les résultats du calcul, ``V_TEST`` est la clé pour la valeur réelle à tester.
-
-
-
-Exemple d'usage du script :
+La valeur de test
+-----------------
+Pour récupérer la valeur de test ``V_TEST``, le script va chercher dans le fichier ``resu``, la ligne de type :
 ::
 
-    argu = ["--rep_calc=" + rep_calc)]
-    argu.append("--num=%d" % numCalc)
-    argu.append("--mesh_file="  + MeshFile)
-    Script_A = Script(argu)
-    erreur, message, dico_resu = Script_A.compute ()
+    V_TEST    0.02071983
 
-.. note::
+Pour cela, la meilleure façon consiste à placer la valeur à tester dans une table intitulée ``V_TEST``, par exemple après une extraction depuis un résultat :
 
-  * Pour piloter Code_Aster : :download:`ScriptAster<../files/yacs_script.py>`
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 53-59
+
+puis à imprimer cette table en se limitant aux deux paramètres ``INTITULE`` et composante retenue :
+
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 63-64
+
+Le pilotage de l'adaptation
+---------------------------
+Si on souhaite piloter l'adaptation par un champ, il faudra écrire ce champ dans le fichier MED de sortie. Ce peut être un indicateur d'erreur (commande CALC_ERREUR) ou un autre champ.
+
+Par exemple :
+
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 68-78
+
+Le script
+=========
+Le script de pilotage de *Code_Aster* à fournir au schéma YACS est à télécharger ici : :download:`ScriptAster<../files/yacs_script.py>`. Ce fichier peut être placé n'importe où.
+
+Comment procéder ?
+******************
+Un premier calcul
+=================
+Une fois les commandes au point, il faut lancer un premier calcul. Cela permet de choisir le paramétrage du calcul : version de *Code_Aster*, serveur de calcul, interactif/batch, etc. Ce sont ces paramètres qui seront utilisés pour les calculs successifs dans le schéma. Le lancement de *Code_Aster* rassemble ces informations dans un fichier de type ``export``. Il faut copier ce fichier sous le nom ``calcul.ref.export`` dans le répertoire de calcul.
+
+Création du schéma
+==================
+Quand le calcul est terminé, il faut enchaîner les étapes suivante :
+
+- vérifier que le fichier de résultats au format MED a été créé et que le fichier de résultats de type ``resu`` contient la ligne donnant la valeur à tester ;
+- activer le module HOMARD de SALOME ;
+- créer un cas à partir du maillage initial ;
+- créer une itération en se basant sur le champ que l'on a retenu ;
+- éventuellement calculer cette itération pour contrôler les choix, mais ce n'est pas obligatoire ;
+- créer le schéma basé sur ce cas.
+
+Lancer le schéma
+================
+Le schéma est écrit dans le fichier ``schema.xml`` dans le répertoire lié au cas qui en est le support. Ce fichier peut être déplacé sans problème. On peut modifier les paramètres de contrôle par défaut de la boucle de l'alternance (calcul/adaptation).
+
+On active alors le module YACS, on importe le schéma et on l'exécute.
+
+
+
+
+
 

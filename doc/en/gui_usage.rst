@@ -47,5 +47,7 @@ An automatic creation of a schema YACS is available in the module HOMARD.
    :maxdepth: 2
 
    gui_create_yacs
+   gui_create_yacs_aster
+
 
 

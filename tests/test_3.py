@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.8"
+__revision__ = "V1.9"
 
 #========================================================================
 Test_Name = "test_3"
@@ -30,13 +30,13 @@ n_boucle = 2
 n_iter_test_file = 2
 #========================================================================
 import os
-import sys
 import tempfile
 import HOMARD
 import salome
 #
-pathHomard=os.getenv('HOMARD_ROOT_DIR')
-Rep_Test = os.path.join(pathHomard,"share/salome/resources/homard")
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
+Rep_Test = os.path.normpath(Rep_Test)
 Rep_Test_Resu = tempfile.mktemp()
 os.mkdir(Rep_Test_Resu)
 
@@ -96,15 +96,22 @@ Copyright EDF-R&D 2010, 2013
 # Creation of the hypotheses
 # ==========================
 # Uniform refinement
-    Hypo_3_ = homard.CreateHypothesis('Hypo_3_')
-    Hypo_3_.SetAdapRefinUnRef(-1, 1, 0)
+    HypoName = "Hypo_3"
+    print "-------- Creation of the hypothesis", HypoName
+    Hypo_3 = homard.CreateHypothesis(HypoName)
+    Hypo_3.SetAdapRefinUnRef(-1, 1, 0)
 #
-    for iaux in range (n_boucle+1) :
+    for num in range (n_boucle+1) :
+#
+      print "-------- num =", num, "--------"
 #
 # Creation of the case Case_3
 # ===========================
-      if ( iaux <= 1 ) :
-        Case_3 = homard.CreateCase('Case_3', 'MOYEU', os.path.join(Rep_Test, Test_Name + '.00.med'))
+      if ( num <= 1 ) :
+        CaseName = "Case_3"
+        print "-------- Creation of the case", CaseName
+        MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
+        Case_3 = homard.CreateCase(CaseName, 'MOYEU', MeshFile)
         Case_3.SetDirName(Rep_Test_Resu)
         Case_3.SetConfType(1)
         Case_3.AddBoundaryGroup('courbes', '')
@@ -113,50 +120,80 @@ Copyright EDF-R&D 2010, 2013
         Case_3.AddBoundaryGroup('sphere_1', 'END_1')
         Case_3.AddBoundaryGroup('sphere_2', 'END_2')
 #
-# Creation and destruction of the iterations
-# ==========================================
-#
+# Creation of the iterations
+# ==========================
   # Creation of the iteration Iter_3_1
-      Iter_3_1 = Case_3.NextIteration('Iter_3_1')
+      IterName = "Iter_3_1"
+      print "-------- Creation of the iteration", IterName
+      Iter_3_1 = Case_3.NextIteration(IterName)
       Iter_3_1.SetMeshName('MOYEU_1')
       Iter_3_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-      Iter_3_1.AssociateHypo('Hypo_3_')
+      Iter_3_1.AssociateHypo('Hypo_3')
       error = Iter_3_1.Compute(1, 1)
       if error :
-        error = 10*iaux + 1
+        error = 10*num + 1
         break
 
-  # Creation of the iteration Iter_3_2
-      Iter_3_2 = Iter_3_1.NextIteration('Iter_3_2')
+  # Creation of the iteration Iter_3_2Iter_3_1
+      IterName = "Iter_3_2"
+      print "-------- Creation of the iteration", IterName
+      Iter_3_2 = Iter_3_1.NextIteration(IterName)
       Iter_3_2.SetMeshName('MOYEU_2')
       Iter_3_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-      Iter_3_2.AssociateHypo('Hypo_3_')
+      Iter_3_2.AssociateHypo('Hypo_3')
       error = Iter_3_2.Compute(1, 1)
       if error :
-        error = 10*iaux + 2
+        error = 10*num + 2
+        break
+  #
+  # Creation of the schema YACS
+  # ===========================
+      ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
+      ScriptFile = os.path.normpath(ScriptFile)
+      DirName = Rep_Test_Resu
+      YACSName = "YACS_3"
+      print "-------- Creation of the schema", YACSName
+      YACS_3 = Case_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
+      error = YACS_3.Write()
+      if error :
+        error = 10*num + 5
         break
 
-  # Destruction
+  # Destructions
+  # ============
+  # Destruction of the schema, sauf a la fin
+      if ( num < n_boucle ) :
+        print "-------- Destruction of the schema", YACS_3.GetName()
+        error = YACS_3.Delete(1)
+        if error :
+          error = 10*num + 6
+          break
   # After the first loop, the case is deleted, except the final mesh files
-      if ( iaux == 0 ) :
+  # All the iterations are deleted
+      if ( num == 0 ) :
+        print "-------- Destruction of the case", Case_3.GetName()
         error = Case_3.Delete(0)
         if error :
           break
   # After the second loop, the iterations are deleted, with the final mesh files
-      elif ( iaux == 1 ) :
+      elif ( num == 1 ) :
   # Recursive destruction of the iterations
+        print "-------- Recursive destruction of the iteration", Iter_3_1.GetName()
         error = Iter_3_1.Delete(1)
         if error :
-          error = 10*iaux + 3
+          error = 10*num + 3
           break
   # Destruction and creation of the hypothese
-        if ( iaux == 1 ) :
-          error = Hypo_3_.Delete()
+        if ( num == 1 ) :
+          print "-------- Destruction of the hypothese", Hypo_3.GetName()
+          error = Hypo_3.Delete()
           if error :
-            error = 10*iaux + 4
+            error = 10*num + 4
             break
-          Hypo_3_ = homard.CreateHypothesis('Hypo_3_')
-          Hypo_3_.SetAdapRefinUnRef(-1, 1, 0)
+          HypoName = "Hypo_3"
+          print "-------- Creation of the hypothesis", HypoName
+          Hypo_3 = homard.CreateHypothesis(HypoName)
+          Hypo_3.SetAdapRefinUnRef(-1, 1, 0)
 #
     break
 #
@@ -166,7 +203,6 @@ Copyright EDF-R&D 2010, 2013
 
 homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert homard is not None, "Impossible to load homard engine"
-
 #
 # Exec of HOMARD-SALOME
 #
@@ -176,7 +212,6 @@ try :
     raise Exception('Pb in homard_exec at iteration %d' %error_main )
 except Exception, e:
   raise Exception('Pb in homard_exec: '+e.message)
-
 #
 # Test of the result
 #
@@ -192,33 +227,29 @@ try :
 except :
   mess_error = mess_error_ref + "\nThis file does not exist.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 #
 test_file = os.path.join(Rep_Test_Resu, rep_test_file, test_file_suff)
 if os.path.isfile (test_file) :
-   file = open (test_file, "r")
-   mess = file.readlines()
-   file.close()
+  file = open (test_file, "r")
+  mess = file.readlines()
+  file.close()
 else :
   mess_error  = "\nResult file: " + test_file
   mess_error += "\nThis file does not exist.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 
 nblign = len(mess_ref)
 if ( len(mess) != nblign ):
   mess_error = mess_error_ref +  "\nResult file: " + test_file
   mess_error += "\nThe number of lines of the files are not the same.\n"
   raise Exception(mess_error)
-  sys.exit(2)
 
 for num in range(nblign) :
-   if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
-       message_erreur = "\nRefe : " + mess_ref[num]
-       message_erreur += "Test : " + mess[num][:-1]
-       message_erreur += "\nThe test is different from the reference."
-       raise Exception(message_erreur)
-       sys.exit(10)
+  if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
+    message_erreur = "\nRefe : " + mess_ref[num]
+    message_erreur += "Test : " + mess[num][:-1]
+    message_erreur += "\nThe test is different from the reference."
+    raise Exception(message_erreur)
 #
 remove_dir(Rep_Test_Resu)
 #

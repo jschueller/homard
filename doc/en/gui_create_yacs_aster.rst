@@ -1,61 +1,76 @@
 .. _gui_create_yacs_aster:
 
-A schema YACS for Code_Aster
-############################
+A schema YACS for *Code_Aster*
+##############################
 .. index:: single: YACS
 .. index:: single: Code_Aster
 
-If the schema implies a coupling between Code_Aster and HOMARD, somme comments are included here.
+If the schema implies a coupling between *Code_Aster* and HOMARD, some comments are included here.
 
-Préalable
-*********
-La création automatique du schema va se faire en trois phases :
+Preparations
+************
+The directory for the computation
+=================================
+The first phase consists in creating a directory which will gather the files of the calculation and the files of the successive meshes.
 
-- Au départ, il faut avoir fait un calcul sur un tout premier maillage. Ce calcul aura produit des résultats dans un fichier MED.
-- Ensuite, on crée un cas dans le module HOMARD, tel qu'il est décrit dans :ref:`gui_create_case`. Dans ce cas, on crée une itération suivante du maillage en définissant une hypothèse d'adaptation ; voir :ref:`gui_create_iteration`.
-- Enfin, de ce cas, on va créer le schema qui se basera sur l'hypothèse d'adapation définie.
+Commands
+========
+The file
+--------
+The commands of the calculation are to be defined as for any calculation. They are to be saved in the directory of calculation, in the named file ``calcul.comm``.
 
-
-.. image:: images/create_yacs_01.png
-   :align: center
-   :alt: yacs - création
-   :width: 551
-   :height: 295
-
-Le script
-*********
-
-Le fichier contenant le script qui permet de lancer le calcul lié à la modélisation physique est fourni ici. C'est un script python qui doit respecter les règles suivantes :
-
-- le nom de la classe qui gère le calcul est ``Script``
-- le lancement du calcul se fait par la méthode ``Compute()``
-- le résultat du calcul est sous la forme de trois variables : le code d'erreur, un message, un dictionnaire python.
-
-S'ils sont nécessaires à la création de la classe, on peut passer des arguments sous la forme :
-
-- ``--rep_calc=rep_calc``, où ``rep_calc`` est le répertoire de calcul
-- ``--num=num``, où ``num`` est le numéro du calcul  : 0 pour le tout premier, puis 1, 2 etc.
-- ``--mesh_file=meshfile``, où ``meshfile`` est le fichier contenant le maillage sur lequel calculer.
-- ``-v``, pour des messages
-
-Les arguments de retour :
-
-- ``erreur`` : le code d'erreur, entier : 0 si le calcul est correct, non nul sinon
-- ``message`` : un éventuel message d'information sur le calcul
-- ``dico_resu`` : un dictionnaire python qui comprend a minima les deux clés suivantes : ``FileName`` est la clé pour le nom du fichier MED qui contient les résultats du calcul, ``V_TEST`` est la clé pour la valeur réelle à tester.
-
-
-
-Exemple d'usage du script :
+The test valeur
+---------------
+To get back the test value ``V_TEST``, the script fetches in the file ``resu`` a line such as:
 ::
 
-    argu = ["--rep_calc=" + rep_calc)]
-    argu.append("--num=%d" % numCalc)
-    argu.append("--mesh_file="  + MeshFile)
-    Script_A = Script(argu)
-    erreur, message, dico_resu = Script_A.compute ()
+    V_TEST    0.02071983
 
-.. note::
+For that purpose, the best way consists in placing the test value in an entitled table ``V_TEST``, for example after an extraction from a result:
 
-  * Pour piloter Code_Aster : :download:`ScriptAster<../files/yacs_script.py>`
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 53-59
+
+Then print this table for the two parameters ``INTITULE`` and component:
+
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 63-64
+
+To drive the adaptation
+-----------------------
+If the adaptation is driven by a field, it will be necessary to write this field in the exit MED file. It can be an error indicator (CALC_ERREUR command) or another field.
+
+For example :
+
+.. literalinclude:: ../files/yacs_aster_01.comm
+   :lines: 68-78
+
+The script
+==========
+The script for running *Code_Aster* to supply in the schema YACS is to be downloaded here: :download:`ScriptAster<../files/yacs_script.py>`. This file can be moved anywhere.
+
+How to do ?
+***********
+A first calculation
+===================
+As soon as the commands are correct, a first calculation has to be done. That gives the opportunity to choose the parameters: *Code_Aster* version, calculation server, interactive/batch, and so on. These parameters will be used for the successive computations. Launching *Code_Aster* gathers these informations into a file ``export``. This file must be renamed as ``calcul.ref.export`` in the directory for the computation.
+
+Creation of the schema
+======================
+When the computation is over, the following steps must be done:
+
+- to check that the result MED file was created and that the ligne with the test value is written down into the result file``resu``;
+- to activate the module HOMARD in SALOME;
+- to create a case from the initial mesh;
+- to create an iteration based on the selected field;
+- possibly to calculate this iteration to check choices, but it is not compulsory;
+- to create the schema based on this case.
+
+To launch the schema
+====================
+The schema is written in the file ``schema.xml`` in the directory connected to the case which is the support. This file can be moved with no problem at all. The default parameters of control of the loop of the alternation (calculation/adaptation) can be modified.
+
+The module YACS is activated, the schema is imported and it is launched.
+
+
 

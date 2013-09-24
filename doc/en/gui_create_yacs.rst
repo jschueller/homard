@@ -52,7 +52,6 @@ In return:
 - ``dico_resu`` : a dictionary python that contains at less the two following keys: ``FileName`` is the key for the name of the MED file which contains the results of the calculation, ``V_TEST`` is the key for the real value to be tested.
 
 
-
 Example for the script:
 ::
 
@@ -61,10 +60,6 @@ Example for the script:
     argu.append("--mesh_file="  + MeshFile)
     Script_A = Script(argu)
     error, message, dico_resu = Script_A.compute ()
-
-.. note::
-
-  * To drive Code_Aster : :download:`ScriptAster<../files/yacs_script.py>`
 
 The directory
 *************
@@ -84,7 +79,7 @@ The option 'variable' is inactive today.
 
 Saving the schema
 *****************
-By default, the schema is saved into the file `schema.xml` in the directory of the case that is under the schema. If the file is deleted, it can be rewritten by the mouse option "Write".
+By default, the schema is saved into the file ``schema.xml`` in the directory of the case that is under the schema. If the file is deleted, it can be rewritten by the mouse option **Write**.
 
 Object browser
 **************
@@ -114,7 +109,7 @@ These tests ares done into the node "Analyse" of the schema, as described in :re
 The maximal number of iterations is given by the variable `NbCalcMax`:
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 111-113
+   :lines: 112-112
 
 The value for the test is saved in a list all along the calculations:
 
@@ -135,7 +130,7 @@ Examples
 ########
 .. index:: single: Code_Aster
 
-A user's guide for schemas with Code_Aster is available here: :ref:`gui_create_yacs_aster`.
+A user's guide for schemas with *Code_Aster* is available here: :ref:`gui_create_yacs_aster`.
 
 
 

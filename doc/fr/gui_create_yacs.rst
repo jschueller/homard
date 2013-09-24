@@ -52,7 +52,6 @@ Les arguments de retour :
 - ``dico_resu`` : un dictionnaire python qui comprend a minima les deux clés suivantes : ``FileName`` est la clé pour le nom du fichier MED qui contient les résultats du calcul, ``V_TEST`` est la clé pour la valeur réelle à tester.
 
 
-
 Exemple d'usage du script :
 ::
 
@@ -61,10 +60,6 @@ Exemple d'usage du script :
     argu.append("--mesh_file="  + MeshFile)
     Script_A = Script(argu)
     erreur, message, dico_resu = Script_A.compute ()
-
-.. note::
-
-  * Pour piloter Code_Aster : :download:`ScriptAster<../files/yacs_script.py>`
 
 Le répertoire
 *************
@@ -85,7 +80,7 @@ L'option 'variable' est inactive aujourd'hui.
 
 Enregistrement du schéma
 ************************
-Par défaut, le schéma produit est écrit dans le fichier `schema.xml` dans le répertoire lié au cas qui en est le support. Si on a détruit le fichier, on peut le recréer en activant le fonction "Ecrire le fichier" à la souris.
+Par défaut, le schéma produit est écrit dans le fichier ``schema.xml`` dans le répertoire lié au cas qui en est le support. Si on a détruit le fichier, on peut le recréer en activant la fonction **Ecrire le fichier** à la souris.
 
 L'arbre d'étude
 ***************
@@ -103,7 +98,7 @@ Consulter :ref:`tui_create_yacs`
 Utilisation du schéma
 #####################
 
-Le schéma produit par cette saisie est directement importable dans le module YCAS. Il peut se lancer sans modification. Dans ce cas, l'arrêt dans la boucle a lieu ainsi :
+Le schéma produit par cette saisie est directement importable dans le module YACS. Il peut se lancer sans modification. Dans ce cas, l'arrêt dans la boucle a lieu ainsi :
 
 - soit on a atteint le nombre maximal d'itérations dans la boucle d'alternance (calcul,adaptation) ;
 - soit le test de convergence sur la variable ``V_TEST`` est satisfait.
@@ -115,7 +110,7 @@ Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décrit d
 Le nombre maximal d'itérations est modifiable par la variable `NbCalcMax` :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 111-113
+   :lines: 112-112
 
 La valeur de test est stockée dans une liste au fur et à mesure des passages :
 
@@ -136,7 +131,7 @@ Exemples
 ########
 .. index:: single: Code_Aster
 
-Un mode d'emploi associé à la création de schéma avec Code_Aster est disponible en consultant : :ref:`gui_create_yacs_aster`.
+Un mode d'emploi associé à la création de schéma avec *Code_Aster* est disponible en consultant : :ref:`gui_create_yacs_aster`.
 
 
 
