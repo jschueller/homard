@@ -63,9 +63,10 @@ public:
 
   void                          SetUseComp( int UsCmpI );
   int                           GetUseComp()    const;
-  void                          AddComp( const char* NomComposant );
-  void                          SupprComp();
-  const std::list<std::string>& GetListComp() const;
+  void                          AddComp( const char* NomComp );
+  void                          SupprComp( const char* NomComp );
+  void                          SupprComps();
+  const std::list<std::string>& GetComps() const;
 
   void                          SetRefinThr( int TypeThR, double ThreshR );
   int                           GetRefinThrType()   const;
@@ -138,7 +139,7 @@ private:
 
   std::list<std::string>        _ListIter;
   std::list<std::string>        _ListZone;
-  std::list<std::string>        _ListComposant;
+  std::list<std::string>        _ListComp;
   std::list<std::string>        _ListGroupSelected;
   std::list<std::string>        _ListFieldInterp;
 };

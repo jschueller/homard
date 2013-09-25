@@ -2839,7 +2839,7 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
   myDriver->TexteField(FieldName, FieldFile, TimeStep, Rank, TypeThR, ThreshR, TypeThC, ThreshC, UsField, UsCmpI);
 //
 //  Les composantes
-  HOMARD::listeComposantsHypo* mescompo = myHypo->GetListComp();
+  HOMARD::listeComposantsHypo* mescompo = myHypo->GetComps();
   int numberOfCompos = mescompo->length();
   MESSAGE( ". numberOfCompos = " << numberOfCompos );
   for (int NumeComp = 0; NumeComp< numberOfCompos; NumeComp++)
@@ -4620,7 +4620,7 @@ std::string HOMARD_Gen_i::GetStringInTexte( const std::string ligne, const std::
 // //===============================================================================
 void HOMARD_Gen_i::SetLanguageShort(const char* LanguageShort)
 {
-  MESSAGE ("SetLanguageShort pour LanguageShort = " << LanguageShort );
+//   MESSAGE ("SetLanguageShort pour LanguageShort = " << LanguageShort );
   _LangueShort = LanguageShort ;
   if ( _LangueShort == "fr" ) { _Langue = "Francais" ; }
   else                        { _Langue = "English" ; }

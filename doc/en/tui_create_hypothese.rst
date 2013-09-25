@@ -195,10 +195,22 @@ The components of the field
 |        * 1: infinite norm                                     |
 |        * 2: relative value, if only one component             |
 +---------------------------------------------------------------+
-| .. module:: GetListComp                                       |
+| .. module:: GetComps                                          |
 |                                                               |
-| **GetListComp()**                                             |
+| **GetComps()**                                                |
 |     Returns the list of the used components                   |
++---------------------------------------------------------------+
+| .. module:: SupprComp                                         |
+|                                                               |
+| **SupprComp(comp_name)**                                      |
+|     Eliminates a component of the field                       |
+|                                                               |
+|     - ``comp_name``: name of a component to eliminate         |
++---------------------------------------------------------------+
+| .. module:: SupprComps                                        |
+|                                                               |
+| **SupprComps()**                                              |
+|     Eliminates all the components of the field                |
 +---------------------------------------------------------------+
 
 
@@ -216,6 +228,27 @@ The zones
 |                                                               |
 |         * 1: refinement                                       |
 |         * -1: unrefinement                                    |
++---------------------------------------------------------------+
+| .. module:: GetZones                                          |
+|                                                               |
+| **GetZones()**                                                |
+|     Returns the list of the used zones with their uses        |
+|     Warning: the use is stored as a string in the list and    |
+|     not as an integer.                                        |
+|                                                               |
+|     Example: ['Zone_A', '1', 'Zone_B', '1', 'Zone_C', '1']    |
++---------------------------------------------------------------+
+| .. module:: SupprZone                                         |
+|                                                               |
+| **SupprZone(zone_name)**                                      |
+|     Eliminates a zone from the hypothesis                     |
+|                                                               |
+|     - ``zone_name``: name of a zone to eliminate              |
++---------------------------------------------------------------+
+| .. module:: SupprZones                                        |
+|                                                               |
+| **SupprZones()**                                              |
+|     Eliminates all the zones from the hypothesis              |
 +---------------------------------------------------------------+
 
 

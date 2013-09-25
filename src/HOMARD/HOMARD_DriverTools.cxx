@@ -220,7 +220,7 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-    ListString = hypothesis.GetListComp();
+    ListString = hypothesis.GetComps();
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
          os << separator() << *it;

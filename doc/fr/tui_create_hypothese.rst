@@ -190,10 +190,22 @@ Les composantes du champ
 |        * 1 : norme infinie                                    |
 |        * 2 : valeur relative, si une seule composante         |
 +---------------------------------------------------------------+
-| .. module:: GetListComp                                       |
+| .. module:: GetComps                                          |
 |                                                               |
-| **GetListComp()**                                             |
+| **GetComps()**                                                |
 |     Retourne la liste des composantes utilisées               |
++---------------------------------------------------------------+
+| .. module:: SupprComp                                         |
+|                                                               |
+| **SupprComp(comp_name)**                                      |
+|     Supprime une composante du champ à considérer             |
+|                                                               |
+|     - ``comp_name`` : nom de la composante à supprimer        |
++---------------------------------------------------------------+
+| .. module:: SupprComps                                        |
+|                                                               |
+| **SupprComps()**                                              |
+|     Supprime toutes les composantes du champ à considérer     |
 +---------------------------------------------------------------+
 
 
@@ -211,6 +223,27 @@ Les zones
 |                                                               |
 |         * 1 : raffinement                                     |
 |         * -1 : déraffinement                                  |
++---------------------------------------------------------------+
+| .. module:: GetZones                                          |
+|                                                               |
+| **GetZones()**                                                |
+|     Retourne la liste des zones utilisées avec leur usage.    |
+|     Attention, l'usage est stocké sous forme de chaîne de     |
+|     caractères et non pas d'entier dans la liste.             |
+|                                                               |
+|     Exemple : ['Zone_A', '1', 'Zone_B', '1', 'Zone_C', '1']   |
++---------------------------------------------------------------+
+| .. module:: SupprZone                                         |
+|                                                               |
+| **SupprZone(zone_name)**                                      |
+|     Supprime une zone de l'hypothèse                          |
+|                                                               |
+|     - ``zone_name`` : nom de la zone à supprimer              |
++---------------------------------------------------------------+
+| .. module:: SupprZones                                        |
+|                                                               |
+| **SupprZones()**                                              |
+|     Supprime toutes les zones de l'hypothèse                  |
 +---------------------------------------------------------------+
 
 

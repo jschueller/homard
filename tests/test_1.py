@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.11"
+__revision__ = "V1.12"
 
 #========================================================================
 Test_Name = "test_1"
@@ -86,20 +86,34 @@ Copyright EDF-R&D 2010, 2013
   # Creation of the hypotheses
   # ==========================
   # Creation of the hypothesis a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM = homard.CreateHypothesis('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.SetAdapRefinUnRef(1, 1, 0)
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.SetField('RESU____ERRE_ELEM_SIGM__________')
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.SetUseComp(0)
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.AddComp('ERREST')
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.SetRefinThr(3, 10.1)
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.SetTypeFieldInterp(2)
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.AddFieldInterp('RESU____DEPL____________________')
-    a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
+    HypoName_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
+    print "-------- Creation of the hypothesis", HypoName_1
+    Hypo_1_1 = homard.CreateHypothesis(HypoName_1)
+    Hypo_1_1.SetAdapRefinUnRef(1, 1, 0)
+    Hypo_1_1.SetField('RESU____ERRE_ELEM_SIGM__________')
+    Hypo_1_1.SetUseComp(0)
+    Hypo_1_1.AddComp('ERREST')
+    Hypo_1_1.SetRefinThr(3, 10.1)
+    Hypo_1_1.SetTypeFieldInterp(2)
+    Hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
+    Hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
+    print HypoName_1, " : zones utilisées :", Hypo_1_1.GetZones()
+    print HypoName_1, " : champ utilisé :", Hypo_1_1.GetFieldName()
+    print HypoName_1, " : composantes utilisées :", Hypo_1_1.GetComps()
+    if ( len (Hypo_1_1.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Hypo_1_1.GetField()
   # Creation of the hypothesis Zones_1_et_2
-    Zones_1_et_2 = homard.CreateHypothesis('Zones_1_et_2')
+    HypoName_2 = "Zones_1_et_2"
+    print "-------- Creation of the hypothesis", HypoName_2
+    Zones_1_et_2 = homard.CreateHypothesis(HypoName_2)
     Zones_1_et_2.SetAdapRefinUnRef(0, 1, 0)
     Zones_1_et_2.AddZone('Zone_1_1', 1)
     Zones_1_et_2.AddZone('Zone_1_2', 1)
+    print HypoName_2, " : zones utilisées :", Zones_1_et_2.GetZones()
+    print HypoName_2, " : champ utilisé :", Zones_1_et_2.GetFieldName()
+    print HypoName_2, " : composantes utilisées :", Zones_1_et_2.GetComps()
+    if ( len (Zones_1_et_2.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Zones_1_et_2.GetField()
   #
   # Creation of the cases
   # =====================
@@ -117,7 +131,7 @@ Copyright EDF-R&D 2010, 2013
     I1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
     I1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
     I1_1.SetTimeStepRank(1, 1)
-    I1_1.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    I1_1.AssociateHypo(HypoName_1)
     error = I1_1.Compute(1, 1)
     if error :
       error = 1
@@ -129,7 +143,7 @@ Copyright EDF-R&D 2010, 2013
     I1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
     I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
     I1_2.SetTimeStepRank(1, 1)
-    I1_2.AssociateHypo('a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM')
+    I1_2.AssociateHypo(HypoName_1)
     error = I1_2.Compute(1, 1)
     if error :
       error = 2
@@ -139,7 +153,7 @@ Copyright EDF-R&D 2010, 2013
     I1_3 = I1_2.NextIteration('I1_3')
     I1_3.SetMeshName('M3')
     I1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    I1_3.AssociateHypo('Zones_1_et_2')
+    I1_3.AssociateHypo(HypoName_2)
     error = I1_3.Compute(1, 1)
     if error :
       error = 3

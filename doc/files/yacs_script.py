@@ -3,7 +3,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.4"
+__revision__ = "V5.5"
 #
 import sys
 import os
@@ -1177,11 +1177,11 @@ Affichage de resultats selon les cas
       erreur, message_erreur, info = self.post_aster_1 ( nomfic, chaine, nuocc )
       if ( erreur > 0 ) :
         break
-      self.message_info += info[:-1]
 #
 # 1.2. Details
 #
       if ( erreur == 0 ) :
+        self.message_info += info[:-1]
         info = info.replace(chaine, " ")
         laux = info[:-1].split()
         aux = laux[0]
@@ -1190,6 +1190,7 @@ Affichage de resultats selon les cas
         dico_resu[chaine] = float(aux)
       else :
         erreur = 0
+        message_erreur = " "
 #
 # 2. Exploration du fichier mess
 # 2.1. Que chercher ?
@@ -1206,11 +1207,11 @@ Affichage de resultats selon les cas
         erreur, message_erreur, info = self.post_aster_1 ( nomfic, chaine, nuocc )
         if ( erreur > 0 ) :
           break
-        self.message_info += info[:-1]
 #
 # 2.3. Details
 #
         if ( erreur == 0 ) :
+          self.message_info += info[:-1]
           if chaine == "INSTANT" :
             l_aux = info[:-1].split()
             lg_aux = len(l_aux)
@@ -1228,6 +1229,7 @@ Affichage de resultats selon les cas
             dico_resu[chaine] = int(l_aux[1])
         else :
           erreur = 0
+          message_erreur = " "
 #
       if erreur :
         break
@@ -1275,9 +1277,10 @@ info = la ou les lignes recherchees
     nom_fonction = __name__ + "/post_aster_1"
     blabla = "\nDans " + nom_fonction + " :"
     if self.verbose_max :
-      print blabla, "chaine =", chaine, ", nuocc =", nuocc
+      print blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc
 #
-    erreur = -1
+    trouve = False
+    erreur = 0
     message_erreur = " "
     info = ""
 #
@@ -1305,19 +1308,23 @@ info = la ou les lignes recherchees
 #
       else :
 #
-        self.message_info += "\n"
         iaux = 0
         for ligne in les_lignes :
           if chaine in ligne :
             iaux += 1
             if ( ( nuocc == 0 ) or ( iaux == nuocc ) ) :
               info += ligne
-              erreur = 0
+              if ( not trouve ) :
+                self.message_info += "\n"
+                trouve = True
 #
       break
 #
+    if ( not trouve ) :
+      erreur = -1
+#
     if ( self.verbose_max or ( erreur>0 ) ) :
-      print blabla, "chaine =", chaine, ", nuocc =", nuocc
+      print blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc
       print ". erreur =", erreur
 #
     if erreur :

@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_2
 """
-__revision__ = "V1.10"
+__revision__ = "V1.11"
 
 #========================================================================
 Test_Name = "test_2"
@@ -83,15 +83,29 @@ Copyright EDF-R&D 2010, 2013
   # Creation of the hypotheses
   # ==========================
   # Creation of the hypothesis Hypo_2_1
-    Hypo_2_1 = homard.CreateHypothesis('Hypo_2_1')
+    HypoName_1 = "Hypo_2_1"
+    print "-------- Creation of the hypothesis", HypoName_1
+    Hypo_2_1 = homard.CreateHypothesis(HypoName_1)
     Hypo_2_1.SetAdapRefinUnRef(-1, 1, 0)
     Hypo_2_1.AddGroup('EG')
     Hypo_2_1.AddGroup('BANDE')
+    print HypoName_1, " : zones utilisées :", Hypo_2_1.GetZones()
+    print HypoName_1, " : champ utilisé :", Hypo_2_1.GetFieldName()
+    print HypoName_1, " : composantes utilisées :", Hypo_2_1.GetComps()
+    if ( len (Hypo_2_1.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Hypo_2_1.GetField()
 
   # Creation of the hypothesis Hypo_2_2
-    Hypo_2_2 = homard.CreateHypothesis('Hypo_2_2')
+    HypoName_2 = "Hypo_2_2"
+    print "-------- Creation of the hypothesis", HypoName_2
+    Hypo_2_2 = homard.CreateHypothesis(HypoName_2)
     Hypo_2_2.SetAdapRefinUnRef(-1, 1, 0)
     Hypo_2_2.AddGroup('M_D')
+    print HypoName_2, " : zones utilisées :", Hypo_2_2.GetZones()
+    print HypoName_2, " : champ utilisé :", Hypo_2_2.GetFieldName()
+    print HypoName_2, " : composantes utilisées :", Hypo_2_2.GetComps()
+    if ( len (Hypo_2_2.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Hypo_2_2.GetField()
   #
   # Creation of the cases
   # =====================
@@ -108,7 +122,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_2_1 = Case_2.NextIteration('Iter_2_1')
     Iter_2_1.SetMeshName('PLAQUE_1')
     Iter_2_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    Iter_2_1.AssociateHypo('Hypo_2_1')
+    Iter_2_1.AssociateHypo(HypoName_1)
     error = Iter_2_1.Compute(1, 1)
     if error :
       error = 1
@@ -118,7 +132,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_2_2 = Iter_2_1.NextIteration('Iter_2_2')
     Iter_2_2.SetMeshName('PLAQUE_2')
     Iter_2_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    Iter_2_2.AssociateHypo('Hypo_2_1')
+    Iter_2_2.AssociateHypo(HypoName_1)
     error = Iter_2_2.Compute(1, 1)
     if error :
       error = 2
@@ -128,7 +142,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_2_3 = Iter_2_2.NextIteration('Iter_2_3')
     Iter_2_3.SetMeshName('PLAQUE_3')
     Iter_2_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    Iter_2_3.AssociateHypo('Hypo_2_2')
+    Iter_2_3.AssociateHypo(HypoName_2)
     error = Iter_2_3.Compute(1, 1)
     if error :
       error = 3

@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.10"
+__revision__ = "V1.11"
 
 #========================================================================
 Test_Name = "test_3"
@@ -100,6 +100,9 @@ Copyright EDF-R&D 2010, 2013
     print "-------- Creation of the hypothesis", HypoName
     Hypo_3 = homard.CreateHypothesis(HypoName)
     Hypo_3.SetAdapRefinUnRef(-1, 1, 0)
+    print HypoName, " : zones utilisées :", Hypo_3.GetZones()
+    print HypoName, " : champ utilisé :", Hypo_3.GetFieldName()
+    print HypoName, " : composantes utilisées :", Hypo_3.GetComps()
 #
     for num in range (n_boucle+1) :
 #

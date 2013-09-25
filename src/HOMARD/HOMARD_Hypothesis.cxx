@@ -99,8 +99,8 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
     aScript << "\t" << _Name << ".SetField(\"" << _Field << "\")\n";
     aScript << "\t" << _Name << ".SetUseField(" << _UsField << ")\n";
     aScript << "\t" << _Name << ".SetUseComp(" << _UsCmpI << ")\n";
-    std::list<std::string>::const_iterator it_comp = _ListComposant.begin();
-    while(it_comp != _ListComposant.end())
+    std::list<std::string>::const_iterator it_comp = _ListComp.begin();
+    while(it_comp != _ListComp.end())
     {
       aScript << "\t" << _Name << ".AddComp(\"" << *it_comp << "\")\n";
       it_comp++;
@@ -216,20 +216,31 @@ int HOMARD_Hypothesis::GetUseComp() const
   return _UsCmpI;
 }
 //=============================================================================
-void HOMARD_Hypothesis::AddComp( const char* NomComposant )
+void HOMARD_Hypothesis::AddComp( const char* NomComp )
 {
-  _ListComposant.push_back( std::string( NomComposant ) );
+// On commence par la supprimer au cas ou elle aurait deja ete inseree
+// Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
+// definition de l'hypothese
+  SupprComp( NomComp ) ;
+// Insertion veritable
+  _ListComp.push_back( std::string( NomComp ) );
 }
 //=============================================================================
-void HOMARD_Hypothesis::SupprComp()
+void HOMARD_Hypothesis::SupprComp( const char* NomComp )
 {
-  MESSAGE ("SupprComp") ;
-  _ListComposant.clear();
+  MESSAGE ("SupprComp pour "<<NomComp) ;
+  std::list<std::string>::iterator it = find( _ListComp.begin(), _ListComp.end(), NomComp );
+  if ( it != _ListComp.end() ) { it = _ListComp.erase( it ); }
 }
 //=============================================================================
-const std::list<std::string>& HOMARD_Hypothesis::GetListComp() const
+void HOMARD_Hypothesis::SupprComps()
 {
-  return _ListComposant;
+  _ListComp.clear();
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Hypothesis::GetComps() const
+{
+  return _ListComp;
 }
 //=============================================================================
 void HOMARD_Hypothesis::SetRefinThr( int TypeThR, double ThreshR )

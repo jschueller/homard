@@ -260,7 +260,7 @@ void MonEditHypothesis::InitAdaptChamps()
     CBFieldName->setEnabled(false);
     //SetFieldName(Qt::Unchecked);
 
-    HOMARD::listeComposantsHypo_var mesComposantsAvant = aHypothesis->GetListComp();
+    HOMARD::listeComposantsHypo_var mesComposantsAvant = aHypothesis->GetComps();
     TWCMP->clear();
     TWCMP->setRowCount(0);
     TWCMP->resizeRowsToContents();

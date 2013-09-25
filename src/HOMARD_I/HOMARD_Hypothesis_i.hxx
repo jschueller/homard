@@ -76,9 +76,10 @@ public:
   HOMARD::InfosHypo*     GetField();
 
   void                   SetUseComp(CORBA::Long UsCmpI);
-  void                   AddComp( const char* NomComposant );
-  void                   SupprComp();
-  HOMARD::listeComposantsHypo* GetListComp();
+  void                   AddComp( const char* NomComp );
+  void                   SupprComp( const char* NomComp );
+  void                   SupprComps();
+  HOMARD::listeComposantsHypo* GetComps();
 
   void                   SetRefinThr(CORBA::Long TypeThR, CORBA::Double ThreshR);
   CORBA::Long            GetRefinThrType();
@@ -118,6 +119,7 @@ public:
   void                   AddZone( const char* NomZone, CORBA::Long TypeUse );
   void                   AddZone0( const char* NomZone, CORBA::Long TypeUse );
   void                   SupprZone( const char* NomZone );
+  void                   SupprZones();
   HOMARD::listeZonesHypo* GetZones();
 
 private:

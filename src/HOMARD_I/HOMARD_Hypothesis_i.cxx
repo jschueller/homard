@@ -183,22 +183,28 @@ void HOMARD_Hypothesis_i::SetUseComp( CORBA::Long UsCmpI )
   myHomardHypothesis->SetUseComp( UsCmpI );
 }
 //=============================================================================
-void HOMARD_Hypothesis_i::AddComp( const char* NomComposant )
+void HOMARD_Hypothesis_i::AddComp( const char* NomComp )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->AddComp( NomComposant );
+  myHomardHypothesis->AddComp( NomComp );
 }
 //=============================================================================
-void HOMARD_Hypothesis_i::SupprComp()
+void HOMARD_Hypothesis_i::SupprComp( const char* NomComp )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->SupprComp();
+  myHomardHypothesis->SupprComp(NomComp);
 }
 //=============================================================================
-HOMARD::listeComposantsHypo* HOMARD_Hypothesis_i::GetListComp()
+void HOMARD_Hypothesis_i::SupprComps()
 {
   ASSERT( myHomardHypothesis );
-  const std::list<std::string>& ListString = myHomardHypothesis->GetListComp();
+  myHomardHypothesis->SupprComps();
+}
+//=============================================================================
+HOMARD::listeComposantsHypo* HOMARD_Hypothesis_i::GetComps()
+{
+  ASSERT( myHomardHypothesis );
+  const std::list<std::string>& ListString = myHomardHypothesis->GetComps();
   HOMARD::listeComposantsHypo_var aResult = new HOMARD::listeComposantsHypo;
   aResult->length( ListString.size() );
   std::list<std::string>::const_iterator it;
@@ -413,6 +419,12 @@ void  HOMARD_Hypothesis_i::SupprZone(const char * NomZone)
 {
   ASSERT(myHomardHypothesis);
   myHomardHypothesis->SupprZone( NomZone);
+}
+//=============================================================================
+void  HOMARD_Hypothesis_i::SupprZones()
+{
+  ASSERT(myHomardHypothesis);
+  myHomardHypothesis->SupprZones();
 }
 //=============================================================================
 HOMARD::listeZonesHypo* HOMARD_Hypothesis_i::GetZones()

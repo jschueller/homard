@@ -75,12 +75,13 @@ module HOMARD
     void     SetField(in string FieldName)                 raises (SALOME::SALOME_Exception);
     string   GetFieldName()                                raises (SALOME::SALOME_Exception);
     void     SetUseField(in long UsField)                  raises (SALOME::SALOME_Exception);
-    InfosHypo GetField()                                  raises (SALOME::SALOME_Exception);
+    InfosHypo GetField()                                   raises (SALOME::SALOME_Exception);
 
     void     SetUseComp(in long UsCmpI)                    raises (SALOME::SALOME_Exception);
-    void     AddComp(in string NomComposant)               raises (SALOME::SALOME_Exception);
-    void     SupprComp()                                   raises (SALOME::SALOME_Exception);
-    listeComposantsHypo GetListComp()                      raises (SALOME::SALOME_Exception);
+    void     AddComp(in string NomComp)                    raises (SALOME::SALOME_Exception);
+    void     SupprComp(in string NomComp)                  raises (SALOME::SALOME_Exception);
+    void     SupprComps()                                  raises (SALOME::SALOME_Exception);
+    listeComposantsHypo GetComps()                         raises (SALOME::SALOME_Exception);
 
     void     SetRefinThr(in long TypeThR, in double ThreshR)
                                                            raises (SALOME::SALOME_Exception);
@@ -122,6 +123,7 @@ module HOMARD
     void     AddZone(in string NomZone, in long TypeUse)   raises (SALOME::SALOME_Exception);
     void     AddZone0(in string NomZone, in long TypeUse)  raises (SALOME::SALOME_Exception);
     void     SupprZone(in string NomZone)                  raises (SALOME::SALOME_Exception);
+    void     SupprZones()                                  raises (SALOME::SALOME_Exception);
     listeZonesHypo GetZones()                              raises (SALOME::SALOME_Exception);
 
   };
