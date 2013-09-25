@@ -15,12 +15,10 @@ The first phase consists in creating a directory which will gather the files of 
 
 Commands
 ========
-The file
---------
-The commands of the calculation are to be defined as for any calculation. They are to be saved in the directory of calculation, in the named file ``calcul.comm``.
+The commands of the calculation are to be defined as for any calculation. The only point is about the test value for the convergence.
 
-The test valeur
----------------
+The test value
+--------------
 To get back the test value ``V_TEST``, the script fetches in the file ``resu`` a line such as:
 ::
 
@@ -59,7 +57,7 @@ Creation of the schema
 ======================
 When the computation is over, the following steps must be done:
 
-- to check that the result MED file was created and that the ligne with the test value is written down into the result file``resu``;
+- to check that the result MED file was created and that the ligne with the test value is written down into the result file ``resu``;
 - to activate the module HOMARD in SALOME;
 - to create a case from the initial mesh;
 - to create an iteration based on the selected field;

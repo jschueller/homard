@@ -15,9 +15,7 @@ La première phase consiste à créer un répertoire qui abritera les fichiers du ca
 
 Les commandes
 =============
-Le fichier
-----------
-Les commandes du calcul sont à définir comme pour n'importe quel calcul. Elles sont à archiver dans le répertoire de calcul, dans un fichier nommé ``calcul.comm``.
+Les commandes du calcul sont à définir comme pour n'importe quel calcul. On particularisera uniquement la récupération de la valeur de test pour la convergence.
 
 La valeur de test
 -----------------

@@ -3,7 +3,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.5"
+__revision__ = "V5.7"
 #
 import sys
 import os
@@ -43,7 +43,7 @@ class Script :
 Mode d'emploi :
 ---------------
 
-Cette procedure lance un calcul Aster. Avant de lancer ce script, il faut avoir cree un repertoire pour le calcul. Dans ce repertoire, on aura mis le fichier de commandes sous le nom 'calcul.comm'. Apres un premier calcul, lance traditionnellement, on aura copie le fichier '*export' sous le nom 'calcul.ref.export' dans ce repertoire.
+Cette procedure lance un calcul Aster. Avant de lancer ce script, il faut avoir cree un repertoire pour le calcul. Apres un premier calcul, qui aura ete lance traditionnellement, on aura copie le fichier '*export' sous le nom 'calcul.ref.export' dans ce repertoire.
 
 Le mode de lancement est le suivant :
 
