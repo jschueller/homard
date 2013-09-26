@@ -3,7 +3,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.7"
+__revision__ = "V5.8"
 #
 import sys
 import os
@@ -15,25 +15,6 @@ import time
 # opt1_defaut, opt2_defaut : les valeurs par defaut de ces options, selon les cas
 opt1_defaut = {}
 opt2_defaut = {}
-# liste_cas_tr : liste des cas transitoires
-liste_cas_tr = []
-#
-nro_couche = 1
-opt1_defaut["couche"] = str(nro_couche)
-nro_adap = 0
-opt2_defaut["couche"] = str(nro_adap)
-#
-liste_cas_tr.append("tet_aster_ther_tr")
-opt1_defaut["tet_aster_ther_tr"] = "0"
-opt2_defaut["tet_aster_ther_tr"] = "25"
-#
-liste_cas_tr.append("ssnp142d")
-opt1_defaut["ssnp142d"] = "0.0"
-opt2_defaut["ssnp142d"] = "4.0"
-#
-liste_cas_tr.append("Riete")
-opt1_defaut["Riete"] = "0.0"
-opt2_defaut["Riete"] = "8.0"
 #
 # ==== Fin de personnalisation ====
 #
@@ -41,22 +22,25 @@ class Script :
 #
   """
 Mode d'emploi :
----------------
+==============
 
 Cette procedure lance un calcul Aster. Avant de lancer ce script, il faut avoir cree un repertoire pour le calcul. Apres un premier calcul, qui aura ete lance traditionnellement, on aura copie le fichier '*export' sous le nom 'calcul.ref.export' dans ce repertoire.
 
 Le mode de lancement est le suivant :
 
-ScriptAster --rep_calc=rep_calc --num=nro --mesh_file=mesh_file [-dump] [-h|-help] [-v] [-v_max] options
+ScriptAster --rep_calc=rep_calc --mesh_file=mesh_file --num=nro [-dump] [-tr [--opt1=inst_deb] [--opt2=inst_fin]] [-h|-help] [-v] [-v_max]
 
 Arguments obligatoires :
+------------------------
 --rep_calc=rep_calc : le repertoire du calcul.
+--mesh_file=mesh_file : le fichier contenant le maillage sur lequel on veut calculer. Le nom est absolu ou relatif par rapport au repertoire de calcul ou a $HOME.
 --num=nro : le numero du calcul, depuis 0.
---mesh_file=mesh_file : le fichier contenant le maillage sur lequel on veut calculer. Le nom est absolu ou relatif par rapport au repertoire de calcul.
 
 Options supplementaires, selon les cas :
-. Pour un cas transitoire :
-Les numeros des instants varient de 0 a N. On fournit le numero ou l'instant ; le jeu de commandes fait le tri entre les deux options.
+----------------------------------------
+. Pour un cas transitoire avec changement des instants de debut et fin :
+On doit faire le choix -tr
+Les numeros des instants varient de 0 a N. On fournit le numero ou l'instant selon les commandes.
 --opt1=inst_deb : le numero ou l'instant initial ; si absent, on prend 0.
 --opt2=inst_fin : le numero ou l'instant final ; si absent, on va jusqu'au bout du transitoire.
 . Pour l'excavation :
@@ -66,18 +50,19 @@ Les numeros des instants varient de 0 a N. On fournit le numero ou l'instant ; l
 Aucune option supplementaire.
 
 Arguments optionnels :
-
+----------------------
+--tr=1 : le calcul est transitoire et on change les instants ; par defaut, pas de changement.
 --wait=wait : temps d'attente en secondes entre deux examens de l'etat d'un calcul batch ; si absent, on prend 10.
-
 -dump : produit le fichier dump du fichier med de resultats ; par defaut, pas de dump.
 
 -h|-help : produit l'aide, quels que soient les autres arguments
 -v : mode verbeux simple
 -v_max : mode verbeux intensif
 
-Exemple :
-./ScriptAster.py --rep_calc=`pwd` --num=0 --mesh_file=maill.00.med -dump
-./ScriptAster.py --rep_calc=/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther --num=2 --mesh_file=/scratch/D68518/Salome/Adapt/resu/maill.02.med
+Exemples :
+----------
+./ScriptAster.py --rep_calc=`pwd` --mesh_file=maill.00.med --num=0 -dump
+./ScriptAster.py --rep_calc=/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther --mesh_file=/scratch/D68518/Salome/Adapt/resu/maill.02.med --num=2
   """
 #
 #====
@@ -131,11 +116,12 @@ Le constructeur de la classe Script
 # 1. Decodage des arguments
 #
     self.rep_calc = None
-    self.num = None
+    self.numero = None
     self.mesh_file = None
     self.opt1 = None
     self.opt2 = None
     self.version = None
+    self.tr = 0
 #
     for argu in liste_arg :
 #
@@ -151,6 +137,8 @@ Le constructeur de la classe Script
           self.numero = int(l_aux[1])
         elif l_aux[0] == "--mesh_file" :
           self.mesh_file = l_aux[1]
+        elif l_aux[0] == "--tr" :
+          self.tr = l_aux[1]
         elif l_aux[0] == "--opt1" :
           self.opt1 = l_aux[1]
         elif l_aux[0] == "--opt2" :
@@ -176,16 +164,17 @@ Le constructeur de la classe Script
     self.dico = {}
     self.nomfic_export = None
     self.nomcas = ""
+    self.numero_str = None
 #
     if self.verbose_max :
       nom_fonction = __name__ + "/__init__"
       print "\nDans " + nom_fonction + ","
-      print ". rep_calc  :", self.rep_calc
-      print ". numero    :", self.numero
-      print ". mesh_file :", self.mesh_file
-      print ". opt1      :", self.opt1
-      print ". opt2      :", self.opt2
-      print ". attente   :", self.attente
+      print ". rep_calc       :", self.rep_calc
+      print ". mesh_file      :", self.mesh_file
+      print ". numero         :", self.numero
+      print ". opt1           :", self.opt1
+      print ". opt2           :", self.opt2
+      print ". attente        :", self.attente
 #
 #=========================  Fin de la fonction ===================================
 #
@@ -264,8 +253,6 @@ Lancement d'un calcul
 Preparation d'un calcul
     """
 #
-    messages_erreur = { 0 : None }
-#
     nom_fonction = __name__ + "/prepa_calcul"
     blabla = "\nDans " + nom_fonction + ","
 #
@@ -274,9 +261,9 @@ Preparation d'un calcul
 #
     if self.verbose_max :
       print blabla
-      print ". numero    :", self.numero
-      print ". mesh_file :", self.mesh_file
-      print ". rep_calc  :", self.rep_calc
+      print ". rep_calc       :", self.rep_calc
+      print ". mesh_file      :", self.mesh_file
+      print ". tr             :", self.tr
 #
     while not erreur :
 #
@@ -295,7 +282,7 @@ Preparation d'un calcul
 # 3. Modifications du fichier de commandes
 # 3.1. Pour un cas transitoire
 #
-      if self.nomcas in liste_cas_tr :
+      if self.tr :
         erreur, message_erreur = self.modif_cas_transitoire()
         if erreur :
           break
@@ -327,14 +314,14 @@ Controle les arguments et stockage de quelques informations
 #
     messages_erreur = { 0 : None,
                        -1 : "Quel repertoire de calcul ?",
-                       -2 : "Quel fichier de maillage ?",
-                       -3 : "Ce repertoire est inconnu.",
-                       -4 : "Ce fichier est inconnu.",
-                       -5 : "Quel temps d'attente ?",
-                       -6 : "Quel numero de calcul ?",
-                       -7 : "Numeros de pas de temps invalides.",
-                       -8 : "Numero de couche invalide.",
-                       -9 : "Numero d'adaptation invalide." }
+                       -3 : "Quel fichier de maillage ?",
+                       -4 : "Ce repertoire est inconnu.",
+                       -5 : "Ce fichier est inconnu.",
+                       -8 : "Quel temps d'attente ?",
+                       -9 : "Quel numero de calcul ?",
+                      -20 : "Numeros de pas de temps invalides.",
+                      -30 : "Numero de couche invalide.",
+                      -31 : "Numero d'adaptation invalide." }
 #
     nom_fonction = __name__ + "/controle_argument"
     blabla = "\nDans " + nom_fonction + ","
@@ -344,24 +331,28 @@ Controle les arguments et stockage de quelques informations
 #
     if self.verbose_max :
       print blabla
-      print ". rep_calc  :", self.rep_calc
-      print ". mesh_file :", self.mesh_file
-      print ". numero    :", self.numero
-      print ". attente   :", self.attente
-      print ". opt1      :", self.opt1
-      print ". opt2      :", self.opt2
+      print ". rep_calc       :", self.rep_calc
+      print ". mesh_file      :", self.mesh_file
+      print ". numero         :", self.numero
+      print ". tr             :", self.tr
+      print ". opt1           :", self.opt1
+      print ". opt2           :", self.opt2
+      print ". attente        :", self.attente
 #
     while not erreur :
 #
 # 1. Les repertoire et fichier
+# 1.1. Il y a bien eu une donnee
 #
       if self.rep_calc == None :
         erreur = -1
       elif self.mesh_file == None :
-        erreur = -2
+        erreur = -3
       if erreur < 0 :
         self.message_info += "Relancer avec -h pour avoir le mode d'emploi."
         break
+#
+# 1.2. Le repertoire de calcul
 #
       if os.environ.has_key("HOME") :
         HOME = os.environ ["HOME"]
@@ -372,23 +363,28 @@ Controle les arguments et stockage de quelques informations
         self.rep_calc = os.path.join(HOME, self.rep_calc[2:])
       if not os.path.isdir(self.rep_calc) :
         self.message_info += "Repertoire " + self.rep_calc
-        erreur = -3
+        erreur = -4
         break
       else :
-        aux = os.path.join(os.getcwd(),self.rep_calc)
+        aux = os.path.join(os.getcwd(), self.rep_calc)
         self.rep_calc = os.path.normpath(aux)
 #
-      if ( self.mesh_file[:1] == "~" ) :
-        self.mesh_file = os.path.join(HOME, self.mesh_file[2:])
-      if not os.path.isfile(self.mesh_file) :
-        aux = os.path.join(self.rep_calc, self.mesh_file)
+# 1.3. Les fichiers
+#
+      fic = self.mesh_file
+#
+      if ( fic[:1] == "~" ) :
+        fic = os.path.join(HOME, fic[2:])
+      if not os.path.isfile(fic) :
+        aux = os.path.join(self.rep_calc, fic)
         if not os.path.isfile(aux) :
-          self.message_info += "Fichier " + self.mesh_file
-          erreur = -4
+          self.message_info += "Fichier : " + fic
+          erreur = -5
           break
         else :
-          self.mesh_file = os.path.normpath(aux)
-      aux = os.path.join(os.getcwd(),self.mesh_file)
+          fic = os.path.normpath(aux)
+      aux = os.path.join(os.getcwd(), fic)
+#
       self.mesh_file = os.path.normpath(aux)
 #
 # 2. On en deduit le cas
@@ -403,28 +399,39 @@ Controle les arguments et stockage de quelques informations
       try :
         iaux = int(self.attente)
       except :
-        erreur = -5
+        erreur = -8
         break
       self.attente = iaux
 #
 # 4. Le numero du calcul
 #
       if self.numero == None :
-        erreur = -6
+        erreur = -9
+#
+      if ( self.numero < 100 ) :
+        self.numero_str = "%02d" % self.numero
+      elif ( self.numero < 1000 ) :
+        self.numero_str = "%03d" % self.numero
+      elif ( self.numero < 10000 ) :
+        self.numero_str = "%04d" % self.numero
+      else :
+        self.numero_str = "%d" % self.numero
 #
 # 5. Options speciales pour les cas transitoires et pour l'excavation
 #
-      if ( self.nomcas in liste_cas_tr ) or ( self.nomcas[:6] == "couche" ) :
+      if ( self.tr or ( self.nomcas[:6] == "couche" ) ) :
 #
         if self.opt1 == None :
           self.opt1 = opt1_defaut[self.nomcas]
+          #print ". opt1 defaut :", self.opt1
 #
         if self.opt2 == None :
           self.opt2 = opt2_defaut[self.nomcas]
+          #print ". opt2 defaut :", self.opt2
 #
 # 5.1. Pour un cas transitoire
 #
-      if self.nomcas in liste_cas_tr :
+      if self.tr :
 #
         iaux1 = None
         daux1 = None
@@ -432,6 +439,8 @@ Controle les arguments et stockage de quelques informations
           iaux1 = int(self.opt1)
         except :
           daux1 = float(self.opt1)
+        if ( iaux1 == 0 ) :
+          daux1 = 0.
 #
         iaux2 = None
         daux2 = None
@@ -440,16 +449,18 @@ Controle les arguments et stockage de quelques informations
         except :
           daux2 = float(self.opt2)
 #
-        if ( ( daux1 == None ) and  ( daux2 == None ) ) :
+        if ( ( daux1 == None ) or  ( daux2 == None ) ) :
+          #print "------------ ( daux1 == None ) or  ( daux2 == None ) ------------"
           #print "iaux1, iaux2 =", iaux1, iaux2
           if iaux2 < iaux1 :
-            erreur = -7
-        elif ( ( iaux1 == None ) and  ( iaux2 == None ) ) :
+            erreur = -20
+        elif ( ( iaux1 == None ) or  ( iaux2 == None ) ) :
+          #print "------------ ( iaux1 == None ) or  ( iaux2 == None ) ------------"
           #print "daux1, daux2 =", daux1, daux2
           if daux2 < daux1 :
-            erreur = -7
+            erreur = -20
         else :
-          erreur = -7
+          erreur = -20
 #
         if erreur :
           self.message_info += "opt1 = " + self.opt1
@@ -463,21 +474,21 @@ Controle les arguments et stockage de quelques informations
         try :
           iaux1 = int(self.opt1)
         except :
-          erreur = -8
+          erreur = -30
 #
         if ( ( iaux1 < 1 ) or ( iaux1 > 20 ) ) :
           #print "iaux1 =", iaux1
-          erreur = -8
+          erreur = -30
 #
         iaux2 = None
         try :
           iaux2 = int(self.opt2)
         except :
-          erreur = -9
+          erreur = -31
 #
         if ( iaux2 < 0 ) :
           #print "iaux1 =", iaux1
-          erreur = -9
+          erreur = -31
 #
         if erreur :
           self.message_info += "nro_mail = " + self.numero
@@ -496,6 +507,8 @@ Controle les arguments et stockage de quelques informations
     if self.verbose_max :
       print ". rep_calc  :", self.rep_calc
       print ". mesh_file :", self.mesh_file
+      print ". opt1      :", self.opt1
+      print ". opt2      :", self.opt2
 #
     return erreur, message_erreur
 #
@@ -519,15 +532,15 @@ Modification du fichier export et reperage de quelques informations
 #
     if self.verbose_max :
       print blabla
-      print ". numero    :", self.numero
-      print ". mesh_file :", self.mesh_file
+      print ". numero     :", self.numero
+      print ". mesh_file  :", self.mesh_file
 #
     while not erreur :
 #
 # 1. Lecture du fichier export original
 #
-      nomfic_export = os.path.join(self.rep_calc, "calcul.ref.export")
-      fic = open (nomfic_export, "r")
+      fic_export_ref = os.path.join(self.rep_calc, "calcul.ref.export")
+      fic = open (fic_export_ref, "r")
       les_lignes = fic.readlines()
       fic.close()
 #
@@ -536,8 +549,10 @@ Modification du fichier export et reperage de quelques informations
       nomfic = "calcul"
       if self.nomcas[:6] == "couche" :
         nomfic += ".%02d" % self.nro_couche
-      nomfic += ".%03d.export" % self.numero
+      nomfic += "." + self.numero_str + ".export"
       self.nomfic_export = os.path.join(self.rep_calc, nomfic)
+      if self.verbose_max :
+        print ". nouveau fic_export :", self.nomfic_export
       fic = open (self.nomfic_export, "w")
 #
 # 3. Exploration des lignes
@@ -553,9 +568,12 @@ Modification du fichier export et reperage de quelques informations
 #
         if ligne[0:2] == "F " :
 #
+          chgt = False
+#
           laux = ligne.split()
           #print laux
           typfic = laux[1]
+          statut = laux[3]
           #print typfic
 #
           nomfic_0 = laux[2]
@@ -566,14 +584,20 @@ Modification du fichier export et reperage de quelques informations
 #
 # 3.2.1. Si c'est le fichier de commandes, mise a jour du nom du repertoire
 #
-          if typfic == "comm" :
+          if ( typfic == "comm" ) :
 #
+            if self.verbose_max :
+              print ". Commandes : mise a jour du nom du repertoire"
+            chgt = True
             nomfic_l_0 = os.path.basename(nomfic_0)
             nomfic = os.path.join(self.rep_calc, nomfic_l_0)
 #
-# 3.2.2. Si ce n'est pas le fichier de commandes, mise a jour du nom
+# 3.2.2. Si c'est un fichier de resultats ou le fichier de maillage, mise a jour du nom
 #
-          else :
+          elif ( ( statut == "R" ) or ( typfic == "mmed" ) ) :
+            if self.verbose_max :
+              print ". Mise a jour du nom"
+            chgt = True
 #
 # 3.2.2.1. Le fichier de maillage est celui passe en argument
 #
@@ -585,41 +609,33 @@ Modification du fichier export et reperage de quelques informations
             else :
               nomfic_l_0 = os.path.basename(nomfic_0)
               laux1 = nomfic_l_0.split(".")
+              #print "laux1 =", laux1
 #
 # 3.2.2.2.1. Base des noms de fichiers si excavation
 #
               if laux1[0] == "couche_n" :
                 saux0 = "couche_%02d" % self.nro_couche
               else :
-                saux0 = laux1[0]
+                iaux = len(laux1[-1]) + 1
+                saux0 = nomfic_l_0[:-iaux]
+              #print "saux0 =", saux0
 #
 # 3.2.2.2.2. Indicage des fichiers
 #
-              if len(laux1) >= 3 :
-                iaux = len(laux1[1])
-                if iaux == 2 :
-                  saux1 = "%02d" % self.numero
-                elif iaux == 3 :
-                  saux1 = "%03d" % self.numero
-                elif iaux == 4 :
-                  saux1 = "%04d" % self.numero
-                else :
-                  saux1 = "%d" % self.numero
-                nomfic_l = saux0 + "." + saux1 + "." + laux1[2]
-              else :
-                nomfic_l = saux0 + "." + laux1[1]
-#
+              nomfic_l = saux0 + "." + self.numero_str + "." + laux1[-1]
               nomfic_l_1 = os.path.dirname(nomfic_0)
               nomfic = os.path.join(nomfic_l_1, nomfic_l)
+            #print "   ==> ", nomfic
 #
-          ligne_bis  = laux[0] + " " + laux[1] + " " + saux
-          ligne_bis += nomfic + " "
-          ligne_bis += laux[3] + " " + laux[4] + "\n"
+          if chgt :
+            ligne_bis  = laux[0] + " " + laux[1] + " " + saux
+            ligne_bis += nomfic + " "
+            ligne_bis += laux[3] + " " + laux[4] + "\n"
 #
 # 3.2.2.3. On detruit preventivement les fichiers des resultats
 #
-          if self.nomcas[:6] != "couche" :
-            if laux[3] == "R" :
+          if ( statut == "R" ) :
+            if ( self.nomcas[:6] != "couche" ) :
               if os.path.isfile(nomfic) :
                 os.remove(nomfic)
 #
@@ -648,16 +664,7 @@ Modification du fichier export et reperage de quelques informations
             nomfic_l_0 = os.path.basename(nomfic_0)
             laux1 = nomfic_l_0.split(".")
             if len(laux1) >= 3 :
-              iaux = len(laux1[1])
-              if iaux == 2 :
-                saux1 = "%02d" % self.numero
-              elif iaux == 3 :
-                saux1 = "%03d" % self.numero
-              elif iaux == 4 :
-                saux1 = "%04d" % self.numero
-              else :
-                saux1 = "%d" % self.numero
-              nomfic_l = laux1[0] + "." + saux1 + "." + laux1[2]
+              nomfic_l = laux1[0] + "." + self.numero_str + "." + laux1[2]
             elif len(laux1) >= 2 :
               if laux1[0] == "couche_nm1" :
                 saux0 = "couche_%02d" % (self.nro_couche-1)
