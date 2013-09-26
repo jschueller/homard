@@ -99,7 +99,7 @@ void YACSDriver::Texte_Iter_1_Case_Options( const std::string pythonTexte )
   _Texte += "DirName = \"" + _DirName + "/HOMARD\"\n" ;
   _Texte += "Case.SetDirName(DirName)\n" ;
 
-  Texte_python( pythonTexte, 1, "Case" ) ;
+  Texte_python_1( pythonTexte, 1, "Case" ) ;
 //
 }
 //===============================================================================
@@ -485,14 +485,14 @@ void YACSDriver::Texte_HOMARD_Exec_MeshName( const std::string MeshName )
 //
 }
 //===============================================================================
-// Manipulation des instructions python
+// Manipulation des instructions python - 1
 // pythonTexte : le texte des instructions python a manipuler
 // indice : numero de la premiere ligne voulue
 // concept : nom du concept a inserer
 //===============================================================================
-void YACSDriver::Texte_python( const std::string pythonTexte, int indice, const std::string concept )
+void YACSDriver::Texte_python_1( const std::string pythonTexte, int indice, const std::string concept )
 {
-  MESSAGE("Texte_python, pythonTexte\n"<<pythonTexte);
+  MESSAGE("Texte_python_1, pythonTexte\n"<<pythonTexte);
   MESSAGE("indice = "<<indice<<", concept = "<<concept);
 //
 // Conversion de type
@@ -516,6 +516,39 @@ void YACSDriver::Texte_python( const std::string pythonTexte, int indice, const 
       }
     }
     cptr += 1 ;
+  }
+//
+}
+//===============================================================================
+// Manipulation des instructions python - 2
+// pythonTexte : le texte des instructions python a manipuler
+// mot_cle : mot-cle dans les lignes a inserer
+// concept : nom du concept a inserer
+//===============================================================================
+void YACSDriver::Texte_python_2( const std::string pythonTexte, const std::string mot_cle, const std::string concept )
+{
+  MESSAGE("Texte_python_2, pythonTexte\n"<<pythonTexte);
+  MESSAGE("mot_cle = "<<mot_cle<<", concept = "<<concept);
+//
+// Conversion de type
+  std::istringstream tout (pythonTexte) ;
+//   MESSAGE("\ntout :"<<tout);
+  std::string ligne; // variable contenant chaque ligne de python
+  std::string ligne_bis ; // variable contenant la portion de ligne de python apres '.'
+  while ( std::getline( tout, ligne ) )
+  {
+    int reperage = ligne.find( mot_cle ) ;
+    if ( reperage > 0 )
+    {
+      int position = ligne.find_first_of( "." ) ;
+//       MESSAGE("\nposition : "<< position);
+      if ( position > 0 )
+      {
+        ligne_bis = ligne.substr( position );
+//         MESSAGE("\nligne_bis : "<< ligne_bis);
+        _Texte += concept + ligne_bis + "\n" ;
+      }
+    }
   }
 //
 }

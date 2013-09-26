@@ -42,7 +42,8 @@ public:
   std::string Texte_inport( const std::string inport_type, const std::string inport_nom ) ;
   void        Texte_HOMARD_Exec_DirName( ) ;
   void        Texte_HOMARD_Exec_MeshName( const std::string MeshName ) ;
-  void        Texte_python( const std::string pythonTexte, int indice, const std::string concept ) ;
+  void        Texte_python_1( const std::string pythonTexte, int indice, const std::string concept ) ;
+  void        Texte_python_2( const std::string pythonTexte, const std::string mot_cle, const std::string concept ) ;
   void        TexteParametre( const std::string node, const std::string port, const std::string type_value, const std::string value ) ;
   void        TexteAddParametres( ) ;
   void        CreeFichier() ;

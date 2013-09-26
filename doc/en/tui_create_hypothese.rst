@@ -182,6 +182,9 @@ The components of the field
 |     Add a component of the field                              |
 |                                                               |
 |     - ``comp_name``: name of a component to take into account |
+|                                                               |
+|     Note: if this method is not used, every component         |
+|     of the field is taken into account.                       |
 +---------------------------------------------------------------+
 | .. module:: SetUseComp                                        |
 |                                                               |

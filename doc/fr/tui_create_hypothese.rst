@@ -178,6 +178,9 @@ Les composantes du champ
 |                                                               |
 |     - ``comp_name`` : nom d'une composante à prendre en       |
 |       compte                                                  |
+|                                                               |
+|     Remarque : si cette méthode n'est pas appelée, par défaut |
+|     toutes les composantes seront retenues.                   |
 +---------------------------------------------------------------+
 | .. module:: SetUseComp                                        |
 |                                                               |

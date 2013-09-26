@@ -285,6 +285,8 @@ Iter.SetMeshFile(MeshFile)
 FileName = dico_resu["FileName"]
 Iter.SetFieldFile(FileName)
 #
+HOMARD_Exec_Iter_Options
+#
 # Calculation
 # ===========
 Error = Iter.Compute(1,1)

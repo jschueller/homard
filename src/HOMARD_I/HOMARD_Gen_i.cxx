@@ -3746,6 +3746,10 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   std::string Iter1Name = std::string((*maListe)[0]);
   MESSAGE ("... Iter1Name = " << Iter1Name);
   HOMARD::HOMARD_Iteration_var Iter1 = GetIteration(Iter1Name.c_str()) ;
+  // D.3. Les instructions python associees a l'iteration
+  CORBA::String_var dumpCorbaIter = Iter1->GetDumpPython();
+  std::string pythonIter = dumpCorbaIter.in();
+  MESSAGE ("pythonIter :\n"<<pythonIter<<"\n");
 
   // E. L'hypothese pour passer de l'iteration initiale a la suivante
   // E.1. La structure
@@ -3815,8 +3819,11 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
       }
       // G.1.7. Execution de HOMARD : les options de l'hypothese
       else if ( mot_cle == "HOMARD_Exec_Hypo_Options" )
-      { myDriver->Texte_python( pythonHypo, 3, "Hypo" ) ;  }
-      // G.1.8. Zones et frontieres : les creations
+      { myDriver->Texte_python_1( pythonHypo, 3, "Hypo" ) ;  }
+      // G.1.8. Execution de HOMARD : les options de l'iteration
+      else if ( mot_cle == "HOMARD_Exec_Iter_Options" )
+      { myDriver->Texte_python_2( pythonIter, "TimeStep", "Iter" ) ;  }
+      // G.1.9. Zones et frontieres : les creations
       else if ( mot_cle == "Iter_1" )
       {
         std::string texte_control = myDriver->Texte_Iter_1_control() ;
@@ -3824,7 +3831,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
         texte_control += YACSDriverTexteBoundary( myCase, myDriver ) ;
         myDriver->TexteAdd(texte_control);
       }
-      // G.1.9. Les parametres
+      // G.1.10. Les parametres
       else if ( mot_cle == "PARAMETRES" )
       { myDriver->TexteAddParametres(); }
       // G.1.n. La ligne est recopiee telle quelle
