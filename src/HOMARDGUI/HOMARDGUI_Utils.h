@@ -23,7 +23,7 @@
 
 #include <SALOMEconfig.h>
 
-#include <CORBA.h>
+#include <omniORB4/CORBA.h>
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 

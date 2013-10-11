@@ -1,4 +1,7 @@
-# Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+# Copyright (C) 2007-2013  CEA/DEN, EDF R&D, OPEN CASCADE
+#
+# Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
+# CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -16,8 +19,11 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-#  File   : Makefile.in
-#  Author : (CEA)
-#  Modified by : Alexander BORODIN (OCN) - autotools usage
-#
-SUBDIRS = HOMARD  HOMARD_I HOMARDGUI  HOMARD_SWIG
+
+SET(_m4_data
+  check_GUI.m4
+  check_Med2.m4
+  check_sphinx.m4
+)
+
+INSTALL(FILES ${_m4_data} DESTINATION ${SALOME_INSTALL_AMCONFIG_LOCAL}/config_files)

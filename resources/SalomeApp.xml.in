@@ -24,7 +24,7 @@
     <!-- Major module parameters -->
     <parameter name="name"          value="Homard"/>
     <parameter name="icon"          value="HOMARD.png"/>
-    <parameter name="version"       value="@VERSION@"/>
+    <parameter name="version"       value="@SALOMEHOMARD_VERSION@"/>
     <parameter name="documentation" value="homard_help"/>
     <!-- Other module preferences -->
 <!--     <parameter name="use_precision"                value="false" /> -->

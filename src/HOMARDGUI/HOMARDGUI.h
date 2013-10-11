@@ -69,7 +69,6 @@ private slots:
     void YACSWrite();
     void Edit();
     void Delete();
-    void XmGraceFichier();
 
 public:
    virtual void  contextMenuPopup( const QString&, QMenu*, QString& );

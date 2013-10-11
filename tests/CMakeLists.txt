@@ -1,4 +1,7 @@
-# Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+# Copyright (C) 2007-2013  CEA/DEN, EDF R&D, OPEN CASCADE
+#
+# Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
+# CEDRAT, EDF R&D, LEG, PRINCIPIA R&D, BUREAU VERITAS
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,4 +20,26 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-SUBDIRS = en fr
+SET(HOMARD_TEST_FILES
+  test_1.pdf
+  test_1.en.pdf
+  test_1.py
+  test_1.00.med
+  test_1.01.med
+  test_1.02.med
+  test_1.apad.03.bilan
+  test_2.pdf
+  test_2.en.pdf
+  test_2.py
+  test_2.00.med
+  test_2.fr.med
+  test_2.apad.03.bilan
+  test_3.pdf
+  test_3.en.pdf
+  test_3.py
+  test_3.00.med
+  test_3.fr.med
+  test_3.apad.02.bilan
+)
+
+INSTALL(FILES ${HOMARD_TEST_FILES} DESTINATION ${SALOME_HOMARD_INSTALL_RES_DATA})

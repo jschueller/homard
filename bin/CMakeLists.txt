@@ -1,5 +1,4 @@
-#!/bin/sh
-# Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+# Copyright (C) 2012-2013  CEA/DEN, EDF R&D, OPEN CASCADE
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,13 +16,16 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-rm -rf autom4te.cache aclocal.m4 configure make_config \$\(top_srcdir\)
-find . -name "*~" -print -exec rm {} \;
-find . -name "*.pyc" -print -exec rm {} \;
-#exit
-# ==================== ON SORT AVANT
 
-# Files created by libtoolize and automake
-( cd adm_local/unix/config_files && rm -f config.* depcomp install-sh l*.m4 ltmain.sh missing py-compile install-sh missing depcomp py-compile )
-find . -name Makefile.in | xargs rm -f
-rm -f COPYING INSTALL
+SALOME_CONFIGURE_FILE(VERSION.in VERSION INSTALL ${SALOME_INSTALL_BINS})
+SALOME_CONFIGURE_FILE(runAppli.in runAppli INSTALL ${SALOME_INSTALL_BINS})
+
+# ===============================================================
+# Files to be installed
+# ===============================================================
+
+SET(_bin_scripts
+  runSalome.py
+)
+
+SALOME_INSTALL_SCRIPTS("${_bin_scripts}" ${SALOME_INSTALL_SCRIPT_SCRIPTS})

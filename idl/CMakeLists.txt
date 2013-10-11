@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+# Copyright (C) 2012-2013  CEA/DEN, EDF R&D, OPEN CASCADE
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -16,23 +16,32 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-#  File   : Makefile.in
-#  Author : Nicolas REJNERI, Paul RASCLE
-#  Modified by : Alexander BORODIN (OCN) - autotools usage
-#  Module : HOMARD
 
+INCLUDE(UseOmniORB)  # Provided by KERNEL
 
-# Libraries targets
-#
-include $(top_srcdir)/adm_local/unix/make_common_starter.am
+INCLUDE_DIRECTORIES(
+  ${OMNIORB_INCLUDE_DIR}
+  ${KERNEL_INCLUDE_DIRS}
+  ${PROJECT_BINARY_DIR}/idl
+)
 
-# ===============================================================
-# Files to be installed
-# ===============================================================
-#
+SET(SalomeIDLHOMARD_IDLSOURCES
+  HOMARD_Gen.idl
+  HOMARD_Cas.idl
+  HOMARD_Hypothesis.idl
+  HOMARD_Iteration.idl
+  HOMARD_Zone.idl
+  HOMARD_Boundary.idl
+  HOMARD_YACS.idl
+)
 
-# Scripts to be installed.
-dist_salomescript_DATA =		
+SET(_idl_include_dirs
+  ${KERNEL_ROOT_DIR}/idl/salome
+)
 
-sharedpkgpython_PYTHON =		\
-	HOMARD_shared_modules.py
+SET(_idl_link_flags
+  ${KERNEL_SalomeIDLKernel}
+)
+
+OMNIORB_ADD_MODULE(SalomeIDLHOMARD "${SalomeIDLHOMARD_IDLSOURCES}" "${_idl_include_dirs}" "${_idl_link_flags}")
+INSTALL(TARGETS SalomeIDLHOMARD EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${SALOME_INSTALL_LIBS})

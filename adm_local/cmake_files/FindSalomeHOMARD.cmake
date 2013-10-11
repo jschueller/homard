@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2013  CEA/DEN, EDF R&D
+# Copyright (C) 2007-2013  CEA/DEN, EDF R&D, OPEN CASCADE
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -16,38 +16,16 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
+#
 
-include $(top_srcdir)/adm_local/unix/make_common_starter.am
+IF(NOT SalomeHOMARD_FIND_QUIETLY)
+  MESSAGE(STATUS "Looking for Salome HOMARD ...")
+ENDIF()
 
+SET(CMAKE_PREFIX_PATH "${HOMARD_ROOT_DIR}")
 
-dist_salomeres_DATA =   \
-     test_1.pdf \
-     test_1.en.pdf \
-     test_1.py \
-     test_1.00.med \
-     test_1.01.med \
-     test_1.02.med \
-     test_1.apad.03.bilan \
-     test_2.pdf \
-     test_2.en.pdf \
-     test_2.py \
-     test_2.00.med \
-     test_2.fr.med \
-     test_2.apad.03.bilan \
-     test_3.pdf \
-     test_3.en.pdf \
-     test_3.py \
-     test_3.00.med \
-     test_3.fr.med \
-     test_3.apad.02.bilan
+SALOME_FIND_PACKAGE(SalomeHOMARD SalomeHOMARD CONFIG)
 
-EXTRA_DIST += \
-     test_1.odt \
-     test_1.en.odt \
-     test_1.png \
-     test_2.odt \
-     test_2.en.odt \
-     test_2.png \
-     test_3.odt \
-     test_3.en.odt \
-     test_3.png
+IF(NOT SalomeHOMARD_FIND_QUIETLY)
+  MESSAGE(STATUS "Found Salome HOMARD: ${HOMARD_ROOT_DIR}")
+ENDIF()
