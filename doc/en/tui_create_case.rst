@@ -121,6 +121,7 @@ Methods of the class cas
 |     - ``conf_type``: integer as follows:                      |
 |                                                               |
 |         * 1: conformal                                        |
+|         * -1: conformal with boxes                            |
 |         * 2: non conformal with one hanging node per element  |
 |         * 3: non conformal with one hanging node per edge of  |
 |           element                                             |

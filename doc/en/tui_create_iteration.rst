@@ -223,24 +223,46 @@ Information about the meshes
 Information about the field
 ===========================
 
+The file of the fields
+----------------------
+
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetFieldFile                                      |
 |                                                               |
 | **SetFieldFile(field_file)**                                  |
-|     Defines the MED file of the field                         |
+|     Defines the MED file of the fields                        |
 |                                                               |
-|     - ``field_file``: the name of the MED file of the field   |
+|     - ``field_file``: the name of the MED file of the fields: |
+|       the driving field for the adaptation, or the fields to  |
+|       be interpolated                                         |
++---------------------------------------------------------------+
+| .. module:: GetFieldFileName                                  |
+|                                                               |
+| **GetFieldFileName()**                                        |
+|     Returns the name of the MED file of the fields            |
++---------------------------------------------------------------+
+
+The time step for the driving field
+-----------------------------------
+
+If no time step is defined for the field or if a single time step is defined for the field, the definition of a time step is useless. That will be the default choice.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetTimeStep                                       |
+|                                                               |
+| **SetTimeStep(TimeStep)**                                     |
+|     Defines the time step for the driving field for the       |
+|     adaptation. The rank will be ignored.                     |
+|                                                               |
+|     - ``TimeStep``: the selected time step                    |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRank                                   |
 |                                                               |
 | **SetTimeStepRank(TimeStep, Rank)**                           |
-|     Defines the time steps for the fields                     |
-|                                                               |
-|     Useless if no time step is defined for the field.         |
-|                                                               |
-|     If a single time step is defined for the filed, it is the |
-|     default choice.                                           |
+|     Defines the time step and the rank for the driving field  |
+|     for the adaptation                                        |
 |                                                               |
 |     - ``TimeStep``: the selected time step                    |
 |     - ``Rank``: the selected rank                             |
@@ -248,22 +270,18 @@ Information about the field
 | .. module:: SetTimeStepRankLast                               |
 |                                                               |
 | **SetTimeStepRankLast()**                                     |
-|     The last time step will be used, whatever its value       |
-+---------------------------------------------------------------+
-| .. module:: GetFieldFileName                                  |
-|                                                               |
-| **GetFieldFileName()**                                        |
-|     Returns the name of the MED file of the field             |
+|     The last time step will be used for the driving field for |
+|     the adaptation, whatever its value                        |
 +---------------------------------------------------------------+
 | .. module:: GetTimeStep                                       |
 |                                                               |
 | **GetTimeStep()**                                             |
-|     Returns the selected time step for the field              |
+|     Returns the selected time step for the driving field      |
 +---------------------------------------------------------------+
 | .. module:: GetRank                                           |
 |                                                               |
 | **GetRank()**                                                 |
-|     Returns the selected rank for the field                   |
+|     Returns the selected rank for the driving field           |
 +---------------------------------------------------------------+
 
 Miscellenaous

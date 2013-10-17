@@ -73,7 +73,7 @@ Le service SetCurrentStudy affecte cette étude à une instance de HOMARD.
 
 
 Boucle_de_convergence
-===================================
+=====================
 La boîte Boucle_de_convergence est une boucle de type WhileLoop. La condition est initialisée à 1 : le bloc interne Alternance_Calcul_HOMARD est exécuté. Au sein de ce bloc, on calcule et on adapte le maillage ; quand le processus doit s'arrêter soit par suite d'erreur, soit par convergence, la condition passe à 0. La boucle s'achève et on passe à la boîte suivante, Bilan.
 
 .. image:: ../images/yacs_c_01.png

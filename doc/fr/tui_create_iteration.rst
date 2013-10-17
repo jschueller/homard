@@ -217,8 +217,11 @@ Informations sur les maillages
 |     - ``Inte`` : interpénétration des mailles, par dimension  |
 +---------------------------------------------------------------+
 
-Informations sur le champ
-=========================
+Informations sur les champs
+===========================
+
+Le fichier des champs
+---------------------
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -227,18 +230,35 @@ Informations sur le champ
 | **SetFieldFile(field_file)**                                  |
 |     Définit le fichier MED des champs utiles                  |
 |                                                               |
-|     - ``field_file`` : le nom du fichier MED contenant le     |
-|       champ                                                   |
+|     - ``field_file`` : le nom du fichier MED contenant les    |
+|       champs : champ de pilotage de l'adaptation ou champs    |
+|       à interpoler                                            |
++---------------------------------------------------------------+
+| .. module:: GetFieldFileName                                  |
+|                                                               |
+| **GetFieldFileName()**                                        |
+|     Retourne le nom du fichier MED des champs                 |
++---------------------------------------------------------------+
+
+Les instants pour le champ de pilotage
+--------------------------------------
+Si une seule occurence du champ de pilotage de l'adaptation est présente dans le fichier des champs, il est inutile de préciser le pas de temps. Sinon, il faut préciser quel pas de temps est retenu.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetTimeStep                                       |
+|                                                               |
+| **SetTimeStep(TimeStep)**                                     |
+|     Définit l'instant pour le champ de pilotage. Le numéro    |
+|     d'ordre sera ignoré.                                      |
+|                                                               |
+|     - ``TimeStep`` : l'instant où est pris le champ           |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRank                                   |
 |                                                               |
 | **SetTimeStepRank(TimeStep, Rank)**                           |
-|     Définit les instants pour le champ                        |
-|                                                               |
-|     Inutile si aucun instant n'est défini pour le champ       |
-|                                                               |
-|     Si un seul instant est défini pour le champ, il est pris  |
-|     par défaut.                                               |
+|     Définit l'instant et le numéro d'ordre pour le champ de   |
+|     pilotage                                                  |
 |                                                               |
 |     - ``TimeStep`` : l'instant où est pris le champ           |
 |     - ``Rank`` : le numéro d'ordre où est pris le champ       |
@@ -247,22 +267,18 @@ Informations sur le champ
 |                                                               |
 | **SetTimeStepRankLast()**                                     |
 |     Précise que le dernier instant enregistré pour le champ   |
-|     est utilisé                                               |
-+---------------------------------------------------------------+
-| .. module:: GetFieldFileName                                  |
-|                                                               |
-| **GetFieldFileName()**                                        |
-|     Retourne le nom du fichier MED du champ                   |
+|     de pilotage est utilisé                                   |
 +---------------------------------------------------------------+
 | .. module:: GetTimeStep                                       |
 |                                                               |
 | **GetTimeStep()**                                             |
-|     Retourne l'instant où est pris le champ                   |
+|     Retourne l'instant où est pris le champ de pilotage       |
 +---------------------------------------------------------------+
 | .. module:: GetRank                                           |
 |                                                               |
 | **GetRank()**                                                 |
-|     Retourne le numéro d'ordre où est pris le champ           |
+|     Retourne le numéro d'ordre où est pris le champ de        |
+|     pilotage                                                  |
 +---------------------------------------------------------------+
 
 Divers

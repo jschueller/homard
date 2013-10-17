@@ -41,7 +41,7 @@ The complete chain starts from the initial meshing, then incorporates successive
 .. image:: ../images/intro_2.png
    :align: center
 
-Some variations may exist. If no error indicator is available, another filed can be used to drive the adaptation. A stress field in mechanics can be used: the refinement of the elements where the stress is high is often efficient to improve the quality of the results. It is also possible to drive the adaptation according the variation of a filed from one element to its neighbours. The refinement can be filtered by zones or groups of elements.
+Some variations may exist. If no error indicator is available, another field can be used to drive the adaptation. A stress field in mechanics can be used: the refinement of the elements where the stress is high is often efficient to improve the quality of the results. It is also possible to drive the adaptation according the variation of a field from one element to its neighbours. The refinement can be filtered by zones or groups of elements.
 
 .. note::
   For a extensive description of HOMARD, see :download:`Description of HOMARD <../files/HOMARD_0.pdf>`.
