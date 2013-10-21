@@ -281,6 +281,47 @@ Si une seule occurence du champ de pilotage de l'adaptation est présente dans le
 |     pilotage                                                  |
 +---------------------------------------------------------------+
 
+Les instants pour les champs à interpoler
+-----------------------------------------
+
+Les champs à interpoler sont définis dans l'hypothèse (voir :ref:`tui_create_hypothese`).
+Pour un champ donné, si aucune mention de pas de temps n'est précisé, tous les pas de temps seront pris en compte.
+Si on souhaite limiter l'interpolation à un ou plusieurs pas de temps, il faut le préciser ici.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetFieldInterpTimeStep                            |
+|                                                               |
+| **SetFieldInterpTimeStep(FieldName, TimeStep)**               |
+|     Définit un instant pour le champ à interpoler. Le numéro  |
+|     d'ordre sera ignoré.                                      |
+|                                                               |
+|     - ``FieldName`` : le nom du champ à interpoler            |
+|     - ``TimeStep`` : l'instant où est pris le champ           |
++---------------------------------------------------------------+
+| .. module:: SetFieldInterpTimeStepRank                        |
+|                                                               |
+| **SetFieldInterpTimeStepRank(FieldName, TimeStep)**           |
+|     Définit l'instant et le numéro d'ordre pour le champ à    |
+|     interpoler.                                               |
+|                                                               |
+|     - ``FieldName`` : le nom du champ à interpoler            |
+|     - ``TimeStep`` : l'instant où est pris le champ           |
+|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
++---------------------------------------------------------------+
+| .. module:: GetFieldInterpsTimeStepRank                       |
+|                                                               |
+| **GetFieldInterpsTimeStepRank()**                             |
+|     Retourne l'ensemble des triplets (nom du champ, pas de    |
+|     temps, numéro d'ordre)                                    |
+|                                                               |
+|     Attention : l'usage est stocké sous forme de chaîne de    |
+|     caractères et non pas d'entier dans la liste.             |
+|                                                               |
+|     Exemple : ['DEPL', '1', '1', 'DEPL', '2', '1', 'Masse',   |
+|     '2', '0', 'Masse', '3', '0']                              |
++---------------------------------------------------------------+
+
 Divers
 ======
 

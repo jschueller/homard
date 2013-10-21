@@ -123,8 +123,6 @@ Ces méthodes retournent une instance de la classe zone.
   maillage est 2D, dans un des plans de coordonnées.
 
 
-
-
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: GetZone                                           |

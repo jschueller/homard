@@ -33,7 +33,14 @@ Méthodes de la classe homard
 |                                                               |
 | **GetAllHypothesesName()**                                    |
 |     Retourne la liste des noms de toutes les hypothèses créées|
++---------------------------------------------------------------+
+| .. module:: GetZone                                           |
 |                                                               |
+| **GetZone(zone_name)**                                        |
+|     Retourne l'instance de la classe ``zone`` connue par      |
+|     son nom                                                   |
+|                                                               |
+|     - ``zone_name`` : le nom de la zone                       |
 +---------------------------------------------------------------+
 
 Méthodes de la classe hypothese
@@ -96,27 +103,27 @@ Généralités
 |         * autre valeur : problème                             |
 +---------------------------------------------------------------+
 
-Le champ et les seuils
-======================
+Le champ de pilotage de l'adaptation et les seuils
+==================================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetField                                          |
 |                                                               |
-| **SetField(field_name)**                                      |
-|     Attribue un nom de champ à l'hypothèse                    |
+| **SetField(FieldName)**                                       |
+|     Attribue un nom de champ de pilotage à l'hypothèse        |
 |                                                               |
-|     - ``field_name`` : le nom du champ                        |
+|     - ``FieldName`` : le nom du champ  de pilotage            |
 +---------------------------------------------------------------+
 | .. module:: GetFieldName                                      |
 |                                                               |
 | **GetFieldName()**                                            |
-|     Retourne le nom du champ                                  |
+|     Retourne le nom du champ de pilotage                      |
 +---------------------------------------------------------------+
 | .. module:: SetUseField                                       |
 |                                                               |
 | **SetUseField(use_field)**                                    |
-|     Attribue un mode d'usage du champ à l'hypothèse           |
+|     Attribue un mode d'usage du champ de pilotage             |
 |                                                               |
 |     - ``use_field`` : entier précisant l'usage du champ       |
 |                                                               |
@@ -166,15 +173,15 @@ Le champ et les seuils
 +---------------------------------------------------------------+
 
 
-Les composantes du champ
-========================
+Les composantes du champ de pilotage
+====================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: AddComp                                           |
 |                                                               |
 | **AddComp(comp_name)**                                        |
-|     Ajoute une composante du champ à considérer               |
+|     Ajoute une composante du champ de pilotage à considérer   |
 |                                                               |
 |     - ``comp_name`` : nom d'une composante à prendre en       |
 |       compte                                                  |
@@ -231,7 +238,8 @@ Les zones
 |                                                               |
 | **GetZones()**                                                |
 |     Retourne la liste des zones utilisées avec leur usage.    |
-|     Attention, l'usage est stocké sous forme de chaîne de     |
+|                                                               |
+|     Attention : l'usage est stocké sous forme de chaîne de    |
 |     caractères et non pas d'entier dans la liste.             |
 |                                                               |
 |     Exemple : ['Zone_A', '1', 'Zone_B', '1', 'Zone_C', '1']   |
@@ -267,6 +275,89 @@ Le filtrage par les groupes
 | **GetGroups()**                                               |
 |     Retourne la liste des groupes utilisés pour le filtrage   |
 +---------------------------------------------------------------+
+
+
+Les champs à interpoler
+=======================
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetTypeFieldInterp                                |
+|                                                               |
+| **SetTypeFieldInterp(typefieldinterp)**                       |
+|                                                               |
+|     - ``typefieldinterp`` : entier précisant si des champs    |
+|       sont a interpoler                                       |
+|                                                               |
+|         * 0 : aucun champ n'est à interpoler (défaut)         |
+|         * 1 : tous les champs sont interpolés                 |
+|         * 2 : certains champs sont interpolés ; implicitement |
+|           affecté après usage de AddFieldInterp ou            |
+|           AddFieldInterpType                                  |
++---------------------------------------------------------------+
+| .. module:: GetTypeFieldInterp                                |
+|                                                               |
+| **GetTypeFieldInterp()**                                      |
+|     Retourne l'entier précisant si des champs sont à          |
+|     interpoler                                                |
++---------------------------------------------------------------+
+| .. module:: AddFieldInterp                                    |
+|                                                               |
+| **AddFieldInterp(FieldName)**                                 |
+|                                                               |
+|     - ``FieldName`` : le nom du champ à interpoler            |
+|                                                               |
+|     Le mode d'interpolation sera choisi automatiquement par   |
+|     HOMARD ; cela correspond au mode 0 de AddFieldInterpType  |
++---------------------------------------------------------------+
+| .. module:: AddFieldInterpType                                |
+|                                                               |
+| **AddFieldInterpType(FieldName, type_interp)**                |
+|                                                               |
+|     - ``FieldName`` : le nom du champ à interpoler            |
+|     - ``type_interp`` : entier précisant le type              |
+|       d'interpolation du champ                                |
+|                                                               |
+|     Pour un champ aux noeuds :                                |
+|                                                               |
+|         * 0 : le champ sera interpolé en degré 1 ou 2 selon   |
+|           son support.                                        |
+|         * 1 : interpolation en degré 1                        |
+|         * 2 : interpolation en degré 2                        |
+|         * 3 : interpolation iso-P2                            |
+|                                                               |
+|     Pour un champ aux éléments :                              |
+|                                                               |
+|         * 0 : le champ sera interpolé en le considérant comme |
+|           une variable intensive.                             |
+|         * 1 : le champ sera interpolé en le considérant comme |
+|           une variable extensive.                             |
++---------------------------------------------------------------+
+| .. module:: GetFieldInterps                                   |
+|                                                               |
+| **GetFieldInterps()**                                         |
+|     Retourne la liste des champs à interoler avec leur usage. |
+|                                                               |
+|     Attention : l'usage est stocké sous forme de chaîne de    |
+|     caractères et non pas d'entier dans la liste.             |
+|                                                               |
+|     Exemple : ['DEPL', '0', 'Masse', '1', 'Densite', '0']     |
++---------------------------------------------------------------+
+| .. module:: SupprFieldInterp                                  |
+|                                                               |
+| **SupprFieldInterp(FieldName)**                               |
+|     Supprime un champ à interpoler de l'hypothèse             |
+|                                                               |
+|     - ``FieldName`` : nom du champ à supprimer                |
++---------------------------------------------------------------+
+| .. module:: SupprFieldInterps                                 |
+|                                                               |
+| **SupprFieldInterps()**                                       |
+|     Supprime tous les champs à interpoler de l'hypothèse      |
++---------------------------------------------------------------+
+
+.. note::
+  Le fichier et les instants où sont pris les champs sont définis dans l'itération ; voir :ref:`tui_create_iteration`.
 
 Les options avancées
 ====================
@@ -344,6 +435,8 @@ La création de l'objet hypo_1 se fait ainsi : ::
     hypo_1.AddComp("INDX")
     hypo_1.AddComp("INDZ")
     hypo_1.SetRefinThr(1, 80.)
+    hypo_1.AddFieldInterp("DEPL")
+    hypo_1.AddFieldInterpType("MASSE", 1)
 
 
 Saisie graphique correspondante

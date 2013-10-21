@@ -99,30 +99,30 @@ General methods
 |         * other value: problem                                |
 +---------------------------------------------------------------+
 
-The field and the thresholds
-============================
+The driving field and the thresholds
+====================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetField                                          |
 |                                                               |
-| **SetField(field_name)**                                      |
-|     Gives the name of a field to the hypothesis               |
+| **SetField(FieldName)**                                       |
+|     Gives the name of a driving field to the hypothesis       |
 |                                                               |
-|     - ``field_name``: the name of the field                   |
+|     - ``FieldName``: the name of the driving field            |
 +---------------------------------------------------------------+
 | .. module:: GetFieldName                                      |
 |                                                               |
 | **GetFieldName()**                                            |
-|     Returns the name of the field                             |
+|     Returns the name of the driving field                     |
 +---------------------------------------------------------------+
 | .. module:: SetUseField                                       |
 |                                                               |
 | **SetUseField(use_field)**                                    |
-|     Gives the usage of the field for the hypothesis           |
+|     Gives the usage of the driving field                      |
 |                                                               |
-|     - ``use_field``: integer that defines how the field is    |
-|       used                                                    |
+|     - ``use_field``: integer that defines how the driving     |
+|       field is used                                           |
 |                                                               |
 |        * 0: value by element (default)                        |
 |        * 1: jump between an element and its neighbours        |
@@ -171,8 +171,8 @@ The field and the thresholds
 +---------------------------------------------------------------+
 
 
-The components of the field
-===========================
+The components of the driving field
+===================================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -236,6 +236,7 @@ The zones
 |                                                               |
 | **GetZones()**                                                |
 |     Returns the list of the used zones with their uses        |
+|                                                               |
 |     Warning: the use is stored as a string in the list and    |
 |     not as an integer.                                        |
 |                                                               |
@@ -273,6 +274,87 @@ The filtering by the groups
 |     Returns the mist of the groups that are used in the       |
 |     filtering                                                 |
 +---------------------------------------------------------------+
+
+Interpolation of fields
+=======================
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetTypeFieldInterp                                |
+|                                                               |
+| **SetTypeFieldInterp(typefieldinterp)**                       |
+|                                                               |
+|     - ``typefieldinterp``: integer that defines if some fields|
+|       are interpolated or not                                 |
+|                                                               |
+|         * 0: no field (default)                               |
+|         * 1: every field is interpolated                      |
+|         * 2: some fields are interpolated; automatically set  |
+|           after using AddFieldInterp or AddFieldInterpType    |
++---------------------------------------------------------------+
+| .. module:: GetTypeFieldInterp                                |
+|                                                               |
+| **GetTypeFieldInterp()**                                      |
+|     Returns the integer that defines if some fields are       |
+|     interpolated or not                                       |
++---------------------------------------------------------------+
+| .. module:: AddFieldInterp                                    |
+|                                                               |
+| **AddFieldInterp(FieldName)**                                 |
+|                                                               |
+|     - ``FieldName``: the name of the field to interpolate     |
+|                                                               |
+|     The interpolation type is automatically deduced by        |
+|     HOMARD; it corresponds to the type 0 of AddFieldInterpType|
++---------------------------------------------------------------+
+| .. module:: AddFieldInterpType                                |
+|                                                               |
+| **AddFieldInterpType(FieldName, type_interp)**                |
+|                                                               |
+|     - ``FieldName``: the name of the field to interpolate     |
+|     - ``type_interp``: integer that defines the type of       |
+|       interpolation                                           |
+|                                                               |
+|     For a field over the nodes:                               |
+|                                                               |
+|         * 0: the field will be interpolated in degree 1 or 2  |
+|           depending on its baseframe.                         |
+|         * 1: interpolation en degree 1                        |
+|         * 2: interpolation en degree 2                        |
+|         * 3: interpolation iso-P2                             |
+|                                                               |
+|     For a field over the elements:                            |
+|                                                               |
+|         * 0: the field will be interpolated as an intensive   |
+|           variable                                            |
+|         * 1: the field will be interpolated as an extensive   |
+|           variable                                            |
++---------------------------------------------------------------+
+| .. module:: GetFieldInterps                                   |
+|                                                               |
+| **GetFieldInterps()**                                         |
+|     Returns the list of the interpolated fields with their use|
+|                                                               |
+|     Warning: the use is stored as a string in the list and    |
+|     not as an integer.                                        |
+|                                                               |
+|     Example: ['DEPL', '0', 'Mass', '1', 'Density', '0']       |
++---------------------------------------------------------------+
+| .. module:: SupprFieldInterp                                  |
+|                                                               |
+| **SupprFieldInterp(FieldName)**                               |
+|     Eliminates a field from the hypothesis                    |
+|                                                               |
+|     - ``FieldName``: name of a field to eliminate             |
++---------------------------------------------------------------+
+| .. module:: SupprFieldInterps                                 |
+|                                                               |
+| **SupprFieldInterps()**                                       |
+|     Eliminates all the fields from the hypothesis             |
++---------------------------------------------------------------+
+
+.. note::
+  The file and the time steps for the fiels are defined with the iteration; see :ref:`tui_create_iteration`.
 
 Advanced options
 ================
@@ -352,6 +434,8 @@ The creation of the object hypo_1 is done as follows:
     hypo_1.AddComp("INDX")
     hypo_1.AddComp("INDZ")
     hypo_1.SetRefinThr(1, 80.)
+    hypo_1.AddFieldInterp("DEPL")
+    hypo_1.AddFieldInterpType("MASS", 1)
 
 
 Similar graphical input

@@ -284,6 +284,47 @@ If no time step is defined for the field or if a single time step is defined for
 |     Returns the selected rank for the driving field           |
 +---------------------------------------------------------------+
 
+The time steps for the fields to interpolate
+--------------------------------------------
+
+The choice of the fields to interpolated are defined in the hypothesis (see :ref:`tui_create_hypothese`).
+For a given field, if nothing is declared, every single time step will be considered.
+If some time steps are wanted, they must be defined as follows.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetFieldInterpTimeStep                            |
+|                                                               |
+| **SetFieldInterpTimeStep(FieldName, TimeStep)**               |
+|     Defines the time step for the interpolation of the field. |
+|     The rank will be ignored.                                 |
+|                                                               |
+|     - ``FieldName``: the name of the field to interpolate     |
+|     - ``TimeStep``: the selected time step                    |
++---------------------------------------------------------------+
+| .. module:: SetFieldInterpTimeStepRank                        |
+|                                                               |
+| **SetFieldInterpTimeStepRank(FieldName, TimeStep)**           |
+|     Defines the time step and the rank for the interpolation  |
+|     of the field.                                             |
+|                                                               |
+|     - ``FieldName``: the name of the field to interpolate     |
+|     - ``TimeStep``: the selected time step                    |
+|     - ``Rank``: the selected rank                             |
++---------------------------------------------------------------+
+| .. module:: GetFieldInterpsTimeStepRank                       |
+|                                                               |
+| **GetFieldInterpsTimeStepRank()**                             |
+|     Returns the information (name of the field, time step,    |
+|     rank)                                                     |
+|                                                               |
+|     Warning: the time step and the rank are stored as strings |
+|     in the list and not as integers.                          |
+|                                                               |
+|     Example: ['DEPL', '1', '1', 'DEPL', '2', '1', 'Mass',     |
+|     '2', '0', 'Mass', '3', '0']                               |
++---------------------------------------------------------------+
+
 Miscellenaous
 =============
 
@@ -294,7 +335,7 @@ Miscellenaous
 | **SetInfoCompute(MessInfo)**                                  |
 |     Defines options to track the computation of the iteration |
 |                                                               |
-|     - ``MessInfo`` : integer that drives prints, as a multiple|
+|     - ``MessInfo``: integer that drives prints, as a multiple |
 |       of 2, 3 and 5                                           |
 |                                                               |
 |         * 1 : nothing (default)                               |
