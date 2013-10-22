@@ -44,12 +44,16 @@ SALOME VERSION 7.2.0 :
      ``iter.Compute(option)`` devient ``iter.Compute(option1, option2)``
    - Possibilité de poursuivre une suite d'itérations archivées dans un répertoire (voir :ref:`gui_create_case`)
 
-SALOME VERSION 7.2.1 :
+SALOME VERSION 7.3 :
    - Documentation en anglais
    - Ajout de fonctions :
      ``iter.SetInfoCompute(MessInfo)`` : précise des options pour suivre le calcul de l'itération (voir :ref:`tui_create_iteration`)
    - Creation automatique de schéma YACS :
      ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)`` : écrit un schéma YACS correspondant au cas (voir :ref:`tui_create_case`)
+   - Possibilité de choix des pas de temps pour l'interpolation des champs :
+     ``SetFieldInterpTimeStep(FieldInterp, TimeStep)`` : interpole le champ au pas de temps TimeStep (voir :ref:`tui_create_iteration`)
+     ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)`` : interpole le champ au pas de temps TimeStep et au numéro d'ordre Rank (voir :ref:`tui_create_iteration`)
+   - Arrêt en cas d'erreur dans les données des fonctions python
 
 
 
