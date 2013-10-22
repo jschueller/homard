@@ -253,7 +253,7 @@
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_2</source>
-        <translation>Ce répertoire est déjà utilisé.</translation>
+        <translation>Ce répertoire est déjà utilisé par le cas </translation>
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_3</source>

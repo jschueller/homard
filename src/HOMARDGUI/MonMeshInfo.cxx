@@ -101,11 +101,17 @@ bool MonMeshInfo::PushOnApply()
                               QObject::tr("HOM_CASE_DIRECTORY_1") );
     return false;
   }
-  if ((aDirName != _aDirName) and (myHomardGen->VerifieDir( aDirName.toStdString().c_str()) == false))
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_CASE_DIRECTORY_2") );
-    return false;
+  if ( aDirName != _aDirName)
+  { QString CaseNameDir = myHomardGen->VerifieDir( aDirName.toStdString().c_str()) ;
+    if ( CaseNameDir != "" )
+    {
+      INFOS(CaseNameDir.toStdString().c_str());
+      QString texte ;
+      texte = QObject::tr("HOM_CASE_DIRECTORY_2") + CaseNameDir ;
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                texte );
+      return false;
+    }
   }
   if (chdir(aDirName.toStdString().c_str()) != 0)
   {

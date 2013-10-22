@@ -4666,15 +4666,20 @@ void HOMARD_Gen_i::IsValidStudy( )
 }
 
 //=============================================================================
-CORBA::Boolean HOMARD_Gen_i::VerifieDir(const char* nomDir)
+char* HOMARD_Gen_i::VerifieDir(const char* nomDir)
 {
+  std::string casename = std::string("") ;
   std::map<std::string, HOMARD::HOMARD_Cas_var>::const_iterator it;
   for (it = myContextMap[GetCurrentStudyID()]._mesCas.begin();
   it != myContextMap[GetCurrentStudyID()]._mesCas.end(); it++)
   {
-   if (std::string(nomDir) == std::string(it->second->GetDirName())) return false;
+   if (std::string(nomDir) == std::string(it->second->GetDirName()))
+   {
+     casename = std::string(it->second->GetName()) ;
+     break ;
+   }
   }
-  return true;
+  return CORBA::string_dup( casename.c_str() );
 }
 /*//=============================================================================
 void SALOMEException( std::string message )

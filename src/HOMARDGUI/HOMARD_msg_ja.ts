@@ -253,7 +253,7 @@
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_2</source>
-        <translation>This directory is already used.</translation>
+        <translation>This directory is already used by the case </translation>
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_3</source>

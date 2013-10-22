@@ -178,7 +178,7 @@ public:
   void                            DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver);
   void                            DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
 
-  CORBA::Boolean                  VerifieDir(const char* nomDir);
+  char*                           VerifieDir(const char* nomDir);
 
   void                            PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire);
   void                            PublishFileUnderYACS(const char* NomYACS, const char* NomFich, const char* Commentaire);
