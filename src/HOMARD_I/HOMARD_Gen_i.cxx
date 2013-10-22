@@ -2379,6 +2379,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     codretexec = myDriver->ExecuteHomard(Option1);
 //
     MESSAGE ( "Erreur en executant HOMARD : " << codretexec );
+    // En mode adaptation, on ajuste l'etat de l'iteration
     if ( modeHOMARD == 1 )
     {
       if (codretexec == 0) { SetEtatIter(NomIteration,2); }
@@ -2415,24 +2416,44 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
         if ( Option2 % 2 == 0 ) { PublishResultInSmesh(MeshFile, 1); }
       }
     }
-  // H.3 Message d'erreur en cas de probleme
-    else
+  // H.3 Message d'erreur
+    if (codretexec != 0)
     {
+      std::string text ;
+      // Message d'erreur en cas de probleme en adaptation
+      if ( modeHOMARD == 1 )
+      {
+        text = "Error during the adaptation.\n" ;
+        bool stopvu = false ;
+        std::ifstream fichier( LogFile.c_str() );
+        if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+        {
+          std::string ligne; // variable contenant chaque ligne lue
+          while ( std::getline( fichier, ligne ) )
+          {
+//             INFOS(ligne);
+            if ( stopvu )
+            { text += ligne+ "\n"; }
+            else
+            {
+              int position = ligne.find( "===== HOMARD ===== STOP =====" ) ;
+              if ( position > 0 ) { stopvu = true ; }
+            }
+          }
+        }
+      }
+      else
+      {
+        text = "Voir le fichier Liste.log.\n" ;
+      }
+      INFOS ( text ) ;
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
-      std::string text = "Error during the adaptation.\n" ;
-      try
-      {
-        ifstream fichier(LogFile.c_str(), ios::in);
-        string ligne;
-        while(getline(fichier, ligne) and (ligne != "===== HOMARD ===== STOP ====="));
-        while (getline(fichier, ligne)) { text += ligne+ "\n";};
-      }
-      catch (...) {
-        text += "no log file ....";
-      }
       es.text = CORBA::string_dup(text.c_str());
       throw SALOME::SALOME_Exception(es);
+//
+      // En mode information, on force le succes pour pouvoir consulter le fichier log
+      if ( modeHOMARD != 1 ) { codretexec = 0 ; }
     }
   }
 

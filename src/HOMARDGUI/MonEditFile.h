@@ -42,7 +42,7 @@ class MonEditFile : public QWidget, public Ui_EditFile
 public:
     MonEditFile( QWidget* parent,  bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
-                 QString FileName );
+                 QString FileName, int option );
     ~MonEditFile();
     int _codret ;
 
@@ -50,6 +50,7 @@ protected :
 
     HOMARD::HOMARD_Gen_var myHomardGen;
     QString _aFileName ;
+    int _option ;
 
     virtual void InitConnect();
     virtual void EditText();

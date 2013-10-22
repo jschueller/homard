@@ -44,10 +44,11 @@ using namespace std;
  */
 MonEditFile::MonEditFile( QWidget* parent,  bool modal,
                           HOMARD::HOMARD_Gen_var myHomardGen,
-                          QString aFileName):
+                          QString aFileName, int option):
 //    QWidget(0),
     Ui_EditFile(),
     _aFileName (aFileName),
+    _option (option),
     _codret (0)
 {
   MESSAGE("Debut de MonEditFile " << aFileName.toStdString().c_str());
@@ -94,10 +95,14 @@ void MonEditFile::EditText()
   }
   else
   {
-    // GERALD -- QMESSAGE BOX
-    MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
-    QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                             QObject::tr("HOM_SELECT_FILE_3") );
+    // Option = 0 : emission d'un message d'erreur
+    if ( _option == 0 )
+    {
+      MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
+      QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                              QObject::tr("HOM_SELECT_FILE_3") );
+    }
+    // Sinon : rien
     _codret = 1 ;
   }
 }

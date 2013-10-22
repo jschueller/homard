@@ -491,7 +491,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       _PTR(SObject) obj = chercheMonObjet();
       if ( (obj) and ( HOMARD_UTILS::isFileType(obj,QString("log")) or HOMARD_UTILS::isFileType(obj,QString("Summary")) or HOMARD_UTILS::isFileType(obj,QString("xml")) ) )
       {
-          MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
+          MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName, 0 ) ;
           if ( aDlg->_codret == 0 ) { aDlg->show(); }
       }
       break;

@@ -161,7 +161,7 @@ bool MonMeshInfo::PushOnApply()
   string iter0 = aCase->GetIter0Name();
   HOMARD::HOMARD_Iteration_var aIter =  myHomardGen->GetIteration(iter0.c_str());
   aFileName = aIter->GetFileInfo() ;
-  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName ) ;
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName, 1 ) ;
   if ( aDlg->_codret == 0 ) { aDlg->show(); }
 
 HOMARD_UTILS::updateObjBrowser();

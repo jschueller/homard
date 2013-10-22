@@ -113,7 +113,7 @@ bool MonIterInfo::PushOnApply()
 
   // Le bilan de l'analyse a afficher
   QString aFileName = aIter->GetFileInfo() ;
-  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName ) ;
+  MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), aFileName, 0 ) ;
   if ( aDlg->_codret == 0 ) { aDlg->show(); }
 
 
