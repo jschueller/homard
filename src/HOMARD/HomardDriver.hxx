@@ -53,9 +53,9 @@ public:
   void        TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7 );
   void        TexteBoundaryAnGr( const std::string NameBoundary, int NumeBoundary, const std::string GroupName );
 
-  void        TexteFieldInterp( int TypeFieldInterp, const std::string FieldFile, const std::string MeshFile,
-                                int TimeStep, int Rank );
-  void        TexteFieldInterpName( int NumeChamp, const std::string FieldName );
+  void        TexteFieldInterp( const std::string FieldFile, const std::string MeshFile );
+  void        TexteFieldInterpAll();
+  void        TexteFieldInterpNameType( int NumeChamp, const std::string FieldName, const std::string TypeInterp, int TimeStep, int Rank );
   void        TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput );
   void        TexteInfoCompute( int MessInfo );
   //

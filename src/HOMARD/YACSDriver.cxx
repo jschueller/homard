@@ -25,9 +25,10 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include "YACSDriver.hxx"
+#include "HOMARD.hxx"
 #include "Utils_SALOME_Exception.hxx"
 #include "utilities.h"
-#include "YACSDriver.hxx"
 
 //=============================================================================
 //=============================================================================
@@ -254,7 +255,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
 //
 // 4.2. Erreur
   else
-  { ASSERT("Type de zone inconnu." == 0); }
+  { VERIFICATION("Type de zone inconnu." == 0); }
 
 //
 // 5. La fin
@@ -404,7 +405,7 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
 //
 // 4.2. Erreur
   else
-  { ASSERT("Type de frontiere inconnu." == 0); }
+  { VERIFICATION("Type de frontiere inconnu." == 0); }
 
 //
 // 5. La fin

@@ -84,10 +84,19 @@ public:
 
   void                   SetFieldFile( const char* FieldFile );
   char*                  GetFieldFile();
+// Instants pour le champ de pilotage
+  void                   SetTimeStep( CORBA::Long TimeStep );
   void                   SetTimeStepRank( CORBA::Long TimeStep, CORBA::Long Rank );
   void                   SetTimeStepRankLast();
   CORBA::Long            GetTimeStep();
   CORBA::Long            GetRank();
+// Instants pour un champ a interpoler
+  void                   SetFieldInterpTimeStep( const char* FieldInterp, CORBA::Long TimeStep );
+  void                   SetFieldInterpTimeStepRank( const char* FieldInterp, CORBA::Long TimeStep, CORBA::Long Rank );
+  HOMARD::listeFieldInterpTSRsIter* GetFieldInterpsTimeStepRank();
+  void                   SetFieldInterp( const char* FieldInterp );
+  HOMARD::listeFieldInterpsIter* GetFieldInterps();
+  void                   SupprFieldInterps();
 
   void                   SetLogFile( const char* LogFile );
   char*                  GetLogFile();

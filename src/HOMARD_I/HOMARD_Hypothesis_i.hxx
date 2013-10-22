@@ -105,8 +105,10 @@ public:
   void                   SetTypeFieldInterp( CORBA::Long TypeFieldInterp );
   CORBA::Long            GetTypeFieldInterp();
   void                   AddFieldInterp( const char* FieldInterp );
-  void                   SupprFieldInterp();
-  HOMARD::listFieldInterpHypo* GetListFieldInterp();
+  void                   AddFieldInterpType( const char* FieldInterp, CORBA::Long TypeInterp );
+  void                   SupprFieldInterp( const char* FieldInterp );
+  void                   SupprFieldInterps();
+  HOMARD::listeFieldInterpsHypo* GetFieldInterps();
 
 // Liens avec les autres structures
   void                   SetCaseCreation( const char* NomCaseCreation );

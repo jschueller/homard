@@ -67,10 +67,19 @@ public:
 
   void                          SetFieldFile( const char* FieldFile );
   std::string                   GetFieldFile() const;
+// Instants pour le champ de pilotage
+  void                          SetTimeStep( int TimeStep );
   void                          SetTimeStepRank( int TimeStep, int Rank );
   void                          SetTimeStepRankLast();
   int                           GetTimeStep() const;
   int                           GetRank() const;
+// Instants pour un champ a interpoler
+  void                          SetFieldInterpTimeStep( const char* FieldInterp, int TimeStep );
+  void                          SetFieldInterpTimeStepRank( const char* FieldInterp, int TimeStep, int Rank );
+  const std::list<std::string>& GetFieldInterpsTimeStepRank() const;
+  void                          SetFieldInterp( const char* FieldInterp );
+  const std::list<std::string>& GetFieldInterps() const;
+  void                          SupprFieldInterps();
 
   void                          SetLogFile( const char* LogFile );
   std::string                   GetLogFile() const;
@@ -115,6 +124,10 @@ private:
   std::list<std::string>        _mesIterFilles;
   std::string                   _FileInfo;
   int                           _MessInfo;
+  // La liste des champs retenus par l'hypothese
+  std::list<std::string>        _ListFieldInterp;
+  // La liste des triplets (champs, pas de temps, numero d'ordre) retenus par l'iteration
+  std::list<std::string>        _ListFieldInterpTSR;
 };
 
 #endif

@@ -25,6 +25,7 @@ using namespace std;
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
+#include "HOMARD.hxx"
 #include <utilities.h>
 // ----------------------------------------------------------------------------
 MonEditHypothesis::MonEditHypothesis( MonCreateIteration* parent, bool modal,
@@ -161,13 +162,13 @@ void MonEditHypothesis::InitAdaptUniforme()
 // Raffinement ou deraffinement ?
     if (_aTypeDera == 0)
     {
-        ASSERT(_aTypeRaff==1);
+        VERIFICATION(_aTypeRaff==1);
         RBUniDera->setChecked(false);
         RBUniRaff->setChecked(true);
     }
     if (_aTypeDera == 1)
     {
-        ASSERT(_aTypeRaff==0);
+        VERIFICATION(_aTypeRaff==0);
         RBUniDera->setChecked(true);
         RBUniRaff->setChecked(false);
     }
@@ -371,19 +372,20 @@ void MonEditHypothesis::InitFieldInterp()
       RBFieldChosen->setChecked(true);
 //
       TWField->setVisible(1);
-      HOMARD::listFieldInterpHypo_var mesChampsAvant = aHypothesis->GetListFieldInterp();
+      HOMARD::listeFieldInterpsHypo_var mesChampsAvant = aHypothesis->GetFieldInterps();
       TWField->clear();
       TWField->setRowCount(0);
       TWField->resizeRowsToContents();
-      for (int i=0; i<mesChampsAvant->length(); i++)
+      for (int iaux=0; iaux<mesChampsAvant->length(); iaux++)
       {
         TWField->insertRow(0);
         TWField->setItem( 0, 0, new QTableWidgetItem( QString ("") ) );
         TWField->item( 0, 0 )->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
         TWField->item( 0, 0 )->setCheckState(Qt::Checked );
         TWField->item( 0, 0 )->setFlags( 0 );
-        TWField->setItem( 0, 1, new QTableWidgetItem(QString(mesChampsAvant[i]).trimmed()));
+        TWField->setItem( 0, 1, new QTableWidgetItem(QString(mesChampsAvant[iaux]).trimmed()));
         TWField->item( 0, 1 )->setFlags( Qt::ItemIsEnabled |Qt::ItemIsSelectable );
+        iaux++;
       }
       TWField->resizeColumnsToContents();
       TWField->resizeRowsToContents();

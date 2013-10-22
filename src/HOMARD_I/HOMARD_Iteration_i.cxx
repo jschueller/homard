@@ -143,7 +143,7 @@ void HOMARD_Iteration_i::SetNumber( CORBA::Long NumIter )
 CORBA::Long HOMARD_Iteration_i::GetNumber()
 {
   ASSERT( myHomardIteration );
-  return  myHomardIteration->GetNumber() ;
+  return myHomardIteration->GetNumber() ;
 }
 //=============================================================================
 void HOMARD_Iteration_i::SetState( CORBA::Long Etat )
@@ -194,6 +194,14 @@ char* HOMARD_Iteration_i::GetFieldFile()
   return CORBA::string_dup( myHomardIteration->GetFieldFile().c_str() );
 }
 //=============================================================================
+// Instants pour le champ de pilotage
+//=============================================================================
+void HOMARD_Iteration_i::SetTimeStep( CORBA::Long TimeStep )
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SetTimeStep( TimeStep );
+}
+//=============================================================================
 void HOMARD_Iteration_i::SetTimeStepRank( CORBA::Long TimeStep, CORBA::Long Rank )
 {
   ASSERT( myHomardIteration );
@@ -216,6 +224,60 @@ CORBA::Long HOMARD_Iteration_i::GetRank()
 {
   ASSERT( myHomardIteration );
   return  CORBA::Long( myHomardIteration->GetRank() );
+}
+//=============================================================================
+// Instants pour un champ a interpoler
+//=============================================================================
+void HOMARD_Iteration_i::SetFieldInterpTimeStep( const char* FieldInterp, CORBA::Long TimeStep )
+{
+  SetFieldInterpTimeStepRank( FieldInterp, TimeStep, TimeStep );
+}
+//=============================================================================
+void HOMARD_Iteration_i::SetFieldInterpTimeStepRank( const char* FieldInterp, CORBA::Long TimeStep, CORBA::Long Rank )
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SetFieldInterpTimeStepRank( FieldInterp, TimeStep, Rank );
+}
+//=============================================================================
+HOMARD::listeFieldInterpTSRsIter* HOMARD_Iteration_i::GetFieldInterpsTimeStepRank()
+{
+  ASSERT( myHomardIteration );
+  const std::list<std::string>& ListString = myHomardIteration->GetFieldInterpsTimeStepRank();
+  HOMARD::listeFieldInterpTSRsIter_var aResult = new HOMARD::listeFieldInterpTSRsIter;
+  aResult->length( ListString.size() );
+  std::list<std::string>::const_iterator it;
+  int i = 0;
+  for ( it = ListString.begin(); it != ListString.end(); it++ )
+  {
+    aResult[i++] = CORBA::string_dup( (*it).c_str() );
+  }
+  return aResult._retn();
+}
+//=============================================================================
+void HOMARD_Iteration_i::SetFieldInterp( const char* FieldInterp )
+{
+  myHomardIteration->SetFieldInterp( FieldInterp );
+}
+//=============================================================================
+HOMARD::listeFieldInterpsIter* HOMARD_Iteration_i::GetFieldInterps()
+{
+  ASSERT( myHomardIteration );
+  const std::list<std::string>& ListString = myHomardIteration->GetFieldInterps();
+  HOMARD::listeFieldInterpsIter_var aResult = new HOMARD::listeFieldInterpsIter;
+  aResult->length( ListString.size() );
+  std::list<std::string>::const_iterator it;
+  int i = 0;
+  for ( it = ListString.begin(); it != ListString.end(); it++ )
+  {
+    aResult[i++] = CORBA::string_dup( (*it).c_str() );
+  }
+  return aResult._retn();
+}
+//=============================================================================
+void HOMARD_Iteration_i::SupprFieldInterps()
+{
+  ASSERT( myHomardIteration );
+  myHomardIteration->SupprFieldInterps();
 }
 //=============================================================================
 void HOMARD_Iteration_i::SetLogFile( const char* LogFile )
@@ -398,5 +460,5 @@ void HOMARD_Iteration_i::SetInfoCompute( CORBA::Long MessInfo )
 CORBA::Long HOMARD_Iteration_i::GetInfoCompute()
 {
   ASSERT( myHomardIteration );
-  return  myHomardIteration->GetInfoCompute() ;
+  return myHomardIteration->GetInfoCompute() ;
 }

@@ -32,6 +32,7 @@
 // Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Boundary.hxx"
+#include "HOMARD.hxx"
 #include "utilities.h"
 
 //=============================================================================
@@ -234,7 +235,7 @@ std::vector<double> HOMARD_Boundary::GetCoords() const
       mesCoor.push_back( _Rayon2 );
       break ;
     }
-    ASSERT ( _Type == -1 ) ;
+    VERIFICATION( (_Type>=1) and (_Type<=4) ) ;
   }
   return mesCoor;
 }

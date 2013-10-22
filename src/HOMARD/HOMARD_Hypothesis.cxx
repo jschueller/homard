@@ -32,6 +32,7 @@
 // Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 
 #include "HOMARD_Hypothesis.hxx"
+#include "HOMARD.hxx"
 #include "utilities.h"
 
 //=============================================================================
@@ -119,16 +120,21 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
    for ( it=_ListGroupSelected.begin(); it!=_ListGroupSelected.end();it++)
        aScript << "\t" << _Name << ".AddGroup(\""  << (*it) <<  "\")\n" ;
 
-// Interpolation champ
-  aScript << "\t" << _Name << ".SetTypeFieldInterp(" << _TypeFieldInterp << ")\n";
+// Interpolation des champs
   if ( _TypeFieldInterp == 2 )
   {
     std::list<std::string>::const_iterator it_champ = _ListFieldInterp.begin();
     while(it_champ != _ListFieldInterp.end())
     {
-      aScript << "\t" << _Name << ".AddFieldInterp(\"" << *it_champ << "\")\n";
+      aScript << "\t" << _Name << ".AddFieldInterpType( \"" << *it_champ  <<  "\" " ;
+      it_champ++;
+      aScript << ", " << *it_champ << ")\n";
       it_champ++;
     }
+  }
+  else if ( _TypeFieldInterp != 0 )
+  {
+    aScript << "\t" << _Name << ".SetTypeFieldInterp(" << _TypeFieldInterp << ")\n";
   }
   if ( _NivMax > 0 )
   {
@@ -156,7 +162,7 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
 //=============================================================================
 void HOMARD_Hypothesis::SetAdapType( int TypeAdap )
 {
-  ASSERT (!((TypeAdap < -1) or (TypeAdap > 1)));
+  VERIFICATION( (TypeAdap>=-1) and (TypeAdap<=1) );
   _TypeAdap = TypeAdap;
 }
 //=============================================================================
@@ -167,9 +173,11 @@ int HOMARD_Hypothesis::GetAdapType() const
 //=============================================================================
 void HOMARD_Hypothesis::SetRefinTypeDera( int TypeRaff, int TypeDera )
 {
-  ASSERT(!(( TypeRaff < 0) or (TypeRaff > 1)));
+    INFOS("SetRefinTypeDera TypeRaff="<<TypeRaff);
+    INFOS("SetRefinTypeDera TypeDera="<<TypeDera);
+  VERIFICATION( (TypeRaff>=-1) and (TypeRaff<=1) );
   _TypeRaff = TypeRaff;
-  ASSERT(! ((TypeDera < 0) or (TypeDera > 1)));
+  VERIFICATION( (TypeDera>=-1) and (TypeDera<=1) );
   _TypeDera = TypeDera;
 }
 //=============================================================================
@@ -196,7 +204,7 @@ std::string HOMARD_Hypothesis::GetFieldName() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUseField( int UsField )
 {
-  ASSERT(!((UsField < 0) or (UsField > 1 )));
+  VERIFICATION( (UsField>=0) and (UsField<=1) );
   _UsField = UsField;
 }
 //=============================================================================
@@ -207,7 +215,7 @@ int HOMARD_Hypothesis::GetUseField() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUseComp( int UsCmpI )
 {
-  ASSERT(!((UsCmpI < 0) or (UsCmpI > 2)));
+  VERIFICATION( (UsCmpI>=0) and (UsCmpI<=2) );
   _UsCmpI = UsCmpI;
 }
 //=============================================================================
@@ -246,7 +254,7 @@ const std::list<std::string>& HOMARD_Hypothesis::GetComps() const
 void HOMARD_Hypothesis::SetRefinThr( int TypeThR, double ThreshR )
 {
   MESSAGE( "SetRefinThr : TypeThR = " << TypeThR << ", ThreshR = " << ThreshR );
-  ASSERT(!(( TypeThR < 0) or (TypeThR > 4 )));
+  VERIFICATION( (TypeThR>=0) and (TypeThR<=4) );
   _TypeThR = TypeThR;
   _ThreshR = ThreshR;
 }
@@ -263,7 +271,7 @@ double HOMARD_Hypothesis::GetThreshR() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUnRefThr( int TypeThC, double ThreshC )
 {
-  ASSERT(!((TypeThC < 0) or (TypeThC > 4)));
+  VERIFICATION( (TypeThC>=0) and (TypeThC<=4) );
   _TypeThC = TypeThC;
   _ThreshC = ThreshC;
 }
@@ -344,9 +352,13 @@ const std::list<std::string>& HOMARD_Hypothesis::GetGroups() const
   return _ListGroupSelected;
 }
 //=============================================================================
+// Type d'interpolation des champs :
+//   0 : aucun champ n'est interpole
+//   1 : tous les champs sont interpoles
+//   2 : certains champs sont interpoles
 void HOMARD_Hypothesis::SetTypeFieldInterp( int TypeFieldInterp )
 {
-  ASSERT (!((TypeFieldInterp < -1) or (TypeFieldInterp > 2)));
+  VERIFICATION( (TypeFieldInterp>=0) and (TypeFieldInterp<=2) );
   _TypeFieldInterp = TypeFieldInterp;
 }
 //=============================================================================
@@ -355,18 +367,59 @@ int HOMARD_Hypothesis::GetTypeFieldInterp() const
   return _TypeFieldInterp;
 }
 //=============================================================================
-void HOMARD_Hypothesis::AddFieldInterp( const char* FieldInterp )
+void HOMARD_Hypothesis::AddFieldInterpType( const char* FieldInterp, int TypeInterp )
 {
+  MESSAGE ("Dans AddFieldInterpType pour " << FieldInterp << " et TypeInterp = " << TypeInterp) ;
+// On commence par supprimer le champ au cas ou il aurait deja ete insere
+// Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
+// definition de l'hypothese
+  SupprFieldInterp( FieldInterp ) ;
+// Insertion veritable
+// . Nom du champ
   _ListFieldInterp.push_back( std::string( FieldInterp ) );
+// . Usage du champ
+  std::stringstream saux1 ;
+  saux1 << TypeInterp ;
+  _ListFieldInterp.push_back( saux1.str() );
+// . Indication generale : certains champs sont a interpoler
+  SetTypeFieldInterp ( 2 ) ;
 }
 //=============================================================================
-void HOMARD_Hypothesis::SupprFieldInterp()
+void HOMARD_Hypothesis::SupprFieldInterp( const char* FieldInterp )
 {
-  MESSAGE ("SupprFieldInterp") ;
-  _ListFieldInterp.clear();
+  MESSAGE ("Dans SupprFieldInterp pour " << FieldInterp) ;
+  std::list<std::string>::iterator it = find( _ListFieldInterp.begin(), _ListFieldInterp.end(), FieldInterp ) ;
+// Attention a supprimer le nom du champ et le type d'usage
+  if ( it != _ListFieldInterp.end() )
+  {
+    it = _ListFieldInterp.erase( it ) ;
+    it = _ListFieldInterp.erase( it ) ;
+  }
+// Decompte du nombre de champs restant a interpoler
+  it = _ListFieldInterp.begin() ;
+  int cpt = 0 ;
+  while(it != _ListFieldInterp.end())
+  {
+    cpt += 1 ;
+    (*it++);
+  }
+  MESSAGE("Nombre de champ restants = "<<cpt/2);
+// . Indication generale : aucun champ ne reste a interpoler
+  if ( cpt == 0 )
+  {
+    SetTypeFieldInterp ( 0 ) ;
+  }
 }
 //=============================================================================
-const std::list<std::string>& HOMARD_Hypothesis::GetListFieldInterp() const
+void HOMARD_Hypothesis::SupprFieldInterps()
+{
+  MESSAGE ("SupprFieldInterps") ;
+  _ListFieldInterp.clear();
+// . Indication generale : aucun champ ne reste a interpoler
+  SetTypeFieldInterp ( 0 ) ;
+}
+//=============================================================================
+const std::list<std::string>& HOMARD_Hypothesis::GetFieldInterps() const
 {
   return _ListFieldInterp;
 }
@@ -412,8 +465,8 @@ const std::list<std::string>& HOMARD_Hypothesis::GetIterations() const
 //=============================================================================
 void HOMARD_Hypothesis::AddZone( const char* NomZone, int TypeUse )
 {
-  MESSAGE ("Dans AddZone pour " << NomZone) ;
-// On commence par la supprimer au cas ou elle aurait deja ete inseree
+  MESSAGE ("Dans AddZone pour " << NomZone << " et TypeUse = " << TypeUse) ;
+// On commence par supprimer la zone au cas ou elle aurait deja ete inseree
 // Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
 // definition de l'hypothese
   SupprZone( NomZone ) ;

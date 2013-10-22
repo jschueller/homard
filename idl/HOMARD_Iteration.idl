@@ -36,6 +36,8 @@
 module HOMARD
 {
   typedef sequence<string> listeIterFilles ;
+  typedef sequence<string> listeFieldInterpsIter ;
+  typedef sequence<string> listeFieldInterpTSRsIter ;
 
   interface HOMARD_Iteration : Engines::EngineComponent
   {
@@ -67,12 +69,26 @@ module HOMARD
 
     void     SetFieldFile(in string FieldFile)             raises (SALOME::SALOME_Exception);
     string   GetFieldFile()                                raises (SALOME::SALOME_Exception);
+
+// Instants pour le champ de pilotage
+    void     SetTimeStep(in long TimeStep)                 raises (SALOME::SALOME_Exception);
     void     SetTimeStepRank(in long TimeStep, in long Rank)
                                                            raises (SALOME::SALOME_Exception);
     void     SetTimeStepRankLast()                         raises (SALOME::SALOME_Exception);
     long     GetTimeStep()                                 raises (SALOME::SALOME_Exception);
     long     GetRank()                                     raises (SALOME::SALOME_Exception);
 
+// Instants pour un champ a interpoler
+    void     SetFieldInterpTimeStep(in string FieldInterp, in long TimeStep)
+                                                           raises (SALOME::SALOME_Exception);
+    void     SetFieldInterpTimeStepRank(in string FieldInterp, in long TimeStep, in long Rank)
+                                                           raises (SALOME::SALOME_Exception);
+    listeFieldInterpTSRsIter GetFieldInterpsTimeStepRank() raises (SALOME::SALOME_Exception);
+    void     SetFieldInterp(in string FieldInterp)         raises (SALOME::SALOME_Exception);
+    listeFieldInterpsIter GetFieldInterps()                raises (SALOME::SALOME_Exception);
+    void     SupprFieldInterps()                           raises (SALOME::SALOME_Exception);
+
+// Fichier des messages
     void     SetLogFile(in string LogFile)                 raises (SALOME::SALOME_Exception);
     string   GetLogFile()                                  raises (SALOME::SALOME_Exception);
 

@@ -25,9 +25,9 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include "HomardDriver.hxx"
 #include "Utils_SALOME_Exception.hxx"
 #include "utilities.h"
-#include "HomardDriver.hxx"
 
 //=============================================================================
 //=============================================================================
@@ -59,6 +59,8 @@ HomardDriver::HomardDriver(const std::string siter, const std::string siterp1):
 HomardDriver::~HomardDriver()
 {
 }
+//===============================================================================
+// A. Generalites
 //===============================================================================
 void HomardDriver::TexteInit( const std::string DirCompute, const std::string LogFile, const std::string Langue )
 {
@@ -105,7 +107,8 @@ void HomardDriver::TexteInfo( int TypeBila, int NumeIter )
   }
 //
 }
-
+//===============================================================================
+// B. Les maillages en entree et en sortie
 //===============================================================================
 void HomardDriver::TexteMaillage( const std::string NomMesh, const std::string MeshFile, int apres )
 {
@@ -132,6 +135,8 @@ void HomardDriver::TexteMaillageHOMARD( const std::string Dir, const std::string
 }
 
 //===============================================================================
+// C. Le pilotage de l'adaptation
+//===============================================================================
 void HomardDriver::TexteConfRaffDera( int ConfType, int TypeAdap, int TypeRaff, int TypeDera )
 {
   MESSAGE("TexteConfRaffDera, ConfType ="<<ConfType);
@@ -142,6 +147,11 @@ void HomardDriver::TexteConfRaffDera( int ConfType, int TypeAdap, int TypeRaff, 
   std::string saux ;
   switch (ConfType)
   {
+    case -1: //
+    {
+      saux = "conforme_boites" ;
+      break;
+    }
     case 1: //
     {
       saux = "conforme" ;
@@ -519,6 +529,7 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
       saux2 = saux1.str() ;
       _Texte += "CCNumPTI " + saux2  + "\n" ;
     }
+    if ( Rank >= 0 )
     {
       std::stringstream saux1 ;
       saux1 << Rank ;
@@ -589,6 +600,8 @@ void HomardDriver::TexteGroup( const std::string GroupName )
   _Texte += "CCGroAda \"" + GroupName  + "\"\n" ;
 //
 }
+//===============================================================================
+// D. Les frontieres
 //===============================================================================
 void HomardDriver::TexteBoundaryOption( int BoundaryOption )
 {
@@ -811,51 +824,75 @@ void HomardDriver::TexteBoundaryAnGr( const std::string NameBoundary, int NumeBo
 //
 }
 //===============================================================================
-void HomardDriver::TexteFieldInterp( int TypeFieldInterp, const std::string FieldFile, const std::string MeshFile, int TimeStep, int Rank )
+// E. Les interpolations
+//===============================================================================
+// Les fichiers d'entree et de sortie des champs a interpoler
+void HomardDriver::TexteFieldInterp( const std::string FieldFile, const std::string MeshFile )
 {
-  MESSAGE("TexteFieldInterp, TypeFieldInterp = "<<TypeFieldInterp);
   MESSAGE("TexteFieldInterp, FieldFile = "<<FieldFile<<", MeshFile = "<<MeshFile);
-  MESSAGE("TexteFieldInterp, TimeStep = "<<TimeStep<<", Rank = "<<Rank);
 //
-// Type d'interpolation
+  _Texte += "#\n# Interpolations des champs\n" ;
 //
-  _Texte += "# Interpolations des champs\n" ;
+// Fichier en entree
   _Texte += "CCSolN__ \"" + FieldFile + "\"\n" ;
+// Fichier en sortie
   _Texte += "CCSolNP1 \"" + MeshFile  + "\"\n" ;
-  if ( TypeFieldInterp == 1 )
-  {
-    _Texte += "CCChaTou oui\n" ;
-  }
-//
-  _TimeStep = TimeStep ;
-  _Rank = Rank ;
 //
 //  std::cerr << "A la fin de TexteFieldInterp _Texte ="<<_Texte << std::endl;
 }
 //===============================================================================
-void HomardDriver::TexteFieldInterpName( int NumeChamp, const std::string FieldName)
+// Tous les champs sont a interpoler
+void HomardDriver::TexteFieldInterpAll( )
 {
-  MESSAGE("TexteFieldInterpName, NumeChamp = "<<NumeChamp<<", FieldName = "<<FieldName);
-  std::stringstream saux1 ;
-  saux1 << NumeChamp+1 ;
-  std::string saux = saux1.str() ;
-  _Texte +="CCChaNom " + saux + " \"" + FieldName + "\"\n" ;
+  MESSAGE("TexteFieldInterpAll");
 //
-  MESSAGE("TexteFieldInterpName, _TimeStep = "<<_TimeStep<<", _Rank = "<<_Rank);
-  if ( _TimeStep >= 0 )
+  _Texte += "CCChaTou oui\n" ;
+}
+//===============================================================================
+// Ecrit les caracteristiques de chaque interpolation sous la forme :
+//   CCChaNom 1 "DEPL"     ! Nom du 1er champ a interpoler
+//   CCChaTIn 1 0          ! Mode d'interpolation : automatique
+//   CCChaNom 2 "VOLUME"   ! Nom du 2nd champ a interpoler
+//   CCChaTIn 2 1          ! Mode d'interpolation : une variable extensive
+//   CCChaPdT 2 14         ! Pas de temps 14
+//   CCChaNuO 2 14         ! Numero d'ordre 14
+//   etc.
+//
+// NumeChamp : numero d'ordre du champ a interpoler
+// FieldName : nom du champ
+// TypeInterp : type d'interpolation
+// TimeStep : pas de temps retenu (>0 si pas de precision)
+// Rank : numero d'ordre retenu
+//
+void HomardDriver::TexteFieldInterpNameType( int NumeChamp, const std::string FieldName, const std::string TypeInterp, int TimeStep, int Rank)
+{
+  MESSAGE("TexteFieldInterpNameType, NumeChamp = "<<NumeChamp<<", FieldName = "<<FieldName<<", TypeInterp = "<<TypeInterp);
+  MESSAGE("TexteFieldInterpNameType, TimeStep = "<<TimeStep<<", Rank = "<<Rank);
+// Numero d'ordre du champ a interpoler
+  std::stringstream saux1 ;
+  saux1 << NumeChamp ;
+  std::string saux = saux1.str() ;
+// Nom du champ
+  _Texte +="CCChaNom " + saux + " \"" + FieldName + "\"\n" ;
+// Type d'interpolation pour le champ
+  _Texte +="CCChaTIn " + saux + " " + TypeInterp + "\n" ;
+//
+  if ( TimeStep >= 0 )
   {
     {
       std::stringstream saux1 ;
-      saux1 << _TimeStep ;
+      saux1 << TimeStep ;
       _Texte += "CCChaPdT " + saux + " " + saux1.str()  + "\n" ;
     }
     {
       std::stringstream saux1 ;
-      saux1 << _Rank ;
+      saux1 << Rank ;
       _Texte += "CCChaNuO " + saux + " " + saux1.str()  + "\n" ;
     }
   }
 }
+//===============================================================================
+// F. Les options avancees
 //===============================================================================
 void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput )
 {
@@ -900,6 +937,8 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "NCNiveau NIVEAU\n" ;
   }
 }
+//===============================================================================
+// G. Les messages
 //===============================================================================
 void HomardDriver::TexteInfoCompute( int MessInfo )
 {

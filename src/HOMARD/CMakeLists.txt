@@ -37,6 +37,7 @@ SET(_link_LIBRARIES
 
 # header files
 SET(HOMARDImpl_HEADERS
+  HOMARD.hxx
   HOMARD_Cas.hxx
   HOMARD_Boundary.hxx
   HOMARD_Hypothesis.hxx

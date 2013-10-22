@@ -93,9 +93,10 @@ public:
 
   void                          SetTypeFieldInterp( int TypeFieldInterp );
   int                           GetTypeFieldInterp() const;
-  void                          AddFieldInterp( const char* FieldInterp );
-  void                          SupprFieldInterp();
-  const std::list<std::string>& GetListFieldInterp() const;
+  void                          AddFieldInterpType( const char* FieldInterp, int TypeInterp );
+  void                          SupprFieldInterp( const char* FieldInterp );
+  void                          SupprFieldInterps();
+  const std::list<std::string>& GetFieldInterps() const;
 
 // Liens avec les autres structures
   void                          SetCaseCreation( const char* NomCasCreation );
@@ -142,6 +143,7 @@ private:
   std::list<std::string>        _ListComp;
   std::list<std::string>        _ListGroupSelected;
   std::list<std::string>        _ListFieldInterp;
+
 };
 
 #endif

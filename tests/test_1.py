@@ -94,7 +94,6 @@ Copyright EDF-R&D 2010, 2013
     Hypo_1_1.SetUseComp(0)
     Hypo_1_1.AddComp('ERREST')
     Hypo_1_1.SetRefinThr(3, 10.1)
-    Hypo_1_1.SetTypeFieldInterp(2)
     Hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
     Hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
     print HypoName_1, " : zones utilisées :", Hypo_1_1.GetZones()
@@ -102,6 +101,7 @@ Copyright EDF-R&D 2010, 2013
     print HypoName_1, " : composantes utilisées :", Hypo_1_1.GetComps()
     if ( len (Hypo_1_1.GetFieldName()) > 0 ) :
       print ".. caractéristiques de l'adaptation :", Hypo_1_1.GetField()
+    print HypoName_1, " : champs interpolés :", Hypo_1_1.GetFieldInterps()
   # Creation of the hypothesis Zones_1_et_2
     HypoName_2 = "Zones_1_et_2"
     print "-------- Creation of the hypothesis", HypoName_2
@@ -111,49 +111,68 @@ Copyright EDF-R&D 2010, 2013
     Zones_1_et_2.AddZone('Zone_1_2', 1)
     print HypoName_2, " : zones utilisées :", Zones_1_et_2.GetZones()
     print HypoName_2, " : champ utilisé :", Zones_1_et_2.GetFieldName()
-    print HypoName_2, " : composantes utilisées :", Zones_1_et_2.GetComps()
     if ( len (Zones_1_et_2.GetFieldName()) > 0 ) :
       print ".. caractéristiques de l'adaptation :", Zones_1_et_2.GetField()
+    print HypoName_2, " : champs interpolés :", Zones_1_et_2.GetFieldInterps()
   #
   # Creation of the cases
   # =====================
     # Creation of the case Case_1
+    CaseName = "Case_1"
+    print "-------- Creation of the hypothesis", CaseName
     MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-    Case_1 = homard.CreateCase('Case_1', 'MAILL', MeshFile)
+    Case_1 = homard.CreateCase(CaseName, 'MAILL', MeshFile)
     Case_1.SetDirName(Rep_Test_Resu)
     Case_1.SetConfType(1)
   #
   # Creation of the iterations
   # ==========================
   # Creation of the iteration I1_1
-    I1_1 = Case_1.NextIteration('I1_1')
+    IterName_1 = "I1_1"
+    print "-------- Creation of the iteration", IterName_1
+    I1_1 = Case_1.NextIteration(IterName_1)
+    I1_1.AssociateHypo(HypoName_1)
+    print ". Hypothese :", HypoName_1
     I1_1.SetMeshName('M1')
     I1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
     I1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
     I1_1.SetTimeStepRank(1, 1)
-    I1_1.AssociateHypo(HypoName_1)
+    I1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    I1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", I1_1.GetFieldInterpsTimeStepRank()
     error = I1_1.Compute(1, 1)
     if error :
       error = 1
       break
 
   # Creation of the iteration I1_2
-    I1_2 = I1_1.NextIteration('I1_2')
+    IterName_2 = "I1_2"
+    print "-------- Creation of the iteration", IterName_2
+    I1_2 = I1_1.NextIteration(IterName_2)
+    I1_2.AssociateHypo(HypoName_1)
+    print ". Hypothese :", HypoName_1
     I1_2.SetMeshName('M2')
     I1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
     I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
     I1_2.SetTimeStepRank(1, 1)
-    I1_2.AssociateHypo(HypoName_1)
+    I1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    I1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", I1_2.GetFieldInterpsTimeStepRank()
     error = I1_2.Compute(1, 1)
     if error :
       error = 2
       break
 
   # Creation of the iteration I1_3
-    I1_3 = I1_2.NextIteration('I1_3')
+    IterName_3 = "I1_3"
+    print "-------- Creation of the iteration", IterName_3
+    I1_3 = I1_2.NextIteration(IterName_3)
+    I1_3.AssociateHypo(HypoName_2)
+    print ". Hypothese :", HypoName_2
     I1_3.SetMeshName('M3')
     I1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    I1_3.AssociateHypo(HypoName_2)
+    I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.02.med'))
+    print ". Instants d'interpolation :", I1_3.GetFieldInterpsTimeStepRank()
     error = I1_3.Compute(1, 1)
     if error :
       error = 3

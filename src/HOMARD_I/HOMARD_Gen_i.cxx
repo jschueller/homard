@@ -28,6 +28,7 @@
 #include "HOMARD_DriverTools.hxx"
 #include "HomardMedCommun.h"
 #include "YACSDriver.hxx"
+#include "HOMARD.hxx"
 
 #include "HOMARD_version.h"
 
@@ -820,16 +821,19 @@ void HOMARD_Gen_i::AssociateIterHypo(const char* nomIter, const char* nomHypo)
 {
   MESSAGE("AssociateIterHypo : nomHypo = " << nomHypo << " nomIter = " << nomIter);
 
+  // Verification de l'existence de l'hypothese
   HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
   ASSERT(!CORBA::is_nil(myHypo));
   SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
   ASSERT(!CORBA::is_nil(aHypoSO));
 
+  // Verification de l'existence de l'iteration
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
   ASSERT(!CORBA::is_nil(myIteration));
   SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   ASSERT(!CORBA::is_nil(aIterSO));
 
+  // Gestion de l'etude
   SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
@@ -839,8 +843,20 @@ void HOMARD_Gen_i::AssociateIterHypo(const char* nomIter, const char* nomHypo)
 
   aStudyBuilder->CommitCommand();
 
+  // Liens reciproques
   myIteration->SetHypoName(nomHypo);
   myHypo->LinkIteration(nomIter);
+
+  // On stocke les noms des champ a interpoler pour le futur controle de la donnee des pas de temps
+  myIteration->SupprFieldInterps() ;
+  HOMARD::listeFieldInterpsHypo* ListField = myHypo->GetFieldInterps();
+  int numberOfFieldsx2 = ListField->length();
+  for (int iaux = 0; iaux< numberOfFieldsx2; iaux++)
+  {
+    std::string FieldName = std::string((*ListField)[iaux]) ;
+    myIteration->SetFieldInterp(FieldName.c_str()) ;
+    iaux++ ;
+  }
 };
 //=============================================================================
 //=============================================================================
@@ -2128,7 +2144,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox2D(const char* ZoneName,
     Ymaxi = 0. ;
     Zmini = Umini ;
     Zmaxi = Umaxi ; }
-  else { ASSERT( Orient >= 1 and Orient <= 3 ) ; }
+  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 10+Orient) ;
   myZone->SetBox ( Xmini, Xmaxi, Ymini, Ymaxi, Zmini, Zmaxi) ;
@@ -2173,7 +2189,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDisk(const char* ZoneName,
   { Xcentre = Vcentre ;
     Ycentre = 0. ;
     Zcentre = Ucentre ; }
-  else { ASSERT( Orient >= 1 and Orient <= 3 ) ; }
+  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 30+Orient) ;
   myZone->SetCylinder( Xcentre, Ycentre, Zcentre, 0., 0., 1., Rayon, 1. ) ;
@@ -2221,7 +2237,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
   { Xcentre = Vcentre ;
     Ycentre = 0. ;
     Zcentre = Ucentre ; }
-  else { ASSERT( Orient >= 1 and Orient <= 3 ) ; }
+  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 60+Orient) ;
   myZone->SetPipe( Xcentre, Ycentre, Zcentre, 0., 0., 1., Rayon, 1., Rayonint ) ;
@@ -2351,6 +2367,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   DriverTexteBoundary(myCase, myDriver) ;
 
   // E.5. Ecriture du texte dans le fichier
+  MESSAGE ( ". Ecriture du texte dans le fichier de configuration ; codret = "<<codret );
   if (codret == 0)
   { myDriver->CreeFichier(); }
 
@@ -2484,7 +2501,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
     if (codret != 0)
     {
       // GERALD -- QMESSAGE BOX
-      ASSERT("Pb au calcul de l'iteration precedente" == 0);
+      VERIFICATION("Pb au calcul de l'iteration precedente" == 0);
     }
   };
 
@@ -2693,7 +2710,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
     {
        // GERALD -- QMESSAGE BOX
        std::cerr << "Pb Creation du repertoire DirCompute = " << DirCompute.str() << std::endl;
-       ASSERT("Pb a la creation du repertoire" == 0);
+       VERIFICATION("Pb a la creation du repertoire" == 0);
     }
   }
   else
@@ -2709,7 +2726,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
       {
         // GERALD -- QMESSAGE BOX
         std::cerr << ". Menage du repertoire de calcul" << DirCompute.str() << std::endl;
-        ASSERT("Pb au menage du repertoire de calcul" == 0);
+        VERIFICATION("Pb au menage du repertoire de calcul" == 0);
       }
     }
 //  On n'a pas demande de faire le menage de son contenu : on sort en erreur :
@@ -2734,7 +2751,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
           std::string text = "Directory : " + DirCompute.str() + "is not empty";
           es.text = CORBA::string_dup(text.c_str());
           throw SALOME::SALOME_Exception(es);
-          ASSERT("Directory is not empty" == 0);
+          VERIFICATION("Directory is not empty" == 0);
         }
       }
     }
@@ -2795,7 +2812,7 @@ void HOMARD_Gen_i::DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardD
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.); }
     else if ( ZoneType == 7 or ( ZoneType>=61 and ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]); }
-    else { ASSERT("ZoneType est incorrect." == 0) ; }
+    else { VERIFICATION("ZoneType est incorrect." == 0) ; }
     iaux += 1 ;
   }
   return ;
@@ -2813,9 +2830,9 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
   {
     // GERALD -- QMESSAGE BOX
     std::cerr << "Le fichier du champ n'a pas ete fourni." << std::endl;
-    ASSERT("The file for the field is not given." == 0);
+    VERIFICATION("The file for the field is not given." == 0);
   }
-//  Les caracteristiques d'instants
+//  Les caracteristiques d'instants du champ de pilotage
   int TimeStep = myIteration->GetTimeStep();
   MESSAGE( ". TimeStep = " << TimeStep );
   int Rank = myIteration->GetRank();
@@ -2852,21 +2869,28 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
 }
 //=============================================================================
 // Calcul d'une iteration : ecriture des frontieres dans le fichier de configuration
+// On ecrit dans l'ordre :
+//    1. la definition des frontieres
+//    2. les liens avec les groupes
+//    3. un entier resumant le type de comportement pour les frontieres
 //=============================================================================
 void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver)
 {
   MESSAGE ( "... DriverTexteBoundary" );
-  // On ecrit d'abord la definition des frontieres, puis les liens avec les groupes
+  // 1. Recuperation des frontieres
   std::list<std::string>  ListeBoundaryTraitees ;
   HOMARD::ListBoundaryGroupType* ListBoundaryGroupType = myCase->GetBoundaryGroup();
   int numberOfitems = ListBoundaryGroupType->length();
   MESSAGE ( "... number of string for Boundary+Group = " << numberOfitems);
   int BoundaryOption = 1 ;
+  // 2. Parcours des frontieres pour ecrire leur description
   int NumBoundaryAnalytical = 0 ;
   for (int NumBoundary = 0; NumBoundary< numberOfitems; NumBoundary=NumBoundary+2)
   {
     std::string BoundaryName = std::string((*ListBoundaryGroupType)[NumBoundary]);
     MESSAGE ( "... BoundaryName = " << BoundaryName);
+    // 2.1. La frontiere a-t-elle deja ete ecrite ?
+    //      Cela arrive quand elle estliéé a plusieurs groupes. Il ne faut l'ecrire que la premiere fois
     int A_faire = 1 ;
     std::list<std::string>::const_iterator it = ListeBoundaryTraitees.begin();
     while (it != ListeBoundaryTraitees.end())
@@ -2875,22 +2899,25 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
       if ( BoundaryName == *it ) { A_faire = 0 ; }
       it++;
     }
+    // 2.2. Ecriture de la frontiere
     if ( A_faire == 1 )
     {
-// Caracteristiques de la frontiere
+      // 2.2.1. Caracteristiques de la frontiere
       HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
       ASSERT(!CORBA::is_nil(myBoundary));
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType );
-// Ecriture selon le type
-      if (BoundaryType == 0) // Cas d une frontiere discrete
+      // 2.2.2. Ecriture selon le type
+      // 2.2.2.1. Cas d une frontiere discrete
+      if (BoundaryType == 0)
       {
         const char* MeshName = myBoundary->GetMeshName() ;
         const char* MeshFile = myBoundary->GetMeshFile() ;
         myDriver->TexteBoundaryDi( MeshName, MeshFile);
         if ( BoundaryOption % 2 != 0 ) { BoundaryOption = BoundaryOption*2 ; }
       }
-      else // Cas d une frontiere analytique
+      // 2.2.2.1. Cas d une frontiere analytique
+      else
       {
         NumBoundaryAnalytical++ ;
         HOMARD::double_array* coor = myBoundary->GetCoords();
@@ -2915,10 +2942,11 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
           if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
       }
-// Memorisation du traitement
+      // 2.2.3. Memorisation du traitement
       ListeBoundaryTraitees.push_back( BoundaryName );
     }
   }
+  // 3. Parcours des frontieres pour ecrire les liens avec les groupes
   NumBoundaryAnalytical = 0 ;
   for (int NumBoundary = 0; NumBoundary< numberOfitems; NumBoundary=NumBoundary+2)
   {
@@ -2928,20 +2956,24 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
     ASSERT(!CORBA::is_nil(myBoundary));
     int BoundaryType = myBoundary->GetType();
     MESSAGE ( "... BoundaryType = " << BoundaryType );
-//  Recuperation du nom du groupe
+    // 3.1. Recuperation du nom du groupe
     std::string GroupName = std::string((*ListBoundaryGroupType)[NumBoundary+1]);
     MESSAGE ( "... GroupName = " << GroupName);
-    if (BoundaryType == 0) // Cas d une frontiere discrete
+    // 3.2. Cas d une frontiere discrete
+    if ( BoundaryType == 0 )
     {
       if ( GroupName.size() > 0 ) { myDriver->TexteBoundaryDiGr ( GroupName ) ; }
     }
-    else // Cas d une frontiere analytique
+    // 3.3. Cas d une frontiere analytique
+    else
     {
       NumBoundaryAnalytical++ ;
       myDriver->TexteBoundaryAnGr ( BoundaryName, NumBoundaryAnalytical, GroupName ) ;
     }
   }
+  // 4. Ecriture de l'option finale
   myDriver->TexteBoundaryOption(BoundaryOption);
+//
   return ;
 }
 //=============================================================================
@@ -2951,6 +2983,7 @@ void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIterati
 {
   MESSAGE ( "... DriverTexteFieldInterp" );
   int TypeFieldInterp = myHypo->GetTypeFieldInterp();
+  MESSAGE ( "... TypeFieldInterp = " << TypeFieldInterp);
   if (TypeFieldInterp != 0)
   {
 //  Le fichier des champs
@@ -2959,28 +2992,68 @@ void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIterati
     if (strlen(FieldFile) == 0)
     {
       // GERALD -- QMESSAGE BOX
-      std::cerr << "Le fichier du champ n'a pas ete fourni." << std::endl;
-      ASSERT("The file for the field is not given." == 0);
+      VERIFICATION("The file for the field is not given." == 0);
     }
-  //  Les caracteristiques d'instants
-    int TimeStep = myIteration->GetTimeStep();
-    MESSAGE( ". TimeStep = " << TimeStep );
-    int Rank = myIteration->GetRank();
-    MESSAGE( ". Rank = " << Rank );
   //
     const char* MeshFile = myIteration->GetMeshFile();
-    myDriver->TexteFieldInterp(TypeFieldInterp, FieldFile, MeshFile, TimeStep, Rank);
-  //  Les champs
-    if (TypeFieldInterp == 2)
+    myDriver->TexteFieldInterp(FieldFile, MeshFile);
+
+  // Les champs
+  // Interpolation de tous les champs
+    if ( TypeFieldInterp == 1 )
     {
-      HOMARD::listFieldInterpHypo* meschamps = myHypo->GetListFieldInterp();
-      int numberOfFields = meschamps->length();
-      MESSAGE( ". numberOfFields = " << numberOfFields );
-      for (int NumeChamp = 0; NumeChamp< numberOfFields; NumeChamp++)
+      myDriver->TexteFieldInterpAll();
+    }
+  // Interpolation de certains champs
+    else if (TypeFieldInterp == 2)
+    {
+      // Les champs et leurs instants pour l'iteration
+      HOMARD::listeFieldInterpTSRsIter* ListFieldTSR = myIteration->GetFieldInterpsTimeStepRank();
+      int numberOfFieldsx3 = ListFieldTSR->length();
+      MESSAGE( ". pour iteration, numberOfFields = " << numberOfFieldsx3/3 );
+      // Les champs pour l'hypothese
+      HOMARD::listeFieldInterpsHypo* ListField = myHypo->GetFieldInterps();
+      int numberOfFieldsx2 = ListField->length();
+      MESSAGE( ". pour hypothese, numberOfFields = " << numberOfFieldsx2/2 );
+      // On parcourt tous les champs de  l'hypothese
+      int NumField = 0 ;
+      for (int iaux = 0; iaux< numberOfFieldsx2; iaux++)
       {
-        std::string nomChamp = std::string((*meschamps)[NumeChamp]);
-        MESSAGE( "... nomChamp = " << nomChamp );
-        myDriver->TexteFieldInterpName(NumeChamp, nomChamp);
+        // Le nom du champ
+        std::string FieldName = std::string((*ListField)[iaux]) ;
+        // Le type d'interpolation
+        std::string TypeInterpstr = std::string((*ListField)[iaux+1]) ;
+        MESSAGE( "... FieldName = " << FieldName << ", TypeInterp = " << TypeInterpstr );
+        // On cherche à savoir si des instants ont été précisés pour cette itération
+        int tsrvu = 0;
+        for (int jaux = 0; jaux< numberOfFieldsx3; jaux++)
+        {
+        // Le nom du champ
+          std::string FieldName2 = std::string((*ListFieldTSR)[jaux]) ;
+          MESSAGE( "..... FieldName2 = " << FieldName2 );
+        // Quand c'est le bon champ, on ecrit le pas de temps
+          if ( FieldName == FieldName2 )
+          {
+            tsrvu = 1 ;
+            // Le pas de temps
+            std::string TimeStepstr = std::string((*ListFieldTSR)[jaux+1]) ;
+            // Le numero d'ordre
+            std::string Rankstr = std::string((*ListFieldTSR)[jaux+2]) ;
+            MESSAGE( "..... TimeStepstr = " << TimeStepstr <<", Rankstr = "<<Rankstr );
+            NumField += 1 ;
+            int TimeStep = atoi( TimeStepstr.c_str() );
+            int Rank = atoi( Rankstr.c_str() );
+            myDriver->TexteFieldInterpNameType(NumField, FieldName, TypeInterpstr, TimeStep, Rank);
+          }
+          jaux += 2 ;
+        }
+        // Si aucun instant n'a été défini
+        if ( tsrvu == 0 )
+        {
+          NumField += 1 ;
+          myDriver->TexteFieldInterpNameType(NumField, FieldName, TypeInterpstr, -1, -1);
+        }
+        iaux++ ;
       }
     }
   }

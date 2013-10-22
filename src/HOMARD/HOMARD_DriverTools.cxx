@@ -230,7 +230,7 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-    ListString = hypothesis.GetListFieldInterp();
+    ListString = hypothesis.GetFieldInterps();
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
@@ -616,7 +616,11 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      hypothesis.AddFieldInterp( chunk.c_str() );
+      i++;
+      chunkNext = getNextChunk( stream, start, ok );
+      int TypeInterp = atoi( chunkNext.c_str() );
+      if ( !ok ) return false;
+      hypothesis.AddFieldInterpType( chunk.c_str(), TypeInterp );
     }
 
     chunk = getNextChunk( stream, start, ok );

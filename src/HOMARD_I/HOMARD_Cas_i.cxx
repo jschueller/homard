@@ -30,6 +30,7 @@
 #include "HOMARD_Gen_i.hxx"
 #include "HOMARD_Cas.hxx"
 #include "HOMARD_DriverTools.hxx"
+#include "HOMARD.hxx"
 
 #include "utilities.h"
 #include <vector>
@@ -419,7 +420,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Cas_i::LastIteration( )
     nbiterfilles = ListeIterFilles->length() ;
 //     MESSAGE ( ".. nbiterfilles = " << nbiterfilles );
 // S'il y a au moins 2 filles, arret : on ne sait pas faire
-    ASSERT( nbiterfilles <= 1 ) ;
+    VERIFICATION( nbiterfilles <= 1 ) ;
 // S'il y a une fille unique, on recupere le nom de la fille et on recommence
     if ( nbiterfilles == 1 )
     { IterName = ListeIterFilles[0] ; }

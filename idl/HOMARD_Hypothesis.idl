@@ -40,8 +40,8 @@ module HOMARD
   typedef sequence<string> listeZonesHypo ;
   typedef sequence<string> listeIters ;
   typedef sequence<string> listeComposantsHypo ;
-  typedef sequence<long>   listeTypes;
-  typedef sequence<string> listFieldInterpHypo;
+  typedef sequence<long>   listeTypes ;
+  typedef sequence<string> listeFieldInterpsHypo ;
 
   struct InfosHypo
   {
@@ -109,8 +109,11 @@ module HOMARD
     void     SetTypeFieldInterp(in long TypeFieldInterp)   raises (SALOME::SALOME_Exception);
     long     GetTypeFieldInterp()                          raises (SALOME::SALOME_Exception);
     void     AddFieldInterp(in string FieldInterp)         raises (SALOME::SALOME_Exception);
-    void     SupprFieldInterp()                            raises (SALOME::SALOME_Exception);
-    listFieldInterpHypo GetListFieldInterp()               raises (SALOME::SALOME_Exception);
+    void     AddFieldInterpType(in string FieldInterp, in long TypeInterp)
+                                                           raises (SALOME::SALOME_Exception);
+    void     SupprFieldInterp(in string FieldInterp)       raises (SALOME::SALOME_Exception);
+    void     SupprFieldInterps()                           raises (SALOME::SALOME_Exception);
+    listeFieldInterpsHypo GetFieldInterps()                raises (SALOME::SALOME_Exception);
 
 // Liens avec les autres structures
     void     SetCaseCreation(in string NomCas)             raises (SALOME::SALOME_Exception);

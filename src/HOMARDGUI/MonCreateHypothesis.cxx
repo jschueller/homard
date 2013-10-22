@@ -460,8 +460,12 @@ void MonCreateHypothesis::AssocieFieldInterp()
 {
   if ( _TypeFieldInterp != 2 ) return;
   for ( int row=0; row< TWField->rowCount(); row++)
-      if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
-      { aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str()); }
+  {
+    if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
+    {
+      aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str());
+    }
+  }
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetUniRaff()

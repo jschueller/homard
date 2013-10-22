@@ -166,7 +166,7 @@ void HOMARD_Hypothesis_i::SetUseField( CORBA::Long UsField )
 //=============================================================================
 HOMARD::InfosHypo* HOMARD_Hypothesis_i::GetField()
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   HOMARD::InfosHypo* aInfosHypo = new HOMARD::InfosHypo();
   aInfosHypo->FieldName  = CORBA::string_dup( myHomardHypothesis->GetFieldName().c_str() );
   aInfosHypo->TypeThR    = CORBA::Long( myHomardHypothesis->GetRefinThrType() );
@@ -333,20 +333,32 @@ CORBA::Long HOMARD_Hypothesis_i::GetTypeFieldInterp()
 void HOMARD_Hypothesis_i::AddFieldInterp( const char* FieldInterp )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->AddFieldInterp( FieldInterp );
+  myHomardHypothesis->AddFieldInterpType( FieldInterp, 0 );
 }
 //=============================================================================
-void HOMARD_Hypothesis_i::SupprFieldInterp()
+void HOMARD_Hypothesis_i::AddFieldInterpType( const char* FieldInterp, CORBA::Long TypeInterp )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->SupprFieldInterp();
+  myHomardHypothesis->AddFieldInterpType( FieldInterp, TypeInterp );
 }
 //=============================================================================
-HOMARD::listFieldInterpHypo* HOMARD_Hypothesis_i::GetListFieldInterp()
+void HOMARD_Hypothesis_i::SupprFieldInterp( const char* FieldInterp )
 {
   ASSERT( myHomardHypothesis );
-  const std::list<std::string>& ListString = myHomardHypothesis->GetListFieldInterp();
-  HOMARD::listFieldInterpHypo_var aResult = new HOMARD::listFieldInterpHypo;
+  myHomardHypothesis->SupprFieldInterp(FieldInterp);
+}
+//=============================================================================
+void HOMARD_Hypothesis_i::SupprFieldInterps()
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SupprFieldInterps();
+}
+//=============================================================================
+HOMARD::listeFieldInterpsHypo* HOMARD_Hypothesis_i::GetFieldInterps()
+{
+  ASSERT( myHomardHypothesis );
+  const std::list<std::string>& ListString = myHomardHypothesis->GetFieldInterps();
+  HOMARD::listeFieldInterpsHypo_var aResult = new HOMARD::listeFieldInterpsHypo;
   aResult->length( ListString.size() );
   std::list<std::string>::const_iterator it;
   int i = 0;
@@ -375,19 +387,19 @@ char* HOMARD_Hypothesis_i::GetCaseCreation()
 //=============================================================================
 void HOMARD_Hypothesis_i::LinkIteration( const char* NomIteration )
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   myHomardHypothesis->LinkIteration( NomIteration );
 }
 //=============================================================================
 void HOMARD_Hypothesis_i::UnLinkIteration( const char* NomIteration )
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   myHomardHypothesis->UnLinkIteration( NomIteration );
 }
 //=============================================================================
 HOMARD::listeIters* HOMARD_Hypothesis_i::GetIterations()
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   const std::list<std::string>& ListString = myHomardHypothesis->GetIterations();
   HOMARD::listeIters_var aResult = new HOMARD::listeIters;
   aResult->length( ListString.size() );
@@ -400,7 +412,7 @@ HOMARD::listeIters* HOMARD_Hypothesis_i::GetIterations()
   return aResult._retn();
 }
 //=============================================================================
-void  HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
+void HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
 {
   MESSAGE ("Dans AddZone pour " << NomZone) ;
   ASSERT( myHomardHypothesis );
@@ -408,28 +420,28 @@ void  HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
   return _gen_i->AssociateHypoZone(NomHypo, NomZone, TypeUse) ;
 }
 //=============================================================================
-void  HOMARD_Hypothesis_i::AddZone0( const char* NomZone, CORBA::Long TypeUse )
+void HOMARD_Hypothesis_i::AddZone0( const char* NomZone, CORBA::Long TypeUse )
 {
   MESSAGE ("Dans AddZone0 pour " << NomZone) ;
   ASSERT( myHomardHypothesis );
   myHomardHypothesis->AddZone( NomZone, TypeUse );
 }
 //=============================================================================
-void  HOMARD_Hypothesis_i::SupprZone(const char * NomZone)
+void HOMARD_Hypothesis_i::SupprZone(const char * NomZone)
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   myHomardHypothesis->SupprZone( NomZone);
 }
 //=============================================================================
-void  HOMARD_Hypothesis_i::SupprZones()
+void HOMARD_Hypothesis_i::SupprZones()
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   myHomardHypothesis->SupprZones();
 }
 //=============================================================================
 HOMARD::listeZonesHypo* HOMARD_Hypothesis_i::GetZones()
 {
-  ASSERT(myHomardHypothesis);
+  ASSERT( myHomardHypothesis );
   const std::list<std::string>& ListString = myHomardHypothesis->GetZones();
   HOMARD::listeZonesHypo_var aResult = new HOMARD::listeZonesHypo;
   aResult->length( ListString.size() );
