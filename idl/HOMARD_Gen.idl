@@ -181,7 +181,7 @@ module HOMARD
     string CreateDirNameIter(in string NomDir, in long option )
     raises(SALOME::SALOME_Exception);
 
-    boolean VerifieDir (in string IterName)                raises (SALOME::SALOME_Exception);
+    string VerifieDir (in string NomDir)                raises (SALOME::SALOME_Exception);
 
 //
     void PublishFileUnderIteration(in string IterName, in string FileName, in string Comment)

@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.7"
+__revision__ = "V1.8"
 #
 import os
 #
@@ -84,21 +84,21 @@ Hypo_2_bis.AddZone('Zone_2', 1)
 Case_2 = homard.CreateCase('Case_2', 'MZERO', data_dir+'/tutorial_2.00.med')
 Case_2.SetDirName(dircase)
 #
-# Iteration "Iter_2_0"
-# ====================
-Iter_2_0 = Case_2.NextIteration('Iter_2_0')
-Iter_2_0.SetMeshName('M_1')
-Iter_2_0.SetMeshFile(dircase+'/maill.01.med')
-Iter_2_0.AssociateHypo('Hypo_2')
-codret = Iter_2_0.Compute(1, 2)
-#
 # Iteration "Iter_2_1"
 # ====================
-Iter_2_1 = Iter_2_0.NextIteration('Iter_2_1')
-Iter_2_1.SetMeshName('M_2')
-Iter_2_1.SetMeshFile(dircase+'/maill.02.med')
-Iter_2_1.AssociateHypo('Hypo_2_bis')
+Iter_2_1 = Case_2.NextIteration('Iter_2_1')
+Iter_2_1.SetMeshName('M_1')
+Iter_2_1.SetMeshFile(dircase+'/maill.01.med')
+Iter_2_1.AssociateHypo('Hypo_2')
 codret = Iter_2_1.Compute(1, 2)
+#
+# Iteration "Iter_2_2"
+# ====================
+Iter_2_2 = Iter_2_1.NextIteration('Iter_2_2')
+Iter_2_2.SetMeshName('M_2')
+Iter_2_2.SetMeshFile(dircase+'/maill.02.med')
+Iter_2_2.AssociateHypo('Hypo_2_bis')
+codret = Iter_2_2.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

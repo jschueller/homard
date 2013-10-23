@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_1
 """
-__revision__ = "V1.12"
+__revision__ = "V1.13"
 
 #========================================================================
 Test_Name = "test_1"
@@ -117,63 +117,63 @@ Copyright EDF-R&D 2010, 2013
   #
   # Creation of the cases
   # =====================
-    # Creation of the case Case_1
-    CaseName = "Case_1"
-    print "-------- Creation of the hypothesis", CaseName
+    # Creation of the case
+    CaseName = "Case_" + Test_Name
+    print "-------- Creation of the case", CaseName
     MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-    Case_1 = homard.CreateCase(CaseName, 'MAILL', MeshFile)
-    Case_1.SetDirName(Rep_Test_Resu)
-    Case_1.SetConfType(1)
+    Case_test_1 = homard.CreateCase(CaseName, 'MAILL', MeshFile)
+    Case_test_1.SetDirName(Rep_Test_Resu)
+    Case_test_1.SetConfType(1)
   #
   # Creation of the iterations
   # ==========================
-  # Creation of the iteration I1_1
-    IterName_1 = "I1_1"
-    print "-------- Creation of the iteration", IterName_1
-    I1_1 = Case_1.NextIteration(IterName_1)
-    I1_1.AssociateHypo(HypoName_1)
+  # Creation of the iteration 1
+    IterName = "I_" + Test_Name + "_1"
+    print "-------- Creation of the iteration", IterName
+    Iter_test_1_1 = Case_test_1.NextIteration(IterName)
+    Iter_test_1_1.AssociateHypo(HypoName_1)
     print ". Hypothese :", HypoName_1
-    I1_1.SetMeshName('M1')
-    I1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    I1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
-    I1_1.SetTimeStepRank(1, 1)
-    I1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
-    I1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", I1_1.GetFieldInterpsTimeStepRank()
-    error = I1_1.Compute(1, 1)
+    Iter_test_1_1.SetMeshName('M1')
+    Iter_test_1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+    Iter_test_1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
+    Iter_test_1_1.SetTimeStepRank(1, 1)
+    Iter_test_1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    Iter_test_1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", Iter_test_1_1.GetFieldInterpsTimeStepRank()
+    error = Iter_test_1_1.Compute(1, 1)
     if error :
       error = 1
       break
 
-  # Creation of the iteration I1_2
-    IterName_2 = "I1_2"
-    print "-------- Creation of the iteration", IterName_2
-    I1_2 = I1_1.NextIteration(IterName_2)
-    I1_2.AssociateHypo(HypoName_1)
+  # Creation of the iteration 2
+    IterName = "I_" + Test_Name + "_2"
+    print "-------- Creation of the iteration", IterName
+    Iter_test_1_2 = Iter_test_1_1.NextIteration(IterName)
+    Iter_test_1_2.AssociateHypo(HypoName_1)
     print ". Hypothese :", HypoName_1
-    I1_2.SetMeshName('M2')
-    I1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
-    I1_2.SetTimeStepRank(1, 1)
-    I1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
-    I1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", I1_2.GetFieldInterpsTimeStepRank()
-    error = I1_2.Compute(1, 1)
+    Iter_test_1_2.SetMeshName('M2')
+    Iter_test_1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+    Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
+    Iter_test_1_2.SetTimeStepRank(1, 1)
+    Iter_test_1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    Iter_test_1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", Iter_test_1_2.GetFieldInterpsTimeStepRank()
+    error = Iter_test_1_2.Compute(1, 1)
     if error :
       error = 2
       break
 
-  # Creation of the iteration I1_3
-    IterName_3 = "I1_3"
-    print "-------- Creation of the iteration", IterName_3
-    I1_3 = I1_2.NextIteration(IterName_3)
-    I1_3.AssociateHypo(HypoName_2)
+  # Creation of the iteration 3
+    IterName = "I_" + Test_Name + "_3"
+    print "-------- Creation of the iteration", IterName
+    Iter_test_1_3 = Iter_test_1_2.NextIteration(IterName)
+    Iter_test_1_3.AssociateHypo(HypoName_2)
     print ". Hypothese :", HypoName_2
-    I1_3.SetMeshName('M3')
-    I1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    I1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.02.med'))
-    print ". Instants d'interpolation :", I1_3.GetFieldInterpsTimeStepRank()
-    error = I1_3.Compute(1, 1)
+    Iter_test_1_3.SetMeshName('M3')
+    Iter_test_1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
+    Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.02.med'))
+    print ". Instants d'interpolation :", Iter_test_1_3.GetFieldInterpsTimeStepRank()
+    error = Iter_test_1_3.Compute(1, 1)
     if error :
       error = 3
       break
@@ -183,8 +183,8 @@ Copyright EDF-R&D 2010, 2013
     ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
     ScriptFile = os.path.normpath(ScriptFile)
     DirName = Rep_Test_Resu
-    YACS_1 = Case_1.CreateYACSSchema("YACS_1", ScriptFile, DirName, MeshFile)
-    error = YACS_1.Write()
+    YACS_test_1 = Case_test_1.CreateYACSSchema("YACS_test_1", ScriptFile, DirName, MeshFile)
+    error = YACS_test_1.Write()
     if error :
       error = 4
       break

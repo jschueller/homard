@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V1.11"
+__revision__ = "V1.12"
 
 #========================================================================
 Test_Name = "test_3"
@@ -96,55 +96,55 @@ Copyright EDF-R&D 2010, 2013
 # Creation of the hypotheses
 # ==========================
 # Uniform refinement
-    HypoName = "Hypo_3"
+    HypoName = "Hypo_" + Test_Name
     print "-------- Creation of the hypothesis", HypoName
-    Hypo_3 = homard.CreateHypothesis(HypoName)
-    Hypo_3.SetAdapRefinUnRef(-1, 1, 0)
-    print HypoName, " : zones utilisées :", Hypo_3.GetZones()
-    print HypoName, " : champ utilisé :", Hypo_3.GetFieldName()
-    print HypoName, " : composantes utilisées :", Hypo_3.GetComps()
+    Hypo_test_3 = homard.CreateHypothesis(HypoName)
+    Hypo_test_3.SetAdapRefinUnRef(-1, 1, 0)
+    print HypoName, " : zones utilisées :", Hypo_test_3.GetZones()
+    print HypoName, " : champ utilisé :", Hypo_test_3.GetFieldName()
+    print HypoName, " : composantes utilisées :", Hypo_test_3.GetComps()
 #
     for num in range (n_boucle+1) :
 #
       print "-------- num =", num, "--------"
 #
-# Creation of the case Case_3
+# Creation of the case Case_test_3
 # ===========================
       if ( num <= 1 ) :
-        CaseName = "Case_3"
+        CaseName = "Case_" + Test_Name
         print "-------- Creation of the case", CaseName
         MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-        Case_3 = homard.CreateCase(CaseName, 'MOYEU', MeshFile)
-        Case_3.SetDirName(Rep_Test_Resu)
-        Case_3.SetConfType(1)
-        Case_3.AddBoundaryGroup('courbes', '')
-        Case_3.AddBoundaryGroup('cyl_ext', 'EXT')
-        Case_3.AddBoundaryGroup('cyl_int', 'INT')
-        Case_3.AddBoundaryGroup('sphere_1', 'END_1')
-        Case_3.AddBoundaryGroup('sphere_2', 'END_2')
+        Case_test_3 = homard.CreateCase(CaseName, 'MOYEU', MeshFile)
+        Case_test_3.SetDirName(Rep_Test_Resu)
+        Case_test_3.SetConfType(1)
+        Case_test_3.AddBoundaryGroup('courbes', '')
+        Case_test_3.AddBoundaryGroup('cyl_ext', 'EXT')
+        Case_test_3.AddBoundaryGroup('cyl_int', 'INT')
+        Case_test_3.AddBoundaryGroup('sphere_1', 'END_1')
+        Case_test_3.AddBoundaryGroup('sphere_2', 'END_2')
 #
 # Creation of the iterations
 # ==========================
-  # Creation of the iteration Iter_3_1
-      IterName = "Iter_3_1"
+  # Creation of the iteration  1
+      IterName = "I_" + Test_Name + "_1"
       print "-------- Creation of the iteration", IterName
-      Iter_3_1 = Case_3.NextIteration(IterName)
-      Iter_3_1.SetMeshName('MOYEU_1')
-      Iter_3_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-      Iter_3_1.AssociateHypo('Hypo_3')
-      error = Iter_3_1.Compute(1, 1)
+      Iter_test_3_1 = Case_test_3.NextIteration(IterName)
+      Iter_test_3_1.SetMeshName('MOYEU_1')
+      Iter_test_3_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+      Iter_test_3_1.AssociateHypo('Hypo_test_3')
+      error = Iter_test_3_1.Compute(1, 1)
       if error :
         error = 10*num + 1
         break
 
-  # Creation of the iteration Iter_3_2Iter_3_1
-      IterName = "Iter_3_2"
+  # Creation of the iteration 2
+      IterName = "I_" + Test_Name + "_2"
       print "-------- Creation of the iteration", IterName
-      Iter_3_2 = Iter_3_1.NextIteration(IterName)
-      Iter_3_2.SetMeshName('MOYEU_2')
-      Iter_3_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-      Iter_3_2.AssociateHypo('Hypo_3')
-      error = Iter_3_2.Compute(1, 1)
+      Iter_test_3_2 = Iter_test_3_1.NextIteration(IterName)
+      Iter_test_3_2.SetMeshName('MOYEU_2')
+      Iter_test_3_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+      Iter_test_3_2.AssociateHypo('Hypo_test_3')
+      error = Iter_test_3_2.Compute(1, 1)
       if error :
         error = 10*num + 2
         break
@@ -154,11 +154,11 @@ Copyright EDF-R&D 2010, 2013
       ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
       ScriptFile = os.path.normpath(ScriptFile)
       DirName = Rep_Test_Resu
-      YACSName = "YACS_3"
+      YACSName = "YACS_" + Test_Name
       print "-------- Creation of the schema", YACSName
-      YACS_3 = Case_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
-      YACS_3.SetType(2)
-      error = YACS_3.Write()
+      YACS_test_3 = Case_test_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
+      YACS_test_3.SetType(2)
+      error = YACS_test_3.Write()
       if error :
         error = 10*num + 5
         break
@@ -167,37 +167,37 @@ Copyright EDF-R&D 2010, 2013
   # ============
   # Destruction of the schema, sauf a la fin
       if ( num < n_boucle ) :
-        print "-------- Destruction of the schema", YACS_3.GetName()
-        error = YACS_3.Delete(1)
+        print "-------- Destruction of the schema", YACS_test_3.GetName()
+        error = YACS_test_3.Delete(1)
         if error :
           error = 10*num + 6
           break
   # After the first loop, the case is deleted, except the final mesh files
   # All the iterations are deleted
       if ( num == 0 ) :
-        print "-------- Destruction of the case", Case_3.GetName()
-        error = Case_3.Delete(0)
+        print "-------- Destruction of the case", Case_test_3.GetName()
+        error = Case_test_3.Delete(0)
         if error :
           break
   # After the second loop, the iterations are deleted, with the final mesh files
       elif ( num == 1 ) :
   # Recursive destruction of the iterations
-        print "-------- Recursive destruction of the iteration", Iter_3_1.GetName()
-        error = Iter_3_1.Delete(1)
+        print "-------- Recursive destruction of the iteration", Iter_test_3_1.GetName()
+        error = Iter_test_3_1.Delete(1)
         if error :
           error = 10*num + 3
           break
   # Destruction and creation of the hypothese
         if ( num == 1 ) :
-          print "-------- Destruction of the hypothese", Hypo_3.GetName()
-          error = Hypo_3.Delete()
+          print "-------- Destruction of the hypothese", Hypo_test_3.GetName()
+          error = Hypo_test_3.Delete()
           if error :
             error = 10*num + 4
             break
-          HypoName = "Hypo_3"
+          HypoName = "Hypo_test_3"
           print "-------- Creation of the hypothesis", HypoName
-          Hypo_3 = homard.CreateHypothesis(HypoName)
-          Hypo_3.SetAdapRefinUnRef(-1, 1, 0)
+          Hypo_test_3 = homard.CreateHypothesis(HypoName)
+          Hypo_test_3.SetAdapRefinUnRef(-1, 1, 0)
 #
     break
 #

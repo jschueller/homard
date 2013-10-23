@@ -105,7 +105,6 @@ bool MonMeshInfo::PushOnApply()
   { QString CaseNameDir = myHomardGen->VerifieDir( aDirName.toStdString().c_str()) ;
     if ( CaseNameDir != "" )
     {
-      INFOS(CaseNameDir.toStdString().c_str());
       QString texte ;
       texte = QObject::tr("HOM_CASE_DIRECTORY_2") + CaseNameDir ;
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),

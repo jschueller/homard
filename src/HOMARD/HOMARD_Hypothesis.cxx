@@ -173,8 +173,6 @@ int HOMARD_Hypothesis::GetAdapType() const
 //=============================================================================
 void HOMARD_Hypothesis::SetRefinTypeDera( int TypeRaff, int TypeDera )
 {
-    INFOS("SetRefinTypeDera TypeRaff="<<TypeRaff);
-    INFOS("SetRefinTypeDera TypeDera="<<TypeDera);
   VERIFICATION( (TypeRaff>=-1) and (TypeRaff<=1) );
   _TypeRaff = TypeRaff;
   VERIFICATION( (TypeDera>=-1) and (TypeDera<=1) );

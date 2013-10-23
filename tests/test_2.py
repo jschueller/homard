@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_2
 """
-__revision__ = "V1.11"
+__revision__ = "V1.12"
 
 #========================================================================
 Test_Name = "test_2"
@@ -82,68 +82,72 @@ Copyright EDF-R&D 2010, 2013
   #
   # Creation of the hypotheses
   # ==========================
-  # Creation of the hypothesis Hypo_2_1
-    HypoName_1 = "Hypo_2_1"
+  # Creation of the hypothesis 1
+    HypoName_1 = "Hypo_" + Test_Name + "_1"
     print "-------- Creation of the hypothesis", HypoName_1
-    Hypo_2_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_2_1.SetAdapRefinUnRef(-1, 1, 0)
-    Hypo_2_1.AddGroup('EG')
-    Hypo_2_1.AddGroup('BANDE')
-    print HypoName_1, " : zones utilisées :", Hypo_2_1.GetZones()
-    print HypoName_1, " : champ utilisé :", Hypo_2_1.GetFieldName()
-    print HypoName_1, " : composantes utilisées :", Hypo_2_1.GetComps()
-    if ( len (Hypo_2_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_2_1.GetField()
+    Hypo_test_2_1 = homard.CreateHypothesis(HypoName_1)
+    Hypo_test_2_1.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_test_2_1.AddGroup('EG')
+    Hypo_test_2_1.AddGroup('BANDE')
+    print HypoName_1, " : zones utilisées :", Hypo_test_2_1.GetZones()
+    print HypoName_1, " : champ utilisé :", Hypo_test_2_1.GetFieldName()
+    print HypoName_1, " : composantes utilisées :", Hypo_test_2_1.GetComps()
+    if ( len (Hypo_test_2_1.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Hypo_test_2_1.GetField()
 
-  # Creation of the hypothesis Hypo_2_2
-    HypoName_2 = "Hypo_2_2"
+  # Creation of the hypothesis 2
+    HypoName_2 = "Hypo_" + Test_Name + "_2"
     print "-------- Creation of the hypothesis", HypoName_2
-    Hypo_2_2 = homard.CreateHypothesis(HypoName_2)
-    Hypo_2_2.SetAdapRefinUnRef(-1, 1, 0)
-    Hypo_2_2.AddGroup('M_D')
-    print HypoName_2, " : zones utilisées :", Hypo_2_2.GetZones()
-    print HypoName_2, " : champ utilisé :", Hypo_2_2.GetFieldName()
-    print HypoName_2, " : composantes utilisées :", Hypo_2_2.GetComps()
-    if ( len (Hypo_2_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_2_2.GetField()
+    Hypo_test_2_2 = homard.CreateHypothesis(HypoName_2)
+    Hypo_test_2_2.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_test_2_2.AddGroup('M_D')
+    print HypoName_2, " : zones utilisées :", Hypo_test_2_2.GetZones()
+    print HypoName_2, " : champ utilisé :", Hypo_test_2_2.GetFieldName()
+    print HypoName_2, " : composantes utilisées :", Hypo_test_2_2.GetComps()
+    if ( len (Hypo_test_2_2.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", Hypo_test_2_2.GetField()
   #
   # Creation of the cases
   # =====================
-    # Creation of the case Case_2
+    # Creation of the case
+    CaseName = "Case_" + Test_Name
     MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-    Case_2 = homard.CreateCase('Case_2', 'PLAQUE_0', MeshFile)
-    Case_2.SetDirName(Rep_Test_Resu)
-    Case_2.SetConfType(1)
-    Case_2.AddBoundaryGroup('internal_boundary', '')
+    Case_test_2 = homard.CreateCase(CaseName, 'PLAQUE_0', MeshFile)
+    Case_test_2.SetDirName(Rep_Test_Resu)
+    Case_test_2.SetConfType(1)
+    Case_test_2.AddBoundaryGroup('internal_boundary', '')
   #
   # Creation of the iterations
   # ==========================
-  # Creation of the iteration Iter_2_1
-    Iter_2_1 = Case_2.NextIteration('Iter_2_1')
-    Iter_2_1.SetMeshName('PLAQUE_1')
-    Iter_2_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
-    Iter_2_1.AssociateHypo(HypoName_1)
-    error = Iter_2_1.Compute(1, 1)
+  # Creation of the iteration 1
+    IterName = "I_" + Test_Name + "_1"
+    Iter_test_2_1 = Case_test_2.NextIteration(IterName)
+    Iter_test_2_1.SetMeshName('PLAQUE_1')
+    Iter_test_2_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+    Iter_test_2_1.AssociateHypo(HypoName_1)
+    error = Iter_test_2_1.Compute(1, 1)
     if error :
       error = 1
       break
 
-  # Creation of the iteration Iter_2_2
-    Iter_2_2 = Iter_2_1.NextIteration('Iter_2_2')
-    Iter_2_2.SetMeshName('PLAQUE_2')
-    Iter_2_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
-    Iter_2_2.AssociateHypo(HypoName_1)
-    error = Iter_2_2.Compute(1, 1)
+  # Creation of the iteration 2
+    IterName = "I_" + Test_Name + "_2"
+    Iter_test_2_2 = Iter_test_2_1.NextIteration(IterName)
+    Iter_test_2_2.SetMeshName('PLAQUE_2')
+    Iter_test_2_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+    Iter_test_2_2.AssociateHypo(HypoName_1)
+    error = Iter_test_2_2.Compute(1, 1)
     if error :
       error = 2
       break
 
-  # Creation of the iteration Iter_2_3
-    Iter_2_3 = Iter_2_2.NextIteration('Iter_2_3')
-    Iter_2_3.SetMeshName('PLAQUE_3')
-    Iter_2_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
-    Iter_2_3.AssociateHypo(HypoName_2)
-    error = Iter_2_3.Compute(1, 1)
+  # Creation of the iteration 3
+    IterName = "I_" + Test_Name + "_3"
+    Iter_test_2_3 = Iter_test_2_2.NextIteration(IterName)
+    Iter_test_2_3.SetMeshName('PLAQUE_3')
+    Iter_test_2_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
+    Iter_test_2_3.AssociateHypo(HypoName_2)
+    error = Iter_test_2_3.Compute(1, 1)
     if error :
       error = 3
       break
@@ -153,10 +157,10 @@ Copyright EDF-R&D 2010, 2013
     ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
     ScriptFile = os.path.normpath(ScriptFile)
     DirName = Rep_Test_Resu
-    YACS_2 = Case_2.CreateYACSSchema("YACS_2", ScriptFile, DirName, MeshFile)
-    YACS_2.SetType(1)
-    filexml = os.path.join(Rep_Test_Resu, 'YACS_2.xml')
-    error = YACS_2.WriteOnFile(filexml)
+    YACS_test_2 = Case_test_2.CreateYACSSchema("YACS_test_2", ScriptFile, DirName, MeshFile)
+    YACS_test_2.SetType(1)
+    filexml = os.path.join(Rep_Test_Resu, 'YACS_test_2.xml')
+    error = YACS_test_2.WriteOnFile(filexml)
     if error :
       error = 4
       break

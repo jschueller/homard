@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2013
 """
-__revision__ = "V1.6"
+__revision__ = "V1.7"
 #
 import os
 #
@@ -67,26 +67,26 @@ Case_1.SetConfType(1)
 #
 # Iterations
 # ==========
-# Iteration "Iter_1_0"
-Iter_1_0 = Case_1.NextIteration('Iter_1_0')
-Iter_1_0.SetMeshName('MESH')
-Iter_1_0.SetMeshFile(dircase+'/maill.01.med')
-Iter_1_0.AssociateHypo('Hypo_1')
-codret = Iter_1_0.Compute(1, 2)
-
 # Iteration "Iter_1_1"
-Iter_1_1 = Iter_1_0.NextIteration('Iter_1_1')
+Iter_1_1 = Case_1.NextIteration('Iter_1_1')
 Iter_1_1.SetMeshName('MESH')
-Iter_1_1.SetMeshFile(dircase+'/maill.02.med')
+Iter_1_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_1_1.AssociateHypo('Hypo_1')
 codret = Iter_1_1.Compute(1, 2)
 
 # Iteration "Iter_1_2"
 Iter_1_2 = Iter_1_1.NextIteration('Iter_1_2')
 Iter_1_2.SetMeshName('MESH')
-Iter_1_2.SetMeshFile(dircase+'/maill.03.med')
+Iter_1_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_1_2.AssociateHypo('Hypo_1')
 codret = Iter_1_2.Compute(1, 2)
+
+# Iteration "Iter_1_3"
+Iter_1_3 = Iter_1_2.NextIteration('Iter_1_3')
+Iter_1_3.SetMeshName('MESH')
+Iter_1_3.SetMeshFile(dircase+'/maill.03.med')
+Iter_1_3.AssociateHypo('Hypo_1')
+codret = Iter_1_3.Compute(1, 2)
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)
