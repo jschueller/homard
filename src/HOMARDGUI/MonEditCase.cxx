@@ -71,24 +71,23 @@ void MonEditCase::InitValEdit()
   int ConfType=aCase->GetConfType();
   if(ConfType==1)
   {
-      GBTypeNoConf->setVisible(0);
-      RBConforme->setChecked(true);
+    RBConforme->setChecked(true);
+    GBTypeNoConf->setVisible(0);
   }
   else
   {
     RBNonConforme->setChecked(true);
     GBTypeNoConf->setVisible(1);
+    if (ConfType==2) { RB1NpM->setChecked(true);};
+    if (ConfType==3) { RB1NpA->setChecked(true);};
+    if (ConfType==4) { RBQuelconque->setChecked(true);};
     RB1NpM->setEnabled(false);
     RB1NpA->setEnabled(false);
     RBQuelconque->setEnabled(false);
   };
 
-  if (_ConfType==2) { RB1NpM->setChecked(true);};
-  if (_ConfType==3) { RB1NpA->setChecked(true);};
-  if (_ConfType==4) { RBQuelconque->setChecked(true);};
-
-  RBNonConforme->setEnabled(false);
   RBConforme->setEnabled(false);
+  RBNonConforme->setEnabled(false);
 
 //    Non affichage du mode de suivi de frontiere
   CBBoundaryA->setVisible(0);
