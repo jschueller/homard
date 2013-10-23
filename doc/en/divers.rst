@@ -21,36 +21,38 @@ Evolutions of the module
 
 Here are the main evolutions de HOMARD from the first release in SALOME 6.5.
 
-SALOME RELEASE 6.6 :
-   - Interface with med 3.0.6
-   - Default values for the time steps
-   - New element types: TRIA7 and QUAD9
-   - Optional output into the MED file of the level of refinement of every element
+SALOME RELEASE 6.6:
+    - Interface with med 3.0.6
+    - Default values for the time steps
+    - New element types: TRIA7 and QUAD9
+    - Optional output into the MED file of the level of refinement of every element
 
-SALOME RELEASE 7.1 :
-   - Correction of a bug in the filtering of the refinement by groups
-   - Driving of the adaptation by a threshold that is based upon the mean and the standard deviation (see :ref:`tui_create_hypothese`)
-   - TUI: the last time step for the driving instant can be selected by SetTimeStepRankLast (see :ref:`tui_create_iteration`)
-   - The destruction of the objects is available (GUI and TUI)
-   - The TUI functions are modified: they act onto the objects and no more by the names:
-     ``homard.AssociateIterHypo(iter_name,hypo_name)`` becomes ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` becomes ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` becomes ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
-   - Addition of a function:
-     ``cas.LastIteration()`` : returns the last iteration of the case (see :ref:`tui_create_iteration`)
-   - Mesh analysis (see :ref:`gui_mesh_info`)
+SALOME RELEASE 7.1:
+    - Correction of a bug in the filtering of the refinement by groups
+    - Driving of the adaptation by a threshold that is based upon the mean and the standard deviation (see :ref:`tui_create_hypothese`)
+    - TUI: the last time step for the driving instant can be selected by SetTimeStepRankLast (see :ref:`tui_create_iteration`)
+    - The destruction of the objects is available (GUI and TUI)
+    - The TUI functions are modified: they act onto the objects and no more by the names:
+      ``homard.AssociateIterHypo(iter_name,hypo_name)`` becomes ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` becomes ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` becomes ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
+    - Addition of a function:
+      ``cas.LastIteration()`` : returns the last iteration of the case (see :ref:`tui_create_iteration`)
+    - Mesh analysis (see :ref:`gui_mesh_info`)
 
-SALOME RELEASE 7.2.0 :
-   - A cone can be used as a support for a 2D boundary (see :ref:`tui_create_boundary`)
-   - The result can be published or not published in SMESH (see :ref:`tui_create_iteration`)
-     ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
-   - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case`)
+SALOME RELEASE 7.2:
+    - A cone can be used as a support for a 2D boundary (see :ref:`tui_create_boundary`)
+    - The result can be published or not published in SMESH (see :ref:`tui_create_iteration`)
+      ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
+    - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case`)
 
-SALOME VERSION 7.3 :
-   - English documentation
-   - Addition of a function:
-     ``iter.SetInfoCompute(MessInfo)`` : gives options to track the computation (see :ref:`tui_create_iteration`)
-   - Automatic creation of YACS schema:
-     ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)`` : writes a schema YACS relative to the case (see :ref:`tui_create_case`)
-   - The time steps for the interpolation of the files can be choosen:
-     ``SetFieldInterpTimeStep(FieldInterp, TimeStep)``: defines the time step for the interpolation of the field (see :ref:`tui_create_iteration`)
-     ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)``: defines the time step and the rank for the interpolation of the field (see :ref:`tui_create_iteration`)
-   - Arrêt en cas d'erreur dans les données des fonctions python
+SALOME VERSION 7.3:
+    - English documentation
+    - Options to track the computation (see :ref:`tui_create_iteration`): ``iter.SetInfoCompute(MessInfo)``
+    - Automatic creation of YACS schema:
+      ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)``: writes a schema YACS relative to the case (see :ref:`tui_create_case`)
+    - The initial mesh is not published in SMESH.
+    - The refinement of 2D meshes with quadrangles is improved to take into account 'staircases'.
+    - The fields overs elements can be interpolated with two ways: intensive or extensive.
+    - The time steps for the interpolation of the files can be choosen:
+      ``SetFieldInterpTimeStep(FieldInterp, TimeStep)``: defines the time step for the interpolation of the field (see :ref:`tui_create_iteration`)
+      ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)``: defines the time step and the rank for the interpolation of the field (see :ref:`tui_create_iteration`)
+    - If error occurs into the python instructions, the program stops.
