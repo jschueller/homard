@@ -121,9 +121,21 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
   int codret ;
   // A. recuperation du nom ; on ne fait rien si c'est le meme
   char* oldrep = GetDirName() ;
-  MESSAGE ( "SetDirName : passage de oldrep = "<< oldrep << " a NomDir = "<<NomDir);
   if ( oldrep == NomDir ) { return ; }
-  // B. Changement/creation du repertoire
+  MESSAGE ( "SetDirName : passage de oldrep = "<< oldrep << " a NomDir = "<<NomDir);
+  // B. controle de l'usage du repertoire
+  char* casename = _gen_i->VerifieDir(NomDir) ;
+  if ( std::string(casename).size() > 0 )
+  {
+    INFOS ( "Le repertoire " << NomDir << " est deja utilise pour le cas "<< casename );
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    std::string text ;
+    text = "The directory " + std::string(NomDir) + " is already used for the case " + std::string(casename) ;
+    es.text = CORBA::string_dup(text.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
+  // C. Changement/creation du repertoire
   codret = myHomardCas->SetDirName( NomDir );
   if ( codret != 0 )
   {
@@ -135,18 +147,18 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
     es.text = CORBA::string_dup(text.c_str());
     throw SALOME::SALOME_Exception(es);
   }
-  // C. En cas de reprise, deplacement du point de depart
+  // D. En cas de reprise, deplacement du point de depart
   if ( GetState() != 0 )
   {
     MESSAGE ( "etat : " << GetState() ) ;
-    // C.1. Nom local du repertoire de l'iteration de depart dans le repertoire actuel du cas
+    // D.1. Nom local du repertoire de l'iteration de depart dans le repertoire actuel du cas
     HOMARD::HOMARD_Iteration_ptr Iter = GetIter0() ;
     char* DirNameIter = Iter->GetDirNameLoc() ;
     MESSAGE ( "SetDirName : nom actuel pour le repertoire de l iteration, DirNameIter = "<< DirNameIter);
-    // C.2. Recherche d'un nom local pour l'iteration de depart dans le futur repertoire du cas
+    // D.2. Recherche d'un nom local pour l'iteration de depart dans le futur repertoire du cas
     char* nomDirIter = _gen_i->CreateDirNameIter(NomDir, 0 );
     MESSAGE ( "SetDirName : nom futur pour le repertoire de l iteration, nomDirIter = "<< nomDirIter);
-    // C.3. Creation du futur repertoire local pour l'iteration de depart
+    // D.3. Creation du futur repertoire local pour l'iteration de depart
     std::string nomDirIterTotal ;
     nomDirIterTotal = std::string(NomDir) + "/" + std::string(nomDirIter) ;
     if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
@@ -158,7 +170,7 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
       es.text = CORBA::string_dup(text.c_str());
       throw SALOME::SALOME_Exception(es);
     }
-    // C.4. Deplacement du contenu du repertoire
+    // D.4. Deplacement du contenu du repertoire
     std::string oldnomDirIterTotal ;
     oldnomDirIterTotal = std::string(oldrep) + "/" + std::string(DirNameIter) ;
     std::string commande = "mv " + std::string(oldnomDirIterTotal) + "/*" + " " + std::string(nomDirIterTotal) ;
@@ -181,7 +193,7 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
       es.text = CORBA::string_dup(text.c_str());
       throw SALOME::SALOME_Exception(es);
     }
-    // C.5. Memorisation du nom du repertoire de l'iteration
+    // D.5. Memorisation du nom du repertoire de l'iteration
     Iter->SetDirNameLoc(nomDirIter) ;
   }
   return ;
