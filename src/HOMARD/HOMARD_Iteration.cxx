@@ -41,7 +41,7 @@
  */
 //=============================================================================
 HOMARD_Iteration::HOMARD_Iteration():
-  _Name( "" ), _Etat( false ),
+  _Name( "" ), _Etat( 0 ),
  _NumIter( -1 ),
   _NomMesh( "" ), _MeshFile( "" ),
   _FieldFile( "" ), _TimeStep( -1 ), _Rank( -1 ),
@@ -147,8 +147,8 @@ std::string HOMARD_Iteration::GetDumpPython() const
 
 // Compute
   MESSAGE (". Compute ");
-  if (_Etat == true) { aScript << "\tcodret = "  <<_Name << ".Compute(1, 1)\n"; }
-  else               { aScript << "\t#codret = " <<_Name << ".Compute(1, 1)\n"; }
+  if ( _Etat == 2 ) { aScript << "\tcodret = "  <<_Name << ".Compute(1, 1)\n"; }
+  else              { aScript << "\t#codret = " <<_Name << ".Compute(1, 1)\n"; }
 //   MESSAGE (". Fin de l ecriture de l iteration " << _Name );
 
   return aScript.str();
