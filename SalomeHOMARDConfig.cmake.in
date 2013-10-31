@@ -46,6 +46,9 @@ SET_AND_CHECK(HOMARD_INCLUDE_DIRS "${HOMARD_ROOT_DIR_EXP}/@SALOME_INSTALL_HEADER
 SET(HOMARD_INCLUDE_DIRS "${HOMARD_INCLUDE_DIRS};@_SalomeHOMARD_EXTRA_HEADERS@")
 SET(HOMARD_DEFINITIONS "@SMESH_DEFINITIONS@")
 
+# Package specific environment variables
+@_SalomeHOMARD_EXTRA_ENV_FULL@
+
 #### Now the specificities
 
 # Options exported by the package:
