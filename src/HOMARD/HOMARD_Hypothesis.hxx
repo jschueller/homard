@@ -34,10 +34,16 @@
 #ifndef _HOMARD_HYPOTHESIS_HXX_
 #define _HOMARD_HYPOTHESIS_HXX_
 
+#include "HOMARD.hxx"
+
 #include <string>
 #include <list>
 
-class HOMARD_Hypothesis
+#if defined WIN32
+#pragma warning ( disable: 4251 )
+#endif
+
+class HOMARDIMPL_EXPORT HOMARD_Hypothesis
 {
 public:
   HOMARD_Hypothesis();

@@ -20,6 +20,7 @@
 #ifndef MON_CREATEBOUNDARYDI_H
 #define MON_CREATEBOUNDARYDI_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -32,7 +33,7 @@
 #include <QDialog>
 
 class MonCreateCase;
-class MonCreateBoundaryDi : public QDialog, public Ui_CreateBoundaryDi
+class HOMARD_EXPORT MonCreateBoundaryDi : public QDialog, public Ui_CreateBoundaryDi
 {
     Q_OBJECT
 

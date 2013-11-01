@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditZone.h"
 
 #include "SalomeApp_Tools.h"
@@ -30,6 +28,7 @@ using namespace std;
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
 
+using namespace std;
 
 // ------------------------------------------------------------------------
 MonEditZone::MonEditZone( MonCreateHypothesis* parent, bool modal,

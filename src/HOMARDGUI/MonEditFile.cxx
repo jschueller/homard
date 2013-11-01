@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditFile.h"
 
 #include <QFile>
@@ -29,6 +27,8 @@ using namespace std;
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
+
+using namespace std;
 
 /* ---------------------------------------------------------
  * MonEditFile classe derivee de EditFile

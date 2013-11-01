@@ -22,10 +22,12 @@
 # ifndef _HOMARDDRIVER_HXX_
 # define _HOMARDDRIVER_HXX_
 
+#include "HOMARD.hxx"
+
 #include <iostream>
 #include <fstream>
 
-class HomardDriver
+class HOMARDIMPL_EXPORT HomardDriver
 {
 public:
   HomardDriver(const std::string siter, const std::string siterp1);

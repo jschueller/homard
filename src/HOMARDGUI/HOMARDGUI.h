@@ -23,6 +23,8 @@
 #ifndef _HOMARDGUI_H_
 #define _HOMARDGUI_H_
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SalomeApp_Module.h>
 #include "SalomeApp_Study.h"
 
@@ -36,7 +38,7 @@
 
 class SalomeApp_Application;
 
-class HOMARDGUI: public SalomeApp_Module
+class HOMARD_EXPORT HOMARDGUI: public SalomeApp_Module
 {
   Q_OBJECT
 

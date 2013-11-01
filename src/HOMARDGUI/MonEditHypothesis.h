@@ -20,6 +20,8 @@
 #ifndef MON_EDITHYPOTHESIS_H
 #define MON_EDITHYPOTHESIS_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateHypothesis.h>
 
-class MonEditHypothesis : public MonCreateHypothesis
+class HOMARD_EXPORT MonEditHypothesis : public MonCreateHypothesis
 {
     Q_OBJECT
 public:

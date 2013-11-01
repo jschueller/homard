@@ -17,14 +17,13 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditBoundaryAn.h"
 
 #include "SalomeApp_Tools.h"
 #include "HOMARDGUI_Utils.h"
 #include <utilities.h>
 
+using namespace std;
 
 // ------------------------------------------------------------------------
 MonEditBoundaryAn::MonEditBoundaryAn( MonCreateCase* parent, bool modal,

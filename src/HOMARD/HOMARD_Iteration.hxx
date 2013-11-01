@@ -34,10 +34,16 @@
 #ifndef _HOMARD_ITER_HXX_
 #define _HOMARD_ITER_HXX_
 
+#include "HOMARD.hxx"
+
 #include <string>
 #include <list>
 
-class  HOMARD_Iteration
+#if defined WIN32
+#pragma warning ( disable: 4251 )
+#endif
+
+class HOMARDIMPL_EXPORT HOMARD_Iteration
 {
 public:
   HOMARD_Iteration();

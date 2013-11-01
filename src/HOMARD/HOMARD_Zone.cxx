@@ -76,12 +76,12 @@ std::string HOMARD_Zone::GetDumpPython() const
 //   MESSAGE("GetDumpPython avec _Name " << _Name) ;
   std::ostringstream aScript;
   aScript << "\n# Creation of the ";
-  if ( _Type >= 11 and _Type <= 13 ) { aScript << "rectangle " ; }
+  if ( _Type >= 11 && _Type <= 13 ) { aScript << "rectangle " ; }
   else if ( _Type == 2 ) { aScript << "box " ;}
-  else if ( _Type >= 31 and _Type <= 33 ) { aScript << "disk " ;}
+  else if ( _Type >= 31 && _Type <= 33 ) { aScript << "disk " ;}
   else if ( _Type == 4 ) { aScript << "sphere " ; }
   else if ( _Type == 5 ) { aScript << "cylinder " ; }
-  else if ( _Type >= 61 and _Type <= 63 ) { aScript << "disk with hole " ;}
+  else if ( _Type >= 61 && _Type <= 63 ) { aScript << "disk with hole " ;}
   else if ( _Type == 7 ) { aScript << "pipe " ; }
   aScript << _Name << "\n" ;
 //
@@ -276,7 +276,7 @@ std::vector<double> HOMARD_Zone::GetCoords() const
       mesCoor.push_back( _Rayonint ) ;
       break ;
     }
-    VERIFICATION ( ( (_Type>10) and (_Type<14) ) or (_Type==2) or ( (_Type>30) and (_Type<34) ) or (_Type==4) or (_Type==5) or ( (_Type>60) and (_Type<64) ) or (_Type==7) ) ;
+    VERIFICATION ( ( (_Type>10) && (_Type<14) ) || (_Type==2) || ( (_Type>30) && (_Type<34) ) || (_Type==4) || (_Type==5) || ( (_Type>60) && (_Type<64) ) || (_Type==7) ) ;
   }
   return mesCoor;
 }

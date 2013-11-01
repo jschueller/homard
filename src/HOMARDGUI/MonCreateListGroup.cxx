@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateListGroup.h"
 #include "MonCreateHypothesis.h"
 #include "MonCreateBoundaryDi.h"
@@ -35,6 +33,8 @@ using namespace std;
 #include <SUIT_ResourceMgr.h>
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
+
+using namespace std;
 
 // --------------------------------------------------------------------------------------------------------------
 MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal,

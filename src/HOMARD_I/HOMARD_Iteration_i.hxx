@@ -33,6 +33,7 @@
 #include CORBA_SERVER_HEADER(HOMARD_Gen)
 #include CORBA_SERVER_HEADER(HOMARD_Iteration)
 
+#include "HOMARD_i.hxx"
 #include "SALOME_Component_i.hxx"
 #include "SALOME_NamingService.hxx"
 #include "Utils_CorbaException.hxx"
@@ -41,7 +42,7 @@
 
 class HOMARD_Iteration;
 
-class HOMARD_Iteration_i:
+class HOMARDENGINE_EXPORT HOMARD_Iteration_i:
   public virtual Engines_Component_i,
   public virtual POA_HOMARD::HOMARD_Iteration,
   public virtual PortableServer::ServantBase

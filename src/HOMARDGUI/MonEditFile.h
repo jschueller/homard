@@ -20,6 +20,7 @@
 #ifndef MON_EDITFILE_H
 #define MON_EDITFILE_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include "SALOME_Selection.h"
@@ -35,7 +36,7 @@
 class QListBox;
 class QDialog;
 
-class MonEditFile : public QWidget, public Ui_EditFile
+class HOMARD_EXPORT MonEditFile : public QWidget, public Ui_EditFile
 {
     Q_OBJECT
 

@@ -22,7 +22,9 @@
 // Pilote l'ecriture du fichier xml pour lancer un schema YACS
 
 #include <cstring>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 #include "YACSDriver.hxx"
@@ -178,7 +180,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
   }
 //
 // 4.2. Cas du rectangle (11, 12, 13)
-  else if ( ( ZoneType > 10 ) and ( ZoneType < 14 ) )
+  else if ( ( ZoneType > 10 ) && ( ZoneType < 14 ) )
   {
     _Texte += Texte_inport( "double", "Umini" ) ;
     _Texte += Texte_inport( "double", "Umaxi" ) ;
@@ -193,7 +195,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
   }
 //
 // 4.2. Cas du disque (31, 32, 33) ou du disque perce (61, 62, 63)
-  else if ( ( ( ZoneType > 30 ) and ( ZoneType < 34 ) ) or ( ( ZoneType > 60 ) and ( ZoneType < 64 ) ) )
+  else if ( ( ( ZoneType > 30 ) && ( ZoneType < 34 ) ) || ( ( ZoneType > 60 ) && ( ZoneType < 64 ) ) )
   {
     _Texte += Texte_inport( "double", "Ucentre" ) ;
     _Texte += Texte_inport( "double", "Vcentre" ) ;
@@ -224,7 +226,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
   }
 //
 // 4.2. Cas du cylindre (5) ou du tuyau (7)
-  else if ( ZoneType == 5 or ZoneType == 7 )
+  else if ( ZoneType == 5 || ZoneType == 7 )
   {
     _Texte += Texte_inport( "double", "Xcentre" ) ;
     _Texte += Texte_inport( "double", "Ycentre" ) ;

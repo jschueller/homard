@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonPursueIteration.h"
 
 #include <QFileDialog>
@@ -29,6 +27,11 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+#ifdef WIN32
+#include <direct.h>
+#endif
+
+using namespace std;
 
 // -----------------------------------------------------------------------------------------
 /* Constructs a MonPursueIteration
@@ -105,7 +108,11 @@ bool MonPursueIteration::PushOnApply()
       return false;
     }
   }
+#ifndef WIN32
   if (chdir(aDirName.toStdString().c_str()) != 0)
+#else
+  if (_chdir(aDirName.toStdString().c_str()) != 0)
+#endif
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_DIRECTORY_3") );

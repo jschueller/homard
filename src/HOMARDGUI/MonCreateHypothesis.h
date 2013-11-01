@@ -20,6 +20,7 @@
 #ifndef MON_CREATEHYPOTHESIS_H
 #define MON_CREATEHYPOTHESIS_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -32,7 +33,7 @@
 #include <QDialog>
 
 class MonCreateIteration;
-class MonCreateHypothesis : public QDialog, public Ui_CreateHypothesis
+class HOMARD_EXPORT MonCreateHypothesis : public QDialog, public Ui_CreateHypothesis
 {
     Q_OBJECT
 

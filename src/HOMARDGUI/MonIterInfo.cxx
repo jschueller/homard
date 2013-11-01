@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonIterInfo.h"
 
 #include <QFile>
@@ -32,6 +30,7 @@ using namespace std;
 #include "MonEditFile.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -----------------------------------------------------------------------------------------
 MonIterInfo::MonIterInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, QString IterName)
@@ -89,7 +88,7 @@ bool MonIterInfo::PushOnApply()
   MESSAGE("PushOnApply");
 
   // Au moins une option a ete choisie
-  if ( ( _Quality == 0 ) and ( _Diametre == 0 ) and ( _Connection == 0 ) and ( _BlockSize == 0 ) and ( _Entanglement == 0 ) )
+  if ( ( _Quality == 0 ) && ( _Diametre == 0 ) && ( _Connection == 0 ) && ( _BlockSize == 0 ) && ( _Entanglement == 0 ) )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_MESH_INFO_1") );

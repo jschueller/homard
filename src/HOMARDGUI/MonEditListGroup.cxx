@@ -17,11 +17,10 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditListGroup.h"
 #include <utilities.h>
 
+using namespace std;
 //---------------------------------------------------------------------
 MonEditListGroup::MonEditListGroup( MonCreateHypothesis* parentHyp,
                                     MonCreateBoundaryDi* parentBound,

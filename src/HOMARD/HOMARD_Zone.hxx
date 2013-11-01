@@ -34,11 +34,17 @@
 #ifndef _HOMARD_Zone_HXX_
 #define _HOMARD_Zone_HXX_
 
+#include "HOMARD.hxx"
+
 #include <vector>
 #include <string>
 #include <list>
 
-class HOMARD_Zone
+#if defined WIN32
+#pragma warning ( disable: 4251 )
+#endif
+
+class HOMARDIMPL_EXPORT HOMARD_Zone
 {
 public:
   HOMARD_Zone();

@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateBoundaryAn.h"
 #include "MonCreateCase.h"
 
@@ -38,6 +36,8 @@ using namespace std;
 
 #include "math.h"
 #define PI 3.141592653589793
+
+using namespace std;
 // ------------------------------------------------------------------------------------------------------------------------
 MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
                              HOMARD::HOMARD_Gen_var myHomardGen0,
@@ -280,12 +280,12 @@ bool MonCreateBoundaryAn::PushOnApply()
   {
       case 1 : // il s agit d un cylindre
       {
-        if ((_BoundaryAnXcentre != SpinBox_Xcent->value())  or
-            (_BoundaryAnYcentre != SpinBox_Ycent->value())  or
-            (_BoundaryAnZcentre != SpinBox_Zcent->value())  or
-            (_BoundaryAnRayon   != SpinBox_Radius->value()) or
-            (_BoundaryAnXaxis   != SpinBox_Xaxis->value()) or
-            (_BoundaryAnYaxis   != SpinBox_Yaxis->value()) or
+        if ((_BoundaryAnXcentre != SpinBox_Xcent->value())  ||
+            (_BoundaryAnYcentre != SpinBox_Ycent->value())  ||
+            (_BoundaryAnZcentre != SpinBox_Zcent->value())  ||
+            (_BoundaryAnRayon   != SpinBox_Radius->value()) ||
+            (_BoundaryAnXaxis   != SpinBox_Xaxis->value()) ||
+            (_BoundaryAnYaxis   != SpinBox_Yaxis->value()) ||
             (_BoundaryAnZaxis   != SpinBox_Zaxis->value()) )
         {
           Chgt = true;
@@ -302,9 +302,9 @@ bool MonCreateBoundaryAn::PushOnApply()
 
       case 2 : // il s agit d une sphere
       {
-        if ((_BoundaryAnXcentre != SpinBox_Xcentre->value()) or
-            (_BoundaryAnYcentre != SpinBox_Ycentre->value()) or
-            (_BoundaryAnZcentre != SpinBox_Zcentre->value()) or
+        if ((_BoundaryAnXcentre != SpinBox_Xcentre->value()) ||
+            (_BoundaryAnYcentre != SpinBox_Ycentre->value()) ||
+            (_BoundaryAnZcentre != SpinBox_Zcentre->value()) ||
             (_BoundaryAnRayon   != SpinBox_Rayon->value())  )
         {
            Chgt = true;
@@ -318,12 +318,12 @@ bool MonCreateBoundaryAn::PushOnApply()
 
       case 3 : // il s agit d un cone defini par un axe et un angle
       {
-        if ((_BoundaryAnXaxisCone != SpinBox_Cone_X1->value())  or
-            (_BoundaryAnYaxisCone != SpinBox_Cone_Y1->value())  or
-            (_BoundaryAnZaxisCone != SpinBox_Cone_Z1->value())  or
-            (_BoundaryAnXorigCone != SpinBox_Cone_X2->value())  or
-            (_BoundaryAnYorigCone != SpinBox_Cone_Y2->value())  or
-            (_BoundaryAnZorigCone != SpinBox_Cone_Z2->value())  or
+        if ((_BoundaryAnXaxisCone != SpinBox_Cone_X1->value())  ||
+            (_BoundaryAnYaxisCone != SpinBox_Cone_Y1->value())  ||
+            (_BoundaryAnZaxisCone != SpinBox_Cone_Z1->value())  ||
+            (_BoundaryAnXorigCone != SpinBox_Cone_X2->value())  ||
+            (_BoundaryAnYorigCone != SpinBox_Cone_Y2->value())  ||
+            (_BoundaryAnZorigCone != SpinBox_Cone_Z2->value())  ||
             (_BoundaryAngle       != SpinBox_Cone_V1->value()) )
         {
            Chgt = true;
@@ -340,13 +340,13 @@ bool MonCreateBoundaryAn::PushOnApply()
 
       case 4 : // il s agit d un cone defini par les 2 rayons
       {
-        if ((_BoundaryAnXcone1 != SpinBox_Cone_X1->value())  or
-            (_BoundaryAnYcone1 != SpinBox_Cone_Y1->value())  or
-            (_BoundaryAnZcone1 != SpinBox_Cone_Z1->value())  or
-            (_BoundaryAnRayon1 != SpinBox_Cone_V1->value())  or
-            (_BoundaryAnXcone2 != SpinBox_Cone_X2->value())  or
-            (_BoundaryAnYcone2 != SpinBox_Cone_Y2->value())  or
-            (_BoundaryAnZcone2 != SpinBox_Cone_Z2->value())  or
+        if ((_BoundaryAnXcone1 != SpinBox_Cone_X1->value())  ||
+            (_BoundaryAnYcone1 != SpinBox_Cone_Y1->value())  ||
+            (_BoundaryAnZcone1 != SpinBox_Cone_Z1->value())  ||
+            (_BoundaryAnRayon1 != SpinBox_Cone_V1->value())  ||
+            (_BoundaryAnXcone2 != SpinBox_Cone_X2->value())  ||
+            (_BoundaryAnYcone2 != SpinBox_Cone_Y2->value())  ||
+            (_BoundaryAnZcone2 != SpinBox_Cone_Z2->value())  ||
             (_BoundaryAnRayon2 != SpinBox_Cone_V2->value()) )
         {
            Chgt = true;
@@ -514,12 +514,12 @@ void MonCreateBoundaryAn::SetConeR()
   MESSAGE("Debut de SetConeR")
 //
 // Stockage et conversion des valeurs si elles ont change
-  if ((_BoundaryAnXaxisCone != SpinBox_Cone_X1->value())  or
-      (_BoundaryAnYaxisCone != SpinBox_Cone_Y1->value())  or
-      (_BoundaryAnZaxisCone != SpinBox_Cone_Z1->value())  or
-      (_BoundaryAnXorigCone != SpinBox_Cone_X2->value())  or
-      (_BoundaryAnYorigCone != SpinBox_Cone_Y2->value())  or
-      (_BoundaryAnZorigCone != SpinBox_Cone_Z2->value())  or
+  if ((_BoundaryAnXaxisCone != SpinBox_Cone_X1->value())  ||
+      (_BoundaryAnYaxisCone != SpinBox_Cone_Y1->value())  ||
+      (_BoundaryAnZaxisCone != SpinBox_Cone_Z1->value())  ||
+      (_BoundaryAnXorigCone != SpinBox_Cone_X2->value())  ||
+      (_BoundaryAnYorigCone != SpinBox_Cone_Y2->value())  ||
+      (_BoundaryAnZorigCone != SpinBox_Cone_Z2->value())  ||
       (_BoundaryAngle       != SpinBox_Cone_V1->value()) )
   {
     MESSAGE("Stockage et conversion")
@@ -567,13 +567,13 @@ void MonCreateBoundaryAn::SetConeA()
 {
   MESSAGE("Debut de SetConeA")
 // Stockage et conversion des valeurs si elles ont change
-  if ((_BoundaryAnXcone1 != SpinBox_Cone_X1->value())  or
-      (_BoundaryAnYcone1 != SpinBox_Cone_Y1->value())  or
-      (_BoundaryAnZcone1 != SpinBox_Cone_Z1->value())  or
-      (_BoundaryAnRayon1 != SpinBox_Cone_V1->value())  or
-      (_BoundaryAnXcone2 != SpinBox_Cone_X2->value())  or
-      (_BoundaryAnYcone2 != SpinBox_Cone_Y2->value())  or
-      (_BoundaryAnZcone2 != SpinBox_Cone_Z2->value())  or
+  if ((_BoundaryAnXcone1 != SpinBox_Cone_X1->value())  ||
+      (_BoundaryAnYcone1 != SpinBox_Cone_Y1->value())  ||
+      (_BoundaryAnZcone1 != SpinBox_Cone_Z1->value())  ||
+      (_BoundaryAnRayon1 != SpinBox_Cone_V1->value())  ||
+      (_BoundaryAnXcone2 != SpinBox_Cone_X2->value())  ||
+      (_BoundaryAnYcone2 != SpinBox_Cone_Y2->value())  ||
+      (_BoundaryAnZcone2 != SpinBox_Cone_Z2->value())  ||
       (_BoundaryAnRayon2 != SpinBox_Cone_V2->value()) )
   {
     MESSAGE("Stockage et conversion")

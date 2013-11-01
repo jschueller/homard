@@ -44,7 +44,9 @@
 #include <cmath>
 #include <stdlib.h>
 #include <sys/stat.h>
+#ifndef WIN32
 #include <dirent.h>
+#endif
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -53,6 +55,10 @@
 #include <set>
 #include <vector>
 #include <stdio.h>
+
+#ifdef WIN32
+#include <direct.h>
+#endif
 
 using  namespace std;
 
@@ -379,7 +385,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
 
   int numero = myIteration->GetNumber();
   MESSAGE ( "DeleteIterationOption : numero = " << numero );
-  if ( numero == 0 and Option1 == 1 )
+  if ( numero == 0 && Option1 == 1 )
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -684,7 +690,7 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
       SALOMEDS::AttributeComment_var aCommentAttr = SALOMEDS::AttributeComment::_narrow(anAttr);
       std::string value (aCommentAttr->Value());
 /*      MESSAGE("... value = " << value);*/
-      if( (value == std::string("logInfo")) or ( value == std::string("SummaryInfo")) )
+      if( (value == std::string("logInfo")) || ( value == std::string("SummaryInfo")) )
       {
         SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
         aStudyBuilder->RemoveObject(so);
@@ -1200,7 +1206,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 
   // A. Decodage du point de reprise
   // A.1. Controle du repertoire de depart de l'iteration
+#ifndef WIN32
   codret = chdir(DirNameStart) ;
+#else 
+  codret = _chdir(DirNameStart) ;
+#endif
   if ( codret != 0 )
   {
     SALOME::ExceptionStruct es;
@@ -1213,6 +1223,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   std::string file_configuration = "" ;
   std::string file_maillage_homard = "" ;
   int bilan ;
+#ifndef WIN32
   DIR *dp;
   struct dirent *dirp;
   dp  = opendir(DirNameStart);
@@ -1230,10 +1241,30 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
     }
   }
   closedir(dp);
+#else 
+  HANDLE hFind = INVALID_HANDLE_VALUE;
+  WIN32_FIND_DATA ffd;
+  hFind = FindFirstFile(DirNameStart, &ffd);
+  if (INVALID_HANDLE_VALUE != hFind) {
+    while (FindNextFile(hFind, &ffd) != 0) {
+      if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
+      std::string file_name(ffd.cFileName);
+      bilan = file_name.find("HOMARD.Configuration.") ;
+      if ( bilan != string::npos ) { file_configuration = file_name ; }
+      bilan = file_name.find("maill.") ;
+      if ( bilan != string::npos )
+      {
+        bilan = file_name.find(".hom.med") ;
+        if ( bilan != string::npos ) { file_maillage_homard = file_name ; }
+      }
+    }
+    FindClose(hFind);
+  } 
+#endif
   MESSAGE ( "==> file_configuration   : " << file_configuration ) ;
   MESSAGE ( "==> file_maillage_homard : " << file_maillage_homard ) ;
   // A.3. Controle
-  if ( ( file_configuration == "" ) or ( file_maillage_homard == "" ) )
+  if ( ( file_configuration == "" ) || ( file_maillage_homard == "" ) )
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -1272,7 +1303,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
         NumeIter += 1 ;
       }
       // B.3. Des valeurs caracteres brutes : le second bloc de la ligne est la valeur
-      else if ( ( mot_cle == "TypeConf" ) or ( mot_cle == "TypeElem" ) )
+      else if ( ( mot_cle == "TypeConf" ) || ( mot_cle == "TypeElem" ) )
       {
         ligne_bis >> argument ;
 
@@ -1291,7 +1322,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
       }
       // B.4. Des valeurs caracteres : le deuxieme bloc de la ligne peut etre encadre par des quotes :
       //                               il faut les supprimer
-      else if ( ( mot_cle == "CCNoMNP1" ) or ( mot_cle == "CCMaiNP1" ) )
+      else if ( ( mot_cle == "CCNoMNP1" ) || ( mot_cle == "CCMaiNP1" ) )
       {
         ligne_bis >> argument ;
         if ( argument[0] == '"' ) { decalage = 1 ; }
@@ -1348,7 +1379,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   Iter->SetDirNameLoc(nomDirIter);
   std::string nomDirIterTotal ;
   nomDirIterTotal = std::string(nomDirCase) + "/" + std::string(nomDirIter) ;
+#ifndef WIN32
   if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
+#else 
+  if (_mkdir(nomDirIterTotal.c_str()) != 0)
+#endif
   {
     MESSAGE ( "nomDirIterTotal : " << nomDirIterTotal ) ;
     SALOME::ExceptionStruct es;
@@ -1358,7 +1393,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
     throw SALOME::SALOME_Exception(es);
   }
   // E.3. Copie du maillage HOMARD au format MED
+#ifndef WIN32
   codret = chdir(DirNameStart) ;
+#else
+  codret = _chdir(DirNameStart) ;
+#endif
   std::string commande = "cp " + file_maillage_homard + " " + nomDirIterTotal ;
   MESSAGE ( "commande : " << commande ) ;
   codret = system(commande.c_str()) ;
@@ -1377,8 +1416,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   delete[] MeshName ;
   delete[] MeshFile ;
 
+#ifndef WIN32
   chdir(nomDirWork.c_str());
-
+#else
+  _chdir(nomDirWork.c_str());
+#endif
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
 }
 //=============================================================================
@@ -1437,7 +1479,11 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   int NumeIterMax = -1 ;
 
   // A.1. Controle du repertoire de depart du cas
+#ifndef WIN32
   codret = chdir(DirNameStart) ;
+#else
+  codret = _chdir(DirNameStart) ;
+#endif
   if ( codret != 0 )
   {
     SALOME::ExceptionStruct es;
@@ -1448,29 +1494,58 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   };
   // A.2. Reperage des sous-repertoire du repertoire de reprise
   bool existe = false ;
+#ifndef WIN32
   DIR *dp;
   struct dirent *dirp;
   dp  = opendir(DirNameStart);
-  while ( (dirp = readdir(dp)) != NULL )
-  {
+  while ( (dirp = readdir(dp)) != NULL ) {
     std::string DirName_1(dirp->d_name);
-    if ( ( DirName_1 != "." ) and ( DirName_1 != ".." ) )
+#else
+  HANDLE hFind = INVALID_HANDLE_VALUE;
+  WIN32_FIND_DATA ffd;
+  hFind = FindFirstFile(DirNameStart, &ffd);
+  if (INVALID_HANDLE_VALUE != hFind) {
+    while (FindNextFile(hFind, &ffd) != 0) {
+      std::string DirName_1 = "";
+      if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+        DirName_1 = std::string(ffd.cFileName);
+      }
+#endif
+    if ( ( DirName_1 != "." ) && ( DirName_1 != ".." ) )
     {
+#ifndef WIN32
       if ( chdir(DirName_1.c_str()) == 0 )
       {
-  //   On cherche le fichier de configuration dans ce sous-repertoire
-        codret = chdir(DirNameStart) ;
+//      On cherche le fichier de configuration dans ce sous-repertoire
+        codret = chdir(DirNameStart);
         DIR *dp_1;
         struct dirent *dirp_1;
         dp_1  = opendir(DirName_1.c_str()) ;
         while ( (dirp_1 = readdir(dp_1)) != NULL )
         {
           std::string file_name_1(dirp_1->d_name);
+#else
+     if ( _chdir(DirName_1.c_str()) == 0 )
+     {
+        codret = _chdir(DirNameStart);
+        HANDLE hFind1 = INVALID_HANDLE_VALUE;
+        WIN32_FIND_DATA ffd1;
+        hFind1 = FindFirstFile(DirName_1.c_str(), &ffd1);
+        while (FindNextFile(hFind1, &ffd1) != 0) 
+        {
+          if (ffd1.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories          
+          std::string file_name_1(ffd1.cFileName);
+#endif          
           int bilan = file_name_1.find("HOMARD.Configuration.") ;
           if ( bilan != string::npos )
           {
   // Decodage du fichier pour trouver le numero d'iteration
+#ifndef WIN32
             chdir(DirName_1.c_str()) ;
+#else
+            _chdir(DirName_1.c_str()) ;
+#endif
+
             std::ifstream fichier( file_name_1.c_str() );
             if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
             {
@@ -1516,20 +1591,33 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
               es.text = CORBA::string_dup(text.c_str());
               throw SALOME::SALOME_Exception(es);
             }
+#ifndef WIN32
             chdir(DirNameStart) ;
+#else
+            _chdir(DirNameStart) ;
+#endif
           }
           if ( existe ) { break ; }
         }
+#ifndef WIN32
         closedir(dp_1);
+#else
+        FindClose(hFind1);
+#endif
         if ( existe ) { break ; }
-      }
+     }
     }
   }
+#ifndef WIN32
   closedir(dp);
+  chdir(nomDirWork.c_str());  
+#else
+    FindClose(hFind);
+  }
+  _chdir(nomDirWork.c_str());
+#endif
 
-  chdir(nomDirWork.c_str());
-
-  if ( ( Number >= 0 and ( not existe ) ) or ( Number < 0 and ( NumeIterMax == -1 ) ) )
+  if ( ( Number >= 0 && ( !existe ) ) || ( Number < 0 && ( NumeIterMax == -1 ) ) )
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -1577,7 +1665,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   {
     existeMeshFile = MEDFileExist ( MeshFile ) ;
     MESSAGE ( "CreateCase0 : existeMeshFile = " << existeMeshFile );
-    if ( ( existeMeshFile == 0 ) and ( MeshOption == 0 ) )
+    if ( ( existeMeshFile == 0 ) && ( MeshOption == 0 ) )
     {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
@@ -1892,7 +1980,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeA(const char* Bounda
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
-  if ( Angle <= 0.0 or Angle >= 90.0 )
+  if ( Angle <= 0.0 || Angle >= 90.0 )
   { es.text = "The angle must be included higher than 0 degree and lower than 90 degrees." ;
     error = 1 ; }
   double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
@@ -1920,7 +2008,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeR(const char* Bounda
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
-  if ( Rayon1 < 0.0 or Rayon2 < 0.0 )
+  if ( Rayon1 < 0.0 || Rayon2 < 0.0 )
   { es.text = "The radius must be positive." ;
     error = 1 ; }
   double daux = fabs(Rayon2-Rayon1) ;
@@ -2066,7 +2154,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZonePipe(const char* ZoneName,
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
-  if ( Rayon <= 0.0 or Rayonint <= 0.0 )
+  if ( Rayon <= 0.0 || Rayonint <= 0.0 )
   { es.text = "The radius must be positive." ;
     error = 1 ; }
   double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
@@ -2110,7 +2198,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox2D(const char* ZoneName,
   if ( Vmini > Vmaxi )
   { es.text = "The second coordinates are not coherent." ;
     error = 2 ; }
-  if ( Orient < 1 or Orient > 3 )
+  if ( Orient < 1 || Orient > 3 )
   { es.text = "The orientation must be 1, 2 or 3." ;
     error = 3 ; }
   if ( error != 0 )
@@ -2144,7 +2232,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneBox2D(const char* ZoneName,
     Ymaxi = 0. ;
     Zmini = Umini ;
     Zmaxi = Umaxi ; }
-  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
+  else { VERIFICATION( (Orient>=1) && (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 10+Orient) ;
   myZone->SetBox ( Xmini, Xmaxi, Ymini, Ymaxi, Zmini, Zmaxi) ;
@@ -2164,7 +2252,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDisk(const char* ZoneName,
   if ( Rayon <= 0.0 )
   { es.text = "The radius must be positive." ;
     error = 1 ; }
-  if ( Orient < 1 or Orient > 3 )
+  if ( Orient < 1 || Orient > 3 )
   { es.text = "The orientation must be 1, 2 or 3." ;
     error = 3 ; }
   if ( error != 0 )
@@ -2189,7 +2277,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDisk(const char* ZoneName,
   { Xcentre = Vcentre ;
     Ycentre = 0. ;
     Zcentre = Ucentre ; }
-  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
+  else { VERIFICATION( (Orient>=1) && (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 30+Orient) ;
   myZone->SetCylinder( Xcentre, Ycentre, Zcentre, 0., 0., 1., Rayon, 1. ) ;
@@ -2206,10 +2294,10 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
 //
   SALOME::ExceptionStruct es;
   int error = 0 ;
-  if ( Rayon <= 0.0 or Rayonint <= 0.0 )
+  if ( Rayon <= 0.0 || Rayonint <= 0.0 )
   { es.text = "The radius must be positive." ;
     error = 1 ; }
-  if ( Orient < 1 or Orient > 3 )
+  if ( Orient < 1 || Orient > 3 )
   { es.text = "The orientation must be 1, 2 or 3." ;
     error = 3 ; }
   if ( Rayon <= Rayonint )
@@ -2237,7 +2325,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
   { Xcentre = Vcentre ;
     Ycentre = 0. ;
     Zcentre = Ucentre ; }
-  else { VERIFICATION( (Orient>=1) and (Orient<=3) ) ; }
+  else { VERIFICATION( (Orient>=1) && (Orient<=3) ) ; }
 
   HOMARD::HOMARD_Zone_var myZone = CreateZone(ZoneName, 60+Orient) ;
   myZone->SetPipe( Xcentre, Ycentre, Zcentre, 0., 0., 1., Rayon, 1., Rayonint ) ;
@@ -2331,7 +2419,11 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 
    // D. On passe dans le repertoire de l'iteration a calculer
   MESSAGE ( ". On passe dans DirCompute = " << DirCompute );
-  chdir(DirCompute) ;
+#ifndef WIN32
+  chdir(DirCompute);
+#else
+  _chdir(DirCompute);
+#endif
 
   // E. Les donnees de l'execution HOMARD
   // E.1. L'objet du texte du fichier de configuration
@@ -2462,7 +2554,12 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   {
     delete myDriver;
     MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
+    
+#ifndef WIN32
     chdir(nomDirWork.c_str());
+#else
+    _chdir(nomDirWork.c_str());
+#endif
   }
 
   return codretexec ;
@@ -2641,8 +2738,12 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
 char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 {
   MESSAGE ( "CreateDirNameIter : nomrep ="<< nomrep << ", num = "<<num);
-  // On verifie que le repertoire parent existe
+  // On verifie que le repertoire parent existe  
+#ifndef WIN32
   int codret = chdir(nomrep) ;
+#else
+  int codret = _chdir(nomrep) ;
+#endif
   if ( codret != 0 )
   {
     SALOME::ExceptionStruct es;
@@ -2658,7 +2759,12 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
   while ( a_chercher )
   {
     // On passe dans le repertoire parent
-    chdir(nomrep);
+    
+#ifndef WIN32
+  chdir(nomrep);
+#else
+  _chdir(nomrep);
+#endif
     // On recherche un nom sous la forme Iabc, avec abc representant le numero
     int jaux ;
     if      ( num <    100 ) { jaux = 2 ; }
@@ -2672,19 +2778,39 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
     DirNameA << "I" << iaux.str();
     // Si on ne pas peut entrer dans le repertoire, on doit verifier
     // que c'est bien un probleme d'absence
+#ifndef WIN32
     if ( chdir(DirNameA.str().c_str()) != 0 )
     {
+#else
+    if ( _chdir(DirNameA.str().c_str()) != 0 )
+    {
+#endif
       bool existe = false ;
+#ifndef WIN32
       DIR *dp;
       struct dirent *dirp;
       dp  = opendir(nomrep);
       while ( (dirp = readdir(dp)) != NULL )
       {
         std::string file_name(dirp->d_name);
+#else
+      HANDLE hFind = INVALID_HANDLE_VALUE;
+      WIN32_FIND_DATA ffd;
+      hFind = FindFirstFile(nomrep, &ffd);
+      if (INVALID_HANDLE_VALUE != hFind) {
+        while (FindNextFile(hFind, &ffd) != 0) {
+         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
+         std::string file_name(ffd.cFileName);
+#endif        
         if ( file_name == DirNameA.str() ) { existe = true ; }
       }
+#ifndef WIN32
       closedir(dp);
-      if ( not existe )
+#else 
+      }
+      FindClose(hFind);
+#endif
+      if ( !existe )
       {
         DirName = DirNameA.str() ;
         a_chercher = false ;
@@ -2696,8 +2822,11 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 
   MESSAGE ( "==> DirName = " << DirName);
   MESSAGE ( ". On retourne dans nomDirActuel = " << nomDirActuel );
+#ifndef WIN32
   chdir(nomDirActuel.c_str());
-
+#else
+  _chdir(nomDirActuel.c_str());
+#endif
   return CORBA::string_dup( DirName.c_str() );
 }
 //=============================================================================
@@ -2724,11 +2853,19 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
   MESSAGE (". DirCompute = " << DirCompute.str() );
 
   // B.3.3. Si le sous-repertoire n'existe pas, on le cree
+#ifndef WIN32
   if (chdir(DirCompute.str().c_str()) != 0)
   {
 //  Creation du repertoire car il n'existe pas :
     if (mkdir(DirCompute.str().c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
     {
+#else
+  if (_chdir(DirCompute.str().c_str()) != 0)
+  {
+//  Creation du repertoire car il n'existe pas :
+    if (_mkdir(DirCompute.str().c_str()) != 0)
+    {
+#endif
        // GERALD -- QMESSAGE BOX
        std::cerr << "Pb Creation du repertoire DirCompute = " << DirCompute.str() << std::endl;
        VERIFICATION("Pb a la creation du repertoire" == 0);
@@ -2755,6 +2892,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
     {
       if (etatMenage == 0)
       {
+#ifndef WIN32
         DIR *dp;
         struct dirent *dirp;
         dp  = opendir(DirCompute.str().c_str());
@@ -2765,6 +2903,20 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
           result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
         }
         closedir(dp);
+#else
+       HANDLE hFind = INVALID_HANDLE_VALUE;
+       WIN32_FIND_DATA ffd;
+       hFind = FindFirstFile(DirCompute.str().c_str(), &ffd);
+       bool result = true;
+       if (INVALID_HANDLE_VALUE != hFind) {
+         while (FindNextFile(hFind, &ffd) != 0) {
+          if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
+          std::string file_name(ffd.cFileName);
+          result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
+         }
+       }
+       FindClose(hFind);
+#endif
         if ( result == false)
         {
           SALOME::ExceptionStruct es;
@@ -2825,13 +2977,13 @@ void HOMARD_Gen_i::DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardD
     MESSAGE ( "... ZoneType = " << ZoneType << ", TypeUse = "<<TypeUse);
     NumZone = iaux/2 + 1 ;
     HOMARD::double_array* zone = myZone->GetCoords();
-    if ( ZoneType == 2 or ( ZoneType>=11 and ZoneType <=13 ) ) // Cas d un parallelepipede ou d'un rectangle
+    if ( ZoneType == 2 || ( ZoneType>=11 && ZoneType <=13 ) ) // Cas d un parallelepipede ou d'un rectangle
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], 0., 0., 0.); }
     else if ( ZoneType == 4 ) // Cas d une sphere
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], 0., 0., 0., 0., 0.); }
-    else if ( ZoneType == 5 or ( ZoneType>=31 and ZoneType <=33 ) ) // Cas d un cylindre ou d'un disque
+    else if ( ZoneType == 5 || ( ZoneType>=31 && ZoneType <=33 ) ) // Cas d un cylindre ou d'un disque
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], 0.); }
-    else if ( ZoneType == 7 or ( ZoneType>=61 and ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
+    else if ( ZoneType == 7 || ( ZoneType>=61 && ZoneType <=63 ) ) // Cas d un tuyau ou disque perce
     { myDriver->TexteZone(NumZone, ZoneType, TypeUse, (*zone)[0], (*zone)[1], (*zone)[2], (*zone)[3], (*zone)[4], (*zone)[5], (*zone)[6], (*zone)[7], (*zone)[8]); }
     else { VERIFICATION("ZoneType est incorrect." == 0) ; }
     iaux += 1 ;
@@ -3116,7 +3268,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
    addInStudy(theStudy);
 
 // Controle de la non publication d'un objet de meme nom
-   if ( (!aBoundary->_is_nil()) or (!aHypo->_is_nil()) or (!aYACS->_is_nil()) or (!aZone->_is_nil()) )
+   if ( (!aBoundary->_is_nil()) || (!aHypo->_is_nil()) || (!aYACS->_is_nil()) || (!aZone->_is_nil()) )
   {
     SALOMEDS::Study::ListOfSObject_var listSO = theStudy->FindObjectByName(theName, ComponentDataType());
     if (listSO->length() >= 1)
@@ -4741,6 +4893,7 @@ char* HOMARD_Gen_i::GetLanguageShort()
 //=============================================================================
 extern "C"
 {
+  HOMARDENGINE_EXPORT
   PortableServer::ObjectId* HOMARDEngine_factory(CORBA::ORB_ptr orb,
 						  PortableServer::POA_ptr poa,
 						  PortableServer::ObjectId* contId,

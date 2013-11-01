@@ -20,6 +20,8 @@
 #ifndef MON_CREATEYACS_H
 #define MON_CREATEYACS_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -30,7 +32,7 @@
 #include <CreateYACS.h>
 #include <QWidget>
 
-class MonCreateYACS : public QDialog, public Ui_CreateYACS
+class HOMARD_EXPORT MonCreateYACS : public QDialog, public Ui_CreateYACS
 {
     Q_OBJECT
 

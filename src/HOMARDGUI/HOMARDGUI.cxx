@@ -21,7 +21,6 @@
 //  Author : Paul RASCLE, EDF
 //  Module : HOMARD
 
-using namespace std;
 #include "HOMARDGUI.h"
 
 // SALOME Includes
@@ -79,6 +78,8 @@ using namespace std;
 //Pour le _CAST
 #include "SALOMEDS_Study.hxx"
 #include "HOMARDGUI_Utils.h"
+
+using namespace std;
 
 static CORBA::ORB_var _orb;
 
@@ -395,7 +396,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       if (obj)
       {
         // Suppression d'une frontiere
-        if ( HOMARD_UTILS::isBoundaryDi(obj) or HOMARD_UTILS::isBoundaryAn(obj) )
+        if ( HOMARD_UTILS::isBoundaryDi(obj) || HOMARD_UTILS::isBoundaryAn(obj) )
         {
           try
           { homardGen->DeleteBoundary(_ObjectName.toStdString().c_str()); }
@@ -489,7 +490,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
     {
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       _PTR(SObject) obj = chercheMonObjet();
-      if ( (obj) and ( HOMARD_UTILS::isFileType(obj,QString("log")) or HOMARD_UTILS::isFileType(obj,QString("Summary")) or HOMARD_UTILS::isFileType(obj,QString("xml")) ) )
+      if ( (obj) && ( HOMARD_UTILS::isFileType(obj,QString("log")) || HOMARD_UTILS::isFileType(obj,QString("Summary")) || HOMARD_UTILS::isFileType(obj,QString("xml")) ) )
       {
           MonEditFile *aDlg = new MonEditFile( 0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName, 0 ) ;
           if ( aDlg->_codret == 0 ) { aDlg->show(); }
@@ -679,7 +680,7 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
       EditObject = true ;
       DeleteObject = true ;
     }
-    else if ( HOMARD_UTILS::isFileType(obj,QString("log")) or HOMARD_UTILS::isFileType(obj,QString("Summary")) or HOMARD_UTILS::isFileType(obj,QString("xml")) )
+    else if ( HOMARD_UTILS::isFileType(obj,QString("log")) || HOMARD_UTILS::isFileType(obj,QString("Summary")) || HOMARD_UTILS::isFileType(obj,QString("xml")) )
     {
       pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this, SLOT(EditAsciiFile()));

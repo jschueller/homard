@@ -20,6 +20,8 @@
 #ifndef MON_MESHINFO_H
 #define MON_MESHINFO_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -30,7 +32,7 @@
 #include <MeshInfo.h>
 #include <QWidget>
 
-class MonMeshInfo : public QDialog, public Ui_MeshInfo
+class HOMARD_EXPORT MonMeshInfo : public QDialog, public Ui_MeshInfo
 {
     Q_OBJECT
 

@@ -20,6 +20,8 @@
 #ifndef MON_ITERINFO_H
 #define MON_ITERINFO_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -34,7 +36,7 @@
 
 class QListBox;
 
-class MonIterInfo : public QDialog, public Ui_IterInfo
+class HOMARD_EXPORT MonIterInfo : public QDialog, public Ui_IterInfo
 {
     Q_OBJECT
 

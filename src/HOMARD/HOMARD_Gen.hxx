@@ -25,7 +25,9 @@
 #ifndef _HOMARD_GEN_HXX_
 #define _HOMARD_GEN_HXX_
 
-class HOMARD_Gen
+#include "HOMARD.hxx"
+
+class HOMARDIMPL_EXPORT HOMARD_Gen
 {
 public :
   HOMARD_Gen();

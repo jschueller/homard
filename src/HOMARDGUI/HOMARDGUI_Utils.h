@@ -20,6 +20,7 @@
 #ifndef HOMARD_H_UTILS
 #define HOMARD_H_UTILS
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 
@@ -52,37 +53,39 @@ class LightApp_SelectionMgr;
 
 namespace HOMARD_UTILS {
 
+  HOMARD_EXPORT
   _PTR(Study)
   GetCStudy(const SalomeApp_Study* theStudy);
-  SUIT_Study* GetActiveStudy();
-  _PTR(Study) GetActiveStudyDocument();
 
-  void updateObjBrowser();
+  HOMARD_EXPORT SUIT_Study* GetActiveStudy();
+  HOMARD_EXPORT _PTR(Study) GetActiveStudyDocument();
 
-  const SALOME_ListIO& selectedIO();    // Function returns a list of SALOME_InteractiveObject's from
+  HOMARD_EXPORT void updateObjBrowser();
+
+  HOMARD_EXPORT const SALOME_ListIO& selectedIO();    // Function returns a list of SALOME_InteractiveObject's from
                                         // selection manager in GUI
 
-  int   IObjectCount() ;                // Function returns the number of selected objects
+  HOMARD_EXPORT int   IObjectCount() ;                // Function returns the number of selected objects
 
-  Handle(SALOME_InteractiveObject) firstIObject() ;
+  HOMARD_EXPORT Handle(SALOME_InteractiveObject) firstIObject() ;
                                         // Function returns the first selected object in the list
                                         // of selected objects
 
-  Handle(SALOME_InteractiveObject) lastIObject() ;
+  HOMARD_EXPORT Handle(SALOME_InteractiveObject) lastIObject() ;
                                       // Function returns the last selected object in the list
                                        // of selected objects
 
-  bool isBoundaryAn(_PTR(SObject)  MonObj);
-  bool isBoundaryDi(_PTR(SObject)  MonObj);
-  bool isCase(_PTR(SObject)  MonObj);
-  bool isHypo(_PTR(SObject)  MonObj);
-  bool isIter(_PTR(SObject)  MonObj);
-  bool isYACS(_PTR(SObject)  MonObj);
-  bool isZone(_PTR(SObject)  MonObj);
-  bool isFileType(_PTR(SObject)  MonObj, QString TypeFile);
-  bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );
+  HOMARD_EXPORT bool isBoundaryAn(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isBoundaryDi(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isCase(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isHypo(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isIter(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isYACS(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isZone(_PTR(SObject)  MonObj);
+  HOMARD_EXPORT bool isFileType(_PTR(SObject)  MonObj, QString TypeFile);
+  HOMARD_EXPORT bool isObject(_PTR(SObject)  MonObj, QString TypeObject, int option );
 
-  void PushOnHelp(QString monFichierAide, QString contexte, QString LanguageShort);
+  HOMARD_EXPORT void PushOnHelp(QString monFichierAide, QString contexte, QString LanguageShort);
 
   extern SALOME_ListIO mySelected;
 }

@@ -20,6 +20,8 @@
 #ifndef MON_EDITYACS_H
 #define MON_EDITYACS_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateYACS.h>
 
-class MonEditYACS : public MonCreateYACS
+class HOMARD_EXPORT MonEditYACS : public MonCreateYACS
 {
     Q_OBJECT
 public:

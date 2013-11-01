@@ -34,10 +34,12 @@
 #ifndef _HOMARD_YACS_HXX_
 #define _HOMARD_YACS_HXX_
 
+#include "HOMARD.hxx"
+
 #include <string>
 #include <list>
 
-class  HOMARD_YACS
+class HOMARDIMPL_EXPORT HOMARD_YACS
 {
 public:
   HOMARD_YACS();

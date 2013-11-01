@@ -31,6 +31,7 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS)
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 
+#include "HOMARD_i.hxx"
 #include "HOMARD_Gen.hxx"
 #include "HomardDriver.hxx"
 #include "YACSDriver.hxx"
@@ -42,7 +43,7 @@
 #include <string>
 #include <map>
 
-class HOMARD_Gen_i:
+class HOMARDENGINE_EXPORT HOMARD_Gen_i:
   public virtual Engines_Component_i,
   public virtual POA_HOMARD::HOMARD_Gen
 {

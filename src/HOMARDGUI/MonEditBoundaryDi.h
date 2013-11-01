@@ -20,6 +20,8 @@
 #ifndef MON_EDITBOUNDARYDI_H
 #define MON_EDITBOUNDARYDI_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateBoundaryDi.h>
 
-class MonEditBoundaryDi : public MonCreateBoundaryDi
+class HOMARD_EXPORT MonEditBoundaryDi : public MonCreateBoundaryDi
 {
     Q_OBJECT
 public:

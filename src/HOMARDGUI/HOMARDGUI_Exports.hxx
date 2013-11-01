@@ -17,33 +17,19 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-#ifndef MON_EDITLISTGROUP_H
-#define MON_EDITLISTGROUP_H
+#ifndef _HOMARDGUI_EXPORTS_H_
+#define _HOMARDGUI_EXPORTS_H_
 
-#include "HOMARDGUI_Exports.hxx"
+#ifdef WIN32
+  #if defined HOMARD_EXPORTS || defined Homadr_EXPORTS
+    #define HOMARD_EXPORT __declspec( dllexport )
+  #else
+    #define HOMARD_EXPORT __declspec( dllimport )
+  #endif
+#else
+   #define HOMARD_EXPORT
+#endif
 
-#include <SALOMEconfig.h>
-#include <SalomeApp_Module.h>
 
-#include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
-#include CORBA_CLIENT_HEADER(HOMARD_Gen)
+#endif //_HOMARDGUI_EXPORTS_H_
 
-#include <MonCreateListGroup.h>
-
-class MonCreateHypothesis;
-class MonCreateBoundaryDi;
-class HOMARD_EXPORT MonEditListGroup : public MonCreateListGroup
-{
-    Q_OBJECT
-
-public:
-    MonEditListGroup( MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal, HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo);
-    virtual ~MonEditListGroup();
-
-protected :
-
-    virtual void InitGroupes();
-
-};
-
-#endif // MON_EDITLISTGROUP_H

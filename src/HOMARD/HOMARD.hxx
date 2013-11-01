@@ -31,4 +31,14 @@
         if (!(condition)){INTERRUPTION("CONDITION "<<#condition<<" NOT VERIFIED")}
 #endif /* VERIFICATION */
 
+#ifdef WIN32
+  #if defined HOMARDIMPL_EXPORTS || defined HOMARDImpl_EXPORTS
+    #define HOMARDIMPL_EXPORT __declspec( dllexport )
+  #else
+    #define HOMARDIMPL_EXPORT __declspec( dllimport )
+  #endif
+#else
+   #define HOMARDIMPL_EXPORT
+#endif
+
 #endif

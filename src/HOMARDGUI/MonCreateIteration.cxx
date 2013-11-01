@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateIteration.h"
 #include "MonCreateHypothesis.h"
 #include "MonEditHypothesis.h"
@@ -30,6 +28,8 @@ using namespace std;
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
+
+using namespace std;
 
 // -----------------------------------------------------------------------------------------------------
 MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
@@ -130,7 +130,7 @@ bool MonCreateIteration::PushOnApply()
   HOMARD::HOMARD_Hypothesis_var _myHypothesis = myHomardGen->GetHypothesis(monHypoName.toStdString().c_str());
   HOMARD::listeTypes_var ListTypes (_myHypothesis->GetAdapRefinUnRef());
   int TypeAdap = ListTypes[0];
-  if ( TypeAdap == 1 and LEFieldFile->text().trimmed() == QString("") )
+  if ( TypeAdap == 1 && LEFieldFile->text().trimmed() == QString("") )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_ITER_FIELD_FILE") );

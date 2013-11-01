@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateBoundaryDi.h"
 #include "MonCreateListGroup.h"
 #include "MonCreateCase.h"
@@ -30,6 +28,8 @@ using namespace std;
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
+
+using namespace std;
 
 // -------------------------------------------------------------------------------
 MonCreateBoundaryDi::MonCreateBoundaryDi(MonCreateCase* parent, bool modal,

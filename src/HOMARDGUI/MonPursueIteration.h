@@ -20,6 +20,8 @@
 #ifndef MON_PURSUEITERATION_H
 #define MON_PURSUEITERATION_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -30,7 +32,7 @@
 #include <PursueIteration.h>
 #include <QWidget>
 
-class MonPursueIteration : public QDialog, public Ui_PursueIteration
+class HOMARD_EXPORT MonPursueIteration : public QDialog, public Ui_PursueIteration
 {
     Q_OBJECT
 

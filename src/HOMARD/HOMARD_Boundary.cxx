@@ -235,7 +235,7 @@ std::vector<double> HOMARD_Boundary::GetCoords() const
       mesCoor.push_back( _Rayon2 );
       break ;
     }
-    VERIFICATION( (_Type>=1) and (_Type<=4) ) ;
+    VERIFICATION( (_Type>=1) && (_Type<=4) ) ;
   }
   return mesCoor;
 }

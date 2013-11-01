@@ -37,7 +37,9 @@
 #include <sys/stat.h>
 
 #ifndef WIN32
-# include <unistd.h>
+#include <unistd.h>
+#else
+#include <direct.h>
 #endif
 
 //=============================================================================
@@ -111,12 +113,25 @@ int HOMARD_Cas::SetDirName( const char* NomDir )
   MESSAGE("SetDirName, _ListIter.size() : "<<_ListIter.size());
   if ( _ListIter.size() > 1 ) { erreur = 1 ; }
   // Creation
-  if ( chdir(NomDir) == 0 ) { _NomDir = std::string( NomDir ); }
+#ifndef WIN32
+  if ( chdir(NomDir) == 0 ) 
+#else
+  if ( _chdir(NomDir) == 0 ) 
+#endif
+  { _NomDir = std::string( NomDir ); }
   else
   {
+
+#ifndef WIN32
     if ( mkdir(NomDir, S_IRWXU|S_IRGRP|S_IXGRP) == 0 )
     {
-      if ( chdir(NomDir) == 0 ) { _NomDir = std::string( NomDir ); }
+      if ( chdir(NomDir) == 0 ) 
+#else
+    if ( _mkdir(NomDir) == 0 )
+    {
+      if ( _chdir(NomDir) == 0 ) 
+#endif
+      { _NomDir = std::string( NomDir ); }
       else                      { erreur = 2 ; }
     }
     else { erreur = 2 ; }

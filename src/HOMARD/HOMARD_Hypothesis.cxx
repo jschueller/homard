@@ -162,7 +162,7 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
 //=============================================================================
 void HOMARD_Hypothesis::SetAdapType( int TypeAdap )
 {
-  VERIFICATION( (TypeAdap>=-1) and (TypeAdap<=1) );
+  VERIFICATION( (TypeAdap>=-1) && (TypeAdap<=1) );
   _TypeAdap = TypeAdap;
 }
 //=============================================================================
@@ -173,9 +173,9 @@ int HOMARD_Hypothesis::GetAdapType() const
 //=============================================================================
 void HOMARD_Hypothesis::SetRefinTypeDera( int TypeRaff, int TypeDera )
 {
-  VERIFICATION( (TypeRaff>=-1) and (TypeRaff<=1) );
+  VERIFICATION( (TypeRaff>=-1) && (TypeRaff<=1) );
   _TypeRaff = TypeRaff;
-  VERIFICATION( (TypeDera>=-1) and (TypeDera<=1) );
+  VERIFICATION( (TypeDera>=-1) && (TypeDera<=1) );
   _TypeDera = TypeDera;
 }
 //=============================================================================
@@ -202,7 +202,7 @@ std::string HOMARD_Hypothesis::GetFieldName() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUseField( int UsField )
 {
-  VERIFICATION( (UsField>=0) and (UsField<=1) );
+  VERIFICATION( (UsField>=0) && (UsField<=1) );
   _UsField = UsField;
 }
 //=============================================================================
@@ -213,7 +213,7 @@ int HOMARD_Hypothesis::GetUseField() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUseComp( int UsCmpI )
 {
-  VERIFICATION( (UsCmpI>=0) and (UsCmpI<=2) );
+  VERIFICATION( (UsCmpI>=0) && (UsCmpI<=2) );
   _UsCmpI = UsCmpI;
 }
 //=============================================================================
@@ -252,7 +252,7 @@ const std::list<std::string>& HOMARD_Hypothesis::GetComps() const
 void HOMARD_Hypothesis::SetRefinThr( int TypeThR, double ThreshR )
 {
   MESSAGE( "SetRefinThr : TypeThR = " << TypeThR << ", ThreshR = " << ThreshR );
-  VERIFICATION( (TypeThR>=0) and (TypeThR<=4) );
+  VERIFICATION( (TypeThR>=0) && (TypeThR<=4) );
   _TypeThR = TypeThR;
   _ThreshR = ThreshR;
 }
@@ -269,7 +269,7 @@ double HOMARD_Hypothesis::GetThreshR() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUnRefThr( int TypeThC, double ThreshC )
 {
-  VERIFICATION( (TypeThC>=0) and (TypeThC<=4) );
+  VERIFICATION( (TypeThC>=0) && (TypeThC<=4) );
   _TypeThC = TypeThC;
   _ThreshC = ThreshC;
 }
@@ -356,7 +356,7 @@ const std::list<std::string>& HOMARD_Hypothesis::GetGroups() const
 //   2 : certains champs sont interpoles
 void HOMARD_Hypothesis::SetTypeFieldInterp( int TypeFieldInterp )
 {
-  VERIFICATION( (TypeFieldInterp>=0) and (TypeFieldInterp<=2) );
+  VERIFICATION( (TypeFieldInterp>=0) && (TypeFieldInterp<=2) );
   _TypeFieldInterp = TypeFieldInterp;
 }
 //=============================================================================

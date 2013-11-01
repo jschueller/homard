@@ -20,6 +20,7 @@
 #ifndef MON_CREATEZONE_H
 #define MON_CREATEZONE_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -31,7 +32,7 @@
 #include <QDialog>
 
 class MonCreateHypothesis;
-class MonCreateZone : public QDialog, public Ui_CreateZone
+class HOMARD_EXPORT MonCreateZone : public QDialog, public Ui_CreateZone
 {
     Q_OBJECT
 

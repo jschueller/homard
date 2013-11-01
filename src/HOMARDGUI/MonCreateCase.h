@@ -20,6 +20,8 @@
 #ifndef MON_CREATECASE_H
 #define MON_CREATECASE_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -30,7 +32,7 @@
 #include <CreateCase.h>
 #include <QWidget>
 
-class MonCreateCase : public QDialog, public Ui_CreateCase
+class HOMARD_EXPORT MonCreateCase : public QDialog, public Ui_CreateCase
 {
     Q_OBJECT
 

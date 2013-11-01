@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonMeshInfo.h"
 
 #include <QFileDialog>
@@ -30,6 +28,11 @@ using namespace std;
 #include "MonEditFile.h"
 #include <utilities.h>
 
+#ifdef WIN32
+#include <direct.h>
+#endif
+
+using namespace std;
 
 // -----------------------------------------------------------------------------------------
 MonMeshInfo::MonMeshInfo(QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen0)
@@ -112,7 +115,11 @@ bool MonMeshInfo::PushOnApply()
       return false;
     }
   }
+#ifndef WIN32
   if (chdir(aDirName.toStdString().c_str()) != 0)
+#else
+  if (_chdir(aDirName.toStdString().c_str()) != 0)
+#endif
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_DIRECTORY_3") );
@@ -134,7 +141,7 @@ bool MonMeshInfo::PushOnApply()
                               QObject::tr("HOM_MED_FILE_2") );
     return false;
   }
-  if ( ( _Quality == 0 ) and ( _Diametre == 0 ) and ( _Connection == 0 ) and ( _BlockSize == 0 ) and ( _Entanglement == 0 ) )
+  if ( ( _Quality == 0 ) && ( _Diametre == 0 ) && ( _Connection == 0 ) && ( _BlockSize == 0 ) && ( _Entanglement == 0 ) )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_MESH_INFO") );

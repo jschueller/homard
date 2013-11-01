@@ -34,11 +34,17 @@
 #ifndef _HOMARD_Boundary_HXX_
 #define _HOMARD_Boundary_HXX_
 
+#include "HOMARD.hxx"
+
 #include <vector>
 #include <string>
 #include <list>
 
-class HOMARD_Boundary
+#if defined WIN32
+#pragma warning ( disable: 4251 )
+#endif
+
+class HOMARDIMPL_EXPORT HOMARD_Boundary
 {
 public:
   HOMARD_Boundary();

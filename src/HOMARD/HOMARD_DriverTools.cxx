@@ -669,10 +669,10 @@ namespace HOMARD
     // Les coordonnees des zones : le nombre depend du type
     std::vector<double> coords;
     int lgcoords ;
-    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) ) { lgcoords = 6 ; }
+    if ( ZoneType == 2 || ( ZoneType >= 11 && ZoneType <= 13 ) ) { lgcoords = 6 ; }
     else if ( ZoneType == 4 ) { lgcoords = 4 ; }
-    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) ) { lgcoords = 8 ; }
-    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) ) { lgcoords = 9 ; }
+    else if ( ZoneType == 5 || ( ZoneType >= 31 && ZoneType <= 33 ) ) { lgcoords = 8 ; }
+    else if ( ZoneType == 7 || ( ZoneType >= 61 && ZoneType <= 63 ) ) { lgcoords = 9 ; }
     else return false;
     coords.resize( lgcoords );
     for ( int i = 0; i < lgcoords; i++ ) {
@@ -680,13 +680,13 @@ namespace HOMARD
       if ( !ok ) return false;
       coords[i] = strtod( chunk.c_str(), 0 );
     }
-    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) )
+    if ( ZoneType == 2 || ( ZoneType >= 11 && ZoneType <= 13 ) )
     { zone.SetBox( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5] ); }
     else if ( ZoneType == 4 )
     { zone.SetSphere( coords[0], coords[1], coords[2], coords[3] ); }
-    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) )
+    else if ( ZoneType == 5 || ( ZoneType >= 31 && ZoneType <= 33 ) )
     { zone.SetCylinder( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7] ); }
-    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) )
+    else if ( ZoneType == 7 || ( ZoneType >= 61 && ZoneType <= 63 ) )
     { zone.SetPipe( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7], coords[8] ); }
     // Remarque : la taille de coords est suffisante pour les limites
     for ( int i = 0; i < 3; i++ ) {

@@ -36,6 +36,10 @@
 #include <vector>
 #include <sys/stat.h>
 
+#ifdef WIN32
+#include <direct.h>
+#endif
+
 //=============================================================================
 /*!
  *  standard constructor
@@ -161,7 +165,11 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
     // D.3. Creation du futur repertoire local pour l'iteration de depart
     std::string nomDirIterTotal ;
     nomDirIterTotal = std::string(NomDir) + "/" + std::string(nomDirIter) ;
+#ifndef WIN32
     if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
+#else
+    if (_mkdir(nomDirIterTotal.c_str()) != 0)
+#endif
     {
       MESSAGE ( "nomDirIterTotal : " << nomDirIterTotal ) ;
       SALOME::ExceptionStruct es;

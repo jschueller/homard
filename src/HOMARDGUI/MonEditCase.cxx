@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditCase.h"
 
 #include "SalomeApp_Tools.h"
@@ -26,6 +24,7 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -------------------------------------------------------------
 /* Constructs a MonEditCase

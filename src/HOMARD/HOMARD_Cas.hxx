@@ -34,11 +34,17 @@
 #ifndef _HOMARD_CAS_HXX_
 #define _HOMARD_CAS_HXX_
 
+#include "HOMARD.hxx"
+
 #include <string>
 #include <list>
 #include <vector>
 
-class HOMARD_Cas
+#if defined WIN32
+#pragma warning ( disable: 4251 )
+#endif
+
+class HOMARDIMPL_EXPORT HOMARD_Cas
 {
 public:
   HOMARD_Cas();

@@ -20,6 +20,7 @@
 #ifndef MON_CREATELISTGROUP_H
 #define MON_CREATELISTGROUP_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -32,7 +33,7 @@
 
 class MonCreateHypothesis;
 class MonCreateBoundaryDi;
-class MonCreateListGroup : public QDialog, public Ui_CreateListGroup
+class HOMARD_EXPORT MonCreateListGroup : public QDialog, public Ui_CreateListGroup
 {
     Q_OBJECT
 

@@ -22,10 +22,12 @@
 # ifndef __YACSDRIVER_H__
 # define __YACSDRIVER_H__
 
+#include "HOMARD.hxx"
+
 #include <iostream>
 #include <fstream>
 
-class YACSDriver
+class HOMARDIMPL_EXPORT YACSDriver
 {
 public:
   YACSDriver(const std::string XMLFile, const std::string DirName) ;

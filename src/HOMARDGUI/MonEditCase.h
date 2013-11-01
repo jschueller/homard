@@ -20,6 +20,8 @@
 #ifndef MON_EDITCASE_H
 #define MON_EDITCASE_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateCase.h>
 
-class MonEditCase : public MonCreateCase
+class HOMARD_EXPORT MonEditCase : public MonCreateCase
 {
     Q_OBJECT
 public:

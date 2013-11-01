@@ -20,6 +20,8 @@
 #ifndef MON_EDITITERATION_H
 #define MON_EDITITERATION_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateIteration.h>
 
-class MonEditIteration : public MonCreateIteration
+class HOMARD_EXPORT MonEditIteration : public MonCreateIteration
 {
     Q_OBJECT
 public:

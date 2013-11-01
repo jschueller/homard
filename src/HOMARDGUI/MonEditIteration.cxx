@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditIteration.h"
 
 #include "SalomeApp_Tools.h"
@@ -26,6 +24,7 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -------------------------------------------------------------------------------------------------------------------------------------
 MonEditIteration::MonEditIteration ( QWidget* parent, bool modal,
@@ -168,8 +167,8 @@ bool MonEditIteration::PushOnApply()
   if ( _aTypeAdap ==  1)
   {
 // Pour du raffinement selon un champ, les instants ont-ils change ?
-    if ( (_FieldFile != LEFieldFile->text().trimmed()) or
-       (  _rank != SpinBox_Rank->value())  or
+    if ( (_FieldFile != LEFieldFile->text().trimmed()) ||
+       (  _rank != SpinBox_Rank->value())  ||
        (  _step != SpinBox_TimeStep->value()))
     {
       _FieldFile = LEFieldFile->text().trimmed();

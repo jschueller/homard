@@ -32,6 +32,10 @@ INCLUDE_DIRECTORIES(
   ${PROJECT_SOURCE_DIR}/src/HOMARD
   ${PROJECT_SOURCE_DIR}/src/HOMARDGUI
 )
+# additional preprocessor / compiler flags
+ADD_DEFINITIONS(
+  ${OMNIORB_DEFINITIONS}
+)
 
 # libraries to link to
 SET(_link_LIBRARIES
@@ -60,6 +64,7 @@ SET(HOMARDEngine_HEADERS
   HOMARD_Boundary_i.hxx
   HOMARD_YACS_i.hxx
   HomardMedCommun.h
+  HOMARD_i.hxx 
 )
 
 # --- sources ---

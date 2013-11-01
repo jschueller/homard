@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateHypothesis.h"
 #include "MonCreateListGroup.h"
 #include "MonCreateIteration.h"
@@ -32,6 +30,8 @@ using namespace std;
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
+
+using namespace std;
 
 // -------------------------------------------------------------------------------
 MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
@@ -304,7 +304,7 @@ void MonCreateHypothesis::PushZoneEdit()
   MESSAGE("Debut de MonCreateHypothesis::PushZoneEdit")
   int colonne = TWZone->currentColumn();
   QTableWidgetItem * monItem = TWZone->currentItem();
-  if (colonne !=2  or monItem == NULL)
+  if (colonne !=2  || monItem == NULL)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_HYPO_ZONE_1") );
@@ -400,7 +400,7 @@ QStringList MonCreateHypothesis::GetZonesChecked()
   int Pbm = 0 ;
   for ( int row=0; row< TWZone->rowCount(); row++)
   {
-    if ( ( TWZone->item( row, 0 )->checkState() == Qt::Checked ) and ( TWZone->item( row, 1 )->checkState() == Qt::Checked ) )
+    if ( ( TWZone->item( row, 0 )->checkState() == Qt::Checked ) && ( TWZone->item( row, 1 )->checkState() == Qt::Checked ) )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_HYPO_ZONE_3") );
@@ -502,7 +502,7 @@ void MonCreateHypothesis::SetFieldName()
 {
   MESSAGE("Debut de SetFieldName");
   _aFieldName=CBFieldName->currentText();
-  if (QString(_aFieldFile) == QString("") or QString(_aFieldName) == QString("") ) { return; }
+  if (QString(_aFieldFile) == QString("") || QString(_aFieldName) == QString("") ) { return; }
 
   int nbrow= TWCMP->rowCount() ;
   for ( int row=0; row < nbrow ; row++)

@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateZone.h"
 #include "MonCreateHypothesis.h"
 
@@ -35,6 +33,8 @@ using namespace std;
 #include <SUIT_ResourceMgr.h>
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
+
+using namespace std;
 
 // ----------------------------------------------------------------------
 MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
@@ -344,11 +344,11 @@ bool MonCreateZone::PushOnApply()
     { }
     case 2 : // il s agit d un parallelipipede rectangle
     {
-      if (  (_ZoneXmin != SpinBox_Xmini->value()) or
-            (_ZoneXmax != SpinBox_Xmaxi->value()) or
-            (_ZoneYmin != SpinBox_Ymini->value()) or
-            (_ZoneYmax != SpinBox_Ymaxi->value()) or
-            (_ZoneZmin != SpinBox_Zmini->value()) or
+      if (  (_ZoneXmin != SpinBox_Xmini->value()) ||
+            (_ZoneXmax != SpinBox_Xmaxi->value()) ||
+            (_ZoneYmin != SpinBox_Ymini->value()) ||
+            (_ZoneYmax != SpinBox_Ymaxi->value()) ||
+            (_ZoneZmin != SpinBox_Zmini->value()) ||
             (_ZoneZmax   != SpinBox_Zmaxi->value()) )
       {
         Chgt = true;
@@ -360,9 +360,9 @@ bool MonCreateZone::PushOnApply()
     }
     case 4 : // il s agit d une sphere
     {
-      if (  (_ZoneXcentre != SpinBox_Xcentre->value()) or
-            (_ZoneYcentre != SpinBox_Ycentre->value()) or
-            (_ZoneZcentre != SpinBox_Zbase->value())   or
+      if (  (_ZoneXcentre != SpinBox_Xcentre->value()) ||
+            (_ZoneYcentre != SpinBox_Ycentre->value()) ||
+            (_ZoneZcentre != SpinBox_Zbase->value())   ||
             (_ZoneRayon   != SpinBox_Rayon->value()) )
       {
         Chgt = true;
@@ -381,13 +381,13 @@ bool MonCreateZone::PushOnApply()
     { }
     case 5 : // il s agit d un cylindre
     {
-      if (  (_ZoneXcentre != SpinBox_Xbase->value())  or
-            (_ZoneYcentre != SpinBox_Ybase->value())  or
-            (_ZoneZcentre != SpinBox_Zbase->value())  or
-            (_ZoneRayon   != SpinBox_Radius->value()) or
-            (_ZoneHaut    != SpinBox_Haut->value())   or
-            (_ZoneXaxis   != SpinBox_Xaxis->value())  or
-            (_ZoneYaxis   != SpinBox_Yaxis->value())  or
+      if (  (_ZoneXcentre != SpinBox_Xbase->value())  ||
+            (_ZoneYcentre != SpinBox_Ybase->value())  ||
+            (_ZoneZcentre != SpinBox_Zbase->value())  ||
+            (_ZoneRayon   != SpinBox_Radius->value()) ||
+            (_ZoneHaut    != SpinBox_Haut->value())   ||
+            (_ZoneXaxis   != SpinBox_Xaxis->value())  ||
+            (_ZoneYaxis   != SpinBox_Yaxis->value())  ||
             (_ZoneZaxis   != SpinBox_Zaxis->value()) )
       {
         Chgt = true;
@@ -410,14 +410,14 @@ bool MonCreateZone::PushOnApply()
     { }
     case 7 : // il s agit d un tuyau
     {
-      if (  (_ZoneXcentre  != SpinBox_Xbase_p->value())  or
-            (_ZoneYcentre  != SpinBox_Ybase_p->value())  or
-            (_ZoneZcentre  != SpinBox_Zbase_p->value())  or
-            (_ZoneRayonInt != SpinBox_Radius_int->value()) or
-            (_ZoneRayon    != SpinBox_Radius_ext->value()) or
-            (_ZoneHaut     != SpinBox_Haut_p->value())   or
-            (_ZoneXaxis    != SpinBox_Xaxis_p->value())  or
-            (_ZoneYaxis    != SpinBox_Yaxis_p->value())  or
+      if (  (_ZoneXcentre  != SpinBox_Xbase_p->value())  ||
+            (_ZoneYcentre  != SpinBox_Ybase_p->value())  ||
+            (_ZoneZcentre  != SpinBox_Zbase_p->value())  ||
+            (_ZoneRayonInt != SpinBox_Radius_int->value()) ||
+            (_ZoneRayon    != SpinBox_Radius_ext->value()) ||
+            (_ZoneHaut     != SpinBox_Haut_p->value())   ||
+            (_ZoneXaxis    != SpinBox_Xaxis_p->value())  ||
+            (_ZoneYaxis    != SpinBox_Yaxis_p->value())  ||
             (_ZoneZaxis    != SpinBox_Zaxis_p->value()) )
       {
         Chgt = true;
@@ -437,25 +437,25 @@ bool MonCreateZone::PushOnApply()
 
 // Controles
 // Pour un rectangle ou un parallelepipede :
-  if ( ( _Type >= 11 and _Type <= 13 ) or _Type == 2 )
+  if ( ( _Type >= 11 && _Type <= 13 ) || _Type == 2 )
   {
-    if ((_ZoneXmin >= _ZoneXmax) and (_Xincr > 0)) {
+    if ((_ZoneXmin >= _ZoneXmax) && (_Xincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("X") ) ;
       return false; }
 
-    if  ((_ZoneYmin >= _ZoneYmax) and (_Yincr > 0)) {
+    if  ((_ZoneYmin >= _ZoneYmax) && (_Yincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("Y") ) ;
       return false; }
 
-    if ((_ZoneZmin >= _ZoneZmax) and (_Zincr > 0)) {
+    if ((_ZoneZmin >= _ZoneZmax) && (_Zincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("Z") ) ;
       return false; }
   }
 // L'axe pour un cylindre ou un tuyau :
-  if ( _Type == 5 or _Type == 7 )
+  if ( _Type == 5 || _Type == 7 )
   {
     double daux = _ZoneXaxis*_ZoneXaxis + _ZoneYaxis*_ZoneYaxis + _ZoneZaxis*_ZoneZaxis ;
     if ( daux < 0.0000001 )
@@ -466,7 +466,7 @@ bool MonCreateZone::PushOnApply()
     }
   }
 // Rayons pour disque avec trou ou un tuyau :
-  if ( ( _Type >= 61 and _Type <= 63 ) or _Type == 7 )
+  if ( ( _Type >= 61 && _Type <= 63 ) || _Type == 7 )
   {
     if ( _ZoneRayonInt >= _ZoneRayon )
     {

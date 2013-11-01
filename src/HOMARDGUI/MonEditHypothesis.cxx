@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditHypothesis.h"
 #include "MonEditListGroup.h"
 
@@ -27,6 +25,9 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include "HOMARD.hxx"
 #include <utilities.h>
+
+using namespace std;
+
 // ----------------------------------------------------------------------------
 MonEditHypothesis::MonEditHypothesis( MonCreateIteration* parent, bool modal,
                                       HOMARD::HOMARD_Gen_var myHomardGen,
@@ -83,7 +84,7 @@ void MonEditHypothesis::InitValEdit()
 
   InitFieldInterp();
 
-  if (_aTypeAdap == 1 or _TypeFieldInterp >= 1 )
+  if (_aTypeAdap == 1 || _TypeFieldInterp >= 1 )
   {
     if (_aFieldFile == QString("")) { GBFieldFile->setVisible(0); }
     else
@@ -103,7 +104,7 @@ void MonEditHypothesis::InitValEdit()
   double DiamMin = aHypothesis->GetDiamMin();
   int AdapInit = aHypothesis->GetAdapInit();
   int LevelOutput = aHypothesis->GetLevelOutput();
-  if ( NivMax > 0 or DiamMin > 0 or AdapInit != 0 or LevelOutput != 0 )
+  if ( NivMax > 0 || DiamMin > 0 || AdapInit != 0 || LevelOutput != 0 )
   { GBAdvancedOptions->setVisible(1);
     if ( NivMax > 0 )
     { spinBoxNivMax->setValue(NivMax);

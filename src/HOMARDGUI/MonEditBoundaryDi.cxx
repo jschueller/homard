@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditBoundaryDi.h"
 #include "MonEditListGroup.h"
 
@@ -29,6 +27,7 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -------------------------------------------------------------------------------------------------------------------------------------
 MonEditBoundaryDi::MonEditBoundaryDi( MonCreateCase* parent, bool modal,

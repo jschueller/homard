@@ -20,6 +20,7 @@
 #ifndef MON_CREATEITERATION_H
 #define MON_CREATEITERATION_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -32,7 +33,7 @@
 #include <QDialog>
 #include <QWidget>
 
-class MonCreateIteration : public QDialog, public Ui_CreateIteration
+class HOMARD_EXPORT MonCreateIteration : public QDialog, public Ui_CreateIteration
 {
     Q_OBJECT
 

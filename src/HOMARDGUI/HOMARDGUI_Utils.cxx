@@ -43,7 +43,9 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <sys/stat.h>
+#ifndef WIN32
 #include <dirent.h>
+#endif
 
 SALOME_ListIO HOMARD_UTILS::mySelected;
 

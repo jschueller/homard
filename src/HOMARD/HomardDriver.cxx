@@ -22,7 +22,9 @@
 // Pilote l'ecriture du fichier de configuration pour lancer l'execution de HOMARD
 
 #include <cstring>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 #include "HomardDriver.hxx"
@@ -241,9 +243,9 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
 //    <0 signifie que l'on deraffinera
 //
   int ZoneTypeHOMARD ;
-  if ( ZoneType >= 11 and ZoneType <= 13 ) { ZoneTypeHOMARD = 1 ; }
-  else if ( ZoneType >= 31 and ZoneType <= 33 ) { ZoneTypeHOMARD = 3 ; }
-  else if ( ZoneType >= 61 and ZoneType <= 63 ) { ZoneTypeHOMARD = 6 ; }
+  if ( ZoneType >= 11 && ZoneType <= 13 ) { ZoneTypeHOMARD = 1 ; }
+  else if ( ZoneType >= 31 && ZoneType <= 33 ) { ZoneTypeHOMARD = 3 ; }
+  else if ( ZoneType >= 61 && ZoneType <= 63 ) { ZoneTypeHOMARD = 6 ; }
   else { ZoneTypeHOMARD = ZoneType ; }
 //
   if ( TypeUse < 0 ) { ZoneTypeHOMARD = -ZoneTypeHOMARD ; }
@@ -358,7 +360,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
 //
 // Cas du disque
 //
-  else if ( ZoneType == 31 or ZoneType == 61 )
+  else if ( ZoneType == 31 || ZoneType == 61 )
   {
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
@@ -381,7 +383,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
       saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
-  else if ( ZoneType == 32 or ZoneType == 62 )
+  else if ( ZoneType == 32 || ZoneType == 62 )
   {
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
@@ -404,7 +406,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
       saux += "ZoRaRayI " + saux1.str() + "\n" ;
     }
   }
-  else if ( ZoneType == 33 or ZoneType == 63 )
+  else if ( ZoneType == 33 || ZoneType == 63 )
   {
     saux += "# Sphere\n" ;
     { std::stringstream saux1 ;
@@ -453,7 +455,7 @@ void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0
 //
 // Cas du cylindre ou du tuyau
 //
-  else if ( ZoneType == 5 or ZoneType == 7 )
+  else if ( ZoneType == 5 || ZoneType == 7 )
   {
     if ( ZoneType == 5 ) { saux += "# Cylindre\n" ; }
     else                 { saux += "# Tuyau\n" ; }
@@ -653,7 +655,7 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   { saux += "# Cylindre\n" ; }
   if ( BoundaryType == 2 )
   { saux += "# Sphere\n" ; }
-  if ( BoundaryType == 3 or BoundaryType == 4 )
+  if ( BoundaryType == 3 || BoundaryType == 4 )
   { saux += "# Cone\n" ; }
 //
 // Le nom de la frontiere

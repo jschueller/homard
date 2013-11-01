@@ -20,6 +20,8 @@
 #ifndef MON_EDITZONE_H
 #define MON_EDITZONE_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,7 +30,7 @@
 
 #include <MonCreateZone.h>
 
-class MonEditZone : public MonCreateZone
+class HOMARD_EXPORT MonEditZone : public MonCreateZone
 {
     Q_OBJECT
 public:

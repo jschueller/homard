@@ -20,12 +20,13 @@
 #ifndef HOMARDMEDCOMMUN_H
 #define HOMARDMEDCOMMUN_H
 
+#include "HOMARD_i.hxx"
 #include <vector>
 #include <set>
 #include <string>
 
-int                    MEDFileExist( const char * aFile );
-std::vector<double>    GetBoundingBoxInMedFile( const char * aFile);
-std::set<std::string>  GetListeGroupesInMedFile(const char * aFile);
+HOMARDENGINE_EXPORT int                    MEDFileExist( const char * aFile );
+HOMARDENGINE_EXPORT std::vector<double>    GetBoundingBoxInMedFile( const char * aFile);
+HOMARDENGINE_EXPORT std::set<std::string>  GetListeGroupesInMedFile(const char * aFile);
 
 #endif // HOMARD%MEDCOMMUN_H

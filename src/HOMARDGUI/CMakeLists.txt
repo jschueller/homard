@@ -101,6 +101,7 @@ SET(_other_HEADERS
   HOMARDGUI_Utils.h
   EditFile.h
   HomardQtCommun.h
+  HOMARDGUI_Exports.hxx
 )
 
 # header files / to install
