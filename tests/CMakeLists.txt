@@ -21,6 +21,7 @@
 #
 
 SET(HOMARD_TEST_FILES
+  test_util.py
   test_1.pdf
   test_1.en.pdf
   test_1.py

@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2013
 Test test_2
 """
-__revision__ = "V1.12"
+__revision__ = "V2.1"
 
 #========================================================================
 Test_Name = "test_2"
@@ -30,6 +30,7 @@ n_iter_test_file = 3
 #========================================================================
 import os
 import tempfile
+import sys
 import HOMARD
 import salome
 #
@@ -39,28 +40,13 @@ Rep_Test = os.path.normpath(Rep_Test)
 Rep_Test_Resu = tempfile.mktemp()
 os.mkdir(Rep_Test_Resu)
 
+sys.path.append(Rep_Test)
+from test_util import remove_dir
+
 salome.salome_init()
 import iparameters
 ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 ipar.append("AP_MODULES_LIST", "Homard")
-#========================================================================
-#========================================================================
-def remove_dir(directory) :
-  """
-Empties, then removes a directory.
-Copyright EDF-R&D 2013
-  """
-#
-  l_aux = os.listdir(directory)
-  for fic in l_aux :
-    fic_a = os.path.join(directory, fic)
-    if os.path.isdir(fic_a) :
-      remove_dir(fic_a)
-    else :
-      os.remove(fic_a)
-  os.rmdir(directory)
-#
-  return
 #
 #========================================================================
 #========================================================================
@@ -173,6 +159,7 @@ Copyright EDF-R&D 2010, 2013
 
 homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert homard is not None, "Impossible to load homard engine"
+homard.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
