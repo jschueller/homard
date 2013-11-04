@@ -21,7 +21,7 @@
 #define _HOMARDGUI_EXPORTS_H_
 
 #ifdef WIN32
-  #if defined HOMARD_EXPORTS || defined Homadr_EXPORTS
+  #if defined HOMARD_EXPORTS || defined Homard_EXPORTS
     #define HOMARD_EXPORT __declspec( dllexport )
   #else
     #define HOMARD_EXPORT __declspec( dllimport )
