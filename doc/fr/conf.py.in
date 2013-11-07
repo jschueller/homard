@@ -45,7 +45,7 @@ copyright = u'1996, 2011, 2013, EDF R&D, G. Nicolas, T. Fouquet, P. Noyret'
 # built documents.
 #
 # The short X.Y version.
-version = '@SHORT_VERSION@'
+version = '@SALOMEHOMARD_VERSION@'
 # The full version, including alpha/beta/rc tags.
 release = '@SALOMEHOMARD_VERSION@'
 
