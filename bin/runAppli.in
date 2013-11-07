@@ -19,8 +19,8 @@
 #
 
 export KERNEL_ROOT_DIR=@KERNEL_ROOT_DIR@
-export PYHELLO_ROOT_DIR=@prefix@
+export HOMARD_ROOT_DIR=@CMAKE_INSTALL_PREFIX@
 
-python -i $PYHELLO_ROOT_DIR/bin/salome/runSalome.py --modules=PYHELLO --xterm --containers=cpp,python --killall
+${KERNEL_ROOT_DIR}/bin/salome/envSalome.py python -i ${HOMARD_ROOT_DIR}/bin/salome/runSalome.py --modules=HOMARD --xterm --containers=cpp,python --killall
 
 
