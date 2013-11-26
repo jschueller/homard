@@ -208,6 +208,14 @@
       <translation>HOM_CASE_DIRECTORY_4</translation>
     </message>
     <message>
+        <source>HOM_START_DIRECTORY_1</source>
+        <translation>A starting directory for the pursuit must be selected.</translation>
+    </message>
+    <message>
+        <source>HOM_START_DIRECTORY_3</source>
+        <translation>A valid directory for the pursuit must be selected.</translation>
+    </message>
+    <message>
       <source>HOM_CASE_MESH</source>
       <translation>1 つは、初期のメッシュを選択する必要があります。</translation>
     </message>

@@ -37,7 +37,7 @@ class HOMARD_EXPORT MonPursueIteration : public QDialog, public Ui_PursueIterati
     Q_OBJECT
 
   public:
-    MonPursueIteration( QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen);
+    MonPursueIteration( bool modal, HOMARD::HOMARD_Gen_var myHomardGen );
     virtual ~MonPursueIteration();
 
   protected :

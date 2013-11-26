@@ -264,6 +264,14 @@
         <translation>Il faut choisir un répertoire de travail pour le calcul.</translation>
     </message>
     <message>
+        <source>HOM_START_DIRECTORY_1</source>
+        <translation>Il faut choisir un répertoire contenant l'itération à poursuivre.</translation>
+    </message>
+    <message>
+        <source>HOM_START_DIRECTORY_3</source>
+        <translation>Un répertoire valide contenant l'itération à poursuivre doit être choisi.</translation>
+    </message>
+    <message>
         <source>HOM_CASE_MESH</source>
         <translation>Il faut choisir le maillage initial.</translation>
     </message>

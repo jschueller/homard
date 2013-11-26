@@ -286,7 +286,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
     case 1102: // Poursuite d une iteration
     {
       MESSAGE("command " << theCommandID << " activated");
-      MonPursueIteration *aDlg = new MonPursueIteration( parent, true,
+      MonPursueIteration *aDlg = new MonPursueIteration( true,
                                 HOMARD::HOMARD_Gen::_duplicate(homardGen) ) ;
       aDlg->show();
       break;

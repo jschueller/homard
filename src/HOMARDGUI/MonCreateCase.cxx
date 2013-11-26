@@ -43,7 +43,7 @@ using namespace std;
  * Sets attributes to default values
  */
 // -----------------------------------------------------------------------------------------
-MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0)
+MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
     :
     Ui_CreateCase(),
     _aCaseName(""),_aDirName(""),
@@ -171,7 +171,7 @@ bool MonCreateCase::PushOnApply()
   }
 #ifndef WIN32
   if (chdir(aDirName.toStdString().c_str()) != 0)
-#else 
+#else
   if (_chdir(aDirName.toStdString().c_str()) != 0)
 #endif
   {

@@ -38,13 +38,13 @@ using namespace std;
  * Sets attributes to default values
  */
 // -----------------------------------------------------------------------------------------
-MonPursueIteration::MonPursueIteration (QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen)
+MonPursueIteration::MonPursueIteration ( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
     :
     Ui_PursueIteration(),
     _aCaseName(""), _aDirName(""), _aDirNameStart("")
 {
   MESSAGE("Debut du constructeur de MonPursueIteration");
-  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+  myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
   setupUi(this);
   setModal(modal);
 
@@ -69,7 +69,6 @@ MonPursueIteration::~MonPursueIteration()
 void MonPursueIteration::InitConnect()
 // ------------------------------------------------------------------------
 {
-    connect( LECaseName,     SIGNAL(textChanged(QString)), this, SLOT(CaseNameChanged()));
     connect( PushDir,        SIGNAL(pressed()), this, SLOT(SetDirName()));
 
     connect( RBIteration,    SIGNAL(clicked()), this, SLOT(FromIteration()));
@@ -89,7 +88,7 @@ bool MonPursueIteration::PushOnApply()
 // --------------------------------
 {
   MESSAGE("PushOnApply");
-
+// 1. Enregistrement du repertoire du cas
   QString aDirName=LEDirName->text().trimmed();
   if (aDirName == QString(""))
   {
@@ -118,14 +117,35 @@ bool MonPursueIteration::PushOnApply()
                               QObject::tr("HOM_CASE_DIRECTORY_3") );
     return false;
   }
+// 2. Enregistrement du repertoire de depart
+  QString aDirNameStart=LEDirNameStart->text().trimmed();
+  if (aDirNameStart == QString(""))
+  {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_START_DIRECTORY_1") );
+    return false;
+  }
+#ifndef WIN32
+  if (chdir(aDirNameStart.toStdString().c_str()) != 0)
+#else
+  if (_chdir(aDirNameStart.toStdString().c_str()) != 0)
+#endif
+  {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_START_DIRECTORY_3") );
+    return false;
+  }
 
-// Enregistrement du numero d'iteration
+// 3. Enregistrement du numero d'iteration
   int Number ;
   if ( _Type == 3 ) { Number = spinBoxNumber->value() ; }
 
-// Creation du cas
+// 4. Creation du cas
   QString _aCaseName=LECaseName->text().trimmed();
+  _aDirNameStart=aDirNameStart;
 
+  MESSAGE("_aCaseName = "<<_aCaseName.toStdString().c_str());
+  MESSAGE("_aDirNameStart = "<<_aDirNameStart.toStdString().c_str());
   MESSAGE("_Type = "<<_Type);
   switch (_Type)
   {
@@ -182,6 +202,9 @@ bool MonPursueIteration::PushOnApply()
       break;
     }
   }
+
+  aCase->SetDirName(aDirName.toStdString().c_str());
+  _aDirName=aDirName;
 
   HOMARD_UTILS::updateObjBrowser();
 

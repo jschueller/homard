@@ -208,6 +208,14 @@
         <translation>A directory for the computation must be selected.</translation>
     </message>
     <message>
+        <source>HOM_START_DIRECTORY_1</source>
+        <translation>A starting directory for the pursuit must be selected.</translation>
+    </message>
+    <message>
+        <source>HOM_START_DIRECTORY_3</source>
+        <translation>A valid directory for the pursuit must be selected.</translation>
+    </message>
+    <message>
         <source>HOM_CASE_MESH</source>
         <translation>The file of the initial mesh must be selected.</translation>
     </message>
