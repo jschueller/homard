@@ -18,8 +18,12 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
+if [ -z "${KERNEL_ROOT_DIR}" ] ; then 
 export KERNEL_ROOT_DIR=@KERNEL_ROOT_DIR@
+fi
+if [ -z "${HOMARD_ROOT_DIR}" ] ; then 
 export HOMARD_ROOT_DIR=@CMAKE_INSTALL_PREFIX@
+fi
 
 ${KERNEL_ROOT_DIR}/bin/salome/envSalome.py python -i ${HOMARD_ROOT_DIR}/bin/salome/runSalome.py --modules=HOMARD --xterm --containers=cpp,python --killall
 
