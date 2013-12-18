@@ -9,15 +9,15 @@
     </message>
     <message>
       <source>HOM_MEN_MODIFICATION</source>
-      <translation>HOM_MEN_MODIFICATION</translation>
+      <translation>変更</translation>
     </message>
     <message>
       <source>HOM_MEN_INFORMATION</source>
-      <translation>HOM_MEN_INFORMATION</translation>
+      <translation>情報</translation>
     </message>
     <message>
       <source>HOM_MEN_YACS</source>
-      <translation>HOM_MEN_YACS</translation>
+      <translation>YACS</translation>
     </message>
     <message>
       <source>HOM_MEN_NEW_CASE</source>
@@ -29,23 +29,23 @@
     </message>
     <message>
       <source>HOM_MEN_PURSUE_ITERATION</source>
-      <translation>HOM_MEN_PURSUE_ITERATION</translation>
+      <translation>イテレーションの追跡</translation>
     </message>
     <message>
       <source>HOM_MEN_COMPUTE</source>
-      <translation>計算</translation>
+      <translation>計算します。</translation>
     </message>
     <message>
       <source>HOM_MEN_EDIT</source>
-      <translation>HOM_MEN_EDIT</translation>
+      <translation>編集(&amp;E)</translation>
     </message>
     <message>
       <source>HOM_MEN_DELETE</source>
-      <translation>HOM_MEN_DELETE</translation>
+      <translation>削除</translation>
     </message>
     <message>
       <source>HOM_MEN_MESH_INFO</source>
-      <translation>HOM_MEN_MESH_INFO</translation>
+      <translation>メッシュの解析</translation>
     </message>
     <message>
       <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>HOM_MEN_WRITE</source>
-      <translation>HOM_MEN_WRITE</translation>
+      <translation>書き込み</translation>
     </message>
     <message>
       <source>HOM_TOP_HOMARD</source>
@@ -69,19 +69,19 @@
     </message>
     <message>
       <source>HOM_TOP_PURSUE_ITERATION</source>
-      <translation>HOM_TOP_PURSUE_ITERATION</translation>
+      <translation>イテレーションの追跡</translation>
     </message>
     <message>
       <source>HOM_TOP_COMPUTE</source>
-      <translation>計算</translation>
+      <translation>計算します。</translation>
     </message>
     <message>
       <source>HOM_TOP_EDIT</source>
-      <translation>HOM_TOP_EDIT</translation>
+      <translation>編集</translation>
     </message>
     <message>
       <source>HOM_TOP_DELETE</source>
-      <translation>HOM_TOP_DELETE</translation>
+      <translation>削除</translation>
     </message>
     <message>
       <source>HOM_TOP_EDIT_MESS_FILE</source>
@@ -101,19 +101,19 @@
     </message>
     <message>
       <source>HOM_STB_PURSUE_ITERATION</source>
-      <translation>HOM_STB_PURSUE_ITERATION</translation>
+      <translation>イテレーションの追跡</translation>
     </message>
     <message>
       <source>HOM_STB_COMPUTE</source>
-      <translation>計算</translation>
+      <translation>計算します。</translation>
     </message>
     <message>
       <source>HOM_STB_EDIT</source>
-      <translation>HOM_STB_EDIT</translation>
+      <translation>編集</translation>
     </message>
     <message>
       <source>HOM_STB_DELETE</source>
-      <translation>HOM_STB_DELETE</translation>
+      <translation>削除</translation>
     </message>
     <message>
       <source>HOM_STB_EDIT_MESS_FILE</source>
@@ -153,11 +153,11 @@
     </message>
     <message>
       <source>HOM_SELECT_FILE_3</source>
-      <translation>HOM_SELECT_FILE_3</translation>
+      <translation>このファイルを開くことができません。</translation>
     </message>
     <message>
       <source>HOM_SCRIPT_FILE</source>
-      <translation>HOM_SCRIPT_FILE</translation>
+      <translation>我々 は python スクリプトにファイルを与える必要があります。</translation>
     </message>
     <message>
       <source>HOM_MED_FILE_1</source>
@@ -185,7 +185,8 @@
     </message>
     <message>
       <source>HOM_SELECT_STUDY</source>
-      <translation>研究医 associe\n のファイルを選択または医学ファイルを選択します。</translation>
+      <translation>研究医 associe
+ のファイルを選択または医学ファイルを選択します。</translation>
     </message>
     <message>
       <source>HOM_CASE_NAME</source>
@@ -205,15 +206,15 @@
     </message>
     <message>
       <source>HOM_CASE_DIRECTORY_4</source>
-      <translation>HOM_CASE_DIRECTORY_4</translation>
+      <translation>計算のための作業ディレクトリを選択する必要があります。</translation>
     </message>
     <message>
-        <source>HOM_START_DIRECTORY_1</source>
-        <translation>A starting directory for the pursuit must be selected.</translation>
+      <source>HOM_START_DIRECTORY_1</source>
+      <translation>追跡のため開始点を選択する必要があります。</translation>
     </message>
     <message>
-        <source>HOM_START_DIRECTORY_3</source>
-        <translation>A valid directory for the pursuit must be selected.</translation>
+      <source>HOM_START_DIRECTORY_3</source>
+      <translation>追跡のため有効な方向を選択する必要があります。</translation>
     </message>
     <message>
       <source>HOM_CASE_MESH</source>
@@ -229,15 +230,15 @@
     </message>
     <message>
       <source>HOM_CASE_EDIT_STATE_0</source>
-      <translation>HOM_CASE_EDIT_STATE_0</translation>
+      <translation>初期メッシュ。</translation>
     </message>
     <message>
       <source>HOM_CASE_EDIT_STATE</source>
-      <translation>HOM_CASE_EDIT_STATE</translation>
+      <translation>イテレーションの継続。</translation>
     </message>
     <message>
       <source>HOM_CASE_PURSUE_WINDOW_TITLE</source>
-      <translation>HOM_CASE_PURSUE_WINDOW_TITLE</translation>
+      <translation>イテレーションの追跡</translation>
     </message>
     <message>
       <source>HOM_ITER_NAME</source>
@@ -265,11 +266,11 @@
     </message>
     <message>
       <source>HOM_ITER_STARTING_POINT_1</source>
-      <translation>初期のイテレーションの場合</translation>
+      <translation>ケースの最初のイテレーションです。</translation>
     </message>
     <message>
       <source>HOM_ITER_STARTING_POINT_2</source>
-      <translation>HOM_ITER_STARTING_POINT_2</translation>
+      <translation>検察側の事件の最初のイテレーションです。</translation>
     </message>
     <message>
       <source>HOM_ITER_EDIT_WINDOW_TITLE</source>
@@ -365,19 +366,19 @@
     </message>
     <message>
       <source>HOM_MESH_INFO_0</source>
-      <translation>HOM_MESH_INFO_0</translation>
+      <translation>メッシュの解析</translation>
     </message>
     <message>
       <source>HOM_MESH_INFO_1</source>
-      <translation>HOM_MESH_INFO_1</translation>
+      <translation>少なくとも 1 つのオプションを選択します。</translation>
     </message>
     <message>
       <source>HOM_MESH_INFO_2</source>
-      <translation>HOM_MESH_INFO_2</translation>
+      <translation>バランス シート分析結果をスタディ ツリーで、ファイル</translation>
     </message>
     <message>
       <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
-      <translation>HOM_YACS_EDIT_WINDOW_TITLE</translation>
+      <translation>YACS スキーマ編集スキーマへんしゅう</translation>
     </message>
   </context>
 </TS>
