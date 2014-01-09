@@ -1208,7 +1208,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   // A.1. Controle du repertoire de depart de l'iteration
 #ifndef WIN32
   codret = chdir(DirNameStart) ;
-#else 
+#else
   codret = _chdir(DirNameStart) ;
 #endif
   if ( codret != 0 )
@@ -1241,7 +1241,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
     }
   }
   closedir(dp);
-#else 
+#else
   HANDLE hFind = INVALID_HANDLE_VALUE;
   WIN32_FIND_DATA ffd;
   hFind = FindFirstFile(DirNameStart, &ffd);
@@ -1259,7 +1259,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
       }
     }
     FindClose(hFind);
-  } 
+  }
 #endif
   MESSAGE ( "==> file_configuration   : " << file_configuration ) ;
   MESSAGE ( "==> file_maillage_homard : " << file_maillage_homard ) ;
@@ -1381,7 +1381,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   nomDirIterTotal = std::string(nomDirCase) + "/" + std::string(nomDirIter) ;
 #ifndef WIN32
   if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
-#else 
+#else
   if (_mkdir(nomDirIterTotal.c_str()) != 0)
 #endif
   {
@@ -1531,11 +1531,11 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
         HANDLE hFind1 = INVALID_HANDLE_VALUE;
         WIN32_FIND_DATA ffd1;
         hFind1 = FindFirstFile(DirName_1.c_str(), &ffd1);
-        while (FindNextFile(hFind1, &ffd1) != 0) 
+        while (FindNextFile(hFind1, &ffd1) != 0)
         {
-          if (ffd1.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories          
+          if (ffd1.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
           std::string file_name_1(ffd1.cFileName);
-#endif          
+#endif
           int bilan = file_name_1.find("HOMARD.Configuration.") ;
           if ( bilan != string::npos )
           {
@@ -1610,7 +1610,7 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   }
 #ifndef WIN32
   closedir(dp);
-  chdir(nomDirWork.c_str());  
+  chdir(nomDirWork.c_str());
 #else
     FindClose(hFind);
   }
@@ -2554,7 +2554,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   {
     delete myDriver;
     MESSAGE ( ". On retourne dans nomDirWork = " << nomDirWork );
-    
+
 #ifndef WIN32
     chdir(nomDirWork.c_str());
 #else
@@ -2738,7 +2738,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
 char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 {
   MESSAGE ( "CreateDirNameIter : nomrep ="<< nomrep << ", num = "<<num);
-  // On verifie que le repertoire parent existe  
+  // On verifie que le repertoire parent existe
 #ifndef WIN32
   int codret = chdir(nomrep) ;
 #else
@@ -2759,7 +2759,7 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
   while ( a_chercher )
   {
     // On passe dans le repertoire parent
-    
+
 #ifndef WIN32
   chdir(nomrep);
 #else
@@ -2801,12 +2801,12 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
         while (FindNextFile(hFind, &ffd) != 0) {
          if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
          std::string file_name(ffd.cFileName);
-#endif        
+#endif
         if ( file_name == DirNameA.str() ) { existe = true ; }
       }
 #ifndef WIN32
       closedir(dp);
-#else 
+#else
       }
       FindClose(hFind);
 #endif
@@ -3635,6 +3635,7 @@ void HOMARD_Gen_i::PublishBoundaryUnderCase(const char* CaseName, const char* Bo
 
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aCaseSO);
   aStudyBuilder->Addreference(aSubSO, aBoundarySO);
+//   aStudyBuilder->RemoveReference(aSubSO);
 
   aStudyBuilder->CommitCommand();
 

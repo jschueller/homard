@@ -80,7 +80,7 @@ public slots:
     virtual void SetAdvanced();
 
     virtual void PushOnOK();
-    virtual bool PushOnApply();
+    virtual bool PushOnApply(int option);
     virtual void PushOnHelp();
 
     virtual void CaseNameChanged();

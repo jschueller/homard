@@ -99,7 +99,7 @@ void MonCreateCase::InitConnect()
     connect( CBAdvanced,     SIGNAL(stateChanged(int)), this, SLOT(SetAdvanced()));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
-    connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply()));
+    connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply(0)));
     connect( buttonCancel,   SIGNAL(pressed()), this, SLOT(close()));
     connect( buttonHelp,     SIGNAL(pressed()), this, SLOT(PushOnHelp()));
 }
@@ -138,7 +138,7 @@ void MonCreateCase::InitBoundarys()
   TWBoundary->clearSelection();
 }
 // -------------------------------
-bool MonCreateCase::PushOnApply()
+bool MonCreateCase::PushOnApply(int option)
 // --------------------------------
 {
   MESSAGE("PushOnApply");
@@ -160,7 +160,7 @@ bool MonCreateCase::PushOnApply()
 
   if ( aDirName != _aDirName)
   { QString CaseNameDir = myHomardGen->VerifieDir( aDirName.toStdString().c_str()) ;
-    if ( CaseNameDir != "" )
+    if ( ( CaseNameDir != "" ) & ( CaseNameDir != aCaseName ) )
     {
       QString texte ;
       texte = QObject::tr("HOM_CASE_DIRECTORY_2") + CaseNameDir ;
@@ -196,6 +196,7 @@ bool MonCreateCase::PushOnApply()
     return false;
   }
 
+// On verifie qu'un groupe n'est pas associe a deux frontieres differentes
   if (CBBoundaryA->isChecked())
   {
     QStringList ListeGroup ;
@@ -227,6 +228,7 @@ bool MonCreateCase::PushOnApply()
     }
   }
 
+// Creation du cas
   if (aCaseName != _aCaseName )
   {
     _aCaseName = aCaseName;
@@ -241,17 +243,6 @@ bool MonCreateCase::PushOnApply()
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-      try
-      {
-          aCase = myHomardGen->GetCase(_aCaseName.toStdString().c_str());
-          string iter0 = aCase->GetIter0Name();
-          HOMARD::HOMARD_Iteration_var aIter =  myHomardGen->GetIteration(iter0.c_str());
-          QString aFileName = aIter->GetMeshFile();
-          LEFileName->setText(aFileName);
-          LEFileName->setReadOnly(true);
-          PushFichier->hide();
-      }
-      catch( SALOME::SALOME_Exception& S_ex )  {};
       return false;
     }
     LEFileName->setReadOnly(true);
@@ -259,42 +250,48 @@ bool MonCreateCase::PushOnApply()
     InitBoundarys();
   }
 
+// Repertoire et type
   aCase->SetDirName(aDirName.toStdString().c_str());
   _aDirName=aDirName;
   aCase->SetConfType(_ConfType);
 
-// Enregistrement de la frontiere discrete
-  if (CBBoundaryD->isChecked())
-  {
-    QString monBoundaryDiName=CBBoundaryDi->currentText();
-    if (monBoundaryDiName != "" )
-    {
-      aCase->AddBoundaryGroup(monBoundaryDiName.toStdString().c_str(), "");
-    }
-  }
+//   Menage des eventuelles frontieres deja enregistrees
+  aCase->SupprBoundaryGroup() ;
 
-// Enregistrement des liens (groupe,frontiere analytique)
-  if (CBBoundaryA->isChecked())
+  // Enregistrement et publication dans l'arbre d'etudes a la sortie definitive
+  if ( option > 0 )
   {
-    QString NomGroup ;
-    int nbcol = TWBoundary->columnCount();
-    int nbrow = TWBoundary->rowCount();
-    for ( int col=1; col< nbcol; col++)
+    if (CBBoundaryD->isChecked())
     {
-      for ( int row=0; row< nbrow; row++)
+      QString monBoundaryDiName=CBBoundaryDi->currentText();
+      if (monBoundaryDiName != "" )
       {
-        if ( TWBoundary->item( row, col )->checkState() ==  Qt::Checked )
+        aCase->AddBoundaryGroup(monBoundaryDiName.toStdString().c_str(), "");
+      }
+    }
+    if (CBBoundaryA->isChecked())
+    {
+      QString NomGroup ;
+      int nbcol = TWBoundary->columnCount();
+      int nbrow = TWBoundary->rowCount();
+      for ( int col=1; col< nbcol; col++)
+      {
+        for ( int row=0; row< nbrow; row++)
         {
-//        Nom du groupe
-          NomGroup = QString(TWBoundary->item(row, 0)->text()) ;
-//        Nom de la frontiere
-          QTableWidgetItem *__colItem = new QTableWidgetItem();
-          __colItem = TWBoundary->horizontalHeaderItem(col);
-          aCase->AddBoundaryGroup(QString(__colItem->text()).toStdString().c_str(), NomGroup.toStdString().c_str());
+          if ( TWBoundary->item( row, col )->checkState() ==  Qt::Checked )
+          {
+  //        Nom du groupe
+            NomGroup = QString(TWBoundary->item(row, 0)->text()) ;
+  //        Nom de la frontiere
+            QTableWidgetItem *__colItem = new QTableWidgetItem();
+            __colItem = TWBoundary->horizontalHeaderItem(col);
+            aCase->AddBoundaryGroup(QString(__colItem->text()).toStdString().c_str(), NomGroup.toStdString().c_str());
+          }
         }
       }
     }
   }
+
 
 // Options avancees
   if (CBAdvanced->isChecked())
@@ -311,7 +308,7 @@ bool MonCreateCase::PushOnApply()
 void MonCreateCase::PushOnOK()
 // ---------------------------
 {
-  bool bOK = PushOnApply();
+  bool bOK = PushOnApply(1);
   if ( bOK ) this->close();
 }
 //------------------------------
@@ -403,7 +400,7 @@ void MonCreateCase::SetBoundaryD()
   MESSAGE("Debut de SetBoundaryD ");
   if (CBBoundaryD->isChecked())
   {
-    bool bOK = PushOnApply();
+    bool bOK = PushOnApply(0);
     if (bOK) { GBBoundaryD->setVisible(1); }
     else     { GBBoundaryD->setVisible(0);
                CBBoundaryD->setChecked(0);
@@ -450,7 +447,7 @@ void MonCreateCase::SetBoundaryA()
   MESSAGE("Debut de SetBoundaryA ");
   if (CBBoundaryA->isChecked())
   {
-    bool bOK = PushOnApply();
+    bool bOK = PushOnApply(0);
     if (bOK) { GBBoundaryA->setVisible(1); }
     else     { GBBoundaryA->setVisible(0);
                CBBoundaryA->setChecked(0);

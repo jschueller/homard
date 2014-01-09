@@ -84,6 +84,7 @@ public:
 
   void                   AddBoundaryGroup( const char* Boundary, const char* Group);
   HOMARD::ListBoundaryGroupType*  GetBoundaryGroup();
+  void                   SupprBoundaryGroup( );
 
   void                   SetPyram( CORBA::Long Pyram );
   CORBA::Long            GetPyram();

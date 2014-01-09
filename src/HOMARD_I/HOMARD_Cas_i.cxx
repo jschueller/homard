@@ -125,17 +125,21 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
   int codret ;
   // A. recuperation du nom ; on ne fait rien si c'est le meme
   char* oldrep = GetDirName() ;
-  if ( oldrep == NomDir ) { return ; }
+  if ( strcmp(oldrep,NomDir) == 0 )
+  {
+   return ;
+  }
   MESSAGE ( "SetDirName : passage de oldrep = "<< oldrep << " a NomDir = "<<NomDir);
   // B. controle de l'usage du repertoire
-  char* casename = _gen_i->VerifieDir(NomDir) ;
-  if ( std::string(casename).size() > 0 )
+  char* CaseName = GetName() ;
+  char* casenamedir = _gen_i->VerifieDir(NomDir) ;
+  if ( ( std::string(casenamedir).size() > 0 ) & ( strcmp(CaseName,casenamedir)!=0 ) )
   {
-    INFOS ( "Le repertoire " << NomDir << " est deja utilise pour le cas "<< casename );
+    INFOS ( "Le repertoire " << NomDir << " est deja utilise pour le cas "<< casenamedir );
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
     std::string text ;
-    text = "The directory " + std::string(NomDir) + " is already used for the case " + std::string(casename) ;
+    text = "The directory " + std::string(NomDir) + " is already used for the case " + std::string(casenamedir) ;
     es.text = CORBA::string_dup(text.c_str());
     throw SALOME::SALOME_Exception(es);
   }
@@ -330,7 +334,7 @@ void HOMARD_Cas_i::AddBoundaryGroup( const char* BoundaryName, const char* Group
     it++ ;
 //     MESSAGE ("..  Group : "<< *it );
     if ( *it == Group )
-    { INFOS ("Le groupe " << Group << " est deja associe a la frontiere " << boun) ;
+    { INFOS ("Frontiere " << boun << " Un groupe est deja associe " << Group ) ;
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
       es.text = "Invalid AddBoundaryGroup";
@@ -356,6 +360,13 @@ HOMARD::ListBoundaryGroupType* HOMARD_Cas_i::GetBoundaryGroup()
     aResult[i++] = CORBA::string_dup( (*it).c_str() );
   }
   return aResult._retn();
+}
+//=============================================================================
+void HOMARD_Cas_i::SupprBoundaryGroup()
+{
+  MESSAGE ("SupprBoundaryGroup");
+  ASSERT(myHomardCas );
+  myHomardCas->SupprBoundaryGroup();
 }
 //=============================================================================
 void HOMARD_Cas_i::SetPyram( CORBA::Long Pyram )
