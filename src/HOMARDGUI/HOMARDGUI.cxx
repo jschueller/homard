@@ -123,6 +123,7 @@ void HOMARDGUI::initialize( CAM_Application* app )
   anId = 0;
   createActions();
   createMenus();
+  recupPreferences();
 }
 
 //================================================
@@ -161,7 +162,9 @@ void HOMARDGUI::createActions(){
   createHOMARDAction( 1102, "PURSUE_ITERATION", "iter_poursuite.png"     );
   createHOMARDAction( 1103, "NEW_ITERATION",    "iter_next.png"          );
   createHOMARDAction( 1111, "COMPUTE",          "mesh_compute.png"       );
+  createHOMARDAction( 1112, "COMPUTE_PUBLISH",  "mesh_compute.png"       );
   createHOMARDAction( 1121, "MESH_INFO",        "advanced_mesh_info.png" );
+  createHOMARDAction( 1131, "MESH_PUBLICATION", "mesh_tree_mesh.png"     );
 //
   createHOMARDAction( 1201, "EDIT",             "loop.png"         );
   createHOMARDAction( 1211, "DELETE",           "delete.png"       );
@@ -175,28 +178,60 @@ void HOMARDGUI::createActions(){
 
 //================================================
 // function : createPreferences
-// No preferences for Homard
-// Just a test
 //================================================
-void HOMARDGUI::createPreferences(){
-   QString toto = tr( "PREF_GROUP_GENERAL" );
-   int tabId  = addPreference( tr( "PREF_GROUP_GENERAL" ) );
-   int genGroup = addPreference( tr( "PREF_TAB_SETTINGS" ), tabId );
-   addPreference( tr( "PREF_TEST" ), genGroup, LightApp_Preferences::Color, "Homard", "shading_color" );
+void HOMARDGUI::createPreferences()
+{
+  MESSAGE("createPreferences")
+
+  int Onglet, Bloc, Pref ;
+  // 1. Generalites
+  Onglet = addPreference( tr( "PREF_TAB_GENERAL" ) );
+//   Onglet = addPreference( tr( "PREF_TAB_SETTINGS" ) ) ;
+
+  Bloc = addPreference( tr( "PREF_PUBLICATION" ), Onglet );
+  setPreferenceProperty( Bloc, "columns", 1 );
+
+  Pref = addPreference( tr( "PREF_PUBLICATION_MAILLAGE_IN" ), Bloc, LightApp_Preferences::Bool, "HOMARD", "publish_mesh_in" );
+
+  Pref = addPreference( tr( "PREF_PUBLICATION_MAILLAGE_OUT" ), Bloc, LightApp_Preferences::Bool, "HOMARD", "publish_mesh_out" );
+
+  // 2. YACS
+  Onglet = addPreference( tr( "PREF_YACS" ) ) ;
+
+  Bloc = addPreference( tr( "PREF_YACS_MAX" ), Onglet );
+  setPreferenceProperty( Bloc, "columns", 1 );
+
+  Pref = addPreference( tr( "PREF_YACS_MAX_ITER" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_iter" );
+  setPreferenceProperty( Pref, "min",  0 );
+  setPreferenceProperty( Pref, "max",  100000000 );
+  setPreferenceProperty( Pref, "step", 1 );
+
+  Pref = addPreference( tr( "PREF_YACS_MAX_NODE" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_node" );
+  setPreferenceProperty( Pref, "min",  0 );
+  setPreferenceProperty( Pref, "max",  100000000 );
+  setPreferenceProperty( Pref, "step", 1000 );
+
+  Pref = addPreference( tr( "PREF_YACS_MAX_ELEM" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_elem" );
+  setPreferenceProperty( Pref, "min",  0 );
+  setPreferenceProperty( Pref, "max",  100000000 );
+  setPreferenceProperty( Pref, "step", 1000 );
 }
 
 
 //================================================
 // function : createMenus
 //================================================
-void HOMARDGUI::createMenus(){
+void HOMARDGUI::createMenus()
+{
   MESSAGE("createMenus")
 //
   int HOMARD_Id  = createMenu( tr( "HOM_MEN_HOMARD" ),  -1,  5, 10 );
   createMenu( 1101, HOMARD_Id, -1 ); //Create_Case
   createMenu( 1102, HOMARD_Id, -1 ); //Pursue_Iteration
+  createMenu( separator(), HOMARD_Id,-1);
   createMenu( 1103, HOMARD_Id, -1 ); //Create_Iteration
-  createMenu( 1111, HOMARD_Id, -1 ); //COMPUTE
+  createMenu( 1111, HOMARD_Id, -1 ); //Compute
+  createMenu( 1112, HOMARD_Id, -1 ); //Compute and publish
 //
   HOMARD_Id  = createMenu( tr( "HOM_MEN_MODIFICATION" ),  -1,  5, 10 );
   createMenu( 1201, HOMARD_Id, -1 ); //Edit
@@ -204,6 +239,7 @@ void HOMARDGUI::createMenus(){
 //
   HOMARD_Id  = createMenu( tr( "HOM_MEN_INFORMATION" ),  -1,  5, 10 );
   createMenu( 1301, HOMARD_Id, -1 ); //Information sur un maillage
+  createMenu( 1131, HOMARD_Id, -1 ); //Mesh publication
   createMenu( separator(), HOMARD_Id,-1);
   createMenu( 1302, HOMARD_Id, -1 ); //EditAsciiFile pour le fichier listeStd ou bilan
   createMenu( separator(), HOMARD_Id,-1);
@@ -213,15 +249,35 @@ void HOMARDGUI::createMenus(){
   HOMARD_Id  = createMenu( tr( "HOM_MEN_YACS" ),  -1,  5, 10 );
   createMenu( 1401, HOMARD_Id, -1 ); // Création d'un schéma YACS
   createMenu( separator(), HOMARD_Id,-1);
+}
+
+//================================================
+// function : recupPreferences
+//================================================
+void HOMARDGUI::recupPreferences()
+{
+  MESSAGE("recupPreferences")
 //
-// La langue des preferences
+// . La langue
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
   _LanguageShort = resMgr->stringValue("language", "language", "en");
   MESSAGE("_LanguageShort " << _LanguageShort.toStdString().c_str() );
 //
+// . Les publications
+  _publish_mesh_in = resMgr->booleanValue("HOMARD", "publish_mesh_in", false );
+  int pu_m_in = 0 ;
+  if ( _publish_mesh_in ) pu_m_in = 1 ;
+//
+  _publish_mesh_out = resMgr->booleanValue("HOMARD", "publish_mesh_out", false );
+  int pu_m_out = 0 ;
+  if ( _publish_mesh_out ) pu_m_out = 1 ;
+  MESSAGE("_publish_mesh_in " << _publish_mesh_in << ", _publish_mesh_out " << _publish_mesh_out );
+//
+// . Enregistrement dans l'objet general
   SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
   HOMARD::HOMARD_Gen_var homardGen = HOMARDGUI::InitHOMARDGen(app);
   homardGen->SetLanguageShort(_LanguageShort.toStdString().c_str());
+  homardGen->SetPublisMesh(pu_m_in, pu_m_out);
 }
 
 //================================================
@@ -294,24 +350,31 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
 
     case 1103: // Creation d une Iteration
     {
-      MESSAGE("command " << theCommandID << " activated");
-      QString IterParentName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("IterationHomard"), 0);
-      MESSAGE("IterParentName " << IterParentName.toStdString().c_str() << " choisi dans arbre");
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       MonCreateIteration *IterDlg = new MonCreateIteration( parent, true,
-                                     HOMARD::HOMARD_Gen::_duplicate(homardGen), IterParentName ) ;
+                                     HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
       IterDlg->show();
       break;
     }
 
-    case 1111: // Compute une Iteration
+    case 1111: // Compute une iteration
     {
-      MESSAGE("command " << theCommandID << " activated");
-      QString monIter=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("IterationHomard"), 1);
-      if (monIter == QString("")) break;
-      try
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      try { homardGen->Compute(_ObjectName.toStdString().c_str(), 0, 1, -1, 1); }
+      catch( SALOME::SALOME_Exception& S_ex )
       {
-        homardGen->Compute(monIter.toStdString().c_str(), 0, 1, -1, 1);
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+        getApp()->updateObjectBrowser();
+        return false;
       }
+      break;
+    }
+
+    case 1112: // Compute une iteration et publication
+    {
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      try { homardGen->Compute(_ObjectName.toStdString().c_str(), 0, 1, -1, 2); }
       catch( SALOME::SALOME_Exception& S_ex )
       {
         QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -324,11 +387,23 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
 
     case 1121: // Information sur le maillage de l'iteration
     {
-      MESSAGE("command " << theCommandID << " activated");
-      QString IterName=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("IterationHomard"), 0);
-      MESSAGE("IterName " << IterName.toStdString().c_str() << " choisi dans arbre");
-      MonIterInfo *IterDlg = new MonIterInfo( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), IterName ) ;
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      MonIterInfo *IterDlg = new MonIterInfo( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
       IterDlg->show();
+      break;
+    }
+
+    case 1131: // Publication du maillage de l'iteration
+    {
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      homardGen->PublishMeshIterInSmesh(_ObjectName.toStdString().c_str());
+      break;
+    }
+
+    case 1132: // Publication du maillage de l'iteration a partir du fichier
+    {
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      homardGen->PublishResultInSmesh(_ObjectName.toStdString().c_str(), 1);
       break;
     }
 
@@ -498,13 +573,11 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1401: // Création d'un schéma YACS
+    case 1401: // Création d'un schema YACS
     {
       MESSAGE("etape 1401")
-      MESSAGE("command " << theCommandID << " activated");
-      QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("CasHomard"), 1);
-      MESSAGE("Name " << Name.toStdString().c_str() << " choisi dans arbre");
-      MonCreateYACS *aDlg = new MonCreateYACS( true, HOMARD::HOMARD_Gen::_duplicate(homardGen), Name ) ;
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      MonCreateYACS *aDlg = new MonCreateYACS( true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
       aDlg->show();
       break;
     }
@@ -512,13 +585,8 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
     case 1402: // Ecriture d'un schéma YACS
     {
       MESSAGE("etape 1402")
-      MESSAGE("command " << theCommandID << " activated");
-      QString Name=HOMARD_QT_COMMUN::SelectionArbreEtude(QString("YACSHomard"), 1);
-      if (Name == QString("")) break;
-      try
-      {
-        homardGen->YACSWrite(Name.toStdString().c_str());
-      }
+      MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
+      try { homardGen->YACSWrite(_ObjectName.toStdString().c_str()); }
       catch( SALOME::SALOME_Exception& S_ex )
       {
         QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -661,10 +729,14 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     {
       pix = resMgr->loadPixmap( "HOMARD", "iter_next.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_NEW_ITERATION").toLatin1().data()), this, SLOT(NextIter()));
-      QPixmap pix2 = resMgr->loadPixmap( "HOMARD", "mesh_compute.png" );
-      menu->addAction(QIcon(pix2), tr(QString("HOM_MEN_COMPUTE").toLatin1().data()), this, SLOT(LanceCalcul()));
-      pix2 = resMgr->loadPixmap( "HOMARD", "advanced_mesh_info.png" );
-      menu->addAction(QIcon(pix2), tr(QString("HOM_MEN_MESH_INFO").toLatin1().data()), this, SLOT(IterInfo()));
+      pix = resMgr->loadPixmap( "HOMARD", "mesh_compute.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_COMPUTE").toLatin1().data()), this, SLOT(LanceCalcul0()));
+      pix = resMgr->loadPixmap( "HOMARD", "mesh_compute.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_COMPUTE_PUBLISH").toLatin1().data()), this, SLOT(LanceCalcul1()));
+      pix = resMgr->loadPixmap( "HOMARD", "advanced_mesh_info.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_MESH_INFO").toLatin1().data()), this, SLOT(IterInfo()));
+      pix = resMgr->loadPixmap( "HOMARD", "mesh_tree_mesh.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_MESH_PUBLICATION").toLatin1().data()), this, SLOT(MeshPublish0()));
       EditObject = true ;
       DeleteObject = true ;
     }
@@ -684,6 +756,11 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     {
       pix = resMgr->loadPixmap( "HOMARD", "texte.png" );
       menu->addAction(QIcon(pix), tr(QString("HOM_MEN_EDIT_MESS_FILE").toLatin1().data()), this, SLOT(EditAsciiFile()));
+    }
+    else if ( HOMARD_UTILS::isFileType(obj,QString("Mesh")) )
+    {
+      pix = resMgr->loadPixmap( "HOMARD", "mesh_tree_mesh.png" );
+      menu->addAction(QIcon(pix), tr(QString("HOM_MEN_MESH_PUBLICATION").toLatin1().data()), this, SLOT(MeshPublish1()));
     }
 //  Ajout d'un menu d'edition pour les objets qui le proposent
     if ( EditObject )
@@ -705,14 +782,29 @@ void HOMARDGUI::NextIter()
   this->OnGUIEvent(1103);
 }
 
-void HOMARDGUI::LanceCalcul()
+void HOMARDGUI::LanceCalcul0()
 {
   this->OnGUIEvent(1111);
+}
+
+void HOMARDGUI::LanceCalcul1()
+{
+  this->OnGUIEvent(1112);
 }
 
 void HOMARDGUI::IterInfo()
 {
   this->OnGUIEvent(1121);
+}
+
+void HOMARDGUI::MeshPublish0()
+{
+  this->OnGUIEvent(1131);
+}
+
+void HOMARDGUI::MeshPublish1()
+{
+  this->OnGUIEvent(1132);
 }
 
 void HOMARDGUI::Edit()

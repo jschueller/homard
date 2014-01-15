@@ -64,9 +64,12 @@ public slots:
 private slots:
     void OnGUIEvent();
     void EditAsciiFile();
-    void LanceCalcul();
+    void LanceCalcul0();
+    void LanceCalcul1();
     void IterInfo();
     void NextIter();
+    void MeshPublish0();
+    void MeshPublish1();
     void YACSCreate();
     void YACSWrite();
     void Edit();
@@ -81,6 +84,7 @@ private:
                             const int key = 0, const bool toggle = false );
    void createActions();
    void createMenus();
+   void recupPreferences();
    void createPopupMenus();
    _PTR(SObject)  chercheMonObjet();
 
@@ -91,6 +95,8 @@ private:
    int anId;
    QString _ObjectName;
    QString _LanguageShort ;
+   bool _publish_mesh_in ;
+   bool _publish_mesh_out ;
 };
 
 #endif

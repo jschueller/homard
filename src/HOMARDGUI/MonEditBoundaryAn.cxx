@@ -159,11 +159,9 @@ void MonEditBoundaryAn::SetCylinder()
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
   RBCylindre->setChecked(1);
-  adjustSize();
   _Type=1;
   RBSphere->setDisabled(true);
   RBCone->setDisabled(true);
-  adjustSize();
 
   SpinBox_Xcent->setValue(_BoundaryAnXcentre);
   SpinBox_Ycent->setValue(_BoundaryAnYcentre);
@@ -183,7 +181,8 @@ void MonEditBoundaryAn::SetCylinder()
 // Rayon
   SpinBox_Radius->setValue(_BoundaryAnRayon);
   SpinBox_Radius->setSingleStep(_BoundaryAnRayon/10.);
-
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonEditBoundaryAn::SetSphere()
@@ -195,7 +194,6 @@ void MonEditBoundaryAn::SetSphere()
   gBCone->setVisible(0);
   RBCylindre->setDisabled(true);
   RBCone->setDisabled(true);
-  adjustSize();
   _Type=2 ;
 
   SpinBox_Xcentre->setValue(_BoundaryAnXcentre);
@@ -212,6 +210,8 @@ void MonEditBoundaryAn::SetSphere()
 
   SpinBox_Rayon->setMinimum(0.);
   SpinBox_Rayon->setValue(_BoundaryAnRayon);
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonEditBoundaryAn::SetConeA()
@@ -224,7 +224,6 @@ void MonEditBoundaryAn::SetConeA()
   RB_Def_angle->setChecked(1);
   RBCylindre->setDisabled(true);
   RBSphere->setDisabled(true);
-  adjustSize();
   _Type=3;
 //
   TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
@@ -248,6 +247,8 @@ void MonEditBoundaryAn::SetConeA()
 //
   TLCone_V2->setVisible(0);
   SpinBox_Cone_V2->setVisible(0);
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonEditBoundaryAn::SetConeR()
@@ -260,7 +261,6 @@ void MonEditBoundaryAn::SetConeR()
   RB_Def_radius->setChecked(1);
   RBCylindre->setDisabled(true);
   RBSphere->setDisabled(true);
-  adjustSize();
   _Type=4;
 //
   TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X centre 1", 0, QApplication::UnicodeUTF8));
@@ -286,6 +286,8 @@ void MonEditBoundaryAn::SetConeR()
   SpinBox_Cone_V2->setVisible(1);
   TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "Radius 2", 0, QApplication::UnicodeUTF8));
   SpinBox_Cone_V2->setValue(_BoundaryAnRayon2);
+//
+  adjustSize();
 }
 // ---------------------------------------------------
 bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()

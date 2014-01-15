@@ -207,9 +207,9 @@ void MonMeshInfo::SetNewCaseName()
     {
       if ( aCaseName == QString((MyCases)[i]) )
       {
-        num += 1 ;
-        aCaseName="";
-        break;
+        num ++ ;
+        aCaseName = "" ;
+        break ;
       }
    }
   }
@@ -228,7 +228,7 @@ void MonMeshInfo::SetFileName()
 // ------------------------------------------------------------------------
 {
   QString fileName0 = LEFileName->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier();
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEFileName->setText(fileName);
 }

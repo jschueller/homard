@@ -64,7 +64,6 @@ MonEditBoundaryDi::~MonEditBoundaryDi()
 // ------------------------------
 {
 }
-
 // ------------------------------
 void MonEditBoundaryDi::InitValEdit()
 // ------------------------------
@@ -76,6 +75,7 @@ void MonEditBoundaryDi::InitValEdit()
       LEFileName->setText(aMeshFile);
       LEFileName->setReadOnly(1);
       PushFichier->setVisible(0);
+//
       adjustSize();
 }
 // ------------------------------

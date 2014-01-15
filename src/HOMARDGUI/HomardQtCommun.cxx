@@ -50,13 +50,13 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
 // . si le commentaire est une chaine vide, on ne tient pas compte du type de l'objet
 //   et on retourne le nom de cet objet
 // . sinon :
-//   . si l'objet est du type defini par commentaite, retourne le nom de cet objet
+//   . si l'objet est du type defini par commentaire, retourne le nom de cet objet
 //   . sinon on retourne une QString("")
 // option :
 // . Si option = 0, ce n'est pas grave de ne rien trouver ; aucun message n'est emis
 // . Si option = 1, ce n'est pas grave de ne rien trouver mais on emet un message
 {
-  MESSAGE("SelectionArbreEtude : commentaire = " << commentaire.toStdString().c_str() << " et option = " << option);
+//   MESSAGE("SelectionArbreEtude : commentaire = " << commentaire.toStdString().c_str() << " et option = " << option);
   int nbSel = HOMARD_UTILS::IObjectCount() ;
   if ( nbSel == 0 )
   {
@@ -77,6 +77,7 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
   Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
   if ( aIO->hasEntry() )
   {
+//     MESSAGE("aIO->getEntry() = " << aIO->getEntry());
     _PTR(Study) aStudy = HOMARD_UTILS::GetActiveStudyDocument();
     _PTR(SObject) aSO ( aStudy->FindObjectID( aIO->getEntry() ) );
     _PTR(GenericAttribute) anAttr;
@@ -86,9 +87,9 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
       {
         _PTR(AttributeComment) attributComment = anAttr;
         QString aComment= QString(attributComment->Value().data());
-        MESSAGE("... aComment = " << aComment.toStdString().c_str());
+//         MESSAGE("... aComment = " << aComment.toStdString().c_str());
         int iaux = aComment.lastIndexOf(commentaire);
-        MESSAGE("... iaux = " << iaux);
+//         MESSAGE("... iaux = " << iaux);
         if ( iaux !=0  )
         {
           QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -144,7 +145,7 @@ QString HOMARD_QT_COMMUN::SelectionCasEtude()
 }
 
 // =======================================================================
-QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
+QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir, QString TypeFichier)
 // =======================================================================
 // Gestion les boutons qui permettent  de
 // 1) retourne le nom d'un fichier par une fenetre de dialogue si aucun
@@ -152,19 +153,31 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
 // 2) retourne le nom du fichier asocie a l objet
 //    selectionne dans l arbre d etude
 {
-  MESSAGE("PushNomFichier");
-  QString aFile=QString::null;
+//   MESSAGE("PushNomFichier avec avertir "<<avertir<<" et TypeFichier = "<<TypeFichier.toStdString().c_str());
+  QString aFile = QString::null;
+//
+  // A. Filtre
+  QString filtre  ;
+//
+  if ( TypeFichier == "med" )     { filtre = QString("Med") ; }
+  else if ( TypeFichier == "py" ) { filtre = QString("Python") ; }
+  else                            { filtre = TypeFichier ; }
+//
+  if ( TypeFichier != "" ) { filtre += QString(" files (*.") + TypeFichier + QString(");;") ; }
+//
+  filtre += QString("all (*) ") ;
+//
+  // B. Selection
   int nbSel = HOMARD_UTILS::IObjectCount() ;
+//   MESSAGE("nbSel ="<<nbSel);
+  // B.1. Rien n'est selectionne
   if ( nbSel == 0 )
   {
-    aFile = QFileDialog::getOpenFileName(0,QString("File Selection"),QString("") ,QString("Med files (*.med);;all (*) ") );
+//     aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), QString("Med files (*.med);;all (*) ") );
+    aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), filtre );
   }
-  if (nbSel > 1)
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_SELECT_FILE_2") );
-  }
-  if (nbSel == 1)
+  // B.2. Un objet est selectionne
+  else if (nbSel == 1)
   {
     Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
     if ( aIO->hasEntry() )
@@ -191,17 +204,19 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
     {
       if ( avertir ) {
         QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                                QObject::tr("HOM_SELECT_STUDY") );
+                                 QObject::tr("HOM_SELECT_STUDY") );
       }
-      aFile = QFileDialog::getOpenFileName();
-      if (!aFile.isEmpty())
-      {
-        aFile=aFile;
-      }
+      aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), filtre );
     }
   }
-  return aFile;
+  // B.3. Bizarre
+  else
+  {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_SELECT_FILE_2") );
+  }
 
+  return aFile;
 }
 // =======================================================================
 int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)

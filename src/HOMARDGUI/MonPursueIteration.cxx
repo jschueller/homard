@@ -53,7 +53,7 @@ MonPursueIteration::MonPursueIteration ( bool modal, HOMARD::HOMARD_Gen_var myHo
   SetNewCaseName() ;
   _Type = 1 ;
   GBIterationintoCase->setVisible(0);
-  spinBoxNumber->setVisible(0);
+  SpinBoxNumber->setVisible(0);
 
   adjustSize();
   MESSAGE("Fin du constructeur de MonPursueIteration");
@@ -138,7 +138,7 @@ bool MonPursueIteration::PushOnApply()
 
 // 3. Enregistrement du numero d'iteration
   int Number ;
-  if ( _Type == 3 ) { Number = spinBoxNumber->value() ; }
+  if ( _Type == 3 ) { Number = SpinBoxNumber->value() ; }
 
 // 4. Creation du cas
   QString _aCaseName=LECaseName->text().trimmed();
@@ -238,9 +238,9 @@ void MonPursueIteration::SetNewCaseName()
     {
       if ( aCaseName == QString((MyCases)[i]))
       {
-          num += 1;
-          aCaseName = "";
-          break;
+        num ++ ;
+        aCaseName = "" ;
+        break ;
       }
    }
   }
@@ -266,7 +266,7 @@ void MonPursueIteration::FromIteration()
 // ------------------------------------------------------------------------
 {
   GBIterationintoCase->setVisible(0);
-  spinBoxNumber->setVisible(0);
+  SpinBoxNumber->setVisible(0);
   _Type = 1 ;
   adjustSize();
 }
@@ -281,7 +281,7 @@ void MonPursueIteration::FromCase()
 void MonPursueIteration::CaseLastIteration()
 // ------------------------------------------------------------------------
 {
-  spinBoxNumber->setVisible(0);
+  SpinBoxNumber->setVisible(0);
   _Type = 2 ;
   adjustSize();
 }
@@ -289,7 +289,7 @@ void MonPursueIteration::CaseLastIteration()
 void MonPursueIteration::CaseNIteration()
 // ------------------------------------------------------------------------
 {
-  spinBoxNumber->setVisible(1);
+  SpinBoxNumber->setVisible(1);
   _Type = 3 ;
   adjustSize();
 }

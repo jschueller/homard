@@ -50,4 +50,12 @@ An automatic creation of a schema YACS is available in the module HOMARD.
    gui_create_yacs_aster
 
 
+Preferences
+***********
 
+Some default options for the module HOMARD are defined into the preferences.
+
+.. toctree::
+   :maxdepth: 2
+
+   preferences

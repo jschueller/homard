@@ -171,9 +171,9 @@ void MonCreateBoundaryDi::SetNewName()
     {
       if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
@@ -183,7 +183,7 @@ void MonCreateBoundaryDi::SetNewName()
 void MonCreateBoundaryDi::SetMeshFile()
 // ------------------------------------------------------------------------
 {
-  QString aMeshFile = HOMARD_QT_COMMUN::PushNomFichier();
+  QString aMeshFile = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") );
   if (!(aMeshFile.isEmpty())) LEFileName->setText(aMeshFile);
 }
 

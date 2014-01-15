@@ -39,7 +39,7 @@ MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
  * Inherits from CasHomard
  * Sets attributes to default values
  */
-    QDialog(0),
+    QScrollArea(0),
     Ui_CreateIteration(),
     _Name(""),
     _IterParentName(IterParentName),
@@ -48,16 +48,17 @@ MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
       MESSAGE("Constructeur");
       myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
-      setModal(modal);
+      if ( modal ) { setWindowModality(Qt::WindowModal); }
+      else         { setWindowModality(Qt::NonModal); }
       InitConnect();
 
       SetNewName();
       GetHypotheses();
-      if (_IterParentName != QString(""))
-         { SetIterParentName(); }
-      else
-         {setModal(false); /* permet selection de l iteration dans l arbre d etude */}
+      if (_IterParentName != QString("")) { SetIterParentName(); }
+      else                                { setWindowModality(Qt::NonModal) ; /* permet selection de l'iteration dans l arbre d etude */}
       SetTSNo();
+//
+      adjustSize();
     }
 // ------------------------------------------------------------------------
 MonCreateIteration::~MonCreateIteration()
@@ -97,7 +98,7 @@ bool MonCreateIteration::PushOnApply()
 // ------------------------------------------------------------------------
 // Appele lorsque l'un des boutons Ok ou Apply est presse
 {
-  MESSAGE("MonCreateIteration::PushOnApply");
+  MESSAGE("PushOnApply");
 //
   QString aName = LEName->text().trimmed();
   if ( aName == QString (""))
@@ -227,9 +228,9 @@ void MonCreateIteration::SetNewName()
     {
       if ( aName ==  QString((MyObjects)[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
@@ -284,7 +285,7 @@ void MonCreateIteration::SetFieldFile()
 // ------------------------------------------------------------------------
 {
   QString fileName0 = LEFieldFile->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier(false);
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEFieldFile->setText(fileName);
   raise();
@@ -302,7 +303,7 @@ void MonCreateIteration::SetTSNo()
   TimeStep->setVisible(0);
   SpinBox_TimeStep->setVisible(0);
   SpinBox_TimeStep->setValue(-1);
-
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------
@@ -317,7 +318,7 @@ void MonCreateIteration::SetTSLast()
   TimeStep->setVisible(0);
   SpinBox_TimeStep->setVisible(0);
   SpinBox_TimeStep->setValue(-2);
-
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------
@@ -332,7 +333,7 @@ void MonCreateIteration::SetTSChosen()
   TimeStep->setVisible(1);
   SpinBox_TimeStep->setVisible(1);
   SpinBox_TimeStep->setValue(0);
-
+//
   adjustSize();
 }
 

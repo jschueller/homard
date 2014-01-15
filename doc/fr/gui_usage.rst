@@ -49,3 +49,13 @@ Le module HOMARD propose la création automatique de schémas YACS alternant un ca
    gui_create_yacs
    gui_create_yacs_aster
 
+
+Préférences
+***********
+
+Un certain nombre de choix par défaut pour le module HOMARD sont définis dans les préférences.
+
+.. toctree::
+   :maxdepth: 2
+
+   preferences

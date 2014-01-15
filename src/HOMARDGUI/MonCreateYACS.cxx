@@ -44,26 +44,27 @@ MonCreateYACS::MonCreateYACS (bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, Q
   _aScriptFile(""),
   _aDirName(""),
   _aMeshFile(""),
-  _Type(1)
-  // La valeur de _Type doit etre la meme que celle dans HOMARD_Gen_i::CreateYACSSchema
-  // et doit correspondre aux defauts des boutons
+  _Type(1),
+  _MaxIter(0),
+  _MaxNode(0),
+  _MaxElem(0)
+  // Les valeurs de _Type, _MaxIter, _MaxNode, _MaxElem doivent etre les memes que celles dans HOMARD_Gen_i::CreateYACSSchema
+  // et doivent correspondre aux defauts des boutons
   {
 //     MESSAGE("Debut du constructeur de MonCreateYACS");
     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
     setupUi(this);
-    setModal(modal);
+    if ( modal ) { setWindowModality(Qt::WindowModal); }
+    else         { setWindowModality(Qt::NonModal); }
 
     InitConnect();
 
     SetNewName() ;
 
-    if (_aCaseName != QString(""))
-      { SetCaseName(); }
-    else
-      {setModal(false); /* permet selection du cas dans l arbre d etude */}
-
+    if (_aCaseName != QString("")) { SetCaseName(); }
+    else                           { setWindowModality(Qt::NonModal); /* permet selection du cas dans l arbre d etude */}
+//
     adjustSize();
-//     MESSAGE("Fin du constructeur de MonCreateYACS");
   }
 
 // ----------------------------------------------------------------------
@@ -72,17 +73,18 @@ MonCreateYACS::MonCreateYACS(HOMARD::HOMARD_Gen_var myHomardGen0,
 // ----------------------------------------------------------------------
 // Constructeur appele par MonEditYACS
 //
-    myHomardGen(myHomardGen0),
-    _Name (""),
-    Chgt (false)
-    {
+myHomardGen(myHomardGen0),
+_Name (""),
+Chgt (false)
+{
 //       MESSAGE("Debut du constructeur de MonCreateYACS appele par MonEditYACS");
-      setupUi(this) ;
+  setupUi(this) ;
 
-      setModal(true) ;
-      InitConnect() ;
-    }
-
+  setWindowModality(Qt::WindowModal);
+  InitConnect() ;
+//
+  adjustSize();
+}
 // ------------------------------------------------------------------------
 MonCreateYACS::~MonCreateYACS()
 // ------------------------------------------------------------------------
@@ -181,14 +183,15 @@ bool MonCreateYACS:: CreateOrUpdate()
   MESSAGE("CreateOrUpdate");
   bool bOK = true ;
 
-  // Le cas
+  // 1. Verification des donnees
+  // 1.1. Le cas
   if ( _aCaseName == QString (""))
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_NAME") );
     return false;
   }
-  // Les donnees
+  // 1.2. Les donnees
   QString aScriptFile=LEScriptFile->text().trimmed();
   if ( aScriptFile != _aScriptFile )
   {
@@ -208,7 +211,7 @@ bool MonCreateYACS:: CreateOrUpdate()
     Chgt = true ;
   }
 
-  // Creation de l'objet CORBA
+  // 2. Creation de l'objet CORBA
   try
   {
     _Name=LEName->text().trimmed();
@@ -221,11 +224,25 @@ bool MonCreateYACS:: CreateOrUpdate()
     bOK = false;
   }
 
-  // Options
+  // 3. Options
   if ( bOK )
-  { aYACS->SetType(_Type) ; }
+  {
+  // 3.1. Le type du schema
+    aYACS->SetType(_Type) ;
 
-  // Ecriture du fichier
+  // 3.2. Les maximums
+    _MaxIter = SpinBoxMaxIter->value() ;
+//     aYACS->SetMaxIter(_MaxIter) ;
+
+    _MaxNode = SpinBoxMaxNode->value() ;
+//     aYACS->SetMaxNode(_MaxNode) ;
+
+    _MaxElem = SpinBoxMaxElem->value() ;
+//     aYACS->SetMaxElem(_MaxElem) ;
+
+  }
+
+  // 4. Ecriture du fichier
   if ( bOK )
   {
     int codret = aYACS->Write() ;
@@ -263,9 +280,9 @@ void MonCreateYACS::SetNewName()
     {
       if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
@@ -295,7 +312,7 @@ void MonCreateYACS::SetScriptFile()
 // ------------------------------------------------------------------------
 {
   QString fileName0 = LEScriptFile->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier(false);
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("py") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEScriptFile->setText(fileName);
 }
@@ -304,7 +321,7 @@ void MonCreateYACS::SetMeshFile()
 // ------------------------------------------------------------------------
 {
   QString fileName0 = LEMeshFile->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier(false);
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEMeshFile->setText(fileName);
 }

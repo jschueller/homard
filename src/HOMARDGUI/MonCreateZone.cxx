@@ -606,9 +606,9 @@ void MonCreateZone::SetNewName()
     {
       if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }

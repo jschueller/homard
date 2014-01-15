@@ -30,9 +30,9 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
 #include <CreateYACS.h>
-#include <QWidget>
+#include <QScrollArea>
 
-class HOMARD_EXPORT MonCreateYACS : public QDialog, public Ui_CreateYACS
+class HOMARD_EXPORT MonCreateYACS : public QScrollArea, public Ui_CreateYACS
 {
     Q_OBJECT
 
@@ -50,6 +50,9 @@ class HOMARD_EXPORT MonCreateYACS : public QDialog, public Ui_CreateYACS
     QString _aMeshFile;
 
     int _Type;
+    int _MaxIter;
+    int _MaxNode;
+    int _MaxElem;
 
     bool Chgt;
 

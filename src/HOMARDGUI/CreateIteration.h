@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateIteration.ui'
 **
-** Created: Tue Sep 17 14:09:30 2013
+** Created: Wed Jan 15 08:42:25 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -22,6 +22,7 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
+#include <QtGui/QScrollArea>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
 #include <QtGui/QWidget>
@@ -31,7 +32,24 @@ QT_BEGIN_NAMESPACE
 class Ui_CreateIteration
 {
 public:
+    QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout;
+    QLabel *Iteration_Name;
+    QSpacerItem *horizontalSpacer_6;
+    QLineEdit *LEName;
+    QSpacerItem *horizontalSpacer_3;
+    QLabel *Iter_Parent;
+    QPushButton *PBIterParent;
+    QLineEdit *LEIterationParentName;
+    QLabel *Mesh_n;
+    QSpacerItem *horizontalSpacer_7;
+    QLineEdit *LEMeshName_n;
+    QSpacerItem *horizontalSpacer_4;
+    QLabel *Mesh_np1;
+    QSpacerItem *horizontalSpacer_8;
+    QLineEdit *LEMeshName_np1;
+    QSpacerItem *horizontalSpacer_5;
+    QSpacerItem *verticalSpacer;
     QGroupBox *GBField;
     QGridLayout *gridLayout1;
     QLineEdit *LEFieldFile;
@@ -48,48 +66,131 @@ public:
     QRadioButton *RBNo;
     QPushButton *PushFieldFile;
     QLabel *FieldFile;
-    QLabel *Iteration_Name;
-    QLineEdit *LEName;
-    QLabel *Iter_Parent;
+    QSpacerItem *horizontalSpacer_10;
     QSpacerItem *spacerItem4;
-    QPushButton *PBIterParent;
-    QLineEdit *LEIterationParentName;
-    QLabel *Mesh_n;
-    QSpacerItem *spacerItem5;
-    QLineEdit *LEMeshName_n;
-    QSpacerItem *spacerItem6;
-    QLabel *Mesh_np1;
-    QLineEdit *LEMeshName_np1;
-    QSpacerItem *spacerItem7;
-    QSpacerItem *spacerItem8;
     QGroupBox *Hypothese;
     QGridLayout *gridLayout2;
     QComboBox *CBHypothese;
-    QSpacerItem *spacerItem9;
+    QSpacerItem *spacerItem5;
     QPushButton *PBHypoEdit;
     QPushButton *PBHypoNew;
-    QSpacerItem *spacerItem10;
+    QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *spacerItem6;
     QGroupBox *GroupButtons;
     QGridLayout *gridLayout3;
     QPushButton *buttonOk;
     QPushButton *buttonApply;
     QPushButton *buttonCancel;
     QPushButton *buttonHelp;
+    QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_9;
 
-    void setupUi(QWidget *CreateIteration)
+    void setupUi(QScrollArea *CreateIteration)
     {
         if (CreateIteration->objectName().isEmpty())
             CreateIteration->setObjectName(QString::fromUtf8("CreateIteration"));
-        CreateIteration->resize(610, 598);
-        gridLayout = new QGridLayout(CreateIteration);
-#ifndef Q_OS_MAC
-        gridLayout->setSpacing(6);
-#endif
-#ifndef Q_OS_MAC
-        gridLayout->setContentsMargins(9, 9, 9, 9);
-#endif
+        CreateIteration->resize(777, 668);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(CreateIteration->sizePolicy().hasHeightForWidth());
+        CreateIteration->setSizePolicy(sizePolicy);
+        CreateIteration->setMinimumSize(QSize(750, 400));
+        CreateIteration->setSizeIncrement(QSize(1, 1));
+        CreateIteration->setBaseSize(QSize(750, 400));
+        CreateIteration->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 773, 664));
+        scrollAreaWidgetContents->setProperty("sizeGripEnabled", QVariant(true));
+        gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        GBField = new QGroupBox(CreateIteration);
+        Iteration_Name = new QLabel(scrollAreaWidgetContents);
+        Iteration_Name->setObjectName(QString::fromUtf8("Iteration_Name"));
+
+        gridLayout->addWidget(Iteration_Name, 0, 0, 1, 2);
+
+        horizontalSpacer_6 = new QSpacerItem(117, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_6, 0, 2, 1, 1);
+
+        LEName = new QLineEdit(scrollAreaWidgetContents);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+        LEName->setMinimumSize(QSize(290, 21));
+        LEName->setMaxLength(64);
+
+        gridLayout->addWidget(LEName, 0, 3, 1, 2);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_3, 0, 5, 1, 1);
+
+        Iter_Parent = new QLabel(scrollAreaWidgetContents);
+        Iter_Parent->setObjectName(QString::fromUtf8("Iter_Parent"));
+
+        gridLayout->addWidget(Iter_Parent, 1, 0, 1, 2);
+
+        PBIterParent = new QPushButton(scrollAreaWidgetContents);
+        PBIterParent->setObjectName(QString::fromUtf8("PBIterParent"));
+        PBIterParent->setEnabled(true);
+        PBIterParent->setMaximumSize(QSize(50, 27));
+
+        gridLayout->addWidget(PBIterParent, 1, 2, 1, 1);
+
+        LEIterationParentName = new QLineEdit(scrollAreaWidgetContents);
+        LEIterationParentName->setObjectName(QString::fromUtf8("LEIterationParentName"));
+        LEIterationParentName->setMinimumSize(QSize(0, 21));
+        LEIterationParentName->setMaxLength(64);
+        LEIterationParentName->setReadOnly(true);
+
+        gridLayout->addWidget(LEIterationParentName, 1, 3, 1, 2);
+
+        Mesh_n = new QLabel(scrollAreaWidgetContents);
+        Mesh_n->setObjectName(QString::fromUtf8("Mesh_n"));
+
+        gridLayout->addWidget(Mesh_n, 2, 0, 1, 1);
+
+        horizontalSpacer_7 = new QSpacerItem(117, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_7, 2, 2, 1, 1);
+
+        LEMeshName_n = new QLineEdit(scrollAreaWidgetContents);
+        LEMeshName_n->setObjectName(QString::fromUtf8("LEMeshName_n"));
+        LEMeshName_n->setMinimumSize(QSize(290, 21));
+        LEMeshName_n->setMaxLength(64);
+        LEMeshName_n->setReadOnly(true);
+
+        gridLayout->addWidget(LEMeshName_n, 2, 3, 1, 3);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_4, 2, 6, 1, 1);
+
+        Mesh_np1 = new QLabel(scrollAreaWidgetContents);
+        Mesh_np1->setObjectName(QString::fromUtf8("Mesh_np1"));
+
+        gridLayout->addWidget(Mesh_np1, 3, 0, 1, 2);
+
+        horizontalSpacer_8 = new QSpacerItem(117, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_8, 3, 2, 1, 1);
+
+        LEMeshName_np1 = new QLineEdit(scrollAreaWidgetContents);
+        LEMeshName_np1->setObjectName(QString::fromUtf8("LEMeshName_np1"));
+        LEMeshName_np1->setMinimumSize(QSize(290, 21));
+        LEMeshName_np1->setMaxLength(64);
+
+        gridLayout->addWidget(LEMeshName_np1, 3, 3, 1, 3);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_5, 3, 6, 1, 1);
+
+        verticalSpacer = new QSpacerItem(20, 62, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout->addItem(verticalSpacer, 4, 0, 1, 1);
+
+        GBField = new QGroupBox(scrollAreaWidgetContents);
         GBField->setObjectName(QString::fromUtf8("GBField"));
         gridLayout1 = new QGridLayout(GBField);
 #ifndef Q_OS_MAC
@@ -175,86 +276,17 @@ public:
         gridLayout1->addWidget(FieldFile, 0, 0, 1, 1);
 
 
-        gridLayout->addWidget(GBField, 6, 0, 1, 4);
+        gridLayout->addWidget(GBField, 5, 0, 1, 6);
 
-        Iteration_Name = new QLabel(CreateIteration);
-        Iteration_Name->setObjectName(QString::fromUtf8("Iteration_Name"));
+        horizontalSpacer_10 = new QSpacerItem(69, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addWidget(Iteration_Name, 0, 0, 1, 2);
+        gridLayout->addItem(horizontalSpacer_10, 5, 6, 1, 1);
 
-        LEName = new QLineEdit(CreateIteration);
-        LEName->setObjectName(QString::fromUtf8("LEName"));
-        LEName->setMinimumSize(QSize(290, 21));
-        LEName->setMaxLength(200);
+        spacerItem4 = new QSpacerItem(20, 22, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addWidget(LEName, 0, 2, 1, 2);
+        gridLayout->addItem(spacerItem4, 6, 0, 1, 1);
 
-        Iter_Parent = new QLabel(CreateIteration);
-        Iter_Parent->setObjectName(QString::fromUtf8("Iter_Parent"));
-
-        gridLayout->addWidget(Iter_Parent, 1, 0, 1, 1);
-
-        spacerItem4 = new QSpacerItem(20, 24, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(spacerItem4, 1, 1, 1, 1);
-
-        PBIterParent = new QPushButton(CreateIteration);
-        PBIterParent->setObjectName(QString::fromUtf8("PBIterParent"));
-        PBIterParent->setEnabled(true);
-        PBIterParent->setMaximumSize(QSize(50, 27));
-
-        gridLayout->addWidget(PBIterParent, 1, 2, 1, 1);
-
-        LEIterationParentName = new QLineEdit(CreateIteration);
-        LEIterationParentName->setObjectName(QString::fromUtf8("LEIterationParentName"));
-        LEIterationParentName->setMinimumSize(QSize(0, 21));
-        LEIterationParentName->setMaxLength(200);
-        LEIterationParentName->setReadOnly(true);
-
-        gridLayout->addWidget(LEIterationParentName, 1, 3, 1, 1);
-
-        Mesh_n = new QLabel(CreateIteration);
-        Mesh_n->setObjectName(QString::fromUtf8("Mesh_n"));
-
-        gridLayout->addWidget(Mesh_n, 2, 0, 1, 1);
-
-        spacerItem5 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(spacerItem5, 2, 1, 1, 1);
-
-        LEMeshName_n = new QLineEdit(CreateIteration);
-        LEMeshName_n->setObjectName(QString::fromUtf8("LEMeshName_n"));
-        LEMeshName_n->setMinimumSize(QSize(290, 21));
-        LEMeshName_n->setMaxLength(32);
-        LEMeshName_n->setReadOnly(true);
-
-        gridLayout->addWidget(LEMeshName_n, 2, 2, 1, 2);
-
-        spacerItem6 = new QSpacerItem(20, 22, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(spacerItem6, 3, 1, 1, 1);
-
-        Mesh_np1 = new QLabel(CreateIteration);
-        Mesh_np1->setObjectName(QString::fromUtf8("Mesh_np1"));
-
-        gridLayout->addWidget(Mesh_np1, 4, 0, 1, 2);
-
-        LEMeshName_np1 = new QLineEdit(CreateIteration);
-        LEMeshName_np1->setObjectName(QString::fromUtf8("LEMeshName_np1"));
-        LEMeshName_np1->setMinimumSize(QSize(290, 21));
-        LEMeshName_np1->setMaxLength(32);
-
-        gridLayout->addWidget(LEMeshName_np1, 4, 2, 1, 2);
-
-        spacerItem7 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(spacerItem7, 5, 1, 1, 1);
-
-        spacerItem8 = new QSpacerItem(20, 22, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(spacerItem8, 7, 1, 1, 1);
-
-        Hypothese = new QGroupBox(CreateIteration);
+        Hypothese = new QGroupBox(scrollAreaWidgetContents);
         Hypothese->setObjectName(QString::fromUtf8("Hypothese"));
         gridLayout2 = new QGridLayout(Hypothese);
 #ifndef Q_OS_MAC
@@ -270,9 +302,9 @@ public:
 
         gridLayout2->addWidget(CBHypothese, 0, 0, 1, 1);
 
-        spacerItem9 = new QSpacerItem(40, 13, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        spacerItem5 = new QSpacerItem(40, 13, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout2->addItem(spacerItem9, 0, 1, 1, 1);
+        gridLayout2->addItem(spacerItem5, 0, 1, 1, 1);
 
         PBHypoEdit = new QPushButton(Hypothese);
         PBHypoEdit->setObjectName(QString::fromUtf8("PBHypoEdit"));
@@ -285,13 +317,17 @@ public:
         gridLayout2->addWidget(PBHypoNew, 0, 3, 1, 1);
 
 
-        gridLayout->addWidget(Hypothese, 8, 0, 1, 4);
+        gridLayout->addWidget(Hypothese, 7, 0, 1, 4);
 
-        spacerItem10 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(spacerItem10, 9, 0, 1, 1);
+        gridLayout->addItem(horizontalSpacer_2, 7, 4, 1, 2);
 
-        GroupButtons = new QGroupBox(CreateIteration);
+        spacerItem6 = new QSpacerItem(20, 21, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout->addItem(spacerItem6, 8, 1, 1, 1);
+
+        GroupButtons = new QGroupBox(scrollAreaWidgetContents);
         GroupButtons->setObjectName(QString::fromUtf8("GroupButtons"));
         gridLayout3 = new QGridLayout(GroupButtons);
 #ifndef Q_OS_MAC
@@ -324,8 +360,17 @@ public:
         gridLayout3->addWidget(buttonHelp, 0, 3, 1, 1);
 
 
-        gridLayout->addWidget(GroupButtons, 10, 0, 1, 4);
+        gridLayout->addWidget(GroupButtons, 9, 0, 1, 4);
 
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer, 9, 4, 1, 2);
+
+        horizontalSpacer_9 = new QSpacerItem(139, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_9, 1, 5, 1, 1);
+
+        CreateIteration->setWidget(scrollAreaWidgetContents);
 
         retranslateUi(CreateIteration);
 
@@ -335,9 +380,14 @@ public:
         QMetaObject::connectSlotsByName(CreateIteration);
     } // setupUi
 
-    void retranslateUi(QWidget *CreateIteration)
+    void retranslateUi(QScrollArea *CreateIteration)
     {
         CreateIteration->setWindowTitle(QApplication::translate("CreateIteration", "Create an iteration", 0, QApplication::UnicodeUTF8));
+        Iteration_Name->setText(QApplication::translate("CreateIteration", "Iteration Name", 0, QApplication::UnicodeUTF8));
+        Iter_Parent->setText(QApplication::translate("CreateIteration", "Previous iteration", 0, QApplication::UnicodeUTF8));
+        PBIterParent->setText(QString());
+        Mesh_n->setText(QApplication::translate("CreateIteration", "Mesh n", 0, QApplication::UnicodeUTF8));
+        Mesh_np1->setText(QApplication::translate("CreateIteration", "Mesh n+1", 0, QApplication::UnicodeUTF8));
         GBField->setTitle(QApplication::translate("CreateIteration", "Field information", 0, QApplication::UnicodeUTF8));
         RBChosen->setText(QApplication::translate("CreateIteration", "Chosen time step", 0, QApplication::UnicodeUTF8));
         Rank->setText(QApplication::translate("CreateIteration", "Rank", 0, QApplication::UnicodeUTF8));
@@ -346,11 +396,6 @@ public:
         RBNo->setText(QApplication::translate("CreateIteration", "No time step", 0, QApplication::UnicodeUTF8));
         PushFieldFile->setText(QString());
         FieldFile->setText(QApplication::translate("CreateIteration", "Field file", 0, QApplication::UnicodeUTF8));
-        Iteration_Name->setText(QApplication::translate("CreateIteration", "Iteration Name", 0, QApplication::UnicodeUTF8));
-        Iter_Parent->setText(QApplication::translate("CreateIteration", "Previous iteration", 0, QApplication::UnicodeUTF8));
-        PBIterParent->setText(QString());
-        Mesh_n->setText(QApplication::translate("CreateIteration", "Mesh n", 0, QApplication::UnicodeUTF8));
-        Mesh_np1->setText(QApplication::translate("CreateIteration", "Mesh n+1", 0, QApplication::UnicodeUTF8));
         Hypothese->setTitle(QApplication::translate("CreateIteration", "Hypothesis", 0, QApplication::UnicodeUTF8));
         PBHypoEdit->setText(QApplication::translate("CreateIteration", "Edit", 0, QApplication::UnicodeUTF8));
         PBHypoNew->setText(QApplication::translate("CreateIteration", "New", 0, QApplication::UnicodeUTF8));

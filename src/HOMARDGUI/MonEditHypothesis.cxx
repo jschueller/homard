@@ -107,11 +107,11 @@ void MonEditHypothesis::InitValEdit()
   if ( NivMax > 0 || DiamMin > 0 || AdapInit != 0 || LevelOutput != 0 )
   { GBAdvancedOptions->setVisible(1);
     if ( NivMax > 0 )
-    { spinBoxNivMax->setValue(NivMax);
-      spinBoxNivMax->setDisabled(true); }
+    { SpinBoxNivMax->setValue(NivMax);
+      SpinBoxNivMax->setDisabled(true); }
     else
     { TLMaximalLevel->setVisible(0);
-      spinBoxNivMax->setVisible(0); }
+      SpinBoxNivMax->setVisible(0); }
     if ( DiamMin > 0 )
     { doubleSpinBoxDiamMin->setValue(DiamMin);
       doubleSpinBoxDiamMin->setDisabled(true); }
@@ -143,7 +143,6 @@ void MonEditHypothesis::InitValEdit()
   else
   { GBAdvancedOptions->setVisible(0); }
 //
-  adjustSize();
 }
 // ----------------------------------------
 void MonEditHypothesis::InitAdaptUniforme()
@@ -151,28 +150,29 @@ void MonEditHypothesis::InitAdaptUniforme()
 // Affichage des informations pour une adaptation uniforme
 {
 //  Choix des options generales
-    GBFieldManagement->setVisible(0);
-    GBAreaManagement->setVisible(0);
-    GBUniform->setVisible(1);
-    adjustSize();
-    RBUniforme->setChecked(true);
-    RBUniforme->setEnabled(false);
-    RBChamp->setEnabled(false);
-    RBZone->setEnabled(false);
+  GBFieldManagement->setVisible(0);
+  GBAreaManagement->setVisible(0);
+  GBUniform->setVisible(1);
+  RBUniforme->setChecked(true);
+  RBUniforme->setEnabled(false);
+  RBChamp->setEnabled(false);
+  RBZone->setEnabled(false);
 //
 // Raffinement ou deraffinement ?
-    if (_aTypeDera == 0)
-    {
-        VERIFICATION(_aTypeRaff==1);
-        RBUniDera->setChecked(false);
-        RBUniRaff->setChecked(true);
-    }
-    if (_aTypeDera == 1)
-    {
-        VERIFICATION(_aTypeRaff==0);
-        RBUniDera->setChecked(true);
-        RBUniRaff->setChecked(false);
-    }
+  if (_aTypeDera == 0)
+  {
+      VERIFICATION(_aTypeRaff==1);
+      RBUniDera->setChecked(false);
+      RBUniRaff->setChecked(true);
+  }
+  if (_aTypeDera == 1)
+  {
+      VERIFICATION(_aTypeRaff==0);
+      RBUniDera->setChecked(true);
+      RBUniRaff->setChecked(false);
+  }
+//
+  adjustSize();
 //
 }
 // -------------------------------------
@@ -180,52 +180,53 @@ void MonEditHypothesis::InitAdaptZone()
 // -------------------------------------
 // Affichage des informations pour une adaptation selon des zones :
 {
-    MESSAGE ("Debut de InitAdaptZone");
+  MESSAGE ("Debut de InitAdaptZone");
 //  Choix des options generales
-    GBUniform->setVisible(0);
-    GBFieldManagement->setVisible(0);
-    GBAreaManagement->setVisible(1);
-    adjustSize();
-    RBZone->setChecked(true);
-    RBChamp->setEnabled(false);
-    RBUniforme->setEnabled(false);
-    RBZone->setEnabled(false);
+  GBUniform->setVisible(0);
+  GBFieldManagement->setVisible(0);
+  GBAreaManagement->setVisible(1);
+  RBZone->setChecked(true);
+  RBChamp->setEnabled(false);
+  RBUniforme->setEnabled(false);
+  RBZone->setEnabled(false);
 
 //  Recuperation de toutes les zones decrites et notation de celles retenues
-    GetAllZones();
-    HOMARD::listeZonesHypo_var mesZonesAvant = aHypothesis->GetZones();
-    for (int i=0; i<mesZonesAvant->length(); i++)
-    {
-      MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
-      for ( int j =0 ; j < TWZone->rowCount(); j++)
-      {
-        MESSAGE (". j"<<j<<", zone :"<<TWZone->item(j,2)->text().toStdString());
-        if ( TWZone->item(j,2)->text().toStdString() == string(mesZonesAvant[i]) )
-        {
-          MESSAGE ("OK avec "<<string(mesZonesAvant[i]));
-          if ( string(mesZonesAvant[i+1]) == "1" )
-          {
-            MESSAGE ("... RAFF");
-            TWZone->item( j,0 )->setCheckState( Qt::Checked );
-            TWZone->item( j,1 )->setCheckState( Qt::Unchecked ); }
-          else
-          {
-            MESSAGE ("... DERA");
-            TWZone->item( j,0 )->setCheckState( Qt::Unchecked );
-            TWZone->item( j,1 )->setCheckState( Qt::Checked ); }
-          break;
-        }
-      }
-      i += 1 ;
-    }
-//
-//  Inactivation des choix
+  GetAllZones();
+  HOMARD::listeZonesHypo_var mesZonesAvant = aHypothesis->GetZones();
+  for (int i=0; i<mesZonesAvant->length(); i++)
+  {
+    MESSAGE ("i"<<i<<", zone :"<<string(mesZonesAvant[i])<<", type :"<<string(mesZonesAvant[i+1]));
     for ( int j =0 ; j < TWZone->rowCount(); j++)
     {
-      TWZone->item( j, 0 )->setFlags(0);
-      TWZone->item( j, 1 )->setFlags(0);
+      MESSAGE (". j"<<j<<", zone :"<<TWZone->item(j,2)->text().toStdString());
+      if ( TWZone->item(j,2)->text().toStdString() == string(mesZonesAvant[i]) )
+      {
+        MESSAGE ("OK avec "<<string(mesZonesAvant[i]));
+        if ( string(mesZonesAvant[i+1]) == "1" )
+        {
+          MESSAGE ("... RAFF");
+          TWZone->item( j,0 )->setCheckState( Qt::Checked );
+          TWZone->item( j,1 )->setCheckState( Qt::Unchecked ); }
+        else
+        {
+          MESSAGE ("... DERA");
+          TWZone->item( j,0 )->setCheckState( Qt::Unchecked );
+          TWZone->item( j,1 )->setCheckState( Qt::Checked ); }
+        break;
+      }
     }
-    PBZoneNew->setVisible(0);
+    i += 1 ;
+  }
+//
+//  Inactivation des choix
+  for ( int j =0 ; j < TWZone->rowCount(); j++)
+  {
+    TWZone->item( j, 0 )->setFlags(0);
+    TWZone->item( j, 1 )->setFlags(0);
+  }
+  PBZoneNew->setVisible(0);
+//
+  adjustSize();
 //
 }
 // -------------------------------------
@@ -242,7 +243,6 @@ void MonEditHypothesis::InitAdaptChamps()
     GBUniform->setVisible(0);
     GBAreaManagement->setVisible(0);
     GBFieldManagement->setVisible(1);
-    adjustSize();
     RBChamp->setChecked(true);
     RBUniforme->setEnabled(false);
     RBChamp->setEnabled(false);
@@ -344,6 +344,8 @@ void MonEditHypothesis::InitAdaptChamps()
     RBInf->setChecked(true);
     RBInf->setEnabled(true);
   }
+//
+  adjustSize();
 }
 // -------------------------------------
 void MonEditHypothesis::InitFieldInterp()

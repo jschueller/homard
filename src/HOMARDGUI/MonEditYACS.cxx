@@ -75,7 +75,6 @@ void MonEditYACS::InitValEdit()
   RBConstant->setEnabled(false);
   RBVariable->setEnabled(false);
 //
-  adjustSize();
 }
 
 // ---------------------------------------------------

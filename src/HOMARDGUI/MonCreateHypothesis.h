@@ -30,10 +30,10 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
 
 #include <CreateHypothesis.h>
-#include <QDialog>
+#include <QScrollArea>
 
 class MonCreateIteration;
-class HOMARD_EXPORT MonCreateHypothesis : public QDialog, public Ui_CreateHypothesis
+class HOMARD_EXPORT MonCreateHypothesis : public QScrollArea, public Ui_CreateHypothesis
 {
     Q_OBJECT
 

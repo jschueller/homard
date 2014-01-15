@@ -117,8 +117,8 @@ const SALOME_ListIO& HOMARD_UTILS::selectedIO()
       if( aSelectionMgr )
       {
 	      aSelectionMgr->selectedObjects( mySelected );
-              for (SALOME_ListIteratorOfListIO it (mySelected); it.More(); it.Next())
-		 SCRUTE(it.Value()->getEntry());
+        for (SALOME_ListIteratorOfListIO it (mySelected); it.More(); it.Next())
+        SCRUTE(it.Value()->getEntry());
       };
       return mySelected;
 }
@@ -135,7 +135,7 @@ int HOMARD_UTILS::IObjectCount()
       {
 	      aSelectionMgr->selectedObjects( mySelected );
 	      SCRUTE(mySelected.Extent());
-              return mySelected.Extent();
+        return mySelected.Extent();
       }
       return 0;
 }
@@ -161,7 +161,7 @@ Handle(SALOME_InteractiveObject) HOMARD_UTILS::lastIObject()
 }
 
 //================================================================
-// Retourne vrai si l objet est du type voulu
+// Retourne vrai si l'objet est du type voulu
 // . Dans le cas d'un cas, d'une hypothese, d'une zone, on se contente
 // d'une comparaison simple entre le type stocke et TypeObject.
 // . Pour l'iteration, le type stocke en attribut est sous la forme
@@ -188,6 +188,7 @@ bool HOMARD_UTILS::isObject(_PTR(SObject) MonObj, QString TypeObject, int option
   if ( option == 0 )
   {
     int position = Type.lastIndexOf(TypeObject);
+//     MESSAGE("position = "<<position);
     if ( position == 0 ) { bOK = true ; }
   }
   else
@@ -197,56 +198,56 @@ bool HOMARD_UTILS::isObject(_PTR(SObject) MonObj, QString TypeObject, int option
   return bOK ;
 }
 //================================================================
-// Retourne vrai si l objet est une frontiere analytique
+// Retourne vrai si l'objet est une frontiere analytique
 //================================================================
 bool HOMARD_UTILS::isBoundaryAn(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("BoundaryAnHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est une frontiere discrete
+// Retourne vrai si l'objet est une frontiere discrete
 //================================================================
 bool HOMARD_UTILS::isBoundaryDi(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("BoundaryDiHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est un cas
+// Retourne vrai si l'objet est un cas
 //================================================================
 bool HOMARD_UTILS::isCase(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("CasHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est une Hypothese
+// Retourne vrai si l'objet est une Hypothese
 //================================================================
 bool HOMARD_UTILS::isHypo(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("HypoHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est une iteration
+// Retourne vrai si l'objet est une iteration
 //================================================================
 bool HOMARD_UTILS::isIter(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("IterationHomard"), 0 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est un schema YACS
+// Retourne vrai si l'objet est un schema YACS
 //================================================================
 bool HOMARD_UTILS::isYACS(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("YACSHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est une zone
+// Retourne vrai si l'objet est une zone
 //================================================================
 bool HOMARD_UTILS::isZone(_PTR(SObject) MonObj)
 {
    return isObject( MonObj, QString("ZoneHomard"), -1 ) ;
 }
 //================================================================
-// Retourne vrai si l objet est un fichier de type TypeFile
+// Retourne vrai si l'objet est un fichier de type TypeFile
 //================================================================
 bool HOMARD_UTILS::isFileType(_PTR(SObject) MonObj, QString TypeFile)
 {
@@ -263,7 +264,7 @@ void HOMARD_UTILS::PushOnHelp(QString monFichierAide, QString contexte, QString 
     HOMARDGUI* aHomardGUI = dynamic_cast<HOMARDGUI*>( app->module( "Homard" ) );
     // Repertoire de reference de la documentation
     QString rep = aHomardGUI ? app->moduleName(aHomardGUI->moduleName()) : QString("") ;
-    // WARNING/ATTENTION : si on savait recuperer la langue depuis les preferences, on ne fera pas le passage par argument
+    // WARNING/ATTENTION : si on savait recuperer la langue depuis les preferences, on ne ferait pas le passage par argument
 //     SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
 //     SUIT_ResourceMgr* resMgr = myModule->getApp()->resourceMgr();
 //     QString langue = resMgr->stringValue("language", "language", "en");

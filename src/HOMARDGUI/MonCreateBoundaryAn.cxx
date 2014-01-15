@@ -475,9 +475,9 @@ void MonCreateBoundaryAn::SetNewName()
     {
       if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
@@ -491,8 +491,10 @@ void MonCreateBoundaryAn::SetCylinder()
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
-  adjustSize();
+//
   _Type=1;
+//
+  adjustSize();
 //   MESSAGE("Fin de SetCylinder")
 }
 // ------------------------------------------------------------------------
@@ -503,8 +505,10 @@ void MonCreateBoundaryAn::SetSphere()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(1);
   gBCone->setVisible(0);
-  adjustSize();
+//
   _Type=2;
+//
+  adjustSize();
 //   MESSAGE("Fin de SetSphere")
 }
 // ------------------------------------------------------------------------
@@ -624,7 +628,6 @@ void MonCreateBoundaryAn::SetCone()
   gBSphere->setVisible(0);
   gBCone->setVisible(1);
 //
-  adjustSize();
   if ( RB_Def_radius->isChecked() )
   {
     SetConeR();
@@ -633,6 +636,8 @@ void MonCreateBoundaryAn::SetCone()
   {
     SetConeA();
   }
+//
+  adjustSize();
 //   MESSAGE("Fin de SetCone")
 }
 // ------------------------------------------------------------------------

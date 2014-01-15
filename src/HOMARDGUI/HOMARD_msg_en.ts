@@ -29,11 +29,15 @@
     </message>
     <message>
         <source>HOM_MEN_PURSUE_ITERATION</source>
-        <translation>Pursuit of an iteration</translation>
+        <translation>Case: pursuit of a stored iteration</translation>
     </message>
     <message>
         <source>HOM_MEN_COMPUTE</source>
         <translation>Compute</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_COMPUTE_PUBLISH</source>
+        <translation>Compute and publish</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT</source>
@@ -46,6 +50,10 @@
     <message>
         <source>HOM_MEN_MESH_INFO</source>
         <translation>Mesh analysis</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_MESH_PUBLICATION</source>
+        <translation>Mesh publication</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -69,11 +77,15 @@
     </message>
     <message>
         <source>HOM_TOP_PURSUE_ITERATION</source>
-        <translation>Pursuit of an iteration</translation>
+        <translation>Case: pursuit of a stored iteration</translation>
     </message>
     <message>
         <source>HOM_TOP_COMPUTE</source>
         <translation>Compute</translation>
+    </message>
+    <message>
+        <source>HOM_TOP_COMPUTE_PUBLISH</source>
+        <translation>Compute and publish</translation>
     </message>
     <message>
         <source>HOM_TOP_EDIT</source>
@@ -101,11 +113,15 @@
     </message>
     <message>
         <source>HOM_STB_PURSUE_ITERATION</source>
-        <translation>Pursuit of an iteration</translation>
+        <translation>Case: pursuit of a stored iteration</translation>
     </message>
     <message>
         <source>HOM_STB_COMPUTE</source>
         <translation>Compute</translation>
+    </message>
+    <message>
+        <source>HOM_STB_COMPUTE_PUBLISH</source>
+        <translation>Compute and publish</translation>
     </message>
     <message>
         <source>HOM_STB_EDIT</source>
@@ -142,6 +158,10 @@
     <message>
         <source>HOM_SELECT_OBJECT_3</source>
         <translation>Select an object with type %1.</translation>
+    </message>
+    <message>
+        <source>HOM_SELECT_FILE_0</source>
+        <translation>File selection</translation>
     </message>
     <message>
         <source>HOM_SELECT_FILE_1</source>
@@ -237,7 +257,7 @@
     </message>
     <message>
         <source>HOM_CASE_PURSUE_WINDOW_TITLE</source>
-        <translation>Pursuit of an iteration</translation>
+        <translation>Case: pursuit of a stored iteration</translation>
     </message>
     <message>
         <source>HOM_ITER_NAME</source>
@@ -378,6 +398,42 @@
     <message>
         <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
         <translation>Edition of a schema YACS</translation>
+    </message>
+    <message>
+        <source>PREF_TAB_GENERAL</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION</source>
+        <translation>Publication</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_IN</source>
+        <translation>IN meshes</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_OUT</source>
+        <translation>OUT meshes</translation>
+    </message>
+    <message>
+        <source>PREF_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX</source>
+        <translation>Maximum numbers</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ITER</source>
+        <translation>Iterations</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_NODE</source>
+        <translation>Nodes</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ELEM</source>
+        <translation>Elements</translation>
     </message>
 </context>
 </TS>

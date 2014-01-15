@@ -380,5 +380,9 @@
       <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
       <translation>YACS スキーマ編集スキーマへんしゅう</translation>
     </message>
-  </context>
+    <message>
+      <source>PREF_TAB_GENERAL</source>
+      <translation>一般的な</translation>
+    </message>
+</context>
 </TS>

@@ -187,6 +187,7 @@ public:
   void                            PublishCaseUnderYACS(const char* YACSName, const char* CaseName);
   void                            PublishResultInSmesh(const char* NomFich, CORBA::Long Option);
   void                            DeleteResultInSmesh(std::string NomFich, std::string MeshName);
+  void                            PublishMeshIterInSmesh(const char* NomIter);
 
 // YACS
   HOMARD::HOMARD_YACS_ptr         CreateYACSSchema (const char* YACSName, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile);
@@ -195,9 +196,17 @@ public:
   std::string                     YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, YACSDriver* myDriver);
   std::string                     YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, YACSDriver* myDriver);
 
-// Divers
+// Preferences
+  void                            SetPreferences() ;
   void                            SetLanguageShort(const char* LanguageShort);
   char*                           GetLanguageShort();
+  void                            SetPublisMesh(CORBA::Long PublisMeshIN, CORBA::Long PublisMeshOUT);
+  CORBA::Long                     GetPublisMeshIN();
+  CORBA::Long                     GetPublisMeshOUT();
+  void                            SetYACSMaximum(CORBA::Long YACSMaxIter, CORBA::Long YACSMaxNode, CORBA::Long YACSMaxElem);
+  CORBA::Long                     GetYACSMaxIter();
+  CORBA::Long                     GetYACSMaxNode();
+  CORBA::Long                     GetYACSMaxElem();
 
 
   // ---------------------------------------------------------------
@@ -316,8 +325,16 @@ private:
   int _tag_hypo ;
   int _tag_yacs ;
   int _tag_zone ;
+
+// Preferences
   std::string _Langue ;
   std::string _LangueShort ;
+  int _PublisMeshIN ;
+  int _PublisMeshOUT ;
+  int _YACSMaxIter ;
+  int _YACSMaxNode ;
+  int _YACSMaxElem ;
+ ;
 
 };
 

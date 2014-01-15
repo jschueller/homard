@@ -165,7 +165,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBoxNumber">
+       <widget class="QSpinBox" name="SpinBoxNumber">
         <property name="maximum">
          <number>1789</number>
         </property>

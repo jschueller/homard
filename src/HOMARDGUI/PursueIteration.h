@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'PursueIteration.ui'
 **
-** Created: Mon Apr 8 11:14:52 2013
+** Created: Wed Jan 15 08:41:44 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -49,7 +49,7 @@ public:
     QGridLayout *gridLayout;
     QRadioButton *RBCaseLastIteration;
     QRadioButton *RBCaseNIteration;
-    QSpinBox *spinBoxNumber;
+    QSpinBox *SpinBoxNumber;
     QGroupBox *GroupButtons;
     QGridLayout *gridLayout1;
     QPushButton *buttonHelp;
@@ -171,11 +171,11 @@ public:
 
         gridLayout->addWidget(RBCaseNIteration, 1, 0, 1, 1);
 
-        spinBoxNumber = new QSpinBox(GBIterationintoCase);
-        spinBoxNumber->setObjectName(QString::fromUtf8("spinBoxNumber"));
-        spinBoxNumber->setMaximum(1789);
+        SpinBoxNumber = new QSpinBox(GBIterationintoCase);
+        SpinBoxNumber->setObjectName(QString::fromUtf8("SpinBoxNumber"));
+        SpinBoxNumber->setMaximum(1789);
 
-        gridLayout->addWidget(spinBoxNumber, 1, 1, 1, 1);
+        gridLayout->addWidget(SpinBoxNumber, 1, 1, 1, 1);
 
 
         gridLayout_2->addWidget(GBIterationintoCase, 4, 0, 1, 2);

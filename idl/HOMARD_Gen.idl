@@ -181,7 +181,7 @@ module HOMARD
     string CreateDirNameIter(in string NomDir, in long option )
     raises(SALOME::SALOME_Exception);
 
-    string VerifieDir (in string NomDir)                raises (SALOME::SALOME_Exception);
+    string VerifieDir (in string NomDir)                   raises (SALOME::SALOME_Exception);
 
 //
     void PublishFileUnderIteration(in string IterName, in string FileName, in string Comment)
@@ -190,6 +190,9 @@ module HOMARD
     raises(SALOME::SALOME_Exception);
     void PublishResultInSmesh(in string FileName, in long Option)
     raises(SALOME::SALOME_Exception);
+    void PublishMeshIterInSmesh (in string IterName)       raises(SALOME::SALOME_Exception);
+
+//
 
 //
     HOMARD_YACS CreateYACSSchema(in string YACSName, in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
@@ -201,6 +204,10 @@ module HOMARD
 //
     void SetLanguageShort (in string LanguageShort)        raises (SALOME::SALOME_Exception);
     string GetLanguageShort ()                             raises (SALOME::SALOME_Exception);
+    void SetPublisMesh (in long PublisMeshIN, in long PublisMeshOUT)
+    raises (SALOME::SALOME_Exception);
+    long GetPublisMeshIN ()                                raises (SALOME::SALOME_Exception);
+    long GetPublisMeshOUT ()                               raises (SALOME::SALOME_Exception);
   };
 };
 

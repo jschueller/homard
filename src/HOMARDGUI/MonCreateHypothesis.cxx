@@ -41,7 +41,7 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
 // ---------------------------------------------------------------------------------
 /* Constructs a MonCreateHypothesis */
     :
-    QDialog(0), Ui_CreateHypothesis(),
+    QScrollArea(0), Ui_CreateHypothesis(),
     _parent(parent), _Name(Name),
     _aCaseName(caseName), _aFieldFile(aFieldFile),
     _aFieldName(""),
@@ -58,7 +58,9 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       MESSAGE("Constructeur") ;
       myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
-      setModal(modal);
+      if ( modal ) { setWindowModality(Qt::WindowModal); }
+      else         { setWindowModality(Qt::NonModal); }
+      setWindowFlags( Qt::WindowStaysOnTopHint ) ;
       InitConnect();
 
       SetNewName();
@@ -73,6 +75,8 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       SetFieldNo();
       GBAdvancedOptions->setVisible(0);
       CBLevelOutput->setChecked(false);
+//
+      adjustSize();
 }
 
 // ------------------------------------------------------------------------
@@ -174,7 +178,7 @@ bool MonCreateHypothesis::PushOnApply()
   if (CBAdvanced->isChecked())
   {
 // Enregistrement du niveau maximal
-    _NivMax = spinBoxNivMax->value() ;
+    _NivMax = SpinBoxNivMax->value() ;
     aHypothesis->SetNivMax(_NivMax);
 // Enregistrement du diametre minimal
     _DiamMin = doubleSpinBoxDiamMin->value() ;
@@ -222,9 +226,9 @@ void MonCreateHypothesis::SetNewName()
     {
       if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
     }
   }
@@ -241,8 +245,10 @@ void MonCreateHypothesis::SetUniforme()
   else                         { GBFieldFile->setVisible(1); }
   GBAreaManagement->setVisible(0);
   GBUniform->setVisible(1);
-  adjustSize();
+
   _aTypeAdap = -1 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetChamp()
@@ -268,9 +274,10 @@ void MonCreateHypothesis::SetChamp()
   GBAreaManagement->adjustSize();
   GBFieldManagement->adjustSize();
   GBFieldFile->adjustSize();
-  adjustSize();
 
   _aTypeAdap = 1 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetZone()
@@ -282,10 +289,12 @@ void MonCreateHypothesis::SetZone()
   if ( _TypeFieldInterp == 0 ) { GBFieldFile->setVisible(0); }
   else                         { GBFieldFile->setVisible(1); }
   GBAreaManagement->setVisible(1);
-  adjustSize();
+
   _aTypeRaff = 1 ;
   _aTypeDera = 0 ;
   _aTypeAdap = 0 ;
+//
+  adjustSize();
 }
 
 // ------------------------------------------------------------------------
@@ -797,8 +806,9 @@ void MonCreateHypothesis::SetFieldNo()
   else                   { GBFieldFile->setVisible(0); }
   TWField->setVisible(0);
 //
-   adjustSize();
   _TypeFieldInterp = 0 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetFieldAll()
@@ -819,7 +829,8 @@ void MonCreateHypothesis::SetFieldAll()
   TWField->setVisible(0);
 //
   _TypeFieldInterp = 1 ;
-   adjustSize();
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetFieldChosen()
@@ -866,7 +877,8 @@ void MonCreateHypothesis::SetFieldChosen()
   TWField->setVisible(1);
 
   _TypeFieldInterp = 2 ;
-   adjustSize();
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetAdvanced()
@@ -890,6 +902,7 @@ void MonCreateHypothesis::SetAdvanced()
     CBLevelOutput->setChecked(false);
     _LevelOutput = 0 ;
   }
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------

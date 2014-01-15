@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateHypothesis.ui'
 **
-** Created: Tue Sep 24 14:35:06 2013
+** Created: Wed Jan 15 08:44:19 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,7 +16,6 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
-#include <QtGui/QDialog>
 #include <QtGui/QDoubleSpinBox>
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
@@ -26,33 +25,44 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
+#include <QtGui/QScrollArea>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
 #include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_CreateHypothesis
 {
 public:
+    QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout_3;
+    QWidget *WName;
+    QGridLayout *gridLayout;
+    QLabel *Name;
     QLineEdit *LEName;
+    QSpacerItem *horizontalSpacer_9;
     QGroupBox *GBTypeAdaptation;
     QHBoxLayout *hboxLayout;
     QRadioButton *RBUniforme;
     QRadioButton *RBChamp;
     QRadioButton *RBZone;
+    QSpacerItem *horizontalSpacer_6;
+    QCheckBox *CBGroupe;
+    QSpacerItem *horizontalSpacer_8;
     QGroupBox *GBUniform;
-    QGridLayout *gridLayout;
+    QGridLayout *gridLayout1;
     QRadioButton *RBUniDera;
     QRadioButton *RBUniRaff;
+    QSpacerItem *horizontalSpacer_7;
     QGroupBox *GBFieldFile;
-    QGridLayout *gridLayout1;
+    QGridLayout *gridLayout2;
     QLabel *FieldFile;
     QLineEdit *LEFieldFile;
     QGroupBox *GBFieldManagement;
-    QGridLayout *gridLayout2;
+    QGridLayout *gridLayout3;
     QHBoxLayout *hboxLayout1;
     QLabel *FieldName;
     QComboBox *CBFieldName;
@@ -67,7 +77,7 @@ public:
     QCheckBox *CBJump;
     QHBoxLayout *hboxLayout4;
     QGroupBox *GBRefinementThresholds;
-    QGridLayout *gridLayout3;
+    QGridLayout *gridLayout4;
     QRadioButton *RBRPE;
     QDoubleSpinBox *SpinBox_RPE;
     QRadioButton *RBRRel;
@@ -78,7 +88,7 @@ public:
     QDoubleSpinBox *SpinBox_RMuSigma;
     QRadioButton *RBRNo;
     QGroupBox *GBCoarseningThresholds;
-    QGridLayout *gridLayout4;
+    QGridLayout *gridLayout5;
     QRadioButton *RBCPE;
     QDoubleSpinBox *SpinBox_CPE;
     QRadioButton *RBCRel;
@@ -99,56 +109,79 @@ public:
     QPushButton *PBZoneDelete;
     QSpacerItem *spacerItem2;
     QGroupBox *GBField;
-    QGridLayout *gridLayout5;
     QGridLayout *gridLayout6;
+    QGridLayout *gridLayout7;
     QRadioButton *RBFieldNo;
     QRadioButton *RBFieldAll;
     QRadioButton *RBFieldChosen;
     QTableWidget *TWField;
-    QCheckBox *CBGroupe;
+    QSpacerItem *horizontalSpacer_5;
     QCheckBox *CBAdvanced;
+    QSpacerItem *horizontalSpacer_4;
     QGroupBox *GBAdvancedOptions;
     QGridLayout *gridLayout_1;
     QLabel *TLMinimalDiameter;
     QDoubleSpinBox *doubleSpinBoxDiamMin;
     QLabel *TLMaximalLevel;
-    QSpinBox *spinBoxNivMax;
+    QSpinBox *SpinBoxNivMax;
     QGroupBox *GBAdapInit;
     QGridLayout *gridLayout_2;
     QRadioButton *RBAIN;
     QRadioButton *RBAIR;
     QRadioButton *RBAID;
     QCheckBox *CBLevelOutput;
+    QSpacerItem *horizontalSpacer_3;
     QGroupBox *GBButtons;
-    QGridLayout *gridLayout7;
+    QGridLayout *gridLayout8;
     QPushButton *buttonOk;
     QPushButton *buttonApply;
     QPushButton *buttonCancel;
     QPushButton *buttonHelp;
-    QLabel *Name;
+    QSpacerItem *horizontalSpacer_2;
 
-    void setupUi(QDialog *CreateHypothesis)
+    void setupUi(QScrollArea *CreateHypothesis)
     {
         if (CreateHypothesis->objectName().isEmpty())
             CreateHypothesis->setObjectName(QString::fromUtf8("CreateHypothesis"));
-        CreateHypothesis->resize(794, 1481);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        CreateHypothesis->resize(848, 1550);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(CreateHypothesis->sizePolicy().hasHeightForWidth());
         CreateHypothesis->setSizePolicy(sizePolicy);
-        CreateHypothesis->setAutoFillBackground(true);
-        CreateHypothesis->setSizeGripEnabled(true);
-        gridLayout_3 = new QGridLayout(CreateHypothesis);
+        CreateHypothesis->setMinimumSize(QSize(800, 600));
+        CreateHypothesis->setSizeIncrement(QSize(1, 1));
+        CreateHypothesis->setBaseSize(QSize(800, 1200));
+        CreateHypothesis->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 844, 1546));
+        scrollAreaWidgetContents->setProperty("sizeGripEnabled", QVariant(true));
+        gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        LEName = new QLineEdit(CreateHypothesis);
+        WName = new QWidget(scrollAreaWidgetContents);
+        WName->setObjectName(QString::fromUtf8("WName"));
+        gridLayout = new QGridLayout(WName);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        Name = new QLabel(WName);
+        Name->setObjectName(QString::fromUtf8("Name"));
+
+        gridLayout->addWidget(Name, 0, 0, 1, 1);
+
+        LEName = new QLineEdit(WName);
         LEName->setObjectName(QString::fromUtf8("LEName"));
-        LEName->setMinimumSize(QSize(382, 31));
-        LEName->setMaxLength(32);
+        LEName->setMinimumSize(QSize(282, 31));
 
-        gridLayout_3->addWidget(LEName, 0, 1, 1, 1);
+        gridLayout->addWidget(LEName, 0, 1, 1, 1);
 
-        GBTypeAdaptation = new QGroupBox(CreateHypothesis);
+
+        gridLayout_3->addWidget(WName, 0, 0, 1, 1);
+
+        horizontalSpacer_9 = new QSpacerItem(224, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_9, 0, 1, 1, 1);
+
+        GBTypeAdaptation = new QGroupBox(scrollAreaWidgetContents);
         GBTypeAdaptation->setObjectName(QString::fromUtf8("GBTypeAdaptation"));
         hboxLayout = new QHBoxLayout(GBTypeAdaptation);
 #ifndef Q_OS_MAC
@@ -177,33 +210,22 @@ public:
 
         gridLayout_3->addWidget(GBTypeAdaptation, 1, 0, 1, 2);
 
-        GBUniform = new QGroupBox(CreateHypothesis);
+        horizontalSpacer_6 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_6, 1, 2, 1, 1);
+
+        CBGroupe = new QCheckBox(scrollAreaWidgetContents);
+        CBGroupe->setObjectName(QString::fromUtf8("CBGroupe"));
+
+        gridLayout_3->addWidget(CBGroupe, 2, 0, 1, 1);
+
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_8, 2, 2, 1, 1);
+
+        GBUniform = new QGroupBox(scrollAreaWidgetContents);
         GBUniform->setObjectName(QString::fromUtf8("GBUniform"));
-        gridLayout = new QGridLayout(GBUniform);
-#ifndef Q_OS_MAC
-        gridLayout->setSpacing(6);
-#endif
-#ifndef Q_OS_MAC
-        gridLayout->setContentsMargins(9, 9, 9, 9);
-#endif
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        RBUniDera = new QRadioButton(GBUniform);
-        RBUniDera->setObjectName(QString::fromUtf8("RBUniDera"));
-
-        gridLayout->addWidget(RBUniDera, 0, 1, 1, 1);
-
-        RBUniRaff = new QRadioButton(GBUniform);
-        RBUniRaff->setObjectName(QString::fromUtf8("RBUniRaff"));
-        RBUniRaff->setChecked(true);
-
-        gridLayout->addWidget(RBUniRaff, 0, 0, 1, 1);
-
-
-        gridLayout_3->addWidget(GBUniform, 3, 0, 1, 2);
-
-        GBFieldFile = new QGroupBox(CreateHypothesis);
-        GBFieldFile->setObjectName(QString::fromUtf8("GBFieldFile"));
-        gridLayout1 = new QGridLayout(GBFieldFile);
+        gridLayout1 = new QGridLayout(GBUniform);
 #ifndef Q_OS_MAC
         gridLayout1->setSpacing(6);
 #endif
@@ -211,25 +233,27 @@ public:
         gridLayout1->setContentsMargins(9, 9, 9, 9);
 #endif
         gridLayout1->setObjectName(QString::fromUtf8("gridLayout1"));
-        FieldFile = new QLabel(GBFieldFile);
-        FieldFile->setObjectName(QString::fromUtf8("FieldFile"));
+        RBUniDera = new QRadioButton(GBUniform);
+        RBUniDera->setObjectName(QString::fromUtf8("RBUniDera"));
 
-        gridLayout1->addWidget(FieldFile, 0, 0, 1, 1);
+        gridLayout1->addWidget(RBUniDera, 0, 1, 1, 1);
 
-        LEFieldFile = new QLineEdit(GBFieldFile);
-        LEFieldFile->setObjectName(QString::fromUtf8("LEFieldFile"));
-        LEFieldFile->setMinimumSize(QSize(282, 31));
+        RBUniRaff = new QRadioButton(GBUniform);
+        RBUniRaff->setObjectName(QString::fromUtf8("RBUniRaff"));
+        RBUniRaff->setChecked(true);
 
-        gridLayout1->addWidget(LEFieldFile, 0, 1, 1, 1);
+        gridLayout1->addWidget(RBUniRaff, 0, 0, 1, 1);
 
 
-        gridLayout_3->addWidget(GBFieldFile, 4, 0, 1, 2);
+        gridLayout_3->addWidget(GBUniform, 3, 0, 1, 1);
 
-        GBFieldManagement = new QGroupBox(CreateHypothesis);
-        GBFieldManagement->setObjectName(QString::fromUtf8("GBFieldManagement"));
-        sizePolicy.setHeightForWidth(GBFieldManagement->sizePolicy().hasHeightForWidth());
-        GBFieldManagement->setSizePolicy(sizePolicy);
-        gridLayout2 = new QGridLayout(GBFieldManagement);
+        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_7, 3, 2, 1, 1);
+
+        GBFieldFile = new QGroupBox(scrollAreaWidgetContents);
+        GBFieldFile->setObjectName(QString::fromUtf8("GBFieldFile"));
+        gridLayout2 = new QGridLayout(GBFieldFile);
 #ifndef Q_OS_MAC
         gridLayout2->setSpacing(6);
 #endif
@@ -237,6 +261,35 @@ public:
         gridLayout2->setContentsMargins(9, 9, 9, 9);
 #endif
         gridLayout2->setObjectName(QString::fromUtf8("gridLayout2"));
+        FieldFile = new QLabel(GBFieldFile);
+        FieldFile->setObjectName(QString::fromUtf8("FieldFile"));
+
+        gridLayout2->addWidget(FieldFile, 0, 0, 1, 1);
+
+        LEFieldFile = new QLineEdit(GBFieldFile);
+        LEFieldFile->setObjectName(QString::fromUtf8("LEFieldFile"));
+        LEFieldFile->setMinimumSize(QSize(282, 31));
+
+        gridLayout2->addWidget(LEFieldFile, 0, 1, 1, 1);
+
+
+        gridLayout_3->addWidget(GBFieldFile, 4, 0, 1, 2);
+
+        GBFieldManagement = new QGroupBox(scrollAreaWidgetContents);
+        GBFieldManagement->setObjectName(QString::fromUtf8("GBFieldManagement"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(GBFieldManagement->sizePolicy().hasHeightForWidth());
+        GBFieldManagement->setSizePolicy(sizePolicy1);
+        gridLayout3 = new QGridLayout(GBFieldManagement);
+#ifndef Q_OS_MAC
+        gridLayout3->setSpacing(6);
+#endif
+#ifndef Q_OS_MAC
+        gridLayout3->setContentsMargins(9, 9, 9, 9);
+#endif
+        gridLayout3->setObjectName(QString::fromUtf8("gridLayout3"));
         hboxLayout1 = new QHBoxLayout();
 #ifndef Q_OS_MAC
         hboxLayout1->setSpacing(6);
@@ -252,8 +305,8 @@ public:
 
         CBFieldName = new QComboBox(GBFieldManagement);
         CBFieldName->setObjectName(QString::fromUtf8("CBFieldName"));
-        sizePolicy.setHeightForWidth(CBFieldName->sizePolicy().hasHeightForWidth());
-        CBFieldName->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(CBFieldName->sizePolicy().hasHeightForWidth());
+        CBFieldName->setSizePolicy(sizePolicy1);
         CBFieldName->setEditable(false);
         CBFieldName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
@@ -264,7 +317,7 @@ public:
         hboxLayout1->addItem(spacerItem);
 
 
-        gridLayout2->addLayout(hboxLayout1, 0, 0, 1, 1);
+        gridLayout3->addLayout(hboxLayout1, 0, 0, 1, 1);
 
         hboxLayout2 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -329,7 +382,7 @@ public:
         hboxLayout2->addLayout(vboxLayout);
 
 
-        gridLayout2->addLayout(hboxLayout2, 1, 0, 1, 1);
+        gridLayout3->addLayout(hboxLayout2, 1, 0, 1, 1);
 
         hboxLayout4 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -339,22 +392,22 @@ public:
         hboxLayout4->setObjectName(QString::fromUtf8("hboxLayout4"));
         GBRefinementThresholds = new QGroupBox(GBFieldManagement);
         GBRefinementThresholds->setObjectName(QString::fromUtf8("GBRefinementThresholds"));
-        sizePolicy.setHeightForWidth(GBRefinementThresholds->sizePolicy().hasHeightForWidth());
-        GBRefinementThresholds->setSizePolicy(sizePolicy);
-        gridLayout3 = new QGridLayout(GBRefinementThresholds);
+        sizePolicy1.setHeightForWidth(GBRefinementThresholds->sizePolicy().hasHeightForWidth());
+        GBRefinementThresholds->setSizePolicy(sizePolicy1);
+        gridLayout4 = new QGridLayout(GBRefinementThresholds);
 #ifndef Q_OS_MAC
-        gridLayout3->setSpacing(6);
+        gridLayout4->setSpacing(6);
 #endif
 #ifndef Q_OS_MAC
-        gridLayout3->setContentsMargins(9, 9, 9, 9);
+        gridLayout4->setContentsMargins(9, 9, 9, 9);
 #endif
-        gridLayout3->setObjectName(QString::fromUtf8("gridLayout3"));
+        gridLayout4->setObjectName(QString::fromUtf8("gridLayout4"));
         RBRPE = new QRadioButton(GBRefinementThresholds);
         RBRPE->setObjectName(QString::fromUtf8("RBRPE"));
         RBRPE->setCheckable(true);
         RBRPE->setChecked(true);
 
-        gridLayout3->addWidget(RBRPE, 0, 0, 1, 1);
+        gridLayout4->addWidget(RBRPE, 0, 0, 1, 1);
 
         SpinBox_RPE = new QDoubleSpinBox(GBRefinementThresholds);
         SpinBox_RPE->setObjectName(QString::fromUtf8("SpinBox_RPE"));
@@ -363,12 +416,12 @@ public:
         SpinBox_RPE->setSingleStep(0.1);
         SpinBox_RPE->setValue(2);
 
-        gridLayout3->addWidget(SpinBox_RPE, 0, 1, 1, 1);
+        gridLayout4->addWidget(SpinBox_RPE, 0, 1, 1, 1);
 
         RBRRel = new QRadioButton(GBRefinementThresholds);
         RBRRel->setObjectName(QString::fromUtf8("RBRRel"));
 
-        gridLayout3->addWidget(RBRRel, 1, 0, 1, 1);
+        gridLayout4->addWidget(RBRRel, 1, 0, 1, 1);
 
         SpinBox_RRel = new QDoubleSpinBox(GBRefinementThresholds);
         SpinBox_RRel->setObjectName(QString::fromUtf8("SpinBox_RRel"));
@@ -377,12 +430,12 @@ public:
         SpinBox_RRel->setMaximum(100);
         SpinBox_RRel->setSingleStep(0.1);
 
-        gridLayout3->addWidget(SpinBox_RRel, 1, 1, 1, 1);
+        gridLayout4->addWidget(SpinBox_RRel, 1, 1, 1, 1);
 
         RBRAbs = new QRadioButton(GBRefinementThresholds);
         RBRAbs->setObjectName(QString::fromUtf8("RBRAbs"));
 
-        gridLayout3->addWidget(RBRAbs, 2, 0, 1, 1);
+        gridLayout4->addWidget(RBRAbs, 2, 0, 1, 1);
 
         SpinBox_RAbs = new QDoubleSpinBox(GBRefinementThresholds);
         SpinBox_RAbs->setObjectName(QString::fromUtf8("SpinBox_RAbs"));
@@ -392,12 +445,12 @@ public:
         SpinBox_RAbs->setMaximum(1e+12);
         SpinBox_RAbs->setSingleStep(0.1);
 
-        gridLayout3->addWidget(SpinBox_RAbs, 2, 1, 1, 1);
+        gridLayout4->addWidget(SpinBox_RAbs, 2, 1, 1, 1);
 
         RBRMuSigma = new QRadioButton(GBRefinementThresholds);
         RBRMuSigma->setObjectName(QString::fromUtf8("RBRMuSigma"));
 
-        gridLayout3->addWidget(RBRMuSigma, 3, 0, 1, 1);
+        gridLayout4->addWidget(RBRMuSigma, 3, 0, 1, 1);
 
         SpinBox_RMuSigma = new QDoubleSpinBox(GBRefinementThresholds);
         SpinBox_RMuSigma->setObjectName(QString::fromUtf8("SpinBox_RMuSigma"));
@@ -408,32 +461,32 @@ public:
         SpinBox_RMuSigma->setSingleStep(0.1);
         SpinBox_RMuSigma->setValue(3);
 
-        gridLayout3->addWidget(SpinBox_RMuSigma, 3, 1, 1, 1);
+        gridLayout4->addWidget(SpinBox_RMuSigma, 3, 1, 1, 1);
 
         RBRNo = new QRadioButton(GBRefinementThresholds);
         RBRNo->setObjectName(QString::fromUtf8("RBRNo"));
 
-        gridLayout3->addWidget(RBRNo, 4, 0, 1, 1);
+        gridLayout4->addWidget(RBRNo, 4, 0, 1, 1);
 
 
         hboxLayout4->addWidget(GBRefinementThresholds);
 
         GBCoarseningThresholds = new QGroupBox(GBFieldManagement);
         GBCoarseningThresholds->setObjectName(QString::fromUtf8("GBCoarseningThresholds"));
-        gridLayout4 = new QGridLayout(GBCoarseningThresholds);
+        gridLayout5 = new QGridLayout(GBCoarseningThresholds);
 #ifndef Q_OS_MAC
-        gridLayout4->setSpacing(6);
+        gridLayout5->setSpacing(6);
 #endif
 #ifndef Q_OS_MAC
-        gridLayout4->setContentsMargins(9, 9, 9, 9);
+        gridLayout5->setContentsMargins(9, 9, 9, 9);
 #endif
-        gridLayout4->setObjectName(QString::fromUtf8("gridLayout4"));
+        gridLayout5->setObjectName(QString::fromUtf8("gridLayout5"));
         RBCPE = new QRadioButton(GBCoarseningThresholds);
         RBCPE->setObjectName(QString::fromUtf8("RBCPE"));
         RBCPE->setCheckable(true);
         RBCPE->setChecked(false);
 
-        gridLayout4->addWidget(RBCPE, 0, 0, 1, 1);
+        gridLayout5->addWidget(RBCPE, 0, 0, 1, 1);
 
         SpinBox_CPE = new QDoubleSpinBox(GBCoarseningThresholds);
         SpinBox_CPE->setObjectName(QString::fromUtf8("SpinBox_CPE"));
@@ -442,12 +495,12 @@ public:
         SpinBox_CPE->setMaximum(100);
         SpinBox_CPE->setSingleStep(0.1);
 
-        gridLayout4->addWidget(SpinBox_CPE, 0, 1, 1, 1);
+        gridLayout5->addWidget(SpinBox_CPE, 0, 1, 1, 1);
 
         RBCRel = new QRadioButton(GBCoarseningThresholds);
         RBCRel->setObjectName(QString::fromUtf8("RBCRel"));
 
-        gridLayout4->addWidget(RBCRel, 1, 0, 1, 1);
+        gridLayout5->addWidget(RBCRel, 1, 0, 1, 1);
 
         SpinBox_CRel = new QDoubleSpinBox(GBCoarseningThresholds);
         SpinBox_CRel->setObjectName(QString::fromUtf8("SpinBox_CRel"));
@@ -456,12 +509,12 @@ public:
         SpinBox_CRel->setMaximum(100);
         SpinBox_CRel->setSingleStep(0.1);
 
-        gridLayout4->addWidget(SpinBox_CRel, 1, 1, 1, 1);
+        gridLayout5->addWidget(SpinBox_CRel, 1, 1, 1, 1);
 
         RBCAbs = new QRadioButton(GBCoarseningThresholds);
         RBCAbs->setObjectName(QString::fromUtf8("RBCAbs"));
 
-        gridLayout4->addWidget(RBCAbs, 2, 0, 1, 1);
+        gridLayout5->addWidget(RBCAbs, 2, 0, 1, 1);
 
         SpinBox_CAbs = new QDoubleSpinBox(GBCoarseningThresholds);
         SpinBox_CAbs->setObjectName(QString::fromUtf8("SpinBox_CAbs"));
@@ -471,12 +524,12 @@ public:
         SpinBox_CAbs->setMaximum(1e+12);
         SpinBox_CAbs->setSingleStep(0.1);
 
-        gridLayout4->addWidget(SpinBox_CAbs, 2, 1, 1, 1);
+        gridLayout5->addWidget(SpinBox_CAbs, 2, 1, 1, 1);
 
         RBCMuSigma = new QRadioButton(GBCoarseningThresholds);
         RBCMuSigma->setObjectName(QString::fromUtf8("RBCMuSigma"));
 
-        gridLayout4->addWidget(RBCMuSigma, 3, 0, 1, 1);
+        gridLayout5->addWidget(RBCMuSigma, 3, 0, 1, 1);
 
         SpinBox_CMuSigma = new QDoubleSpinBox(GBCoarseningThresholds);
         SpinBox_CMuSigma->setObjectName(QString::fromUtf8("SpinBox_CMuSigma"));
@@ -487,27 +540,27 @@ public:
         SpinBox_CMuSigma->setSingleStep(0.1);
         SpinBox_CMuSigma->setValue(4);
 
-        gridLayout4->addWidget(SpinBox_CMuSigma, 3, 1, 1, 1);
+        gridLayout5->addWidget(SpinBox_CMuSigma, 3, 1, 1, 1);
 
         RBCNo = new QRadioButton(GBCoarseningThresholds);
         RBCNo->setObjectName(QString::fromUtf8("RBCNo"));
         RBCNo->setChecked(true);
 
-        gridLayout4->addWidget(RBCNo, 4, 0, 1, 1);
+        gridLayout5->addWidget(RBCNo, 4, 0, 1, 1);
 
 
         hboxLayout4->addWidget(GBCoarseningThresholds);
 
 
-        gridLayout2->addLayout(hboxLayout4, 2, 0, 1, 1);
+        gridLayout3->addLayout(hboxLayout4, 2, 0, 1, 1);
 
 
-        gridLayout_3->addWidget(GBFieldManagement, 5, 0, 1, 2);
+        gridLayout_3->addWidget(GBFieldManagement, 5, 0, 1, 3);
 
-        GBAreaManagement = new QGroupBox(CreateHypothesis);
+        GBAreaManagement = new QGroupBox(scrollAreaWidgetContents);
         GBAreaManagement->setObjectName(QString::fromUtf8("GBAreaManagement"));
-        sizePolicy.setHeightForWidth(GBAreaManagement->sizePolicy().hasHeightForWidth());
-        GBAreaManagement->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(GBAreaManagement->sizePolicy().hasHeightForWidth());
+        GBAreaManagement->setSizePolicy(sizePolicy1);
         gridLayout_4 = new QGridLayout(GBAreaManagement);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
         TWZone = new QTableWidget(GBAreaManagement);
@@ -574,44 +627,44 @@ public:
 
         gridLayout_3->addWidget(GBAreaManagement, 6, 0, 1, 2);
 
-        GBField = new QGroupBox(CreateHypothesis);
+        GBField = new QGroupBox(scrollAreaWidgetContents);
         GBField->setObjectName(QString::fromUtf8("GBField"));
-        gridLayout5 = new QGridLayout(GBField);
-#ifndef Q_OS_MAC
-        gridLayout5->setSpacing(6);
-#endif
-#ifndef Q_OS_MAC
-        gridLayout5->setContentsMargins(9, 9, 9, 9);
-#endif
-        gridLayout5->setObjectName(QString::fromUtf8("gridLayout5"));
-        gridLayout6 = new QGridLayout();
+        gridLayout6 = new QGridLayout(GBField);
 #ifndef Q_OS_MAC
         gridLayout6->setSpacing(6);
 #endif
 #ifndef Q_OS_MAC
-        gridLayout6->setContentsMargins(0, 0, 0, 0);
+        gridLayout6->setContentsMargins(9, 9, 9, 9);
 #endif
         gridLayout6->setObjectName(QString::fromUtf8("gridLayout6"));
+        gridLayout7 = new QGridLayout();
+#ifndef Q_OS_MAC
+        gridLayout7->setSpacing(6);
+#endif
+#ifndef Q_OS_MAC
+        gridLayout7->setContentsMargins(0, 0, 0, 0);
+#endif
+        gridLayout7->setObjectName(QString::fromUtf8("gridLayout7"));
         RBFieldNo = new QRadioButton(GBField);
         RBFieldNo->setObjectName(QString::fromUtf8("RBFieldNo"));
         RBFieldNo->setChecked(true);
 
-        gridLayout6->addWidget(RBFieldNo, 0, 0, 1, 1);
+        gridLayout7->addWidget(RBFieldNo, 0, 0, 1, 1);
 
         RBFieldAll = new QRadioButton(GBField);
         RBFieldAll->setObjectName(QString::fromUtf8("RBFieldAll"));
         RBFieldAll->setChecked(false);
 
-        gridLayout6->addWidget(RBFieldAll, 0, 1, 1, 1);
+        gridLayout7->addWidget(RBFieldAll, 0, 1, 1, 1);
 
         RBFieldChosen = new QRadioButton(GBField);
         RBFieldChosen->setObjectName(QString::fromUtf8("RBFieldChosen"));
         RBFieldChosen->setChecked(false);
 
-        gridLayout6->addWidget(RBFieldChosen, 0, 2, 1, 1);
+        gridLayout7->addWidget(RBFieldChosen, 0, 2, 1, 1);
 
 
-        gridLayout5->addLayout(gridLayout6, 0, 0, 1, 1);
+        gridLayout6->addLayout(gridLayout7, 0, 0, 1, 1);
 
         TWField = new QTableWidget(GBField);
         if (TWField->columnCount() < 2)
@@ -622,29 +675,32 @@ public:
         TWField->setHorizontalHeaderItem(1, __qtablewidgetitem6);
         TWField->setObjectName(QString::fromUtf8("TWField"));
 
-        gridLayout5->addWidget(TWField, 1, 0, 1, 1);
+        gridLayout6->addWidget(TWField, 1, 0, 1, 1);
 
 
-        gridLayout_3->addWidget(GBField, 7, 0, 1, 2);
+        gridLayout_3->addWidget(GBField, 7, 0, 1, 1);
 
-        CBGroupe = new QCheckBox(CreateHypothesis);
-        CBGroupe->setObjectName(QString::fromUtf8("CBGroupe"));
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_3->addWidget(CBGroupe, 2, 0, 1, 2);
+        gridLayout_3->addItem(horizontalSpacer_5, 7, 2, 1, 1);
 
-        CBAdvanced = new QCheckBox(CreateHypothesis);
+        CBAdvanced = new QCheckBox(scrollAreaWidgetContents);
         CBAdvanced->setObjectName(QString::fromUtf8("CBAdvanced"));
 
-        gridLayout_3->addWidget(CBAdvanced, 8, 0, 1, 2);
+        gridLayout_3->addWidget(CBAdvanced, 8, 0, 1, 1);
 
-        GBAdvancedOptions = new QGroupBox(CreateHypothesis);
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_4, 8, 2, 1, 1);
+
+        GBAdvancedOptions = new QGroupBox(scrollAreaWidgetContents);
         GBAdvancedOptions->setObjectName(QString::fromUtf8("GBAdvancedOptions"));
         gridLayout_1 = new QGridLayout(GBAdvancedOptions);
         gridLayout_1->setObjectName(QString::fromUtf8("gridLayout_1"));
         TLMinimalDiameter = new QLabel(GBAdvancedOptions);
         TLMinimalDiameter->setObjectName(QString::fromUtf8("TLMinimalDiameter"));
-        sizePolicy.setHeightForWidth(TLMinimalDiameter->sizePolicy().hasHeightForWidth());
-        TLMinimalDiameter->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(TLMinimalDiameter->sizePolicy().hasHeightForWidth());
+        TLMinimalDiameter->setSizePolicy(sizePolicy1);
         TLMinimalDiameter->setWordWrap(false);
 
         gridLayout_1->addWidget(TLMinimalDiameter, 0, 0, 1, 1);
@@ -657,17 +713,17 @@ public:
 
         TLMaximalLevel = new QLabel(GBAdvancedOptions);
         TLMaximalLevel->setObjectName(QString::fromUtf8("TLMaximalLevel"));
-        sizePolicy.setHeightForWidth(TLMaximalLevel->sizePolicy().hasHeightForWidth());
-        TLMaximalLevel->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(TLMaximalLevel->sizePolicy().hasHeightForWidth());
+        TLMaximalLevel->setSizePolicy(sizePolicy1);
         TLMaximalLevel->setWordWrap(false);
 
         gridLayout_1->addWidget(TLMaximalLevel, 1, 0, 1, 1);
 
-        spinBoxNivMax = new QSpinBox(GBAdvancedOptions);
-        spinBoxNivMax->setObjectName(QString::fromUtf8("spinBoxNivMax"));
-        spinBoxNivMax->setValue(99);
+        SpinBoxNivMax = new QSpinBox(GBAdvancedOptions);
+        SpinBoxNivMax->setObjectName(QString::fromUtf8("SpinBoxNivMax"));
+        SpinBoxNivMax->setValue(99);
 
-        gridLayout_1->addWidget(spinBoxNivMax, 1, 1, 1, 1);
+        gridLayout_1->addWidget(SpinBoxNivMax, 1, 1, 1, 1);
 
         GBAdapInit = new QGroupBox(GBAdvancedOptions);
         GBAdapInit->setObjectName(QString::fromUtf8("GBAdapInit"));
@@ -698,71 +754,65 @@ public:
         gridLayout_1->addWidget(CBLevelOutput, 3, 0, 1, 1);
 
 
-        gridLayout_3->addWidget(GBAdvancedOptions, 9, 0, 1, 2);
+        gridLayout_3->addWidget(GBAdvancedOptions, 9, 0, 1, 1);
 
-        GBButtons = new QGroupBox(CreateHypothesis);
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_3, 9, 2, 1, 1);
+
+        GBButtons = new QGroupBox(scrollAreaWidgetContents);
         GBButtons->setObjectName(QString::fromUtf8("GBButtons"));
-        gridLayout7 = new QGridLayout(GBButtons);
+        gridLayout8 = new QGridLayout(GBButtons);
 #ifndef Q_OS_MAC
-        gridLayout7->setSpacing(6);
+        gridLayout8->setSpacing(6);
 #endif
 #ifndef Q_OS_MAC
-        gridLayout7->setContentsMargins(9, 9, 9, 9);
+        gridLayout8->setContentsMargins(9, 9, 9, 9);
 #endif
-        gridLayout7->setObjectName(QString::fromUtf8("gridLayout7"));
+        gridLayout8->setObjectName(QString::fromUtf8("gridLayout8"));
         buttonOk = new QPushButton(GBButtons);
         buttonOk->setObjectName(QString::fromUtf8("buttonOk"));
 
-        gridLayout7->addWidget(buttonOk, 0, 0, 1, 1);
+        gridLayout8->addWidget(buttonOk, 0, 0, 1, 1);
 
         buttonApply = new QPushButton(GBButtons);
         buttonApply->setObjectName(QString::fromUtf8("buttonApply"));
 
-        gridLayout7->addWidget(buttonApply, 0, 1, 1, 1);
+        gridLayout8->addWidget(buttonApply, 0, 1, 1, 1);
 
         buttonCancel = new QPushButton(GBButtons);
         buttonCancel->setObjectName(QString::fromUtf8("buttonCancel"));
 
-        gridLayout7->addWidget(buttonCancel, 0, 2, 1, 1);
+        gridLayout8->addWidget(buttonCancel, 0, 2, 1, 1);
 
         buttonHelp = new QPushButton(GBButtons);
         buttonHelp->setObjectName(QString::fromUtf8("buttonHelp"));
 
-        gridLayout7->addWidget(buttonHelp, 0, 3, 1, 1);
+        gridLayout8->addWidget(buttonHelp, 0, 3, 1, 1);
 
 
         gridLayout_3->addWidget(GBButtons, 10, 0, 1, 2);
 
-        Name = new QLabel(CreateHypothesis);
-        Name->setObjectName(QString::fromUtf8("Name"));
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_3->addWidget(Name, 0, 0, 1, 1);
+        gridLayout_3->addItem(horizontalSpacer_2, 10, 2, 1, 1);
 
-        LEName->raise();
-        GBTypeAdaptation->raise();
-        GBUniform->raise();
-        GBFieldFile->raise();
-        GBFieldManagement->raise();
-        GBAreaManagement->raise();
-        GBField->raise();
-        CBGroupe->raise();
-        CBAdvanced->raise();
-        GBAdvancedOptions->raise();
-        GBButtons->raise();
-        Name->raise();
+        CreateHypothesis->setWidget(scrollAreaWidgetContents);
 
         retranslateUi(CreateHypothesis);
 
         QMetaObject::connectSlotsByName(CreateHypothesis);
     } // setupUi
 
-    void retranslateUi(QDialog *CreateHypothesis)
+    void retranslateUi(QScrollArea *CreateHypothesis)
     {
         CreateHypothesis->setWindowTitle(QApplication::translate("CreateHypothesis", "Create an hypothesis", 0, QApplication::UnicodeUTF8));
+        Name->setText(QApplication::translate("CreateHypothesis", "Name", 0, QApplication::UnicodeUTF8));
         GBTypeAdaptation->setTitle(QApplication::translate("CreateHypothesis", "Type of adaptation", 0, QApplication::UnicodeUTF8));
         RBUniforme->setText(QApplication::translate("CreateHypothesis", "Uniform", 0, QApplication::UnicodeUTF8));
         RBChamp->setText(QApplication::translate("CreateHypothesis", "Driven by a field", 0, QApplication::UnicodeUTF8));
         RBZone->setText(QApplication::translate("CreateHypothesis", "With geometrical zones", 0, QApplication::UnicodeUTF8));
+        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0, QApplication::UnicodeUTF8));
         GBUniform->setTitle(QApplication::translate("CreateHypothesis", "Uniform adaptation", 0, QApplication::UnicodeUTF8));
         RBUniDera->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0, QApplication::UnicodeUTF8));
         RBUniRaff->setText(QApplication::translate("CreateHypothesis", "Refinement", 0, QApplication::UnicodeUTF8));
@@ -811,7 +861,6 @@ public:
         ___qtablewidgetitem5->setText(QApplication::translate("CreateHypothesis", "Selection", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem6 = TWField->horizontalHeaderItem(1);
         ___qtablewidgetitem6->setText(QApplication::translate("CreateHypothesis", "Field Name", 0, QApplication::UnicodeUTF8));
-        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0, QApplication::UnicodeUTF8));
         CBAdvanced->setText(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
         GBAdvancedOptions->setTitle(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
         TLMinimalDiameter->setText(QApplication::translate("CreateHypothesis", "Minimal diameter", 0, QApplication::UnicodeUTF8));
@@ -826,7 +875,6 @@ public:
         buttonApply->setText(QApplication::translate("CreateHypothesis", "Apply", 0, QApplication::UnicodeUTF8));
         buttonCancel->setText(QApplication::translate("CreateHypothesis", "Cancel", 0, QApplication::UnicodeUTF8));
         buttonHelp->setText(QApplication::translate("CreateHypothesis", "Help", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateHypothesis", "Name", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

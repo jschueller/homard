@@ -39,7 +39,7 @@ class QComboBox;
 
 namespace HOMARD_QT_COMMUN
 {
-    HOMARD_EXPORT QString PushNomFichier(bool avertir=true);
+    HOMARD_EXPORT QString PushNomFichier(bool avertir, QString TypeFichier="");
     HOMARD_EXPORT QString LireNomMaillage(int Medidt,int MeshId);
     HOMARD_EXPORT QString LireNomMaillage(QString aFile);
 

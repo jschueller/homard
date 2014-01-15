@@ -63,9 +63,10 @@ MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
   GBAdvancedOptions->setVisible(0);
   Comment->setVisible(0);
   CBPyramid->setChecked(false);
-
+//
   adjustSize();
-  MESSAGE("Fin du constructeur de MonCreateCase");
+
+//   MESSAGE("Fin du constructeur de MonCreateCase");
 }
 // ------------------------------------------------------------------------
 MonCreateCase::~MonCreateCase()
@@ -332,9 +333,9 @@ void MonCreateCase::SetNewName()
     {
       if ( aCaseName ==  QString((MyCases)[i]))
       {
-          num=num+1;
-          aCaseName="";
-          break;
+        num ++ ;
+        aCaseName = "" ;
+        break ;
       }
    }
   }
@@ -354,7 +355,7 @@ void MonCreateCase::SetFileName()
 // ------------------------------------------------------------------------
 {
   QString fileName0 = LEFileName->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier();
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEFileName->setText(fileName);
 }
@@ -363,8 +364,10 @@ void MonCreateCase::SetConforme()
 // ------------------------------------------------------------------------
 {
   GBTypeNoConf->setVisible(0);
-  adjustSize();
+//
   _ConfType=1;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetNonConforme()
@@ -372,8 +375,10 @@ void MonCreateCase::SetNonConforme()
 {
   GBTypeNoConf->setVisible(1);
   RB1NpM->setChecked(true);
-  adjustSize();
+//
   _ConfType=2;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::Set1NpM()
@@ -407,6 +412,7 @@ void MonCreateCase::SetBoundaryD()
                CBBoundaryD->setCheckState(Qt::Unchecked); }
   }
   else { GBBoundaryD->setVisible(0); }
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------
@@ -454,6 +460,7 @@ void MonCreateCase::SetBoundaryA()
                CBBoundaryA->setCheckState(Qt::Unchecked); }
   }
   else { GBBoundaryA->setVisible(0); }
+//
   adjustSize();
 //
 //   MESSAGE("Fin de SetBoundaryA ");
@@ -540,5 +547,6 @@ void MonCreateCase::SetAdvanced()
     CBPyramid->setChecked(false);
     _Pyram = 0 ;
  }
+//
   adjustSize();
 }

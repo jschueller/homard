@@ -11,10 +11,28 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>320</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1</width>
+    <height>1</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>600</width>
+    <height>320</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Create a case</string>
@@ -22,35 +40,37 @@
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" colspan="3">
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="Name">
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="LEName">
-       <property name="minimumSize">
-        <size>
-         <width>382</width>
-         <height>21</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QWidget" name="WName" native="true">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="Name">
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="LEName"/>
+      </item>
+     </layout>
+    </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>199</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="6">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -87,7 +107,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="1">
+   <item row="2" column="2" colspan="2">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -100,7 +120,7 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="4">
+   <item row="3" column="0" rowspan="2" colspan="6">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -137,7 +157,7 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="1" colspan="3">
+   <item row="4" column="3" colspan="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -150,7 +170,7 @@
      </property>
     </spacer>
    </item>
-   <item row="5" column="0">
+   <item row="5" column="0" colspan="2">
     <widget class="QGroupBox" name="GBTypeConf">
      <property name="title">
       <string>Conformity type</string>
@@ -182,7 +202,7 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="6" column="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -195,7 +215,7 @@
      </property>
     </spacer>
    </item>
-   <item row="7" column="0" colspan="3">
+   <item row="7" column="0" colspan="6">
     <widget class="QGroupBox" name="GBTypeNoConf">
      <property name="title">
       <string>Non conformal option</string>
@@ -231,7 +251,7 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="1" colspan="3">
+   <item row="8" column="3" colspan="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -244,7 +264,7 @@
      </property>
     </spacer>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="9" column="0" colspan="4">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -268,7 +288,7 @@
      </item>
     </layout>
    </item>
-   <item row="10" column="1">
+   <item row="10" column="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -281,7 +301,7 @@
      </property>
     </spacer>
    </item>
-   <item row="11" column="0" colspan="3">
+   <item row="11" column="0" colspan="6">
     <widget class="QGroupBox" name="GBBoundaryD">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -358,7 +378,7 @@
      </layout>
     </widget>
    </item>
-   <item row="12" column="0" colspan="4">
+   <item row="12" column="0" colspan="6">
     <widget class="QGroupBox" name="GBBoundaryA">
      <property name="minimumSize">
       <size>
@@ -434,7 +454,7 @@
      </layout>
     </widget>
    </item>
-   <item row="13" column="0">
+   <item row="13" column="0" colspan="2">
     <spacer name="spacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -470,7 +490,7 @@
      </layout>
     </widget>
    </item>
-   <item row="15" column="2" colspan="2">
+   <item row="15" column="4" colspan="2">
     <spacer name="spacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -486,7 +506,7 @@
      </property>
     </spacer>
    </item>
-   <item row="16" column="0">
+   <item row="16" column="0" colspan="2">
     <spacer name="spacer_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -499,7 +519,7 @@
      </property>
     </spacer>
    </item>
-   <item row="17" column="0" colspan="3">
+   <item row="17" column="0">
     <widget class="QLabel" name="Comment">
      <property name="text">
       <string> No comment.</string>
@@ -519,7 +539,7 @@
      </property>
     </spacer>
    </item>
-   <item row="19" column="0" colspan="3">
+   <item row="19" column="0" colspan="5">
     <widget class="QGroupBox" name="GroupButtons">
      <property name="title">
       <string/>
@@ -574,7 +594,7 @@
      </layout>
     </widget>
    </item>
-   <item row="19" column="3">
+   <item row="19" column="5">
     <spacer name="spacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

@@ -81,7 +81,6 @@ void MonEditIteration::InitValEdit0(int etat)
 //    Invisibilite des hypotheses et des champs
       Hypothese->setVisible(0);
       GBField->setVisible(0);
-      adjustSize();
 //
 }
 // ------------------------------
@@ -93,32 +92,32 @@ void MonEditIteration::InitValEdit()
   LEName->setText(_IterationName);
   LEName->setReadOnly(true);
 
-//    Affichage bloque du nom de l'iteration parent
+  //    Affichage bloque du nom de l'iteration parent
   _IterParentName = aIter->GetIterParentName();
   LEIterationParentName->setText(_IterParentName);
   LEIterationParentName->setReadOnly(true);
   PBIterParent->setEnabled(false);
   PBIterParent->setVisible(0);
 
-//    Affichage bloque du nom du maillage de l'iteration parent
+  //    Affichage bloque du nom du maillage de l'iteration parent
   aIterParent = myHomardGen->GetIteration(_IterParentName.toStdString().c_str());
   QString MeshNameParent = aIterParent->GetMeshName();
   LEMeshName_n->setText(MeshNameParent);
   LEMeshName_n->setReadOnly(1);
 
-//    Affichage bloque du nom du maillage de l'iteration courante
+  //    Affichage bloque du nom du maillage de l'iteration courante
   QString MeshName = aIter->GetMeshName();
   LEMeshName_np1->setText(MeshName);
   LEMeshName_np1->setReadOnly(1);
 
-//    Affichage de la bonne hypothese
+  //    Affichage de la bonne hypothese
   QString HypoName = aIter->GetHypoName();
   CBHypothese->insertItem(0,HypoName);
   CBHypothese->setCurrentIndex(0);
   CBHypothese->setEnabled(false);
   PBHypoNew->setVisible(0);
 
-//    Pour une adaptation selon un champ
+  //    Pour une adaptation selon un champ
   HOMARD::HOMARD_Hypothesis_var myHypo = myHomardGen->GetHypothesis(HypoName.toStdString().c_str()) ;
   _aTypeAdap = myHypo->GetAdapType() ;
   if ( _aTypeAdap == 1 )
@@ -130,7 +129,7 @@ void MonEditIteration::InitValEdit()
     _rank = aIter->GetRank() ;
     SpinBox_Rank->setValue(_rank);
 
-// Cas ou on prend le dernier pas de temps ou sans pas de temps
+  // Cas ou on prend le dernier pas de temps ou sans pas de temps
     if ( _step <= -1 )
     {
       Rank->setVisible(0);
@@ -142,7 +141,7 @@ void MonEditIteration::InitValEdit()
       else               { RBNo->setChecked(true); }
     }
 
-// Cas avec pas de temps
+  // Cas avec pas de temps
     else
     {
       Rank->setVisible(1);
@@ -156,6 +155,7 @@ void MonEditIteration::InitValEdit()
   {
     GBField->setVisible(0);
   }
+//
   adjustSize();
 //
 }

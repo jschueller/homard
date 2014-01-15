@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateCase.ui'
 **
-** Created: Tue Sep 17 14:09:06 2013
+** Created: Wed Jan 15 08:42:35 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -28,38 +28,41 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QTableWidget>
+#include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_CreateCase
 {
 public:
+    QGridLayout *gridLayout_3;
+    QWidget *WName;
     QGridLayout *gridLayout_2;
-    QHBoxLayout *hboxLayout;
     QLabel *Name;
     QLineEdit *LEName;
-    QHBoxLayout *hboxLayout1;
+    QSpacerItem *horizontalSpacer;
+    QHBoxLayout *hboxLayout;
     QLabel *Directory;
     QPushButton *PushDir;
     QLineEdit *LEDirName;
     QSpacerItem *spacerItem;
-    QHBoxLayout *hboxLayout2;
+    QHBoxLayout *hboxLayout1;
     QLabel *Mesh;
     QPushButton *PushFichier;
     QLineEdit *LEFileName;
     QSpacerItem *spacerItem1;
     QGroupBox *GBTypeConf;
-    QHBoxLayout *hboxLayout3;
+    QHBoxLayout *hboxLayout2;
     QRadioButton *RBConforme;
     QRadioButton *RBNonConforme;
     QSpacerItem *spacerItem2;
     QGroupBox *GBTypeNoConf;
-    QHBoxLayout *hboxLayout4;
+    QHBoxLayout *hboxLayout3;
     QRadioButton *RB1NpM;
     QRadioButton *RB1NpA;
     QRadioButton *RBQuelconque;
     QSpacerItem *spacerItem3;
-    QHBoxLayout *hboxLayout5;
+    QHBoxLayout *hboxLayout4;
     QCheckBox *CBBoundaryD;
     QCheckBox *CBBoundaryA;
     QSpacerItem *spacerItem4;
@@ -99,35 +102,67 @@ public:
         if (CreateCase->objectName().isEmpty())
             CreateCase->setObjectName(QString::fromUtf8("CreateCase"));
         CreateCase->resize(601, 1100);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(CreateCase->sizePolicy().hasHeightForWidth());
         CreateCase->setSizePolicy(sizePolicy);
+        CreateCase->setMinimumSize(QSize(600, 320));
+        CreateCase->setSizeIncrement(QSize(1, 1));
+        CreateCase->setBaseSize(QSize(600, 320));
         CreateCase->setAutoFillBackground(true);
-        gridLayout_2 = new QGridLayout(CreateCase);
+        gridLayout_3 = new QGridLayout(CreateCase);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        WName = new QWidget(CreateCase);
+        WName->setObjectName(QString::fromUtf8("WName"));
+        gridLayout_2 = new QGridLayout(WName);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        Name = new QLabel(WName);
+        Name->setObjectName(QString::fromUtf8("Name"));
+
+        gridLayout_2->addWidget(Name, 0, 0, 1, 1);
+
+        LEName = new QLineEdit(WName);
+        LEName->setObjectName(QString::fromUtf8("LEName"));
+
+        gridLayout_2->addWidget(LEName, 0, 1, 1, 1);
+
+
+        gridLayout_3->addWidget(WName, 0, 0, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(199, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer, 0, 1, 1, 1);
+
         hboxLayout = new QHBoxLayout();
 #ifndef Q_OS_MAC
         hboxLayout->setSpacing(6);
 #endif
-#ifndef Q_OS_MAC
         hboxLayout->setContentsMargins(0, 0, 0, 0);
-#endif
         hboxLayout->setObjectName(QString::fromUtf8("hboxLayout"));
-        Name = new QLabel(CreateCase);
-        Name->setObjectName(QString::fromUtf8("Name"));
+        Directory = new QLabel(CreateCase);
+        Directory->setObjectName(QString::fromUtf8("Directory"));
 
-        hboxLayout->addWidget(Name);
+        hboxLayout->addWidget(Directory);
 
-        LEName = new QLineEdit(CreateCase);
-        LEName->setObjectName(QString::fromUtf8("LEName"));
-        LEName->setMinimumSize(QSize(382, 21));
+        PushDir = new QPushButton(CreateCase);
+        PushDir->setObjectName(QString::fromUtf8("PushDir"));
+        PushDir->setAutoDefault(false);
 
-        hboxLayout->addWidget(LEName);
+        hboxLayout->addWidget(PushDir);
+
+        LEDirName = new QLineEdit(CreateCase);
+        LEDirName->setObjectName(QString::fromUtf8("LEDirName"));
+        LEDirName->setMinimumSize(QSize(382, 21));
+
+        hboxLayout->addWidget(LEDirName);
 
 
-        gridLayout_2->addLayout(hboxLayout, 0, 0, 1, 3);
+        gridLayout_3->addLayout(hboxLayout, 1, 0, 1, 6);
+
+        spacerItem = new QSpacerItem(20, 18, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_3->addItem(spacerItem, 2, 2, 1, 2);
 
         hboxLayout1 = new QHBoxLayout();
 #ifndef Q_OS_MAC
@@ -135,63 +170,61 @@ public:
 #endif
         hboxLayout1->setContentsMargins(0, 0, 0, 0);
         hboxLayout1->setObjectName(QString::fromUtf8("hboxLayout1"));
-        Directory = new QLabel(CreateCase);
-        Directory->setObjectName(QString::fromUtf8("Directory"));
-
-        hboxLayout1->addWidget(Directory);
-
-        PushDir = new QPushButton(CreateCase);
-        PushDir->setObjectName(QString::fromUtf8("PushDir"));
-        PushDir->setAutoDefault(false);
-
-        hboxLayout1->addWidget(PushDir);
-
-        LEDirName = new QLineEdit(CreateCase);
-        LEDirName->setObjectName(QString::fromUtf8("LEDirName"));
-        LEDirName->setMinimumSize(QSize(382, 21));
-
-        hboxLayout1->addWidget(LEDirName);
-
-
-        gridLayout_2->addLayout(hboxLayout1, 1, 0, 1, 4);
-
-        spacerItem = new QSpacerItem(20, 18, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_2->addItem(spacerItem, 2, 1, 1, 1);
-
-        hboxLayout2 = new QHBoxLayout();
-#ifndef Q_OS_MAC
-        hboxLayout2->setSpacing(6);
-#endif
-        hboxLayout2->setContentsMargins(0, 0, 0, 0);
-        hboxLayout2->setObjectName(QString::fromUtf8("hboxLayout2"));
         Mesh = new QLabel(CreateCase);
         Mesh->setObjectName(QString::fromUtf8("Mesh"));
 
-        hboxLayout2->addWidget(Mesh);
+        hboxLayout1->addWidget(Mesh);
 
         PushFichier = new QPushButton(CreateCase);
         PushFichier->setObjectName(QString::fromUtf8("PushFichier"));
         PushFichier->setAutoDefault(false);
 
-        hboxLayout2->addWidget(PushFichier);
+        hboxLayout1->addWidget(PushFichier);
 
         LEFileName = new QLineEdit(CreateCase);
         LEFileName->setObjectName(QString::fromUtf8("LEFileName"));
         LEFileName->setMinimumSize(QSize(382, 21));
 
-        hboxLayout2->addWidget(LEFileName);
+        hboxLayout1->addWidget(LEFileName);
 
 
-        gridLayout_2->addLayout(hboxLayout2, 3, 0, 1, 4);
+        gridLayout_3->addLayout(hboxLayout1, 3, 0, 2, 6);
 
         spacerItem1 = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacerItem1, 4, 1, 1, 3);
+        gridLayout_3->addItem(spacerItem1, 4, 3, 1, 3);
 
         GBTypeConf = new QGroupBox(CreateCase);
         GBTypeConf->setObjectName(QString::fromUtf8("GBTypeConf"));
-        hboxLayout3 = new QHBoxLayout(GBTypeConf);
+        hboxLayout2 = new QHBoxLayout(GBTypeConf);
+#ifndef Q_OS_MAC
+        hboxLayout2->setSpacing(6);
+#endif
+#ifndef Q_OS_MAC
+        hboxLayout2->setContentsMargins(9, 9, 9, 9);
+#endif
+        hboxLayout2->setObjectName(QString::fromUtf8("hboxLayout2"));
+        RBConforme = new QRadioButton(GBTypeConf);
+        RBConforme->setObjectName(QString::fromUtf8("RBConforme"));
+        RBConforme->setChecked(true);
+
+        hboxLayout2->addWidget(RBConforme);
+
+        RBNonConforme = new QRadioButton(GBTypeConf);
+        RBNonConforme->setObjectName(QString::fromUtf8("RBNonConforme"));
+
+        hboxLayout2->addWidget(RBNonConforme);
+
+
+        gridLayout_3->addWidget(GBTypeConf, 5, 0, 1, 2);
+
+        spacerItem2 = new QSpacerItem(20, 1, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_3->addItem(spacerItem2, 6, 3, 1, 1);
+
+        GBTypeNoConf = new QGroupBox(CreateCase);
+        GBTypeNoConf->setObjectName(QString::fromUtf8("GBTypeNoConf"));
+        hboxLayout3 = new QHBoxLayout(GBTypeNoConf);
 #ifndef Q_OS_MAC
         hboxLayout3->setSpacing(6);
 #endif
@@ -199,83 +232,58 @@ public:
         hboxLayout3->setContentsMargins(9, 9, 9, 9);
 #endif
         hboxLayout3->setObjectName(QString::fromUtf8("hboxLayout3"));
-        RBConforme = new QRadioButton(GBTypeConf);
-        RBConforme->setObjectName(QString::fromUtf8("RBConforme"));
-        RBConforme->setChecked(true);
-
-        hboxLayout3->addWidget(RBConforme);
-
-        RBNonConforme = new QRadioButton(GBTypeConf);
-        RBNonConforme->setObjectName(QString::fromUtf8("RBNonConforme"));
-
-        hboxLayout3->addWidget(RBNonConforme);
-
-
-        gridLayout_2->addWidget(GBTypeConf, 5, 0, 1, 1);
-
-        spacerItem2 = new QSpacerItem(20, 1, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_2->addItem(spacerItem2, 6, 1, 1, 1);
-
-        GBTypeNoConf = new QGroupBox(CreateCase);
-        GBTypeNoConf->setObjectName(QString::fromUtf8("GBTypeNoConf"));
-        hboxLayout4 = new QHBoxLayout(GBTypeNoConf);
-#ifndef Q_OS_MAC
-        hboxLayout4->setSpacing(6);
-#endif
-#ifndef Q_OS_MAC
-        hboxLayout4->setContentsMargins(9, 9, 9, 9);
-#endif
-        hboxLayout4->setObjectName(QString::fromUtf8("hboxLayout4"));
         RB1NpM = new QRadioButton(GBTypeNoConf);
         RB1NpM->setObjectName(QString::fromUtf8("RB1NpM"));
 
-        hboxLayout4->addWidget(RB1NpM);
+        hboxLayout3->addWidget(RB1NpM);
 
         RB1NpA = new QRadioButton(GBTypeNoConf);
         RB1NpA->setObjectName(QString::fromUtf8("RB1NpA"));
 
-        hboxLayout4->addWidget(RB1NpA);
+        hboxLayout3->addWidget(RB1NpA);
 
         RBQuelconque = new QRadioButton(GBTypeNoConf);
         RBQuelconque->setObjectName(QString::fromUtf8("RBQuelconque"));
 
-        hboxLayout4->addWidget(RBQuelconque);
+        hboxLayout3->addWidget(RBQuelconque);
 
 
-        gridLayout_2->addWidget(GBTypeNoConf, 7, 0, 1, 3);
+        gridLayout_3->addWidget(GBTypeNoConf, 7, 0, 1, 6);
 
         spacerItem3 = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacerItem3, 8, 1, 1, 3);
+        gridLayout_3->addItem(spacerItem3, 8, 3, 1, 3);
 
-        hboxLayout5 = new QHBoxLayout();
+        hboxLayout4 = new QHBoxLayout();
 #ifndef Q_OS_MAC
-        hboxLayout5->setSpacing(6);
+        hboxLayout4->setSpacing(6);
 #endif
-        hboxLayout5->setContentsMargins(0, 0, 0, 0);
-        hboxLayout5->setObjectName(QString::fromUtf8("hboxLayout5"));
+        hboxLayout4->setContentsMargins(0, 0, 0, 0);
+        hboxLayout4->setObjectName(QString::fromUtf8("hboxLayout4"));
         CBBoundaryD = new QCheckBox(CreateCase);
         CBBoundaryD->setObjectName(QString::fromUtf8("CBBoundaryD"));
 
-        hboxLayout5->addWidget(CBBoundaryD);
+        hboxLayout4->addWidget(CBBoundaryD);
 
         CBBoundaryA = new QCheckBox(CreateCase);
         CBBoundaryA->setObjectName(QString::fromUtf8("CBBoundaryA"));
 
-        hboxLayout5->addWidget(CBBoundaryA);
+        hboxLayout4->addWidget(CBBoundaryA);
 
 
-        gridLayout_2->addLayout(hboxLayout5, 9, 0, 1, 2);
+        gridLayout_3->addLayout(hboxLayout4, 9, 0, 1, 4);
 
         spacerItem4 = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacerItem4, 10, 1, 1, 1);
+        gridLayout_3->addItem(spacerItem4, 10, 3, 1, 1);
 
         GBBoundaryD = new QGroupBox(CreateCase);
         GBBoundaryD->setObjectName(QString::fromUtf8("GBBoundaryD"));
-        sizePolicy.setHeightForWidth(GBBoundaryD->sizePolicy().hasHeightForWidth());
-        GBBoundaryD->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(GBBoundaryD->sizePolicy().hasHeightForWidth());
+        GBBoundaryD->setSizePolicy(sizePolicy1);
         gridLayout = new QGridLayout(GBBoundaryD);
 #ifndef Q_OS_MAC
         gridLayout->setSpacing(6);
@@ -313,7 +321,7 @@ public:
         gridLayout->addWidget(PBBoundaryDiHelp, 0, 4, 1, 1);
 
 
-        gridLayout_2->addWidget(GBBoundaryD, 11, 0, 1, 3);
+        gridLayout_3->addWidget(GBBoundaryD, 11, 0, 1, 6);
 
         GBBoundaryA = new QGroupBox(CreateCase);
         GBBoundaryA->setObjectName(QString::fromUtf8("GBBoundaryA"));
@@ -361,16 +369,16 @@ public:
         formLayout->setLayout(0, QFormLayout::FieldRole, gridLayout1);
 
 
-        gridLayout_2->addWidget(GBBoundaryA, 12, 0, 1, 4);
+        gridLayout_3->addWidget(GBBoundaryA, 12, 0, 1, 6);
 
         spacer = new QSpacerItem(239, 41, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacer, 13, 0, 1, 1);
+        gridLayout_3->addItem(spacer, 13, 0, 1, 2);
 
         CBAdvanced = new QCheckBox(CreateCase);
         CBAdvanced->setObjectName(QString::fromUtf8("CBAdvanced"));
 
-        gridLayout_2->addWidget(CBAdvanced, 14, 0, 1, 1);
+        gridLayout_3->addWidget(CBAdvanced, 14, 0, 1, 1);
 
         GBAdvancedOptions = new QGroupBox(CreateCase);
         GBAdvancedOptions->setObjectName(QString::fromUtf8("GBAdvancedOptions"));
@@ -382,24 +390,24 @@ public:
         gridLayout2->addWidget(CBPyramid, 0, 0, 1, 1);
 
 
-        gridLayout_2->addWidget(GBAdvancedOptions, 15, 0, 1, 1);
+        gridLayout_3->addWidget(GBAdvancedOptions, 15, 0, 1, 1);
 
         spacer_3 = new QSpacerItem(128, 13, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(spacer_3, 15, 2, 1, 2);
+        gridLayout_3->addItem(spacer_3, 15, 4, 1, 2);
 
         spacer_4 = new QSpacerItem(239, 41, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(spacer_4, 16, 0, 1, 1);
+        gridLayout_3->addItem(spacer_4, 16, 0, 1, 2);
 
         Comment = new QLabel(CreateCase);
         Comment->setObjectName(QString::fromUtf8("Comment"));
 
-        gridLayout_2->addWidget(Comment, 17, 0, 1, 3);
+        gridLayout_3->addWidget(Comment, 17, 0, 1, 1);
 
         verticalSpacer = new QSpacerItem(20, 35, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(verticalSpacer, 18, 0, 1, 1);
+        gridLayout_3->addItem(verticalSpacer, 18, 0, 1, 1);
 
         GroupButtons = new QGroupBox(CreateCase);
         GroupButtons->setObjectName(QString::fromUtf8("GroupButtons"));
@@ -436,11 +444,11 @@ public:
         gridLayout3->addWidget(buttonCancel, 0, 2, 1, 1);
 
 
-        gridLayout_2->addWidget(GroupButtons, 19, 0, 1, 3);
+        gridLayout_3->addWidget(GroupButtons, 19, 0, 1, 5);
 
         spacer_2 = new QSpacerItem(128, 25, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(spacer_2, 19, 3, 1, 1);
+        gridLayout_3->addItem(spacer_2, 19, 5, 1, 1);
 
 
         retranslateUi(CreateCase);

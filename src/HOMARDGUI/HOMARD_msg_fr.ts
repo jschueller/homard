@@ -29,11 +29,15 @@
     </message>
     <message>
         <source>HOM_MEN_PURSUE_ITERATION</source>
-        <translation>Poursuite d'une itération</translation>
+        <translation>Cas de poursuite d'une itération</translation>
     </message>
     <message>
         <source>HOM_MEN_COMPUTE</source>
         <translation>Calculer</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT</source>
@@ -46,6 +50,10 @@
     <message>
         <source>HOM_MEN_MESH_INFO</source>
         <translation>Analyse de maillage</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_MESH_PUBLICATION</source>
+        <translation>Publication du maillage</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -69,11 +77,15 @@
     </message>
     <message>
         <source>HOM_TOP_PURSUE_ITERATION</source>
-        <translation>Poursuite d'une itération</translation>
+        <translation>Cas de poursuite d'une itération</translation>
     </message>
     <message>
         <source>HOM_TOP_COMPUTE</source>
         <translation>Calculer</translation>
+    </message>
+    <message>
+        <source>HOM_TOP_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
         <source>HOM_TOP_EDIT</source>
@@ -101,11 +113,15 @@
     </message>
     <message>
         <source>HOM_STB_PURSUE_ITERATION</source>
-        <translation>Poursuite d'une itération</translation>
+        <translation>Cas de poursuite d'une itération</translation>
     </message>
     <message>
         <source>HOM_STB_COMPUTE</source>
         <translation>Calculer</translation>
+    </message>
+    <message>
+        <source>HOM_STB_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
         <source>HOM_STB_EDIT</source>
@@ -194,6 +210,10 @@
     <message>
         <source>HOM_SELECT_OBJECT_3</source>
         <translation>Sélectionner un objet de type %1.</translation>
+    </message>
+    <message>
+        <source>HOM_SELECT_FILE_0</source>
+        <translation>Choix de fichier</translation>
     </message>
     <message>
         <source>HOM_SELECT_FILE_1</source>
@@ -293,7 +313,7 @@
     </message>
     <message>
         <source>HOM_CASE_PURSUE_WINDOW_TITLE</source>
-        <translation>Poursuite d'une itération</translation>
+        <translation>Cas de poursuite d'une itération</translation>
     </message>
     <message>
         <source>The configuration file cannot be found.</source>
@@ -1008,6 +1028,26 @@
         <translation>Type de schema</translation>
     </message>
     <message>
+        <source>Maximum of ...</source>
+        <translation>Maximum de ...</translation>
+    </message>
+    <message>
+        <source>Iterations</source>
+        <translation>Itérations</translation>
+    </message>
+    <message>
+        <source>Nodes</source>
+        <translation>Noeuds</translation>
+    </message>
+    <message>
+        <source>Elements</source>
+        <translation>Eléments</translation>
+    </message>
+    <message>
+        <source>Test of convergence</source>
+        <translation>Test de convergence</translation>
+    </message>
+    <message>
         <source>Edit a file</source>
         <translation>Affichage d'un fichier</translation>
     </message>
@@ -1022,6 +1062,42 @@
     <message>
         <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
         <translation>Edition d'un schéma YACS</translation>
+    </message>
+    <message>
+        <source>PREF_TAB_GENERAL</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION</source>
+        <translation>Publication</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_IN</source>
+        <translation>Les maillages d'entrée</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_OUT</source>
+        <translation>Les maillages de sortie</translation>
+    </message>
+    <message>
+        <source>PREF_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX</source>
+        <translation>Nombres maximum</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ITER</source>
+        <translation>Itérations</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_NODE</source>
+        <translation>Noeuds</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ELEM</source>
+        <translation>Eléments</translation>
     </message>
 </context>
 </TS>

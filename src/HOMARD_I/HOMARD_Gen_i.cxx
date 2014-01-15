@@ -104,8 +104,8 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   _tag_hypo = 0 ;
   _tag_yacs = 0 ;
   _tag_zone = 0 ;
-  _Langue = "Francais" ;
-  _LangueShort = "fr" ;
+
+  SetPreferences( ) ;
 }
 //=================================
 /*!
@@ -839,14 +839,11 @@ void HOMARD_Gen_i::AssociateIterHypo(const char* nomIter, const char* nomHypo)
   SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   ASSERT(!CORBA::is_nil(aIterSO));
 
-  // Gestion de l'etude
+  // Gestion de l'arbre d'etudes
   SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-
   aStudyBuilder->NewCommand();
-
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aIterSO);
   aStudyBuilder->Addreference(aSubSO, aHypoSO);
-
   aStudyBuilder->CommitCommand();
 
   // Liens reciproques
@@ -1088,7 +1085,9 @@ void HOMARD_Gen_i::MeshInfo(const char* nomCas, const char* MeshName, const char
   IsValidStudy () ;
 
 // Creation du cas
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, 0, 1) ;
+  int option = 1 ;
+  if ( _PublisMeshIN != 0 ) option = 2 ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, 0, option) ;
   myCase->SetDirName(DirName) ;
 // Analyse
   myCase->MeshInfo(Qual, Diam, Conn, Tail, Inte) ;
@@ -1185,8 +1184,9 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
 {
   INFOS ( "CreateCase : nomCas = " << nomCas << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile );
 
-  // Par defaut, on ne publie pas le maillage
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, 1) ;
+  int option = 1 ;
+  if ( _PublisMeshIN != 0 ) option = 2 ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, option) ;
 
 // Valeurs par defaut des filtrages
   myCase->SetPyram(0);
@@ -1360,8 +1360,9 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 
   // C. Creation effective du cas
 
-  // Par defaut, on ne publie pas le maillage
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, NumeIter, 1) ;
+  int option = 1 ;
+  if ( _PublisMeshIN != 0 ) option = 2 ;
+  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 1, NumeIter, option) ;
 
   // D. Parametrages lus dans le fichier de configuration
 
@@ -1877,6 +1878,14 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
 // Lien avec l'iteration precedente
   myIterationParent->LinkNextIteration(NomIteration);
   myIteration->SetIterParentName(nomIterParent);
+  // Gestion de l'arbre d'etudes
+  SALOMEDS::SObject_var aIterSOParent = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIterationParent)));
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  aStudyBuilder->NewCommand();
+  SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aIterSO);
+  aStudyBuilder->Addreference(aSubSO, aIterSOParent);
+  aStudyBuilder->CommitCommand();
 
   return HOMARD::HOMARD_Iteration::_duplicate(myIteration);
 }
@@ -2361,7 +2370,44 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration];
   ASSERT(!CORBA::is_nil(myIteration));
 
-  // A.2. Numero de l'iteration
+  // A.2. Controle de la possibilite d'agir
+  // A.2.1. Etat de l'iteration
+  int etat = myIteration->GetState();
+  MESSAGE ( "etat = "<<etat );
+  // A.2.2. On ne calcule pas l'iteration initiale, ni une iteration deja calculee
+  if ( modeHOMARD == 1 )
+  {
+    if ( etat <= 0 )
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "This iteration is the first of the case and cannot be computed.";
+      throw SALOME::SALOME_Exception(es);
+      return 1 ;
+    }
+    else if ( ( etat == 2 ) & ( modeHOMARD == 1 ) )
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "This iteration is already computed.";
+      throw SALOME::SALOME_Exception(es);
+      return 1 ;
+    }
+  }
+  // A.2.3. On n'analyse pas une iteration non calculee
+  else
+  {
+    if ( etat == 1 )
+    {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "This iteration is not computed.";
+      throw SALOME::SALOME_Exception(es);
+      return 1 ;
+    }
+  }
+
+  // A.3. Numero de l'iteration
   //     siterp1 : numero de l'iteration a traiter
   //     Si adaptation :
   //        siter   : numero de l'iteration parent, ou 0 si deja au debut mais cela ne servira pas !
@@ -2386,7 +2432,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   else
   { siter = siterp1 ; }
 
-  // A.3. Le cas
+  // A.4. Le cas
   const char* nomCas = myIteration->GetCaseName();
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
@@ -2574,8 +2620,6 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   // A. Prealable
   // A.1. Bases
   int codret = 0;
-  // Etat de l'iteration
-  int etat = myIteration->GetState();
   // Numero de l'iteration
   int NumeIter = myIteration->GetNumber();
   std::stringstream saux0 ;
@@ -2583,18 +2627,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   std::string siter = saux0.str() ;
   if (NumeIter < 11) { siter = "0" + siter ; }
 
-  // A.2. On ne calcule pas l iteration initiale
-  if ( etat <= 0 )
-  {
-    MESSAGE ( "etat = "<<etat );
-    SALOME::ExceptionStruct es;
-    es.type = SALOME::BAD_PARAM;
-    es.text = "This iteration is the first of the case and cannot be computed.";
-    throw SALOME::SALOME_Exception(es);
-    return 1;
-  };
-
-  // A.3. On verifie qu il y a une hypothese (erreur improbable);
+  // A.2. On verifie qu il y a une hypothese (erreur improbable);
   const char* nomHypo = myIteration->GetHypoName();
   if (std::string(nomHypo) == std::string(""))
   {
@@ -2921,7 +2954,7 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
         {
           SALOME::ExceptionStruct es;
           es.type = SALOME::BAD_PARAM;
-          std::string text = "Directory : " + DirCompute.str() + "is not empty";
+          std::string text = "Directory : " + DirCompute.str() + " is not empty";
           es.text = CORBA::string_dup(text.c_str());
           throw SALOME::SALOME_Exception(es);
           VERIFICATION("Directory is not empty" == 0);
@@ -3699,10 +3732,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
         {
           MESSAGE ( "PublishResultInSmesh : le fichier " << NomFich << " est deja publie." );
           // Pour un fichier importe, on ne republie pas
-          if ( Option == 0 )
-          {
-            return;
-          }
+          if ( Option == 0 ) { return; }
           // Pour un fichier calcule, on commence par faire la depublication
           else
           {
@@ -3793,6 +3823,37 @@ void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName
      }
   }
   return ;
+}
+//=============================================================================
+void HOMARD_Gen_i::PublishMeshIterInSmesh(const char* NomIter)
+{
+  MESSAGE( "PublishMeshIterInSmesh " << NomIter);
+  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIter];
+
+  SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  if (CORBA::is_nil(myIteration))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid iterationStudy Object";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+  const char* MeshFile = myIteration->GetMeshFile() ;
+  const char* MeshName = myIteration->GetMeshName() ;
+  CORBA::Long Option = -1 ;
+  int etat = myIteration->GetState();
+// Iteration initiale
+  if ( etat <= 0 )      { Option = 0 ; }
+// ou iteration calculee
+  else if ( etat == 2 ) { Option = 1 ; }
+// Publication effective apres menage eventuel
+  if ( Option >= 0 )
+  {
+    DeleteResultInSmesh(MeshFile, MeshName) ;
+    PublishResultInSmesh(MeshFile, Option) ;
+  }
+
 }
 //=============================================================================
 void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire)
@@ -4147,7 +4208,7 @@ std::string HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHy
     texte_control_0 = myDriver->Texte_Iter_1_Zone(ZoneType, pythonStructure, methode, ZoneName );
     texte_control += texte_control_0 ;
     // 5. Decalage
-    iaux += 1 ;
+    iaux ++ ;
   }
 
   return texte_control ;
@@ -4422,7 +4483,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
     }
     else if (line.substr(0, iterSignature.size()) == iterSignature) {
       // re-create iteration
-      MESSAGE ("Recreation de l iteration" );
+      MESSAGE ("Recreation de l'iteration" );
       HOMARD::HOMARD_Iteration_var aIter = newIteration();
       PortableServer::ServantBase_var aServant = GetServant(aIter);
       HOMARD_Iteration_i* aIterServant = dynamic_cast<HOMARD_Iteration_i*>(aServant.in());
@@ -4640,7 +4701,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
 
    std::string aScript = "\"\"\"\n";
    aScript += "Python script for HOMARD\n";
-   aScript += "Copyright EDF-R&D 2013\n";
+   aScript += "Copyright EDF-R&D 1996, 2011, 2014\n";
    aScript += "\"\"\"\n";
    aScript += "__revision__ = \"V1.2\"\n";
    aScript += "import HOMARD\n";
@@ -4853,30 +4914,165 @@ char* HOMARD_Gen_i::getVersion()
 #endif
 }
 //===============================================================================
-// Recuperation de la chaine de caracteres par rapport a l'apparition d'un texte
+// Recuperation de la chaine de caracteres par rapport a l'apparition d'un caractere
 // ligne : la ligne a manipuler
-// texte : le texte a reperer
-// option : 0 : la chaine avant le texte
-//          1 : la chaine apres le texte
-// Si le texte est absent, on retourne la chaine totale
+// caractere : le caractere a reperer
+// option : 0 : la chaine avant la premiere apparition du caractere
+//          1 : la chaine apres la premiere apparition du caractere
+//          2 : la chaine avant la derniere apparition du caractere
+//          3 : la chaine apres la derniere apparition du caractere
+// Si le caractere est absent, on retourne la chaine totale
 //===============================================================================
-std::string HOMARD_Gen_i::GetStringInTexte( const std::string ligne, const std::string texte, int option )
+std::string HOMARD_Gen_i::GetStringInTexte( const std::string ligne, const std::string caractere, int option )
 {
-//   MESSAGE("GetStringInTexte, recherche de '"<<texte<<"' dans '"<<ligne<<"'"<<", option = "<<option);
+//   MESSAGE("GetStringInTexte, recherche de '"<<caractere<<"' dans '"<<ligne<<"'"<<", option = "<<option);
 //
   std::string chaine = ligne ;
-  int position = ligne.find_first_of( texte ) ;
-  if ( position > 0 )
+  int position ;
+  if ( option < 2 ) { position = ligne.find_first_of( caractere ) ; }
+  else              { position = ligne.find_last_of( caractere ) ; }
+//   MESSAGE("position = "<<position);
+//   MESSAGE("a = "<<ligne.substr( 0, position ).c_str());
+//   MESSAGE("b = "<<ligne.substr( position+1 ).c_str());
+//
+  if ( position != std::string::npos )
   {
-    if ( option == 0 ) { chaine = ligne.substr( 0, position ) ; }
-    else               { chaine = ligne.substr( position+1 ) ; }
+    if ( ( option == 0 ) || ( option == 2 ) ) { chaine = ligne.substr( 0, position ) ; }
+    else                                      { chaine = ligne.substr( position+1 ) ; }
   }
   return chaine ;
 //
 }
-// //===============================================================================
-// // Langue de SALOME
-// //===============================================================================
+//=============================================================================
+//=============================================================================
+// Gestion des preferences
+//=============================================================================
+//=============================================================================
+// Decodage du fichier d'arcihvage des preferences
+//
+void HOMARD_Gen_i::SetPreferences( )
+{
+  MESSAGE ( "SetPreferences" );
+
+  std::string ligne, mot_cle, salome_version ;
+  bool ok = true ;
+
+  // A. Les valeurs par defaut ; elles doivent etre coherentes
+  std::string LanguageShort = "fr" ;
+  int PublisMeshIN = 0 ;
+  int PublisMeshOUT = 0 ;
+  int YACSMaxIter = 0 ;
+  int YACSMaxNode = 0 ;
+  int YACSMaxElem = 0 ;
+
+  // B. La version de salome
+  // Cela se presente sous la forme :
+  // [SALOME KERNEL] : 7.3.0
+  std::string File ;
+  File  = getenv("KERNEL_ROOT_DIR") ;
+  File += "/bin/salome/VERSION" ;
+  MESSAGE ( "File = "<<File ) ;
+  std::ifstream fichier0( File.c_str() ) ;
+  if ( fichier0 ) // ce test échoue si le fichier n'est pas ouvert
+  {
+    std::string ligne; // variable contenant chaque ligne lue
+    while ( std::getline( fichier0, ligne ) )
+    {
+      std::istringstream ligne_bis(ligne); // variable contenant chaque ligne sous forme de flux
+      ligne_bis >> mot_cle ;
+      if ( mot_cle == "[SALOME" )
+      {
+        salome_version = GetStringInTexte ( ligne, " ", 3 ) ;
+//         MESSAGE ( "salome_version = "<<salome_version<<"|||");
+        break ;
+      }
+    }
+  }
+  else { ok = false ; }
+
+  // B. Decodage du fichier de preferences
+  if ( ok )
+  {
+    std::string PrefFile ;
+    PrefFile  = getenv("HOME") ;
+    PrefFile += "/.config/salome/SalomeApprc." + salome_version ;
+    MESSAGE ( "PrefFile = "<<PrefFile ) ;
+
+    std::ifstream fichier( PrefFile.c_str() );
+    if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+    {
+      bool section_langue = false ;
+      bool section_homard = false ;
+      while ( std::getline( fichier, ligne ) )
+      {
+        std::string chaine ;
+        // 1. Pour la ligne courante, on identifie le premier mot : le mot-cle eventuel
+        std::istringstream ligne_bis(ligne); // variable contenant chaque ligne sous forme de flux
+        ligne_bis >> mot_cle ;
+
+        // 2. Les sections
+        // 2.1. Debut d'une section
+  //       MESSAGE(mot_cle);
+        if ( mot_cle == "<section" )
+        { /*MESSAGE ( "Debut de la section : "<< ligne);*/
+          ligne_bis >> mot_cle ;
+          chaine = GetStringInTexte ( mot_cle, "\"", 1 ) ;
+          chaine = GetStringInTexte ( chaine,  "\"", 0 ) ;
+          if ( chaine == "language" ) { section_langue = true ; }
+          if ( chaine == "HOMARD" )   { section_homard = true ; }
+  //         MESSAGE ( "section_langue = "<<section_langue<<", section_homard = "<<section_homard);
+        }
+        // 2.2. Fin d'une section
+        else if ( mot_cle == "</section>" )
+        { /*MESSAGE ( "Fin de la section : "<< ligne<<", section_langue = "<<section_langue<<", section_homard = "<<section_homard);*/
+          section_langue = false ;
+          section_homard = false ; }
+
+        // 3. Parametres
+        // 3.1. La langue
+        else if ( section_langue || section_homard )
+        { /*MESSAGE ( "a decoder : "<< ligne);*/
+          ligne_bis >> mot_cle ;
+          chaine = GetStringInTexte ( mot_cle, "\"", 1 ) ;
+          chaine = GetStringInTexte ( chaine,  "\"", 0 ) ;
+//           MESSAGE("chaine = "<<chaine<<"|");
+          ligne_bis >> mot_cle ;
+          std::string chaine2 = GetStringInTexte ( mot_cle, "\"", 1 ) ;
+          chaine2 = GetStringInTexte ( chaine2,  "\"", 0 ) ;
+//           MESSAGE("chaine2 = "<<chaine2<<"|");
+          // 3.1. La langue
+          if ( section_langue )
+          { if ( chaine2 == "language" ) { LanguageShort = chaine ; } }
+          // 3.2. HOMARD
+          if ( section_homard )
+          {
+            std::istringstream chainebis( chaine ) ;
+            // 3.2.1. Les publications
+            if ( chaine2 == "publish_mesh_in" )  { chainebis >> PublisMeshIN ; }
+            if ( chaine2 == "publish_mesh_out" ) { chainebis >> PublisMeshOUT ; }
+            // 3.2.2. Les maximum pour YACS
+            if ( chaine2 == "max_iter" ) { chainebis >> YACSMaxIter ; }
+            if ( chaine2 == "max_node" ) { chainebis >> YACSMaxNode ; }
+            if ( chaine2 == "max_elem" ) { chainebis >> YACSMaxElem ; }
+          }
+        }
+      }
+    }
+  }
+
+  // C. Enregistrement
+  MESSAGE ("Enregistrement de LanguageShort = " << LanguageShort );
+  MESSAGE ("Enregistrement de PublisMeshIN = " << PublisMeshIN<<", PublisMeshOUT = "<< PublisMeshOUT);
+  MESSAGE ("Enregistrement de YACSMaxIter = " << YACSMaxIter<<", YACSMaxNode = "<< YACSMaxNode<<", YACSMaxElem = "<< YACSMaxElem);
+  SetLanguageShort( LanguageShort.c_str() ) ;
+  SetPublisMesh(PublisMeshIN, PublisMeshOUT) ;
+  SetYACSMaximum(YACSMaxIter, YACSMaxNode, YACSMaxElem) ;
+
+  return ;
+}
+//===============================================================================
+// Langue de SALOME
+//===============================================================================
 void HOMARD_Gen_i::SetLanguageShort(const char* LanguageShort)
 {
 //   MESSAGE ("SetLanguageShort pour LanguageShort = " << LanguageShort );
@@ -4889,6 +5085,45 @@ char* HOMARD_Gen_i::GetLanguageShort()
 {
 //   MESSAGE ("GetLanguageShort");
   return CORBA::string_dup( _LangueShort.c_str() );
+}
+//===============================================================================
+// Options de publications
+//===============================================================================
+void HOMARD_Gen_i::SetPublisMesh(CORBA::Long PublisMeshIN, CORBA::Long PublisMeshOUT)
+{
+  _PublisMeshIN  = PublisMeshIN  ;
+  _PublisMeshOUT = PublisMeshOUT ;
+  return ;
+}
+CORBA::Long HOMARD_Gen_i::GetPublisMeshIN()
+{
+  return _PublisMeshIN ;
+}
+CORBA::Long HOMARD_Gen_i::GetPublisMeshOUT()
+{
+  return _PublisMeshOUT ;
+}
+//===============================================================================
+// YACS - maximum
+//===============================================================================
+void HOMARD_Gen_i::SetYACSMaximum(CORBA::Long YACSMaxIter, CORBA::Long YACSMaxNode, CORBA::Long YACSMaxElem)
+{
+  _YACSMaxIter = YACSMaxIter ;
+  _YACSMaxNode = YACSMaxNode ;
+  _YACSMaxElem = YACSMaxElem ;
+  return ;
+}
+CORBA::Long HOMARD_Gen_i::GetYACSMaxIter()
+{
+  return _YACSMaxIter ;
+}
+CORBA::Long HOMARD_Gen_i::GetYACSMaxNode()
+{
+  return _YACSMaxNode ;
+}
+CORBA::Long HOMARD_Gen_i::GetYACSMaxElem()
+{
+  return _YACSMaxElem ;
 }
 
 //=============================================================================

@@ -137,7 +137,8 @@ void HOMARD_Boundary_i::SetMeshFile( const char* MeshFile )
 {
   ASSERT( myHomardBoundary );
   myHomardBoundary->SetMeshFile( MeshFile );
-  _gen_i->PublishResultInSmesh(MeshFile, 0);
+  int PublisMeshIN = _gen_i->GetPublisMeshIN () ;
+  if ( PublisMeshIN != 0 ) { _gen_i->PublishResultInSmesh(MeshFile, 0); }
 }
 //=============================================================================
 char* HOMARD_Boundary_i::GetMeshFile()
