@@ -47,10 +47,12 @@ protected :
     void SetSphere();
     void SetConeR();
     void SetConeA();
+    void SetTore();
     void InitValBoundaryAnCylindre();
     void InitValBoundaryAnSphere();
     void InitValBoundaryAnConeR();
     void InitValBoundaryAnConeA();
+    void InitValBoundaryAnTore();
 
 public slots:
 

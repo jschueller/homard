@@ -65,6 +65,7 @@ SET(HOMARD_RESOURCES_FILES
   table_view.png
   texte.png
   texte_2.png
+  toruspointvector.png
   triangle.png
   whatis.png
   write.png

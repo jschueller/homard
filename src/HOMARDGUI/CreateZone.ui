@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>770</height>
+    <width>545</width>
+    <height>778</height>
    </rect>
   </property>
   <property name="sizeIncrement">
@@ -466,7 +466,7 @@
          <number>5</number>
         </property>
         <property name="minimum">
-         <double>-999999999.000000000000000</double>
+         <double>0.000000000000000</double>
         </property>
         <property name="maximum">
          <double>999999999.000000000000000</double>
@@ -1119,7 +1119,7 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="3">
+   <item row="6" column="3" colspan="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

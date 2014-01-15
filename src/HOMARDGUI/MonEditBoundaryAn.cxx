@@ -83,6 +83,12 @@ void MonEditBoundaryAn::InitValEdit()
       SetConeR();
       break;
     }
+    case 5: // il s agit d un tore
+    {
+      InitValBoundaryAnTore();
+      SetTore();
+      break;
+    }
   };
 }
 // ------------------------------------------------------------------------
@@ -152,16 +158,33 @@ void MonEditBoundaryAn::InitValBoundaryAnConeR()
   convertRayonAngle(1) ;
 }
 // ------------------------------------------------------------------------
+void MonEditBoundaryAn::InitValBoundaryAnTore()
+// ------------------------------------------------------------------------
+{
+  HOMARD::double_array_var  mesCoordBoundary = aBoundaryAn->GetCoords();
+  ASSERT(mesCoordBoundary->length() == 8 );
+  _BoundaryAnXcentre=mesCoordBoundary[0];
+  _BoundaryAnYcentre=mesCoordBoundary[1];
+  _BoundaryAnZcentre=mesCoordBoundary[2];
+  _BoundaryAnXaxis=mesCoordBoundary[3];
+  _BoundaryAnYaxis=mesCoordBoundary[4];
+  _BoundaryAnZaxis=mesCoordBoundary[5];
+  _BoundaryAnRayon1=mesCoordBoundary[6];
+  _BoundaryAnRayon2=mesCoordBoundary[7];
+}
+// ------------------------------------------------------------------------
 void MonEditBoundaryAn::SetCylinder()
 // ------------------------------------------------------------------------
 {
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
+  gBTore->setVisible(0);
   RBCylindre->setChecked(1);
   _Type=1;
   RBSphere->setDisabled(true);
   RBCone->setDisabled(true);
+  RBTore->setDisabled(true);
 
   SpinBox_Xcent->setValue(_BoundaryAnXcentre);
   SpinBox_Ycent->setValue(_BoundaryAnYcentre);
@@ -192,8 +215,10 @@ void MonEditBoundaryAn::SetSphere()
   gBSphere->setVisible(1);
   RBSphere->setChecked(1);
   gBCone->setVisible(0);
+  gBTore->setVisible(0);
   RBCylindre->setDisabled(true);
   RBCone->setDisabled(true);
+  RBTore->setDisabled(true);
   _Type=2 ;
 
   SpinBox_Xcentre->setValue(_BoundaryAnXcentre);
@@ -208,7 +233,6 @@ void MonEditBoundaryAn::SetSphere()
   if ( _Zincr > 0) { SpinBox_Zcentre->setSingleStep(_Zincr); }
   else             { SpinBox_Zcentre->setSingleStep(1);}
 
-  SpinBox_Rayon->setMinimum(0.);
   SpinBox_Rayon->setValue(_BoundaryAnRayon);
 //
   adjustSize();
@@ -221,9 +245,11 @@ void MonEditBoundaryAn::SetConeA()
   gBSphere->setVisible(0);
   gBCone->setVisible(1);
   RBCone->setChecked(1);
+  gBTore->setVisible(0);
   RB_Def_angle->setChecked(1);
   RBCylindre->setDisabled(true);
   RBSphere->setDisabled(true);
+  RBTore->setDisabled(true);
   _Type=3;
 //
   TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
@@ -257,10 +283,12 @@ void MonEditBoundaryAn::SetConeR()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(0);
   gBCone->setVisible(1);
+  gBTore->setVisible(0);
   RBCone->setChecked(1);
   RB_Def_radius->setChecked(1);
   RBCylindre->setDisabled(true);
   RBSphere->setDisabled(true);
+  RBTore->setDisabled(true);
   _Type=4;
 //
   TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X centre 1", 0, QApplication::UnicodeUTF8));
@@ -289,6 +317,44 @@ void MonEditBoundaryAn::SetConeR()
 //
   adjustSize();
 }
+// ------------------------------------------------------------------------
+void MonEditBoundaryAn::SetTore()
+// ------------------------------------------------------------------------
+{
+  gBCylindre->setVisible(0);
+  gBSphere->setVisible(0);
+  gBCone->setVisible(0);
+  gBTore->setVisible(1);
+  RBTore->setChecked(1);
+  _Type=5;
+  RBCylindre->setDisabled(true);
+  RBSphere->setDisabled(true);
+  RBCone->setDisabled(true);
+
+  SpinBoxToreXcent->setValue(_BoundaryAnXcentre);
+  SpinBoxToreYcent->setValue(_BoundaryAnYcentre);
+  SpinBoxToreZcent->setValue(_BoundaryAnZcentre);
+
+  SpinBoxToreXaxe->setValue(_BoundaryAnXaxis);
+  SpinBoxToreYaxe->setValue(_BoundaryAnYaxis);
+  SpinBoxToreZaxe->setValue(_BoundaryAnZaxis);
+
+
+  SpinBoxToreXaxe->setSingleStep(0.1);
+  SpinBoxToreXcent->setSingleStep(_Xincr);
+  SpinBoxToreYaxe->setSingleStep(0.1);
+  SpinBoxToreYcent->setSingleStep(_Yincr);
+  SpinBoxToreZaxe->setSingleStep(0.1);
+  SpinBoxToreZcent->setSingleStep(_Zincr);
+// Rayon de revolution
+  SpinBoxToreRRev->setValue(_BoundaryAnRayon1);
+  SpinBoxToreRRev->setSingleStep(_BoundaryAnRayon1/10.);
+// Rayon primaire
+  SpinBoxToreRPri->setValue(_BoundaryAnRayon2);
+  SpinBoxToreRPri->setSingleStep(_BoundaryAnRayon2/10.);
+//
+  adjustSize();
+}
 // ---------------------------------------------------
 bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
 //----------------------------------------------------
@@ -314,10 +380,15 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
       break;
     }
     case 4 : // il s agit d un cone defini par les 2 rayons
-      {
+    {
       aBoundaryAn = myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_aName.toStdString().c_str()), \
         _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1, \
         _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2);
+      break;
+    }
+    case 5 : // il s agit d un tore
+    {
+      aBoundaryAn->SetTorus(_BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis, _BoundaryAnRayon1, _BoundaryAnRayon2 );
       break;
     }
   }

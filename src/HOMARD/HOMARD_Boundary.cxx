@@ -113,6 +113,13 @@ std::string HOMARD_Boundary::GetDumpPython() const
       aScript << _Xcentre1 << ", " << _Ycentre1 << ", " << _Zcentre1 << ", " << _Rayon1 << ", " << _Xcentre2 << ", " << _Ycentre2 << ", " << _Zcentre2 << ", " << _Rayon2 << ")\n";
       break ;
     }
+    case 5:
+    {
+      aScript << "tore " << _Name << "\n";
+      aScript << "\t" << _Name << " = homard.CreateBoundaryTorus(\"" << _Name << "\", ";
+      aScript << _Xcentre << ", " << _Ycentre << ", " << _Zcentre << ", " << _Xaxe << ", " << _Yaxe << ", " << _Zaxe << ", " << _Rayon1 << ", " << _Rayon2 << ")\n";
+      break ;
+    }
   }
 
   return aScript.str();
@@ -183,6 +190,15 @@ void HOMARD_Boundary::SetConeA( double Xaxe, double Yaxe, double Zaxe, double An
   _Xcentre = Xcentre; _Ycentre = Ycentre; _Zcentre = Zcentre;
 }
 //=======================================================================================
+void HOMARD_Boundary::SetTorus( double X0, double X1, double X2,
+                                double X3, double X4, double X5, double X6, double X7 )
+{
+  _Xcentre = X0; _Ycentre = X1; _Zcentre = X2;
+  _Xaxe = X3; _Yaxe = X4; _Zaxe = X5;
+  _Rayon1 = X6;
+  _Rayon2 = X7;
+}
+//=======================================================================================
 std::vector<double> HOMARD_Boundary::GetCoords() const
 {
   std::vector<double> mesCoor;
@@ -235,7 +251,20 @@ std::vector<double> HOMARD_Boundary::GetCoords() const
       mesCoor.push_back( _Rayon2 );
       break ;
     }
-    VERIFICATION( (_Type>=1) && (_Type<=4) ) ;
+//  Tore
+    case 5:
+    {
+      mesCoor.push_back( _Xcentre );
+      mesCoor.push_back( _Ycentre );
+      mesCoor.push_back( _Zcentre );
+      mesCoor.push_back( _Xaxe );
+      mesCoor.push_back( _Yaxe );
+      mesCoor.push_back( _Zaxe );
+      mesCoor.push_back( _Rayon1 );
+      mesCoor.push_back( _Rayon2 );
+      break ;
+    }
+    VERIFICATION( (_Type>=1) && (_Type<=5) ) ;
   }
   return mesCoor;
 }

@@ -63,6 +63,9 @@ protected :
     double _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone;
     double _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnZorigCone;
     double _BoundaryAngle;
+    double _BoundaryAnToreXcentre, _BoundaryAnToreYcentre, _BoundaryAnToreZcentre;
+    double _BoundaryAnToreXaxe, _BoundaryAnToreYaxe, _BoundaryAnToreZaxe;
+    double _BoundaryAnToreRRev, _BoundaryAnToreRPri;
 
 
     bool Chgt;
@@ -83,6 +86,7 @@ public slots:
     virtual void SetCone();
     virtual void SetConeR();
     virtual void SetConeA();
+    virtual void SetTore();
     virtual void PushOnOK();
     virtual bool PushOnApply();
     virtual void PushOnHelp();

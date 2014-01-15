@@ -252,7 +252,6 @@ void MonEditZone::SetSphere()
   if ( _Zincr > 0) { SpinBox_Zcentre->setSingleStep(_Zincr); }
   else             { SpinBox_Zcentre->setSingleStep(1);}
 
-  SpinBox_Rayon->setMinimum(0.);
   SpinBox_Rayon->setValue(_ZoneRayon);
 }
 // ------------------------------------------------------------------------
@@ -292,7 +291,6 @@ void MonEditZone::SetCylinder()
   if ( _Zincr > 0) { SpinBox_Zbase->setSingleStep(_Zincr); }
   else             { SpinBox_Zbase->setSingleStep(1) ;}
 
-  SpinBox_Radius->setMinimum(0.);
   SpinBox_Radius->setValue(_ZoneRayon);
 
   if ( _Type == 5 )
@@ -352,9 +350,7 @@ void MonEditZone::SetPipe()
   if ( _Zincr > 0) { SpinBox_Zbase_p->setSingleStep(_Zincr); }
   else             { SpinBox_Zbase_p->setSingleStep(1) ;}
 
-  SpinBox_Radius_int->setMinimum(0.);
   SpinBox_Radius_int->setValue(_ZoneRayonInt);
-  SpinBox_Radius_ext->setMinimum(0.);
   SpinBox_Radius_ext->setValue(_ZoneRayon);
 
   if ( _Type == 7 )

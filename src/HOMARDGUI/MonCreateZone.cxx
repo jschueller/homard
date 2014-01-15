@@ -287,13 +287,9 @@ void MonCreateZone::InitMinMax()
     }
 // Rayons
     SpinBox_Rayon->setSingleStep(_Rayon/10.) ;
-    SpinBox_Rayon->setMinimum(0.) ;
     SpinBox_Radius->setSingleStep(_Rayon/10.) ;
-    SpinBox_Radius->setMinimum(0.) ;
     SpinBox_Radius_int->setSingleStep(_Rayon/20.) ;
-    SpinBox_Radius_int->setMinimum(0.) ;
     SpinBox_Radius_ext->setSingleStep(_Rayon/10.) ;
-    SpinBox_Radius_ext->setMinimum(0.) ;
 // Axe et hauteur
 // Si une coordonnee est constante, inutile de demander l'axe et la hauteur
     if ( _Orient > 0) {
@@ -315,9 +311,7 @@ void MonCreateZone::InitMinMax()
       TLHaut_p->setVisible(0) ;
     }
     else {
-      SpinBox_Haut->setMinimum(0.) ;
       SpinBox_Haut->setSingleStep(_Rayon/10.) ;
-      SpinBox_Haut_p->setMinimum(0.) ;
       SpinBox_Haut_p->setSingleStep(_Rayon/10.) ;
     }
 }

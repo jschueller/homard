@@ -60,6 +60,9 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
     _BoundaryAnXcone2(0), _BoundaryAnYcone2(0), _BoundaryAnZcone2(0), _BoundaryAnRayon2(0),
     _BoundaryAnXaxisCone(0), _BoundaryAnYaxisCone(0), _BoundaryAnZaxisCone(0),
     _BoundaryAngle(0),
+    _BoundaryAnToreXcentre(0), _BoundaryAnToreYcentre(0), _BoundaryAnToreZcentre(0),
+    _BoundaryAnToreXaxe(0), _BoundaryAnToreYaxe(0), _BoundaryAnToreZaxe(0),
+    _BoundaryAnToreRRev(0), _BoundaryAnToreRPri(0),
     Chgt (false)
     {
       MESSAGE("Constructeur") ;
@@ -68,22 +71,27 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
       setModal(modal);
 
     //  Gestion des icones
+      QPixmap pix ;
+      QIcon IS ;
       SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr();
-      QPixmap pix = resMgr->loadPixmap( "HOMARD", "spherepoint.png" );
-      QIcon IS=QIcon(pix);
+      pix = resMgr->loadPixmap( "HOMARD", "spherepoint.png" );
+      IS=QIcon(pix);
       RBSphere->setIcon(IS);
-      QPixmap pix2 = resMgr->loadPixmap( "HOMARD", "cylinderpointvector.png" );
-      QIcon IS2=QIcon(pix2);
-      RBCylindre->setIcon(IS2);
-      QPixmap pix3 = resMgr->loadPixmap( "HOMARD", "cone.png" );
-      QIcon IS3=QIcon(pix3);
-      RBCone->setIcon(IS3);
-      QPixmap pix4 = resMgr->loadPixmap( "HOMARD", "conepointvector.png" );
-      QIcon IS4=QIcon(pix4);
-      RB_Def_angle->setIcon(IS4);
-      QPixmap pix5 = resMgr->loadPixmap( "HOMARD", "conedxyz.png" );
-      QIcon IS5=QIcon(pix5);
-      RB_Def_radius->setIcon(IS5);
+      pix = resMgr->loadPixmap( "HOMARD", "cylinderpointvector.png" );
+      IS=QIcon(pix);
+      RBCylindre->setIcon(IS);
+      pix = resMgr->loadPixmap( "HOMARD", "cone.png" );
+      IS=QIcon(pix);
+      RBCone->setIcon(IS);
+      pix = resMgr->loadPixmap( "HOMARD", "conepointvector.png" );
+      IS=QIcon(pix);
+      RB_Def_angle->setIcon(IS);
+      pix = resMgr->loadPixmap( "HOMARD", "conedxyz.png" );
+      IS=QIcon(pix);
+      RB_Def_radius->setIcon(IS);
+      pix = resMgr->loadPixmap( "HOMARD", "toruspointvector.png" );
+      IS=QIcon(pix);
+      RBTore->setIcon(IS);
 
       InitConnect( );
 
@@ -149,6 +157,7 @@ void MonCreateBoundaryAn::InitConnect()
     connect( RBCone,        SIGNAL(clicked()) , this, SLOT(SetCone()) ) ;
     connect( RB_Def_radius, SIGNAL(clicked()) , this, SLOT(SetConeR()) );
     connect( RB_Def_angle,  SIGNAL(clicked()) , this, SLOT(SetConeA()) );
+    connect( RBTore,        SIGNAL(clicked()) , this, SLOT(SetTore()) ) ;
     connect( buttonOk,     SIGNAL( pressed() ), this, SLOT( PushOnOK() ) );
     connect( buttonApply,  SIGNAL( pressed() ), this, SLOT( PushOnApply() ) );
     connect( buttonCancel, SIGNAL( pressed() ), this, SLOT( close() ) );
@@ -213,7 +222,6 @@ void MonCreateBoundaryAn::InitMinMax()
   // . Rayon
   SpinBox_Radius->setValue(_Rayon);
   SpinBox_Radius->setSingleStep(_Rayon/10.);
-  SpinBox_Radius->setMinimum(0.);
 
   // Sphere
   // . X du centre
@@ -228,7 +236,6 @@ void MonCreateBoundaryAn::InitMinMax()
   // . Rayon
   SpinBox_Rayon->setValue(_Rayon);
   SpinBox_Rayon->setSingleStep(_Rayon/10.);
-  SpinBox_Rayon->setMinimum(0.);
 
   // Cone en rayons
   // . X des centres
@@ -248,10 +255,8 @@ void MonCreateBoundaryAn::InitMinMax()
   SpinBox_Cone_Z2->setSingleStep(_Zincr);
   // . Rayons/Angles
   _BoundaryAnRayon1 = 0. ;
-  SpinBox_Cone_V1->setMinimum(0.);
   _BoundaryAnRayon2 = _Rayon ;
   SpinBox_Cone_V2->setSingleStep(_Rayon/10.);
-  SpinBox_Cone_V2->setMinimum(0.);
 
   // Cone en angle
   convertRayonAngle(1) ;
@@ -262,6 +267,32 @@ void MonCreateBoundaryAn::InitMinMax()
   SpinBox_Cone_X2->setValue(_BoundaryAnXorigCone);
   SpinBox_Cone_Y2->setValue(_BoundaryAnYorigCone);
   SpinBox_Cone_Z2->setValue(_BoundaryAnZorigCone);
+
+  // Tore
+  // . X du centre
+  SpinBoxToreXcent->setValue(_Xcentre);
+  SpinBoxToreXcent->setSingleStep(_Xincr);
+  // . Y du centre
+  SpinBoxToreYcent->setValue(_Ycentre);
+  SpinBoxToreYcent->setSingleStep(_Yincr);
+  // . Z du centre
+  SpinBoxToreZcent->setValue(_Zcentre);
+  SpinBoxToreZcent->setSingleStep(_Zincr);
+  // . X de l'axe
+  SpinBoxToreXaxe->setValue(0.);
+  SpinBoxToreXaxe->setSingleStep(0.1);
+  // . Y de l'axe
+  SpinBoxToreYaxe->setValue(0.);
+  SpinBoxToreYaxe->setSingleStep(0.1);
+  // . Z de l'axe
+  SpinBoxToreZaxe->setValue(1.);
+  SpinBoxToreZaxe->setSingleStep(0.1);
+  // . Rayon de revolution
+  SpinBoxToreRRev->setValue(_Rayon);
+  SpinBoxToreRRev->setSingleStep(_Rayon/10.);
+  // . Rayon primaire
+  SpinBoxToreRPri->setValue(_Rayon/3.);
+  SpinBoxToreRPri->setSingleStep(_Rayon/20.);
 }
 // ------------------------------------------------------------------------
 bool MonCreateBoundaryAn::PushOnApply()
@@ -361,6 +392,30 @@ bool MonCreateBoundaryAn::PushOnApply()
         }
         break;
       }
+      case 5 : // il s agit d un tore
+      {
+        if ((_BoundaryAnToreXcentre != SpinBoxToreXcent->value())  ||
+            (_BoundaryAnToreYcentre != SpinBoxToreYcent->value())  ||
+            (_BoundaryAnToreZcentre != SpinBoxToreZcent->value())  ||
+            (_BoundaryAnToreRRev   != SpinBoxToreRRev->value()) ||
+            (_BoundaryAnToreRPri   != SpinBoxToreRPri->value()) ||
+            (_BoundaryAnToreXaxe   != SpinBoxToreXaxe->value()) ||
+            (_BoundaryAnToreYaxe   != SpinBoxToreYaxe->value()) ||
+            (_BoundaryAnToreZaxe   != SpinBoxToreZaxe->value()) )
+        {
+          Chgt = true;
+          _BoundaryAnToreXcentre= SpinBoxToreXcent->value();
+          _BoundaryAnToreYcentre= SpinBoxToreYcent->value();
+          _BoundaryAnToreZcentre= SpinBoxToreZcent->value();
+          _BoundaryAnToreRRev=SpinBoxToreRRev->value();
+          _BoundaryAnToreRPri=SpinBoxToreRPri->value();
+          _BoundaryAnToreXaxe=SpinBoxToreXaxe->value();
+          _BoundaryAnToreYaxe=SpinBoxToreYaxe->value();
+          _BoundaryAnToreZaxe=SpinBoxToreZaxe->value();
+        }
+        break;
+      }
+
  }
 
   bool bOK = CreateOrUpdateBoundaryAn();
@@ -440,6 +495,21 @@ bool MonCreateBoundaryAn:: CreateOrUpdateBoundaryAn()
       }
       break;
     }
+   case 5 : // il s agit d un tore
+    {
+      try
+      {
+        aBoundaryAn = myHomardGen->CreateBoundaryTorus(CORBA::string_dup(_aName.toStdString().c_str()), \
+        _BoundaryAnToreXcentre, _BoundaryAnToreYcentre, _BoundaryAnToreZcentre, _BoundaryAnToreXaxe, _BoundaryAnToreYaxe, _BoundaryAnToreZaxe, _BoundaryAnToreRRev, _BoundaryAnToreRPri );
+      }
+      catch( SALOME::SALOME_Exception& S_ex )
+      {
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+        return false ;
+     }
+      break;
+    }
   }
   _parent->AddBoundaryAn(_aName);
 
@@ -491,6 +561,7 @@ void MonCreateBoundaryAn::SetCylinder()
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
+  gBTore->setVisible(0);
 //
   _Type=1;
 //
@@ -505,6 +576,7 @@ void MonCreateBoundaryAn::SetSphere()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(1);
   gBCone->setVisible(0);
+  gBTore->setVisible(0);
 //
   _Type=2;
 //
@@ -627,6 +699,7 @@ void MonCreateBoundaryAn::SetCone()
   gBCylindre->setVisible(0);
   gBSphere->setVisible(0);
   gBCone->setVisible(1);
+  gBTore->setVisible(0);
 //
   if ( RB_Def_radius->isChecked() )
   {
@@ -639,6 +712,21 @@ void MonCreateBoundaryAn::SetCone()
 //
   adjustSize();
 //   MESSAGE("Fin de SetCone")
+}
+// ------------------------------------------------------------------------
+void MonCreateBoundaryAn::SetTore()
+// ------------------------------------------------------------------------
+{
+  MESSAGE("Debut de SetTore")
+  gBCylindre->setVisible(0);
+  gBSphere->setVisible(0);
+  gBCone->setVisible(0);
+  gBTore->setVisible(1);
+//
+  _Type=5;
+//
+  adjustSize();
+//   MESSAGE("Fin de SetTore")
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryAn::convertRayonAngle(int option)

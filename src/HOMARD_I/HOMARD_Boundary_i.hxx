@@ -83,6 +83,9 @@ public:
                                    double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2);
   void                   SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle,
                                    double Xcentre, double Ycentre, double ZCentre);
+  void                   SetTorus( double Xcentre, double Ycentre, double ZCentre,
+                                      double Xaxe, double Yaxe, double Zaxe,
+                                      double rayonRev, double rayonPri );
 
   HOMARD::double_array*  GetCoords();
 

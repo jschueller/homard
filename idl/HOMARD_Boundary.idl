@@ -74,6 +74,10 @@ module HOMARD
                       in double Xcentre,in double Ycentre,in double ZCentre)
                                                            raises (SALOME::SALOME_Exception);
 
+    void     SetTorus (in double Xcentre, in double Ycentre, in double Zcentre,
+                          in double Xaxe, in double Yaxe, in double Zaxe, in double rayonRev, in double rayonPri)
+                                                           raises (SALOME::SALOME_Exception);
+
 
     HOMARD::double_array GetCoords()                       raises (SALOME::SALOME_Exception);
 

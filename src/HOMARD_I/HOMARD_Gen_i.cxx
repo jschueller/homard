@@ -2041,6 +2041,35 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryConeR(const char* Bounda
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
 }
 //=============================================================================
+HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryTorus(const char* BoundaryName,
+                                      CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
+                                      CORBA::Double Xaxe, CORBA::Double Yaxe, CORBA::Double Zaxe,
+                                      CORBA::Double RayonRev, CORBA::Double RayonPri)
+{
+  INFOS ("CreateBoundaryTorus : BoundaryName  = " << BoundaryName ) ;
+//
+  SALOME::ExceptionStruct es;
+  int error = 0 ;
+  if ( ( RayonRev <= 0.0 ) || ( RayonPri <= 0.0 ) )
+  { es.text = "The radius must be positive." ;
+    error = 1 ; }
+  double daux = fabs(Xaxe) + fabs(Yaxe) + fabs(Zaxe) ;
+  if ( daux < 0.0000001 )
+  { es.text = "The axis must be a non 0 vector." ;
+    error = 2 ; }
+  if ( error != 0 )
+  {
+    es.type = SALOME::BAD_PARAM;
+    throw SALOME::SALOME_Exception(es);
+    return 0;
+  };
+//
+  HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 5) ;
+  myBoundary->SetTorus( Xcentre, Ycentre, Zcentre, Xaxe, Yaxe, Zaxe, RayonRev, RayonPri ) ;
+
+  return HOMARD::HOMARD_Boundary::_duplicate(myBoundary) ;
+}
+//=============================================================================
 HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZone(const char* ZoneName, CORBA::Long ZoneType)
 {
   MESSAGE ("CreateZone : ZoneName  = " << ZoneName << ", ZoneType = " << ZoneType);
@@ -3147,6 +3176,11 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
           myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], (*coor)[7]);
           if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
         }
+        else if (BoundaryType == 5) // Cas d un tore
+        {
+          myDriver->TexteBoundaryAn(BoundaryName, NumBoundaryAnalytical, BoundaryType, (*coor)[0], (*coor)[1], (*coor)[2], (*coor)[3], (*coor)[4], (*coor)[5], (*coor)[6], (*coor)[7]);
+          if ( BoundaryOption % 3 != 0 ) { BoundaryOption = BoundaryOption*3 ; }
+        }
       }
       // 2.2.3. Memorisation du traitement
       ListeBoundaryTraitees.push_back( BoundaryName );
@@ -3394,6 +3428,11 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
     case 4 :
     { value = "BoundaryAnHomard" ;
       icone = "conedxyz.png" ;
+      break;
+    }
+    case 5 :
+    { value = "BoundaryAnHomard" ;
+      icone = "toruspointvector.png" ;
       break;
     }
   }

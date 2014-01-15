@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateZone.ui'
 **
-** Created: Wed Jan 15 08:42:10 2014
+** Created: Wed Jan 15 14:45:55 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -115,7 +115,7 @@ public:
     {
         if (CreateZone->objectName().isEmpty())
             CreateZone->setObjectName(QString::fromUtf8("CreateZone"));
-        CreateZone->resize(550, 770);
+        CreateZone->resize(545, 778);
         CreateZone->setSizeIncrement(QSize(1, 1));
         CreateZone->setBaseSize(QSize(550, 400));
         CreateZone->setAutoFillBackground(true);
@@ -368,7 +368,7 @@ public:
         SpinBox_Rayon = new QDoubleSpinBox(gBSphere);
         SpinBox_Rayon->setObjectName(QString::fromUtf8("SpinBox_Rayon"));
         SpinBox_Rayon->setDecimals(5);
-        SpinBox_Rayon->setMinimum(-1e+09);
+        SpinBox_Rayon->setMinimum(0);
         SpinBox_Rayon->setMaximum(1e+09);
         SpinBox_Rayon->setValue(0);
 
@@ -741,7 +741,7 @@ public:
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer, 6, 3, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 6, 3, 1, 2);
 
 
         retranslateUi(CreateZone);

@@ -73,6 +73,8 @@ public:
                                           double Xcentre2, double Ycentre2, double Zcentre2, double Rayon2);
   void                          SetConeA( double Xaxe, double Yaxe, double Zaxe, double Angle,
                                           double Xcentre, double Ycentre, double ZCentre);
+  void                          SetTorus( double X0, double X1, double X2, double X3,
+                                             double X4, double X5, double X6, double X7 );
 
   std::vector<double>           GetCoords() const;
 

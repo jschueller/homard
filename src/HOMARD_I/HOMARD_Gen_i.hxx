@@ -75,6 +75,10 @@ public:
   HOMARD::HOMARD_Boundary_ptr     CreateBoundaryConeA (const char* nomBoundary,
                                       CORBA::Double Xaxis, CORBA::Double Yaxis, CORBA::Double Zaxis, CORBA::Double Angle,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre);
+  HOMARD::HOMARD_Boundary_ptr     CreateBoundaryTorus (const char* nomBoundary,
+                                      CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
+                                      CORBA::Double Xaxis, CORBA::Double Yaxis, CORBA::Double Zaxis,
+                                      CORBA::Double RayonRev, CORBA::Double RayonPri);
 
   HOMARD::HOMARD_Cas_ptr          CreateCase (const char* nomCas, const char* MeshName, const char* FileName);
   HOMARD::HOMARD_Cas_ptr          CreateCaseFromIteration (const char* nomCas, const char* DirNameStart);

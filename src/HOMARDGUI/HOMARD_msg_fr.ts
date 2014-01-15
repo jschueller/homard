@@ -756,6 +756,10 @@
         <translation>Type de la frontière</translation>
     </message>
     <message>
+        <source>Torus</source>
+        <translation>Tore</translation>
+    </message>
+    <message>
         <source>Radius</source>
         <translation>Rayon</translation>
     </message>
@@ -790,6 +794,14 @@
     <message>
         <source>Z axis</source>
         <translation>Z axe</translation>
+    </message>
+    <message>
+        <source>R revolution</source>
+        <translation>R révolution</translation>
+    </message>
+    <message>
+        <source>Primary R</source>
+        <translation>R primaire</translation>
     </message>
     <message>
         <source>HOM_BOUN_NAME</source>

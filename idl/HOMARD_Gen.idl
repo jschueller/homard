@@ -70,6 +70,11 @@ module HOMARD
                                       in double Xaxis, in double Yaxis, in double Zaxis, in double Angle,
                                       in double Xcentre, in double Ycentre, in double Zcentre)
     raises(SALOME::SALOME_Exception);
+    HOMARD_Boundary   CreateBoundaryTorus (in string BoundaryName,
+                                      in double Xcentre, in double Ycentre, in double Zcentre,
+                                      in double Xaxis, in double Yaxis, in double Zaxis,
+                                      in double RadiusRev, in double RadiusPri)
+    raises (SALOME::SALOME_Exception);
     HOMARD_Cas        CreateCase(in string CaseName, in string MeshName, in string FileName )
     raises(SALOME::SALOME_Exception);
     HOMARD_Cas        CreateCaseFromIteration(in string CaseName, in string DirNameStart )

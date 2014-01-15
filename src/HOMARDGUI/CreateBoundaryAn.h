@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateBoundaryAn.ui'
 **
-** Created: Tue Sep 17 14:08:40 2013
+** Created: Wed Jan 15 11:19:06 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -29,7 +29,7 @@ QT_BEGIN_NAMESPACE
 class Ui_CreateBoundaryAn
 {
 public:
-    QGridLayout *gridLayout_4;
+    QGridLayout *gridLayout_5;
     QLabel *Name;
     QLineEdit *LEName;
     QGroupBox *TypeBoundary;
@@ -37,6 +37,7 @@ public:
     QRadioButton *RBCylindre;
     QRadioButton *RBSphere;
     QRadioButton *RBCone;
+    QRadioButton *RBTore;
     QGroupBox *gBCylindre;
     QGridLayout *gridLayout1;
     QDoubleSpinBox *SpinBox_Xcent;
@@ -85,6 +86,24 @@ public:
     QDoubleSpinBox *SpinBox_Cone_V1;
     QLabel *TLCone_V2;
     QDoubleSpinBox *SpinBox_Cone_V2;
+    QGroupBox *gBTore;
+    QGridLayout *gridLayout_4;
+    QLabel *TLToreXcent;
+    QDoubleSpinBox *SpinBoxToreXcent;
+    QLabel *TLToreXaxe;
+    QDoubleSpinBox *SpinBoxToreXaxe;
+    QLabel *TLToreYcent;
+    QDoubleSpinBox *SpinBoxToreYcent;
+    QLabel *TLToreYaxe;
+    QDoubleSpinBox *SpinBoxToreYaxe;
+    QLabel *TLToreZcent;
+    QDoubleSpinBox *SpinBoxToreZcent;
+    QLabel *TLToreZaxe;
+    QDoubleSpinBox *SpinBoxToreZaxe;
+    QLabel *TLToreRayRev;
+    QDoubleSpinBox *SpinBoxToreRRev;
+    QLabel *TLToreRayPri;
+    QDoubleSpinBox *SpinBoxToreRPri;
     QGroupBox *GBButtons;
     QGridLayout *gridLayout3;
     QPushButton *buttonHelp;
@@ -96,21 +115,21 @@ public:
     {
         if (CreateBoundaryAn->objectName().isEmpty())
             CreateBoundaryAn->setObjectName(QString::fromUtf8("CreateBoundaryAn"));
-        CreateBoundaryAn->resize(527, 701);
+        CreateBoundaryAn->resize(522, 835);
         CreateBoundaryAn->setAutoFillBackground(true);
         CreateBoundaryAn->setSizeGripEnabled(true);
-        gridLayout_4 = new QGridLayout(CreateBoundaryAn);
-        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        gridLayout_5 = new QGridLayout(CreateBoundaryAn);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
         Name = new QLabel(CreateBoundaryAn);
         Name->setObjectName(QString::fromUtf8("Name"));
 
-        gridLayout_4->addWidget(Name, 0, 0, 1, 1);
+        gridLayout_5->addWidget(Name, 0, 0, 1, 1);
 
         LEName = new QLineEdit(CreateBoundaryAn);
         LEName->setObjectName(QString::fromUtf8("LEName"));
         LEName->setMaxLength(32);
 
-        gridLayout_4->addWidget(LEName, 0, 1, 1, 1);
+        gridLayout_5->addWidget(LEName, 0, 1, 1, 1);
 
         TypeBoundary = new QGroupBox(CreateBoundaryAn);
         TypeBoundary->setObjectName(QString::fromUtf8("TypeBoundary"));
@@ -148,8 +167,18 @@ public:
 
         gridLayout->addWidget(RBCone, 0, 2, 1, 1);
 
+        RBTore = new QRadioButton(TypeBoundary);
+        RBTore->setObjectName(QString::fromUtf8("RBTore"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8("../../resources/toruspointvector.png"), QSize(), QIcon::Normal, QIcon::Off);
+        RBTore->setIcon(icon3);
+        RBTore->setCheckable(true);
+        RBTore->setChecked(false);
 
-        gridLayout_4->addWidget(TypeBoundary, 1, 0, 1, 2);
+        gridLayout->addWidget(RBTore, 0, 3, 1, 1);
+
+
+        gridLayout_5->addWidget(TypeBoundary, 1, 0, 1, 2);
 
         gBCylindre = new QGroupBox(CreateBoundaryAn);
         gBCylindre->setObjectName(QString::fromUtf8("gBCylindre"));
@@ -281,7 +310,7 @@ public:
         gridLayout1->addWidget(SpinBox_Xaxis, 0, 3, 1, 1);
 
 
-        gridLayout_4->addWidget(gBCylindre, 2, 0, 1, 2);
+        gridLayout_5->addWidget(gBCylindre, 2, 0, 1, 2);
 
         gBSphere = new QGroupBox(CreateBoundaryAn);
         gBSphere->setObjectName(QString::fromUtf8("gBSphere"));
@@ -364,7 +393,7 @@ public:
         gridLayout2->addWidget(TLXcentre, 0, 0, 1, 1);
 
 
-        gridLayout_4->addWidget(gBSphere, 3, 0, 1, 2);
+        gridLayout_5->addWidget(gBSphere, 3, 0, 1, 2);
 
         gBCone = new QGroupBox(CreateBoundaryAn);
         gBCone->setObjectName(QString::fromUtf8("gBCone"));
@@ -378,18 +407,18 @@ public:
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         RB_Def_radius = new QRadioButton(groupBox);
         RB_Def_radius->setObjectName(QString::fromUtf8("RB_Def_radius"));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8("../../resources/conedxyz.png"), QSize(), QIcon::Normal, QIcon::Off);
-        RB_Def_radius->setIcon(icon3);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8("../../resources/conedxyz.png"), QSize(), QIcon::Normal, QIcon::Off);
+        RB_Def_radius->setIcon(icon4);
         RB_Def_radius->setChecked(true);
 
         gridLayout_2->addWidget(RB_Def_radius, 0, 0, 1, 1);
 
         RB_Def_angle = new QRadioButton(groupBox);
         RB_Def_angle->setObjectName(QString::fromUtf8("RB_Def_angle"));
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8("../../resources/conepointvector.png"), QSize(), QIcon::Normal, QIcon::Off);
-        RB_Def_angle->setIcon(icon4);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8("../../resources/conepointvector.png"), QSize(), QIcon::Normal, QIcon::Off);
+        RB_Def_angle->setIcon(icon5);
 
         gridLayout_2->addWidget(RB_Def_angle, 0, 1, 1, 1);
 
@@ -508,7 +537,7 @@ public:
 
         SpinBox_Cone_V1 = new QDoubleSpinBox(gBCone);
         SpinBox_Cone_V1->setObjectName(QString::fromUtf8("SpinBox_Cone_V1"));
-        SpinBox_Cone_V1->setDecimals(14);
+        SpinBox_Cone_V1->setDecimals(5);
         SpinBox_Cone_V1->setMaximum(1e+09);
 
         gridLayout_3->addWidget(SpinBox_Cone_V1, 4, 1, 1, 1);
@@ -523,13 +552,154 @@ public:
 
         SpinBox_Cone_V2 = new QDoubleSpinBox(gBCone);
         SpinBox_Cone_V2->setObjectName(QString::fromUtf8("SpinBox_Cone_V2"));
-        SpinBox_Cone_V2->setDecimals(14);
+        SpinBox_Cone_V2->setDecimals(5);
         SpinBox_Cone_V2->setMaximum(1e+09);
 
         gridLayout_3->addWidget(SpinBox_Cone_V2, 4, 3, 1, 1);
 
 
-        gridLayout_4->addWidget(gBCone, 4, 0, 1, 2);
+        gridLayout_5->addWidget(gBCone, 4, 0, 1, 2);
+
+        gBTore = new QGroupBox(CreateBoundaryAn);
+        gBTore->setObjectName(QString::fromUtf8("gBTore"));
+        sizePolicy.setHeightForWidth(gBTore->sizePolicy().hasHeightForWidth());
+        gBTore->setSizePolicy(sizePolicy);
+        gridLayout_4 = new QGridLayout(gBTore);
+        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        TLToreXcent = new QLabel(gBTore);
+        TLToreXcent->setObjectName(QString::fromUtf8("TLToreXcent"));
+        sizePolicy.setHeightForWidth(TLToreXcent->sizePolicy().hasHeightForWidth());
+        TLToreXcent->setSizePolicy(sizePolicy);
+        TLToreXcent->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreXcent, 0, 0, 1, 1);
+
+        SpinBoxToreXcent = new QDoubleSpinBox(gBTore);
+        SpinBoxToreXcent->setObjectName(QString::fromUtf8("SpinBoxToreXcent"));
+        SpinBoxToreXcent->setDecimals(5);
+        SpinBoxToreXcent->setMinimum(-1e+09);
+        SpinBoxToreXcent->setMaximum(1e+09);
+        SpinBoxToreXcent->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreXcent, 0, 1, 1, 1);
+
+        TLToreXaxe = new QLabel(gBTore);
+        TLToreXaxe->setObjectName(QString::fromUtf8("TLToreXaxe"));
+        sizePolicy.setHeightForWidth(TLToreXaxe->sizePolicy().hasHeightForWidth());
+        TLToreXaxe->setSizePolicy(sizePolicy);
+        TLToreXaxe->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreXaxe, 0, 2, 1, 1);
+
+        SpinBoxToreXaxe = new QDoubleSpinBox(gBTore);
+        SpinBoxToreXaxe->setObjectName(QString::fromUtf8("SpinBoxToreXaxe"));
+        SpinBoxToreXaxe->setDecimals(5);
+        SpinBoxToreXaxe->setMinimum(-1e+09);
+        SpinBoxToreXaxe->setMaximum(1e+09);
+        SpinBoxToreXaxe->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreXaxe, 0, 3, 1, 1);
+
+        TLToreYcent = new QLabel(gBTore);
+        TLToreYcent->setObjectName(QString::fromUtf8("TLToreYcent"));
+        sizePolicy.setHeightForWidth(TLToreYcent->sizePolicy().hasHeightForWidth());
+        TLToreYcent->setSizePolicy(sizePolicy);
+        TLToreYcent->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreYcent, 1, 0, 1, 1);
+
+        SpinBoxToreYcent = new QDoubleSpinBox(gBTore);
+        SpinBoxToreYcent->setObjectName(QString::fromUtf8("SpinBoxToreYcent"));
+        SpinBoxToreYcent->setDecimals(5);
+        SpinBoxToreYcent->setMinimum(-1e+09);
+        SpinBoxToreYcent->setMaximum(1e+09);
+        SpinBoxToreYcent->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreYcent, 1, 1, 1, 1);
+
+        TLToreYaxe = new QLabel(gBTore);
+        TLToreYaxe->setObjectName(QString::fromUtf8("TLToreYaxe"));
+        sizePolicy.setHeightForWidth(TLToreYaxe->sizePolicy().hasHeightForWidth());
+        TLToreYaxe->setSizePolicy(sizePolicy);
+        TLToreYaxe->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreYaxe, 1, 2, 1, 1);
+
+        SpinBoxToreYaxe = new QDoubleSpinBox(gBTore);
+        SpinBoxToreYaxe->setObjectName(QString::fromUtf8("SpinBoxToreYaxe"));
+        SpinBoxToreYaxe->setDecimals(5);
+        SpinBoxToreYaxe->setMinimum(-1e+09);
+        SpinBoxToreYaxe->setMaximum(1e+09);
+        SpinBoxToreYaxe->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreYaxe, 1, 3, 1, 1);
+
+        TLToreZcent = new QLabel(gBTore);
+        TLToreZcent->setObjectName(QString::fromUtf8("TLToreZcent"));
+        sizePolicy.setHeightForWidth(TLToreZcent->sizePolicy().hasHeightForWidth());
+        TLToreZcent->setSizePolicy(sizePolicy);
+        TLToreZcent->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreZcent, 2, 0, 1, 1);
+
+        SpinBoxToreZcent = new QDoubleSpinBox(gBTore);
+        SpinBoxToreZcent->setObjectName(QString::fromUtf8("SpinBoxToreZcent"));
+        SpinBoxToreZcent->setDecimals(5);
+        SpinBoxToreZcent->setMinimum(-1e+09);
+        SpinBoxToreZcent->setMaximum(1e+09);
+        SpinBoxToreZcent->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreZcent, 2, 1, 1, 1);
+
+        TLToreZaxe = new QLabel(gBTore);
+        TLToreZaxe->setObjectName(QString::fromUtf8("TLToreZaxe"));
+        sizePolicy.setHeightForWidth(TLToreZaxe->sizePolicy().hasHeightForWidth());
+        TLToreZaxe->setSizePolicy(sizePolicy);
+        TLToreZaxe->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreZaxe, 2, 2, 1, 1);
+
+        SpinBoxToreZaxe = new QDoubleSpinBox(gBTore);
+        SpinBoxToreZaxe->setObjectName(QString::fromUtf8("SpinBoxToreZaxe"));
+        SpinBoxToreZaxe->setDecimals(5);
+        SpinBoxToreZaxe->setMinimum(-1e+09);
+        SpinBoxToreZaxe->setMaximum(1e+09);
+        SpinBoxToreZaxe->setValue(0);
+
+        gridLayout_4->addWidget(SpinBoxToreZaxe, 2, 3, 1, 1);
+
+        TLToreRayRev = new QLabel(gBTore);
+        TLToreRayRev->setObjectName(QString::fromUtf8("TLToreRayRev"));
+        sizePolicy.setHeightForWidth(TLToreRayRev->sizePolicy().hasHeightForWidth());
+        TLToreRayRev->setSizePolicy(sizePolicy);
+        TLToreRayRev->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreRayRev, 3, 0, 1, 1);
+
+        SpinBoxToreRRev = new QDoubleSpinBox(gBTore);
+        SpinBoxToreRRev->setObjectName(QString::fromUtf8("SpinBoxToreRRev"));
+        SpinBoxToreRRev->setDecimals(5);
+        SpinBoxToreRRev->setMaximum(1e+09);
+
+        gridLayout_4->addWidget(SpinBoxToreRRev, 3, 1, 1, 1);
+
+        TLToreRayPri = new QLabel(gBTore);
+        TLToreRayPri->setObjectName(QString::fromUtf8("TLToreRayPri"));
+        sizePolicy.setHeightForWidth(TLToreRayPri->sizePolicy().hasHeightForWidth());
+        TLToreRayPri->setSizePolicy(sizePolicy);
+        TLToreRayPri->setWordWrap(false);
+
+        gridLayout_4->addWidget(TLToreRayPri, 3, 2, 1, 1);
+
+        SpinBoxToreRPri = new QDoubleSpinBox(gBTore);
+        SpinBoxToreRPri->setObjectName(QString::fromUtf8("SpinBoxToreRPri"));
+        SpinBoxToreRPri->setDecimals(5);
+        SpinBoxToreRPri->setMaximum(1e+09);
+
+        gridLayout_4->addWidget(SpinBoxToreRPri, 3, 3, 1, 1);
+
+
+        gridLayout_5->addWidget(gBTore, 5, 0, 1, 2);
 
         GBButtons = new QGroupBox(CreateBoundaryAn);
         GBButtons->setObjectName(QString::fromUtf8("GBButtons"));
@@ -564,7 +734,7 @@ public:
         gridLayout3->addWidget(buttonOk, 0, 0, 1, 1);
 
 
-        gridLayout_4->addWidget(GBButtons, 5, 0, 1, 2);
+        gridLayout_5->addWidget(GBButtons, 6, 0, 1, 2);
 
 
         retranslateUi(CreateBoundaryAn);
@@ -580,6 +750,7 @@ public:
         RBCylindre->setText(QApplication::translate("CreateBoundaryAn", "Cylinder", 0, QApplication::UnicodeUTF8));
         RBSphere->setText(QApplication::translate("CreateBoundaryAn", "Sphere", 0, QApplication::UnicodeUTF8));
         RBCone->setText(QApplication::translate("CreateBoundaryAn", "Cone", 0, QApplication::UnicodeUTF8));
+        RBTore->setText(QApplication::translate("CreateBoundaryAn", "Torus", 0, QApplication::UnicodeUTF8));
         gBCylindre->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
         TLXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
         TLradius->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0, QApplication::UnicodeUTF8));
@@ -605,6 +776,15 @@ public:
         TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z 2", 0, QApplication::UnicodeUTF8));
         TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "V 1", 0, QApplication::UnicodeUTF8));
         TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "V 2", 0, QApplication::UnicodeUTF8));
+        gBTore->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
+        TLToreXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
+        TLToreXaxe->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
+        TLToreYcent->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
+        TLToreYaxe->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0, QApplication::UnicodeUTF8));
+        TLToreZcent->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
+        TLToreZaxe->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0, QApplication::UnicodeUTF8));
+        TLToreRayRev->setText(QApplication::translate("CreateBoundaryAn", "R revolution", 0, QApplication::UnicodeUTF8));
+        TLToreRayPri->setText(QApplication::translate("CreateBoundaryAn", "Primary R", 0, QApplication::UnicodeUTF8));
         GBButtons->setTitle(QString());
         buttonHelp->setText(QApplication::translate("CreateBoundaryAn", "Help", 0, QApplication::UnicodeUTF8));
         buttonCancel->setText(QApplication::translate("CreateBoundaryAn", "Cancel", 0, QApplication::UnicodeUTF8));

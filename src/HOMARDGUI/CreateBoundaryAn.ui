@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
-    <height>701</height>
+    <width>522</width>
+    <height>835</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4">
+  <layout class="QGridLayout" name="gridLayout_5">
    <item row="0" column="0">
     <widget class="QLabel" name="Name">
      <property name="text">
@@ -88,6 +88,23 @@
         <property name="icon">
          <iconset>
           <normaloff>../../resources/cone.png</normaloff>../../resources/cone.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QRadioButton" name="RBTore">
+        <property name="text">
+         <string>Torus</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../resources/toruspointvector.png</normaloff>../../resources/toruspointvector.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -739,7 +756,7 @@
       <item row="4" column="1">
        <widget class="QDoubleSpinBox" name="SpinBox_Cone_V1">
         <property name="decimals">
-         <number>14</number>
+         <number>5</number>
         </property>
         <property name="maximum">
          <double>1000000000.000000000000000</double>
@@ -765,7 +782,7 @@
       <item row="4" column="3">
        <widget class="QDoubleSpinBox" name="SpinBox_Cone_V2">
         <property name="decimals">
-         <number>14</number>
+         <number>5</number>
         </property>
         <property name="maximum">
          <double>1000000000.000000000000000</double>
@@ -776,6 +793,265 @@
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
+    <widget class="QGroupBox" name="gBTore">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Coordinates</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QLabel" name="TLToreXcent">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>X centre</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreXcent">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="TLToreXaxe">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>X axis</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreXaxe">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="TLToreYcent">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Y centre</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreYcent">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="TLToreYaxe">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Y axis</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreYaxe">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="TLToreZcent">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Z centre</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreZcent">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="TLToreZaxe">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Z axis</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreZaxe">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-999999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>999999999.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="TLToreRayRev">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>R revolution</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreRRev">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="maximum">
+         <double>1000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="TLToreRayPri">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Primary R</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QDoubleSpinBox" name="SpinBoxToreRPri">
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="maximum">
+         <double>1000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
     <widget class="QGroupBox" name="GBButtons">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

@@ -657,6 +657,8 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
   { saux += "# Sphere\n" ; }
   if ( BoundaryType == 3 || BoundaryType == 4 )
   { saux += "# Cone\n" ; }
+  if ( BoundaryType == 5 )
+  { saux += "# Tore\n" ; }
 //
 // Le nom de la frontiere
 //
@@ -794,6 +796,45 @@ void HomardDriver::TexteBoundaryAn( const std::string NameBoundary, int NumeBoun
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x6 ;
       saux += "FAZCen2 " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x7 ;
+      saux += "FARayon2 " + saux1.str() + "\n" ;
+    }
+ }
+//
+// Cas du tore
+//
+  if ( BoundaryType == 5 )
+  {
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x0 ;
+      saux2 = saux1.str() ;
+      saux += "FAXCen " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x1 ;
+      saux += "FAYCen " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x2 ;
+      saux += "FAZCen " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x3 ;
+      saux += "FAXAxe " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x4 ;
+      saux += "FAYAxe " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x5 ;
+      saux += "FAZAxe " + saux1.str() + "\n" ;
+    }
+    { std::stringstream saux1 ;
+      saux1 << NumeBoundary << " " << x6 ;
+      saux += "FARayon  " + saux1.str() + "\n" ;
     }
     { std::stringstream saux1 ;
       saux1 << NumeBoundary << " " << x7 ;
