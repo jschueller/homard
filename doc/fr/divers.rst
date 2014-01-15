@@ -57,4 +57,9 @@ SALOME VERSION 7.3 :
       ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)`` : interpole le champ au pas de temps TimeStep et au numéro d'ordre Rank (voir :ref:`tui_create_iteration`)
     - Arrêt en cas d'erreur dans les données des instructions python
 
+SALOME VERSION 7.4 :
+    - Grandes fenêtres avec ascenseur
+    - Publication des maillages à la demande
+    - Suivi de frontière analytique torique
+
 

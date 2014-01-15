@@ -56,3 +56,8 @@ SALOME VERSION 7.3:
       ``SetFieldInterpTimeStep(FieldInterp, TimeStep)``: defines the time step for the interpolation of the field (see :ref:`tui_create_iteration`)
       ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)``: defines the time step and the rank for the interpolation of the field (see :ref:`tui_create_iteration`)
     - If error occurs into the python instructions, the program stops.
+
+SALOME VERSION 7.4 :
+    - Scroll bar for the large windows
+    - The meshes are published only if requested
+    - The torus is a new possibility for the analytical boundary
