@@ -45,7 +45,7 @@ Au démarrage, SALOME affiche un tableau avec un seule colonne. Cette colonne con
 .. image:: images/create_boundary_an_1.png
    :align: center
 
-Il faut créer une première frontière analytique par activation du bouton "*Nouveau*". On aura le choix entre cylindre, sphère ou cône. Une fois que la frontière sera validée, son nom figurera en en-tête d'une deuxième colonne.
+Il faut créer une première frontière analytique par activation du bouton "*Nouveau*". On aura le choix entre cylindre, sphère, cône ou tore. Une fois que la frontière sera validée, son nom figurera en en-tête d'une deuxième colonne.
 
 .. image:: images/create_boundary_an_2.png
    :align: center
@@ -76,6 +76,7 @@ Il existe trois types de frontière analytique :
   - Cylindre
   - Sphère
   - Cône, décrit par un axe et un angle ou par deux rayons
+  - Tore
 
 .. note::
   Les valeurs numériques proposées par défaut tiennent compte de la géométrie du maillage.
@@ -113,6 +114,15 @@ Création par une origine, un axe et un angle d'ouverture :
 Création par deux points centrés sur l'axe et le rayon associé :
 
 .. image:: images/create_boundary_an_co_2.png
+   :align: center
+
+Un tore
+=======
+.. index:: single: tore
+
+Le tore est défini par son centre, son axe, le rayon de révolution et le rayon primaire. L'axe est défini par un vecteur. La norme de ce vecteur n'est pas nécessairement égale à 1 ; de même, son orientation n'a aucune importance. Un nom de frontière est proposé automatiquement : Boun_1, Boun_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour une autre frontière.
+
+.. image:: images/create_boundary_an_to.png
    :align: center
 
 L'arbre d'étude

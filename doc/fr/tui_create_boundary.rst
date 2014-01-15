@@ -69,6 +69,18 @@ Ces méthodes retournent une instance de la classe boundary.
 |     - ``Xc2``, ``Yc2``, ``Zc2`` : coordonnées du second centre du cône                 |
 |     - ``R2`` : rayon du cône à la hauteur du second centre                             |
 +----------------------------------------------------------------------------------------+
+| .. module:: CreateBoundaryTorus                                                        |
+|                                                                                        |
+| **CreateBoundaryTorus(boundary_name, Xcen, Ycen, Zcen, Xaxe, Yaxe, Zaxe, RRev, RPri)** |
+|     Retourne une instance de la classe ``boundary`` analytique de type torique         |
+|     après sa création                                                                  |
+|                                                                                        |
+|     - ``boundary_name`` : le nom de la frontière analytique basée sur un tore          |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre du tore                     |
+|     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe                                  |
+|     - ``RRev`` : rayon de révolution du tore                                           |
+|     - ``RPri`` : rayon primaire du tore                                                |
++----------------------------------------------------------------------------------------+
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -135,6 +147,7 @@ Méthodes de la classe boundary
 |         * 2 : sphère                                          |
 |         * 3 : cône défini par un axe et un angle              |
 |         * 4 : cône défini par deux rayons                     |
+|         * 5 : tore                                            |
 +---------------------------------------------------------------+
 | .. module:: GetCoords                                         |
 |                                                               |

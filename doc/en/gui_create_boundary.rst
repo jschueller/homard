@@ -45,7 +45,7 @@ In the starting up, SALOME shows a table with one only one column. This column c
 .. image:: images/create_boundary_an_1.png
    :align: center
 
-It is necessary to create a first analytical boundary by activation of the button "*New*". We shall have the choice between cylinder, sphere or cone. When the boundary will be validated, its name will appear in header of the second column.
+It is necessary to create a first analytical boundary by activation of the button "*New*". We shall have the choice between cylinder, sphere, cone or torus. When the boundary will be validated, its name will appear in header of the second column.
 
 .. image:: images/create_boundary_an_2.png
    :align: center
@@ -76,6 +76,7 @@ There are three types of analytical boundary:
   - Cylindre
   - Sphere
   - Cone, described by an axis and an angle or by two radius
+  - Torus
 
 .. note::
   The numerical values proposed by default take into account the geometry of the mesh.
@@ -116,6 +117,15 @@ Creation by two points centered on the axis and the associated radius:
    :align: center
 
 .. index:: single: object browser
+
+Torus
+=====
+.. index:: single: torus
+
+The torus is defined by its centre, its axis, the revolution radius and the primary radius. The axis is defined by a vector. The standard of this vector is not inevitably equal to 1; also, its orientation has no importance. A name of boundary is automatically proposed: Boun_1, Boun_2, etc. This name can be modified. It must not already have been used for another boundary.
+
+.. image:: images/create_boundary_an_to.png
+   :align: center
 
 Object browser
 **************
