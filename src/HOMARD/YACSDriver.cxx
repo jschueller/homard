@@ -365,7 +365,7 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
     TexteParametre( node, "Radius", "double", x7 ) ;
   }
 //
-// 4.2. Cas d un cone defini par un axe et un angle
+// 4.3. Cas d un cone defini par un axe et un angle
   else if ( BoundaryType == 3 )
   {
     _Texte += Texte_inport( "double", "Xaxis" ) ;
@@ -384,7 +384,7 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
     TexteParametre( node, "Zcentre", "double", x7 ) ;
   }
 //
-// 4.2. Cas d un cone defini par les 2 rayons
+// 4.4. Cas d un cone defini par les 2 rayons
   else if ( BoundaryType == 4 )
   {
     _Texte += Texte_inport( "double", "Xcentre1" ) ;
@@ -403,6 +403,26 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
     TexteParametre( node, "Ycentre2", "double", x5 ) ;
     TexteParametre( node, "Zcentre2", "double", x6 ) ;
     TexteParametre( node, "Radius2", "double", x7 ) ;
+  }
+// 4.5. Cas du tore (5)
+  else if ( BoundaryType == 5 )
+  {
+    _Texte += Texte_inport( "double", "Xcentre" ) ;
+    _Texte += Texte_inport( "double", "Ycentre" ) ;
+    _Texte += Texte_inport( "double", "Zcentre" ) ;
+    _Texte += Texte_inport( "double", "Xaxis" ) ;
+    _Texte += Texte_inport( "double", "Yaxis" ) ;
+    _Texte += Texte_inport( "double", "Zaxis" ) ;
+    _Texte += Texte_inport( "double", "RRev" ) ;
+    _Texte += Texte_inport( "double", "RPri" ) ;
+    TexteParametre( node, "Xcentre", "double", x0 ) ;
+    TexteParametre( node, "Ycentre", "double", x1 ) ;
+    TexteParametre( node, "Zcentre", "double", x2 ) ;
+    TexteParametre( node, "Xaxis", "double", x3 ) ;
+    TexteParametre( node, "Yaxis", "double", x4 ) ;
+    TexteParametre( node, "Zaxis", "double", x5 ) ;
+    TexteParametre( node, "RRev", "double", x6 ) ;
+    TexteParametre( node, "RPri", "double", x7 ) ;
   }
 //
 // 4.2. Erreur
