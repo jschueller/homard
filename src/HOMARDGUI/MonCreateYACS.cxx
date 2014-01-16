@@ -262,8 +262,8 @@ void MonCreateYACS::PushOnOK()
 void MonCreateYACS::PushOnHelp()
 //-------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("yacs.html"), QString(""), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("yacs.html"), QString(""), QString(LanguageShort.c_str()));
 }
 // -------------------------------------------------
 void MonCreateYACS::SetNewName()

@@ -95,8 +95,11 @@ private:
    int anId;
    QString _ObjectName;
    QString _LanguageShort ;
-   bool _publish_mesh_in ;
-   bool _publish_mesh_out ;
+   int _PublisMeshIN ;
+   int _PublisMeshOUT ;
+   int _YACSMaxIter ;
+   int _YACSMaxNode ;
+   int _YACSMaxElem ;
 };
 
 #endif

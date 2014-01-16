@@ -4997,7 +4997,7 @@ void HOMARD_Gen_i::SetPreferences( )
   bool ok = true ;
 
   // A. Les valeurs par defaut ; elles doivent etre coherentes
-  std::string LanguageShort = "fr" ;
+  std::string LanguageShort = "en" ;
   int PublisMeshIN = 0 ;
   int PublisMeshOUT = 0 ;
   int YACSMaxIter = 0 ;
@@ -5078,7 +5078,7 @@ void HOMARD_Gen_i::SetPreferences( )
           ligne_bis >> mot_cle ;
           std::string chaine2 = GetStringInTexte ( mot_cle, "\"", 1 ) ;
           chaine2 = GetStringInTexte ( chaine2,  "\"", 0 ) ;
-//           MESSAGE("chaine2 = "<<chaine2<<"|");
+          MESSAGE("chaine2 = "<<chaine2<<"|");
           // 3.1. La langue
           if ( section_langue )
           { if ( chaine2 == "language" ) { LanguageShort = chaine ; } }
@@ -5090,9 +5090,9 @@ void HOMARD_Gen_i::SetPreferences( )
             if ( chaine2 == "publish_mesh_in" )  { chainebis >> PublisMeshIN ; }
             if ( chaine2 == "publish_mesh_out" ) { chainebis >> PublisMeshOUT ; }
             // 3.2.2. Les maximum pour YACS
-            if ( chaine2 == "max_iter" ) { chainebis >> YACSMaxIter ; }
-            if ( chaine2 == "max_node" ) { chainebis >> YACSMaxNode ; }
-            if ( chaine2 == "max_elem" ) { chainebis >> YACSMaxElem ; }
+            if ( chaine2 == "yacs_max_iter" ) { chainebis >> YACSMaxIter ; }
+            if ( chaine2 == "yacs_max_node" ) { chainebis >> YACSMaxNode ; }
+            if ( chaine2 == "yacs_max_elem" ) { chainebis >> YACSMaxElem ; }
           }
         }
       }

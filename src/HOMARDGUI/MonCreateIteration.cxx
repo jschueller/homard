@@ -190,8 +190,8 @@ void MonCreateIteration::PushOnOK()
 void MonCreateIteration::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_iteration.html"), QString(""), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_iteration.html"), QString(""), QString(LanguageShort.c_str()));
 }
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetIterParentName()

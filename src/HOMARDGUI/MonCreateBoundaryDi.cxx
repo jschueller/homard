@@ -139,8 +139,8 @@ void MonCreateBoundaryDi::PushOnOK()
 void MonCreateBoundaryDi::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"), QString(LanguageShort.c_str()));
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryDi::AssocieLesGroupes()

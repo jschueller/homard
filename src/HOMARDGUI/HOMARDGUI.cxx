@@ -91,8 +91,6 @@ HOMARDGUI::HOMARDGUI(const QString&) :
            SalomeApp_Module( "HOMARD" ) // default name
 {
 }
-
-
 //=======================================================================
 // function : ~HOMARDGUI()
 // purpose  : Destructor
@@ -201,17 +199,17 @@ void HOMARDGUI::createPreferences()
   Bloc = addPreference( tr( "PREF_YACS_MAX" ), Onglet );
   setPreferenceProperty( Bloc, "columns", 1 );
 
-  Pref = addPreference( tr( "PREF_YACS_MAX_ITER" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_iter" );
+  Pref = addPreference( tr( "PREF_YACS_MAX_ITER" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "yacs_max_iter" );
   setPreferenceProperty( Pref, "min",  0 );
   setPreferenceProperty( Pref, "max",  100000000 );
   setPreferenceProperty( Pref, "step", 1 );
 
-  Pref = addPreference( tr( "PREF_YACS_MAX_NODE" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_node" );
+  Pref = addPreference( tr( "PREF_YACS_MAX_NODE" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "yacs_max_node" );
   setPreferenceProperty( Pref, "min",  0 );
   setPreferenceProperty( Pref, "max",  100000000 );
   setPreferenceProperty( Pref, "step", 1000 );
 
-  Pref = addPreference( tr( "PREF_YACS_MAX_ELEM" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "max_elem" );
+  Pref = addPreference( tr( "PREF_YACS_MAX_ELEM" ), Bloc, LightApp_Preferences::IntSpin, "HOMARD", "yacs_max_elem" );
   setPreferenceProperty( Pref, "min",  0 );
   setPreferenceProperty( Pref, "max",  100000000 );
   setPreferenceProperty( Pref, "step", 1000 );
@@ -253,31 +251,66 @@ void HOMARDGUI::createMenus()
 
 //================================================
 // function : recupPreferences
+// Pour chaque valeur, le defaut est la valeur definie dans HOMARD_Gen
+// . Si la recuperation dans config/salome s'est bien passee a la creation de HOMARD_Gen,
+//   ces valeurs sont les valeurs definies.
+// . Si cela ne s'est pas bien passe, ce sont les valeurs par defaut de HOMARD_Gen
 //================================================
 void HOMARDGUI::recupPreferences()
 {
   MESSAGE("recupPreferences")
 //
-// . La langue
-  SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
-  _LanguageShort = resMgr->stringValue("language", "language", "en");
-  MESSAGE("_LanguageShort " << _LanguageShort.toStdString().c_str() );
+// A. Declarations
 //
-// . Les publications
-  _publish_mesh_in = resMgr->booleanValue("HOMARD", "publish_mesh_in", false );
-  int pu_m_in = 0 ;
-  if ( _publish_mesh_in ) pu_m_in = 1 ;
-//
-  _publish_mesh_out = resMgr->booleanValue("HOMARD", "publish_mesh_out", false );
-  int pu_m_out = 0 ;
-  if ( _publish_mesh_out ) pu_m_out = 1 ;
-  MESSAGE("_publish_mesh_in " << _publish_mesh_in << ", _publish_mesh_out " << _publish_mesh_out );
-//
-// . Enregistrement dans l'objet general
   SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
   HOMARD::HOMARD_Gen_var homardGen = HOMARDGUI::InitHOMARDGen(app);
+  int defaut_i ;
+  std::string defaut_s ;
+//
+// B. Les valeurs
+// B.1. La langue
+//
+  defaut_s = homardGen->GetLanguageShort();
+  SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
+  _LanguageShort = resMgr->stringValue("language", "language", QString(defaut_s.c_str()));
+//
+// B.2. Les publications
+  bool publish_mesh ;
+//
+  _PublisMeshIN = homardGen->GetPublisMeshIN();
+  if ( _PublisMeshIN == 1 ) { publish_mesh = true ;  }
+  else                      { publish_mesh = false ; }
+  publish_mesh = resMgr->booleanValue("HOMARD", "publish_mesh_in", publish_mesh );
+  if ( publish_mesh ) { _PublisMeshIN = 1 ; }
+  else                { _PublisMeshIN = 0 ; }
+//
+  _PublisMeshOUT = homardGen->GetPublisMeshOUT();
+  if ( _PublisMeshOUT == 1 ) { publish_mesh = true ;  }
+  else                       { publish_mesh = false ; }
+  publish_mesh = resMgr->booleanValue("HOMARD", "publish_mesh_out", publish_mesh );
+  if ( publish_mesh ) { _PublisMeshOUT = 1 ; }
+  else                { _PublisMeshOUT = 0 ; }
+//
+// B.3. Les maximum pour YACS
+//
+  defaut_i = homardGen->GetYACSMaxIter();
+  _YACSMaxIter = resMgr->integerValue("HOMARD", "yacs_max_iter", defaut_i );
+//
+  defaut_i = homardGen->GetYACSMaxNode();
+  _YACSMaxNode = resMgr->integerValue("HOMARD", "yacs_max_node", defaut_i );
+//
+  defaut_i = homardGen->GetYACSMaxElem();
+  _YACSMaxElem = resMgr->integerValue("HOMARD", "yacs_max_elem", defaut_i );
+//
+// C. Enregistrement dans l'objet general
+//
+  MESSAGE ("Enregistrement de LanguageShort = " << _LanguageShort.toStdString().c_str() );
+  MESSAGE ("Enregistrement de PublisMeshIN = " << _PublisMeshIN<<", PublisMeshOUT = "<< _PublisMeshOUT);
+  MESSAGE ("Enregistrement de YACSMaxIter = " << _YACSMaxIter<<", YACSMaxNode = "<< _YACSMaxNode<<", YACSMaxElem = "<< _YACSMaxElem);
+//
   homardGen->SetLanguageShort(_LanguageShort.toStdString().c_str());
-  homardGen->SetPublisMesh(pu_m_in, pu_m_out);
+  homardGen->SetPublisMesh(_PublisMeshIN, _PublisMeshOUT);
+  homardGen->SetYACSMaximum(_YACSMaxIter, _YACSMaxNode, _YACSMaxElem);
 }
 
 //================================================
@@ -287,13 +320,10 @@ void HOMARDGUI::OnGUIEvent()
   MESSAGE("OnGUIEvent()")
   setOrb();
   const QObject* obj = sender();
-  if ( !obj || !obj->inherits( "QAction" ) )
-       return;
+  if ( !obj || !obj->inherits( "QAction" ) ) { return; }
   int id = actionId((QAction*)obj);
-  bool ret;
-  if ( id != -1 )
-      ret = OnGUIEvent( id );
-  MESSAGE("************** End of OnGUIEvent()");
+  if ( id != -1 ) { bool ret = OnGUIEvent( id ); }
+  MESSAGE("Fin de OnGUIEvent()");
 }
 
 //=======================================================================
@@ -302,11 +332,13 @@ void HOMARDGUI::OnGUIEvent()
 bool HOMARDGUI::OnGUIEvent (int theCommandID)
 {
   MESSAGE("OnGUIEvent avec theCommandID = "<<theCommandID);
+// A. Controles
   SalomeApp_Application* app = dynamic_cast< SalomeApp_Application* >( application() );
   if ( !app ) return false;
 
   SalomeApp_Study* stud = dynamic_cast<SalomeApp_Study*> ( app->activeStudy() );
-  if ( !stud ) {
+  if ( !stud )
+  {
     MESSAGE ( "FAILED to cast active study to SalomeApp_Study" );
     return false;
   }
@@ -326,7 +358,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
    }
   getApp()->updateObjectBrowser();
 
-
+// B. Choix selon les commandes
   SCRUTE(theCommandID);
   switch (theCommandID)
   {

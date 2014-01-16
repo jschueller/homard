@@ -200,6 +200,7 @@ module HOMARD
 //
 
 //
+//  La creation des schemas YACS
     HOMARD_YACS CreateYACSSchema(in string YACSName, in string CaseName, in string ScriptFile, in string DirName, in string MeshFile)
     raises(SALOME::SALOME_Exception);
     long YACSWrite (in string YACSName)                    raises (SALOME::SALOME_Exception);
@@ -207,12 +208,18 @@ module HOMARD
     raises(SALOME::SALOME_Exception);
 
 //
+//  Les preferences
     void SetLanguageShort (in string LanguageShort)        raises (SALOME::SALOME_Exception);
     string GetLanguageShort ()                             raises (SALOME::SALOME_Exception);
     void SetPublisMesh (in long PublisMeshIN, in long PublisMeshOUT)
     raises (SALOME::SALOME_Exception);
     long GetPublisMeshIN ()                                raises (SALOME::SALOME_Exception);
     long GetPublisMeshOUT ()                               raises (SALOME::SALOME_Exception);
+    void SetYACSMaximum(in long YACSMaxIter, in long YACSMaxNode, in long YACSMaxElem)
+    raises (SALOME::SALOME_Exception);
+    long GetYACSMaxIter()                                  raises (SALOME::SALOME_Exception);
+    long GetYACSMaxNode()                                  raises (SALOME::SALOME_Exception);
+    long GetYACSMaxElem()                                  raises (SALOME::SALOME_Exception);
   };
 };
 

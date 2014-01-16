@@ -316,8 +316,8 @@ void MonCreateCase::PushOnOK()
 void MonCreateCase::PushOnHelp()
 //-------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_case.html"), QString(""), QString(LanguageShort.c_str()));
 }
 // ---------------------------------
 void MonCreateCase::SetNewName()
@@ -443,8 +443,8 @@ void MonCreateCase::PushBoundaryDiEdit()
 void MonCreateCase::PushBoundaryDiHelp()
 // ------------------------------------------------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-discrete"), QString(LanguageShort.c_str()));
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryA()
@@ -523,8 +523,8 @@ void MonCreateCase::PushBoundaryAnEdit()
 void MonCreateCase::PushBoundaryAnHelp()
 // ------------------------------------------------------------------------
 {
-  char* LanguageShort = myHomardGen->GetLanguageShort();
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-analytique"), QString(LanguageShort));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("frontiere-analytique"), QString(LanguageShort.c_str()));
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::CaseNameChanged()
