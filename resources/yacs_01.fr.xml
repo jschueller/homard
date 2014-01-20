@@ -106,7 +106,7 @@ global resu1
 NumCalcP1 = NumCalc + 1
 FileName = " "
 #
-NbCalcMax = 5
+Analyse_Test_Convergence
 #
 MessInfo = None
 Error = 0
@@ -150,10 +150,11 @@ while not Error :
 #
 # Si on depasse le maximum, on arrete :
 #
-    if NumCalc > NbCalcMax :
-        MessInfo = "La limite en nombre de calculs a ete atteinte : %d" % NbCalcMax
-        Error = -1
-        break
+    if MaxIter > 0 :
+      if NumCalc >= MaxIter :
+          MessInfo = "La limite en nombre de calculs a ete atteinte : %d" % (MaxIter+1)
+          Error = -1
+          break
 #
     break
 ]]></code></script>

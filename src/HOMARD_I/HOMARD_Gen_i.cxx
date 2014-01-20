@@ -628,6 +628,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
       if (!so->FindAttribute(anAttr, "AttributeComment")) continue;
       SALOMEDS::AttributeComment_var aCommentAttr = SALOMEDS::AttributeComment::_narrow(anAttr);
       std::string value (aCommentAttr->Value());
+      if(value == std::string("IterationHomard")) continue;
       if(value == std::string("HypoHomard")) continue;
       SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
       aStudyBuilder->RemoveObject(so);
@@ -716,6 +717,47 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
     es.text = "The directory for the calculation cannot be cleared." ;
+    throw SALOME::SALOME_Exception(es);
+    return ;
+  }
+}
+//=============================================================================
+void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
+{
+  MESSAGE( "InvalideYACS : YACSName    = " << YACSName );
+  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[YACSName];
+  if (CORBA::is_nil(myYACS))
+  {
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = "Invalid schema YACS";
+      throw SALOME::SALOME_Exception(es);
+      return ;
+  };
+  //
+  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  SALOMEDS::ChildIterator_var  aYACS = myCurrentStudy->NewChildIterator(aYACSSO);
+  for (; aYACS->More(); aYACS->Next())
+  {
+    SALOMEDS::SObject_var so = aYACS->Value();
+    SALOMEDS::GenericAttribute_var anAttr;
+    if (!so->FindAttribute(anAttr, "AttributeComment")) continue;
+    SALOMEDS::AttributeComment_var aCommentAttr = SALOMEDS::AttributeComment::_narrow(anAttr);
+    std::string value (aCommentAttr->Value());
+    if( value == std::string("xml") )
+    {
+      SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+      aStudyBuilder->RemoveObject(so);
+    }
+  }
+  std::string nomFichier = myYACS->GetXMLFile();
+  std::string commande = "rm -rf " + std::string(nomFichier) ;
+  MESSAGE ( "commande = " << commande );
+  if ((system(commande.c_str())) != 0)
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "The XML file for the schema YACS cannot be removed." ;
     throw SALOME::SALOME_Exception(es);
     return ;
   }
@@ -4013,9 +4055,17 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   myYACS->SetScriptFile( ScriptFile ) ;
   myYACS->SetCaseName( nomCas ) ;
   // D.2. Defaut
+  int defaut_i ;
   // D.2.1. Type constant
   myYACS->SetType( 1 ) ;
-  // D.2.2. Fichier de sauvegarde dans le repertoire du cas
+  // D.2.2. Convergence
+  defaut_i = GetYACSMaxIter() ;
+  myYACS->SetMaxIter( defaut_i ) ;
+  defaut_i = GetYACSMaxNode() ;
+  myYACS->SetMaxNode( defaut_i ) ;
+  defaut_i = GetYACSMaxElem() ;
+  myYACS->SetMaxElem( defaut_i ) ;
+  // D.3. Fichier de sauvegarde dans le repertoire du cas
   HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(nomCas) ;
   std::string dirnamecase = caseyacs->GetDirName() ;
   std::string XMLFile ;
@@ -4059,6 +4109,10 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   std::string DirName = myYACS->GetDirName() ;
   std::string MeshFile = myYACS->GetMeshFile() ;
   std::string ScriptFile = myYACS->GetScriptFile() ;
+  // B.3. Les caracteristiques de convergence
+  int MaxIter = myYACS->GetMaxIter() ;
+  int MaxNode = myYACS->GetMaxNode() ;
+  int MaxElem = myYACS->GetMaxElem() ;
 
   // C. Le cas
   // C.1. L'objet cas
@@ -4178,7 +4232,10 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
         texte_control += YACSDriverTexteBoundary( myCase, myDriver ) ;
         myDriver->TexteAdd(texte_control);
       }
-      // G.1.10. Les parametres
+      // G.1.10. Les tests de convergence
+      else if ( mot_cle == "Analyse_Test_Convergence" )
+      { myDriver->TexteAnalyse_Test_Convergence(MaxIter, MaxNode, MaxElem); }
+      // G.1.11. Les parametres
       else if ( mot_cle == "PARAMETRES" )
       { myDriver->TexteAddParametres(); }
       // G.1.n. La ligne est recopiee telle quelle

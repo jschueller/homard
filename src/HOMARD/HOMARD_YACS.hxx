@@ -55,6 +55,13 @@ public:
   void                          SetType( int Type );
   int                           GetType() const;
 
+  void                          SetMaxIter( int MaxIter );
+  int                           GetMaxIter() const;
+  void                          SetMaxNode( int MaxNode );
+  int                           GetMaxNode() const;
+  void                          SetMaxElem( int MaxElem );
+  int                           GetMaxElem() const;
+
   void                          SetDirName( const char* NomDir );
   std::string                   GetDirName() const;
 
@@ -81,6 +88,9 @@ private:
   std::string                   _MeshFile;
   std::string                   _ScriptFile;
   int                           _Type;
+  int                           _MaxIter;
+  int                           _MaxNode;
+  int                           _MaxElem;
   std::string                   _XMLFile;
 };
 

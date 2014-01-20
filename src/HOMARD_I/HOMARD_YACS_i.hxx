@@ -69,6 +69,13 @@ public:
   void                   SetType( CORBA::Long Type );
   CORBA::Long            GetType();
 
+  void                   SetMaxIter( CORBA::Long MaxIter );
+  CORBA::Long            GetMaxIter();
+  void                   SetMaxNode( CORBA::Long MaxNode );
+  CORBA::Long            GetMaxNode();
+  void                   SetMaxElem( CORBA::Long MaxElem );
+  CORBA::Long            GetMaxElem();
+
   void                   SetDirName( const char* NomDir );
   char*                  GetDirName();
 

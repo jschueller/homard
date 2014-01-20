@@ -44,8 +44,7 @@ HOMARD_YACS::HOMARD_YACS():
   _NomCas( "" ),
   _NomDir( "" ),
   _MeshFile( "" ),
-  _ScriptFile( "" ),
-  _Type( 1 )
+  _ScriptFile( "" )
 {
   MESSAGE("HOMARD_YACS");
 }
@@ -82,6 +81,10 @@ std::string HOMARD_YACS::GetDumpPython() const
   aScript << "\t" << _Name << " = " << _NomCas << ".CreateYACSSchema(\"" << _Name << "\", \"" << _ScriptFile << "\", \"" << _NomDir << "\", \"" << _MeshFile << "\")\n";
 // Le type de schema
   aScript << "\t" << _Name << ".SetType(" << _Type << ")\n";
+// Les controles de convergences
+  if ( _MaxIter > 0 ) { aScript << "\t" << _Name << ".SetMaxIter(" << _MaxIter << ")\n"; }
+  if ( _MaxNode > 0 ) { aScript << "\t" << _Name << ".SetMaxNode(" << _MaxNode << ")\n"; }
+  if ( _MaxElem > 0 ) { aScript << "\t" << _Name << ".SetMaxElem(" << _MaxElem << ")\n"; }
 
 // L'ecriture du schema
   aScript << "\tcodret = " << _Name << ".Write()\n";
@@ -103,6 +106,36 @@ void HOMARD_YACS::SetType( int Type )
 int HOMARD_YACS::GetType() const
 {
   return _Type;
+}
+//=============================================================================
+void HOMARD_YACS::SetMaxIter( int MaxIter )
+{
+  _MaxIter = MaxIter;
+}
+//=============================================================================
+int HOMARD_YACS::GetMaxIter() const
+{
+  return _MaxIter;
+}
+//=============================================================================
+void HOMARD_YACS::SetMaxNode( int MaxNode )
+{
+  _MaxNode = MaxNode;
+}
+//=============================================================================
+int HOMARD_YACS::GetMaxNode() const
+{
+  return _MaxNode;
+}
+//=============================================================================
+void HOMARD_YACS::SetMaxElem( int MaxElem )
+{
+  _MaxElem = MaxElem;
+}
+//=============================================================================
+int HOMARD_YACS::GetMaxElem() const
+{
+  return _MaxElem;
 }
 //=============================================================================
 void HOMARD_YACS::SetDirName( const char* NomDir )

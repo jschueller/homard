@@ -152,6 +152,7 @@ public:
   void                            InvalideIter(const char* nomIter);
   void                            InvalideIterOption(const char* nomIter, CORBA::Long Option);
   void                            InvalideIterInfo(const char* nomIter);
+  void                            InvalideYACS(const char* nomYACS);
   void                            InvalideZone(const char* nomZone);
 
   CORBA::Long                     DeleteBoundary(const char* nomBoundary);

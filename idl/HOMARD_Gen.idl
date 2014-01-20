@@ -157,6 +157,7 @@ module HOMARD
     void InvalideIter (in string IterName)                 raises (SALOME::SALOME_Exception);
     void InvalideIterOption (in string IterName, in long Option)
     raises(SALOME::SALOME_Exception);
+    void InvalideYACS (in string YacsName)                 raises (SALOME::SALOME_Exception);
     void InvalideZone (in string ZoneName)                 raises (SALOME::SALOME_Exception);
 
     long DeleteBoundary (in string BoundaryName)           raises (SALOME::SALOME_Exception);

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateYACS.ui'
 **
-** Created: Wed Jan 15 08:42:01 2014
+** Created: Mon Jan 20 13:23:30 2014
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -287,6 +287,7 @@ public:
         SpinBoxMaxNode->setObjectName(QString::fromUtf8("SpinBoxMaxNode"));
         SpinBoxMaxNode->setMinimum(0);
         SpinBoxMaxNode->setMaximum(999999999);
+        SpinBoxMaxNode->setSingleStep(1000);
         SpinBoxMaxNode->setValue(0);
 
         gridLayout_3->addWidget(SpinBoxMaxNode, 1, 1, 1, 1);
@@ -303,6 +304,7 @@ public:
         SpinBoxMaxElem->setObjectName(QString::fromUtf8("SpinBoxMaxElem"));
         SpinBoxMaxElem->setMinimum(0);
         SpinBoxMaxElem->setMaximum(999999999);
+        SpinBoxMaxElem->setSingleStep(1000);
         SpinBoxMaxElem->setValue(0);
 
         gridLayout_3->addWidget(SpinBoxMaxElem, 1, 3, 1, 1);

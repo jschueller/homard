@@ -49,6 +49,13 @@ module HOMARD
     void     SetType (in long Type)                        raises (SALOME::SALOME_Exception);
     long     GetType()                                     raises (SALOME::SALOME_Exception);
 
+    void     SetMaxIter (in long MaxIter)                  raises (SALOME::SALOME_Exception);
+    long     GetMaxIter()                                  raises (SALOME::SALOME_Exception);
+    void     SetMaxNode (in long MaxNode)                  raises (SALOME::SALOME_Exception);
+    long     GetMaxNode()                                  raises (SALOME::SALOME_Exception);
+    void     SetMaxElem (in long MaxElem)                  raises (SALOME::SALOME_Exception);
+    long     GetMaxElem()                                  raises (SALOME::SALOME_Exception);
+
     void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
     string   GetDirName()                                  raises (SALOME::SALOME_Exception);
 

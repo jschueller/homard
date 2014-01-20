@@ -47,6 +47,7 @@ public:
   void        Texte_python_1( const std::string pythonTexte, int indice, const std::string concept ) ;
   void        Texte_python_2( const std::string pythonTexte, const std::string mot_cle, const std::string concept ) ;
   void        TexteParametre( const std::string node, const std::string port, const std::string type_value, const std::string value ) ;
+  void        TexteAnalyse_Test_Convergence( int MaxIter, int MaxNode, int MaxElem ) ;
   void        TexteAddParametres( ) ;
   void        CreeFichier() ;
   //

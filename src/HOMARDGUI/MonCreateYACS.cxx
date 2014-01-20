@@ -44,10 +44,7 @@ MonCreateYACS::MonCreateYACS (bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, Q
   _aScriptFile(""),
   _aDirName(""),
   _aMeshFile(""),
-  _Type(1),
-  _MaxIter(0),
-  _MaxNode(0),
-  _MaxElem(0)
+  _Type(1)
   // Les valeurs de _Type, _MaxIter, _MaxNode, _MaxElem doivent etre les memes que celles dans HOMARD_Gen_i::CreateYACSSchema
   // et doivent correspondre aux defauts des boutons
   {
@@ -63,6 +60,15 @@ MonCreateYACS::MonCreateYACS (bool modal, HOMARD::HOMARD_Gen_var myHomardGen0, Q
 
     if (_aCaseName != QString("")) { SetCaseName(); }
     else                           { setWindowModality(Qt::NonModal); /* permet selection du cas dans l arbre d etude */}
+//
+//  Les valeurs definies dans les preferences
+    _MaxIter = myHomardGen->GetYACSMaxIter();
+    _MaxNode = myHomardGen->GetYACSMaxNode();
+    _MaxElem = myHomardGen->GetYACSMaxElem();
+    MESSAGE ("Valeur par defaut de MaxIter = " << _MaxIter<<", MaxNode = "<< _MaxNode<<", MaxElem = "<< _MaxElem);
+    SpinBoxMaxIter->setValue(_MaxIter) ;
+    SpinBoxMaxNode->setValue(_MaxNode) ;
+    SpinBoxMaxElem->setValue(_MaxElem) ;
 //
     adjustSize();
   }
@@ -232,13 +238,13 @@ bool MonCreateYACS:: CreateOrUpdate()
 
   // 3.2. Les maximums
     _MaxIter = SpinBoxMaxIter->value() ;
-//     aYACS->SetMaxIter(_MaxIter) ;
+    aYACS->SetMaxIter(_MaxIter) ;
 
     _MaxNode = SpinBoxMaxNode->value() ;
-//     aYACS->SetMaxNode(_MaxNode) ;
+    aYACS->SetMaxNode(_MaxNode) ;
 
     _MaxElem = SpinBoxMaxElem->value() ;
-//     aYACS->SetMaxElem(_MaxElem) ;
+    aYACS->SetMaxElem(_MaxElem) ;
 
   }
 

@@ -124,6 +124,42 @@ CORBA::Long HOMARD_YACS_i::GetType()
   return  CORBA::Long( myHomardYACS->GetType() );
 }
 //=============================================================================
+void HOMARD_YACS_i::SetMaxIter( CORBA::Long MaxIter )
+{
+  ASSERT( myHomardYACS );
+  myHomardYACS->SetMaxIter( MaxIter );
+}
+//=============================================================================
+CORBA::Long HOMARD_YACS_i::GetMaxIter()
+{
+  ASSERT( myHomardYACS );
+  return  CORBA::Long( myHomardYACS->GetMaxIter() );
+}
+//=============================================================================
+void HOMARD_YACS_i::SetMaxNode( CORBA::Long MaxNode )
+{
+  ASSERT( myHomardYACS );
+  myHomardYACS->SetMaxNode( MaxNode );
+}
+//=============================================================================
+CORBA::Long HOMARD_YACS_i::GetMaxNode()
+{
+  ASSERT( myHomardYACS );
+  return  CORBA::Long( myHomardYACS->GetMaxNode() );
+}
+//=============================================================================
+void HOMARD_YACS_i::SetMaxElem( CORBA::Long MaxElem )
+{
+  ASSERT( myHomardYACS );
+  myHomardYACS->SetMaxElem( MaxElem );
+}
+//=============================================================================
+CORBA::Long HOMARD_YACS_i::GetMaxElem()
+{
+  ASSERT( myHomardYACS );
+  return  CORBA::Long( myHomardYACS->GetMaxElem() );
+}
+//=============================================================================
 void HOMARD_YACS_i::SetDirName( const char* NomDir )
 {
   ASSERT( myHomardYACS );

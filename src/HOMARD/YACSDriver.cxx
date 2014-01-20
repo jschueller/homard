@@ -576,6 +576,28 @@ void YACSDriver::Texte_python_2( const std::string pythonTexte, const std::strin
 //
 }
 //===============================================================================
+// Parametres de tests de convergence
+//===============================================================================
+void YACSDriver::TexteAnalyse_Test_Convergence( int MaxIter, int MaxNode, int MaxElem )
+{
+//
+//   MESSAGE("TexteAnalyse_Test_Convergence");
+  std::string chaine ;
+  std::ostringstream oss1;
+  oss1 << MaxIter;
+  chaine = oss1.str();
+  _Texte += "MaxIter = " + chaine + "\n" ;
+  std::ostringstream oss2;
+  oss2 << MaxNode;
+  chaine = oss2.str();
+  _Texte += "MaxNode = " + chaine + "\n" ;
+  std::ostringstream oss3;
+  oss3 << MaxElem;
+  chaine = oss3.str();
+  _Texte += "MaxElem = " + chaine + "\n" ;
+//
+}
+//===============================================================================
 // Creation d'un parametre
 //===============================================================================
 void YACSDriver::TexteParametre( const std::string node, const std::string port, const std::string type_value, const std::string value )
