@@ -76,6 +76,10 @@ public:
   void                   SetMaxElem( CORBA::Long MaxElem );
   CORBA::Long            GetMaxElem();
 
+  void                   SetTestConvergence( CORBA::Long TypeTest, CORBA::Double VRef );
+  CORBA::Long            GetTestConvergenceType();
+  CORBA::Double          GetTestConvergenceVRef();
+
   void                   SetDirName( const char* NomDir );
   char*                  GetDirName();
 

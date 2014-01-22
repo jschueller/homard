@@ -1111,5 +1111,13 @@
         <source>PREF_YACS_MAX_ELEM</source>
         <translation>Eléments</translation>
     </message>
+    <message>
+        <source>PREF_YACS_CONVERGENCE</source>
+        <translation>Convergence</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_TYPE_TEST</source>
+        <translation>Type de test</translation>
+    </message>
 </context>
 </TS>

@@ -221,6 +221,8 @@ module HOMARD
     long GetYACSMaxIter()                                  raises (SALOME::SALOME_Exception);
     long GetYACSMaxNode()                                  raises (SALOME::SALOME_Exception);
     long GetYACSMaxElem()                                  raises (SALOME::SALOME_Exception);
+    void SetYACSConvergenceType(in long TypeTest)          raises (SALOME::SALOME_Exception);
+    long GetYACSConvergenceType()                          raises (SALOME::SALOME_Exception);
   };
 };
 

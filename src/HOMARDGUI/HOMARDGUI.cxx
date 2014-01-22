@@ -213,6 +213,16 @@ void HOMARDGUI::createPreferences()
   setPreferenceProperty( Pref, "min",  0 );
   setPreferenceProperty( Pref, "max",  100000000 );
   setPreferenceProperty( Pref, "step", 1000 );
+
+  Bloc = addPreference( tr( "PREF_YACS_CONVERGENCE" ), Onglet );
+  setPreferenceProperty( Bloc, "columns", 1 );
+
+  Pref = addPreference( tr( "PREF_YACS_TYPE_TEST" ), Bloc, LightApp_Preferences::Selector, "HOMARD", "yacs_type_test" );
+  QStringList aListOfTypeTest;
+  aListOfTypeTest << "None";
+  aListOfTypeTest << "VTest > VRef";
+  aListOfTypeTest << "VTest < VRef";
+  setPreferenceProperty( Pref, "strings", aListOfTypeTest );
 }
 
 
@@ -266,13 +276,14 @@ void HOMARDGUI::recupPreferences()
   HOMARD::HOMARD_Gen_var homardGen = HOMARDGUI::InitHOMARDGen(app);
   int defaut_i ;
   std::string defaut_s ;
+  QString QString_v ;
 //
 // B. Les valeurs
 // B.1. La langue
 //
   defaut_s = homardGen->GetLanguageShort();
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
-  _LanguageShort = resMgr->stringValue("language", "language", QString(defaut_s.c_str()));
+  _LanguageShort = resMgr->stringValue("language", "language", QString(defaut_s.c_str()) );
 //
 // B.2. Les publications
   bool publish_mesh ;
@@ -302,15 +313,29 @@ void HOMARDGUI::recupPreferences()
   defaut_i = homardGen->GetYACSMaxElem();
   _YACSMaxElem = resMgr->integerValue("HOMARD", "yacs_max_elem", defaut_i );
 //
+// B.4. La convergence pour YACS
+//
+  defaut_i = homardGen->GetYACSConvergenceType();
+  if ( defaut_i == 1 )      { QString_v = tr("VTest > VRef") ; }
+  else if ( defaut_i == 2 ) { QString_v = tr("VTest < VRef") ; }
+  else                      { QString_v = tr("None") ; }
+  QString_v = resMgr->stringValue ( "HOMARD", "yacs_type_test", QString_v );
+  if ( ( QString_v == "VTest > VRef" ) || ( QString_v == "VTest &gt; VRef" ) )      { _YACSTypeTest = 1 ; }
+  else if ( ( QString_v == "VTest < VRef" ) || ( QString_v == "VTest &lt; VRef" ) ) { _YACSTypeTest = 2 ; }
+  else                                                                              { _YACSTypeTest = 0 ; }
+//
 // C. Enregistrement dans l'objet general
 //
   MESSAGE ("Enregistrement de LanguageShort = " << _LanguageShort.toStdString().c_str() );
   MESSAGE ("Enregistrement de PublisMeshIN = " << _PublisMeshIN<<", PublisMeshOUT = "<< _PublisMeshOUT);
   MESSAGE ("Enregistrement de YACSMaxIter = " << _YACSMaxIter<<", YACSMaxNode = "<< _YACSMaxNode<<", YACSMaxElem = "<< _YACSMaxElem);
+  MESSAGE ("Enregistrement de YACSTypeTest = " << _YACSTypeTest);
 //
   homardGen->SetLanguageShort(_LanguageShort.toStdString().c_str());
   homardGen->SetPublisMesh(_PublisMeshIN, _PublisMeshOUT);
   homardGen->SetYACSMaximum(_YACSMaxIter, _YACSMaxNode, _YACSMaxElem);
+//
+  homardGen->SetYACSConvergenceType(_YACSTypeTest);
 }
 
 //================================================

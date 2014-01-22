@@ -124,6 +124,10 @@ CORBA::Long HOMARD_YACS_i::GetType()
   return  CORBA::Long( myHomardYACS->GetType() );
 }
 //=============================================================================
+//=============================================================================
+// Caracteristiques de la convergence
+//=============================================================================
+//=============================================================================
 void HOMARD_YACS_i::SetMaxIter( CORBA::Long MaxIter )
 {
   ASSERT( myHomardYACS );
@@ -159,6 +163,28 @@ CORBA::Long HOMARD_YACS_i::GetMaxElem()
   ASSERT( myHomardYACS );
   return  CORBA::Long( myHomardYACS->GetMaxElem() );
 }
+//=============================================================================
+void HOMARD_YACS_i::SetTestConvergence( CORBA::Long TypeTest, CORBA::Double VRef)
+{
+  ASSERT( myHomardYACS );
+  myHomardYACS->SetTestConvergence( TypeTest, VRef );
+}
+//=============================================================================
+CORBA::Long HOMARD_YACS_i::GetTestConvergenceType()
+{
+  ASSERT( myHomardYACS );
+  return  CORBA::Long( myHomardYACS->GetTestConvergenceType() );
+}
+//=============================================================================
+CORBA::Double HOMARD_YACS_i::GetTestConvergenceVRef()
+{
+  ASSERT( myHomardYACS );
+  return  CORBA::Long( myHomardYACS->GetTestConvergenceVRef() );
+}
+//=============================================================================
+//=============================================================================
+// Repertoire et fichiers
+//=============================================================================
 //=============================================================================
 void HOMARD_YACS_i::SetDirName( const char* NomDir )
 {

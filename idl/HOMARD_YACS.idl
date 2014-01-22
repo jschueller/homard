@@ -56,6 +56,11 @@ module HOMARD
     void     SetMaxElem (in long MaxElem)                  raises (SALOME::SALOME_Exception);
     long     GetMaxElem()                                  raises (SALOME::SALOME_Exception);
 
+    void     SetTestConvergence (in long TypeTest, in double VRef)
+                                                           raises (SALOME::SALOME_Exception);
+    long     GetTestConvergenceType()                      raises (SALOME::SALOME_Exception);
+    double   GetTestConvergenceVRef()                      raises (SALOME::SALOME_Exception);
+
     void     SetDirName(in string NomDir)                  raises (SALOME::SALOME_Exception);
     string   GetDirName()                                  raises (SALOME::SALOME_Exception);
 

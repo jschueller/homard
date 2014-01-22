@@ -212,6 +212,8 @@ public:
   CORBA::Long                     GetYACSMaxIter();
   CORBA::Long                     GetYACSMaxNode();
   CORBA::Long                     GetYACSMaxElem();
+  void                            SetYACSConvergenceType(CORBA::Long YACSTypeTest);
+  CORBA::Long                     GetYACSConvergenceType();
 
 
   // ---------------------------------------------------------------
@@ -339,6 +341,7 @@ private:
   int _YACSMaxIter ;
   int _YACSMaxNode ;
   int _YACSMaxElem ;
+  int _YACSTypeTest ;
  ;
 
 };

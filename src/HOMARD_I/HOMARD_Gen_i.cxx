@@ -5060,6 +5060,7 @@ void HOMARD_Gen_i::SetPreferences( )
   int YACSMaxIter = 0 ;
   int YACSMaxNode = 0 ;
   int YACSMaxElem = 0 ;
+  std::string YACSTypeTestchaine = "None" ;
 
   // B. La version de salome
   // Cela se presente sous la forme :
@@ -5127,15 +5128,17 @@ void HOMARD_Gen_i::SetPreferences( )
         // 3. Parametres
         // 3.1. La langue
         else if ( section_langue || section_homard )
-        { /*MESSAGE ( "a decoder : "<< ligne);*/
-          ligne_bis >> mot_cle ;
-          chaine = GetStringInTexte ( mot_cle, "\"", 1 ) ;
+        { MESSAGE ( "a decoder : "<< ligne);
+//        La valeur : entre les deux premieres quotes
+          chaine = GetStringInTexte ( ligne, "\"", 1 ) ;
+//           MESSAGE("chaine 1 = |"<<chaine<<"|");
           chaine = GetStringInTexte ( chaine,  "\"", 0 ) ;
-//           MESSAGE("chaine = "<<chaine<<"|");
-          ligne_bis >> mot_cle ;
-          std::string chaine2 = GetStringInTexte ( mot_cle, "\"", 1 ) ;
-          chaine2 = GetStringInTexte ( chaine2,  "\"", 0 ) ;
-          MESSAGE("chaine2 = "<<chaine2<<"|");
+//           MESSAGE("chaine = |"<<chaine<<"|");
+//        Le mot_cle : entre les deux dernieres quotes
+          std::string chaine2 = GetStringInTexte ( ligne, "\"", 2 ) ;
+//           MESSAGE("chaine2 1 = |"<<chaine2<<"|");
+          chaine2 = GetStringInTexte ( chaine2,  "\"", 3 ) ;
+//           MESSAGE("chaine2 = |"<<chaine2<<"|");
           // 3.1. La langue
           if ( section_langue )
           { if ( chaine2 == "language" ) { LanguageShort = chaine ; } }
@@ -5150,19 +5153,30 @@ void HOMARD_Gen_i::SetPreferences( )
             if ( chaine2 == "yacs_max_iter" ) { chainebis >> YACSMaxIter ; }
             if ( chaine2 == "yacs_max_node" ) { chainebis >> YACSMaxNode ; }
             if ( chaine2 == "yacs_max_elem" ) { chainebis >> YACSMaxElem ; }
+            if ( chaine2 == "yacs_type_test" ) { YACSTypeTestchaine = chaine ; }
           }
         }
       }
     }
   }
 
-  // C. Enregistrement
+  // C. Enregistrements
   MESSAGE ("Enregistrement de LanguageShort = " << LanguageShort );
-  MESSAGE ("Enregistrement de PublisMeshIN = " << PublisMeshIN<<", PublisMeshOUT = "<< PublisMeshOUT);
-  MESSAGE ("Enregistrement de YACSMaxIter = " << YACSMaxIter<<", YACSMaxNode = "<< YACSMaxNode<<", YACSMaxElem = "<< YACSMaxElem);
   SetLanguageShort( LanguageShort.c_str() ) ;
+
+  MESSAGE ("Enregistrement de PublisMeshIN = " << PublisMeshIN<<", PublisMeshOUT = "<< PublisMeshOUT);
   SetPublisMesh(PublisMeshIN, PublisMeshOUT) ;
+
+  MESSAGE ("Enregistrement de YACSMaxIter = " << YACSMaxIter<<", YACSMaxNode = "<< YACSMaxNode<<", YACSMaxElem = "<< YACSMaxElem);
   SetYACSMaximum(YACSMaxIter, YACSMaxNode, YACSMaxElem) ;
+
+  MESSAGE ("Enregistrement de TypeTest = " << YACSTypeTestchaine.c_str() );
+  int YACSTypeTest ;
+  if ( ( YACSTypeTestchaine == "VTest > VRef" ) || ( YACSTypeTestchaine == "VTest &gt; VRef" ) )      { YACSTypeTest = 1 ; }
+  else if ( ( YACSTypeTestchaine == "VTest < VRef" ) || ( YACSTypeTestchaine == "VTest &lt; VRef" ) ) { YACSTypeTest = 2 ; }
+  else                                                                                                { YACSTypeTest = 0 ; }
+  MESSAGE ("==> TypeTest = " << YACSTypeTest );
+  SetYACSConvergenceType( YACSTypeTest ) ;
 
   return ;
 }
@@ -5200,7 +5214,7 @@ CORBA::Long HOMARD_Gen_i::GetPublisMeshOUT()
   return _PublisMeshOUT ;
 }
 //===============================================================================
-// YACS - maximum
+// YACS - test de convergence
 //===============================================================================
 void HOMARD_Gen_i::SetYACSMaximum(CORBA::Long YACSMaxIter, CORBA::Long YACSMaxNode, CORBA::Long YACSMaxElem)
 {
@@ -5220,6 +5234,15 @@ CORBA::Long HOMARD_Gen_i::GetYACSMaxNode()
 CORBA::Long HOMARD_Gen_i::GetYACSMaxElem()
 {
   return _YACSMaxElem ;
+}
+void HOMARD_Gen_i::SetYACSConvergenceType(CORBA::Long YACSTypeTest)
+{
+  _YACSTypeTest = YACSTypeTest ;
+  return ;
+}
+CORBA::Long HOMARD_Gen_i::GetYACSConvergenceType()
+{
+  return _YACSTypeTest ;
 }
 
 //=============================================================================

@@ -100,6 +100,7 @@ private:
    int _YACSMaxIter ;
    int _YACSMaxNode ;
    int _YACSMaxElem ;
+   int _YACSTypeTest ;
 };
 
 #endif

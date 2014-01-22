@@ -62,6 +62,10 @@ public:
   void                          SetMaxElem( int MaxElem );
   int                           GetMaxElem() const;
 
+  void                          SetTestConvergence( int TypeTest, double VRef );
+  int                           GetTestConvergenceType() const;
+  double                        GetTestConvergenceVRef() const;
+
   void                          SetDirName( const char* NomDir );
   std::string                   GetDirName() const;
 
@@ -91,6 +95,8 @@ private:
   int                           _MaxIter;
   int                           _MaxNode;
   int                           _MaxElem;
+  int                           _TypeTest;
+  double                        _VRef;
   std::string                   _XMLFile;
 };
 
