@@ -300,6 +300,7 @@ bool MonCreateCase::PushOnApply(int option)
 // Autorisation des pyramides
     if (CBPyramid->isChecked()) { _Pyram = 1 ; }
   }
+  aCase->SetPyram(_Pyram);
 
   HOMARD_UTILS::updateObjBrowser();
 
