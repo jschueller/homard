@@ -58,6 +58,8 @@ SALOME VERSION 7.3:
     - If error occurs into the python instructions, the program stops.
 
 SALOME VERSION 7.4 :
-    - Scroll bar for the large windows
-    - The meshes are published only if requested
-    - The torus is a new possibility for the analytical boundary
+    - Scroll bar for the large windows.
+    - The meshes are published only if requested.
+    - The torus is a new possibility for the analytical boundary.
+    - The function ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` is suppressed. For an adaptation by a field or by zones, the mode refinement/unrefinement is automatically set from the other parameters of the hypothesis. For a uniform refinement, the function ``SetUnifRefinUnRef(TypeRaffDera)`` is now used (see :ref:`tui_create_hypothese`).
+

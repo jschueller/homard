@@ -70,11 +70,9 @@ quart_sup = homard.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
 # ==========
 # Creation of the hypothesis Hypo_5
 Hypo_5 = homard.CreateHypothesis('Hypo_5')
-Hypo_5.SetAdapRefinUnRef(0, 1, 0)
 Hypo_5.AddZone('enveloppe', 1)
 # Creation of the hypothesis Hypo_5_bis
 Hypo_5_bis = homard.CreateHypothesis('Hypo_5_bis')
-Hypo_5_bis.SetAdapRefinUnRef(0, 1, 0)
 Hypo_5_bis.AddZone('quart_sup', 1)
 #
 # Cas

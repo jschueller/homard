@@ -113,10 +113,21 @@ bool HOMARD_Hypothesis_i::Restore( const std::string& stream )
 // Caracteristiques
 //=============================================================================
 //=============================================================================
-void HOMARD_Hypothesis_i::SetAdapRefinUnRef( CORBA::Long TypeAdap,CORBA::Long TypeRaff, CORBA::Long TypeDera )
+void HOMARD_Hypothesis_i::SetUnifRefinUnRef( CORBA::Long TypeRaffDera )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->SetAdapType( TypeAdap );
+  int TypeRaff, TypeDera ;
+  if ( TypeRaffDera == 1 )
+  {
+    TypeRaff = 1 ;
+    TypeDera = 0 ;
+  }
+  else
+  {
+    TypeRaff = 0 ;
+    TypeDera = 1 ;
+  }
+  myHomardHypothesis->SetAdapType( -1 );
   myHomardHypothesis->SetRefinTypeDera( TypeRaff, TypeDera );
 }
 //=============================================================================
@@ -219,6 +230,9 @@ HOMARD::listeComposantsHypo* HOMARD_Hypothesis_i::GetComps()
 //=============================================================================
 void HOMARD_Hypothesis_i::SetRefinThr( CORBA::Long TypeThR, CORBA::Double ThreshR )
 {
+  myHomardHypothesis->SetAdapType( 1 );
+  int TypeDera = myHomardHypothesis->GetUnRefType() ;
+  myHomardHypothesis->SetRefinTypeDera( 1, TypeDera );
   myHomardHypothesis->SetRefinThr( TypeThR, ThreshR );
 }
 //=============================================================================
@@ -230,6 +244,9 @@ CORBA::Long HOMARD_Hypothesis_i::GetRefinThrType()
 //=============================================================================
 void HOMARD_Hypothesis_i::SetUnRefThr( CORBA::Long TypeThC, CORBA::Double ThreshC )
 {
+  myHomardHypothesis->SetAdapType( 1 );
+  int TypeRaff = myHomardHypothesis->GetRefinType() ;
+  myHomardHypothesis->SetRefinTypeDera( TypeRaff, 1 );
   myHomardHypothesis->SetUnRefThr( TypeThC, ThreshC );
 }
 //=============================================================================
@@ -415,8 +432,25 @@ HOMARD::listeIters* HOMARD_Hypothesis_i::GetIterations()
 //=============================================================================
 void HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
 {
-  MESSAGE ("Dans AddZone pour " << NomZone) ;
+  MESSAGE ("Dans AddZone pour " << NomZone << " et TypeUse = " << TypeUse ) ;
   ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SetAdapType( 0 );
+  int TypeRaff, TypeDera ;
+  if ( TypeUse == 1 )
+  {
+    TypeRaff = 1 ;
+    TypeDera = myHomardHypothesis->GetUnRefType() ;
+  }
+  else if ( TypeUse == -1 )
+  {
+    TypeRaff = myHomardHypothesis->GetRefinType() ;
+    TypeDera = 1 ;
+  }
+  else
+  {
+    ASSERT( "TypeUse should be 1 or -1" == 0 );
+  }
+  myHomardHypothesis->SetRefinTypeDera( TypeRaff, TypeDera );
   char* NomHypo = GetName() ;
   return _gen_i->AssociateHypoZone(NomHypo, NomZone, TypeUse) ;
 }

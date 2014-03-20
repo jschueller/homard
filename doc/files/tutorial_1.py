@@ -57,7 +57,7 @@ homard.SetCurrentStudy(salome.myStudy)
 # Hypotheses
 # ==========
 Hypo_1 = homard.CreateHypothesis('Hypo_1')
-Hypo_1.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_1.SetUnifRefinUnRef(1)
 #
 # Cas
 # ===

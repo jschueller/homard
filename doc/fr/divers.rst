@@ -58,8 +58,9 @@ SALOME VERSION 7.3 :
     - Arrêt en cas d'erreur dans les données des instructions python
 
 SALOME VERSION 7.4 :
-    - Grandes fenêtres avec ascenseur
-    - Publication des maillages à la demande
-    - Suivi de frontière analytique torique
+    - Grandes fenêtres avec ascenseur.
+    - Publication des maillages à la demande.
+    - Suivi de frontière analytique torique.
+    - La fonction ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` est supprimée. Pour une adaptation selon un champ ou des zones, le mode raffinement/déraffinement est automatiquement déduit des autres paramètres de l'hypothèse. Pour un raffinement uniforme, on utilisera ``SetUnifRefinUnRef(TypeRaffDera)`` (voir :ref:`tui_create_hypothese`).
 
 

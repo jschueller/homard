@@ -66,8 +66,7 @@ module HOMARD
     string   GetDumpPython()                               raises (SALOME::SALOME_Exception);
 
 // Caracteristiques
-    void     SetAdapRefinUnRef(in long Adap, in long Raff, in long Dera)
-                                                           raises (SALOME::SALOME_Exception);
+    void     SetUnifRefinUnRef(in long RaffDera)           raises (SALOME::SALOME_Exception);
     listeTypes GetAdapRefinUnRef()                         raises (SALOME::SALOME_Exception);
     long     GetAdapType()                                 raises (SALOME::SALOME_Exception);
     long     GetRefinType()                                raises (SALOME::SALOME_Exception);

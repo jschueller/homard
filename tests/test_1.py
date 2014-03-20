@@ -75,7 +75,6 @@ Copyright EDF-R&D 2010, 2013
     HypoName_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
     print "-------- Creation of the hypothesis", HypoName_1
     Hypo_1_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_1_1.SetAdapRefinUnRef(1, 1, 0)
     Hypo_1_1.SetField('RESU____ERRE_ELEM_SIGM__________')
     Hypo_1_1.SetUseComp(0)
     Hypo_1_1.AddComp('ERREST')
@@ -92,7 +91,6 @@ Copyright EDF-R&D 2010, 2013
     HypoName_2 = "Zones_1_et_2"
     print "-------- Creation of the hypothesis", HypoName_2
     Zones_1_et_2 = homard.CreateHypothesis(HypoName_2)
-    Zones_1_et_2.SetAdapRefinUnRef(0, 1, 0)
     Zones_1_et_2.AddZone('Zone_1_1', 1)
     Zones_1_et_2.AddZone('Zone_1_2', 1)
     print HypoName_2, " : zones utilisées :", Zones_1_et_2.GetZones()

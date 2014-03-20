@@ -79,7 +79,13 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
   std::ostringstream aScript;
   aScript << "\n# Creation of the hypothesis " << _Name << "\n" ;
   aScript << "\t" << _Name << " = homard.CreateHypothesis(\"" << _Name << "\")\n";
-  aScript << "\t" << _Name << ".SetAdapRefinUnRef(" << _TypeAdap << ", " << _TypeRaff << ", " << _TypeDera << ")\n";
+  if ( _TypeAdap == -1 )
+  {
+    int TypeRaffDera ;
+    if ( _TypeRaff == 1 ) { TypeRaffDera = 1 ; }
+    else                  { TypeRaffDera = -1 ; }
+    aScript << "\t" << _Name << ".SetUnifRefinUnRef(" << TypeRaffDera << ")\n";
+  }
 
 // Raffinement selon des zones geometriques
   std::list<std::string>::const_iterator it = _ListZone.begin();

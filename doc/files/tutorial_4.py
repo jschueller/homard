@@ -70,13 +70,13 @@ Boun_4_5 = homard.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., 
 # ==========
 # Creation of the hypothesis Hypo_4
 Hypo_4 = homard.CreateHypothesis('Hypo_4')
-Hypo_4.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_4.SetUnifRefinUnRef(1)
 Hypo_4.AddGroup('T1_INT_I')
 Hypo_4.AddGroup('T1_INT_O')
 Hypo_4.AddGroup('T2_INT')
 # Creation of the hypothesis Hypo_4_bis
 Hypo_4_bis = homard.CreateHypothesis('Hypo_4_bis')
-Hypo_4_bis.SetAdapRefinUnRef(-1, 1, 0)
+Hypo_4_bis.SetUnifRefinUnRef(1)
 Hypo_4_bis.AddGroup('T1_EXT_I')
 Hypo_4_bis.AddGroup('T1_EXT_O')
 Hypo_4_bis.AddGroup('T2_EXT')

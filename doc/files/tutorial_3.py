@@ -57,7 +57,6 @@ homard.SetCurrentStudy(salome.myStudy)
 # Hypothese "Hypo_0vers1"
 # =======================
 Hypo_0vers1 = homard.CreateHypothesis('Hypo_0vers1')
-Hypo_0vers1.SetAdapRefinUnRef(1, 1, 0)
 # Characterization of the field
 Hypo_0vers1.SetField('SOLU_0__QIRE_ELEM_SIGM__________')
 Hypo_0vers1.SetUseComp(0)
@@ -70,7 +69,6 @@ Hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
 # Hypothese "Hypo_1vers2"
 # =======================
 Hypo_1vers2 = homard.CreateHypothesis('Hypo_1vers2')
-Hypo_1vers2.SetAdapRefinUnRef(1, 1, 1)
 # Characterization of the field
 Hypo_1vers2.SetField('SOLU_1__QIRE_ELEM_SIGM__________')
 Hypo_1vers2.SetUseComp(0)
@@ -84,7 +82,6 @@ Hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
 # Hypothese "Hypo_1vers2_bis"
 # ===========================
 Hypo_1vers2_bis = homard.CreateHypothesis('Hypo_1vers2_bis')
-Hypo_1vers2_bis.SetAdapRefinUnRef(1, 1, 1)
 # Characterization of the field
 Hypo_1vers2_bis.SetField('SOLU_1__DEPL____________________')
 Hypo_1vers2_bis.SetUseComp(1)

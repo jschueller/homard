@@ -72,7 +72,7 @@ Copyright EDF-R&D 2010, 2013
     HypoName_1 = "Hypo_" + Test_Name + "_1"
     print "-------- Creation of the hypothesis", HypoName_1
     Hypo_test_2_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_test_2_1.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_test_2_1.SetUnifRefinUnRef(1)
     Hypo_test_2_1.AddGroup('EG')
     Hypo_test_2_1.AddGroup('BANDE')
     print HypoName_1, " : zones utilisées :", Hypo_test_2_1.GetZones()
@@ -85,7 +85,7 @@ Copyright EDF-R&D 2010, 2013
     HypoName_2 = "Hypo_" + Test_Name + "_2"
     print "-------- Creation of the hypothesis", HypoName_2
     Hypo_test_2_2 = homard.CreateHypothesis(HypoName_2)
-    Hypo_test_2_2.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_test_2_2.SetUnifRefinUnRef(1)
     Hypo_test_2_2.AddGroup('M_D')
     print HypoName_2, " : zones utilisées :", Hypo_test_2_2.GetZones()
     print HypoName_2, " : champ utilisé :", Hypo_test_2_2.GetFieldName()

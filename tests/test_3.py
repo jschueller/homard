@@ -85,7 +85,7 @@ Copyright EDF-R&D 2010, 2013
     HypoName = "Hypo_" + Test_Name
     print "-------- Creation of the hypothesis", HypoName
     Hypo_test_3 = homard.CreateHypothesis(HypoName)
-    Hypo_test_3.SetAdapRefinUnRef(-1, 1, 0)
+    Hypo_test_3.SetUnifRefinUnRef(1)
     print HypoName, " : zones utilisées :", Hypo_test_3.GetZones()
     print HypoName, " : champ utilisé :", Hypo_test_3.GetFieldName()
     print HypoName, " : composantes utilisées :", Hypo_test_3.GetComps()
@@ -183,7 +183,7 @@ Copyright EDF-R&D 2010, 2013
           HypoName = "Hypo_test_3"
           print "-------- Creation of the hypothesis", HypoName
           Hypo_test_3 = homard.CreateHypothesis(HypoName)
-          Hypo_test_3.SetAdapRefinUnRef(-1, 1, 0)
+          Hypo_test_3.SetUnifRefinUnRef(1)
 #
     break
 #

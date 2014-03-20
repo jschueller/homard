@@ -49,10 +49,10 @@ Raffinement par des zones
 *************************
 .. index:: single: zone
 
-On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine. On notera que le type de raffinement n'a pas été précisé ; par défaut, il sera donc conforme.
+On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine et on déraffine les mailles contenues dans la toute première zone.
 
 .. literalinclude:: ../files/tutorial_2.py
-   :lines: 57-101
+   :lines: 57-99
 
 .. note::
   Téléchargement des fichiers
@@ -69,7 +69,7 @@ On procède ici au raffinement selon un champ. Les hypothèses servent à définir l
 Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
-   :lines: 57-131
+   :lines: 57-128
 
 .. note::
   Téléchargement des fichiers
@@ -107,7 +107,7 @@ Les instructions pour adapter un maillage 2D sont exactement identiques à celles
 Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
 
 .. literalinclude:: ../files/tutorial_5.py
-   :lines: 57-101
+   :lines: 57-99
 
 .. note::
   Téléchargement des fichiers

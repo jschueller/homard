@@ -66,7 +66,7 @@ public:
   bool                   Restore( const std::string& stream );
 
 // Caracteristiques
-  void                   SetAdapRefinUnRef( CORBA::Long TypeAdap, CORBA::Long TypeRaff, CORBA::Long TypeDera );
+  void                   SetUnifRefinUnRef( CORBA::Long TypeRaffDera );
   HOMARD::listeTypes*    GetAdapRefinUnRef();
   CORBA::Long            GetAdapType();
   CORBA::Long            GetRefinType();

@@ -50,44 +50,30 @@ General methods
 | **GetName()**                                                 |
 |     Returns the name of the hypothesis                        |
 +---------------------------------------------------------------+
-| .. module:: SetAdapRefinUnRef                                 |
-|                                                               |
-| **SetAdapRefinUnRef(Adap, Refin, UnRef)**                     |
-|     Gives the type of adaptation to the hypothesis            |
-|                                                               |
-|     - ``Adap``: integer that defines the type of adaptation   |
-|                                                               |
-|         * -1: uniform                                         |
-|         * 0: by zones                                         |
-|         * 1: by a field                                       |
-|                                                               |
-|     - ``Refin``: integer that informs if the refinement is    |
-|       active or not                                           |
-|                                                               |
-|         * 0: unactive                                         |
-|         * 1: active                                           |
-|                                                               |
-|     - ``UnRef``: integer that informs if the refinement is    |
-|       active or not                                           |
-|                                                               |
-|         * 0: unactive                                         |
-|         * 1: active                                           |
-|                                                               |
-+---------------------------------------------------------------+
 | .. module:: GetAdapType                                       |
 |                                                               |
 | **GetAdapType()**                                             |
 |     Returns the type of the adaptation                        |
+|                                                               |
+|         * -1: uniform                                         |
+|         * 0: by zones                                         |
+|         * 1: by a field                                       |
 +---------------------------------------------------------------+
 | .. module:: GetRefinType                                      |
 |                                                               |
 | **GetRefinType()**                                            |
 |     Returns the type of the refinement                        |
+|                                                               |
+|         * 0: unactive                                         |
+|         * 1: active                                           |
 +---------------------------------------------------------------+
 | .. module:: GetUnRefType                                      |
 |                                                               |
 | **GetUnRefType()**                                            |
 |     Returns the type of the unrefinement                      |
+|                                                               |
+|         * 0: unactive                                         |
+|         * 1: active                                           |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
@@ -99,8 +85,28 @@ General methods
 |         * other value: problem                                |
 +---------------------------------------------------------------+
 
+Uniform adaptation
+==================
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetUnifRefinUnRef                                 |
+|                                                               |
+| **SetUnifRefinUnRef(RefinUnRef)**                             |
+|     Defines a type of adaptation for the whole mesh           |
+|                                                               |
+|     - ``RefinUnRef``: integer that defines the                |
+|       type of adaptation                                      |
+|                                                               |
+|         * 1: refinement                                       |
+|         * -1: unrefinement                                    |
++---------------------------------------------------------------+
+
+Adaptation by a field
+=====================
+
 The driving field and the thresholds
-====================================
+------------------------------------
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -172,7 +178,7 @@ The driving field and the thresholds
 
 
 The components of the driving field
-===================================
+-----------------------------------
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -217,8 +223,8 @@ The components of the driving field
 +---------------------------------------------------------------+
 
 
-The zones
-=========
+Adaptation by zones
+===================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -429,7 +435,6 @@ The creation of the object hypo_1 is done as follows:
 ::
 
     hypo_1 = homard.CreateHypothesis("HypoField")
-    hypo_1.SetAdapRefinUnRef(1, 1, 0)
     hypo_1.SetField("INDICATEUR")
     hypo_1.AddComp("INDX")
     hypo_1.AddComp("INDZ")

@@ -56,42 +56,30 @@ Généralités
 | **GetName()**                                                 |
 |     Retourne le nom de l'hypothèse                            |
 +---------------------------------------------------------------+
-| .. module:: SetAdapRefinUnRef                                 |
-|                                                               |
-| **SetAdapRefinUnRef(Adap, Refin, UnRef)**                     |
-|     Affecte le mode d'adaptation associé à l'hypothèse        |
-|                                                               |
-|     - ``Adap`` : entier précisant le type d'adaptation        |
-|                                                               |
-|         * -1 : uniforme                                       |
-|         * 0 : selon des zones                                 |
-|         * 1 : selon un champ                                  |
-|                                                               |
-|     - ``Refin`` : entier précisant si le raffinement est actif|
-|                                                               |
-|         * 0 : inactif                                         |
-|         * 1 : actif                                           |
-|                                                               |
-|     - ``UnRef`` : entier précisant si déraffinement est actif |
-|                                                               |
-|         * 0 : inactif                                         |
-|         * 1 : actif                                           |
-|                                                               |
-+---------------------------------------------------------------+
 | .. module:: GetAdapType                                       |
 |                                                               |
 | **GetAdapType()**                                             |
 |     Retourne le type d'adaptation                             |
+|                                                               |
+|         * -1 : uniforme                                       |
+|         * 0 : selon des zones                                 |
+|         * 1 : selon un champ                                  |
 +---------------------------------------------------------------+
 | .. module:: GetRefinType                                      |
 |                                                               |
 | **GetRefinType()**                                            |
 |     Retourne le type de raffinement                           |
+|                                                               |
+|         * 0 : inactif                                         |
+|         * 1 : actif                                           |
 +---------------------------------------------------------------+
 | .. module:: GetUnRefType                                      |
 |                                                               |
 | **GetUnRefType()**                                            |
 |     Retourne le type de déraffinement                         |
+|                                                               |
+|         * 0 : inactif                                         |
+|         * 1 : actif                                           |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
@@ -103,8 +91,27 @@ Généralités
 |         * autre valeur : problème                             |
 +---------------------------------------------------------------+
 
+Adaptation uniforme
+===================
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetUnifRefinUnRef                                 |
+|                                                               |
+| **SetUnifRefinUnRef(RefinUnRef)**                             |
+|     Définit un mode d'adaptation uniforme à tout le maillage  |
+|                                                               |
+|     - ``RefinUnRef`` : entier précisant le type d'adaptation  |
+|                                                               |
+|         * 1 : raffinement                                     |
+|         * -1 : déraffinement                                  |
++---------------------------------------------------------------+
+
+Adaptation selon un champ
+=========================
+
 Le champ de pilotage de l'adaptation et les seuils
-==================================================
+--------------------------------------------------
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -174,7 +181,7 @@ Le champ de pilotage de l'adaptation et les seuils
 
 
 Les composantes du champ de pilotage
-====================================
+------------------------------------
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -219,8 +226,8 @@ Les composantes du champ de pilotage
 +---------------------------------------------------------------+
 
 
-Les zones
-=========
+Adaptation selon des zones
+==========================
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -430,7 +437,6 @@ Exemple
 La création de l'objet hypo_1 se fait ainsi : ::
 
     hypo_1 = homard.CreateHypothesis("HypoField")
-    hypo_1.SetAdapRefinUnRef(1, 1, 0)
     hypo_1.SetField("INDICATEUR")
     hypo_1.AddComp("INDX")
     hypo_1.AddComp("INDZ")

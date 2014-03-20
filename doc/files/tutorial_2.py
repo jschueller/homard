@@ -68,15 +68,13 @@ Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 # Hypothese "Hypo_2"
 # ==================
 Hypo_2 = homard.CreateHypothesis('Hypo_2')
-Hypo_2.SetAdapRefinUnRef(0, 1, 0)
 Hypo_2.AddZone('Zone_1', 1)
 Hypo_2.AddZone('Zone_0', 1)
 #
 # Hypothese "Hypo_2_bis"
 # ======================
 Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
-Hypo_2_bis.SetAdapRefinUnRef(0, 1, 0)
-Hypo_2_bis.AddZone('Zone_0', 1)
+Hypo_2_bis.AddZone('Zone_0', -1)
 Hypo_2_bis.AddZone('Zone_2', 1)
 #
 # Cas

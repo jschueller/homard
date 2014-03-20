@@ -165,7 +165,13 @@ bool MonCreateHypothesis::PushOnApply()
   }
 
 // Mise en place des attributs
-  aHypothesis->SetAdapRefinUnRef(_aTypeAdap,_aTypeRaff,_aTypeDera);
+  if ( _aTypeAdap == -1 )
+  {
+    int TypeRaffDera ;
+    if ( _aTypeRaff == 1 ) { TypeRaffDera = 1 ; }
+    else                   { TypeRaffDera = -1 ; }
+    aHypothesis->SetUnifRefinUnRef(TypeRaffDera);
+  }
   aHypothesis->SetTypeFieldInterp(_TypeFieldInterp);
   aHypothesis->SetCaseCreation(_aCaseName.toStdString().c_str());
 
