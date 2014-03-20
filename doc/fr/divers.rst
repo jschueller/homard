@@ -62,5 +62,6 @@ SALOME VERSION 7.4 :
     - Publication des maillages à la demande.
     - Suivi de frontière analytique torique.
     - La fonction ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` est supprimée. Pour une adaptation selon un champ ou des zones, le mode raffinement/déraffinement est automatiquement déduit des autres paramètres de l'hypothèse. Pour un raffinement uniforme, on utilisera ``SetUnifRefinUnRef(TypeRaffDera)`` (voir :ref:`tui_create_hypothese`).
+    - En cas d'erreur dans l'adaptation, le nom du fichier de messages est affiché.
 
 
