@@ -2628,7 +2628,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   // H.3 Message d'erreur
     if (codretexec != 0)
     {
-      std::string text ;
+      std::string text = "" ;
       // Message d'erreur en cas de probleme en adaptation
       if ( modeHOMARD == 1 )
       {
@@ -2651,10 +2651,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
           }
         }
       }
-      else
-      {
-        text = "Voir le fichier Liste.log.\n" ;
-      }
+      text += "\n\nSee the file " + LogFile + "\n" ;
       INFOS ( text ) ;
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
@@ -2780,6 +2777,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   int TypeAdap = (*ListTypes)[0];
   int TypeRaff = (*ListTypes)[1];
   int TypeDera = (*ListTypes)[2];
+//   MESSAGE ( ". TypeAdap = " << TypeAdap << ", TypeRaff = " << TypeRaff << ", TypeDera = " << TypeDera  );
 
   // E. Texte du fichier de configuration
   // E.1. Incontournables du texte
@@ -2884,11 +2882,10 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
     // que c'est bien un probleme d'absence
 #ifndef WIN32
     if ( chdir(DirNameA.str().c_str()) != 0 )
-    {
 #else
     if ( _chdir(DirNameA.str().c_str()) != 0 )
-    {
 #endif
+    {
       bool existe = false ;
 #ifndef WIN32
       DIR *dp;
@@ -2960,16 +2957,13 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
 #ifndef WIN32
   if (chdir(DirCompute.str().c_str()) != 0)
   {
-//  Creation du repertoire car il n'existe pas :
     if (mkdir(DirCompute.str().c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
-    {
 #else
   if (_chdir(DirCompute.str().c_str()) != 0)
   {
-//  Creation du repertoire car il n'existe pas :
     if (_mkdir(DirCompute.str().c_str()) != 0)
-    {
 #endif
+    {
        // GERALD -- QMESSAGE BOX
        std::cerr << "Pb Creation du repertoire DirCompute = " << DirCompute.str() << std::endl;
        VERIFICATION("Pb a la creation du repertoire" == 0);

@@ -782,8 +782,8 @@ void MonCreateHypothesis::AssocieComposants()
 
   _aFieldName=CBFieldName->currentText();
   aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
-  aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ;
-  aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ;
+  if ( _TypeThR > 0 ) { aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ; }
+  if ( _TypeThC > 0 ) { aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ; }
   aHypothesis->SetUseField( _UsField ) ;
   aHypothesis->SetUseComp( _UsCmpI ) ;
   _aListeComposant = GetListCompChecked() ;

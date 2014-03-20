@@ -122,10 +122,14 @@ void HOMARD_Hypothesis_i::SetUnifRefinUnRef( CORBA::Long TypeRaffDera )
     TypeRaff = 1 ;
     TypeDera = 0 ;
   }
-  else
+  else if ( TypeRaffDera == -1 )
   {
     TypeRaff = 0 ;
     TypeDera = 1 ;
+  }
+  else
+  {
+    ASSERT( "TypeRaffDera should be 1 or -1" == 0 );
   }
   myHomardHypothesis->SetAdapType( -1 );
   myHomardHypothesis->SetRefinTypeDera( TypeRaff, TypeDera );
@@ -231,8 +235,11 @@ HOMARD::listeComposantsHypo* HOMARD_Hypothesis_i::GetComps()
 void HOMARD_Hypothesis_i::SetRefinThr( CORBA::Long TypeThR, CORBA::Double ThreshR )
 {
   myHomardHypothesis->SetAdapType( 1 );
-  int TypeDera = myHomardHypothesis->GetUnRefType() ;
-  myHomardHypothesis->SetRefinTypeDera( 1, TypeDera );
+  if ( TypeThR > 0 )
+  {
+    int TypeDera = myHomardHypothesis->GetUnRefType() ;
+    myHomardHypothesis->SetRefinTypeDera( 1, TypeDera );
+  }
   myHomardHypothesis->SetRefinThr( TypeThR, ThreshR );
 }
 //=============================================================================
@@ -245,8 +252,11 @@ CORBA::Long HOMARD_Hypothesis_i::GetRefinThrType()
 void HOMARD_Hypothesis_i::SetUnRefThr( CORBA::Long TypeThC, CORBA::Double ThreshC )
 {
   myHomardHypothesis->SetAdapType( 1 );
-  int TypeRaff = myHomardHypothesis->GetRefinType() ;
-  myHomardHypothesis->SetRefinTypeDera( TypeRaff, 1 );
+  if ( TypeThC > 0 )
+  {
+    int TypeRaff = myHomardHypothesis->GetRefinType() ;
+    myHomardHypothesis->SetRefinTypeDera( TypeRaff, 1 );
+  }
   myHomardHypothesis->SetUnRefThr( TypeThC, ThreshC );
 }
 //=============================================================================
