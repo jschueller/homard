@@ -18,6 +18,7 @@
 //
 
 #include "MonPursueIteration.h"
+#include "HOMARD.hxx"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -107,11 +108,7 @@ bool MonPursueIteration::PushOnApply()
       return false;
     }
   }
-#ifndef WIN32
-  if (chdir(aDirName.toStdString().c_str()) != 0)
-#else
-  if (_chdir(aDirName.toStdString().c_str()) != 0)
-#endif
+  if (CHDIR(aDirName.toStdString().c_str()) != 0)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_DIRECTORY_3") );
@@ -125,11 +122,7 @@ bool MonPursueIteration::PushOnApply()
                               QObject::tr("HOM_START_DIRECTORY_1") );
     return false;
   }
-#ifndef WIN32
-  if (chdir(aDirNameStart.toStdString().c_str()) != 0)
-#else
-  if (_chdir(aDirNameStart.toStdString().c_str()) != 0)
-#endif
+  if (CHDIR(aDirNameStart.toStdString().c_str()) != 0)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_START_DIRECTORY_3") );

@@ -18,6 +18,7 @@
 //
 
 #include "MonMeshInfo.h"
+#include "HOMARD.hxx"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -115,11 +116,7 @@ bool MonMeshInfo::PushOnApply()
       return false;
     }
   }
-#ifndef WIN32
-  if (chdir(aDirName.toStdString().c_str()) != 0)
-#else
-  if (_chdir(aDirName.toStdString().c_str()) != 0)
-#endif
+  if (CHDIR(aDirName.toStdString().c_str()) != 0)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_CASE_DIRECTORY_3") );

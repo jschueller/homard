@@ -22,11 +22,12 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010, 2013
+Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.8"
+__revision__ = "V1.9"
 #
 import os
+import sys
 #
 # ==================================
 # Repertoire a personnaliser
@@ -44,7 +45,11 @@ if not os.path.isdir(dircase) :
 # ==================================
 # Ce repertoire contient les fichiers de donnees : tutorial_2.00.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
-data_dir = os.path.join(pathHomard, "share/doc/salome/gui/HOMARD/fr/_downloads")
+data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+sys.path.append(data_dir)
+from tutorial_util import gzip_gunzip
+gzip_gunzip(data_dir, 2, -1)
+# ==================================
 #
 import salome
 salome.salome_init()
@@ -97,6 +102,10 @@ Iter_2_2.SetMeshName('M_2')
 Iter_2_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_2_2.AssociateHypo('Hypo_2_bis')
 codret = Iter_2_2.Compute(1, 2)
+
+# ==================================
+gzip_gunzip(data_dir, 2, 1)
+# ==================================
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

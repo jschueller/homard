@@ -37,13 +37,15 @@ One will make here three successive uniform refinements of the mesh contained in
 
 
 .. literalinclude:: ../files/tutorial_1.py
-   :lines: 57-89
+   :lines: 62-94
 
 .. note::
   Download the files
 
   * :download:`initial mesh<../files/tutorial_1.00.med.gz>`
   * :download:`python script<../files/tutorial_1.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
+
 
 
 Refinement by zones
@@ -53,13 +55,14 @@ Refinement by zones
 One proceeds here to refinement according to zones. To pass from the initial mesh to the mesh 'M_1', one uses a box framing the z=1 plane and a sphere centered on the origin with radius 1.05. Then to pass from the mesh 'M_1' to the mesh 'M_2', one replaces the sphere by a box framing the cube on side 0.5, pointing on the origin and the meshes in the very first zone are unrefined.
 
 .. literalinclude:: ../files/tutorial_2.py
-   :lines: 57-99
+   :lines: 62-104
 
 .. note::
   Download the files
 
   * :download:`initial mesh<../files/tutorial_2.00.med.gz>`
   * :download:`python script<../files/tutorial_2.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
 
 
 Refinement driven by a field
@@ -70,7 +73,7 @@ One proceeds here to refinement according to a field. The hypotheses are used to
 To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are applied. In the first, Iter_2, the field is a scalar field of indicators of error and one cuts out the 1.5% of elements where the error is largest. In the second alternative, Iter_2_bis, one is based on a vector field and one examines the jump of this vector between an element and its neighbors: one will cut out where the infinite standard of this jump is higher than the absolute threshold of 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
-   :lines: 57-128
+   :lines: 62-133
 
 .. note::
   Download the files
@@ -78,6 +81,7 @@ To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are 
   * :download:`mesh and field stage 0<../files/tutorial_3.00.med.gz>`
   * :download:`mesh and field stage 1<../files/tutorial_3.01.med.gz>`
   * :download:`python script<../files/tutorial_3.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
 
 
 Non plane boundaries
@@ -89,7 +93,7 @@ One tests the follow-up of the curved borders here: analytical borders to descri
 Scheme YACS carrying out this adaptation is downloadable.
 
 .. literalinclude:: ../files/tutorial_4.py
-   :lines: 57-115
+   :lines: 62-120
 
 .. note::
   Download the files
@@ -97,6 +101,7 @@ Scheme YACS carrying out this adaptation is downloadable.
   * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
   * :download:`mesh of the discrete boundary<../files/tutorial_4.fr.med.gz>`
   * :download:`python script<../files/tutorial_4.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
   * :download:`YACS scheme<../files/tutorial_4.xml>`
 
 
@@ -108,7 +113,7 @@ The instructions to adapt a 2D mesh are exactly identical to those necessary to 
 In the case presented here, one for the first time refines all the elements contained in a bored disk, then in one second iteration, all the elements contained in a rectangle. One will note the use of the follow-up of the circular borders of the field.
 
 .. literalinclude:: ../files/tutorial_5.py
-   :lines: 57-99
+   :lines: 62-104
 
 .. note::
   Download the files
@@ -116,6 +121,7 @@ In the case presented here, one for the first time refines all the elements cont
   * :download:`initial mesh<../files/tutorial_5.00.med.gz>`
   * :download:`mesh of the discrete boundary<../files/tutorial_5.fr.med.gz>`
   * :download:`python script<../files/tutorial_5.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
 
 
 .. toctree::

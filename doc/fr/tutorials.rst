@@ -36,13 +36,14 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
   * le maillage produit porte toujours le même nom. Cela ne pose pas de problème car il est stocké dans des fichiers différents.
 
 .. literalinclude:: ../files/tutorial_1.py
-   :lines: 57-89
+   :lines: 62-94
 
 .. note::
   Téléchargement des fichiers
 
   * :download:`maillage initial<../files/tutorial_1.00.med.gz>`
   * :download:`commandes python<../files/tutorial_1.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
 
 
 Raffinement par des zones
@@ -52,13 +53,14 @@ Raffinement par des zones
 On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine et on déraffine les mailles contenues dans la toute première zone.
 
 .. literalinclude:: ../files/tutorial_2.py
-   :lines: 57-99
+   :lines: 62-104
 
 .. note::
   Téléchargement des fichiers
 
   * :download:`maillage initial<../files/tutorial_2.00.med.gz>`
   * :download:`commandes python<../files/tutorial_2.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
 
 
 Raffinement selon un champ
@@ -69,7 +71,7 @@ On procède ici au raffinement selon un champ. Les hypothèses servent à définir l
 Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
-   :lines: 57-128
+   :lines: 62-133
 
 .. note::
   Téléchargement des fichiers
@@ -77,6 +79,7 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont app
   * :download:`maillage et champ étape 0<../files/tutorial_3.00.med.gz>`
   * :download:`maillage et champ étape 1<../files/tutorial_3.01.med.gz>`
   * :download:`commandes python<../files/tutorial_3.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
 
 
 Suivi de frontières courbes
@@ -88,7 +91,7 @@ On teste ici le suivi des frontières courbes : des frontières analytiques pour d
 Le schéma YACS réalisant cette adaptation est téléchargeable.
 
 .. literalinclude:: ../files/tutorial_4.py
-   :lines: 57-115
+   :lines: 62-120
 
 .. note::
   Téléchargement des fichiers
@@ -96,6 +99,7 @@ Le schéma YACS réalisant cette adaptation est téléchargeable.
   * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
   * :download:`maillage de la frontière discrète<../files/tutorial_4.fr.med.gz>`
   * :download:`commandes python<../files/tutorial_4.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
   * :download:`schéma YACS<../files/tutorial_4.xml>`
 
 
@@ -107,7 +111,7 @@ Les instructions pour adapter un maillage 2D sont exactement identiques à celles
 Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
 
 .. literalinclude:: ../files/tutorial_5.py
-   :lines: 57-99
+   :lines: 62-104
 
 .. note::
   Téléchargement des fichiers
@@ -115,7 +119,9 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles conten
   * :download:`maillage initial<../files/tutorial_5.00.med.gz>`
   * :download:`maillage de la frontière discrète<../files/tutorial_5.fr.med.gz>`
   * :download:`commandes python<../files/tutorial_5.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
 
 
 .. toctree::
    :maxdepth: 2
+

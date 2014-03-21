@@ -41,4 +41,13 @@
    #define HOMARDIMPL_EXPORT
 #endif
 
+// La gestion des repertoires
+#ifndef CHDIR
+  #ifdef WIN32
+    #define CHDIR _chdir
+  #else
+    #define CHDIR chdir
+  #endif
+#endif
+
 #endif
