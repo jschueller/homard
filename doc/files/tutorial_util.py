@@ -21,10 +21,18 @@
 Python script for HOMARD
 Copyright EDF-R&D 2014
 """
-__revision__ = "V1.0"
+__revision__ = "V1.1"
 
 import os
 import sys
+
+pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des tests
+Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
+Rep_Test = os.path.normpath(Rep_Test)
+sys.path.append(Rep_Test)
+from test_util import remove_dir
+
 #========================================================================
 #========================================================================
 def gzip_gunzip(data_dir, num_tuto, option) :
@@ -95,3 +103,27 @@ Copyright EDF-R&D 2014
 #
 #========================================================================
 #========================================================================
+def creation_dircase(num_tuto) :
+  """
+Creation of a directory for the results of tutorial_x
+num_tuto: number of the tutorial
+Copyright EDF-R&D 2014
+  """
+#
+  if os.environ.has_key("LOGNAME") :
+    user = os.environ ["LOGNAME"]
+  else :
+    user = "anonymous"
+  dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
+  if not os.path.isdir(dircase) :
+    os.mkdir (dircase)
+  dirtuto_basis = "tutorial_%d" % num_tuto
+  dircase = os.path.join( dircase, dirtuto_basis )
+  if os.path.isdir(dircase) :
+    remove_dir(dircase)
+  os.mkdir (dircase)
+#
+  return dircase
+#========================================================================
+#========================================================================
+#

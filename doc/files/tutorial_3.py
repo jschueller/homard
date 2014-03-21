@@ -24,30 +24,21 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.8"
+__revision__ = "V1.9"
 #
 import os
 import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
-if os.environ.has_key("LOGNAME") :
-  user = os.environ ["LOGNAME"]
-else :
-  user = "anonymous"
-dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-dircase = os.path.join( dircase, "tutorial_3" )
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-# ==================================
-# Ce repertoire contient les fichiers de donnees : tutorial_3.00.med, tutorial_3.01.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
 data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+data_dir = os.path.normpath(data_dir)
 sys.path.append(data_dir)
 from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+dircase = creation_dircase(3)
 gzip_gunzip(data_dir, 3, -1)
 # ==================================
 #
@@ -110,7 +101,7 @@ Iter_3_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_3_1.SetFieldFile(data_dir+'/tutorial_3.00.med')
 Iter_3_1.SetTimeStepRank( 1, 1)
 Iter_3_1.AssociateHypo('Hypo_0vers1')
-codret = Iter_3_1.Compute(1, 2)
+error = Iter_3_1.Compute(1, 2)
 #
 # Iteration "Iter_3_2"
 # ====================
@@ -120,7 +111,7 @@ Iter_3_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_3_2.SetFieldFile(data_dir+'/tutorial_3.01.med')
 Iter_3_2.SetTimeStepRank(1, 1)
 Iter_3_2.AssociateHypo('Hypo_1vers2')
-codret = Iter_3_2.Compute(1, 2)
+error = Iter_3_2.Compute(1, 2)
 #
 # Iteration "Iter_3_2_bis"
 # ========================
@@ -130,7 +121,7 @@ Iter_3_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')
 Iter_3_2_bis.SetFieldFile(data_dir+'/tutorial_3.01.med')
 Iter_3_2_bis.SetTimeStepRank(1, 1)
 Iter_3_2_bis.AssociateHypo('Hypo_1vers2_bis')
-codret = Iter_3_2_bis.Compute(1, 2)
+error = Iter_3_2_bis.Compute(1, 2)
 
 # ==================================
 gzip_gunzip(data_dir, 3, 1)

@@ -24,30 +24,21 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.8"
+__revision__ = "V1.9"
 #
 import os
 import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med, maill.03.med
-if os.environ.has_key("LOGNAME") :
-  user = os.environ ["LOGNAME"]
-else :
-  user = "anonymous"
-dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-dircase = os.path.join( dircase, "tutorial_1" )
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-# ==================================
-# Ce repertoire contient les fichiers de donnees : tutorial_1.00.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
 data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+data_dir = os.path.normpath(data_dir)
 sys.path.append(data_dir)
 from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+dircase = creation_dircase(1)
 gzip_gunzip(data_dir, 1, -1)
 # ==================================
 #
@@ -77,21 +68,21 @@ Iter_1_1 = Case_1.NextIteration('Iter_1_1')
 Iter_1_1.SetMeshName('MESH')
 Iter_1_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_1_1.AssociateHypo('Hypo_1')
-codret = Iter_1_1.Compute(1, 2)
+error = Iter_1_1.Compute(1, 2)
 
 # Iteration "Iter_1_2"
 Iter_1_2 = Iter_1_1.NextIteration('Iter_1_2')
 Iter_1_2.SetMeshName('MESH')
 Iter_1_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_1_2.AssociateHypo('Hypo_1')
-codret = Iter_1_2.Compute(1, 2)
+error = Iter_1_2.Compute(1, 2)
 
 # Iteration "Iter_1_3"
 Iter_1_3 = Iter_1_2.NextIteration('Iter_1_3')
 Iter_1_3.SetMeshName('MESH')
 Iter_1_3.SetMeshFile(dircase+'/maill.03.med')
 Iter_1_3.AssociateHypo('Hypo_1')
-codret = Iter_1_3.Compute(1, 2)
+error = Iter_1_3.Compute(1, 2)
 
 # ==================================
 gzip_gunzip(data_dir, 1, 1)

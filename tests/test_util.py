@@ -46,3 +46,56 @@ Copyright EDF-R&D 2013
 #
 #========================================================================
 #========================================================================
+def test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file) :
+  """
+Test of the result
+Rep_Test: repertoire des tests
+Test_Name: nom du test
+dircase: repertoire des resultats du test
+n_iter_test_file: numero de l'iteration a tester
+n_rep_test_file: numero du repertoire de l'iteration a tester
+Copyright EDF-R&D 2014
+  """
+  #
+  test_file_suff = "apad.%02d.bilan" % n_iter_test_file
+  rep_test_file = "I%02d" % n_rep_test_file
+  #
+  test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
+  mess_error_ref = "\nReference file: " + test_file
+  try :
+    file = open (test_file, "r")
+    mess_ref = file.readlines()
+    file.close()
+  except :
+    mess_error = mess_error_ref + "\nThis file does not exist.\n"
+    raise Exception(mess_error)
+  #
+  test_file = os.path.join(dircase, rep_test_file, test_file_suff)
+  if os.path.isfile (test_file) :
+    file = open (test_file, "r")
+    mess = file.readlines()
+    file.close()
+  else :
+    mess_error  = "\nResult file: " + test_file
+    mess_error += "\nThis file does not exist.\n"
+    raise Exception(mess_error)
+
+  nblign = len(mess_ref)
+  if ( len(mess) != nblign ):
+    mess_error = mess_error_ref +  "\nResult file: " + test_file
+    mess_error += "\nThe number of lines of the files are not the same.\n"
+    raise Exception(mess_error)
+
+  for num in range(nblign) :
+    if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
+      message_erreur = "\nRefe : " + mess_ref[num]
+      message_erreur += "Test : " + mess[num][:-1]
+      message_erreur += "\nThe test is different from the reference."
+      raise Exception(message_erreur)
+  #
+  remove_dir(dircase)
+#
+  return
+#
+#========================================================================
+#========================================================================

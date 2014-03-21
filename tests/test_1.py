@@ -19,10 +19,10 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2013
+Copyright EDF-R&D 2010, 2014
 Test test_1
 """
-__revision__ = "V2.1"
+__revision__ = "V2.2"
 
 #========================================================================
 Test_Name = "test_1"
@@ -34,14 +34,18 @@ import sys
 import HOMARD
 import salome
 #
+# ==================================
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du test
 Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
 Rep_Test = os.path.normpath(Rep_Test)
-Rep_Test_Resu = tempfile.mktemp()
-os.mkdir(Rep_Test_Resu)
-
 sys.path.append(Rep_Test)
-from test_util import remove_dir
+from test_util import test_results
+# Repertoire des resultats
+dircase = tempfile.mktemp()
+os.mkdir(dircase)
+# ==================================
+
 
 salome.salome_init()
 import iparameters
@@ -53,7 +57,6 @@ ipar.append("AP_MODULES_LIST", "Homard")
 def homard_exec(theStudy):
   """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2013
   """
   error = 0
 #
@@ -106,7 +109,7 @@ Copyright EDF-R&D 2010, 2013
     print "-------- Creation of the case", CaseName
     MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
     Case_test_1 = homard.CreateCase(CaseName, 'MAILL', MeshFile)
-    Case_test_1.SetDirName(Rep_Test_Resu)
+    Case_test_1.SetDirName(dircase)
     Case_test_1.SetConfType(1)
   #
   # Creation of the iterations
@@ -118,7 +121,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_test_1_1.AssociateHypo(HypoName_1)
     print ". Hypothese :", HypoName_1
     Iter_test_1_1.SetMeshName('M1')
-    Iter_test_1_1.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.01.med'))
+    Iter_test_1_1.SetMeshFile(os.path.join(dircase, 'maill.01.med'))
     Iter_test_1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
     Iter_test_1_1.SetTimeStepRank(1, 1)
     Iter_test_1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
@@ -136,7 +139,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_test_1_2.AssociateHypo(HypoName_1)
     print ". Hypothese :", HypoName_1
     Iter_test_1_2.SetMeshName('M2')
-    Iter_test_1_2.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.02.med'))
+    Iter_test_1_2.SetMeshFile(os.path.join(dircase, 'maill.02.med'))
     Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
     Iter_test_1_2.SetTimeStepRank(1, 1)
     Iter_test_1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
@@ -154,7 +157,7 @@ Copyright EDF-R&D 2010, 2013
     Iter_test_1_3.AssociateHypo(HypoName_2)
     print ". Hypothese :", HypoName_2
     Iter_test_1_3.SetMeshName('M3')
-    Iter_test_1_3.SetMeshFile(os.path.join(Rep_Test_Resu, 'maill.03.med'))
+    Iter_test_1_3.SetMeshFile(os.path.join(dircase, 'maill.03.med'))
     Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.02.med'))
     print ". Instants d'interpolation :", Iter_test_1_3.GetFieldInterpsTimeStepRank()
     error = Iter_test_1_3.Compute(1, 1)
@@ -166,7 +169,7 @@ Copyright EDF-R&D 2010, 2013
   # ===========================
     ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
     ScriptFile = os.path.normpath(ScriptFile)
-    DirName = Rep_Test_Resu
+    DirName = dircase
     YACS_test_1 = Case_test_1.CreateYACSSchema("YACS_test_1", ScriptFile, DirName, MeshFile)
     error = YACS_test_1.Write()
     if error :
@@ -182,7 +185,6 @@ Copyright EDF-R&D 2010, 2013
 homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert homard is not None, "Impossible to load homard engine"
 homard.SetLanguageShort("fr")
-
 #
 # Exec of HOMARD-SALOME
 #
@@ -193,45 +195,10 @@ try :
 except Exception, e:
   raise Exception('Pb in homard_exec: '+e.message)
 #
-# Test of the result
+# Test of the results
 #
-test_file_suff = "apad.%02d.bilan" % n_iter_test_file
-rep_test_file = "I%02d" % n_iter_test_file
-#
-test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
-mess_error_ref = "\nReference file: " + test_file
-try :
-  file = open (test_file, "r")
-  mess_ref = file.readlines()
-  file.close()
-except :
-  mess_error = mess_error_ref + "\nThis file does not exist.\n"
-  raise Exception(mess_error)
-#
-test_file = os.path.join(Rep_Test_Resu, rep_test_file, test_file_suff)
-if os.path.isfile (test_file) :
-  file = open (test_file, "r")
-  mess = file.readlines()
-  file.close()
-else :
-  mess_error  = "\nResult file: " + test_file
-  mess_error += "\nThis file does not exist.\n"
-  raise Exception(mess_error)
-
-nblign = len(mess_ref)
-if ( len(mess) != nblign ):
-  mess_error = mess_error_ref +  "\nResult file: " + test_file
-  mess_error += "\nThe number of lines of the files are not the same.\n"
-  raise Exception(mess_error)
-
-for num in range(nblign) :
-  if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
-    message_erreur = "\nRefe : " + mess_ref[num]
-    message_erreur += "Test : " + mess[num][:-1]
-    message_erreur += "\nThe test is different from the reference."
-    raise Exception(message_erreur)
-#
-remove_dir(Rep_Test_Resu)
+n_rep_test_file = n_iter_test_file
+test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

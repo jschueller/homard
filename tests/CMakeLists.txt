@@ -38,6 +38,16 @@ SET(HOMARD_TEST_FILES
   test_3.00.med
   test_3.fr.med
   test_3.apad.02.bilan
+  test_11.py
+  test_11.apad.03.bilan
+  test_12.py
+  test_12.apad.02.bilan
+  test_13.py
+  test_13.apad.02.bilan
+  test_14.py
+  test_14.apad.03.bilan
+  test_15.py
+  test_15.apad.02.bilan
 )
 
 INSTALL(FILES ${HOMARD_TEST_FILES} DESTINATION ${SALOME_HOMARD_INSTALL_RES_DATA})

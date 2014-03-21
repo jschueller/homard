@@ -24,30 +24,21 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.7"
+__revision__ = "V1.8"
 #
 import os
 import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
-if os.environ.has_key("LOGNAME") :
-  user = os.environ ["LOGNAME"]
-else :
-  user = "anonymous"
-dircase = os.path.join( os.sep, "tmp", "HOMARD_"+user)
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-dircase = os.path.join( dircase, "tutorial_5" )
-if not os.path.isdir(dircase) :
-  os.mkdir (dircase)
-# ==================================
-# Ce repertoire contient les fichiers de donnees : tutorial_5.00.med, tutorial_5.fr.med
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
 data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+data_dir = os.path.normpath(data_dir)
 sys.path.append(data_dir)
 from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+dircase = creation_dircase(5)
 gzip_gunzip(data_dir, 5, -1)
 # ==================================
 #
@@ -93,7 +84,7 @@ Iter_5_1 = Case_5.NextIteration('Iter_5_1')
 Iter_5_1.SetMeshName('COEUR_2D_01')
 Iter_5_1.SetMeshFile(dircase+'/maill.01.med')
 Iter_5_1.AssociateHypo('Hypo_5')
-codret = Iter_5_1.Compute(1, 2)
+error = Iter_5_1.Compute(1, 2)
 #
 # Iteration "Iter_5_2"
 # ====================
@@ -101,7 +92,7 @@ Iter_5_2 = Iter_5_1.NextIteration('Iter_5_2')
 Iter_5_2.SetMeshName('COEUR_2D_02')
 Iter_5_2.SetMeshFile(dircase+'/maill.02.med')
 Iter_5_2.AssociateHypo('Hypo_5_bis')
-codret = Iter_5_2.Compute(1, 2)
+error = Iter_5_2.Compute(1, 2)
 
 # ==================================
 gzip_gunzip(data_dir, 5, 1)
