@@ -588,7 +588,7 @@ void HomardDriver::TexteField( const std::string FieldName, const std::string Fi
   if ( UsCmpI == 1 )
   { saux = "INFINI" ; }
   if ( UsCmpI == 2 )
-  { saux = "V_RELATIVE" ; }
+  { saux = "RELATIF" ; }
   if ( saux != " " )
   {
     _Texte += "CCUsCmpI " + saux  + "\n" ;
