@@ -685,7 +685,8 @@ void MonCreateHypothesis::SetUCL2()
 void MonCreateHypothesis::SetUCInf()
 // ------------------------------------------------------------------------
 {
-  _UsCmpI = 1 ;
+  if ( TWCMP->rowCount() == 1 ) { _UsCmpI = 2 ; }
+  else                          { _UsCmpI = 1 ; }
   RBInf->setChecked(true);
 }
 // ------------------------------------------------------------------------

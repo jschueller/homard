@@ -116,6 +116,7 @@ bool HOMARD_Hypothesis_i::Restore( const std::string& stream )
 void HOMARD_Hypothesis_i::SetUnifRefinUnRef( CORBA::Long TypeRaffDera )
 {
   ASSERT( myHomardHypothesis );
+  VERIFICATION( (TypeRaffDera==1) || (TypeRaffDera==-1) );
   int TypeRaff, TypeDera ;
   if ( TypeRaffDera == 1 )
   {
@@ -126,10 +127,6 @@ void HOMARD_Hypothesis_i::SetUnifRefinUnRef( CORBA::Long TypeRaffDera )
   {
     TypeRaff = 0 ;
     TypeDera = 1 ;
-  }
-  else
-  {
-    ASSERT( "TypeRaffDera should be 1 or -1" == 0 );
   }
   myHomardHypothesis->SetAdapType( -1 );
   myHomardHypothesis->SetRefinTypeDera( TypeRaff, TypeDera );
@@ -444,6 +441,7 @@ void HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
 {
   MESSAGE ("Dans AddZone pour " << NomZone << " et TypeUse = " << TypeUse ) ;
   ASSERT( myHomardHypothesis );
+  VERIFICATION( (TypeUse==1) || (TypeUse==-1) );
   myHomardHypothesis->SetAdapType( 0 );
   int TypeRaff, TypeDera ;
   if ( TypeUse == 1 )
@@ -455,10 +453,6 @@ void HOMARD_Hypothesis_i::AddZone( const char* NomZone, CORBA::Long TypeUse )
   {
     TypeRaff = myHomardHypothesis->GetRefinType() ;
     TypeDera = 1 ;
-  }
-  else
-  {
-    ASSERT( "TypeUse should be 1 or -1" == 0 );
   }
   myHomardHypothesis->SetRefinTypeDera( TypeRaff, TypeDera );
   char* NomHypo = GetName() ;
