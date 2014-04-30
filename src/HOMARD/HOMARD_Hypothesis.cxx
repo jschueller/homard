@@ -219,6 +219,7 @@ int HOMARD_Hypothesis::GetUseField() const
 //=============================================================================
 void HOMARD_Hypothesis::SetUseComp( int UsCmpI )
 {
+  MESSAGE ("SetUseComp pour UsCmpI = "<<UsCmpI) ;
   VERIFICATION( (UsCmpI>=0) && (UsCmpI<=2) );
   _UsCmpI = UsCmpI;
 }

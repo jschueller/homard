@@ -19,10 +19,10 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2013
+Copyright EDF-R&D 2014
 Test test_1
 """
-__revision__ = "V1.0"
+__revision__ = "V1.1"
 
 import os
 #========================================================================
@@ -57,6 +57,8 @@ n_rep_test_file: numero du repertoire de l'iteration a tester
 Copyright EDF-R&D 2014
   """
   #
+  destroy_dir = True
+  #
   test_file_suff = "apad.%02d.bilan" % n_iter_test_file
   rep_test_file = "I%02d" % n_rep_test_file
   #
@@ -68,6 +70,7 @@ Copyright EDF-R&D 2014
     file.close()
   except :
     mess_error = mess_error_ref + "\nThis file does not exist.\n"
+    destroy_dir = False
     raise Exception(mess_error)
   #
   test_file = os.path.join(dircase, rep_test_file, test_file_suff)
@@ -78,12 +81,14 @@ Copyright EDF-R&D 2014
   else :
     mess_error  = "\nResult file: " + test_file
     mess_error += "\nThis file does not exist.\n"
+    destroy_dir = False
     raise Exception(mess_error)
 
   nblign = len(mess_ref)
   if ( len(mess) != nblign ):
     mess_error = mess_error_ref +  "\nResult file: " + test_file
     mess_error += "\nThe number of lines of the files are not the same.\n"
+    destroy_dir = False
     raise Exception(mess_error)
 
   for num in range(nblign) :
@@ -91,9 +96,11 @@ Copyright EDF-R&D 2014
       message_erreur = "\nRefe : " + mess_ref[num]
       message_erreur += "Test : " + mess[num][:-1]
       message_erreur += "\nThe test is different from the reference."
+      destroy_dir = False
       raise Exception(message_erreur)
   #
-  remove_dir(dircase)
+  if destroy_dir:
+    remove_dir(dircase)
 #
   return
 #

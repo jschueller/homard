@@ -145,6 +145,7 @@ int HOMARD_Cas::GetNumberofIter()
 //=============================================================================
 void HOMARD_Cas::SetConfType( int Conftype )
 {
+//   VERIFICATION( (Conftype>=1) && (Conftype<=4) );
   _ConfType = Conftype;
 }
 //=============================================================================
