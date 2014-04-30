@@ -5,7 +5,7 @@ ANALYSE DU MAILLAGE
 
      Maillage apres adaptation                         
      MZERO                                                                           
-     Date de creation : vendredi 21 mars 2014 a 11 h 33 mn 28 s         
+     Date de creation : jeudi 3 avril 2014 a 13 h 25 mn 10 s            
      Dimension : 3
      Degre : 2
      C'est un maillage obtenu apres      2 adaptations.
@@ -55,8 +55,10 @@ ANALYSE DU MAILLAGE
      * . dont triangles internes aux volumes       *          0 *
      ************************************************************
      * . du niveau   0                             *          0 *
-     * . du niveau   1                             *         30 *
-     * . du niveau   2                             *         36 *
+     * . du niveau   0.5                           *          6 *
+     * . du niveau   1                             *         24 *
+     * . du niveau   1.5                           *         12 *
+     * . du niveau   2                             *         24 *
      ************************************************************
 
      ************************************************************
@@ -65,6 +67,8 @@ ANALYSE DU MAILLAGE
      * Nombre total                                *        113 *
      ************************************************************
      * . du niveau   0                             *          0 *
-     * . du niveau   1                             *         23 *
-     * . du niveau   2                             *         90 *
+     * . du niveau   0.5                           *          4 *
+     * . du niveau   1                             *         19 *
+     * . du niveau   1.5                           *         42 *
+     * . du niveau   2                             *         48 *
      ************************************************************

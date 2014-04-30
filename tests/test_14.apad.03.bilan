@@ -5,7 +5,7 @@ ANALYSE DU MAILLAGE
 
      Maillage apres adaptation                         
      PIQUAGE                                                                         
-     Date de creation : vendredi 21 mars 2014 a 11 h 35 mn 40 s         
+     Date de creation : mardi 29 avril 2014 a 17 h 47 mn 59 s           
      Dimension : 3
      Degre : 1
      C'est un maillage obtenu apres      3 adaptations.
@@ -47,8 +47,10 @@ ANALYSE DU MAILLAGE
      * . dont triangles internes aux volumes       *        278 *
      ************************************************************
      * . du niveau   0                             *          0 *
+     * . du niveau   0.5                           *          0 *
      * . du niveau   1                             *       3530 *
-     * . du niveau   2                             *      17308 *
+     * . du niveau   1.5                           *        380 *
+     * . du niveau   2                             *      16928 *
      ************************************************************
 
      ************************************************************
@@ -57,6 +59,8 @@ ANALYSE DU MAILLAGE
      * Nombre total                                *      43490 *
      ************************************************************
      * . du niveau   0                             *          0 *
+     * . du niveau   0.5                           *          0 *
      * . du niveau   1                             *      18174 *
-     * . du niveau   2                             *      25316 *
+     * . du niveau   1.5                           *      25316 *
+     * . du niveau   2                             *          0 *
      ************************************************************

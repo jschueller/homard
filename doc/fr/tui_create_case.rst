@@ -122,7 +122,6 @@ Méthodes de la classe cas
 |     - ``conf_type`` : entier précisant le mode de conformité  |
 |                                                               |
 |         * 1 : conforme                                        |
-|         * -1 : conforme avec des boites                       |
 |         * 2 : non conforme avec 1 noeud par maille            |
 |         * 3 : non conforme avec 1 noeud par arete de maille   |
 |         * 4 : non conforme quelconque                         |

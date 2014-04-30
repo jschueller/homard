@@ -5,7 +5,7 @@ ANALYSE DU MAILLAGE
 
      Maillage apres adaptation                         
      MAILL                                                                           
-     Date de creation : vendredi 1 octobre 2010 a 13 h 15 mn 42 s       
+     Date de creation : jeudi 3 avril 2014 a 11 h 45 mn 28 s            
      Dimension : 3
      Degre : 2
      C'est un maillage obtenu apres      3 adaptations.
@@ -55,8 +55,10 @@ ANALYSE DU MAILLAGE
      * . dont triangles internes aux volumes       *          0 *
      ************************************************************
      * . du niveau   0                             *          0 *
+     * . du niveau   0.5                           *          0 *
      * . du niveau   1                             *         22 *
-     * . du niveau   2                             *         76 *
+     * . du niveau   1.5                           *         28 *
+     * . du niveau   2                             *         48 *
      ************************************************************
 
      ************************************************************
@@ -65,6 +67,8 @@ ANALYSE DU MAILLAGE
      * Nombre total                                *        197 *
      ************************************************************
      * . du niveau   0                             *          0 *
+     * . du niveau   0.5                           *          0 *
      * . du niveau   1                             *         13 *
-     * . du niveau   2                             *        184 *
+     * . du niveau   1.5                           *         64 *
+     * . du niveau   2                             *        120 *
      ************************************************************
