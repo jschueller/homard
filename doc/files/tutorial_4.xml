@@ -51,9 +51,9 @@ import HOMARD_Boundary_idl
 
 clt = orbmodule.client()
 StudyManager = clt.Resolve("/myStudyManager")
-NewStudy = StudyManager.NewStudy("my_homard_study")
+CurrentStudy = StudyManager.GetStudyByID(1)
 ]]></code></script>
-         <outport name="NewStudy" type="Study"/>
+         <outport name="CurrentStudy" type="Study"/>
       </inline>
       <service name="SetCurrentStudy">
          <component>HOMARD</component>
@@ -198,7 +198,7 @@ Hypo.AddGroup('T2_EXT')
       <control> <fromnode>CreateBoundaryintersection</fromnode> <tonode>CreateCase</tonode> </control>
       <control> <fromnode>CreateHypothesis_2</fromnode> <tonode>Hypo_Options_2</tonode> </control>
       <datalink control="false">
-         <fromnode>StudyCreation</fromnode> <fromport>NewStudy</fromport>
+         <fromnode>StudyCreation</fromnode> <fromport>CurrentStudy</fromport>
          <tonode>SetCurrentStudy</tonode> <toport>theStudy</toport>
       </datalink>
       <datalink control="false">
