@@ -63,4 +63,6 @@ SALOME VERSION 7.4 :
     - The torus is a new possibility for the analytical boundary.
     - The function ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` is suppressed. For an adaptation by a field or by zones, the mode refinement/unrefinement is automatically set from the other parameters of the hypothesis. For a uniform refinement, the function ``SetUnifRefinUnRef(TypeRaffDera)`` is now used (see :ref:`tui_create_hypothese`).
     - If an error occurs, the name of the message file is displayed.
+    - Release 11.1 for the HOMARD binary. The conformal refinement of the meshes with hexaedra is improved: less meshes are produced.
+
 
