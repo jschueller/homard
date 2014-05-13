@@ -38,7 +38,7 @@ YACSDriver::YACSDriver(const std::string XMLFile, const std::string DirName):
   _XMLFile( "" ), _DirName( "" ),
   _Texte( "" ),
   _Texte_parametres( "" ),
-  _noeud_1( "CreateHypothesis" ),
+  _noeud_1( "CreateCase" ),
   _bLu( false )
 {
   MESSAGE("XMLFile = "<<XMLFile<<", DirName ="<<DirName);
@@ -121,8 +121,9 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
   std::string noeud_2 = methode + "_" + ZoneName ;
   std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
-// 2. Texte de controle
-  std::string texte_control = Texte_control (_noeud_1, noeud_2) ;
+// 2. Texte de controle : le noeud precedent est _noeud_1, le noeud courant noeud_2.
+//                        A la fin, on bascule le courant dans le precedent
+  std::string texte_control = Texte_control (_noeud_1, noeud_2, 1) ;
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
@@ -283,8 +284,9 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
   std::string noeud_2 = methode + "_" + BoundaryName ;
   std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
-// 2. Texte de controle
-  std::string texte_control = Texte_control (_noeud_1, noeud_2) ;
+// 2. Texte de controle : le noeud precedent est _noeud_1, le noeud courant noeud_2.
+//                        A la fin, on bascule le courant dans le precedent
+  std::string texte_control = Texte_control (_noeud_1, noeud_2, 1) ;
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
@@ -438,15 +440,15 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
 //
 }
 //===============================================================================
-// Controle des enchainements de noeud dans le noeud Iter_1
+// Fin du controle des enchainements de noeud dans le noeud Iter_1
 //===============================================================================
   std::string YACSDriver::Texte_Iter_1_control()
 {
   MESSAGE("Texte_Iter_1_control");
 //
   std::string texte ;
-  texte  = Texte_control ("CreateCase", "Case_Options") ;
-  texte += Texte_control ("Case_Options", "CreateHypothesis") ;
+  texte  = Texte_control (_noeud_1, "CreateHypothesis", 1) ;
+  texte += Texte_control ("CreateHypothesis", "Case_Options", 0) ;
 //
   return texte ;
 //
@@ -455,16 +457,19 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
 // Controle des enchainements de noeuds
 // noeud_1 : noeud de depart
 // noeud_2 : noeud d'arrivee
+// option : 0 : sans caractere de saut de ligne a la fin
+//          1 : avec caractere de saut de ligne a la fin
 //===============================================================================
-  std::string YACSDriver::Texte_control( const std::string noeud_1, const std::string noeud_2 )
+  std::string YACSDriver::Texte_control( const std::string noeud_1, const std::string noeud_2, int option )
 {
-  MESSAGE("Texte_control, noeud_1 = "<<noeud_1<<", noeud_2 = "<<noeud_2);
+  MESSAGE("Texte_control, noeud_1 = "<<noeud_1<<", noeud_2 = "<<noeud_2<<", option = "<<option);
 //
   std::string texte ;
   texte  = "                           <control> " ;
   texte += "<fromnode>" + noeud_1 + "</fromnode>" ;
   texte += " <tonode>"  + noeud_2 + "</tonode>" ;
-  texte += " </control>\n" ;
+  texte += " </control>" ;
+  if ( option == 1 ) { texte += "\n" ; }
 
   return texte ;
 //
@@ -476,7 +481,7 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
 //===============================================================================
   std::string YACSDriver::Texte_inport( const std::string inport_type, const std::string inport_nom )
 {
-//   MESSAGE("Texte_control, inport_type = "<<inport_type<<", inport_nom = "<<inport_nom);
+//   MESSAGE("Texte_inport, inport_type = "<<inport_type<<", inport_nom = "<<inport_nom);
 //
   std::string texte ;
   texte  = "                              <inport " ;
@@ -530,11 +535,11 @@ void YACSDriver::Texte_python_1( const std::string pythonTexte, int indice, cons
     if ( cptr > indice )
     {
       int position = ligne.find_first_of( "." ) ;
-//       MESSAGE("\nposition : "<< position);
+      MESSAGE("\nposition : "<< position);
       if ( position > 0 )
       {
         ligne_bis = ligne.substr( position );
-//         MESSAGE("\nligne_bis : "<< ligne_bis);
+        MESSAGE("\nligne_bis : "<< ligne_bis);
         _Texte += concept + ligne_bis + "\n" ;
       }
     }

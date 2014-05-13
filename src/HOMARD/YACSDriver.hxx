@@ -40,7 +40,7 @@ public:
   std::string Texte_Iter_1_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName ) ;
   std::string Texte_Iter_1_Zone( int ZoneType, const std::string pythonStructure, const std::string methode, const std::string ZoneName ) ;
   std::string Texte_Iter_1_control() ;
-  std::string Texte_control( const std::string noeud_1, const std::string noeud_2 ) ;
+  std::string Texte_control( const std::string noeud_1, const std::string noeud_2, int option ) ;
   std::string Texte_inport( const std::string inport_type, const std::string inport_nom ) ;
   void        Texte_HOMARD_Exec_DirName( ) ;
   void        Texte_HOMARD_Exec_MeshName( const std::string MeshName ) ;

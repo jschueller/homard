@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2014
 Test test_1
 """
-__revision__ = "V1.1"
+__revision__ = "V1.2"
 
 import os
 #========================================================================
@@ -46,7 +46,7 @@ Copyright EDF-R&D 2013
 #
 #========================================================================
 #========================================================================
-def test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file) :
+def test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir = True) :
   """
 Test of the result
 Rep_Test: repertoire des tests
@@ -54,10 +54,9 @@ Test_Name: nom du test
 dircase: repertoire des resultats du test
 n_iter_test_file: numero de l'iteration a tester
 n_rep_test_file: numero du repertoire de l'iteration a tester
+destroy_dir: destruction du repertoire de calcul
 Copyright EDF-R&D 2014
   """
-  #
-  destroy_dir = True
   #
   test_file_suff = "apad.%02d.bilan" % n_iter_test_file
   rep_test_file = "I%02d" % n_rep_test_file

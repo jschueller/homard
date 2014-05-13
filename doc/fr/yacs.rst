@@ -288,6 +288,7 @@ Utiliser ce schéma
 Pour reproduire cet exemple, on pourra télécharger :
   * :download:`le schéma <../files/yacs_01.fr.xml>`
   * :download:`un exemple de script python <../files/yacs_script.py>`
+  * :download:`un exemple de script python qui ne fait rien <../files/yacs_script_test.py>`
 
 Il faut l'adapter à la simulation envisagée. En particulier, il faut :
 
