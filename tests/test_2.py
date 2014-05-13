@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2014
 Test test_2
 """
-__revision__ = "V2.2"
+__revision__ = "V2.3"
 
 #========================================================================
 Test_Name = "test_2"
@@ -143,7 +143,7 @@ Python script for HOMARD
   #
   # Creation of the schema YACS
   # ===========================
-    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
+    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
     ScriptFile = os.path.normpath(ScriptFile)
     DirName = dircase
     YACS_test_2 = Case_test_2.CreateYACSSchema("YACS_test_2", ScriptFile, DirName, MeshFile)
@@ -176,7 +176,7 @@ except Exception, e:
 # Test of the results
 #
 n_rep_test_file = n_iter_test_file
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file)
+test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, True)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

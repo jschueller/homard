@@ -4162,12 +4162,14 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
       // G.1.8. Execution de HOMARD : les options de l'iteration
       else if ( mot_cle == "HOMARD_Exec_Iter_Options" )
       { myDriver->Texte_python_2( pythonIter, "TimeStep", "Iter" ) ;  }
-      // G.1.9. Zones et frontieres : les creations
+      // G.1.9. a. Creation eventuelles des zones et frontieres
+      //        b. Enchainement
       else if ( mot_cle == "Iter_1" )
       {
-        std::string texte_control = myDriver->Texte_Iter_1_control() ;
+        std::string texte_control = "" ;
         if ( TypeAdap == 0 ) { texte_control += YACSDriverTexteZone( myHypo, myDriver ) ; }
         texte_control += YACSDriverTexteBoundary( myCase, myDriver ) ;
+        texte_control += myDriver->Texte_Iter_1_control() ;
         myDriver->TexteAdd(texte_control);
       }
       // G.1.10. Les tests de convergence

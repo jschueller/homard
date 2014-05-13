@@ -288,6 +288,7 @@ Use this scheme
 To reproduce this example, download:
   * :download:`the scheme <../files/yacs_01.en.xml>`
   * :download:`an example of python script <../files/yacs_script.py>`
+  * :download:`an example of python script ... for nothing <../files/yacs_script_test.py>`
 
 It should be adapted to simulation considered. In particular, it is necessary:
 

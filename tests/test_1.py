@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2014
 Test test_1
 """
-__revision__ = "V2.2"
+__revision__ = "V2.3"
 
 #========================================================================
 Test_Name = "test_1"
@@ -167,7 +167,7 @@ Python script for HOMARD
   #
   # Creation of the schema YACS
   # ===========================
-    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script.py")
+    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
     ScriptFile = os.path.normpath(ScriptFile)
     DirName = dircase
     YACS_test_1 = Case_test_1.CreateYACSSchema("YACS_test_1", ScriptFile, DirName, MeshFile)

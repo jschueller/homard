@@ -219,6 +219,7 @@ Iter_1_Case_Options
 # Associated iteration #0
 Iter0 = Case.GetIter0()
 ]]></code></script>
+                              <load container="DefaultContainer"/>
                               <inport name="Case" type="HOMARD_Cas"/>
                               <outport name="Iter0" type="HOMARD_Iteration"/>
                            </inline>
@@ -301,6 +302,7 @@ else :
     OK = 1
     MessInfo = " "
 ]]></code></script>
+                     <load container="DefaultContainer"/>
                      <inport name="NumAdapt" type="int"/>
                      <inport name="LastIter" type="HOMARD_Iteration"/>
                      <inport name="Hypo" type="HOMARD_Hypothesis"/>
