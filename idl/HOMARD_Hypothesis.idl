@@ -103,6 +103,8 @@ module HOMARD
     long     GetLevelOutput()                              raises (SALOME::SALOME_Exception);
 
     void     AddGroup(in string LeGroupe)                  raises (SALOME::SALOME_Exception);
+    void     SupprGroup(in string LeGroupe)                raises (SALOME::SALOME_Exception);
+    void     SupprGroups()                                 raises (SALOME::SALOME_Exception);
     void     SetGroups(in ListGroupType ListGroup)         raises (SALOME::SALOME_Exception);
     ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
 

@@ -317,6 +317,18 @@ void HOMARD_Hypothesis_i::AddGroup( const char* Group)
   myHomardHypothesis->AddGroup( Group );
 }
 //=============================================================================
+void HOMARD_Hypothesis_i::SupprGroup( const char* Group )
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SupprGroup(Group);
+}
+//=============================================================================
+void HOMARD_Hypothesis_i::SupprGroups()
+{
+  ASSERT( myHomardHypothesis );
+  myHomardHypothesis->SupprGroups();
+}
+//=============================================================================
 void HOMARD_Hypothesis_i::SetGroups(const HOMARD::ListGroupType& ListGroup)
 {
   ASSERT( myHomardHypothesis );

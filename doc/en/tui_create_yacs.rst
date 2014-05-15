@@ -180,6 +180,76 @@ Informations about the schema
 +---------------------------------------------------------------+
 
 
+The options of the schema
+=========================
+The default values are defined by the preferences of the module HOMARD.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetMaxIter                                        |
+|                                                               |
+| **SetMaxIter(MaxIter)**                                       |
+|     Defines the maximal number of iterations for the schema.  |
+|                                                               |
+|     - ``MaxIter`` : the maximal number of iterations of the   |
+|       schema                                                  |
++---------------------------------------------------------------+
+| .. module:: GetMaxIter                                        |
+|                                                               |
+| **GetMaxIter()**                                              |
+|     Returns the maximal number of iterations of the schema    |
++---------------------------------------------------------------+
+| .. module:: SetMaxNode                                        |
+|                                                               |
+| **SetMaxNode(MaxNode)**                                       |
+|     Defines the maximal number of nodes for the adaptation.   |
+|                                                               |
+|     - ``MaxNode`` : the maximal number of nodes for the       |
+|       adaptation. If MaxNode equals 0, no limit.              |
++---------------------------------------------------------------+
+| .. module:: GetMaxNode                                        |
+|                                                               |
+| **GetMaxNode()**                                              |
+|     Returns the maximal number of nodes for the adaptation    |
++---------------------------------------------------------------+
+| .. module:: SetMaxElem                                        |
+|                                                               |
+| **SetMaxElem(MaxElem)**                                       |
+|     Defines the maximal number of meshes for the adaptation.  |
+|                                                               |
+|     - ``MaxElem`` : the maximal number of meshes for the      |
+|       adaptation. If MaxElem equals 0, no limit.              |
++---------------------------------------------------------------+
+| .. module:: GetMaxElem                                        |
+|                                                               |
+| **GetMaxElem()**                                              |
+|     Returns the maximal number of meshes for the adaptation   |
++---------------------------------------------------------------+
+| .. module:: SetTestConvergence                                |
+|                                                               |
+| **SetTestConvergence(Type, VRef)**                            |
+|     Defines a convergence test for the schema.                |
+|                                                               |
+|     - ``Type`` : the type of convergence of the schema.       |
+|                                                               |
+|         * 0 : no test                                         |
+|         * 1 : if the test value is greater than VRef          |
+|         * 2 : if the test value is lower than VRef            |
+|                                                               |
+|     - ``VRef`` : the reference value for the test             |
++---------------------------------------------------------------+
+| .. module:: GetTestConvergenceType                            |
+|                                                               |
+| **GetTestConvergenceType()**                                  |
+|     Returns the type of convergence of the schema.            |
++---------------------------------------------------------------+
+| .. module:: GetTestConvergenceVRef                            |
+|                                                               |
+| **GetTestConvergenceVRef()**                                  |
+|     Returns the reference value for the test.                 |
++---------------------------------------------------------------+
+
+
 Example
 *******
 The creation of a schema is done as follows:
@@ -189,6 +259,7 @@ The creation of a schema is done as follows:
     DirName = "/scratch/D68518/computation"
     MeshFile = "/scratch/D68518/computation/maill.00.med"
     YACS_0 = Case.CreateYACSSchema("YACS_0", ScriptFile, DirName, MeshFile)
+    YACS_0.SetMaxIter(4)
 
 It can be writen down in a file :
 ::

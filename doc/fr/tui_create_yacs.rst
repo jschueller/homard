@@ -105,7 +105,7 @@ Informations sur le schéma
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom du schéma                                 |
+|     Retourne le nom du schéma.                                |
 +---------------------------------------------------------------+
 | .. module:: SetType                                           |
 |                                                               |
@@ -120,12 +120,13 @@ Informations sur le schéma
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
-|     Retourne le type du schéma                                |
+|     Retourne le type du schéma.                               |
 +---------------------------------------------------------------+
 | .. module:: SetScriptFile                                     |
 |                                                               |
 | **SetScriptFile(script_file)**                                |
-|     Définit le fichier du script python de lancement du calcul|
+|     Définit le fichier du script python de lancement du       |
+|     calcul.                                                   |
 |                                                               |
 |     - ``script_file`` : le nom du fichier qui contient le     |
 |       le script python                                        |
@@ -134,24 +135,24 @@ Informations sur le schéma
 |                                                               |
 | **GetScriptFile()**                                           |
 |     Retourne le nom du fichier MED qui contient le script     |
-|     python                                                    |
+|     python.                                                   |
 +---------------------------------------------------------------+
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dir_name)**                                      |
-|     Définit le nom du répertoire de calcul                    |
+|     Définit le nom du répertoire de calcul.                   |
 |                                                               |
 |     - ``dir_name`` : le nom du répertoire de calcul           |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire de calcul                   |
+|     Retourne le nom du répertoire de calcul.                  |
 +---------------------------------------------------------------+
 | .. module:: SetMeshFile                                       |
 |                                                               |
 | **SetMeshFile(mesh_file)**                                    |
-|     Définit le fichier MED du tout premier maillage           |
+|     Définit le fichier MED du tout premier maillage.          |
 |                                                               |
 |     - ``mesh_file`` : le nom du fichier MED contenant le tout |
 |       premier maillage de calcul                              |
@@ -160,19 +161,91 @@ Informations sur le schéma
 |                                                               |
 | **GetMeshFile()**                                             |
 |     Retourne le nom du fichier MED du tout premier maillage   |
-|     de calcul                                                 |
+|     de calcul.                                                |
 +---------------------------------------------------------------+
 | .. module:: SetXMLFile                                        |
 |                                                               |
 | **SetXMLFile(xml_file)**                                      |
-|     Définit le fichier xml pour l'écriture                    |
+|     Définit le fichier xml pour l'écriture.                   |
 |                                                               |
 |     - ``xml_file`` : le nom du fichier xml                    |
 +---------------------------------------------------------------+
 | .. module:: GetXMLFile                                        |
 |                                                               |
 | **GetXMLFile()**                                              |
-|     Retourne le nom du fichier xml                            |
+|     Retourne le nom du fichier xml.                           |
++---------------------------------------------------------------+
+
+
+Les options du schéma
+=====================
+Les valeurs par défaut sont définies dans les préférences du module HOMARD.
+
++---------------------------------------------------------------+
++---------------------------------------------------------------+
+| .. module:: SetMaxIter                                        |
+|                                                               |
+| **SetMaxIter(MaxIter)**                                       |
+|     Définit le nombre maximal d'itérations pour le schéma.    |
+|                                                               |
+|     - ``MaxIter`` : le nombre maximal d'itérations du schéma  |
++---------------------------------------------------------------+
+| .. module:: GetMaxIter                                        |
+|                                                               |
+| **GetMaxIter()**                                              |
+|     Retourne le nombre maximal d'itérations du schéma.        |
++---------------------------------------------------------------+
+| .. module:: SetMaxNode                                        |
+|                                                               |
+| **SetMaxNode(MaxNode)**                                       |
+|     Définit le nombre maximal de noeuds pour l'adaptation.    |
+|                                                               |
+|     - ``MaxNode`` : le nombre maximal de noeuds pour          |
+|       l'adaptation. Si MaxNode est nul, aucune limite n'est   |
+|       imposée.                                                |
++---------------------------------------------------------------+
+| .. module:: GetMaxNode                                        |
+|                                                               |
+| **GetMaxNode()**                                              |
+|     Retourne le nombre maximal de noeuds pour l'adaptation.   |
++---------------------------------------------------------------+
+| .. module:: SetMaxElem                                        |
+|                                                               |
+| **SetMaxElem(MaxElem)**                                       |
+|     Définit le nombre maximal de mailles pour l'adaptation.   |
+|                                                               |
+|     - ``MaxElem`` : le nombre maximal de mailles pour         |
+|       l'adaptation. Si MaxElem est nul, aucune limite n'est   |
+|       imposée.                                                |
++---------------------------------------------------------------+
+| .. module:: GetMaxElem                                        |
+|                                                               |
+| **GetMaxElem()**                                              |
+|     Retourne le nombre maximal de mailles pour l'adaptation.  |
++---------------------------------------------------------------+
+| .. module:: SetTestConvergence                                |
+|                                                               |
+| **SetTestConvergence(Type, VRef)**                            |
+|     Précise un test de convergence pour le schéma.            |
+|                                                               |
+|     - ``Type`` : le type de convergence du schéma.            |
+|                                                               |
+|         * 0 : aucun test                                      |
+|         * 1 : quand la valeur de test est supérieure à VRef   |
+|         * 2 : quand la valeur de test est inférieure à VRef   |
+|                                                               |
+|     - ``VRef`` : la valeur de référence du test               |
++---------------------------------------------------------------+
+| .. module:: GetTestConvergenceType                            |
+|                                                               |
+| **GetTestConvergenceType()**                                  |
+|     Retourne le type de convergence du schéma.                |
++---------------------------------------------------------------+
+| .. module:: GetTestConvergenceVRef                            |
+|                                                               |
+| **GetTestConvergenceVRef()**                                  |
+|     Retourne la valeur de référence utilisée pour le test de  |
+|     convergence du schéma.                                    |
 +---------------------------------------------------------------+
 
 
@@ -185,6 +258,7 @@ La création d'un schéma se fait ainsi :
     DirName = "/scratch/D68518/calcul"
     MeshFile = "/scratch/D68518/calcul/maill.00.med"
     YACS_0 = Case.CreateYACSSchema("YACS_0", ScriptFile, DirName, MeshFile)
+    YACS_0.SetMaxIter(4)
 
 On peut ensuite l'écrire dans un fichier :
 ::

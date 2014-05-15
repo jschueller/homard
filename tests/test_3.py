@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2011, 2013
 Test test_3
 """
-__revision__ = "V2.2"
+__revision__ = "V2.3"
 
 #========================================================================
 Test_Name = "test_3"
@@ -35,14 +35,16 @@ import sys
 import HOMARD
 import salome
 #
+# ==================================
 pathHomard = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du test
 Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
 Rep_Test = os.path.normpath(Rep_Test)
-dircase = tempfile.mktemp()
-os.mkdir(dircase)
-
 sys.path.append(Rep_Test)
 from test_util import test_results
+# Repertoire des resultats
+dircase = tempfile.mkdtemp()
+# ==================================
 
 salome.salome_init()
 import iparameters
@@ -54,34 +56,33 @@ ipar.append("AP_MODULES_LIST", "Homard")
 def homard_exec(theStudy):
   """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2013
   """
   error = 0
 #
   while not error :
 #
     homard.SetCurrentStudy(theStudy)
-#
-# Creation of the boundaries
-# ==========================
-# Creation of the discrete boundary
+  #
+  # Creation of the boundaries
+  # ==========================
+  # Creation of the discrete boundary
     Boundary_3_1 = homard.CreateBoundaryDi('courbes', 'COURBES', os.path.join(Rep_Test, Test_Name + '.fr.med'))
-#
-# Creation of the external cylinder
+  #
+  # Creation of the external cylinder
     Boundary_3_2 = homard.CreateBoundaryCylinder('cyl_ext', 50.0, 25., -25., 1., 0., 0., 100.)
-#
-# Creation of the internal cylinder
+  #
+  # Creation of the internal cylinder
     Boundary_3_3 = homard.CreateBoundaryCylinder('cyl_int', 50.0, 25., -25., 1., 0., 0., 50.)
-#
-# Creation of the first sphere
+  #
+  # Creation of the first sphere
     Boundary_3_4 = homard.CreateBoundarySphere('sphere_1', 50.0, 25., -25., 100.)
-#
-# Creation of the second sphere
+  #
+  # Creation of the second sphere
     Boundary_3_5 = homard.CreateBoundarySphere('sphere_2', 450.0, 25., -25., 100.)
-#
-# Creation of the hypotheses
-# ==========================
-# Uniform refinement
+  #
+  # Creation of the hypotheses
+  # ==========================
+  # Uniform refinement
     HypoName = "Hypo_" + Test_Name
     print "-------- Creation of the hypothesis", HypoName
     Hypo_test_3 = homard.CreateHypothesis(HypoName)
@@ -89,13 +90,13 @@ Copyright EDF-R&D 2010, 2013
     print HypoName, " : zones utilisées :", Hypo_test_3.GetZones()
     print HypoName, " : champ utilisé :", Hypo_test_3.GetFieldName()
     print HypoName, " : composantes utilisées :", Hypo_test_3.GetComps()
-#
+  #
     for num in range (n_boucle+1) :
-#
+  #
       print "-------- num =", num, "--------"
-#
-# Creation of the case Case_test_3
-# ===========================
+  #
+  # Creation of the case Case_test_3
+  # ===========================
       if ( num <= 1 ) :
         CaseName = "Case_" + Test_Name
         print "-------- Creation of the case", CaseName
@@ -108,10 +109,10 @@ Copyright EDF-R&D 2010, 2013
         Case_test_3.AddBoundaryGroup('cyl_int', 'INT')
         Case_test_3.AddBoundaryGroup('sphere_1', 'END_1')
         Case_test_3.AddBoundaryGroup('sphere_2', 'END_2')
-#
-# Creation of the iterations
-# ==========================
-  # Creation of the iteration  1
+  #
+  # Creation of the iterations
+  # ==========================
+  # Creation of the iteration 1
       IterName = "I_" + Test_Name + "_1"
       print "-------- Creation of the iteration", IterName
       Iter_test_3_1 = Case_test_3.NextIteration(IterName)
@@ -144,6 +145,7 @@ Copyright EDF-R&D 2010, 2013
       print "-------- Creation of the schema", YACSName
       YACS_test_3 = Case_test_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
       YACS_test_3.SetType(2)
+      YACS_test_3.SetMaxIter(2)
       error = YACS_test_3.Write()
       if error :
         error = 10*num + 5
@@ -184,9 +186,9 @@ Copyright EDF-R&D 2010, 2013
           print "-------- Creation of the hypothesis", HypoName
           Hypo_test_3 = homard.CreateHypothesis(HypoName)
           Hypo_test_3.SetUnifRefinUnRef(1)
-#
+  #
     break
-#
+  #
   return error
 
 #========================================================================

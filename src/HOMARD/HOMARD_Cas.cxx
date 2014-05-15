@@ -203,6 +203,8 @@ void HOMARD_Cas::SupprGroups()
 //=============================================================================
 void HOMARD_Cas::AddBoundaryGroup( const char* Boundary, const char* Group )
 {
+//  MESSAGE ( ". AddBoundaryGroup : Boundary = " << Boundary );
+//   MESSAGE ( ". AddBoundaryGroup : Group = " << Group );
   _ListBoundaryGroup.push_back( Boundary );
   _ListBoundaryGroup.push_back( Group    );
 }

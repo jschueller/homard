@@ -274,11 +274,14 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
 // pythonStructure : le python correspondant a la frontiere
 // methode : methode associee a la creation de la frontiere
 // BoundaryName : nom de la frontiere
+// MeshName : nom du maillage dans le cas d'une frontiere discrete
+// MeshFile : nom du fichier du maillage dans le cas d'une frontiere discrete
 //===============================================================================
-std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName )
+std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::string pythonStructure, const std::string methode, const std::string BoundaryName, const std::string MeshName, const std::string MeshFile )
 {
   MESSAGE("Texte_Iter_1_Boundary, BoundaryType = "<<BoundaryType<<", pythonStructure = "<<pythonStructure);
   MESSAGE("methode = "<<methode<<", BoundaryName = "<<BoundaryName );
+  if (BoundaryType == 0) { MESSAGE("MeshName = "<<MeshName<<", MeshFile = "<<MeshFile ); }
 //
 // 1. Le nom du noeud
   std::string noeud_2 = methode + "_" + BoundaryName ;
@@ -293,144 +296,146 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
   _Texte += "                              <node>Etude_Initialisation.SetCurrentStudy</node>\n" ;
   _Texte += "                              <method>" + methode + "</method>\n" ;
 // 4. Les inports
-// 4.1. Le nom de la zone
+//    ATTENTION : les noms doivent etre les memes que dans Gen.xml, donc HOMARD_Gen.idl
+// 4.1. Le nom de la frontiere
   _Texte += Texte_inport( "string", "BoundaryName" ) ;
   TexteParametre( node, "BoundaryName", "string", BoundaryName ) ;
-// 4.2. Les valeurs numeriques
-//      ATTENTION : les noms doivent etre les memes que dans Gen.xml, donc HOMARD_Gen.idl
-// 4.2.1. Decodage des valeurs
+// 4.2. Cas d une frontiere discrete
+  if (BoundaryType == 0)
+  {
+    _Texte += Texte_inport( "string", "MeshName" ) ;
+    TexteParametre( node, "MeshName", "string", MeshName ) ;
+    _Texte += Texte_inport( "string", "FileName" ) ;
+    TexteParametre( node, "FileName", "string", MeshFile ) ;
+  }
+// 4.3. Cas d'une frontiere analytique : les valeurs numeriques
+  else
+  {
+// 4.3.1. Decodage des valeurs
 // La chaine pythonStructure est de ce genre :
 //   CreateBoundaryCylinder('cyl_2', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
 //   CreateBoundaryDi("intersection", "PIQUAGE", "/scratch/D68518/Salome/script/sfr_2d_piquage.fr.med")
-  std::string ligne = pythonStructure ;
+    std::string ligne = pythonStructure ;
 // On commence par ne garder que ce qui suit la premiere virgule
-  ligne = GetStringInTexte( ligne, ",", 1 );
-// On boucle pour isoler toutes les chaines dans les virgules
-  std::string lignebis ;
-  std::string x0, x1, x2, x3, x4, x5, x6, x7  ;
-  int iaux = 0  ;
-  while ( ligne != lignebis )
-  {
-    lignebis = GetStringInTexte ( ligne, ",", 0 ) ;
-//     MESSAGE("lignebis = "<<lignebis );
-    if      ( iaux == 0 ) { x0 = lignebis ; }
-    else if ( iaux == 1 ) { x1 = lignebis ; }
-    else if ( iaux == 2 ) { x2 = lignebis ; }
-    else if ( iaux == 3 ) { x3 = lignebis ; }
-    else if ( iaux == 4 ) { x4 = lignebis ; }
-    else if ( iaux == 5 ) { x5 = lignebis ; }
-    else if ( iaux == 6 ) { x6 = lignebis ; }
     ligne = GetStringInTexte( ligne, ",", 1 );
-    iaux += 1 ;
-  }
+// On boucle pour isoler toutes les chaines dans les virgules
+    std::string lignebis ;
+    std::string x0, x1, x2, x3, x4, x5, x6, x7  ;
+    int iaux = 0  ;
+    while ( ligne != lignebis )
+    {
+      lignebis = GetStringInTexte ( ligne, ",", 0 ) ;
+//     MESSAGE("lignebis = "<<lignebis );
+      if      ( iaux == 0 ) { x0 = lignebis ; }
+      else if ( iaux == 1 ) { x1 = lignebis ; }
+      else if ( iaux == 2 ) { x2 = lignebis ; }
+      else if ( iaux == 3 ) { x3 = lignebis ; }
+      else if ( iaux == 4 ) { x4 = lignebis ; }
+      else if ( iaux == 5 ) { x5 = lignebis ; }
+      else if ( iaux == 6 ) { x6 = lignebis ; }
+      ligne = GetStringInTexte( ligne, ",", 1 );
+      iaux += 1 ;
+    }
 // La derniere valeur est toujours mise dans x7
-  x7 = GetStringInTexte ( ligne, ")", 0 ) ;
-  MESSAGE("Valeurs = "<< x0<<", "<<x1<< ", "<< x2<< ", "<< x3<<", "<<x4<<", "<<x5<<", "<<x6<<", x7"<<x7);
+    x7 = GetStringInTexte ( ligne, ")", 0 ) ;
+    MESSAGE("Valeurs = "<< x0<<", "<<x1<< ", "<< x2<< ", "<< x3<<", "<<x4<<", "<<x5<<", "<<x6<<", x7"<<x7);
 //
-// 4.2. Cas d une frontiere discrete (0)
-  if (BoundaryType == 0) // Cas d une frontiere discrete
-  {
-    _Texte += Texte_inport( "string", "MeshName" ) ;
-    TexteParametre( node, "MeshName", "string", x0 ) ;
-    _Texte += Texte_inport( "string", "FileName" ) ;
-    TexteParametre( node, "FileName", "string", x7 ) ;
-  }
-// 4.2. Cas du cylindre (1)
-  else if ( BoundaryType == 1 )
-  {
-    _Texte += Texte_inport( "double", "Xcentre" ) ;
-    _Texte += Texte_inport( "double", "Ycentre" ) ;
-    _Texte += Texte_inport( "double", "Zcentre" ) ;
-    _Texte += Texte_inport( "double", "Xaxis" ) ;
-    _Texte += Texte_inport( "double", "Yaxis" ) ;
-    _Texte += Texte_inport( "double", "Zaxis" ) ;
-    _Texte += Texte_inport( "double", "Radius" ) ;
-    TexteParametre( node, "Xcentre", "double", x0 ) ;
-    TexteParametre( node, "Ycentre", "double", x1 ) ;
-    TexteParametre( node, "Zcentre", "double", x2 ) ;
-    TexteParametre( node, "Xaxis", "double", x3 ) ;
-    TexteParametre( node, "Yaxis", "double", x4 ) ;
-    TexteParametre( node, "Zaxis", "double", x5 ) ;
-    TexteParametre( node, "Radius", "double", x7 ) ;
-  }
+// 4.3.2. Cas du cylindre (1)
+    if ( BoundaryType == 1 )
+    {
+      _Texte += Texte_inport( "double", "Xcentre" ) ;
+      _Texte += Texte_inport( "double", "Ycentre" ) ;
+      _Texte += Texte_inport( "double", "Zcentre" ) ;
+      _Texte += Texte_inport( "double", "Xaxis" ) ;
+      _Texte += Texte_inport( "double", "Yaxis" ) ;
+      _Texte += Texte_inport( "double", "Zaxis" ) ;
+      _Texte += Texte_inport( "double", "Radius" ) ;
+      TexteParametre( node, "Xcentre", "double", x0 ) ;
+      TexteParametre( node, "Ycentre", "double", x1 ) ;
+      TexteParametre( node, "Zcentre", "double", x2 ) ;
+      TexteParametre( node, "Xaxis", "double", x3 ) ;
+      TexteParametre( node, "Yaxis", "double", x4 ) ;
+      TexteParametre( node, "Zaxis", "double", x5 ) ;
+      TexteParametre( node, "Radius", "double", x7 ) ;
+    }
 //
-// 4.2. Cas de la sphere (2)
-  else if ( BoundaryType == 2 )
-  {
-    _Texte += Texte_inport( "double", "Xcentre" ) ;
-    _Texte += Texte_inport( "double", "Ycentre" ) ;
-    _Texte += Texte_inport( "double", "Zcentre" ) ;
-    _Texte += Texte_inport( "double", "Radius" ) ;
-    TexteParametre( node, "Xcentre", "double", x0 ) ;
-    TexteParametre( node, "Ycentre", "double", x1 ) ;
-    TexteParametre( node, "Zcentre", "double", x2 ) ;
-    TexteParametre( node, "Radius", "double", x7 ) ;
-  }
+// 4.3.3. Cas de la sphere (2)
+    else if ( BoundaryType == 2 )
+    {
+      _Texte += Texte_inport( "double", "Xcentre" ) ;
+      _Texte += Texte_inport( "double", "Ycentre" ) ;
+      _Texte += Texte_inport( "double", "Zcentre" ) ;
+      _Texte += Texte_inport( "double", "Radius" ) ;
+      TexteParametre( node, "Xcentre", "double", x0 ) ;
+      TexteParametre( node, "Ycentre", "double", x1 ) ;
+      TexteParametre( node, "Zcentre", "double", x2 ) ;
+      TexteParametre( node, "Radius", "double", x7 ) ;
+    }
 //
-// 4.3. Cas d un cone defini par un axe et un angle
-  else if ( BoundaryType == 3 )
-  {
-    _Texte += Texte_inport( "double", "Xaxis" ) ;
-    _Texte += Texte_inport( "double", "Yaxis" ) ;
-    _Texte += Texte_inport( "double", "Zaxis" ) ;
-    _Texte += Texte_inport( "double", "Angle" ) ;
-    _Texte += Texte_inport( "double", "Xcentre" ) ;
-    _Texte += Texte_inport( "double", "Ycentre" ) ;
-    _Texte += Texte_inport( "double", "Zcentre" ) ;
-    TexteParametre( node, "Xaxis", "double", x0 ) ;
-    TexteParametre( node, "Yaxis", "double", x1 ) ;
-    TexteParametre( node, "Zaxis", "double", x2 ) ;
-    TexteParametre( node, "Angle", "double", x3 ) ;
-    TexteParametre( node, "Xcentre", "double", x4 ) ;
-    TexteParametre( node, "Ycentre", "double", x5 ) ;
-    TexteParametre( node, "Zcentre", "double", x7 ) ;
-  }
+// 4.3.4. Cas d un cone defini par un axe et un angle
+    else if ( BoundaryType == 3 )
+    {
+      _Texte += Texte_inport( "double", "Xaxis" ) ;
+      _Texte += Texte_inport( "double", "Yaxis" ) ;
+      _Texte += Texte_inport( "double", "Zaxis" ) ;
+      _Texte += Texte_inport( "double", "Angle" ) ;
+      _Texte += Texte_inport( "double", "Xcentre" ) ;
+      _Texte += Texte_inport( "double", "Ycentre" ) ;
+      _Texte += Texte_inport( "double", "Zcentre" ) ;
+      TexteParametre( node, "Xaxis", "double", x0 ) ;
+      TexteParametre( node, "Yaxis", "double", x1 ) ;
+      TexteParametre( node, "Zaxis", "double", x2 ) ;
+      TexteParametre( node, "Angle", "double", x3 ) ;
+      TexteParametre( node, "Xcentre", "double", x4 ) ;
+      TexteParametre( node, "Ycentre", "double", x5 ) ;
+      TexteParametre( node, "Zcentre", "double", x7 ) ;
+    }
 //
-// 4.4. Cas d un cone defini par les 2 rayons
-  else if ( BoundaryType == 4 )
-  {
-    _Texte += Texte_inport( "double", "Xcentre1" ) ;
-    _Texte += Texte_inport( "double", "Ycentre1" ) ;
-    _Texte += Texte_inport( "double", "Zcentre1" ) ;
-    _Texte += Texte_inport( "double", "Radius1" ) ;
-    _Texte += Texte_inport( "double", "Xcentre2" ) ;
-    _Texte += Texte_inport( "double", "Ycentre2" ) ;
-    _Texte += Texte_inport( "double", "Zcentre2" ) ;
-    _Texte += Texte_inport( "double", "Radius2" ) ;
-    TexteParametre( node, "Xcentre1", "double", x0 ) ;
-    TexteParametre( node, "Ycentre1", "double", x1 ) ;
-    TexteParametre( node, "Zcentre1", "double", x2 ) ;
-    TexteParametre( node, "Radius1", "double", x3 ) ;
-    TexteParametre( node, "Xcentre2", "double", x4 ) ;
-    TexteParametre( node, "Ycentre2", "double", x5 ) ;
-    TexteParametre( node, "Zcentre2", "double", x6 ) ;
-    TexteParametre( node, "Radius2", "double", x7 ) ;
-  }
-// 4.5. Cas du tore (5)
-  else if ( BoundaryType == 5 )
-  {
-    _Texte += Texte_inport( "double", "Xcentre" ) ;
-    _Texte += Texte_inport( "double", "Ycentre" ) ;
-    _Texte += Texte_inport( "double", "Zcentre" ) ;
-    _Texte += Texte_inport( "double", "Xaxis" ) ;
-    _Texte += Texte_inport( "double", "Yaxis" ) ;
-    _Texte += Texte_inport( "double", "Zaxis" ) ;
-    _Texte += Texte_inport( "double", "RRev" ) ;
-    _Texte += Texte_inport( "double", "RPri" ) ;
-    TexteParametre( node, "Xcentre", "double", x0 ) ;
-    TexteParametre( node, "Ycentre", "double", x1 ) ;
-    TexteParametre( node, "Zcentre", "double", x2 ) ;
-    TexteParametre( node, "Xaxis", "double", x3 ) ;
-    TexteParametre( node, "Yaxis", "double", x4 ) ;
-    TexteParametre( node, "Zaxis", "double", x5 ) ;
-    TexteParametre( node, "RRev", "double", x6 ) ;
-    TexteParametre( node, "RPri", "double", x7 ) ;
-  }
+// 4.3.5. Cas d un cone defini par les 2 rayons
+    else if ( BoundaryType == 4 )
+    {
+      _Texte += Texte_inport( "double", "Xcentre1" ) ;
+      _Texte += Texte_inport( "double", "Ycentre1" ) ;
+      _Texte += Texte_inport( "double", "Zcentre1" ) ;
+      _Texte += Texte_inport( "double", "Radius1" ) ;
+      _Texte += Texte_inport( "double", "Xcentre2" ) ;
+      _Texte += Texte_inport( "double", "Ycentre2" ) ;
+      _Texte += Texte_inport( "double", "Zcentre2" ) ;
+      _Texte += Texte_inport( "double", "Radius2" ) ;
+      TexteParametre( node, "Xcentre1", "double", x0 ) ;
+      TexteParametre( node, "Ycentre1", "double", x1 ) ;
+      TexteParametre( node, "Zcentre1", "double", x2 ) ;
+      TexteParametre( node, "Radius1", "double", x3 ) ;
+      TexteParametre( node, "Xcentre2", "double", x4 ) ;
+      TexteParametre( node, "Ycentre2", "double", x5 ) ;
+      TexteParametre( node, "Zcentre2", "double", x6 ) ;
+      TexteParametre( node, "Radius2", "double", x7 ) ;
+    }
+// 4.3.6. Cas du tore (5)
+    else if ( BoundaryType == 5 )
+    {
+      _Texte += Texte_inport( "double", "Xcentre" ) ;
+      _Texte += Texte_inport( "double", "Ycentre" ) ;
+      _Texte += Texte_inport( "double", "Zcentre" ) ;
+      _Texte += Texte_inport( "double", "Xaxis" ) ;
+      _Texte += Texte_inport( "double", "Yaxis" ) ;
+      _Texte += Texte_inport( "double", "Zaxis" ) ;
+      _Texte += Texte_inport( "double", "RRev" ) ;
+      _Texte += Texte_inport( "double", "RPri" ) ;
+      TexteParametre( node, "Xcentre", "double", x0 ) ;
+      TexteParametre( node, "Ycentre", "double", x1 ) ;
+      TexteParametre( node, "Zcentre", "double", x2 ) ;
+      TexteParametre( node, "Xaxis", "double", x3 ) ;
+      TexteParametre( node, "Yaxis", "double", x4 ) ;
+      TexteParametre( node, "Zaxis", "double", x5 ) ;
+      TexteParametre( node, "RRev", "double", x6 ) ;
+      TexteParametre( node, "RPri", "double", x7 ) ;
+    }
 //
-// 4.2. Erreur
-  else
-  { VERIFICATION("Type de frontiere inconnu." == 0); }
-
+// 4.3.7. Erreur
+    else
+    { VERIFICATION("Type de frontiere inconnu." == 0); }
+  }
 //
 // 5. La fin
   _Texte += "                              <outport name=\"return\" type=\"HOMARD_Boundary\"/>\n" ;

@@ -22,7 +22,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.8"
+__revision__ = "V5.9"
 #
 import sys
 import os
@@ -998,8 +998,10 @@ Lancement d'un calcul
     #if self.verbose_max :
       #print commande_base
 #
-    fic_caract   = tempfile.mktemp()
-    fic_caract_2 = tempfile.mktemp()
+    t_aux = tempfile.mkstemp()
+    fic_caract   = t_aux[1]
+    t_aux = tempfile.mkstemp()
+    fic_caract_2 = t_aux[1]
 #
 # 3. Lancement
 # 3.1. Commande finale
@@ -1091,7 +1093,8 @@ fic_caract : fichier caracteristique du job
 # 2. Commande de l'examen de l'etat du job,
 #
       fic_etat = os.path.join(self.rep_calc, self.nomjob+".etat")
-      fic_etat_2 = tempfile.mktemp()
+      t_aux = tempfile.mkstemp()
+      fic_etat_2   = t_aux[1]
       commande_base  = os.path.join(self.aster_root, "bin", "as_run")
       commande_base += " --actu " + numjob + " " + self.nomjob + " " + self.mode
       if self.verbose_max :
