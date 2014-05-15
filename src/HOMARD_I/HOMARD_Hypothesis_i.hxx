@@ -101,6 +101,8 @@ public:
   CORBA::Long            GetLevelOutput();
 
   void                   AddGroup( const char* Group);
+  void                   SupprGroup( const char* Group );
+  void                   SupprGroups();
   void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
   HOMARD::ListGroupType* GetGroups();
 

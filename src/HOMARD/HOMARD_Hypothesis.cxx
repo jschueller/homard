@@ -231,7 +231,7 @@ int HOMARD_Hypothesis::GetUseComp() const
 //=============================================================================
 void HOMARD_Hypothesis::AddComp( const char* NomComp )
 {
-// On commence par la supprimer au cas ou elle aurait deja ete inseree
+// On commence par supprimer la composante au cas ou elle aurait deja ete inseree
 // Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
 // definition de l'hypothese
   SupprComp( NomComp ) ;
@@ -341,7 +341,24 @@ const int HOMARD_Hypothesis::GetLevelOutput() const
 //=============================================================================
 void HOMARD_Hypothesis::AddGroup( const char* Group)
 {
+// On commence par supprimer le groupe au cas ou il aurait deja ete insere
+// Cela peut se produire dans un schema YACS quand on repasse plusieurs fois par la
+// definition de l'hypothese
+  SupprGroup( Group ) ;
+// Insertion veritable
   _ListGroupSelected.push_back(Group);
+}
+//=============================================================================
+void HOMARD_Hypothesis::SupprGroup( const char* Group )
+{
+  MESSAGE ("SupprGroup pour "<<Group) ;
+  std::list<std::string>::iterator it = find( _ListGroupSelected.begin(), _ListGroupSelected.end(), Group );
+  if ( it != _ListGroupSelected.end() ) { it = _ListGroupSelected.erase( it ); }
+}
+//=============================================================================
+void HOMARD_Hypothesis::SupprGroups()
+{
+  _ListGroupSelected.clear();
 }
 //=============================================================================
 void HOMARD_Hypothesis::SetGroups( const std::list<std::string>& ListGroup )

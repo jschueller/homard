@@ -1933,7 +1933,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
 //=============================================================================
 HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryDi(const char* BoundaryName, const char* MeshName, const char* MeshFile)
 {
-  INFOS ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << "MeshName = " << MeshName );
+  INFOS ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << ", MeshName = " << MeshName );
   HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 0);
   myBoundary->SetMeshFile( MeshFile ) ;
   myBoundary->SetMeshName( MeshName ) ;
@@ -3105,7 +3105,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
     std::string BoundaryName = std::string((*ListBoundaryGroupType)[NumBoundary]);
     MESSAGE ( "... BoundaryName = " << BoundaryName);
     // 2.1. La frontiere a-t-elle deja ete ecrite ?
-    //      Cela arrive quand elle estliéé a plusieurs groupes. Il ne faut l'ecrire que la premiere fois
+    //      Cela arrive quand elle est liee a plusieurs groupes. Il ne faut l'ecrire que la premiere fois
     int A_faire = 1 ;
     std::list<std::string>::const_iterator it = ListeBoundaryTraitees.begin();
     while (it != ListeBoundaryTraitees.end())
@@ -3127,7 +3127,9 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
       if (BoundaryType == 0)
       {
         const char* MeshName = myBoundary->GetMeshName() ;
+        MESSAGE ( ". MeshName = " << MeshName );
         const char* MeshFile = myBoundary->GetMeshFile() ;
+        MESSAGE ( ". MeshFile = " << MeshFile );
         myDriver->TexteBoundaryDi( MeshName, MeshFile);
         if ( BoundaryOption % 2 != 0 ) { BoundaryOption = BoundaryOption*2 ; }
       }
@@ -4299,8 +4301,17 @@ std::string HOMARD_Gen_i::YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase,
       // 4. Mise en place des instructions
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType);
+      const char* MeshName ;
+      const char* MeshFile ;
+      if (BoundaryType == 0)
+      {
+        MeshName = myBoundary->GetMeshName() ;
+        MESSAGE ( ". MeshName = " << MeshName );
+        MeshFile = myBoundary->GetMeshFile() ;
+        MESSAGE ( ". MeshFile = " << MeshFile );
+      }
       std::string texte_control_0 ;
-      texte_control_0 = myDriver->Texte_Iter_1_Boundary(BoundaryType, pythonStructure, methode, BoundaryName );
+      texte_control_0 = myDriver->Texte_Iter_1_Boundary(BoundaryType, pythonStructure, methode, BoundaryName, MeshName, MeshFile );
       texte_control += texte_control_0 ;
       // 5. Memorisation du traitement
       ListeBoundaryTraitees.push_back( BoundaryName );

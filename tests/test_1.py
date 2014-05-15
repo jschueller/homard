@@ -22,7 +22,7 @@ Python script for HOMARD
 Copyright EDF-R&D 2010, 2014
 Test test_1
 """
-__revision__ = "V2.3"
+__revision__ = "V2.4"
 
 #========================================================================
 Test_Name = "test_1"
@@ -42,10 +42,8 @@ Rep_Test = os.path.normpath(Rep_Test)
 sys.path.append(Rep_Test)
 from test_util import test_results
 # Repertoire des resultats
-dircase = tempfile.mktemp()
-os.mkdir(dircase)
+dircase = tempfile.mkdtemp()
 # ==================================
-
 
 salome.salome_init()
 import iparameters

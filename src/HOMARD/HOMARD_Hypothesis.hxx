@@ -93,7 +93,9 @@ public:
   void                          SetLevelOutput( int LevelOutput );
   const int                     GetLevelOutput() const;
 
-  void                          AddGroup( const char* LeGroupe);
+  void                          AddGroup( const char* Group);
+  void                          SupprGroup( const char* Group );
+  void                          SupprGroups();
   void                          SetGroups(const std::list<std::string>& ListGroup );
   const std::list<std::string>& GetGroups() const;
 

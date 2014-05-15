@@ -114,7 +114,9 @@ void HomardDriver::TexteInfo( int TypeBila, int NumeIter )
 //===============================================================================
 void HomardDriver::TexteMaillage( const std::string NomMesh, const std::string MeshFile, int apres )
 {
-  MESSAGE("TexteMaillage, NomMesh ="<<NomMesh<<", MeshFile ="<<MeshFile<<", apres ="<<apres);
+  MESSAGE("TexteMaillage, NomMesh  = "<<NomMesh);
+  MESSAGE("TexteMaillage, MeshFile = "<<MeshFile);
+  MESSAGE("TexteMaillage, apres = "<<apres);
   std::string saux ;
   saux = "P1" ;
   if ( apres < 1 ) { saux = "__" ; }
@@ -623,6 +625,7 @@ void HomardDriver::TexteBoundaryDi(  const std::string MeshName, const std::stri
   MESSAGE("TexteBoundaryDi, MeshName  = "<<MeshName);
   MESSAGE("TexteBoundaryDi, MeshFile  = "<<MeshFile);
 //
+  _Texte += "#\n# Frontiere discrete\n" ;
   _Texte += "CCNoMFro \"" + MeshName + "\"\n" ;
   _Texte += "CCFronti \"" + MeshFile + "\"\n" ;
 //
