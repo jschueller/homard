@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>HOM_MEN_COMPUTE_PUBLISH</source>
-      <translation>HOM_MEN_COMPUTE_PUBLISH</translation>
+      <translation>計算と発行</translation>
     </message>
     <message>
       <source>HOM_MEN_EDIT</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>HOM_MEN_MESH_PUBLICATION</source>
-      <translation>HOM_MEN_MESH_PUBLICATION</translation>
+      <translation>メッシュ発行</translation>
     </message>
     <message>
       <source>HOM_MEN_EDIT_MESS_FILE</source>
@@ -85,7 +85,7 @@
     </message>
     <message>
       <source>HOM_TOP_COMPUTE_PUBLISH</source>
-      <translation>HOM_TOP_COMPUTE_PUBLISH</translation>
+      <translation>計算と発行</translation>
     </message>
     <message>
       <source>HOM_TOP_EDIT</source>
@@ -121,7 +121,7 @@
     </message>
     <message>
       <source>HOM_STB_COMPUTE_PUBLISH</source>
-      <translation>HOM_STB_COMPUTE_PUBLISH</translation>
+      <translation>計算と発行</translation>
     </message>
     <message>
       <source>HOM_STB_EDIT</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
       <source>HOM_SELECT_FILE_0</source>
-      <translation>HOM_SELECT_FILE_0</translation>
+      <translation>ファイル選択</translation>
     </message>
     <message>
       <source>HOM_SELECT_FILE_1</source>
@@ -402,47 +402,47 @@
     </message>
     <message>
       <source>PREF_TAB_GENERAL</source>
-      <translation>PREF_TAB_GENERAL</translation>
+      <translation>一般的な</translation>
     </message>
     <message>
       <source>PREF_PUBLICATION</source>
-      <translation>PREF_PUBLICATION</translation>
+      <translation>発行</translation>
     </message>
     <message>
       <source>PREF_PUBLICATION_MAILLAGE_IN</source>
-      <translation>PREF_PUBLICATION_MAILLAGE_IN</translation>
+      <translation>メッシュ入力</translation>
     </message>
     <message>
       <source>PREF_PUBLICATION_MAILLAGE_OUT</source>
-      <translation>PREF_PUBLICATION_MAILLAGE_OUT</translation>
+      <translation>メッシュ出力</translation>
     </message>
     <message>
       <source>PREF_YACS</source>
-      <translation>PREF_YACS</translation>
+      <translation>YACS</translation>
     </message>
     <message>
       <source>PREF_YACS_MAX</source>
-      <translation>PREF_YACS_MAX</translation>
+      <translation>最大の数</translation>
     </message>
     <message>
       <source>PREF_YACS_MAX_ITER</source>
-      <translation>PREF_YACS_MAX_ITER</translation>
+      <translation>繰り返し</translation>
     </message>
     <message>
       <source>PREF_YACS_MAX_NODE</source>
-      <translation>PREF_YACS_MAX_NODE</translation>
+      <translation>節点</translation>
     </message>
     <message>
       <source>PREF_YACS_MAX_ELEM</source>
-      <translation>PREF_YACS_MAX_ELEM</translation>
+      <translation>要素</translation>
     </message>
     <message>
       <source>PREF_YACS_CONVERGENCE</source>
-      <translation>PREF_YACS_CONVERGENCE</translation>
+      <translation>収束</translation>
     </message>
     <message>
       <source>PREF_YACS_TYPE_TEST</source>
-      <translation>PREF_YACS_TYPE_TEST</translation>
+      <translation>テストタイプ</translation>
     </message>
   </context>
 </TS>
