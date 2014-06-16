@@ -99,8 +99,8 @@ module HOMARD
     void     SetAdapInit(in long AdapInit)                 raises (SALOME::SALOME_Exception);
     long     GetAdapInit()                                 raises (SALOME::SALOME_Exception);
 
-    void     SetLevelOutput(in long LevelOutput)           raises (SALOME::SALOME_Exception);
-    long     GetLevelOutput()                              raises (SALOME::SALOME_Exception);
+    void     SetExtraOutput(in long ExtraOutput)           raises (SALOME::SALOME_Exception);
+    long     GetExtraOutput()                              raises (SALOME::SALOME_Exception);
 
     void     AddGroup(in string LeGroupe)                  raises (SALOME::SALOME_Exception);
     void     SupprGroup(in string LeGroupe)                raises (SALOME::SALOME_Exception);

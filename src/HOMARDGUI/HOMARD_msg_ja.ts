@@ -84,12 +84,12 @@
         <translation>計算します</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT</source>
-        <translation>編集</translation>
-    </message>
-    <message>
         <source>HOM_TOP_COMPUTE_PUBLISH</source>
         <translation>Compute and publish</translation>
+    </message>
+    <message>
+        <source>HOM_TOP_EDIT</source>
+        <translation>編集</translation>
     </message>
     <message>
         <source>HOM_TOP_DELETE</source>

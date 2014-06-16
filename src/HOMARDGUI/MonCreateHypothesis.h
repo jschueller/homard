@@ -72,7 +72,7 @@ protected :
     int _NivMax;
     double _DiamMin;
     int _AdapInit;
-    int _LevelOutput;
+    int _ExtraOutput;
 
     HOMARD::HOMARD_Hypothesis_var aHypothesis;
     HOMARD::HOMARD_Gen_var myHomardGen;

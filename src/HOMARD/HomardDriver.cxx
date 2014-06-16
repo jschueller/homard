@@ -940,9 +940,9 @@ void HomardDriver::TexteFieldInterpNameType( int NumeChamp, const std::string Fi
 //===============================================================================
 // F. Les options avancees
 //===============================================================================
-void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int LevelOutput )
+void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int AdapInit, int ExtraOutput )
 {
-  MESSAGE("TexteAdvanced, Pyram ="<<Pyram<<", NivMax ="<<NivMax<<", DiamMin ="<<DiamMin<<", AdapInit ="<<AdapInit<<", LevelOutput ="<<LevelOutput);
+  MESSAGE("TexteAdvanced, Pyram ="<<Pyram<<", NivMax ="<<NivMax<<", DiamMin ="<<DiamMin<<", AdapInit ="<<AdapInit<<", ExtraOutput ="<<ExtraOutput);
 
   if ( Pyram > 0 )
   {
@@ -977,10 +977,20 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
       _Texte += "AdapInit " + saux1.str() + "\n" ;
     }
   }
-  if ( LevelOutput != 0 )
+  if ( ExtraOutput % 2 == 0 )
   {
     _Texte += "# Sortie des niveaux de raffinement\n" ;
     _Texte += "NCNiveau NIVEAU\n" ;
+  }
+  if ( ExtraOutput % 3 == 0 )
+  {
+    _Texte += "# Sortie des qualités des mailles\n" ;
+    _Texte += "NCQualit QUAL\n" ;
+  }
+  if ( ExtraOutput % 5 == 0 )
+  {
+    _Texte += "# Sortie des diamètres des mailles\n" ;
+    _Texte += "NCDiamet DIAM\n" ;
   }
 }
 //===============================================================================

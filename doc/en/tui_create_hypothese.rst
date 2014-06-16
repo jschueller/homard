@@ -410,22 +410,23 @@ Advanced options
 |     Returns the treatment of the elements where the field that|
 |     governs the adaptation is not defined                     |
 +---------------------------------------------------------------+
-| .. module:: SetLevelOutput                                    |
+| .. module:: SetExtraOutput                                    |
 |                                                               |
-| **SetLevelOutput(option)**                                    |
-|     Acts if the level of refinement is returned as a field in |
-|     the output MED file                                       |
+| **SetExtraOutput(option)**                                    |
+|     Acts if some extra information are required into the      |
+|     output MED file. The option is a product of 2, 3, 5.      |
 |                                                               |
 |     - ``option``: integer as follows:                         |
 |                                                               |
-|         *  0: no effect (default)                             |
-|         *  1: the field is produced                           |
+|         *  1 : no effect (default)                            |
+|         *  2x : the refinement level of every mesh is produced|
+|         *  3x : the quality of every mesh                     |
+|         *  5x : the diameter of every mesh                    |
 +---------------------------------------------------------------+
-| .. module:: GetLevelOutput                                    |
+| .. module:: GetExtraOutput                                    |
 |                                                               |
-| **GetLevelOutput()**                                          |
-|     Returns the choice for the output of the level of         |
-|     refinement                                                |
+| **GetExtraOutput()**                                          |
+|     Returns the choice for the output of extra information    |
 +---------------------------------------------------------------+
 
 

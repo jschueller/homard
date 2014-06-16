@@ -1798,7 +1798,7 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   myHypothesis->SetNivMax(-1);
   myHypothesis->SetDiamMin(-1.0);
   myHypothesis->SetAdapInit(0);
-  myHypothesis->SetLevelOutput(0);
+  myHypothesis->SetExtraOutput(1);
 
   return HOMARD::HOMARD_Hypothesis::_duplicate(myHypothesis);
 }
@@ -2784,9 +2784,9 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   MESSAGE ( ". DiamMin = " << DiamMin );
   int AdapInit = myHypo->GetAdapInit();
   MESSAGE ( ". AdapInit = " << AdapInit );
-  int LevelOutput = myHypo->GetLevelOutput();
-  MESSAGE ( ". LevelOutput = " << LevelOutput );
-  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, LevelOutput);
+  int ExtraOutput = myHypo->GetExtraOutput();
+  MESSAGE ( ". ExtraOutput = " << ExtraOutput );
+  myDriver->TexteAdvanced(Pyram, NivMax, DiamMin, AdapInit, ExtraOutput);
 
   // E.7. Ajout des informations sur le deroulement de l'execution
   int MessInfo = myIteration->GetInfoCompute();

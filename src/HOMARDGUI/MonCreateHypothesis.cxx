@@ -52,7 +52,7 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
     _NivMax(-1),
     _DiamMin(-1.),
     _AdapInit(0),
-    _LevelOutput(0)
+    _ExtraOutput(1)
 
 {
       MESSAGE("Constructeur") ;
@@ -74,7 +74,10 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       }
       SetFieldNo();
       GBAdvancedOptions->setVisible(0);
-      CBLevelOutput->setChecked(false);
+      CBOutputLevel->setChecked(false);
+      CBOutputQuality->setChecked(false);
+      CBOutputDiameter->setChecked(false);
+      _ExtraOutput = 1 ;
 //
       adjustSize();
 }
@@ -191,9 +194,12 @@ bool MonCreateHypothesis::PushOnApply()
     aHypothesis->SetDiamMin(_DiamMin);
 // Enregistrement de l'intialisation de l'adaptation
     aHypothesis->SetAdapInit(_AdapInit);
-// Sortie des niveaux de raffinement
-    if (CBLevelOutput->isChecked()) { _LevelOutput = 1 ; }
-    aHypothesis->SetLevelOutput(_LevelOutput);
+// Sortie optionnelle des niveaux de raffinement, des diametres, des qualites
+    _ExtraOutput = 1 ;
+    if (CBOutputLevel->isChecked())    { _ExtraOutput = 2 ; }
+    if (CBOutputQuality->isChecked())  { _ExtraOutput = 3*_ExtraOutput ; }
+    if (CBOutputDiameter->isChecked()) { _ExtraOutput = 5*_ExtraOutput ; }
+    aHypothesis->SetExtraOutput(_ExtraOutput);
   }
 
   HOMARD_UTILS::updateObjBrowser() ;
@@ -894,20 +900,18 @@ void MonCreateHypothesis::SetAdvanced()
   MESSAGE("Debut de SetAdvanced ");
   if (CBAdvanced->isChecked())
   { GBAdvancedOptions->setVisible(1);
-    if (_aFieldFile != QString(""))
-    { GBAdapInit->setVisible(1) ;
-    }
-    else
-    { GBAdapInit->setVisible(0) ;
-    }
+    if (_aFieldFile != QString("")) { GBAdapInit->setVisible(1) ; }
+    else                            { GBAdapInit->setVisible(0) ; }
   }
   else
   { GBAdvancedOptions->setVisible(0);
     _NivMax = -1 ;
     _DiamMin = -1. ;
     _AdapInit = 0 ;
-    CBLevelOutput->setChecked(false);
-    _LevelOutput = 0 ;
+    CBOutputLevel->setChecked(false);
+    CBOutputQuality->setChecked(false);
+    CBOutputDiameter->setChecked(false);
+    _ExtraOutput = 1 ;
   }
 //
   adjustSize();

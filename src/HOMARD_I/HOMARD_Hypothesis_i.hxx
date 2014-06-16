@@ -97,8 +97,8 @@ public:
   void                   SetAdapInit( CORBA::Long AdapInit );
   CORBA::Long            GetAdapInit();
 
-  void                   SetLevelOutput( CORBA::Long LevelOutput );
-  CORBA::Long            GetLevelOutput();
+  void                   SetExtraOutput( CORBA::Long ExtraOutput );
+  CORBA::Long            GetExtraOutput();
 
   void                   AddGroup( const char* Group);
   void                   SupprGroup( const char* Group );

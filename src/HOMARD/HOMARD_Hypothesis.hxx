@@ -90,8 +90,8 @@ public:
   void                          SetAdapInit( int AdapInit );
   const int                     GetAdapInit() const;
 
-  void                          SetLevelOutput( int LevelOutput );
-  const int                     GetLevelOutput() const;
+  void                          SetExtraOutput( int ExtraOutput );
+  const int                     GetExtraOutput() const;
 
   void                          AddGroup( const char* Group);
   void                          SupprGroup( const char* Group );
@@ -144,7 +144,7 @@ private:
   int                           _NivMax;
   double                        _DiamMin;
   int                           _AdapInit;
-  int                           _LevelOutput;
+  int                           _ExtraOutput;
 
   std::list<std::string>        _ListIter;
   std::list<std::string>        _ListZone;

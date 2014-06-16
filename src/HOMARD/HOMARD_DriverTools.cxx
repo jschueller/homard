@@ -238,7 +238,7 @@ namespace HOMARD
     os << separator() << hypothesis.GetNivMax();
     os << separator() << hypothesis.GetDiamMin();
     os << separator() << hypothesis.GetAdapInit();
-    os << separator() << hypothesis.GetLevelOutput();
+    os << separator() << hypothesis.GetExtraOutput();
 
     saux = os.str();
 //     MESSAGE( ". Fin avec "<<saux);
@@ -637,7 +637,7 @@ namespace HOMARD
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    hypothesis.SetLevelOutput( strtod( chunk.c_str(), 0 ) );
+    hypothesis.SetExtraOutput( strtod( chunk.c_str(), 0 ) );
 
     return true;
   }
