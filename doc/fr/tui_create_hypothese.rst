@@ -413,22 +413,25 @@ Les options avancées
 |     Retourne le type de traitement à appliquer aux mailles où |
 |     le champ de pilotage de l'adaptation n'est pas défini     |
 +---------------------------------------------------------------+
-| .. module:: SetLevelOutput                                    |
+| .. module:: SetExtraOutput                                    |
 |                                                               |
-| **SetLevelOutput(option)**                                    |
-|     Précise si on veut récupérer le niveau de raffinement des |
-|     mailles sous la forme d'un champ                          |
+| **SetExtraOutput(option)**                                    |
+|     Précise quelles sorties supplémentaires sur les mailles on|
+|     veut récupérer dans le fichier MED de sortie. C'est un    |
+|     entier multiple ou non de 2, 3, 5.                        |
 |                                                               |
 |     - ``option`` : entier précisant le choix retenu           |
 |                                                               |
-|         *  0 : aucun effet (défaut)                           |
-|         *  1 : le champ est produit                           |
+|         *  1 : aucun effet (défaut)                           |
+|         *  2x : le niveau de raffinement de chaque maille     |
+|         *  3x : la qualité de chaque maille                   |
+|         *  5x : le diamètre de chaque maille                  |
 +---------------------------------------------------------------+
-| .. module:: GetLevelOutput                                    |
+| .. module:: GetExtraOutput                                    |
 |                                                               |
-| **GetLevelOutput()**                                          |
-|     Retourne le choix retenu pour la récupération du niveau   |
-|     de raffinement                                            |
+| **GetExtraOutput()**                                          |
+|     Retourne le choix retenu pour la récupération des sorties |
+|     supplémentaires                                           |
 +---------------------------------------------------------------+
 
 

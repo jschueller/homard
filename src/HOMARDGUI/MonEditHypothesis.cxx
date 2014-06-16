@@ -103,8 +103,8 @@ void MonEditHypothesis::InitValEdit()
   int NivMax = aHypothesis->GetNivMax();
   double DiamMin = aHypothesis->GetDiamMin();
   int AdapInit = aHypothesis->GetAdapInit();
-  int LevelOutput = aHypothesis->GetLevelOutput();
-  if ( NivMax > 0 || DiamMin > 0 || AdapInit != 0 || LevelOutput != 0 )
+  int ExtraOutput = aHypothesis->GetExtraOutput();
+  if ( NivMax > 0 || DiamMin > 0 || AdapInit != 0 || ExtraOutput != 1 )
   { GBAdvancedOptions->setVisible(1);
     if ( NivMax > 0 )
     { SpinBoxNivMax->setValue(NivMax);
@@ -131,14 +131,24 @@ void MonEditHypothesis::InitValEdit()
     else
     { GBAdapInit->setVisible(0) ;
     }
-    if ( LevelOutput != 0 )
+    if ( ExtraOutput % 2 == 0 )
     {
-      CBLevelOutput->setChecked(true);
-      CBLevelOutput->setEnabled(false);
+      CBOutputLevel->setChecked(true);
+      CBOutputLevel->setEnabled(false);
     }
-    else
-    { CBLevelOutput->setVisible(0) ;
+    else { CBOutputLevel->setVisible(0) ; }
+    if ( ExtraOutput % 3 == 0 )
+    {
+      CBOutputQuality->setChecked(true);
+      CBOutputQuality->setEnabled(false);
     }
+    else { CBOutputQuality->setVisible(0) ; }
+    if ( ExtraOutput % 5 == 0 )
+    {
+      CBOutputDiameter->setChecked(true);
+      CBOutputDiameter->setEnabled(false);
+    }
+    else { CBOutputDiameter->setVisible(0) ; }
   }
   else
   { GBAdvancedOptions->setVisible(0); }

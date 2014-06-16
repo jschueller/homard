@@ -299,16 +299,16 @@ CORBA::Long HOMARD_Hypothesis_i::GetAdapInit()
   return myHomardHypothesis->GetAdapInit();
 }
 //=============================================================================
-void HOMARD_Hypothesis_i::SetLevelOutput( CORBA::Long LevelOutput )
+void HOMARD_Hypothesis_i::SetExtraOutput( CORBA::Long ExtraOutput )
 {
   ASSERT( myHomardHypothesis );
-  myHomardHypothesis->SetLevelOutput( LevelOutput );
+  myHomardHypothesis->SetExtraOutput( ExtraOutput );
 }
 //=============================================================================
-CORBA::Long HOMARD_Hypothesis_i::GetLevelOutput()
+CORBA::Long HOMARD_Hypothesis_i::GetExtraOutput()
 {
   ASSERT( myHomardHypothesis );
-  return myHomardHypothesis->GetLevelOutput();
+  return myHomardHypothesis->GetExtraOutput();
 }
 //=============================================================================
 void HOMARD_Hypothesis_i::AddGroup( const char* Group)

@@ -154,9 +154,9 @@ std::string HOMARD_Hypothesis::GetDumpPython() const
   {
     aScript << "\t" <<_Name << ".SetAdapInit(" << _AdapInit << ")\n";
   }
-  if ( _LevelOutput != 0 )
+  if ( _ExtraOutput != 1 )
   {
-    aScript << "\t" <<_Name << ".SetLevelOutput(" << _LevelOutput << ")\n";
+    aScript << "\t" <<_Name << ".SetExtraOutput(" << _ExtraOutput << ")\n";
   }
 
   return aScript.str();
@@ -327,16 +327,16 @@ const int HOMARD_Hypothesis::GetAdapInit() const
   return _AdapInit;
 }
 //=============================================================================
-void HOMARD_Hypothesis::SetLevelOutput( int LevelOutput )
+void HOMARD_Hypothesis::SetExtraOutput( int ExtraOutput )
 //=============================================================================
 {
-  _LevelOutput = LevelOutput;
+  _ExtraOutput = ExtraOutput;
 }
 //=============================================================================
-const int HOMARD_Hypothesis::GetLevelOutput() const
+const int HOMARD_Hypothesis::GetExtraOutput() const
 //=============================================================================
 {
-  return _LevelOutput;
+  return _ExtraOutput;
 }
 //=============================================================================
 void HOMARD_Hypothesis::AddGroup( const char* Group)
