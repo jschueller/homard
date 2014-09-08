@@ -133,14 +133,14 @@ Le découpage des hexaèdres se fait en huit. Chacune des faces quadrangulaires es
 .. image:: ../images/dec_hex.png
    :align: center
    :alt: Découpage standard d'un hexaèdre
-   :scale: 70
+   :width: 600
 
 Le découpage des pentaèdres se fait en huit. Chacune des faces quadrangulaires est découpée en 4 faces quadrangulaires de manière standard, de même pour les faces triangulaires. On construit trois arêtes internes chacune parallèle à une des faces quadrangulaires au milieu du penatèdre. On construit ensuite 4 faces triangulaires s'appuyant sur ces arêtes et correspondant au découpage standard d'une face triangulaire à l'intérieur du pentaèdre. Six faces quadrangulaires internes sont créées deux à deux parallèles à chaque face quadrangulaire du pentaèdre.
 
 .. image:: ../images/dec.pent.png
    :align: center
    :alt: Découpage standard d'un pentaèdre
-   :scale: 20
+   :width: 600
 
 Le découpage de mise en conformité
 ==================================
@@ -152,18 +152,31 @@ Etant donné notre algorithme de maillage adaptatif, seules les quatre situations
 
 Dans le cas d'un triangle, l'une de ses trois arêtes est coupée en deux. On joint son milieu au sommet opposé pour former deux nouveaux triangles.
 
-.. image:: ../images/dec_tria_2.gif
+.. image:: ../images/dec_tria_2.png
    :align: center
    :alt: Découpage de conformité d'un triangle
-   :width: 399
-   :height: 88
+   :width: 424
 
-Dans le cas d'un quadrangle, l'une de ses quatre arêtes est coupée en deux. On joint son milieu aux deux sommets opposés pour former trois triangles. Le maillage adapté obtenu est donc mixte.
+Dans le cas d'un quadrangle, trois cas de figure sont possibles. Dans le premier cas, l'une de ses quatre arêtes est coupée en deux. On joint son milieu aux deux sommets opposés pour former trois triangles. Le maillage adapté obtenu est donc mixte : il comportera des triangles en plus des quadrangles de départ.
 
 .. image:: ../images/dec_quad_2.png
    :align: center
-   :alt: Découpage de conformité d'un quadrangle
-   :width: 399
+   :alt: Découpage de conformité d'un quadrangle - 1
+   :width: 424
+
+Pour un quadrangle où deux arêtes opposées sont coupées en deux, les deux milieux d'arêtes opposées sont reliés. Il y a création de deux quadrangles.
+
+.. image:: ../images/dec_quad_3.png
+   :align: center
+   :alt: Découpage de conformité d'un quadrangle - 2
+   :width: 424
+
+Pour un quadrangle où deux arêtes adjacentes sont coupées en deux, on crée un nouveau noeud au milieu du quadrangle. Ce noeud milieu est relié aux deux milieux des arêtes coupées et au sommet opposé. Il y a création de trois quadrangles.
+
+.. image:: ../images/dec_quad_4.png
+   :align: center
+   :alt: Découpage de conformité d'un quadrangle - 3
+   :width: 424
 
 Pour un tétraèdre dont trois des arêtes sont coupées : cela n'est possible que si ces arêtes sont sur la même face. Cette face est donc coupée en quatre. On joint les milieux des arêtes découpées au sommet opposé. Cela coupe en deux les trois autres faces et il y a création de 4 tétraèdres.
 
@@ -189,7 +202,7 @@ Pour un tétraèdre dont une des arêtes est coupée : on joint le milieu de cette a
    :width: 116
    :height: 116
 
-La conformité des hexaèdres est assurée par des combinaisons de tétraèdres et de pyramides. Les situations dépendent du nombre de non-conformités.
+La conformité des hexaèdres est assurée par des combinaisons de tétraèdres et de pyramides. Les situations dépendent du nombre de non-conformités, en respectant les règles de découpage des quadrangles. Voici quelques exemples pris parmi les 66 configurations possibles.
 
 Pour un hexaèdre dont une face est coupée il y a création de 4 arêtes, de 4 tétraèdres et de 5 pyramides.
 
@@ -250,7 +263,7 @@ Quelques illustrations de maillage adaptés
 ******************************************
 .. index:: single: illustration
 
-On pourra trouver des exemples d'utilisations de l'adaptation de maillage sur le site de `HOMARD <http://www.code-aster.org/outils/homard/fr/applications.html>`_
+On pourra trouver des exemples d'utilisations de l'adaptation de maillage sur le site de `HOMARD <http://www.code-aster.org/outils/homard/fr/applications.html>`_.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+

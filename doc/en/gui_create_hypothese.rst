@@ -22,7 +22,7 @@ A name of the hypothesis is automatically proposed: Hypo_1, Hypo_2, etc. This na
 
 Uniform adaptation
 ******************
-By default we propose a uniform refinement. When the starting point is a mesh which was already refined, the option of unefinement will eliminate the produced elements.
+By default we propose a uniform refinement. When the starting point is a mesh which was already refined, the option of unrefinement will eliminate the produced elements.
 
 Adaptation by a field
 *********************
@@ -51,7 +51,7 @@ For the choice of the criterion, four variants are possible:
   - Beyond an absolute value; all the elements with a value of field superior to this value will be refined.
   - Beyond an absolute value that is equal to the average of the mean of the field increased of n times its standard deviation; all the elements with a value of field superior to this value will be refined.
 
-The same convention applies to the unefinement, the by replacing upper by lower. We can inactivate one of the functions (refinement or unefinement) by checking the button ad_hoc.
+The same convention applies to the unrefinement, the by replacing upper by lower. We can inactivate one of the functions (refinement or unrefinement) by checking the button ad_hoc.
 
 .. image:: images/create_hypothese_ch_3.png
    :align: center
@@ -113,7 +113,7 @@ If the compartment is checked, we shall define the advanced options.
 
 A first series of options concern the maximal sharpness of mesh which we do not want to exceed. Two directives are possible, separately or together. We can impose a size of minimal element: a element the diameter of which is lower than this limit will not be any more split. By default, we propose a minimal 0 diameter, what means imposing nothing. We can impose a level of maximal refinement. By default, the maximum is 99, what amounts generally to impose nothing.
 
-The second series of options has interest only in case the adaptation is driven by a field and in case this field is not defined everywhere in the mesh. It arrives for example when we build a field based on a distance in a plan while the domain is 3D: the field will not be defined on nodes outside the plan. For such fields, this option allows to specify the behavior which we wish in the regions where the field is not defined. By default, there is nothing: elements are kept as they are. We can choose two other variants: to refine all the elements will a priori be cut, or to unrefine all the elements will be candidate in the unefinement.
+The second series of options has interest only in case the adaptation is driven by a field and in case this field is not defined everywhere in the mesh. It arrives for example when we build a field based on a distance in a plan while the domain is 3D: the field will not be defined on nodes outside the plan. For such fields, this option allows to specify the behavior which we wish in the regions where the field is not defined. By default, there is nothing: elements are kept as they are. We can choose two other variants: to refine all the elements will a priori be cut, or to unrefine all the elements will be candidate in the unrefinement.
 
 The last choice concerns an additional output of the adaptation. By default, nothing is checked and no field is produced. If at least one compartment is checked, the output file MED will contain some extra fields. The first choice represents the level of refinement of every element. The convention is the one of HOMARD: an element of the initial mesh is of level 0, an element produced by the refinement of an initial element carries the level 1, etc. The elements of transition which are produced between two different levels, n and n+1, are affected by the half-level n+0,5. The second choice is for the quality of the elements. The third choice is for the diameters of the elements.
 
