@@ -4,10 +4,11 @@ The computation
 ###############
 .. index:: single: iteration
 .. index:: single: computation
+.. index:: single: SMESH
 
 To compute an iteration
 ***********************
-To launch an adaptation obtains by selecting the iteration to calculate. It is identified by an icone "wait". We choose then "*Compute*" in the menu HOMARD or with the mouse.
+To launch an adaptation obtains by selecting the iteration to calculate. It is identified by an icone "wait". We choose then "*Compute*" or "*Compute and publish*" in the menu HOMARD or with the mouse. In the first case, the adaptation is done and the MED files are written down. In the second case, the new mesh will be published into SMESH. Note that if the choice "*Compute*" was used, the new mesh can be published afterwards, using the choice "*Publish*".
 
 .. image:: images/lancement_1.png
    :align: center
@@ -25,7 +26,7 @@ At the end of this calculation, the object browser was enriched. The icone in fr
 
 The first two files are text files, editable. Liste.n.vers.(n+1).log contains information on the progress of the adaptation: summary of the mode of adaptation, percentage of concerned elements, etc. The file apad.n.vers.(n+1).bilan is a summary of the characteristics of the obtained mesh.
 
-The file maill.(n+1).med is the one which contains the mesh produced in the format MED. We find this mesh in the section of the object browser of the module SMESH. It is then visible in this module and usable then as quite different mesh.
+The file maill.(n+1).med is the one which contains the mesh produced in the format MED. If the publication was selected, we find this mesh in the section of the object browser of the module SMESH. It is then visible in this module and usable then as quite different mesh.
 
 
 .. image:: images/lancement_2.png

@@ -5,7 +5,7 @@ Introduction
 
 General presentation
 ********************
-The software HOMARD is intended to adapt the meshes within the framework of the computer codes by finite elements or finite volumes. This software, carried out by EDF R&D, proceeds by refinement and unefinement of the two-dimensional or three-dimensional meshes. It is conceived to be used independently of the computer code with which it is coupled.
+The software HOMARD is intended to adapt the meshes within the framework of the computer codes by finite elements or finite volumes. This software, carried out by EDF R&D, proceeds by refinement and unrefinement of the two-dimensional or three-dimensional meshes. It is conceived to be used independently of the computer code with which it is coupled.
 
 To refine the mesh means to cut out elements indicated according to indications provided by the user. Unrefine the mesh means to reconsider behind cuttings previously carried out: thus, to in no case HOMARD cannot simplify an existing mesh which will have been created too fine. Unrefinement takes all its importance in calculations when the zone of interest moves during calculation: one will not hold any more account of refinements previously carried out and which become useless. One will find of it an illustration with the bottom of this page.
 
@@ -15,7 +15,7 @@ HOMARD can treat meshes into 2 or 3 dimensions and comprising the following elem
    - triangles
    - quadrangles
    - tetrahedra
-   - hexahaedra
+   - hexahedra
    - prisms
 
 These elements can be present simultaneously. For example, HOMARD will be able to adapt a comprising mesh of the triangles and the quadrangles.
@@ -126,14 +126,14 @@ Hexaedrons are split in eight. Each of the quadrangular faces is split into 4 qu
 .. image:: ../images/dec_hex.png
    :align: center
    :alt: Découpage standard d'un hexaèdre
-   :scale: 70
+   :width: 600
 
 Pentaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces and the two triangles are split into 4. Edges are created connecting each centre of quadrangular faces. Those 3 edges create 4 triangles at the centre of the pentaedron. Six quandrangular faces are created to complete the construction of the height pentaedrons.
 
 .. image:: ../images/dec.pent.png
    :align: center
    :alt: Découpage standard d'un pentaèdre
-   :scale: 20
+   :width: 600
 
 Splitting for the conformity
 ============================
@@ -142,18 +142,31 @@ Splitting for conformity is applicable to the elements at the interface between 
 
 For triangles, one of the three edges is split in two. Its middle is joined to the opposite vertex to form two additional triangles.
 
-.. image:: ../images/dec_tria_2.gif
+.. image:: ../images/dec_tria_2.png
    :align: center
    :alt: Découpage de conformité d'un triangle
-   :width: 399
-   :height: 88
+   :width: 424
 
-For quadrangles, one of the four edges is split in two. Its middle is joined to the opposite vertex to form three triangles. The mesh obtained is then mixed.
+For quadrangles, three configurations exist. First, one of the four edges is split in two. Its middle is joined to the opposite vertex to form three triangles. The mesh obtained is then mixed.
 
 .. image:: ../images/dec_quad_2.png
    :align: center
    :alt: Découpage de conformité d'un quadrangle
    :width: 399
+
+For a quadrangle where two opposite edges are cut, the two middle points are connected. Two quadrangles are created.
+
+.. image:: ../images/dec_quad_3.png
+   :align: center
+   :alt: Découpage de conformité d'un quadrangle - 2
+   :width: 424
+
+For a quadrangle where two opposite edges are cut, a new vertex is created at the centre of the quadrangle. This center point is then connected to the two middle points are connected and to the opposite vertex. Three quadrangles are created.
+
+.. image:: ../images/dec_quad_4.png
+   :align: center
+   :alt: Découpage de conformité d'un quadrangle - 3
+   :width: 424
 
 For a tetrahedron with three split edges, this is possible only if the edges are concurrent. Therefore, one of the four faces is split in four. The middles of the split edges are joined to the opposite vertexes. The three other faces are thus split in two, and four tetrahedrons are created.
 
@@ -179,7 +192,7 @@ For a tetrahedron with one split edge, the middle of the split edge is joined to
    :width: 116
    :height: 116
 
-The conformal strategy for the hexaedrons is based on tetraedrons and pyramids. The situation depends on the number of non conformities.
+The conformal strategy for the hexaedrons is based on tetraedrons and pyramids. The situation depends on the number of non conformities, following the rules for the quadrangles. Here is some examples from the 66 possible situations.
 
 For an hexaedron with one face cut, we create 4 edges, 4 tetraedrons and 5 pyramids.
 
@@ -234,7 +247,7 @@ Some illustrations of adapted meshes
 ************************************
 .. index:: single: illustration
 
-Some examples of use cases can be found in the web page of `HOMARD <http://www.code-aster.org/outils/homard/en/applications.html>`_
+Some examples of use cases can be found in the web page of `HOMARD <http://www.code-aster.org/outils/homard/en/applications.html>`_.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+

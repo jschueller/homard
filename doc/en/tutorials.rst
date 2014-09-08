@@ -69,7 +69,7 @@ Refinement driven by a field
 ****************************
 .. index:: single: field
 
-One proceeds here to refinement according to a field. The hypotheses are used to define the name of the field and the thresholds of refinement/unefinement. The input of the file and the instants is made in the iteration. Fields on the nodes or the elements are interpolated.
+One proceeds here to refinement according to a field. The hypotheses are used to define the name of the field and the thresholds of refinement/unrefinement. The input of the file and the instants is made in the iteration. Fields on the nodes or the elements are interpolated.
 To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are applied. In the first, Iter_2, the field is a scalar field of indicators of error and one cuts out the 1.5% of elements where the error is largest. In the second alternative, Iter_2_bis, one is based on a vector field and one examines the jump of this vector between an element and its neighbors: one will cut out where the infinite standard of this jump is higher than the absolute threshold of 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
