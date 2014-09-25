@@ -146,6 +146,11 @@ module HOMARD
     SALOMEDS::Study GetCurrentStudy()                      raises (SALOME::SALOME_Exception);
     long GetCurrentStudyID()                               raises (SALOME::SALOME_Exception);
 //
+// A.4. Les caracteristiques generales
+//
+    void SetLanguageShort (in string LanguageShort)        raises (SALOME::SALOME_Exception);
+    string GetLanguageShort ()                             raises (SALOME::SALOME_Exception);
+//
 // B. Les methodes qui suivent n'apparaissent pas dans le composant HOMARD dans YACS
 //    L'utilisateur ne devrait pas les connaitre (ni s'en servir, a fortiori)
 //
@@ -210,8 +215,6 @@ module HOMARD
 
 //
 //  Les preferences
-    void SetLanguageShort (in string LanguageShort)        raises (SALOME::SALOME_Exception);
-    string GetLanguageShort ()                             raises (SALOME::SALOME_Exception);
     void SetPublisMesh (in long PublisMeshIN, in long PublisMeshOUT)
     raises (SALOME::SALOME_Exception);
     long GetPublisMeshIN ()                                raises (SALOME::SALOME_Exception);
