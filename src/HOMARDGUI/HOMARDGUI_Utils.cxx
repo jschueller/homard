@@ -32,7 +32,6 @@
 #include "SalomeApp_Study.h"
 
 #include "SALOME_ListIO.hxx"
-#include "SALOME_ListIteratorOfListIO.hxx"
 
 #include "SALOMEconfig.h"
 #include "utilities.h"

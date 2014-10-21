@@ -39,7 +39,6 @@
 #include "OB_Browser.h"
 
 #include "SALOME_ListIO.hxx"
-#include "SALOME_ListIteratorOfListIO.hxx"
 
 #include "SalomeApp_Application.h"
 #include "SalomeApp_DataModel.h"
