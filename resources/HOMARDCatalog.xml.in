@@ -812,6 +812,68 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
+                        <service-name>CreateBoundaryTorus</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>BoundaryName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Xcentre</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Ycentre</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Zcentre</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Xaxis</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Yaxis</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Zaxis</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>RadiusRev</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>RadiusPri</inParameter-name>
+                                <inParameter-type>double</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD_Boundary</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
                         <service-name>GetCase</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
@@ -1040,6 +1102,27 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
+                        <service-name>PublishBoundaryUnderCase</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>CaseName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>BoundaryName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list></outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
                         <service-name>PublishResultInSmesh</service-name>
                         <service-author>HOMARD team - EDF RD</service-author>
                         <service-version>1.1</service-version>
@@ -1054,6 +1137,48 @@
                             <inParameter>
                                 <inParameter-name>Option</inParameter-name>
                                 <inParameter-type>long</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list></outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>PublishFileUnderIteration</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>IterName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>FileName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>Comment</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list></outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>PublishMeshIterInSmesh</service-name>
+                        <service-author>HOMARD team - EDF RD</service-author>
+                        <service-version>1.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>IterName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
                                 <inParameter-comment>unknown</inParameter-comment>
                             </inParameter>
                         </inParameter-list>
