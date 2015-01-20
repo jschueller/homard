@@ -18,14 +18,14 @@
 #
 
 SALOME_CONFIGURE_FILE(VERSION.in VERSION INSTALL ${SALOME_INSTALL_BINS})
-SALOME_CONFIGURE_FILE(runAppli.in runAppli INSTALL ${SALOME_INSTALL_BINS})
+SALOME_CONFIGURE_FILE(runHOMARD.in runHOMARD INSTALL ${SALOME_INSTALL_BINS})
 
 # ===============================================================
 # Files to be installed
 # ===============================================================
 
 SET(_bin_scripts
-  runSalome.py
+  runHOMARD.py
 )
 
 SALOME_INSTALL_SCRIPTS("${_bin_scripts}" ${SALOME_INSTALL_SCRIPT_SCRIPTS})

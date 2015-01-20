@@ -18,7 +18,7 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-usage="""USAGE: runSalome.py [options]
+usage="""USAGE: runHOMARD.py [options]
 
 [command line options] :
 --help                        : affichage de l'aide
@@ -465,7 +465,7 @@ Pour tuer les process SALOME, executer : python killSalome.py depuis
 une console, ou bien killSalome() depuis le present interpreteur,
 s'il n'est pas fermé.
 
-runSalome, avec l'option --killall, commence par tuer les process restants 
+runHOMARD, avec l'option --killall, commence par tuer les process restants 
 d'une execution précédente.
 
 Pour lancer uniquement le GUI, executer startGUI() depuis le present interpreteur,
