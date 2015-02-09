@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2011-2014  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
@@ -82,23 +82,23 @@ Python script for HOMARD
     Hypo_1_1.SetRefinThr(3, 10.1)
     Hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
     Hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
-    print HypoName_1, " : zones utilisées :", Hypo_1_1.GetZones()
-    print HypoName_1, " : champ utilisé :", Hypo_1_1.GetFieldName()
-    print HypoName_1, " : composantes utilisées :", Hypo_1_1.GetComps()
+    print HypoName_1, " : zones utilisÃ©es :", Hypo_1_1.GetZones()
+    print HypoName_1, " : champ utilisÃ© :", Hypo_1_1.GetFieldName()
+    print HypoName_1, " : composantes utilisÃ©es :", Hypo_1_1.GetComps()
     if ( len (Hypo_1_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_1_1.GetField()
-    print HypoName_1, " : champs interpolés :", Hypo_1_1.GetFieldInterps()
+      print ".. caractÃ©ristiques de l'adaptation :", Hypo_1_1.GetField()
+    print HypoName_1, " : champs interpolÃ©s :", Hypo_1_1.GetFieldInterps()
   # Creation of the hypothesis Zones_1_et_2
     HypoName_2 = "Zones_1_et_2"
     print "-------- Creation of the hypothesis", HypoName_2
     Zones_1_et_2 = homard.CreateHypothesis(HypoName_2)
     Zones_1_et_2.AddZone('Zone_1_1', 1)
     Zones_1_et_2.AddZone('Zone_1_2', 1)
-    print HypoName_2, " : zones utilisées :", Zones_1_et_2.GetZones()
-    print HypoName_2, " : champ utilisé :", Zones_1_et_2.GetFieldName()
+    print HypoName_2, " : zones utilisÃ©es :", Zones_1_et_2.GetZones()
+    print HypoName_2, " : champ utilisÃ© :", Zones_1_et_2.GetFieldName()
     if ( len (Zones_1_et_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Zones_1_et_2.GetField()
-    print HypoName_2, " : champs interpolés :", Zones_1_et_2.GetFieldInterps()
+      print ".. caractÃ©ristiques de l'adaptation :", Zones_1_et_2.GetField()
+    print HypoName_2, " : champs interpolÃ©s :", Zones_1_et_2.GetFieldInterps()
   #
   # Creation of the cases
   # =====================

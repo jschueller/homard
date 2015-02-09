@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2011-2014  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
@@ -87,9 +87,9 @@ Python script for HOMARD
     print "-------- Creation of the hypothesis", HypoName
     Hypo_test_3 = homard.CreateHypothesis(HypoName)
     Hypo_test_3.SetUnifRefinUnRef(1)
-    print HypoName, " : zones utilisées :", Hypo_test_3.GetZones()
-    print HypoName, " : champ utilisé :", Hypo_test_3.GetFieldName()
-    print HypoName, " : composantes utilisées :", Hypo_test_3.GetComps()
+    print HypoName, " : zones utilisÃ©es :", Hypo_test_3.GetZones()
+    print HypoName, " : champ utilisÃ© :", Hypo_test_3.GetFieldName()
+    print HypoName, " : composantes utilisÃ©es :", Hypo_test_3.GetComps()
   #
     for num in range (n_boucle+1) :
   #
