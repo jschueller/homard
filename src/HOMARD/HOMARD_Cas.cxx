@@ -19,7 +19,7 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Cas.cxx
-//  Author : Paul RASCLE, EDF
+//  Author : Gerald NICOLAS, EDF
 //  Module : HOMARD
 //
 // Remarques :
@@ -110,7 +110,7 @@ int HOMARD_Cas::SetDirName( const char* NomDir )
   MESSAGE("SetDirName,  NomDir : "<<NomDir);
   MESSAGE("SetDirName, _NomDir : "<<_NomDir);
   int erreur = 0 ;
-  // On vérifie qu'aucun calcul n'a eu lieu pour ce cas
+  // On vÃ©rifie qu'aucun calcul n'a eu lieu pour ce cas
   MESSAGE("SetDirName, _ListIter.size() : "<<_ListIter.size());
   if ( _ListIter.size() > 1 ) { erreur = 1 ; }
   // Creation

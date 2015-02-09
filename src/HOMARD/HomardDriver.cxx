@@ -984,12 +984,12 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
   }
   if ( ExtraOutput % 3 == 0 )
   {
-    _Texte += "# Sortie des qualités des mailles\n" ;
+    _Texte += "# Sortie des qualitÃ©s des mailles\n" ;
     _Texte += "NCQualit QUAL\n" ;
   }
   if ( ExtraOutput % 5 == 0 )
   {
-    _Texte += "# Sortie des diamètres des mailles\n" ;
+    _Texte += "# Sortie des diamÃ¨tres des mailles\n" ;
     _Texte += "NCDiamet DIAM\n" ;
   }
 }

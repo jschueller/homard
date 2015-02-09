@@ -19,7 +19,7 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Gen.cxx
-//  Author : Paul RASCLE, EDF
+//  Author : Gerald NICOLAS, EDF
 //  Module : HOMARD
 
 #include "HOMARD_Gen.hxx"

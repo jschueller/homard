@@ -18,7 +18,7 @@
 //
 
 //  File   : HOMARDGUI.cxx
-//  Author : Paul RASCLE, EDF
+//  Author : Gerald NICOLAS, EDF
 //  Module : HOMARD
 
 #include "HOMARDGUI.h"
@@ -254,7 +254,7 @@ void HOMARDGUI::createMenus()
   createMenu( separator(), HOMARD_Id,-1);
 //
   HOMARD_Id  = createMenu( tr( "HOM_MEN_YACS" ),  -1,  5, 10 );
-  createMenu( 1401, HOMARD_Id, -1 ); // Création d'un schéma YACS
+  createMenu( 1401, HOMARD_Id, -1 ); // CrÃ©ation d'un schÃ©ma YACS
   createMenu( separator(), HOMARD_Id,-1);
 }
 
@@ -629,7 +629,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1401: // Création d'un schema YACS
+    case 1401: // CrÃ©ation d'un schema YACS
     {
       MESSAGE("etape 1401")
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
@@ -638,7 +638,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       break;
     }
 
-    case 1402: // Ecriture d'un schéma YACS
+    case 1402: // Ecriture d'un schÃ©ma YACS
     {
       MESSAGE("etape 1402")
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
