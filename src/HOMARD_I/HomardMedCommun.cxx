@@ -25,10 +25,7 @@
 #include <cstring>
 #include <algorithm>
 
-extern "C"
-{
 #include <med.h>
-}
 
 #include "utilities.h"
 // =======================================================================

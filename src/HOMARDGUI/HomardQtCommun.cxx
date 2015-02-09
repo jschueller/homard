@@ -36,11 +36,8 @@
 #include "SalomeApp_Tools.h"
 
 using namespace std;
-extern "C"
-{
-#include <med.h>
-}
 
+#include <med.h>
 
 // ============================================================================
 QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
