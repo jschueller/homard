@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 #
 # HOMARD documentation build configuration file, created by
 # sphinx-quickstart on Tue Jan  5 08:51:14 2010.
@@ -31,14 +31,14 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 
 # The encoding of source files.
-source_encoding = 'iso-8859-1'
+source_encoding = 'utf-8'
 
 # The master toctree document.
 master_doc = 'index'
 
 # General information about the project.
 project = u'HOMARD'
-copyright = u'1996, 2011, 2013-2014, EDF R&D, G. Nicolas, T. Fouquet, P. Noyret'
+copyright = u'1996, 2011, 2015, EDF R&D, G. Nicolas, T. Fouquet, P. Noyret'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

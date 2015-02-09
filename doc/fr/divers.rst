@@ -3,67 +3,71 @@
 Divers
 ######
 
-Références
+RÃ©fÃ©rences
 **********
-.. index:: single: référence
+.. index:: single: rÃ©fÃ©rence
 
-Pour une référence à HOMARD, utiliser :
+Pour une rÃ©fÃ©rence Ã  HOMARD, utiliser :
 
 G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
 `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
 
-D'autres références sont disponibles sur le site de `HOMARD <http://www.code-aster.org/outils/homard/fr/divers.html>`_
+D'autres rÃ©fÃ©rences sont disponibles sur le site de `HOMARD <http://www.code-aster.org/outils/homard/fr/divers.html>`_
 
 Evolutions du module
 ********************
-.. index:: single: évolution
+.. index:: single: Ã©volution
 
-On trouvera ici les principales évolutions de HOMARD à partir de la première version livrée dans SALOME 6.5.
+On trouvera ici les principales Ã©volutions de HOMARD Ã  partir de la premiÃ¨re version livrÃ©e dans SALOME 6.5.
 
 SALOME VERSION 6.6 :
-    - Interfaçage avec med 3.0.6
-    - Valeurs par défaut des instants
+    - InterfaÃ§age avec med 3.0.6
+    - Valeurs par dÃ©faut des instants
     - Acceptation des mailles de type TRIA7 et QUAD9
     - Option de sortie dans le fichier MED du niveau de raffinement atteint dans chaque maille
 
 SALOME VERSION 7.1 :
     - Correction d'une anomalie sur le filtrage du raffinement par les groupes
-    - Pilotage de l'adaptation par un seuil basé sur la moyenne et l'écart-type (voir :ref:`tui_create_hypothese`)
+    - Pilotage de l'adaptation par un seuil basÃ© sur la moyenne et l'Ã©cart-type (voir :ref:`tui_create_hypothese`)
     - En TUI, choix du dernier instant comme instant de pilotage par SetTimeStepRankLast (voir :ref:`tui_create_iteration`)
-    - Possibilité de détruire les objets (GUI et TUI)
+    - PossibilitÃ© de dÃ©truire les objets (GUI et TUI)
     - Modification des fonctions TUI pour qu'elles agissent sur les objets et non plus sur les noms :
       ``homard.AssociateIterHypo(iter_name,hypo_name)`` devient ``iter.AssociateHypo(hypo_name)``, ``homard.AssociateHypoZone(hypo_name,zone_name,type_use)`` devient ``hypo.AddZone(zone_name,type_use)``, ``homard.CreateIteration(iter_name,iter_parent_name)`` devient ``case.NextIteration(iter_name)`` ou ``iter.NextIteration(iter_name)``
     - Ajout de fonctions :
-      ``cas.LastIteration()`` : retourne la dernière itération de la descendance du cas (voir :ref:`tui_create_iteration`)
+      ``cas.LastIteration()`` : retourne la derniÃ¨re itÃ©ration de la descendance du cas (voir :ref:`tui_create_iteration`)
     - Analyse de maillages (voir :ref:`gui_mesh_info`)
 
 SALOME VERSION 7.2 :
-    - Possibilité d'utiliser un cone comme support de frontiere 2D (voir :ref:`tui_create_boundary`)
-    - Choix de publier ou non le résultat dans SMESH (voir :ref:`tui_create_iteration`)
+    - PossibilitÃ© d'utiliser un cone comme support de frontiere 2D (voir :ref:`tui_create_boundary`)
+    - Choix de publier ou non le rÃ©sultat dans SMESH (voir :ref:`tui_create_iteration`)
       ``iter.Compute(option)`` devient ``iter.Compute(option1, option2)``
-    - Possibilité de poursuivre une suite d'itérations archivées dans un répertoire (voir :ref:`gui_create_case`)
+    - PossibilitÃ© de poursuivre une suite d'itÃ©rations archivÃ©es dans un rÃ©pertoire (voir :ref:`gui_create_case`)
 
 SALOME VERSION 7.3 :
     - Documentation en anglais
-    - Options pour suivre le calcul de l'itération (voir :ref:`tui_create_iteration`) : ``iter.SetInfoCompute(MessInfo)``
-    - Creation automatique de schéma YACS :
-      ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)`` : écrit un schéma YACS correspondant au cas (voir :ref:`tui_create_case`)
-    - Le maillage initial n'est pas publié dans SMESH.
-    - Le raffinement de maillages 2D avec des quadrangles est amélioré pour prendre en compte des zones 'en escalier'.
-    - Les champs constants par mailles peuvent être interpolés selon les deux modes : intensif ou extensif.
-    - Possibilité de choix des pas de temps pour l'interpolation des champs :
+    - Options pour suivre le calcul de l'itÃ©ration (voir :ref:`tui_create_iteration`) : ``iter.SetInfoCompute(MessInfo)``
+    - Creation automatique de schÃ©ma YACS :
+      ``case.WriteYACSSchema(ScriptFile, DirName, MeshFile)`` : Ã©crit un schÃ©ma YACS correspondant au cas (voir :ref:`tui_create_case`)
+    - Le maillage initial n'est pas publiÃ© dans SMESH.
+    - Le raffinement de maillages 2D avec des quadrangles est amÃ©liorÃ© pour prendre en compte des zones 'en escalier'.
+    - Les champs constants par mailles peuvent Ãªtre interpolÃ©s selon les deux modes : intensif ou extensif.
+    - PossibilitÃ© de choix des pas de temps pour l'interpolation des champs :
       ``SetFieldInterpTimeStep(FieldInterp, TimeStep)`` : interpole le champ au pas de temps TimeStep (voir :ref:`tui_create_iteration`)
-      ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)`` : interpole le champ au pas de temps TimeStep et au numéro d'ordre Rank (voir :ref:`tui_create_iteration`)
-    - Arrêt en cas d'erreur dans les données des instructions python
+      ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)`` : interpole le champ au pas de temps TimeStep et au numÃ©ro d'ordre Rank (voir :ref:`tui_create_iteration`)
+    - ArrÃªt en cas d'erreur dans les donnÃ©es des instructions python
 
 SALOME VERSION 7.4 :
-    - Grandes fenêtres avec ascenseur.
-    - Publication des maillages à la demande.
-    - Suivi de frontière analytique torique.
-    - La fonction ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` est supprimée. Pour une adaptation selon un champ ou des zones, le mode raffinement/déraffinement est automatiquement déduit des autres paramètres de l'hypothèse. Pour un raffinement uniforme, on utilisera ``SetUnifRefinUnRef(TypeRaffDera)`` (voir :ref:`tui_create_hypothese`).
-    - En cas d'erreur dans l'adaptation, le nom du fichier de messages est affiché.
-    - Passage à la version 11.1 de l'exécutable HOMARD ; le raffinement conforme des maillages en hexaèdres est amélioré pour diminuer le nombre de mailles produites.
+    - Grandes fenÃªtres avec ascenseur.
+    - Publication des maillages Ã  la demande.
+    - Suivi de frontiÃ¨re analytique torique.
+    - La fonction ``SetAdapRefinUnRef(TypeAdap, TypeRaff, TypeDera)`` est supprimÃ©e. Pour une adaptation selon un champ ou des zones, le mode raffinement/dÃ©raffinement est automatiquement dÃ©duit des autres paramÃ¨tres de l'hypothÃ¨se. Pour un raffinement uniforme, on utilisera ``SetUnifRefinUnRef(TypeRaffDera)`` (voir :ref:`tui_create_hypothese`).
+    - En cas d'erreur dans l'adaptation, le nom du fichier de messages est affichÃ©.
+    - Passage Ã  la version 11.1 de l'exÃ©cutable HOMARD ; le raffinement conforme des maillages en hexaÃ¨dres est amÃ©liorÃ© pour diminuer le nombre de mailles produites.
+
+SALOME VERSION 7.5 :
+    - Sorties supplÃ©mentaires optionnelles : diamÃ¨tre et qualitÃ© ; on utilisera ``SetExtraOutput(option)`` (voir :ref:`tui_create_hypothese`).
+    - Passage Ã  la version 11.2 de l'exÃ©cutable HOMARD ; amÃ©lioration du suivi des frontiÃ¨res courbes 1D.
 
 
 

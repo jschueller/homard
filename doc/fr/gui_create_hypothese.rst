@@ -1,58 +1,58 @@
 .. _gui_create_hypothese:
 
-L'hypothèse
+L'hypothÃ¨se
 ###########
-.. index:: single: hypothèse
+.. index:: single: hypothÃ¨se
 
-L'hypothèse contient toutes les paramètres de pilotage d'une adaptation d'un maillage. Cette opération permet de réaliser l'itération à laquelle elle est attachée.
+L'hypothÃ¨se contient toutes les paramÃ¨tres de pilotage d'une adaptation d'un maillage. Cette opÃ©ration permet de rÃ©aliser l'itÃ©ration Ã  laquelle elle est attachÃ©e.
 
-Il existe trois classes d'hypothèses :
+Il existe trois classes d'hypothÃ¨ses :
 
   - Uniforme sur tout le maillage,
   - Selon un champ,
-  - En fonction de zone géométrique.
+  - En fonction de zone gÃ©omÃ©trique.
 
 .. image:: images/create_hypothese_1.png
    :align: center
 
 
-Nom de l'hypothèse
+Nom de l'hypothÃ¨se
 ******************
-Un nom d'hypothèse est proposé automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été utilisé pour une hypothèse précédente.
+Un nom d'hypothÃ¨se est proposÃ© automatiquement : Hypo_1, Hypo_2, etc. Ce nom peut Ãªtre modifiÃ©. Il ne doit pas avoir Ã©tÃ© utilisÃ© pour une hypothÃ¨se prÃ©cÃ©dente.
 
 Adaptation uniforme
 *******************
-Par défaut on propose un raffinement uniforme. Quand on part d'un maillage qui a déjà été raffiné, l'option de déraffinement supprimera les mailles produites.
+Par dÃ©faut on propose un raffinement uniforme. Quand on part d'un maillage qui a dÃ©jÃ  Ã©tÃ© raffinÃ©, l'option de dÃ©raffinement supprimera les mailles produites.
 
 Adaptation selon un champ
 *************************
 
 .. note::
-  Pour pouvoir adapter le maillage selon un champ il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :ref:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
+  Pour pouvoir adapter le maillage selon un champ il faut avoir au prÃ©alable dÃ©signÃ© le fichier med contenant le champ. Cela se fait dans la fenÃªtre de construction de l'itÃ©ration (voir :ref:`gui_create_iteration`). Le nom du fichier qui a Ã©tÃ© sÃ©lectionnÃ© est affichÃ© sans modification possible ici :
 
 .. image:: images/create_hypothese_ch_1.png
    :align: center
 
-Le champ voulu est à choisir dans la liste des champs contenus dans le fichier.
-Une fois ce champ choisi, la liste des ses composantes s'affiche. Il suffit de désigner la (ou les) composantes désirées.
+Le champ voulu est Ã  choisir dans la liste des champs contenus dans le fichier.
+Une fois ce champ choisi, la liste des ses composantes s'affiche. Il suffit de dÃ©signer la (ou les) composantes dÃ©sirÃ©es.
 
-Si l'on choisit une seule composante, par défaut, c'est sa valeur absolue qui sera utilisée, mais il est possible d'utiliser la valeur relative. Dans le cas de plusieurs composantes, par défaut HOMARD utilisera la norme L2 (euclidienne). On peut toutefois choisir d'utiliser la norme infinie (le max des valeurs absolues des composantes).
+Si l'on choisit une seule composante, par dÃ©faut, c'est sa valeur absolue qui sera utilisÃ©e, mais il est possible d'utiliser la valeur relative. Dans le cas de plusieurs composantes, par dÃ©faut HOMARD utilisera la norme L2 (euclidienne). On peut toutefois choisir d'utiliser la norme infinie (le max des valeurs absolues des composantes).
 
-On peut choisir de ne pas utiliser directement le champ, mais sa variation d'un élément à ses voisins. Pour cela, on activera le bouton "*Saut entre éléments*".
+On peut choisir de ne pas utiliser directement le champ, mais sa variation d'un Ã©lÃ©ment Ã  ses voisins. Pour cela, on activera le bouton "*Saut entre Ã©lÃ©ments*".
 
 .. image:: images/create_hypothese_ch_2.png
    :align: center
 
 
-Le raffinement se fait selon un seuil qui définit un critère haut de raffinement. Toutes les mailles pour lesquelles l'indicateur est supérieur à ce critère seront raffinées.
-Pour le choix du critère, quatre variantes sont possible :
+Le raffinement se fait selon un seuil qui dÃ©finit un critÃ¨re haut de raffinement. Toutes les mailles pour lesquelles l'indicateur est supÃ©rieur Ã  ce critÃ¨re seront raffinÃ©es.
+Pour le choix du critÃ¨re, quatre variantes sont possible :
 
-  - selon un pourcentage de mailles à raffiner, nombre réel compris entre 0 et 100 ; HOMARD raffinera les x% des mailles qui ont la plus grande valeur du champ.
-  - selon une valeur relative du champ, nombre compris entre 0 et 100 ; HOMARD raffinera les mailles où le champ est supérieur à x% de l'intervalle [mini,maxi].
-  - au delà d'une valeur absolue ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
-  - au delà d'une valeur absolue valant la moyenne de la répartition du champ augmentée de n fois son écart-type ; toutes les mailles avec une valeur de champ supérieure à cette valeur seront raffinées.
+  - selon un pourcentage de mailles Ã  raffiner, nombre rÃ©el compris entre 0 et 100 ; HOMARD raffinera les x% des mailles qui ont la plus grande valeur du champ.
+  - selon une valeur relative du champ, nombre compris entre 0 et 100 ; HOMARD raffinera les mailles oÃ¹ le champ est supÃ©rieur Ã  x% de l'intervalle [mini,maxi].
+  - au delÃ  d'une valeur absolue ; toutes les mailles avec une valeur de champ supÃ©rieure Ã  cette valeur seront raffinÃ©es.
+  - au delÃ  d'une valeur absolue valant la moyenne de la rÃ©partition du champ augmentÃ©e de n fois son Ã©cart-type ; toutes les mailles avec une valeur de champ supÃ©rieure Ã  cette valeur seront raffinÃ©es.
 
-La même convention s'applique au déraffinement, en remplaçant supérieur par inférieur. On peut inactiver une des fonctions (raffinement ou déraffinement) en cochant le bouton ad_hoc.
+La mÃªme convention s'applique au dÃ©raffinement, en remplaÃ§ant supÃ©rieur par infÃ©rieur. On peut inactiver une des fonctions (raffinement ou dÃ©raffinement) en cochant le bouton ad_hoc.
 
 .. image:: images/create_hypothese_ch_3.png
    :align: center
@@ -62,12 +62,12 @@ Adaptation selon une zone
 *************************
 .. index:: single: zone
 
-Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (voir :ref:`gui_create_zone`) :
+Au dÃ©marrage, il faut crÃ©er une premiÃ¨re zone par activation du bouton "*Nouveau*" (voir :ref:`gui_create_zone`) :
 
 .. image:: images/create_hypothese_zo_1.png
    :align: center
 
-Lorsque des zones ont déjà été créées, la liste apparaît dans la fenêtre, ce qui permet de sélectionner les zones voulues. On doit alors préciser si une zone est utilisée pour raffiner toutes les mailles dont une arête est contenue dans la zone, ou si la zone est utilisée pour déraffiner les mailles intérieures à la zone. Si aucun choix n'est fait, la zone est ignorée dans cette hypothèse.
+Lorsque des zones ont dÃ©jÃ  Ã©tÃ© crÃ©Ã©es, la liste apparaÃ®t dans la fenÃªtre, ce qui permet de sÃ©lectionner les zones voulues. On doit alors prÃ©ciser si une zone est utilisÃ©e pour raffiner toutes les mailles dont une arÃªte est contenue dans la zone, ou si la zone est utilisÃ©e pour dÃ©raffiner les mailles intÃ©rieures Ã  la zone. Si aucun choix n'est fait, la zone est ignorÃ©e dans cette hypothÃ¨se.
 
 .. image:: images/create_hypothese_zo_2.png
    :align: center
@@ -77,13 +77,13 @@ Filtrage par les groupes
 ************************
 .. index:: single: groupe
 
-On peut restreindre l'application de l'hypothèse d'adaptation à des groupes. Ainsi les mailles n'appartenant pas à ces groupes ne seront pas modifiées, sauf par contamination ultérieure du raffinement pour assurer la conformité du maillage final.
-On coche le bouton associé :
+On peut restreindre l'application de l'hypothÃ¨se d'adaptation Ã  des groupes. Ainsi les mailles n'appartenant pas Ã  ces groupes ne seront pas modifiÃ©es, sauf par contamination ultÃ©rieure du raffinement pour assurer la conformitÃ© du maillage final.
+On coche le bouton associÃ© :
 
 .. image:: images/create_hypothese_gr_1.png
    :align: center
 
-La liste des groupes de mailles présents dans le maillage est affichée. Il suffit de cocher ceux voulus pour restreindre l'hypothèse d'adaptation.
+La liste des groupes de mailles prÃ©sents dans le maillage est affichÃ©e. Il suffit de cocher ceux voulus pour restreindre l'hypothÃ¨se d'adaptation.
 
 .. image:: images/create_hypothese_gr_2.png
    :align: center
@@ -94,44 +94,44 @@ Interpolation de champs
 .. index:: single: interpolation
 
 .. note::
-  Pour pouvoir interpoler un champ de l'ancien vers le nouveau maillage, il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :ref:`gui_create_iteration`).
+  Pour pouvoir interpoler un champ de l'ancien vers le nouveau maillage, il faut avoir au prÃ©alable dÃ©signÃ© le fichier med contenant le champ. Cela se fait dans la fenÃªtre de construction de l'itÃ©ration (voir :ref:`gui_create_iteration`).
 
-Par défaut, aucun champ n'est interpolé. A contrario, on peut demander l'interpolation de tous les champs présents dans le fichier fourni :
+Par dÃ©faut, aucun champ n'est interpolÃ©. A contrario, on peut demander l'interpolation de tous les champs prÃ©sents dans le fichier fourni :
 
 .. image:: images/create_hypothese_ch_4.png
    :align: center
 
-Si on veut choisir les champs à interpoler, il faut les cocher dans la liste de tous les champs présents dans le fichier fourni :
+Si on veut choisir les champs Ã  interpoler, il faut les cocher dans la liste de tous les champs prÃ©sents dans le fichier fourni :
 
 .. image:: images/create_hypothese_ch_5.png
    :align: center
 
 
-Les options avancées
+Les options avancÃ©es
 ********************
-Si la case "Options avancées" n'est pas cochée, aucune contrainte supplémentaire n'est définie.
-Si la case est cochée, on définira les options avancées.
+Si la case "Options avancÃ©es" n'est pas cochÃ©e, aucune contrainte supplÃ©mentaire n'est dÃ©finie.
+Si la case est cochÃ©e, on dÃ©finira les options avancÃ©es.
 
-Une première série d'options portent sur la finesse maximale de maillage que l'on ne veut pas dépasser. Deux directives sont possibles, séparément ou ensemble. On peut imposer une taille de maille minimale : une maille dont le diamètre est inférieur à cette limite ne sera plus découpée. Par défaut, on propose un diamètre minimal nul, ce qui revient à ne rien imposer. On peut imposer un niveau de raffinement maximal. Par défaut, le maximum est à 99, ce qui équivaut en général à ne rien imposer.
+Une premiÃ¨re sÃ©rie d'options portent sur la finesse maximale de maillage que l'on ne veut pas dÃ©passer. Deux directives sont possibles, sÃ©parÃ©ment ou ensemble. On peut imposer une taille de maille minimale : une maille dont le diamÃ¨tre est infÃ©rieur Ã  cette limite ne sera plus dÃ©coupÃ©e. Par dÃ©faut, on propose un diamÃ¨tre minimal nul, ce qui revient Ã  ne rien imposer. On peut imposer un niveau de raffinement maximal. Par dÃ©faut, le maximum est Ã  99, ce qui Ã©quivaut en gÃ©nÃ©ral Ã  ne rien imposer.
 
-La deuxième série d'options n'a d'intérêt que dans le cas où l'adaptation est piloté par un champ et que ce champ n'est pas défini partout dans le maillage. Cela arrive par exemple quand on construit un champ basé sur une distance dans un plan alors que le domaine est 3D : le champ ne sera pas défini sur les noeuds hors du plan. Pour de tels champs, cette option permet de préciser le comportement que l'on souhaite dans les régions où le champ n'est pas défini. Par défaut, il ne se passe rien : les mailles sont gardées telles quelles. On peut choisir les deux autres variantes : raffiner, toutes les mailles seront a priori coupées, ou déraffiner, toutes les mailles seront candidates au déraffinement.
+La deuxiÃ¨me sÃ©rie d'options n'a d'intÃ©rÃªt que dans le cas oÃ¹ l'adaptation est pilotÃ© par un champ et que ce champ n'est pas dÃ©fini partout dans le maillage. Cela arrive par exemple quand on construit un champ basÃ© sur une distance dans un plan alors que le domaine est 3D : le champ ne sera pas dÃ©fini sur les noeuds hors du plan. Pour de tels champs, cette option permet de prÃ©ciser le comportement que l'on souhaite dans les rÃ©gions oÃ¹ le champ n'est pas dÃ©fini. Par dÃ©faut, il ne se passe rien : les mailles sont gardÃ©es telles quelles. On peut choisir les deux autres variantes : raffiner, toutes les mailles seront a priori coupÃ©es, ou dÃ©raffiner, toutes les mailles seront candidates au dÃ©raffinement.
 
-Le dernier choix porte sur des sorties supplémentaires de l'adaptation. Par défaut, aucune case n'est cochée et aucun champ n'est produit. Si l'une des cases est cochée, le fichier MED en sortie contiendra des champs supplémentaires. Le premier choix représente le niveau de raffinement de chaque maille. La convention est celle de HOMARD : une maille du maillage initial est de niveau 0, une maille issue d'un raffinement d'une maille initiale porte le niveau 1, etc. Les mailles de transition qui sont produites entre deux mailles de niveau différents, n et n+1, sont affectées du demi-niveau n+0,5. Le deuxième choix porte sur la qualité des mailles. Le troisième choix produira le diamètre des mailles.
+Le dernier choix porte sur des sorties supplÃ©mentaires de l'adaptation. Par dÃ©faut, aucune case n'est cochÃ©e et aucun champ n'est produit. Si l'une des cases est cochÃ©e, le fichier MED en sortie contiendra des champs supplÃ©mentaires. Le premier choix reprÃ©sente le niveau de raffinement de chaque maille. La convention est celle de HOMARD : une maille du maillage initial est de niveau 0, une maille issue d'un raffinement d'une maille initiale porte le niveau 1, etc. Les mailles de transition qui sont produites entre deux mailles de niveau diffÃ©rents, n et n+1, sont affectÃ©es du demi-niveau n+0,5. Le deuxiÃ¨me choix porte sur la qualitÃ© des mailles. Le troisiÃ¨me choix produira le diamÃ¨tre des mailles.
 
 .. image:: images/create_hypothese_av_1.png
    :align: center
 
-L'arbre d'étude
+L'arbre d'Ã©tude
 ***************
-.. index:: single: arbre d'étude
+.. index:: single: arbre d'Ã©tude
 
-L'arbre d'études contient les hypothèses créées et les itérations qui les utilisent. La description des zones qui leur sont éventuellement attachées est présente.
+L'arbre d'Ã©tudes contient les hypothÃ¨ses crÃ©Ã©es et les itÃ©rations qui les utilisent. La description des zones qui leur sont Ã©ventuellement attachÃ©es est prÃ©sente.
 
 .. image:: images/create_hypothese_2.png
    :align: center
 
 
 
-Méthodes python correspondantes
+MÃ©thodes python correspondantes
 *******************************
 Consulter :ref:`tui_create_hypothese`

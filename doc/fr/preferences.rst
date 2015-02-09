@@ -1,17 +1,17 @@
 .. _preferences:
 
-Les préférences
+Les prÃ©fÃ©rences
 ###############
-.. index:: single: préférences
+.. index:: single: prÃ©fÃ©rences
 
-Un certain nombre de choix par défaut pour le module HOMARD sont définis dans les préférences.
+Un certain nombre de choix par dÃ©faut pour le module HOMARD sont dÃ©finis dans les prÃ©fÃ©rences.
 
 
 La langue
 *********
-La langue choisie dans les préférences générales de SALOME est celle qui est utilisée dans les menus de l'interface graphique.
+La langue choisie dans les prÃ©fÃ©rences gÃ©nÃ©rales de SALOME est celle qui est utilisÃ©e dans les menus de l'interface graphique.
 
-Si le français est retenu, les messages émis par HOMARD le sont en français. Dans tous les autres cas, ils sont en anglais.
+Si le franÃ§ais est retenu, les messages Ã©mis par HOMARD le sont en franÃ§ais. Dans tous les autres cas, ils sont en anglais.
 
 Publication des maillages
 *************************
@@ -20,7 +20,7 @@ Publication des maillages
 .. image:: images/preferences_1.png
    :align: center
 
-Par défaut, les maillages lus à la création d'un cas ou produits après une adaptation ne sont pas publiés dans SMESH. Ce choix est modifiable en cochant cette préférence.
+Par dÃ©faut, les maillages lus Ã  la crÃ©ation d'un cas ou produits aprÃ¨s une adaptation ne sont pas publiÃ©s dans SMESH. Ce choix est modifiable en cochant cette prÃ©fÃ©rence.
 
 
 

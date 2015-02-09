@@ -18,7 +18,7 @@ Here is the description of a scheme for a computation in which a value is to be 
 
 .. image:: ../images/yacs_01.png
    :align: center
-   :alt: yacs - allure générale
+   :alt: yacs - allure gÃ©nÃ©rale
    :width: 512
    :height: 306
 

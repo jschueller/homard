@@ -1,16 +1,16 @@
 .. _gui_create_case:
 
-La création d'un cas
+La crÃ©ation d'un cas
 ####################
 .. index:: single: cas
 
-La définition du cas se fait par la donnée des informations suivantes :
+La dÃ©finition du cas se fait par la donnÃ©e des informations suivantes :
 
   - Un nom
-  - Un répertoire
+  - Un rÃ©pertoire
   - Le fichier du maillage initial
-  - Le type de conformité pour la série d'adaptations envisagées
-  - Les éventuelles frontières courbes à respecter
+  - Le type de conformitÃ© pour la sÃ©rie d'adaptations envisagÃ©es
+  - Les Ã©ventuelles frontiÃ¨res courbes Ã  respecter
 
 .. image:: images/intro_32.png
    :align: center
@@ -18,11 +18,11 @@ La définition du cas se fait par la donnée des informations suivantes :
 
 Le nom du cas
 *************
-Un nom de cas est proposé automatiquement : Case_1, Case_2, etc. Ce nom peut être modifié. Il ne doit pas avoir déjà été utilisé pour un autre cas.
+Un nom de cas est proposÃ© automatiquement : Case_1, Case_2, etc. Ce nom peut Ãªtre modifiÃ©. Il ne doit pas avoir dÃ©jÃ  Ã©tÃ© utilisÃ© pour un autre cas.
 
-Le répertoire
+Le rÃ©pertoire
 *************
-Le répertoire est celui qui contiendra les fichiers produits par les adaptations successives. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce répertoire que seront exportés les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, où ``xx`` est un numéro d'ordre créé automatiquement. Ces fichiers seront visibles dans l'arbre d'études.
+Le rÃ©pertoire est celui qui contiendra les fichiers produits par les adaptations successives. Par dÃ©faut, rien n'est proposÃ©. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche. C'est dans ce rÃ©pertoire que seront exportÃ©s les maillages au format MED, dans des fichiers de nom ``maill.xx.med``, oÃ¹ ``xx`` est un numÃ©ro d'ordre crÃ©Ã© automatiquement. Ces fichiers seront visibles dans l'arbre d'Ã©tudes.
 
 .. image:: images/create_case_2.png
    :align: center
@@ -32,7 +32,7 @@ Le répertoire est celui qui contiendra les fichiers produits par les adaptations
 
 Le maillage initial
 *******************
-Le maillage initial doit se trouver dans un fichier au format MED. Classiquement, il aura été produit par le logiciel de calcul avec lequel on travaille. Mais il peut également avoir été créé avec le module SMESH et exporté au format MED. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
+Le maillage initial doit se trouver dans un fichier au format MED. Classiquement, il aura Ã©tÃ© produit par le logiciel de calcul avec lequel on travaille. Mais il peut Ã©galement avoir Ã©tÃ© crÃ©Ã© avec le module SMESH et exportÃ© au format MED. Le nom du fichier peut Ãªtre fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
 
 .. image:: images/create_case_3.png
    :align: center
@@ -41,66 +41,66 @@ Le maillage initial doit se trouver dans un fichier au format MED. Classiquement
   Le fichier ne doit contenir qu'un seul maillage.
 
 .. warning::
-  Le maillage ne doit pas être lui-même le produit d'une adaptation de maillage par HOMARD, sous peine de perdre la cohérence entre les différents niveaux de raffinement/déraffinement
+  Le maillage ne doit pas Ãªtre lui-mÃªme le produit d'une adaptation de maillage par HOMARD, sous peine de perdre la cohÃ©rence entre les diffÃ©rents niveaux de raffinement/dÃ©raffinement
 
-.. index:: single: type de conformité
+.. index:: single: type de conformitÃ©
 
-Le type de conformité
+Le type de conformitÃ©
 *********************
-Les itérations qui seront calculées pour ce cas devront toutes respecter le même comportement vis-à-vis de la conformité.
+Les itÃ©rations qui seront calculÃ©es pour ce cas devront toutes respecter le mÃªme comportement vis-Ã -vis de la conformitÃ©.
 
-L'option par défaut, 'conforme', implique que les maillages produits par HOMARD seront conformes au sens des éléments finis. C'est le choix classique de la plupart des logiciels de simulation par éléments finis.
+L'option par dÃ©faut, 'conforme', implique que les maillages produits par HOMARD seront conformes au sens des Ã©lÃ©ments finis. C'est le choix classique de la plupart des logiciels de simulation par Ã©lÃ©ments finis.
 
-Néanmoins, si le calcul est possible avec des maillages non conformes, on a le choix entre 3 possibilités :
+NÃ©anmoins, si le calcul est possible avec des maillages non conformes, on a le choix entre 3 possibilitÃ©s :
 
 .. image:: images/create_case_4.png
    :align: center
 
-* 1 noeud par maille : une maille ne peut posséder qu'un seul noeud de non conformité avec ses voisines.
-* 1 noeud par arête : chaque arête d'une maille peut être découpée sans que la maille voisine par cette arête ne le soit.
-* quelconque : aucune limitation sur les raccords de conformité d'une maille à l'autre.
+* 1 noeud par maille : une maille ne peut possÃ©der qu'un seul noeud de non conformitÃ© avec ses voisines.
+* 1 noeud par arÃªte : chaque arÃªte d'une maille peut Ãªtre dÃ©coupÃ©e sans que la maille voisine par cette arÃªte ne le soit.
+* quelconque : aucune limitation sur les raccords de conformitÃ© d'une maille Ã  l'autre.
 
-.. index:: single: frontière
+.. index:: single: frontiÃ¨re
 
-Les frontières courbes
+Les frontiÃ¨res courbes
 **********************
-Quand le bord du domaine est courbe, HOMARD sait placer les nouveaux noeuds sur ces frontières pour éviter des singularités artificielles. Cette technique est aussi applicable à une courbure intérieure à un domaine.
+Quand le bord du domaine est courbe, HOMARD sait placer les nouveaux noeuds sur ces frontiÃ¨res pour Ã©viter des singularitÃ©s artificielles. Cette technique est aussi applicable Ã  une courbure intÃ©rieure Ã  un domaine.
 
-Deux cas de figure sont présents :
+Deux cas de figure sont prÃ©sents :
 
-* courbe 1D : cette courbe peut être définie dans un plan, par exemple pour un calcul 2D. Elle peut également être définie dans l'espace 3D, par exemple pour l'intersection de deux surfaces. Une ligne à suivre est décrite de manière discrète.
-* surface : une surface à suivre est décrite de manière analytique.
+* courbe 1D : cette courbe peut Ãªtre dÃ©finie dans un plan, par exemple pour un calcul 2D. Elle peut Ã©galement Ãªtre dÃ©finie dans l'espace 3D, par exemple pour l'intersection de deux surfaces. Une ligne Ã  suivre est dÃ©crite de maniÃ¨re discrÃ¨te.
+* surface : une surface Ã  suivre est dÃ©crite de maniÃ¨re analytique.
 
 On cochera le ou les boutons voulus :
 
 .. image:: images/create_case_5.png
    :align: center
 
-La définition des frontières est décrite dans :ref:`gui_create_boundary`.
+La dÃ©finition des frontiÃ¨res est dÃ©crite dans :ref:`gui_create_boundary`.
 
 .. index:: single: pyramide
 
 .. _options_avancees:
 
-Les options avancées
+Les options avancÃ©es
 ********************
-Par défaut, aucune option avancée n'est active.
+Par dÃ©faut, aucune option avancÃ©e n'est active.
 
-Néanmoins, on peut définir une option avancée :
+NÃ©anmoins, on peut dÃ©finir une option avancÃ©e :
 
 .. image:: images/create_case_7.png
    :align: center
 
-Par défaut, HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
+Par dÃ©faut, HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles suivantes :
    - mailles-points
    - segments
    - triangles
    - quadrangles
-   - tétraèdres
-   - hexaèdres
+   - tÃ©traÃ¨dres
+   - hexaÃ¨dres
    - prismes
 
-Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois, si on est certain que les raffinements ultérieurs ne toucheront aucune des arêtes des pyramides, on cochera la case "Pyramides autorisées". Les adaptations se dérouleront normalement et les pyramides seront restituées telles quelles dans le maillage final.
+Si le maillage initial comporte des pyramides, il y a arrÃªt en erreur. Toutefois, si on est certain que les raffinements ultÃ©rieurs ne toucheront aucune des arÃªtes des pyramides, on cochera la case "Pyramides autorisÃ©es". Les adaptations se dÃ©rouleront normalement et les pyramides seront restituÃ©es telles quelles dans le maillage final.
 
 
 La poursuite d'un cas
@@ -108,48 +108,48 @@ La poursuite d'un cas
 .. index:: single: poursuite
 .. index:: single: YACS
 
-La poursuite d'un cas correspond à la situation suivante :
-Une série d'adaptations ont été conduites sur un cas puis SALOME est fermé. On a gardé les répertoires de travail de ces itérations. On souhaite ensuite reprendre ces itérations pour les poursuivre là où on s'est arrêté. Cette fonctionnalité est particulièrement utile dans le cas de schémas YACS pour lesquels on scinde en plusieurs parties une longue série d'adaptations.
+La poursuite d'un cas correspond Ã  la situation suivante :
+Une sÃ©rie d'adaptations ont Ã©tÃ© conduites sur un cas puis SALOME est fermÃ©. On a gardÃ© les rÃ©pertoires de travail de ces itÃ©rations. On souhaite ensuite reprendre ces itÃ©rations pour les poursuivre lÃ  oÃ¹ on s'est arrÃªtÃ©. Cette fonctionnalitÃ© est particuliÃ¨rement utile dans le cas de schÃ©mas YACS pour lesquels on scinde en plusieurs parties une longue sÃ©rie d'adaptations.
 
-La condition pour reprendre une itération est d'avoir conservé dans un même répertoire deux fichiers :
-   - le fichier de configuration qui a servi de données au module exécutable de HOMARD ; ce fichier se présente sous la forme ``HOMARD.Configuration.(n).vers.(n+1)``
-   - le fichier au format MED qui conserve l'historique des adaptations réalisées ; ce fichier se présente sous la forme ``maill.(n).hom.med``
+La condition pour reprendre une itÃ©ration est d'avoir conservÃ© dans un mÃªme rÃ©pertoire deux fichiers :
+   - le fichier de configuration qui a servi de donnÃ©es au module exÃ©cutable de HOMARD ; ce fichier se prÃ©sente sous la forme ``HOMARD.Configuration.(n).vers.(n+1)``
+   - le fichier au format MED qui conserve l'historique des adaptations rÃ©alisÃ©es ; ce fichier se prÃ©sente sous la forme ``maill.(n).hom.med``
 
-On peut choisir de partir d'une itération archivée désignée explicitement par son répertoire ou d'une itération repérée dans le répertoire archivant un cas.
+On peut choisir de partir d'une itÃ©ration archivÃ©e dÃ©signÃ©e explicitement par son rÃ©pertoire ou d'une itÃ©ration repÃ©rÃ©e dans le rÃ©pertoire archivant un cas.
 
-Pour poursuivre une itération connue par son répertoire d'archive, la définition du cas se fait par la donnée des informations suivantes :
+Pour poursuivre une itÃ©ration connue par son rÃ©pertoire d'archive, la dÃ©finition du cas se fait par la donnÃ©e des informations suivantes :
 
   - Un nom
-  - Un répertoire
-  - Le répertoire qui contient les archives
+  - Un rÃ©pertoire
+  - Le rÃ©pertoire qui contient les archives
 
 .. image:: images/pursue_case_1.png
    :align: center
 
-On peut choisir de partir d'un cas déjà calculé ; par défaut, le nouveau cas sera créé en partant de la dernière itération précédemment calculée.
+On peut choisir de partir d'un cas dÃ©jÃ  calculÃ© ; par dÃ©faut, le nouveau cas sera crÃ©Ã© en partant de la derniÃ¨re itÃ©ration prÃ©cÃ©demment calculÃ©e.
 
 .. image:: images/pursue_case_2.png
    :align: center
 
-Si on souhaite partir d'une itération qui ne soit pas la dernière, il suffit de le préciser :
+Si on souhaite partir d'une itÃ©ration qui ne soit pas la derniÃ¨re, il suffit de le prÃ©ciser :
 
 .. image:: images/pursue_case_3.png
    :align: center
 
 .. note::
-  Les paramétrages du cas ainsi créé sont ceux de l'itération poursuivie : mode de conformité identique par exemple.
+  Les paramÃ©trages du cas ainsi crÃ©Ã© sont ceux de l'itÃ©ration poursuivie : mode de conformitÃ© identique par exemple.
 
 
-L'arbre d'étude
+L'arbre d'Ã©tude
 ***************
-A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nouveau cas. On y trouve l'itération initiale, identifiée par le nom du maillage qui a été lu dans le fichier fourni.
+A l'issue de cette crÃ©ation de cas, l'arbre d'Ã©tudes a Ã©tÃ© enrichi de ce nouveau cas. On y trouve l'itÃ©ration initiale, identifiÃ©e par le nom du maillage qui a Ã©tÃ© lu dans le fichier fourni.
 
 .. image:: images/create_case_6.png
    :align: center
 
 
 
-Méthodes python correspondantes
+MÃ©thodes python correspondantes
 *******************************
 Consulter :ref:`tui_create_case`
 

@@ -78,7 +78,7 @@ To split a triangle, the three edges are split into two sections each, thus prod
 
 .. image:: ../images/dec_tria_1.gif
    :align: center
-   :alt: Découpage standard d'un triangle
+   :alt: DÃ©coupage standard d'un triangle
    :width: 399
    :height: 88
 
@@ -86,14 +86,14 @@ To split a quadrangle, the four edges are split into two sections each, thus pro
 
 .. image:: ../images/dec_quad_1.png
    :align: center
-   :alt: Découpage standard d'un quadrangle
+   :alt: DÃ©coupage standard d'un quadrangle
    :width: 399
 
 Tetrahedrons are split in eight. First, each of the triangular faces is split into 4 similar triangular faces.
 
 .. image:: ../images/dec_tetr_1.gif
    :align: center
-   :alt: Découpage standard d'un tétraèdre - 1
+   :alt: DÃ©coupage standard d'un tÃ©traÃ¨dre - 1
    :width: 328
    :height: 115
 
@@ -101,7 +101,7 @@ Face splitting produces four tetrahedrons at the angles of the initial tetrahedr
 
 .. image:: ../images/dec_tetr_2.gif
    :align: center
-   :alt: Découpage standard d'un tétraèdre - 2
+   :alt: DÃ©coupage standard d'un tÃ©traÃ¨dre - 2
    :width: 201
    :height: 159
 
@@ -109,7 +109,7 @@ At the core of the tetrahedron, there remains a block shaped like two pyramids j
 
 .. image:: ../images/dec_tetr_3.gif
    :align: center
-   :alt: Découpage standard d'un tétraèdre - 3
+   :alt: DÃ©coupage standard d'un tÃ©traÃ¨dre - 3
    :width: 244
    :height: 74
 
@@ -117,7 +117,7 @@ This, in turn, creates 4 new tetrahedrons. It should be noted that they are simi
 
 .. image:: ../images/dec_tetr_4.gif
    :align: center
-   :alt: Découpage standard d'un tétraèdre - 4
+   :alt: DÃ©coupage standard d'un tÃ©traÃ¨dre - 4
    :width: 229
    :height: 116
 
@@ -125,14 +125,14 @@ Hexaedrons are split in eight. Each of the quadrangular faces is split into 4 qu
 
 .. image:: ../images/dec_hex.png
    :align: center
-   :alt: Découpage standard d'un hexaèdre
+   :alt: DÃ©coupage standard d'un hexaÃ¨dre
    :width: 600
 
 Pentaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces and the two triangles are split into 4. Edges are created connecting each centre of quadrangular faces. Those 3 edges create 4 triangles at the centre of the pentaedron. Six quandrangular faces are created to complete the construction of the height pentaedrons.
 
 .. image:: ../images/dec.pent.png
    :align: center
-   :alt: Découpage standard d'un pentaèdre
+   :alt: DÃ©coupage standard d'un pentaÃ¨dre
    :width: 600
 
 Splitting for the conformity
@@ -144,35 +144,35 @@ For triangles, one of the three edges is split in two. Its middle is joined to t
 
 .. image:: ../images/dec_tria_2.png
    :align: center
-   :alt: Découpage de conformité d'un triangle
+   :alt: DÃ©coupage de conformitÃ© d'un triangle
    :width: 424
 
 For quadrangles, three configurations exist. First, one of the four edges is split in two. Its middle is joined to the opposite vertex to form three triangles. The mesh obtained is then mixed.
 
 .. image:: ../images/dec_quad_2.png
    :align: center
-   :alt: Découpage de conformité d'un quadrangle
+   :alt: DÃ©coupage de conformitÃ© d'un quadrangle
    :width: 399
 
 For a quadrangle where two opposite edges are cut, the two middle points are connected. Two quadrangles are created.
 
 .. image:: ../images/dec_quad_3.png
    :align: center
-   :alt: Découpage de conformité d'un quadrangle - 2
+   :alt: DÃ©coupage de conformitÃ© d'un quadrangle - 2
    :width: 424
 
 For a quadrangle where two opposite edges are cut, a new vertex is created at the centre of the quadrangle. This center point is then connected to the two middle points are connected and to the opposite vertex. Three quadrangles are created.
 
 .. image:: ../images/dec_quad_4.png
    :align: center
-   :alt: Découpage de conformité d'un quadrangle - 3
+   :alt: DÃ©coupage de conformitÃ© d'un quadrangle - 3
    :width: 424
 
 For a tetrahedron with three split edges, this is possible only if the edges are concurrent. Therefore, one of the four faces is split in four. The middles of the split edges are joined to the opposite vertexes. The three other faces are thus split in two, and four tetrahedrons are created.
 
 .. image:: ../images/dec_tetr_5.gif
    :align: center
-   :alt: Découpage de conformité d'un tétraèdre - 1
+   :alt: DÃ©coupage de conformitÃ© d'un tÃ©traÃ¨dre - 1
    :width: 116
    :height: 116
 
@@ -180,7 +180,7 @@ For a tetrahedron with two split edges, this is possible only if the edges are o
 
 .. image:: ../images/dec_tetr_6.gif
    :align: center
-   :alt: Découpage de conformité d'un tétraèdre - 2
+   :alt: DÃ©coupage de conformitÃ© d'un tÃ©traÃ¨dre - 2
    :width: 116
    :height: 116
 
@@ -188,7 +188,7 @@ For a tetrahedron with one split edge, the middle of the split edge is joined to
 
 .. image:: ../images/dec_tetr_7.gif
    :align: center
-   :alt: Découpage de conformité d'un tétraèdre - 3
+   :alt: DÃ©coupage de conformitÃ© d'un tÃ©traÃ¨dre - 3
    :width: 116
    :height: 116
 
@@ -198,7 +198,7 @@ For an hexaedron with one face cut, we create 4 edges, 4 tetraedrons and 5 pyram
 
 .. image:: ../images/hexaface.png
    :align: center
-   :alt: Découpage de conformité d'un hexaèdre - 1 face
+   :alt: DÃ©coupage de conformitÃ© d'un hexaÃ¨dre - 1 face
    :width: 384
    :height: 101
 
@@ -206,7 +206,7 @@ For an hexaedron with only one edge cut, we create deux internal edges and four 
 
 .. image:: ../images/hexa1arete.png
    :align: center
-   :alt: Découpage de conformité d'un hexaèdre - 1 arête
+   :alt: DÃ©coupage de conformitÃ© d'un hexaÃ¨dre - 1 arÃªte
    :width: 384
    :height: 101
 
@@ -214,7 +214,7 @@ For an hexaedron with two edges cut, we create one central point 10 edges, 12 te
 
 .. image:: ../images/hexa2aretes.png
    :align: center
-   :alt: Découpage de conformité d'un hexaèdre - 2 arêtes
+   :alt: DÃ©coupage de conformitÃ© d'un hexaÃ¨dre - 2 arÃªtes
    :width: 384
    :height: 101
 
@@ -222,7 +222,7 @@ For an hexaedron with three edges cut, we create one central point, 11 edges and
 
 .. image:: ../images/hexa3aretes.png
    :align: center
-   :alt: Découpage de conformité d'un hexaèdre - 3 arêtes
+   :alt: DÃ©coupage de conformitÃ© d'un hexaÃ¨dre - 3 arÃªtes
    :width: 384
    :height: 101
 
@@ -247,7 +247,7 @@ Some illustrations of adapted meshes
 ************************************
 .. index:: single: illustration
 
-Some examples of use cases can be found in the web page of `HOMARD <http://www.code-aster.org/outils/homard/en/applications.html>`_.
+Some examples of use cases can be found on the site of `HOMARD <http://www.code-aster.org/outils/homard/en/applications.html>`_.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+

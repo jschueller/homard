@@ -3,7 +3,7 @@
 Le calcul
 #########
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
 
 +---------------------------------------------------------------+
@@ -12,7 +12,7 @@ Méthodes de la classe homard
 |                                                               |
 | **SetLanguageShort(lang)**                                    |
 |     Affecte la langue des messages. Si le choix transmis est  |
-|     incorrect, l'anglais est utilisé.                         |
+|     incorrect, l'anglais est utilisÃ©.                         |
 |                                                               |
 |     - ``lang`` : la langue des messages sous forme courte.    |
 |                                                               |
