@@ -5,37 +5,37 @@ La zone
 .. index:: single: zone
 .. index:: single: 2D
 
-L'objet zone contient toutes les définitions géométriques permettant de décrire une zone à raffiner.
+L'objet zone contient toutes les dÃ©finitions gÃ©omÃ©triques permettant de dÃ©crire une zone Ã  raffiner.
 
 En 3D, il existe quatre types de zone :
 
-  - Parallélépipède
+  - ParallÃ©lÃ©pipÃ¨de
   - Cylindre
   - Tuyau
-  - Sphère
+  - SphÃ¨re
 
 Leurs analogues en 2D sont :
 
   - Rectangle
   - Disque
-  - Disque percé
+  - Disque percÃ©
 
-Le principe du raffinement selon des zones est le suivant. Chaque arête de maille dont les deux extrémités
-sont incluses dans une même zone sera coupée. Ensuite HOMARD applique l'algorithme de traitement de la
-conformité pour produire un maillage correct.
+Le principe du raffinement selon des zones est le suivant. Chaque arÃªte de maille dont les deux extrÃ©mitÃ©s
+sont incluses dans une mÃªme zone sera coupÃ©e. Ensuite HOMARD applique l'algorithme de traitement de la
+conformitÃ© pour produire un maillage correct.
 
 .. note::
-  Les valeurs proposées par défaut pour les dimensions des zones tiennent compte de la géométrie du maillage.
+  Les valeurs proposÃ©es par dÃ©faut pour les dimensions des zones tiennent compte de la gÃ©omÃ©trie du maillage.
 
 Nom de la zone
 **************
-Un nom de zone est proposé automatiquement : Zone_1, Zone_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été déjà utilisé pour une autre zone.
+Un nom de zone est proposÃ© automatiquement : Zone_1, Zone_2, etc. Ce nom peut Ãªtre modifiÃ©. Il ne doit pas avoir Ã©tÃ© dÃ©jÃ  utilisÃ© pour une autre zone.
 
-Un parallélépipède
+Un parallÃ©lÃ©pipÃ¨de
 ******************
 .. index:: single: boite
 
-Le parallélépipède est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chaque direction.
+Le parallÃ©lÃ©pipÃ¨de est obligatoirement parallÃ¨le aux axes de coordonnÃ©es. Il est dÃ©fini par ses extrÃªmes dans chaque direction.
 
 .. image:: images/create_zone_1.png
    :align: center
@@ -44,7 +44,7 @@ Un cylindre
 ***********
 .. index:: single: cylindre
 
-Le cylindre est défini par son axe, un point de base positionné sur l'axe, sa hauteur et son rayon. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
+Le cylindre est dÃ©fini par son axe, un point de base positionnÃ© sur l'axe, sa hauteur et son rayon. L'axe est dÃ©fini par un vecteur qui doit Ãªtre correctement orientÃ© : on retiendra le volume partant de la base dans la direction du vecteur jusqu'Ã  la hauteur retenue. La norme de ce vecteur n'est pas nÃ©cessairement Ã©gale Ã  1.
 
 .. image:: images/create_zone_2.png
    :align: center
@@ -53,16 +53,16 @@ Un tuyau
 ********
 .. index:: single: tuyau
 
-Le tuyau est défini par son axe, un point de base positionné sur l'axe, sa hauteur et ses rayons interne et externe. L'axe est défini par un vecteur qui doit être correctement orienté : on retiendra le volume partant de la base dans la direction du vecteur jusqu'à la hauteur retenue. La norme de ce vecteur n'est pas nécessairement égale à 1.
+Le tuyau est dÃ©fini par son axe, un point de base positionnÃ© sur l'axe, sa hauteur et ses rayons interne et externe. L'axe est dÃ©fini par un vecteur qui doit Ãªtre correctement orientÃ© : on retiendra le volume partant de la base dans la direction du vecteur jusqu'Ã  la hauteur retenue. La norme de ce vecteur n'est pas nÃ©cessairement Ã©gale Ã  1.
 
 .. image:: images/create_zone_3.png
    :align: center
 
-Une sphère
+Une sphÃ¨re
 **********
 .. index:: single: sphere
 
-La sphère est définie par son centre et son rayon.
+La sphÃ¨re est dÃ©finie par son centre et son rayon.
 
 .. image:: images/create_zone_4.png
    :align: center
@@ -71,7 +71,7 @@ Un rectangle
 ************
 .. index:: single: rectangle
 
-Le rectangle est obligatoirement parallèle aux axes de coordonnées. Il est défini par ses extrêmes dans chacune des directions valides. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+Le rectangle est obligatoirement parallÃ¨le aux axes de coordonnÃ©es. Il est dÃ©fini par ses extrÃªmes dans chacune des directions valides. La coordonnÃ©e constante est affichÃ©e pour information, mais n'est pas modifiable.
 
 .. image:: images/create_zone_21.png
    :align: center
@@ -80,7 +80,7 @@ Un disque
 *********
 .. index:: single: disque
 
-Le disque est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et son rayon. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+Le disque est obligatoirement dans le plan des axes de coordonnÃ©es. Il est dÃ©fini par son centre et son rayon. La coordonnÃ©e constante est affichÃ©e pour information, mais n'est pas modifiable.
 
 .. image:: images/create_zone_22.png
    :align: center
@@ -89,23 +89,23 @@ Un disque avec trou
 *******************
 .. index:: single: disque avec trou
 
-Le disque avec trou est obligatoirement dans le plan des axes de coordonnées. Il est défini par son centre et ses rayons externe et interne. La coordonnée constante est affichée pour information, mais n'est pas modifiable.
+Le disque avec trou est obligatoirement dans le plan des axes de coordonnÃ©es. Il est dÃ©fini par son centre et ses rayons externe et interne. La coordonnÃ©e constante est affichÃ©e pour information, mais n'est pas modifiable.
 
 .. image:: images/create_zone_23.png
    :align: center
 
 
-L'arbre d'étude
+L'arbre d'Ã©tude
 ***************
-.. index:: single: arbre d'étude
+.. index:: single: arbre d'Ã©tude
 
-A l'issue de cette création de zone, l'arbre d'études a été enrichi. On y trouve toutes les zones créées, identifiées par leur nom, avec la possibilité de les éditer.
+A l'issue de cette crÃ©ation de zone, l'arbre d'Ã©tudes a Ã©tÃ© enrichi. On y trouve toutes les zones crÃ©Ã©es, identifiÃ©es par leur nom, avec la possibilitÃ© de les Ã©diter.
 
 .. image:: images/create_zone_01.png
    :align: center
-   :alt: zone - arbre d'études
+   :alt: zone - arbre d'Ã©tudes
 
 
-Méthodes python correspondantes
+MÃ©thodes python correspondantes
 *******************************
 Consulter :ref:`tui_create_zone`

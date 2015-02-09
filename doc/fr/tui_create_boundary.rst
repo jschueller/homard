@@ -1,84 +1,84 @@
 .. _tui_create_boundary:
 
-La frontière
+La frontiÃ¨re
 ############
 
 .. index:: single: boundary
-.. index:: single: frontière
+.. index:: single: frontiÃ¨re
 .. index:: single: cylindre
 .. index:: single: sphere
 
-Les variables sont décrites dans :ref:`gui_create_boundary`.
+Les variables sont dÃ©crites dans :ref:`gui_create_boundary`.
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
-Ces méthodes retournent une instance de la classe boundary.
+Ces mÃ©thodes retournent une instance de la classe boundary.
 
 +----------------------------------------------------------------------------------------+
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryDi                                                           |
 |                                                                                        |
 | **CreateBoundaryDi(boundary_name, mesh_name, mesh_file)**                              |
-|     Retourne une instance de la classe ``boundary`` de type discret après sa création  |
+|     Retourne une instance de la classe ``boundary`` de type discret aprÃ¨s sa crÃ©ation  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière discrète                              |
-|     - ``mesh_name`` : le nom du maillage de la frontière                               |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re discrÃ¨te                              |
+|     - ``mesh_name`` : le nom du maillage de la frontiÃ¨re                               |
 |     - ``mesh_file`` : le nom du fichier contenant ce maillage                          |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryCylinder                                                     |
 |                                                                                        |
 | **CreateBoundaryCylinder(boundary_name, Xcen, Ycen, Zcen, Xaxe, Yaxe, Zaxe, R)**       |
 |     Retourne une instance de la classe ``boundary`` analytique de type cylindrique     |
-|     après sa création                                                                  |
+|     aprÃ¨s sa crÃ©ation                                                                  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière analytique basée sur un cylindre      |
-|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées d'un point sur l'axe du cylindre      |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re analytique basÃ©e sur un cylindre      |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnÃ©es d'un point sur l'axe du cylindre      |
 |     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe                                  |
 |     - ``R`` : rayon du cylindre                                                        |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundarySphere                                                       |
 |                                                                                        |
 | **CreateBoundarySphere(boundary_name, Xcen, Ycen, Zcen, R)**                           |
-|     Retourne une instance de la classe ``boundary`` analytique de type sphérique       |
-|     après sa création                                                                  |
+|     Retourne une instance de la classe ``boundary`` analytique de type sphÃ©rique       |
+|     aprÃ¨s sa crÃ©ation                                                                  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière analytique basée sur une sphere       |
-|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre de la sphère                |
-|     - ``R`` : rayon de la sphère                                                       |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re analytique basÃ©e sur une sphere       |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnÃ©es du centre de la sphÃ¨re                |
+|     - ``R`` : rayon de la sphÃ¨re                                                       |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryConeA                                                        |
 |                                                                                        |
 | **CreateBoundaryConeA(boundary_name, Xaxe, Yaxe, Zaxe, Angle, Xcen, Ycen, Zcen)**      |
 |     Retourne une instance de la classe ``boundary`` analytique de type conique         |
-|     après sa création                                                                  |
+|     aprÃ¨s sa crÃ©ation                                                                  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière analytique basée sur un cône          |
-|     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe (non nécessairement normé)       |
-|     - ``Angle`` : angle d'ouverture du cône en degre (entre 0 et 90)                   |
-|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre du cône                     |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re analytique basÃ©e sur un cÃ´ne          |
+|     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe (non nÃ©cessairement normÃ©)       |
+|     - ``Angle`` : angle d'ouverture du cÃ´ne en degre (entre 0 et 90)                   |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnÃ©es du centre du cÃ´ne                     |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryConeR                                                        |
 |                                                                                        |
 | **CreateBoundaryConeR(boundary_name, Xc1, Yc1, Zc1, R1, Xc2, Yc2, Zc2, R2)**           |
 |     Retourne une instance de la classe ``boundary`` analytique de type conique         |
-|     après sa création                                                                  |
+|     aprÃ¨s sa crÃ©ation                                                                  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière analytique basée sur un cône          |
-|     - ``Xc1``, ``Yc1``, ``Zc1`` : coordonnées du premier centre du cône                |
-|     - ``R1`` : rayon du cône à la hauteur du premier centre                            |
-|     - ``Xc2``, ``Yc2``, ``Zc2`` : coordonnées du second centre du cône                 |
-|     - ``R2`` : rayon du cône à la hauteur du second centre                             |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re analytique basÃ©e sur un cÃ´ne          |
+|     - ``Xc1``, ``Yc1``, ``Zc1`` : coordonnÃ©es du premier centre du cÃ´ne                |
+|     - ``R1`` : rayon du cÃ´ne Ã  la hauteur du premier centre                            |
+|     - ``Xc2``, ``Yc2``, ``Zc2`` : coordonnÃ©es du second centre du cÃ´ne                 |
+|     - ``R2`` : rayon du cÃ´ne Ã  la hauteur du second centre                             |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryTorus                                                        |
 |                                                                                        |
 | **CreateBoundaryTorus(boundary_name, Xcen, Ycen, Zcen, Xaxe, Yaxe, Zaxe, RRev, RPri)** |
 |     Retourne une instance de la classe ``boundary`` analytique de type torique         |
-|     après sa création                                                                  |
+|     aprÃ¨s sa crÃ©ation                                                                  |
 |                                                                                        |
-|     - ``boundary_name`` : le nom de la frontière analytique basée sur un tore          |
-|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnées du centre du tore                     |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re analytique basÃ©e sur un tore          |
+|     - ``Xcen``, ``Ycen``, ``Zcen`` : coordonnÃ©es du centre du tore                     |
 |     - ``Xaxe``, ``Yaxe``, ``Zaxe`` : vecteur de l'axe                                  |
-|     - ``RRev`` : rayon de révolution du tore                                           |
+|     - ``RRev`` : rayon de rÃ©volution du tore                                           |
 |     - ``RPri`` : rayon primaire du tore                                                |
 +----------------------------------------------------------------------------------------+
 
@@ -90,44 +90,44 @@ Ces méthodes retournent une instance de la classe boundary.
 |     Retourne l'instance de la classe ``boundary`` connue par  |
 |     son nom                                                   |
 |                                                               |
-|     - ``boundary_name`` : le nom de la frontière              |
+|     - ``boundary_name`` : le nom de la frontiÃ¨re              |
 +---------------------------------------------------------------+
 | .. module:: GetAllBoundarysName                               |
 |                                                               |
 | **GetAllBoundarysName()**                                     |
-|     Retourne la liste des noms de toutes les frontières       |
+|     Retourne la liste des noms de toutes les frontiÃ¨res       |
 |     existantes                                                |
 |                                                               |
 +---------------------------------------------------------------+
 
-Méthodes de la classe cas
+MÃ©thodes de la classe cas
 *************************
-Voir également dans :ref:`tui_create_case`.
+Voir Ã©galement dans :ref:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
 | **AddBoundaryGroup(boundary, group)**                         |
-|     Ajoute une frontière à la définition du cas               |
+|     Ajoute une frontiÃ¨re Ã  la dÃ©finition du cas               |
 |                                                               |
-|     - ``boundary`` : nom d'une frontière courbe à suivre      |
+|     - ``boundary`` : nom d'une frontiÃ¨re courbe Ã  suivre      |
 |                                                               |
-|     Pour une frontière discrète :                             |
+|     Pour une frontiÃ¨re discrÃ¨te :                             |
 |                                                               |
 |     . si toutes les lignes courbes sont suivies, le second    |
-|     argument est une chaîne vide.                             |
+|     argument est une chaÃ®ne vide.                             |
 |                                                               |
 |     . si seulement certaines lignes courbes sont suivies,     |
-|     ``group`` est le nom d'un groupe de segments à suivre.    |
+|     ``group`` est le nom d'un groupe de segments Ã  suivre.    |
 |                                                               |
-|     Pour une frontière analytique :                           |
+|     Pour une frontiÃ¨re analytique :                           |
 |                                                               |
-|     - ``group`` : nom d'un groupe de faces placées sur la     |
-|       frontière                                               |
+|     - ``group`` : nom d'un groupe de faces placÃ©es sur la     |
+|       frontiÃ¨re                                               |
 +---------------------------------------------------------------+
 
-Méthodes de la classe boundary
+MÃ©thodes de la classe boundary
 ******************************
 
 +---------------------------------------------------------------+
@@ -135,43 +135,43 @@ Méthodes de la classe boundary
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de la frontière                           |
+|     Retourne le nom de la frontiÃ¨re                           |
 +---------------------------------------------------------------+
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
-|     Retourne le type de la frontière :                        |
+|     Retourne le type de la frontiÃ¨re :                        |
 |                                                               |
-|         * 0 : discrète                                        |
+|         * 0 : discrÃ¨te                                        |
 |         * 1 : cylindre                                        |
-|         * 2 : sphère                                          |
-|         * 3 : cône défini par un axe et un angle              |
-|         * 4 : cône défini par deux rayons                     |
+|         * 2 : sphÃ¨re                                          |
+|         * 3 : cÃ´ne dÃ©fini par un axe et un angle              |
+|         * 4 : cÃ´ne dÃ©fini par deux rayons                     |
 |         * 5 : tore                                            |
 +---------------------------------------------------------------+
 | .. module:: GetCoords                                         |
 |                                                               |
 | **GetCoords()**                                               |
-|     Retourne un tableau contenant les coordonnées de la       |
-|     frontière dans l'ordre d'entrée dans le CreateBoundaryXXXX|
-|     associé                                                   |
+|     Retourne un tableau contenant les coordonnÃ©es de la       |
+|     frontiÃ¨re dans l'ordre d'entrÃ©e dans le CreateBoundaryXXXX|
+|     associÃ©                                                   |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit la frontière.                                     |
-|     Pour une frontière discrète, le fichier du maillage       |
-|     associé est conservé.                                     |
+|     Detruit la frontiÃ¨re.                                     |
+|     Pour une frontiÃ¨re discrÃ¨te, le fichier du maillage       |
+|     associÃ© est conservÃ©.                                     |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|         * 0 : destruction rÃ©ussie                             |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 
 
 Exemple
 *******
-Création d'une frontière discrète, d'une frontière sphèrique, puis d'une frontière cylindrique : ::
+CrÃ©ation d'une frontiÃ¨re discrÃ¨te, d'une frontiÃ¨re sphÃ¨rique, puis d'une frontiÃ¨re cylindrique : ::
 
     inter = homard.CreateBoundaryDi("INTERSECTION", 'PIQUAGE', dircase+'/tutorial_4.fr.med')
     fron_1 = homard.CreateBoundarySphere("FRON_1", 12.3, 3.4, .56, 6.5)

@@ -7,7 +7,7 @@ The schema YACS
 
 The variables are described in :ref:`gui_create_yacs`.
 
-Méthodes de la classe cas
+MÃ©thodes de la classe cas
 *************************
 See also in :ref:`tui_create_case`.
 

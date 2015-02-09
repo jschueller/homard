@@ -1,34 +1,34 @@
 .. _tui_create_yacs:
 
-Le schéma YACS
+Le schÃ©ma YACS
 ##############
 
 .. index:: single: YACS
 
-Les variables sont décrites dans :ref:`gui_create_yacs`.
+Les variables sont dÃ©crites dans :ref:`gui_create_yacs`.
 
-Méthodes de la classe cas
+MÃ©thodes de la classe cas
 *************************
-Voir également dans :ref:`tui_create_case`.
+Voir Ã©galement dans :ref:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: CreateYACSSchema                                  |
 |                                                               |
 | **CreateYACSSchema(yacs_name, ScriptFile, DirName, MeshFile)**|
-|     Retourne une instance de la classe ``yacs`` après sa      |
-|     création                                                  |
+|     Retourne une instance de la classe ``yacs`` aprÃ¨s sa      |
+|     crÃ©ation                                                  |
 |                                                               |
-|     - ``yacs_name`` : le nom du schéma                        |
+|     - ``yacs_name`` : le nom du schÃ©ma                        |
 |     - ``ScriptFile`` : le fichier du script python qui permet |
-|       de lancer le calcul à coupler avec l'adaptation de      |
+|       de lancer le calcul Ã  coupler avec l'adaptation de      |
 |       maillage                                                |
-|     - ``DirName`` : le répertoire où a lieu le calcul         |
+|     - ``DirName`` : le rÃ©pertoire oÃ¹ a lieu le calcul         |
 |     - ``MeshFile`` : le fichier MED contenant le tout premier |
 |       maillage de calcul                                      |
 +---------------------------------------------------------------+
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
 
 +---------------------------------------------------------------+
@@ -39,20 +39,20 @@ Méthodes de la classe homard
 |     Retourne l'instance de la classe ``yacs`` connue par      |
 |     son nom                                                   |
 |                                                               |
-|     - ``yacs_name`` : le nom du schéma                        |
+|     - ``yacs_name`` : le nom du schÃ©ma                        |
 +---------------------------------------------------------------+
 | .. module:: GetAllYACSsName                                   |
 |                                                               |
 | **GetAllYACSsName()**                                         |
-|     Retourne la liste des noms de tous les schémas existant   |
+|     Retourne la liste des noms de tous les schÃ©mas existant   |
 +---------------------------------------------------------------+
 
 
 
-Méthodes de la classe YACS
+MÃ©thodes de la classe YACS
 **************************
 
-Généralités
+GÃ©nÃ©ralitÃ©s
 ===========
 
 +---------------------------------------------------------------+
@@ -60,44 +60,44 @@ Généralités
 | .. module:: Write                                             |
 |                                                               |
 | **Write()**                                                   |
-|     Ecrit le schéma dans le fichier lié au schéma             |
-|     Par défaut, c'est le fichier ``schema.xml``, dans le      |
-|     répertoire du cas. Si ``WriteOnFile`` a été utilisé       |
-|     auparavant, l'écriture a lieu dans le nouveau fichier.    |
+|     Ecrit le schÃ©ma dans le fichier liÃ© au schÃ©ma             |
+|     Par dÃ©faut, c'est le fichier ``schema.xml``, dans le      |
+|     rÃ©pertoire du cas. Si ``WriteOnFile`` a Ã©tÃ© utilisÃ©       |
+|     auparavant, l'Ã©criture a lieu dans le nouveau fichier.    |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : écriture réussie                                |
-|         * autre valeur : problème                             |
+|         * 0 : Ã©criture rÃ©ussie                                |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 | .. module:: WriteOnFile                                       |
 |                                                               |
 | **WriteOnFile(file_xml)**                                     |
-|     Ecrit le schéma dans un fichier désigné.                  |
+|     Ecrit le schÃ©ma dans un fichier dÃ©signÃ©.                  |
 |                                                               |
-|     - ``file_xml`` : nom du fichier xml du schéma             |
+|     - ``file_xml`` : nom du fichier xml du schÃ©ma             |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : écriture réussie                                |
-|         * autre valeur : problème                             |
+|         * 0 : Ã©criture rÃ©ussie                                |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
-|     Detruit le schéma.                                        |
+|     Detruit le schÃ©ma.                                        |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui est fait du     |
-|       fichier xml du schéma                                   |
+|     - ``option`` : un entier prÃ©cisant ce qui est fait du     |
+|       fichier xml du schÃ©ma                                   |
 |                                                               |
-|         * 0 : le fichier est conservé                         |
-|         * 1 : le fichier est détruit                          |
+|         * 0 : le fichier est conservÃ©                         |
+|         * 1 : le fichier est dÃ©truit                          |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|         * 0 : destruction rÃ©ussie                             |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 
 
-Informations sur le schéma
+Informations sur le schÃ©ma
 ==========================
 
 +---------------------------------------------------------------+
@@ -105,14 +105,14 @@ Informations sur le schéma
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom du schéma.                                |
+|     Retourne le nom du schÃ©ma.                                |
 +---------------------------------------------------------------+
 | .. module:: SetType                                           |
 |                                                               |
 | **SetType(Type)**                                             |
-|     Définit le type de schéma.                                |
+|     DÃ©finit le type de schÃ©ma.                                |
 |                                                               |
-|     - ``Type`` : le type de schéma                            |
+|     - ``Type`` : le type de schÃ©ma                            |
 |                                                               |
 |         * 1 : constant                                        |
 |         * 2 : variable                                        |
@@ -120,12 +120,12 @@ Informations sur le schéma
 | .. module:: GetType                                           |
 |                                                               |
 | **GetType()**                                                 |
-|     Retourne le type du schéma.                               |
+|     Retourne le type du schÃ©ma.                               |
 +---------------------------------------------------------------+
 | .. module:: SetScriptFile                                     |
 |                                                               |
 | **SetScriptFile(script_file)**                                |
-|     Définit le fichier du script python de lancement du       |
+|     DÃ©finit le fichier du script python de lancement du       |
 |     calcul.                                                   |
 |                                                               |
 |     - ``script_file`` : le nom du fichier qui contient le     |
@@ -140,19 +140,19 @@ Informations sur le schéma
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dir_name)**                                      |
-|     Définit le nom du répertoire de calcul.                   |
+|     DÃ©finit le nom du rÃ©pertoire de calcul.                   |
 |                                                               |
-|     - ``dir_name`` : le nom du répertoire de calcul           |
+|     - ``dir_name`` : le nom du rÃ©pertoire de calcul           |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire de calcul.                  |
+|     Retourne le nom du rÃ©pertoire de calcul.                  |
 +---------------------------------------------------------------+
 | .. module:: SetMeshFile                                       |
 |                                                               |
 | **SetMeshFile(mesh_file)**                                    |
-|     Définit le fichier MED du tout premier maillage.          |
+|     DÃ©finit le fichier MED du tout premier maillage.          |
 |                                                               |
 |     - ``mesh_file`` : le nom du fichier MED contenant le tout |
 |       premier maillage de calcul                              |
@@ -166,7 +166,7 @@ Informations sur le schéma
 | .. module:: SetXMLFile                                        |
 |                                                               |
 | **SetXMLFile(xml_file)**                                      |
-|     Définit le fichier xml pour l'écriture.                   |
+|     DÃ©finit le fichier xml pour l'Ã©criture.                   |
 |                                                               |
 |     - ``xml_file`` : le nom du fichier xml                    |
 +---------------------------------------------------------------+
@@ -177,32 +177,32 @@ Informations sur le schéma
 +---------------------------------------------------------------+
 
 
-Les options du schéma
+Les options du schÃ©ma
 =====================
-Les valeurs par défaut sont définies dans les préférences du module HOMARD.
+Les valeurs par dÃ©faut sont dÃ©finies dans les prÃ©fÃ©rences du module HOMARD.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetMaxIter                                        |
 |                                                               |
 | **SetMaxIter(MaxIter)**                                       |
-|     Définit le nombre maximal d'itérations pour le schéma.    |
+|     DÃ©finit le nombre maximal d'itÃ©rations pour le schÃ©ma.    |
 |                                                               |
-|     - ``MaxIter`` : le nombre maximal d'itérations du schéma  |
+|     - ``MaxIter`` : le nombre maximal d'itÃ©rations du schÃ©ma  |
 +---------------------------------------------------------------+
 | .. module:: GetMaxIter                                        |
 |                                                               |
 | **GetMaxIter()**                                              |
-|     Retourne le nombre maximal d'itérations du schéma.        |
+|     Retourne le nombre maximal d'itÃ©rations du schÃ©ma.        |
 +---------------------------------------------------------------+
 | .. module:: SetMaxNode                                        |
 |                                                               |
 | **SetMaxNode(MaxNode)**                                       |
-|     Définit le nombre maximal de noeuds pour l'adaptation.    |
+|     DÃ©finit le nombre maximal de noeuds pour l'adaptation.    |
 |                                                               |
 |     - ``MaxNode`` : le nombre maximal de noeuds pour          |
 |       l'adaptation. Si MaxNode est nul, aucune limite n'est   |
-|       imposée.                                                |
+|       imposÃ©e.                                                |
 +---------------------------------------------------------------+
 | .. module:: GetMaxNode                                        |
 |                                                               |
@@ -212,11 +212,11 @@ Les valeurs par défaut sont définies dans les préférences du module HOMARD.
 | .. module:: SetMaxElem                                        |
 |                                                               |
 | **SetMaxElem(MaxElem)**                                       |
-|     Définit le nombre maximal de mailles pour l'adaptation.   |
+|     DÃ©finit le nombre maximal de mailles pour l'adaptation.   |
 |                                                               |
 |     - ``MaxElem`` : le nombre maximal de mailles pour         |
 |       l'adaptation. Si MaxElem est nul, aucune limite n'est   |
-|       imposée.                                                |
+|       imposÃ©e.                                                |
 +---------------------------------------------------------------+
 | .. module:: GetMaxElem                                        |
 |                                                               |
@@ -226,32 +226,32 @@ Les valeurs par défaut sont définies dans les préférences du module HOMARD.
 | .. module:: SetTestConvergence                                |
 |                                                               |
 | **SetTestConvergence(Type, VRef)**                            |
-|     Précise un test de convergence pour le schéma.            |
+|     PrÃ©cise un test de convergence pour le schÃ©ma.            |
 |                                                               |
-|     - ``Type`` : le type de convergence du schéma.            |
+|     - ``Type`` : le type de convergence du schÃ©ma.            |
 |                                                               |
 |         * 0 : aucun test                                      |
-|         * 1 : quand la valeur de test est supérieure à VRef   |
-|         * 2 : quand la valeur de test est inférieure à VRef   |
+|         * 1 : quand la valeur de test est supÃ©rieure Ã  VRef   |
+|         * 2 : quand la valeur de test est infÃ©rieure Ã  VRef   |
 |                                                               |
-|     - ``VRef`` : la valeur de référence du test               |
+|     - ``VRef`` : la valeur de rÃ©fÃ©rence du test               |
 +---------------------------------------------------------------+
 | .. module:: GetTestConvergenceType                            |
 |                                                               |
 | **GetTestConvergenceType()**                                  |
-|     Retourne le type de convergence du schéma.                |
+|     Retourne le type de convergence du schÃ©ma.                |
 +---------------------------------------------------------------+
 | .. module:: GetTestConvergenceVRef                            |
 |                                                               |
 | **GetTestConvergenceVRef()**                                  |
-|     Retourne la valeur de référence utilisée pour le test de  |
-|     convergence du schéma.                                    |
+|     Retourne la valeur de rÃ©fÃ©rence utilisÃ©e pour le test de  |
+|     convergence du schÃ©ma.                                    |
 +---------------------------------------------------------------+
 
 
 Exemple
 *******
-La création d'un schéma se fait ainsi :
+La crÃ©ation d'un schÃ©ma se fait ainsi :
 ::
 
     ScriptFile = "/scratch/D68518/Salome/HOMARD_SALOME/HOMARD_SRC/doc/files/ScriptAster.py"
@@ -260,7 +260,7 @@ La création d'un schéma se fait ainsi :
     YACS_0 = Case.CreateYACSSchema("YACS_0", ScriptFile, DirName, MeshFile)
     YACS_0.SetMaxIter(4)
 
-On peut ensuite l'écrire dans un fichier :
+On peut ensuite l'Ã©crire dans un fichier :
 ::
 
     YACSFile = "/scratch/D68518/calcul/yacs.xml"

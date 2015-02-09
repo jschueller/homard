@@ -1,15 +1,15 @@
 .. _tui_create_iteration:
 
-L'itération
+L'itÃ©ration
 ###########
 
-.. index:: single: itération
-.. index:: single: hypothèse
+.. index:: single: itÃ©ration
+.. index:: single: hypothÃ¨se
 .. index:: single: zone
 
-Les variables sont décrites dans :ref:`gui_create_iteration`.
+Les variables sont dÃ©crites dans :ref:`gui_create_iteration`.
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
 
 +---------------------------------------------------------------+
@@ -20,53 +20,53 @@ Méthodes de la classe homard
 |     Retourne l'instance de la classe ``iteration`` connue par |
 |     son nom                                                   |
 |                                                               |
-|     - ``iter_name`` : le nom de l'itération                   |
+|     - ``iter_name`` : le nom de l'itÃ©ration                   |
 +---------------------------------------------------------------+
 | .. module:: GetAllIterationsName                              |
 |                                                               |
 | **GetAllIterationsName()**                                    |
-|     Retourne la liste des noms de toutes les itérations créées|
+|     Retourne la liste des noms de toutes les itÃ©rations crÃ©Ã©es|
 |                                                               |
 +---------------------------------------------------------------+
 
-Méthodes communes aux classes cas et iteration
+MÃ©thodes communes aux classes cas et iteration
 **********************************************
-Voir également dans :ref:`tui_create_case`.
+Voir Ã©galement dans :ref:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: NextIteration                                     |
 |                                                               |
 | **NextIteration(iter_name)**                                  |
-|     Retourne une instance de la classe ``iteration`` après    |
-|     sa création. Elle suit immédiatement :                    |
+|     Retourne une instance de la classe ``iteration`` aprÃ¨s    |
+|     sa crÃ©ation. Elle suit immÃ©diatement :                    |
 |                                                               |
-|     - pour un cas : l'itération initiale, correspondant au    |
-|       maillage définissant le cas                             |
-|     - pour une itération : l'itération courante               |
+|     - pour un cas : l'itÃ©ration initiale, correspondant au    |
+|       maillage dÃ©finissant le cas                             |
+|     - pour une itÃ©ration : l'itÃ©ration courante               |
 |                                                               |
-| Par défaut, le maillage produit a le même nom que l'itération |
+| Par dÃ©faut, le maillage produit a le mÃªme nom que l'itÃ©ration |
 |                                                               |
-|     - ``iter_name`` : le nom à donner à la nouvelle itération |
+|     - ``iter_name`` : le nom Ã  donner Ã  la nouvelle itÃ©ration |
 +---------------------------------------------------------------+
 | .. module:: LastIteration                                     |
 |                                                               |
 | **LastIteration()**                                           |
 |     Retourne une instance de la classe ``iteration``. C'est   |
-|     la dernière créée dans la descendance de :                |
+|     la derniÃ¨re crÃ©Ã©e dans la descendance de :                |
 |                                                               |
-|     - pour un cas : l'itération initiale du cas               |
-|     - pour une itération : l'itération courante               |
+|     - pour un cas : l'itÃ©ration initiale du cas               |
+|     - pour une itÃ©ration : l'itÃ©ration courante               |
 |                                                               |
 |     C'est celle qui est sans fille. Il y a erreur s'il existe |
 |     plus d'une branche dans la descendance.                   |
 |                                                               |
 +---------------------------------------------------------------+
 
-Méthodes de la classe iteration
+MÃ©thodes de la classe iteration
 *******************************
 
-Généralités
+GÃ©nÃ©ralitÃ©s
 ===========
 
 +---------------------------------------------------------------+
@@ -74,75 +74,75 @@ Généralités
 | .. module:: Compute                                           |
 |                                                               |
 | **Compute(option1, option2)**                                 |
-|     Calcule le maillage correspondant à l'itération           |
+|     Calcule le maillage correspondant Ã  l'itÃ©ration           |
 |                                                               |
-|     - ``option1`` : un entier précisant ce qui se passe quand |
-|       des fichiers de résultats existent déjà                 |
+|     - ``option1`` : un entier prÃ©cisant ce qui se passe quand |
+|       des fichiers de rÃ©sultats existent dÃ©jÃ                  |
 |                                                               |
-|         * 0 : arrêt en erreur                                 |
-|         * 1 : écrasement des anciens fichiers                 |
+|         * 0 : arrÃªt en erreur                                 |
+|         * 1 : Ã©crasement des anciens fichiers                 |
 |                                                               |
-|     - ``option2`` : un entier précisant ce qui est fait des   |
-|       résultats                                               |
+|     - ``option2`` : un entier prÃ©cisant ce qui est fait des   |
+|       rÃ©sultats                                               |
 |                                                               |
-|         * 1 : aucune action particulière                      |
+|         * 1 : aucune action particuliÃ¨re                      |
 |         * 2 : publication dans le module SMESH                |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : adaptation réussie                              |
-|         * autre valeur : problème                             |
+|         * 0 : adaptation rÃ©ussie                              |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de l'itération                            |
+|     Retourne le nom de l'itÃ©ration                            |
 +---------------------------------------------------------------+
 | .. module:: GetNumber                                         |
 |                                                               |
 | **GetNumber()**                                               |
-|     Retourne le numéro de l'itération.                        |
+|     Retourne le numÃ©ro de l'itÃ©ration.                        |
 |                                                               |
-|     L'itération 0 est celle associée au maillage initial.     |
-|     Ensuite, une itération de numéro N est issue de           |
-|     l'adaptation d'une itération de numéro N-1.               |
+|     L'itÃ©ration 0 est celle associÃ©e au maillage initial.     |
+|     Ensuite, une itÃ©ration de numÃ©ro N est issue de           |
+|     l'adaptation d'une itÃ©ration de numÃ©ro N-1.               |
 +---------------------------------------------------------------+
 | .. module:: GetIterParent                                     |
 |                                                               |
 | **GetIterParent()**                                           |
-|     Retourne l'itération mère                                 |
+|     Retourne l'itÃ©ration mÃ¨re                                 |
 +---------------------------------------------------------------+
 | .. module:: AssociateHypo                                     |
 |                                                               |
 | **AssociateHypo(hypo_name)**                                  |
-|     Associe une hypothèse à l'itération                       |
+|     Associe une hypothÃ¨se Ã  l'itÃ©ration                       |
 |                                                               |
-|     - ``hypo_name`` : le nom de l'hypothèse à associer        |
+|     - ``hypo_name`` : le nom de l'hypothÃ¨se Ã  associer        |
 +---------------------------------------------------------------+
 | .. module:: GetHypoName                                       |
 |                                                               |
 | **GetHypoName()**                                             |
-|     Retourne le nom de l'hypothèse associée                   |
+|     Retourne le nom de l'hypothÃ¨se associÃ©e                   |
 +---------------------------------------------------------------+
 | .. module:: GetCaseName                                       |
 |                                                               |
 | **GetCaseName()**                                             |
-|     Retourne le nom du cas associé                            |
+|     Retourne le nom du cas associÃ©                            |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'état de l'itération                            |
+|     Retourne l'Ã©tat de l'itÃ©ration                            |
 |                                                               |
-|     - ``2`` : itération calculée correctement                 |
-|     - ``1`` : itération non calculée                          |
-|     - ``<=0`` : itération initiale à ne pas calculer, de      |
-|       numéro valant la valeur absolue de l'état               |
+|     - ``2`` : itÃ©ration calculÃ©e correctement                 |
+|     - ``1`` : itÃ©ration non calculÃ©e                          |
+|     - ``<=0`` : itÃ©ration initiale Ã  ne pas calculer, de      |
+|       numÃ©ro valant la valeur absolue de l'Ã©tat               |
 +---------------------------------------------------------------+
 | .. module:: GetLogFile                                        |
 |                                                               |
 | **GetLogFile()**                                              |
-|     Retourne le nom du fichier retraçant le déroulement de    |
-|     l'exécution de HOMARD                                     |
+|     Retourne le nom du fichier retraÃ§ant le dÃ©roulement de    |
+|     l'exÃ©cution de HOMARD                                     |
 +---------------------------------------------------------------+
 | .. module:: GetFileInfo                                       |
 |                                                               |
@@ -152,23 +152,23 @@ Généralités
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé à      |
-|     l'itération                                               |
+|     Retourne le nom du rÃ©pertoire des rÃ©sutats associÃ© Ã       |
+|     l'itÃ©ration                                               |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
-|     Detruit l'itération et toutes ses filles éventuelles.     |
+|     Detruit l'itÃ©ration et toutes ses filles Ã©ventuelles.     |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui est fait des    |
-|       fichiers de maillage associés                           |
+|     - ``option`` : un entier prÃ©cisant ce qui est fait des    |
+|       fichiers de maillage associÃ©s                           |
 |                                                               |
-|         * 0 : les fichiers sont conservés                     |
-|         * 1 : les fichiers sont détruits                      |
+|         * 0 : les fichiers sont conservÃ©s                     |
+|         * 1 : les fichiers sont dÃ©truits                      |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|         * 0 : destruction rÃ©ussie                             |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 
 Informations sur les maillages
@@ -179,7 +179,7 @@ Informations sur les maillages
 | .. module:: SetMeshName                                       |
 |                                                               |
 | **SetMeshName(mesh_name)**                                    |
-|     Définit le nom du maillage produit                        |
+|     DÃ©finit le nom du maillage produit                        |
 |                                                               |
 |     - ``mesh_name`` : le nom du maillage produit              |
 +---------------------------------------------------------------+
@@ -191,7 +191,7 @@ Informations sur les maillages
 | .. module:: SetMeshFile                                       |
 |                                                               |
 | **SetMeshFile(mesh_file)**                                    |
-|     Définit le fichier MED du maillage produit                |
+|     DÃ©finit le fichier MED du maillage produit                |
 |                                                               |
 |     - ``mesh_file`` : le nom du fichier MED qui contiendra    |
 |       le maillage produit                                     |
@@ -205,16 +205,16 @@ Informations sur les maillages
 |                                                               |
 | **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
 |     Donne des informations sur le maillage. Pour chaque       |
-|     option, le choix 0 correspond à ne rien faire, alors que  |
+|     option, le choix 0 correspond Ã  ne rien faire, alors que  |
 |     le choix 1 active l'option.                               |
 |                                                               |
-|     - ``Qual`` : qualité des mailles                          |
-|     - ``Diam`` : diamètre des mailles                         |
-|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
+|     - ``Qual`` : qualitÃ© des mailles                          |
+|     - ``Diam`` : diamÃ¨tre des mailles                         |
+|     - ``Conn`` : connexitÃ© du domaine ; en un seul morceau,   |
 |       combien de trous, etc.                                  |
 |     - ``Tail`` : tailles des constituants du domaine, groupe  |
 |       par groupe                                              |
-|     - ``Inte`` : interpénétration des mailles, par dimension  |
+|     - ``Inte`` : interpÃ©nÃ©tration des mailles, par dimension  |
 +---------------------------------------------------------------+
 
 Informations sur les champs
@@ -228,11 +228,11 @@ Le fichier des champs
 | .. module:: SetFieldFile                                      |
 |                                                               |
 | **SetFieldFile(field_file)**                                  |
-|     Définit le fichier MED des champs utiles                  |
+|     DÃ©finit le fichier MED des champs utiles                  |
 |                                                               |
 |     - ``field_file`` : le nom du fichier MED contenant les    |
 |       champs : champ de pilotage de l'adaptation ou champs    |
-|       à interpoler                                            |
+|       Ã  interpoler                                            |
 +---------------------------------------------------------------+
 | .. module:: GetFieldFileName                                  |
 |                                                               |
@@ -242,81 +242,81 @@ Le fichier des champs
 
 Les instants pour le champ de pilotage
 --------------------------------------
-Si une seule occurence du champ de pilotage de l'adaptation est présente dans le fichier des champs, il est inutile de préciser le pas de temps. Sinon, il faut préciser quel pas de temps est retenu.
+Si une seule occurence du champ de pilotage de l'adaptation est prÃ©sente dans le fichier des champs, il est inutile de prÃ©ciser le pas de temps. Sinon, il faut prÃ©ciser quel pas de temps est retenu.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetTimeStep                                       |
 |                                                               |
 | **SetTimeStep(TimeStep)**                                     |
-|     Définit l'instant pour le champ de pilotage. Le numéro    |
-|     d'ordre sera ignoré.                                      |
+|     DÃ©finit l'instant pour le champ de pilotage. Le numÃ©ro    |
+|     d'ordre sera ignorÃ©.                                      |
 |                                                               |
-|     - ``TimeStep`` : l'instant où est pris le champ           |
+|     - ``TimeStep`` : l'instant oÃ¹ est pris le champ           |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRank                                   |
 |                                                               |
 | **SetTimeStepRank(TimeStep, Rank)**                           |
-|     Définit l'instant et le numéro d'ordre pour le champ de   |
+|     DÃ©finit l'instant et le numÃ©ro d'ordre pour le champ de   |
 |     pilotage                                                  |
 |                                                               |
-|     - ``TimeStep`` : l'instant où est pris le champ           |
-|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
+|     - ``TimeStep`` : l'instant oÃ¹ est pris le champ           |
+|     - ``Rank`` : le numÃ©ro d'ordre oÃ¹ est pris le champ       |
 +---------------------------------------------------------------+
 | .. module:: SetTimeStepRankLast                               |
 |                                                               |
 | **SetTimeStepRankLast()**                                     |
-|     Précise que le dernier instant enregistré pour le champ   |
-|     de pilotage est utilisé                                   |
+|     PrÃ©cise que le dernier instant enregistrÃ© pour le champ   |
+|     de pilotage est utilisÃ©                                   |
 +---------------------------------------------------------------+
 | .. module:: GetTimeStep                                       |
 |                                                               |
 | **GetTimeStep()**                                             |
-|     Retourne l'instant où est pris le champ de pilotage       |
+|     Retourne l'instant oÃ¹ est pris le champ de pilotage       |
 +---------------------------------------------------------------+
 | .. module:: GetRank                                           |
 |                                                               |
 | **GetRank()**                                                 |
-|     Retourne le numéro d'ordre où est pris le champ de        |
+|     Retourne le numÃ©ro d'ordre oÃ¹ est pris le champ de        |
 |     pilotage                                                  |
 +---------------------------------------------------------------+
 
-Les instants pour les champs à interpoler
+Les instants pour les champs Ã  interpoler
 -----------------------------------------
 
-Les champs à interpoler sont définis dans l'hypothèse (voir :ref:`tui_create_hypothese`).
-Pour un champ donné, si aucune mention de pas de temps n'est précisé, tous les pas de temps seront pris en compte.
-Si on souhaite limiter l'interpolation à un ou plusieurs pas de temps, il faut le préciser ici.
+Les champs Ã  interpoler sont dÃ©finis dans l'hypothÃ¨se (voir :ref:`tui_create_hypothese`).
+Pour un champ donnÃ©, si aucune mention de pas de temps n'est prÃ©cisÃ©, tous les pas de temps seront pris en compte.
+Si on souhaite limiter l'interpolation Ã  un ou plusieurs pas de temps, il faut le prÃ©ciser ici.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
 | .. module:: SetFieldInterpTimeStep                            |
 |                                                               |
 | **SetFieldInterpTimeStep(FieldName, TimeStep)**               |
-|     Définit un instant pour le champ à interpoler. Le numéro  |
-|     d'ordre sera ignoré.                                      |
+|     DÃ©finit un instant pour le champ Ã  interpoler. Le numÃ©ro  |
+|     d'ordre sera ignorÃ©.                                      |
 |                                                               |
-|     - ``FieldName`` : le nom du champ à interpoler            |
-|     - ``TimeStep`` : l'instant où est pris le champ           |
+|     - ``FieldName`` : le nom du champ Ã  interpoler            |
+|     - ``TimeStep`` : l'instant oÃ¹ est pris le champ           |
 +---------------------------------------------------------------+
 | .. module:: SetFieldInterpTimeStepRank                        |
 |                                                               |
 | **SetFieldInterpTimeStepRank(FieldName, TimeStep)**           |
-|     Définit l'instant et le numéro d'ordre pour le champ à    |
+|     DÃ©finit l'instant et le numÃ©ro d'ordre pour le champ Ã     |
 |     interpoler.                                               |
 |                                                               |
-|     - ``FieldName`` : le nom du champ à interpoler            |
-|     - ``TimeStep`` : l'instant où est pris le champ           |
-|     - ``Rank`` : le numéro d'ordre où est pris le champ       |
+|     - ``FieldName`` : le nom du champ Ã  interpoler            |
+|     - ``TimeStep`` : l'instant oÃ¹ est pris le champ           |
+|     - ``Rank`` : le numÃ©ro d'ordre oÃ¹ est pris le champ       |
 +---------------------------------------------------------------+
 | .. module:: GetFieldInterpsTimeStepRank                       |
 |                                                               |
 | **GetFieldInterpsTimeStepRank()**                             |
 |     Retourne l'ensemble des triplets (nom du champ, pas de    |
-|     temps, numéro d'ordre)                                    |
+|     temps, numÃ©ro d'ordre)                                    |
 |                                                               |
-|     Attention : l'usage est stocké sous forme de chaîne de    |
-|     caractères et non pas d'entier dans la liste.             |
+|     Attention : l'usage est stockÃ© sous forme de chaÃ®ne de    |
+|     caractÃ¨res et non pas d'entier dans la liste.             |
 |                                                               |
 |     Exemple : ['DEPL', '1', '1', 'DEPL', '2', '1', 'Masse',   |
 |     '2', '0', 'Masse', '3', '0']                              |
@@ -330,22 +330,22 @@ Divers
 | .. module:: SetInfoCompute                                    |
 |                                                               |
 | **SetInfoCompute(MessInfo)**                                  |
-|     Précise des options d'informations sur le déroulement du  |
-|     calcul de l'itération                                     |
+|     PrÃ©cise des options d'informations sur le dÃ©roulement du  |
+|     calcul de l'itÃ©ration                                     |
 |                                                               |
-|     - ``MessInfo`` : entier pilotant des écritures, sous la   |
+|     - ``MessInfo`` : entier pilotant des Ã©critures, sous la   |
 |       forme d'un entier multiple de 2, 3 et 5                 |
 |                                                               |
-|         * 1 : aucune écriture (défaut)                        |
+|         * 1 : aucune Ã©criture (dÃ©faut)                        |
 |         * 2x : temps de calcul                                |
 |         * 3x : fichiers MED                                   |
-|         * 5x : mémoire                                        |
+|         * 5x : mÃ©moire                                        |
 +---------------------------------------------------------------+
 | .. module:: GetInfoCompute                                    |
 |                                                               |
 | **GetInfoCompute()**                                          |
-|     Retourne les options d'informations sur le déroulement du |
-|     calcul de l'itération                                     |
+|     Retourne les options d'informations sur le dÃ©roulement du |
+|     calcul de l'itÃ©ration                                     |
 +---------------------------------------------------------------+
 
 
@@ -353,7 +353,7 @@ Exemple
 *******
 .. index:: single: maillage;initial
 
-Pour la création de la première itération, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas.
+Pour la crÃ©ation de la premiÃ¨re itÃ©ration, on part de celle qui correspond au maillage initial. C'est celle contenue dans le cas.
 ::
 
     iter_name = "Iteration_1"
@@ -365,7 +365,7 @@ Pour la création de la première itération, on part de celle qui correspond au ma
     iter_1.AssociateHypo("HypoField")
     codret = iter_1.Compute(1, 2)
 
-Ensuite, on crée une itération suivante à l'itération parent de laquelle on part.
+Ensuite, on crÃ©e une itÃ©ration suivante Ã  l'itÃ©ration parent de laquelle on part.
 ::
 
     iter_name = "Iteration_2"

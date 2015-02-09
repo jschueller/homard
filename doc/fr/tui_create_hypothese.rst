@@ -1,15 +1,15 @@
 .. _tui_create_hypothese:
 
-L'hypothèse
+L'hypothÃ¨se
 ###########
 
-.. index:: single: itération
-.. index:: single: hypothèse
+.. index:: single: itÃ©ration
+.. index:: single: hypothÃ¨se
 .. index:: single: zone
 
-Les variables sont décrites dans :ref:`gui_create_hypothese`.
+Les variables sont dÃ©crites dans :ref:`gui_create_hypothese`.
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
 
 +---------------------------------------------------------------+
@@ -19,7 +19,7 @@ Méthodes de la classe homard
 | **CreateHypothesis(hypo_name)**                               |
 |     Retourne une instance de la classe ``hypothese``          |
 |                                                               |
-|     - ``hypo_name`` : le nom de l'hypothèse                   |
+|     - ``hypo_name`` : le nom de l'hypothÃ¨se                   |
 +---------------------------------------------------------------+
 | .. module:: GetHypothesis                                     |
 |                                                               |
@@ -27,12 +27,12 @@ Méthodes de la classe homard
 |     Retourne l'instance de la classe ``hypothese`` connue par |
 |     son nom                                                   |
 |                                                               |
-|     - ``hypo_name`` : le nom de l'hypothèse                   |
+|     - ``hypo_name`` : le nom de l'hypothÃ¨se                   |
 +---------------------------------------------------------------+
 | .. module:: GetAllHypothesesName                              |
 |                                                               |
 | **GetAllHypothesesName()**                                    |
-|     Retourne la liste des noms de toutes les hypothèses créées|
+|     Retourne la liste des noms de toutes les hypothÃ¨ses crÃ©Ã©es|
 +---------------------------------------------------------------+
 | .. module:: GetZone                                           |
 |                                                               |
@@ -43,10 +43,10 @@ Méthodes de la classe homard
 |     - ``zone_name`` : le nom de la zone                       |
 +---------------------------------------------------------------+
 
-Méthodes de la classe hypothese
+MÃ©thodes de la classe hypothese
 *******************************
 
-Généralités
+GÃ©nÃ©ralitÃ©s
 ===========
 
 +---------------------------------------------------------------+
@@ -54,7 +54,7 @@ Généralités
 | .. module:: GetName                                           |
 |                                                               |
 | **GetName()**                                                 |
-|     Retourne le nom de l'hypothèse                            |
+|     Retourne le nom de l'hypothÃ¨se                            |
 +---------------------------------------------------------------+
 | .. module:: GetAdapType                                       |
 |                                                               |
@@ -76,7 +76,7 @@ Généralités
 | .. module:: GetUnRefType                                      |
 |                                                               |
 | **GetUnRefType()**                                            |
-|     Retourne le type de déraffinement                         |
+|     Retourne le type de dÃ©raffinement                         |
 |                                                               |
 |         * 0 : inactif                                         |
 |         * 1 : actif                                           |
@@ -84,11 +84,11 @@ Généralités
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit l'hypothèse                                       |
+|     Detruit l'hypothÃ¨se                                       |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|         * 0 : destruction rÃ©ussie                             |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 
 Adaptation uniforme
@@ -99,12 +99,12 @@ Adaptation uniforme
 | .. module:: SetUnifRefinUnRef                                 |
 |                                                               |
 | **SetUnifRefinUnRef(RefinUnRef)**                             |
-|     Définit un mode d'adaptation uniforme à tout le maillage  |
+|     DÃ©finit un mode d'adaptation uniforme Ã  tout le maillage  |
 |                                                               |
-|     - ``RefinUnRef`` : entier précisant le type d'adaptation  |
+|     - ``RefinUnRef`` : entier prÃ©cisant le type d'adaptation  |
 |                                                               |
 |         * 1 : raffinement                                     |
-|         * -1 : déraffinement                                  |
+|         * -1 : dÃ©raffinement                                  |
 +---------------------------------------------------------------+
 
 Adaptation selon un champ
@@ -118,7 +118,7 @@ Le champ de pilotage de l'adaptation et les seuils
 | .. module:: SetField                                          |
 |                                                               |
 | **SetField(FieldName)**                                       |
-|     Attribue un nom de champ de pilotage à l'hypothèse        |
+|     Attribue un nom de champ de pilotage Ã  l'hypothÃ¨se        |
 |                                                               |
 |     - ``FieldName`` : le nom du champ  de pilotage            |
 +---------------------------------------------------------------+
@@ -132,26 +132,26 @@ Le champ de pilotage de l'adaptation et les seuils
 | **SetUseField(use_field)**                                    |
 |     Attribue un mode d'usage du champ de pilotage             |
 |                                                               |
-|     - ``use_field`` : entier précisant l'usage du champ       |
+|     - ``use_field`` : entier prÃ©cisant l'usage du champ       |
 |                                                               |
-|        * 0 : valeur par élément (défaut)                      |
-|        * 1 : saut entre un élément et ses voisins             |
+|        * 0 : valeur par Ã©lÃ©ment (dÃ©faut)                      |
+|        * 1 : saut entre un Ã©lÃ©ment et ses voisins             |
 +---------------------------------------------------------------+
 | .. module:: SetRefinThr                                       |
 |                                                               |
 | **SetRefinThr(type_thres, threshold)**                        |
-|     Définit les seuils en raffinement                         |
+|     DÃ©finit les seuils en raffinement                         |
 |                                                               |
-|     - ``type_thres`` : entier précisant le type de seuil en   |
+|     - ``type_thres`` : entier prÃ©cisant le type de seuil en   |
 |       raffinement                                             |
 |                                                               |
 |        * 1 : valeur absolue                                   |
 |        * 2 : valeur relative en %                             |
 |        * 3 : fraction des mailles en %                        |
-|        * 4 : moyenne + n fois l'écart-type                    |
+|        * 4 : moyenne + n fois l'Ã©cart-type                    |
 |                                                               |
-|     - ``threshold`` : valeur numérique entrant dans la        |
-|                       définition du seuil                     |
+|     - ``threshold`` : valeur numÃ©rique entrant dans la        |
+|                       dÃ©finition du seuil                     |
 +---------------------------------------------------------------+
 | .. module:: GetRefinThrType                                   |
 |                                                               |
@@ -161,22 +161,22 @@ Le champ de pilotage de l'adaptation et les seuils
 | .. module:: SetUnRefThr                                       |
 |                                                               |
 | **SetUnRefThr(type_thres, threshold)**                        |
-|     Définit les seuils en déraffinement                       |
+|     DÃ©finit les seuils en dÃ©raffinement                       |
 |                                                               |
-|     - ``type_thres`` : entier précisant le type de seuil en   |
-|       déraffinement                                           |
+|     - ``type_thres`` : entier prÃ©cisant le type de seuil en   |
+|       dÃ©raffinement                                           |
 |                                                               |
 |        * 1 : valeur absolue                                   |
 |        * 2 : valeur relative en %                             |
 |        * 3 : fraction des mailles en %                        |
-|        * 4 : moyenne - n fois l'écart-type                    |
+|        * 4 : moyenne - n fois l'Ã©cart-type                    |
 |                                                               |
 |     - ``threshold`` : valeur du seuil                         |
 +---------------------------------------------------------------+
 | .. module:: GetUnRefThrType                                   |
 |                                                               |
 | **GetUnRefThrType()**                                         |
-|     Retourne le type de seuil de déraffinement                |
+|     Retourne le type de seuil de dÃ©raffinement                |
 +---------------------------------------------------------------+
 
 
@@ -188,41 +188,41 @@ Les composantes du champ de pilotage
 | .. module:: AddComp                                           |
 |                                                               |
 | **AddComp(comp_name)**                                        |
-|     Ajoute une composante du champ de pilotage à considérer   |
+|     Ajoute une composante du champ de pilotage Ã  considÃ©rer   |
 |                                                               |
-|     - ``comp_name`` : nom d'une composante à prendre en       |
+|     - ``comp_name`` : nom d'une composante Ã  prendre en       |
 |       compte                                                  |
 |                                                               |
-|     Remarque : si cette méthode n'est pas appelée, par défaut |
+|     Remarque : si cette mÃ©thode n'est pas appelÃ©e, par dÃ©faut |
 |     toutes les composantes seront retenues.                   |
 +---------------------------------------------------------------+
 | .. module:: SetUseComp                                        |
 |                                                               |
 | **SetUseComp(use_comp)**                                      |
-|     Définit l'usage des composantes                           |
+|     DÃ©finit l'usage des composantes                           |
 |                                                               |
-|     - ``use_comp`` : entier précisant l'usage des composantes |
+|     - ``use_comp`` : entier prÃ©cisant l'usage des composantes |
 |                                                               |
-|        * 0 : norme L2 (défaut)                                |
+|        * 0 : norme L2 (dÃ©faut)                                |
 |        * 1 : norme infinie                                    |
 |        * 2 : valeur relative, si une seule composante         |
 +---------------------------------------------------------------+
 | .. module:: GetComps                                          |
 |                                                               |
 | **GetComps()**                                                |
-|     Retourne la liste des composantes utilisées               |
+|     Retourne la liste des composantes utilisÃ©es               |
 +---------------------------------------------------------------+
 | .. module:: SupprComp                                         |
 |                                                               |
 | **SupprComp(comp_name)**                                      |
-|     Supprime une composante du champ à considérer             |
+|     Supprime une composante du champ Ã  considÃ©rer             |
 |                                                               |
-|     - ``comp_name`` : nom de la composante à supprimer        |
+|     - ``comp_name`` : nom de la composante Ã  supprimer        |
 +---------------------------------------------------------------+
 | .. module:: SupprComps                                        |
 |                                                               |
 | **SupprComps()**                                              |
-|     Supprime toutes les composantes du champ à considérer     |
+|     Supprime toutes les composantes du champ Ã  considÃ©rer     |
 +---------------------------------------------------------------+
 
 
@@ -235,33 +235,33 @@ Adaptation selon des zones
 |                                                               |
 | **AddZone(zone_name, type_use)**                              |
 |                                                               |
-|     - ``zone_name`` : le nom de la zone à ajouter             |
-|     - ``type_use``  : entier précisant l'usage de la zone     |
+|     - ``zone_name`` : le nom de la zone Ã  ajouter             |
+|     - ``type_use``  : entier prÃ©cisant l'usage de la zone     |
 |                                                               |
 |         * 1 : raffinement                                     |
-|         * -1 : déraffinement                                  |
+|         * -1 : dÃ©raffinement                                  |
 +---------------------------------------------------------------+
 | .. module:: GetZones                                          |
 |                                                               |
 | **GetZones()**                                                |
-|     Retourne la liste des zones utilisées avec leur usage.    |
+|     Retourne la liste des zones utilisÃ©es avec leur usage.    |
 |                                                               |
-|     Attention : l'usage est stocké sous forme de chaîne de    |
-|     caractères et non pas d'entier dans la liste.             |
+|     Attention : l'usage est stockÃ© sous forme de chaÃ®ne de    |
+|     caractÃ¨res et non pas d'entier dans la liste.             |
 |                                                               |
 |     Exemple : ['Zone_A', '1', 'Zone_B', '1', 'Zone_C', '1']   |
 +---------------------------------------------------------------+
 | .. module:: SupprZone                                         |
 |                                                               |
 | **SupprZone(zone_name)**                                      |
-|     Supprime une zone de l'hypothèse                          |
+|     Supprime une zone de l'hypothÃ¨se                          |
 |                                                               |
-|     - ``zone_name`` : nom de la zone à supprimer              |
+|     - ``zone_name`` : nom de la zone Ã  supprimer              |
 +---------------------------------------------------------------+
 | .. module:: SupprZones                                        |
 |                                                               |
 | **SupprZones()**                                              |
-|     Supprime toutes les zones de l'hypothèse                  |
+|     Supprime toutes les zones de l'hypothÃ¨se                  |
 +---------------------------------------------------------------+
 
 
@@ -275,16 +275,16 @@ Le filtrage par les groupes
 | **AddGroup(group_name)**                                      |
 |     Ajoute un groupe au filtrage                              |
 |                                                               |
-|     - ``group_name`` : nom du groupe à prendre en compte      |
+|     - ``group_name`` : nom du groupe Ã  prendre en compte      |
 +---------------------------------------------------------------+
 | .. module:: GetGroups                                         |
 |                                                               |
 | **GetGroups()**                                               |
-|     Retourne la liste des groupes utilisés pour le filtrage   |
+|     Retourne la liste des groupes utilisÃ©s pour le filtrage   |
 +---------------------------------------------------------------+
 
 
-Les champs à interpoler
+Les champs Ã  interpoler
 =======================
 
 +---------------------------------------------------------------+
@@ -293,26 +293,26 @@ Les champs à interpoler
 |                                                               |
 | **SetTypeFieldInterp(typefieldinterp)**                       |
 |                                                               |
-|     - ``typefieldinterp`` : entier précisant si des champs    |
+|     - ``typefieldinterp`` : entier prÃ©cisant si des champs    |
 |       sont a interpoler                                       |
 |                                                               |
-|         * 0 : aucun champ n'est à interpoler (défaut)         |
-|         * 1 : tous les champs sont interpolés                 |
-|         * 2 : certains champs sont interpolés ; implicitement |
-|           affecté après usage de AddFieldInterp ou            |
+|         * 0 : aucun champ n'est Ã  interpoler (dÃ©faut)         |
+|         * 1 : tous les champs sont interpolÃ©s                 |
+|         * 2 : certains champs sont interpolÃ©s ; implicitement |
+|           affectÃ© aprÃ¨s usage de AddFieldInterp ou            |
 |           AddFieldInterpType                                  |
 +---------------------------------------------------------------+
 | .. module:: GetTypeFieldInterp                                |
 |                                                               |
 | **GetTypeFieldInterp()**                                      |
-|     Retourne l'entier précisant si des champs sont à          |
+|     Retourne l'entier prÃ©cisant si des champs sont Ã           |
 |     interpoler                                                |
 +---------------------------------------------------------------+
 | .. module:: AddFieldInterp                                    |
 |                                                               |
 | **AddFieldInterp(FieldName)**                                 |
 |                                                               |
-|     - ``FieldName`` : le nom du champ à interpoler            |
+|     - ``FieldName`` : le nom du champ Ã  interpoler            |
 |                                                               |
 |     Le mode d'interpolation sera choisi automatiquement par   |
 |     HOMARD ; cela correspond au mode 0 de AddFieldInterpType  |
@@ -321,52 +321,52 @@ Les champs à interpoler
 |                                                               |
 | **AddFieldInterpType(FieldName, type_interp)**                |
 |                                                               |
-|     - ``FieldName`` : le nom du champ à interpoler            |
-|     - ``type_interp`` : entier précisant le type              |
+|     - ``FieldName`` : le nom du champ Ã  interpoler            |
+|     - ``type_interp`` : entier prÃ©cisant le type              |
 |       d'interpolation du champ                                |
 |                                                               |
 |     Pour un champ aux noeuds :                                |
 |                                                               |
-|         * 0 : le champ sera interpolé en degré 1 ou 2 selon   |
+|         * 0 : le champ sera interpolÃ© en degrÃ© 1 ou 2 selon   |
 |           son support.                                        |
-|         * 1 : interpolation en degré 1                        |
-|         * 2 : interpolation en degré 2                        |
+|         * 1 : interpolation en degrÃ© 1                        |
+|         * 2 : interpolation en degrÃ© 2                        |
 |         * 3 : interpolation iso-P2                            |
 |                                                               |
-|     Pour un champ aux éléments :                              |
+|     Pour un champ aux Ã©lÃ©ments :                              |
 |                                                               |
-|         * 0 : le champ sera interpolé en le considérant comme |
+|         * 0 : le champ sera interpolÃ© en le considÃ©rant comme |
 |           une variable intensive.                             |
-|         * 1 : le champ sera interpolé en le considérant comme |
+|         * 1 : le champ sera interpolÃ© en le considÃ©rant comme |
 |           une variable extensive.                             |
 +---------------------------------------------------------------+
 | .. module:: GetFieldInterps                                   |
 |                                                               |
 | **GetFieldInterps()**                                         |
-|     Retourne la liste des champs à interoler avec leur usage. |
+|     Retourne la liste des champs Ã  interoler avec leur usage. |
 |                                                               |
-|     Attention : l'usage est stocké sous forme de chaîne de    |
-|     caractères et non pas d'entier dans la liste.             |
+|     Attention : l'usage est stockÃ© sous forme de chaÃ®ne de    |
+|     caractÃ¨res et non pas d'entier dans la liste.             |
 |                                                               |
 |     Exemple : ['DEPL', '0', 'Masse', '1', 'Densite', '0']     |
 +---------------------------------------------------------------+
 | .. module:: SupprFieldInterp                                  |
 |                                                               |
 | **SupprFieldInterp(FieldName)**                               |
-|     Supprime un champ à interpoler de l'hypothèse             |
+|     Supprime un champ Ã  interpoler de l'hypothÃ¨se             |
 |                                                               |
-|     - ``FieldName`` : nom du champ à supprimer                |
+|     - ``FieldName`` : nom du champ Ã  supprimer                |
 +---------------------------------------------------------------+
 | .. module:: SupprFieldInterps                                 |
 |                                                               |
 | **SupprFieldInterps()**                                       |
-|     Supprime tous les champs à interpoler de l'hypothèse      |
+|     Supprime tous les champs Ã  interpoler de l'hypothÃ¨se      |
 +---------------------------------------------------------------+
 
 .. note::
-  Le fichier et les instants où sont pris les champs sont définis dans l'itération ; voir :ref:`tui_create_iteration`.
+  Le fichier et les instants oÃ¹ sont pris les champs sont dÃ©finis dans l'itÃ©ration ; voir :ref:`tui_create_iteration`.
 
-Les options avancées
+Les options avancÃ©es
 ====================
 
 +---------------------------------------------------------------+
@@ -374,9 +374,9 @@ Les options avancées
 | .. module:: SetNivMax                                         |
 |                                                               |
 | **SetNivMax(nivmax)**                                         |
-|     Définit le niveau maximal de raffinement                  |
+|     DÃ©finit le niveau maximal de raffinement                  |
 |                                                               |
-|     - ``nivmax`` : niveau de raffinement à ne pas dépasser    |
+|     - ``nivmax`` : niveau de raffinement Ã  ne pas dÃ©passer    |
 +---------------------------------------------------------------+
 | .. module:: GetNivMax                                         |
 |                                                               |
@@ -386,58 +386,58 @@ Les options avancées
 | .. module:: SetDiamMin                                        |
 |                                                               |
 | **SetDiamMin(diammin)**                                       |
-|     Définit le diamètre minimal des futures mailles           |
+|     DÃ©finit le diamÃ¨tre minimal des futures mailles           |
 |                                                               |
-|     - ``diammin`` : diamètre minimal voulu pour une maille    |
+|     - ``diammin`` : diamÃ¨tre minimal voulu pour une maille    |
 +---------------------------------------------------------------+
 | .. module:: GetDiamMin                                        |
 |                                                               |
 | **GetDiamMin()**                                              |
-|     Retourne le diamètre minimal voulu                        |
+|     Retourne le diamÃ¨tre minimal voulu                        |
 +---------------------------------------------------------------+
 | .. module:: SetAdapInit                                       |
 |                                                               |
 | **SetAdapInit(option)**                                       |
-|     Définit le traitement à appliquer aux mailles où          |
-|     le champ de pilotage de l'adaptation n'est pas défini     |
+|     DÃ©finit le traitement Ã  appliquer aux mailles oÃ¹          |
+|     le champ de pilotage de l'adaptation n'est pas dÃ©fini     |
 |                                                               |
-|     - ``option`` : entier précisant le choix retenu           |
+|     - ``option`` : entier prÃ©cisant le choix retenu           |
 |                                                               |
-|         *  0 : aucun effet (défaut)                           |
-|         *  1 : les mailles sans indicateurs sont raffinées    |
-|         * -1 : les mailles sans indicateurs sont déraffinées  |
+|         *  0 : aucun effet (dÃ©faut)                           |
+|         *  1 : les mailles sans indicateurs sont raffinÃ©es    |
+|         * -1 : les mailles sans indicateurs sont dÃ©raffinÃ©es  |
 +---------------------------------------------------------------+
 | .. module:: GetAdapInit                                       |
 |                                                               |
 | **GetAdapInit()**                                             |
-|     Retourne le type de traitement à appliquer aux mailles où |
-|     le champ de pilotage de l'adaptation n'est pas défini     |
+|     Retourne le type de traitement Ã  appliquer aux mailles oÃ¹ |
+|     le champ de pilotage de l'adaptation n'est pas dÃ©fini     |
 +---------------------------------------------------------------+
 | .. module:: SetExtraOutput                                    |
 |                                                               |
 | **SetExtraOutput(option)**                                    |
-|     Précise quelles sorties supplémentaires sur les mailles on|
-|     veut récupérer dans le fichier MED de sortie. C'est un    |
+|     PrÃ©cise quelles sorties supplÃ©mentaires sur les mailles on|
+|     veut rÃ©cupÃ©rer dans le fichier MED de sortie. C'est un    |
 |     entier multiple ou non de 2, 3, 5.                        |
 |                                                               |
-|     - ``option`` : entier précisant le choix retenu           |
+|     - ``option`` : entier prÃ©cisant le choix retenu           |
 |                                                               |
-|         *  1 : aucun effet (défaut)                           |
+|         *  1 : aucun effet (dÃ©faut)                           |
 |         *  2x : le niveau de raffinement de chaque maille     |
-|         *  3x : la qualité de chaque maille                   |
-|         *  5x : le diamètre de chaque maille                  |
+|         *  3x : la qualitÃ© de chaque maille                   |
+|         *  5x : le diamÃ¨tre de chaque maille                  |
 +---------------------------------------------------------------+
 | .. module:: GetExtraOutput                                    |
 |                                                               |
 | **GetExtraOutput()**                                          |
-|     Retourne le choix retenu pour la récupération des sorties |
-|     supplémentaires                                           |
+|     Retourne le choix retenu pour la rÃ©cupÃ©ration des sorties |
+|     supplÃ©mentaires                                           |
 +---------------------------------------------------------------+
 
 
 Exemple
 *******
-La création de l'objet hypo_1 se fait ainsi : ::
+La crÃ©ation de l'objet hypo_1 se fait ainsi : ::
 
     hypo_1 = homard.CreateHypothesis("HypoField")
     hypo_1.SetField("INDICATEUR")
@@ -453,4 +453,4 @@ Saisie graphique correspondante
 Consulter :ref:`gui_create_hypothese`
 
 .. warning::
-  En mode graphique, si on édite une hypothèse et que l'on modifie une de ses caractéristiques, par exemple le seuil de raffinement, toutes les itérations qui ont été calculées précédemment avec cette hypothèse sont invalidées. En mode python, cela n'est plus vrai : les itérations restent telles quelles.
+  En mode graphique, si on Ã©dite une hypothÃ¨se et que l'on modifie une de ses caractÃ©ristiques, par exemple le seuil de raffinement, toutes les itÃ©rations qui ont Ã©tÃ© calculÃ©es prÃ©cÃ©demment avec cette hypothÃ¨se sont invalidÃ©es. En mode python, cela n'est plus vrai : les itÃ©rations restent telles quelles.

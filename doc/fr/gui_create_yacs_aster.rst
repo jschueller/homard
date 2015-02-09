@@ -1,42 +1,42 @@
 .. _gui_create_yacs_aster:
 
-Un schéma YACS pour Code_Aster
+Un schÃ©ma YACS pour Code_Aster
 ##############################
 .. index:: single: YACS
 .. index:: single: Code_Aster
 
-Dans le cas où le schéma implique un couplage entre *Code_Aster* et HOMARD, une façon de faire est décrite ici. Les seules contraintes sont des conventions pour que le script de pilotage de *Code_Aster* fonctionne correctement au sein du schéma.
+Dans le cas oÃ¹ le schÃ©ma implique un couplage entre *Code_Aster* et HOMARD, une faÃ§on de faire est dÃ©crite ici. Les seules contraintes sont des conventions pour que le script de pilotage de *Code_Aster* fonctionne correctement au sein du schÃ©ma.
 
-Préparations
+PrÃ©parations
 ************
-Le répertoire de calcul
+Le rÃ©pertoire de calcul
 =======================
-La première phase consiste à créer un répertoire qui abritera les fichiers du calcul et les fichiers des maillages successifs.
+La premiÃ¨re phase consiste Ã  crÃ©er un rÃ©pertoire qui abritera les fichiers du calcul et les fichiers des maillages successifs.
 
 Les commandes
 =============
-Les commandes du calcul sont à définir comme pour n'importe quel calcul. On particularisera uniquement la récupération de la valeur de test pour la convergence.
+Les commandes du calcul sont Ã  dÃ©finir comme pour n'importe quel calcul. On particularisera uniquement la rÃ©cupÃ©ration de la valeur de test pour la convergence.
 
 La valeur de test
 -----------------
-Pour récupérer la valeur de test ``V_TEST``, le script va chercher dans le fichier ``resu``, la ligne de type :
+Pour rÃ©cupÃ©rer la valeur de test ``V_TEST``, le script va chercher dans le fichier ``resu``, la ligne de type :
 ::
 
     V_TEST    0.02071983
 
-Pour cela, la meilleure façon consiste à placer la valeur à tester dans une table intitulée ``V_TEST``, par exemple après une extraction depuis un résultat :
+Pour cela, la meilleure faÃ§on consiste Ã  placer la valeur Ã  tester dans une table intitulÃ©e ``V_TEST``, par exemple aprÃ¨s une extraction depuis un rÃ©sultat :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
    :lines: 53-59
 
-puis à imprimer cette table en se limitant aux deux paramètres ``INTITULE`` et composante retenue :
+puis Ã  imprimer cette table en se limitant aux deux paramÃ¨tres ``INTITULE`` et composante retenue :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
    :lines: 63-64
 
 Le pilotage de l'adaptation
 ---------------------------
-Si on souhaite piloter l'adaptation par un champ, il faudra écrire ce champ dans le fichier MED de sortie. Ce peut être un indicateur d'erreur (commande CALC_ERREUR) ou un autre champ.
+Si on souhaite piloter l'adaptation par un champ, il faudra Ã©crire ce champ dans le fichier MED de sortie. Ce peut Ãªtre un indicateur d'erreur (commande CALC_ERREUR) ou un autre champ.
 
 Par exemple :
 
@@ -45,30 +45,30 @@ Par exemple :
 
 Le script
 =========
-Le script de pilotage de *Code_Aster* à fournir au schéma YACS est à télécharger ici : :download:`ScriptAster<../files/yacs_script.py>`. Ce fichier peut être placé n'importe où.
+Le script de pilotage de *Code_Aster* Ã  fournir au schÃ©ma YACS est Ã  tÃ©lÃ©charger ici : :download:`ScriptAster<../files/yacs_script.py>`. Ce fichier peut Ãªtre placÃ© n'importe oÃ¹.
 
-Comment procéder ?
+Comment procÃ©der ?
 ******************
 Un premier calcul
 =================
-Une fois les commandes au point, il faut lancer un premier calcul. Cela permet de choisir le paramétrage du calcul : version de *Code_Aster*, serveur de calcul, interactif/batch, etc. Ce sont ces paramètres qui seront utilisés pour les calculs successifs dans le schéma. Le lancement de *Code_Aster* rassemble ces informations dans un fichier de type ``export``. Il faut copier ce fichier sous le nom ``calcul.ref.export`` dans le répertoire de calcul.
+Une fois les commandes au point, il faut lancer un premier calcul. Cela permet de choisir le paramÃ©trage du calcul : version de *Code_Aster*, serveur de calcul, interactif/batch, etc. Ce sont ces paramÃ¨tres qui seront utilisÃ©s pour les calculs successifs dans le schÃ©ma. Le lancement de *Code_Aster* rassemble ces informations dans un fichier de type ``export``. Il faut copier ce fichier sous le nom ``calcul.ref.export`` dans le rÃ©pertoire de calcul.
 
-Création du schéma
+CrÃ©ation du schÃ©ma
 ==================
-Quand le calcul est terminé, il faut enchaîner les étapes suivante :
+Quand le calcul est terminÃ©, il faut enchaÃ®ner les Ã©tapes suivante :
 
-- vérifier que le fichier de résultats au format MED a été créé et que le fichier de résultats de type ``resu`` contient la ligne donnant la valeur à tester ;
+- vÃ©rifier que le fichier de rÃ©sultats au format MED a Ã©tÃ© crÃ©Ã© et que le fichier de rÃ©sultats de type ``resu`` contient la ligne donnant la valeur Ã  tester ;
 - activer le module HOMARD de SALOME ;
-- créer un cas à partir du maillage initial ;
-- créer une itération en se basant sur le champ que l'on a retenu ;
-- éventuellement calculer cette itération pour contrôler les choix, mais ce n'est pas obligatoire ;
-- créer le schéma basé sur ce cas.
+- crÃ©er un cas Ã  partir du maillage initial ;
+- crÃ©er une itÃ©ration en se basant sur le champ que l'on a retenu ;
+- Ã©ventuellement calculer cette itÃ©ration pour contrÃ´ler les choix, mais ce n'est pas obligatoire ;
+- crÃ©er le schÃ©ma basÃ© sur ce cas.
 
-Lancer le schéma
+Lancer le schÃ©ma
 ================
-Le schéma est écrit dans le fichier ``schema.xml`` dans le répertoire lié au cas qui en est le support. Ce fichier peut être déplacé sans problème. On peut modifier les paramètres de contrôle par défaut de la boucle de l'alternance (calcul/adaptation).
+Le schÃ©ma est Ã©crit dans le fichier ``schema.xml`` dans le rÃ©pertoire liÃ© au cas qui en est le support. Ce fichier peut Ãªtre dÃ©placÃ© sans problÃ¨me. On peut modifier les paramÃ¨tres de contrÃ´le par dÃ©faut de la boucle de l'alternance (calcul/adaptation).
 
-On active alors le module YACS, on importe le schéma et on l'exécute.
+On active alors le module YACS, on importe le schÃ©ma et on l'exÃ©cute.
 
 
 

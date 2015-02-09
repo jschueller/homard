@@ -1,10 +1,10 @@
 Mode d'emploi pour TUI
 ######################
 
-Mode d'emploi de la saisie des données
+Mode d'emploi de la saisie des donnÃ©es
 **************************************
 
-Le module HOMARD peut se lancer à partir d'instructions python. On trouvera ici la description de chacune des fonctions accessibles par l'utilisateur.
+Le module HOMARD peut se lancer Ã  partir d'instructions python. On trouvera ici la description de chacune des fonctions accessibles par l'utilisateur.
 
 .. toctree::
    :maxdepth: 2
@@ -17,10 +17,10 @@ Le module HOMARD peut se lancer à partir d'instructions python. On trouvera ici 
    tui_homard
    tui_create_yacs
 
-Préférences
+PrÃ©fÃ©rences
 ***********
 
-Un certain nombre de choix par défaut pour le module HOMARD sont définis dans les préférences.
+Un certain nombre de choix par dÃ©faut pour le module HOMARD sont dÃ©finis dans les prÃ©fÃ©rences.
 
 .. toctree::
    :maxdepth: 2

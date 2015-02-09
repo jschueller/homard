@@ -3,7 +3,7 @@
 The boundary
 ############
 .. index:: single: boundary
-.. index:: single: frontière
+.. index:: single: frontiÃ¨re
 
 The object boundary contains all the geometrical definitions allowing to describe a curved boundary to be followed.
 

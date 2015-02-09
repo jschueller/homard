@@ -1,55 +1,55 @@
 .. _gui_create_yacs:
 
-Le schéma YACS
+Le schÃ©ma YACS
 ##############
 .. index:: single: YACS
 .. index:: single: cas
 
-L'objet YACS contient toutes les définitions permettant de créer un schéma. Ce schéma va piloter l'alternance d'un calcul représentant une modélisation physique sur un maillage et l'adaptation de ce maillage de calcul. Cette alternance est piloté par des critères de convergence.
+L'objet YACS contient toutes les dÃ©finitions permettant de crÃ©er un schÃ©ma. Ce schÃ©ma va piloter l'alternance d'un calcul reprÃ©sentant une modÃ©lisation physique sur un maillage et l'adaptation de ce maillage de calcul. Cette alternance est pilotÃ© par des critÃ¨res de convergence.
 
 .. note::
-  Pour avoir une description détaillée de chacune des rubriques formant le schéma, consulter :ref:`yacs`
+  Pour avoir une description dÃ©taillÃ©e de chacune des rubriques formant le schÃ©ma, consulter :ref:`yacs`
 
-Procédure à employer
+ProcÃ©dure Ã  employer
 ********************
-La création automatique du schéma va se faire en trois phases :
+La crÃ©ation automatique du schÃ©ma va se faire en trois phases :
 
-- Au départ, il faut avoir fait un calcul sur un tout premier maillage. Ce calcul aura produit des résultats dans un fichier MED.
-- Ensuite, on crée un cas dans le module HOMARD, tel qu'il est décrit dans :ref:`gui_create_case`. Dans ce cas, on crée une itération suivante du maillage en définissant une hypothèse d'adaptation ; voir :ref:`gui_create_iteration`.
-- Enfin, de ce cas, on va créer le schéma qui se basera sur l'hypothèse d'adapation définie.
+- Au dÃ©part, il faut avoir fait un calcul sur un tout premier maillage. Ce calcul aura produit des rÃ©sultats dans un fichier MED.
+- Ensuite, on crÃ©e un cas dans le module HOMARD, tel qu'il est dÃ©crit dans :ref:`gui_create_case`. Dans ce cas, on crÃ©e une itÃ©ration suivante du maillage en dÃ©finissant une hypothÃ¨se d'adaptation ; voir :ref:`gui_create_iteration`.
+- Enfin, de ce cas, on va crÃ©er le schÃ©ma qui se basera sur l'hypothÃ¨se d'adapation dÃ©finie.
 
 
 .. image:: images/create_yacs_01.png
    :align: center
-   :alt: yacs - création
+   :alt: yacs - crÃ©ation
    :width: 551
    :height: 295
 
-Nom du schéma
+Nom du schÃ©ma
 *************
-Un nom de schéma est proposé automatiquement : YACS_1, YACS_2, etc. Ce nom peut être modifié. Il ne doit pas avoir été déjà utilisé pour un autre schéma.
+Un nom de schÃ©ma est proposÃ© automatiquement : YACS_1, YACS_2, etc. Ce nom peut Ãªtre modifiÃ©. Il ne doit pas avoir Ã©tÃ© dÃ©jÃ  utilisÃ© pour un autre schÃ©ma.
 
 Le script
 *********
 
-Le fichier contenant le script qui permet de lancer le calcul lié à la modélisation physique est fourni ici. C'est un script python qui doit respecter les règles suivantes :
+Le fichier contenant le script qui permet de lancer le calcul liÃ© Ã  la modÃ©lisation physique est fourni ici. C'est un script python qui doit respecter les rÃ¨gles suivantes :
 
-- le nom de la classe qui gère le calcul est ``Script``
-- le lancement du calcul se fait par la méthode ``Compute()``
-- le résultat du calcul est sous la forme de trois variables : le code d'erreur, un message, un dictionnaire python.
+- le nom de la classe qui gÃ¨re le calcul est ``Script``
+- le lancement du calcul se fait par la mÃ©thode ``Compute()``
+- le rÃ©sultat du calcul est sous la forme de trois variables : le code d'erreur, un message, un dictionnaire python.
 
-S'ils sont nécessaires à la création de la classe, on peut passer des arguments sous la forme :
+S'ils sont nÃ©cessaires Ã  la crÃ©ation de la classe, on peut passer des arguments sous la forme :
 
-- ``--rep_calc=rep_calc``, où ``rep_calc`` est le répertoire de calcul
-- ``--num=num``, où ``num`` est le numéro du calcul  : 0 pour le tout premier, puis 1, 2 etc.
-- ``--mesh_file=meshfile``, où ``meshfile`` est le fichier contenant le maillage sur lequel calculer.
+- ``--rep_calc=rep_calc``, oÃ¹ ``rep_calc`` est le rÃ©pertoire de calcul
+- ``--num=num``, oÃ¹ ``num`` est le numÃ©ro du calcul  : 0 pour le tout premier, puis 1, 2 etc.
+- ``--mesh_file=meshfile``, oÃ¹ ``meshfile`` est le fichier contenant le maillage sur lequel calculer.
 - ``-v``, pour des messages
 
 Les arguments de retour :
 
 - ``erreur`` : le code d'erreur, entier : 0 si le calcul est correct, non nul sinon
-- ``message`` : un éventuel message d'information sur le calcul
-- ``dico_resu`` : un dictionnaire python qui comprend a minima les deux clés suivantes : ``FileName`` est la clé pour le nom du fichier MED qui contient les résultats du calcul, ``V_TEST`` est la clé pour la valeur réelle à tester.
+- ``message`` : un Ã©ventuel message d'information sur le calcul
+- ``dico_resu`` : un dictionnaire python qui comprend a minima les deux clÃ©s suivantes : ``FileName`` est la clÃ© pour le nom du fichier MED qui contient les rÃ©sultats du calcul, ``V_TEST`` est la clÃ© pour la valeur rÃ©elle Ã  tester.
 
 
 Exemple d'usage du script :
@@ -61,68 +61,68 @@ Exemple d'usage du script :
     Script_A = Script(argu)
     erreur, message, dico_resu = Script_A.compute ()
 
-Le répertoire
+Le rÃ©pertoire
 *************
-Le répertoire est celui qui contiend les fichiers produits par le calcul. Par défaut, rien n'est proposé. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
+Le rÃ©pertoire est celui qui contiend les fichiers produits par le calcul. Par dÃ©faut, rien n'est proposÃ©. Le choix est fait, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
 
 Le maillage initial
 *******************
-Le maillage initial doit se trouver dans un fichier au format MED. C'est celui qui est le point de départ du tout premier calcul. Le nom du fichier peut être fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
+Le maillage initial doit se trouver dans un fichier au format MED. C'est celui qui est le point de dÃ©part du tout premier calcul. Le nom du fichier peut Ãªtre fourni, soit en tapant le nom dans la zone de texte, soit en activant la fonction de recherche.
 
 
-Le type de schéma
+Le type de schÃ©ma
 *****************
-Plusieurs types de schéma sont proposés : constant ou variable.
+Plusieurs types de schÃ©ma sont proposÃ©s : constant ou variable.
 
-L'option par défaut, 'constant', alterne le lancement d'un calcul qui est toujours le même et une adaptation de maillage : d'un calcul à l'autre, la seule chose qui change est le maillage. Tout le reste est identique. Par exemple, dans le cas où le calcul modéliserait un transitoire, c'est toujours l'intégralité du transitoire qui est prise en compte.
+L'option par dÃ©faut, 'constant', alterne le lancement d'un calcul qui est toujours le mÃªme et une adaptation de maillage : d'un calcul Ã  l'autre, la seule chose qui change est le maillage. Tout le reste est identique. Par exemple, dans le cas oÃ¹ le calcul modÃ©liserait un transitoire, c'est toujours l'intÃ©gralitÃ© du transitoire qui est prise en compte.
 
 L'option 'variable' est inactive aujourd'hui.
 
-Enregistrement du schéma
+Enregistrement du schÃ©ma
 ************************
-Par défaut, le schéma produit est écrit dans le fichier ``schema.xml`` dans le répertoire lié au cas qui en est le support. Si on a détruit le fichier, on peut le recréer en activant la fonction **Ecrire le fichier** à la souris.
+Par dÃ©faut, le schÃ©ma produit est Ã©crit dans le fichier ``schema.xml`` dans le rÃ©pertoire liÃ© au cas qui en est le support. Si on a dÃ©truit le fichier, on peut le recrÃ©er en activant la fonction **Ecrire le fichier** Ã  la souris.
 
-L'arbre d'étude
+L'arbre d'Ã©tude
 ***************
-.. index:: single: arbre d'étude
+.. index:: single: arbre d'Ã©tude
 
-A l'issue de cette création de schéma, l'arbre d'études a été enrichi. On y trouve tous les schémas créés, identifiés par leur nom, avec la possibilité de les éditer. Sous chaque référence de schéma, on trouve le lien avec le cas qui en est le support ainsi que le fichier `xml` qui a été créé. On peut lire ce fichier.
+A l'issue de cette crÃ©ation de schÃ©ma, l'arbre d'Ã©tudes a Ã©tÃ© enrichi. On y trouve tous les schÃ©mas crÃ©Ã©s, identifiÃ©s par leur nom, avec la possibilitÃ© de les Ã©diter. Sous chaque rÃ©fÃ©rence de schÃ©ma, on trouve le lien avec le cas qui en est le support ainsi que le fichier `xml` qui a Ã©tÃ© crÃ©Ã©. On peut lire ce fichier.
 
 .. image:: images/create_yacs_1.png
    :align: center
 
-Méthodes python correspondantes
+MÃ©thodes python correspondantes
 *******************************
 Consulter :ref:`tui_create_yacs`
 
-Utilisation du schéma
+Utilisation du schÃ©ma
 #####################
 
-Le schéma produit par cette saisie est directement importable dans le module YACS. Il peut se lancer sans modification. Dans ce cas, l'arrêt dans la boucle a lieu ainsi :
+Le schÃ©ma produit par cette saisie est directement importable dans le module YACS. Il peut se lancer sans modification. Dans ce cas, l'arrÃªt dans la boucle a lieu ainsi :
 
-- soit on a atteint le nombre maximal d'itérations dans la boucle d'alternance (calcul,adaptation) ;
+- soit on a atteint le nombre maximal d'itÃ©rations dans la boucle d'alternance (calcul,adaptation) ;
 - soit le test de convergence sur la variable ``V_TEST`` est satisfait.
 
-Par défaut le nombre maximal d'itérations est fixé à 5 et le test de convergence est satisfait si la variable bouge de moins de 1 pour mille en valeur relative entre deux itérations successives. On peut évidemment modifier ces tests.
+Par dÃ©faut le nombre maximal d'itÃ©rations est fixÃ© Ã  5 et le test de convergence est satisfait si la variable bouge de moins de 1 pour mille en valeur relative entre deux itÃ©rations successives. On peut Ã©videmment modifier ces tests.
 
-Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décrit dans :ref:`yacs`.
+Ces tests sont rÃ©alisÃ©s dans le noeud python "Analyse" du schÃ©ma, comme dÃ©crit dans :ref:`yacs`.
 
-Le nombre maximal d'itérations est modifiable par la variable `NbCalcMax` :
+Le nombre maximal d'itÃ©rations est modifiable par la variable `NbCalcMax` :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 112-112
 
-La valeur de test est stockée dans une liste au fur et à mesure des passages :
+La valeur de test est stockÃ©e dans une liste au fur et Ã  mesure des passages :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 137-141
 
-et le test a lieu à partir du deuxième passage :
+et le test a lieu Ã  partir du deuxiÃ¨me passage :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 143-148
 
-Si on veut remplacer ce test par un autre, c'est ici qu'il faut le faire. Il faut simplement conserver le contenu produit à la convergence pour assurer la bonne marche de la suite du schéma :
+Si on veut remplacer ce test par un autre, c'est ici qu'il faut le faire. Il faut simplement conserver le contenu produit Ã  la convergence pour assurer la bonne marche de la suite du schÃ©ma :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 146-148
@@ -131,7 +131,7 @@ Exemples
 ########
 .. index:: single: Code_Aster
 
-Un mode d'emploi associé à la création de schéma avec *Code_Aster* est disponible en consultant : :ref:`gui_create_yacs_aster`.
+Un mode d'emploi associÃ© Ã  la crÃ©ation de schÃ©ma avec *Code_Aster* est disponible en consultant : :ref:`gui_create_yacs_aster`.
 
 
 

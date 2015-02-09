@@ -28,9 +28,9 @@ These methods returns an instance of the class zone.
 |     after its creation                                                           |
 |                                                                                  |
 |     - ``zone_name``: the name of the zone based on a box                         |
-|     - ``Xmin``, ``Xmax``: min/max coordinates extrêmes along X                   |
-|     - ``Ymin``, ``Ymax``: min/max coordinates extrêmes along Y                   |
-|     - ``Zmin``, ``Zmax``: min/max coordinates extrêmes along Z                   |
+|     - ``Xmin``, ``Xmax``: min/max coordinates extrÃªmes along X                   |
+|     - ``Ymin``, ``Ymax``: min/max coordinates extrÃªmes along Y                   |
+|     - ``Zmin``, ``Zmax``: min/max coordinates extrÃªmes along Z                   |
 +----------------------------------------------------------------------------------+
 | .. module:: CreateZoneCylinder                                                   |
 |                                                                                  |

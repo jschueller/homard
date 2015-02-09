@@ -65,4 +65,8 @@ SALOME VERSION 7.4 :
     - If an error occurs, the name of the message file is displayed.
     - Release 11.1 for the HOMARD binary. The conformal refinement of the meshes with hexaedra is improved: less meshes are produced.
 
+SALOME VERSION 7.5 :
+    - Additional extra output: diameters and qualities; the function ``SetExtraOutput(option)`` is now used (see :ref:`tui_create_hypothese`).
+    - Release 11.2 for the HOMARD binary ; improvement for the 1D curve boundaries.
+
 

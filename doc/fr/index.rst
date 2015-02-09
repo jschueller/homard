@@ -21,7 +21,7 @@ Mode d'emploi
    yacs
    tutorials
 
-Présentation générale
+PrÃ©sentation gÃ©nÃ©rale
 *********************
 
 .. toctree::
@@ -35,11 +35,11 @@ Licence
 *******
 .. index:: single: Licence
 
-La licence pour ce module est la GNU Lesser General Public License (Lesser GPL), tel qu'il est déclaré ici et dans les fichiers source.
+La licence pour ce module est la GNU Lesser General Public License (Lesser GPL), tel qu'il est dÃ©clarÃ© ici et dans les fichiers source.
 
 .. literalinclude:: ../files/licence.fr.txt
 
-En complément, nous souhaitons que toute publication décrivant un travail utilisant ce module, ou tout produit commercial l'utilisant, cite au moins l'une des références ci-dessous :
+En complÃ©ment, nous souhaitons que toute publication dÃ©crivant un travail utilisant ce module, ou tout produit commercial l'utilisant, cite au moins l'une des rÃ©fÃ©rences ci-dessous :
 
     * G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, *Finite
       Elements in Analysis and Design*, Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
@@ -60,4 +60,4 @@ Index et tables
 * :ref:`search`
 * :ref:`glossaire`
 
-*HOMARD est une marque déposée d'EDF.*
+*HOMARD est une marque dÃ©posÃ©e d'EDF.*

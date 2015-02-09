@@ -54,9 +54,9 @@ import HOMARD_Hypothesis_idl
 import HOMARD_Zone_idl
 import HOMARD_Boundary_idl
 
-clt = orbmodule.client()
-StudyManager = clt.Resolve("/myStudyManager")
-CurrentStudy = StudyManager.GetStudyByID(1)
+import salome
+salome.salome_init()
+CurrentStudy = salome.myStudy
 ]]></code></script>
          <outport name="CurrentStudy" type="Study"/>
       </inline>

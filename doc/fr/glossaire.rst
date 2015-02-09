@@ -7,31 +7,32 @@ Glossaire
    :sorted:
 
    raffinement
-      Le raffinement est une opération consistant à découper les mailles sélectionnées.
+      Le raffinement est une opÃ©ration consistant Ã  dÃ©couper les mailles sÃ©lectionnÃ©es.
 
    niveau
-      Le niveau d'une maille est le nombre de découpages qu'il a fallu pour l'obtenir. Les mailles du maillage initial sont du niveau 0 par convention.
+      Le niveau d'une maille est le nombre de dÃ©coupages qu'il a fallu pour l'obtenir. Les mailles du maillage initial sont du niveau 0 par convention.
 
-   déraffinement
-      Le déraffinement est une opération consistant à supprimer des mailles. Il s'agit en fait d'annuler un précédent découpage : on ne reviendra jamais 'plus haut' que le maillage initial.
+   dÃ©raffinement
+      Le dÃ©raffinement est une opÃ©ration consistant Ã  supprimer des mailles. Il s'agit en fait d'annuler un prÃ©cÃ©dent dÃ©coupage : on ne reviendra jamais 'plus haut' que le maillage initial.
 
    zone
-      Une zone est une région qui définit un mode de pilotage de l'adaptation : toutes les mailles dont au moins une arête est dans une zone seront raffinées ou déraffinées selon le choix retenu.
+      Une zone est une rÃ©gion qui dÃ©finit un mode de pilotage de l'adaptation : toutes les mailles dont au moins une arÃªte est dans une zone seront raffinÃ©es ou dÃ©raffinÃ©es selon le choix retenu.
 
    cas
-      Un cas est défini par un maillage initial et une succession d'adaptations.
+      Un cas est dÃ©fini par un maillage initial et une succession d'adaptations.
 
    indicateur d'erreur
-      L'indicateur d'erreur est un champ exprimé sur les mailles du calcul. Il représente l'écart entre la solution réelle et la solution calculée.
+      L'indicateur d'erreur est un champ exprimÃ© sur les mailles du calcul. Il reprÃ©sente l'Ã©cart entre la solution rÃ©elle et la solution calculÃ©e.
 
-   itération
-      Une itération est le processus qui permet de passer d'un maillage à un autre au sein d'un cas. Une itération met en oeuvre du raffinement et/ou du déraffinement selon l'hypothèse qui lui est attachée.
+   itÃ©ration
+      Une itÃ©ration est le processus qui permet de passer d'un maillage Ã  un autre au sein d'un cas. Une itÃ©ration met en oeuvre du raffinement et/ou du dÃ©raffinement selon l'hypothÃ¨se qui lui est attachÃ©e.
 
-   hypothèse
-      Une hypothèse décrit les conditions de passage d'un maillage à un autre : raffinement et/ou déraffinement, mode de pilotage, etc. Une hypothèse est référencée par une ou plusieurs itérations.
+   hypothÃ¨se
+      Une hypothÃ¨se dÃ©crit les conditions de passage d'un maillage Ã  un autre : raffinement et/ou dÃ©raffinement, mode de pilotage, etc. Une hypothÃ¨se est rÃ©fÃ©rencÃ©e par une ou plusieurs itÃ©rations.
 
    champ
-      Un champ est exprimé sur un maillage, par noeud ou par maille, avec une ou plusieurs composantes. La valeur de ce champ pilote l'adaptation.
+      Un champ est exprimÃ© sur un maillage, par noeud ou par maille, avec une ou plusieurs composantes. La valeur de ce champ pilote l'adaptation.
+
 
    MED
-      C'est le format d'échange des maillages et des champs pour SALOME.
+      C'est le format d'Ã©change des maillages et des champs pour SALOME.

@@ -1,15 +1,15 @@
 .. _demarrage_rapide:
 
-Démarrage rapide
+DÃ©marrage rapide
 ################
-.. index:: single: démarrage
+.. index:: single: dÃ©marrage
 .. index:: single: exemple
 
-L'ensemble des options de pilotage du module HOMARD dans SALOME est décrit dans le :ref:`gui_usage`. Mais on trouvera ici le B.A. BA pour découvrir l'utilisation de HOMARD à partir d'un exemple simple.
+L'ensemble des options de pilotage du module HOMARD dans SALOME est dÃ©crit dans le :ref:`gui_usage`. Mais on trouvera ici le B.A. BA pour dÃ©couvrir l'utilisation de HOMARD Ã  partir d'un exemple simple.
 
-Imaginons que l'on a effectué un calcul de thermique sur un maillage donné. On a récupéré en sortie de ce calcul un fichier au format MED, contenant le maillage et le champ des températures aux noeuds. On aimerait adapter le maillage de telle sorte que l'écart de température entre deux noeuds voisins soit inférieur à une valeur donnée.
+Imaginons que l'on a effectuÃ© un calcul de thermique sur un maillage donnÃ©. On a rÃ©cupÃ©rÃ© en sortie de ce calcul un fichier au format MED, contenant le maillage et le champ des tempÃ©ratures aux noeuds. On aimerait adapter le maillage de telle sorte que l'Ã©cart de tempÃ©rature entre deux noeuds voisins soit infÃ©rieur Ã  une valeur donnÃ©e.
 
-La première action nécessite de lancer le module HOMARD, en créant une nouvelle étude, selon le principe qui a été retenu pour tous les autres modules de SALOME.
+La premiÃ¨re action nÃ©cessite de lancer le module HOMARD, en crÃ©ant une nouvelle Ã©tude, selon le principe qui a Ã©tÃ© retenu pour tous les autres modules de SALOME.
 
 .. image:: images/homard_1.png
    :align: center
@@ -17,7 +17,7 @@ La première action nécessite de lancer le module HOMARD, en créant une nouvelle 
    :width: 565
    :height: 154
 
-Une fois le module HOMARD activé, on crée un cas par le choix "*Nouveau cas*" dans le menu HOMARD.
+Une fois le module HOMARD activÃ©, on crÃ©e un cas par le choix "*Nouveau cas*" dans le menu HOMARD.
 
 .. image:: images/homard_2.png
    :align: center
@@ -25,7 +25,7 @@ Une fois le module HOMARD activé, on crée un cas par le choix "*Nouveau cas*" da
    :width: 378
    :height: 120
 
-La fenêtre suivante apparaît :
+La fenÃªtre suivante apparaÃ®t :
 
 .. image:: images/intro_31.png
    :align: center
@@ -33,7 +33,7 @@ La fenêtre suivante apparaît :
    :width: 554
    :height: 298
 
-Il faut fournir deux informations : le répertoire qui contiendra les fichiers produits par les adaptations successives et le fichier MED issu du calcul que l'on vient de faire. On valide par "Appliquer et fermer".
+Il faut fournir deux informations : le rÃ©pertoire qui contiendra les fichiers produits par les adaptations successives et le fichier MED issu du calcul que l'on vient de faire. On valide par "Appliquer et fermer".
 
 .. image:: images/intro_32.png
    :align: center
@@ -41,23 +41,23 @@ Il faut fournir deux informations : le répertoire qui contiendra les fichiers pr
    :width: 554
    :height: 298
 
-L'arbre d'études est enrichi de ce cas. On déplie le cas jusqu'à afficher le maillage correspondant à l'itération 0. On désigne cette itération initiale et on demande une nouvelle itération par "*Nouvelle itération*" dans le menu HOMARD ou à la souris.
+L'arbre d'Ã©tudes est enrichi de ce cas. On dÃ©plie le cas jusqu'Ã  afficher le maillage correspondant Ã  l'itÃ©ration 0. On dÃ©signe cette itÃ©ration initiale et on demande une nouvelle itÃ©ration par "*Nouvelle itÃ©ration*" dans le menu HOMARD ou Ã  la souris.
 
 .. image:: images/intro_331.png
    :align: center
-   :alt: Nouvelle itération
+   :alt: Nouvelle itÃ©ration
    :width: 324
    :height: 282
 
-La fenêtre suivante apparaît :
+La fenÃªtre suivante apparaÃ®t :
 
 .. image:: images/intro_33.png
    :align: center
-   :alt: Nouvelle itération - 2
+   :alt: Nouvelle itÃ©ration - 2
    :width: 649
    :height: 372
 
-On désigne le fichier issu du calcul que l'on vient de faire et qui contient le champ de température. C'est le même que celui qui a été donné dans la définition du cas.
+On dÃ©signe le fichier issu du calcul que l'on vient de faire et qui contient le champ de tempÃ©rature. C'est le mÃªme que celui qui a Ã©tÃ© donnÃ© dans la dÃ©finition du cas.
 
 .. image:: images/intro_34.png
    :align: center
@@ -65,7 +65,7 @@ On désigne le fichier issu du calcul que l'on vient de faire et qui contient le 
    :width: 624
    :height: 103
 
-On clique sur "Nouveau" dans la rubrique hypothèse. La fenêtre suivante apparaît :
+On clique sur "Nouveau" dans la rubrique hypothÃ¨se. La fenÃªtre suivante apparaÃ®t :
 
 .. image:: images/intro_35.png
    :align: center
@@ -73,39 +73,39 @@ On clique sur "Nouveau" dans la rubrique hypothèse. La fenêtre suivante apparaît
    :width: 769
    :height: 775
 
-On modifie les options par défaut pour correspondre à notre choix de pilotage de l'adaptation. La sélection d'un pilotage par les sauts entre éléments et d'un seuil absolu de 4.0 va demander le découpage de chaque arête de maille où le température varie de plus de 4.0 degrés entre les deux extrémités de l'arête.
+On modifie les options par dÃ©faut pour correspondre Ã  notre choix de pilotage de l'adaptation. La sÃ©lection d'un pilotage par les sauts entre Ã©lÃ©ments et d'un seuil absolu de 4.0 va demander le dÃ©coupage de chaque arÃªte de maille oÃ¹ le tempÃ©rature varie de plus de 4.0 degrÃ©s entre les deux extrÃ©mitÃ©s de l'arÃªte.
 
 .. image:: images/intro_36.png
    :align: center
    :alt: Fenetre
 
-On valide par "Appliquer et fermer" cette création d'hypothése, puis la création de la nouvelle itération. On se retrouve avec un arbre d'études enrichi avec la description de l'hypothèse créée et de l'itération à calculer, repérée par une icone "en attente".
+On valide par "Appliquer et fermer" cette crÃ©ation d'hypothÃ©se, puis la crÃ©ation de la nouvelle itÃ©ration. On se retrouve avec un arbre d'Ã©tudes enrichi avec la description de l'hypothÃ¨se crÃ©Ã©e et de l'itÃ©ration Ã  calculer, repÃ©rÃ©e par une icone "en attente".
 
-Lancer l'adaptation s'obtient en sélectionnant l'itération à calculer. On choisit ensuite "*Calculer*" dans le menu HOMARD ou à la souris. L'arbre d'études s'enrichit de fichiers d'informations et du nom du fichier au format MED qui contient le nouveau maillage, ``maill.01.med``. On remarque qu'il est placé dans le répertoire qui a été désigné à la création du cas.
+Lancer l'adaptation s'obtient en sÃ©lectionnant l'itÃ©ration Ã  calculer. On choisit ensuite "*Calculer*" dans le menu HOMARD ou Ã  la souris. L'arbre d'Ã©tudes s'enrichit de fichiers d'informations et du nom du fichier au format MED qui contient le nouveau maillage, ``maill.01.med``. On remarque qu'il est placÃ© dans le rÃ©pertoire qui a Ã©tÃ© dÃ©signÃ© Ã  la crÃ©ation du cas.
 
 .. image:: images/intro_37.png
    :align: center
    :alt: Fenetre
 
-A ce stade, on va utiliser ce nouveau maillage pour un deuxième calcul, dans les mêmes conditions que le premier. Une fois que ce nouveau calcul est achevé, on peut décider de poursuivre le processus d'adaptation. Pour cela on revient dans SALOME et on active le module HOMARD. On désigne l'itération que l'avait calculée précédemment "*Iter_1*" et on demande une nouvelle itération. La fenêtre suivante apparaît :
+A ce stade, on va utiliser ce nouveau maillage pour un deuxiÃ¨me calcul, dans les mÃªmes conditions que le premier. Une fois que ce nouveau calcul est achevÃ©, on peut dÃ©cider de poursuivre le processus d'adaptation. Pour cela on revient dans SALOME et on active le module HOMARD. On dÃ©signe l'itÃ©ration que l'avait calculÃ©e prÃ©cÃ©demment "*Iter_1*" et on demande une nouvelle itÃ©ration. La fenÃªtre suivante apparaÃ®t :
 
 .. image:: images/intro_38.png
    :align: center
    :alt: Fenetre
 
-Comme on continue l'adaptation avec le même critère de saut de température entre noeuds voisins, on garde l'hypothèse "*Hypo_1*". Il suffit de désigner le fichier issu du calcul que l'on vient de faire et qui contient le nouveau champ de température.
+Comme on continue l'adaptation avec le mÃªme critÃ¨re de saut de tempÃ©rature entre noeuds voisins, on garde l'hypothÃ¨se "*Hypo_1*". Il suffit de dÃ©signer le fichier issu du calcul que l'on vient de faire et qui contient le nouveau champ de tempÃ©rature.
 
 .. image:: images/intro_39.png
    :align: center
    :alt: Fenetre
 
-Comme précédemment, on lance l'adaptation et on récupère les résultats dans le répertoire du cas, dont le maillage ``maill.02.med``.
+Comme prÃ©cÃ©demment, on lance l'adaptation et on rÃ©cupÃ¨re les rÃ©sultats dans le rÃ©pertoire du cas, dont le maillage ``maill.02.med``.
 
 .. image:: ../images/intro_40.png
    :align: center
    :alt: Fenetre
 
-On peut alors lancer un nouveau calcul sur ce nouveau maillage et poursuiver cette alternance calcul/adaptation jusqu'à l'obtention du résultat attendu.
+On peut alors lancer un nouveau calcul sur ce nouveau maillage et poursuiver cette alternance calcul/adaptation jusqu'Ã  l'obtention du rÃ©sultat attendu.
 
 
 

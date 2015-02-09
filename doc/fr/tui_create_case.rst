@@ -3,15 +3,15 @@
 Le cas
 ######
 .. index:: single: cas
-.. index:: single: type de conformité
+.. index:: single: type de conformitÃ©
 .. index:: single: maillage;initial
 
-Les variables sont décrites dans :ref:`gui_create_case`.
+Les variables sont dÃ©crites dans :ref:`gui_create_case`.
 
-Méthodes de la classe homard
+MÃ©thodes de la classe homard
 ****************************
 
-Création d'un cas
+CrÃ©ation d'un cas
 =================
 
 +---------------------------------------------------------------+
@@ -19,17 +19,17 @@ Création d'un cas
 | .. module:: CreateCase                                        |
 |                                                               |
 | **CreateCase(case_name, mesh_name, mesh_file)**               |
-|     Retourne une instance de la classe ``cas`` après sa       |
-|     création                                                  |
+|     Retourne une instance de la classe ``cas`` aprÃ¨s sa       |
+|     crÃ©ation                                                  |
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
 |     - ``mesh_name`` : le nom du maillage initial              |
 |     - ``mesh_file`` : le nom du fichier MED contenant ce      |
 |       ce maillage                                             |
 |                                                               |
-| Par défaut :                                                  |
+| Par dÃ©faut :                                                  |
 |                                                               |
-|  * le répertoire des résultats est ``/tmp``                   |
+|  * le rÃ©pertoire des rÃ©sultats est ``/tmp``                   |
 |  * l'adaptation est conforme                                  |
 +---------------------------------------------------------------+
 | .. module:: GetCase                                           |
@@ -47,7 +47,7 @@ Création d'un cas
 |                                                               |
 +---------------------------------------------------------------+
 
-Création d'un cas par poursuite d'une itération calculée
+CrÃ©ation d'un cas par poursuite d'une itÃ©ration calculÃ©e
 ========================================================
 
 +---------------------------------------------------------------+
@@ -55,41 +55,41 @@ Création d'un cas par poursuite d'une itération calculée
 | .. module:: CreateCaseFromIteration                           |
 |                                                               |
 | **CreateCaseFromIteration(case_name, dir_name)**              |
-|     Retourne une instance de la classe ``cas`` après sa       |
-|     création                                                  |
+|     Retourne une instance de la classe ``cas`` aprÃ¨s sa       |
+|     crÃ©ation                                                  |
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
-|       l'itération à poursuivre                                |
+|     - ``dir_name``  : le nom du rÃ©pertoire contenant          |
+|       l'itÃ©ration Ã  poursuivre                                |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseLastIteration                   |
 |                                                               |
 | **CreateCaseFromCaseLastIteration(case_name, dir_name)**      |
-|     Retourne une instance de la classe ``cas`` après sa       |
-|     création                                                  |
+|     Retourne une instance de la classe ``cas`` aprÃ¨s sa       |
+|     crÃ©ation                                                  |
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
-|       le cas à poursuivre                                     |
+|     - ``dir_name``  : le nom du rÃ©pertoire contenant          |
+|       le cas Ã  poursuivre                                     |
 |                                                               |
 +---------------------------------------------------------------+
 | .. module:: CreateCaseFromCaseIteration                       |
 |                                                               |
 | **CreateCaseFromCaseIteration(case_name, dir_name, number)**  |
-|     Retourne une instance de la classe ``cas`` après sa       |
-|     création                                                  |
+|     Retourne une instance de la classe ``cas`` aprÃ¨s sa       |
+|     crÃ©ation                                                  |
 |                                                               |
 |     - ``case_name`` : le nom du cas                           |
-|     - ``dir_name``  : le nom du répertoire contenant          |
-|       le cas à poursuivre                                     |
-|     - ``number`` : le numéro de l'itération du cas            |
+|     - ``dir_name``  : le nom du rÃ©pertoire contenant          |
+|       le cas Ã  poursuivre                                     |
+|     - ``number`` : le numÃ©ro de l'itÃ©ration du cas            |
 |                                                               |
 +---------------------------------------------------------------+
 
 
 
-Méthodes de la classe cas
+MÃ©thodes de la classe cas
 *************************
 .. index:: single: YACS
 
@@ -103,23 +103,23 @@ Méthodes de la classe cas
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dirname)**                                       |
-|     Affecte le répertoire des résutats associé au cas. Cela ne|
-|     peut se faire qu'après la création du cas et avant le     |
+|     Affecte le rÃ©pertoire des rÃ©sutats associÃ© au cas. Cela ne|
+|     peut se faire qu'aprÃ¨s la crÃ©ation du cas et avant le     |
 |     premier calcul.                                           |
 |                                                               |
-|     - ``dirname`` : le nom du répertoire des résutats         |
+|     - ``dirname`` : le nom du rÃ©pertoire des rÃ©sutats         |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé au cas |
+|     Retourne le nom du rÃ©pertoire des rÃ©sutats associÃ© au cas |
 +---------------------------------------------------------------+
 | .. module:: SetConfType                                       |
 |                                                               |
 | **SetConfType(conf_type)**                                    |
-|     Définit le mode de conformité associé au cas              |
+|     DÃ©finit le mode de conformitÃ© associÃ© au cas              |
 |                                                               |
-|     - ``conf_type`` : entier précisant le mode de conformité  |
+|     - ``conf_type`` : entier prÃ©cisant le mode de conformitÃ©  |
 |                                                               |
 |         * 1 : conforme                                        |
 |         * 2 : non conforme avec 1 noeud par maille            |
@@ -129,75 +129,75 @@ Méthodes de la classe cas
 | .. module:: GetConfType                                       |
 |                                                               |
 | **GetConfType()**                                             |
-|     Retourne le type de conformité                            |
+|     Retourne le type de conformitÃ©                            |
 +---------------------------------------------------------------+
 | .. module:: GetIter0                                          |
 |                                                               |
 | **GetIter0()**                                                |
-|     Retourne l'itération associée au maillage initial.        |
-|     Cette itération est créée automatiquement par le module   |
-|     HOMARD et est utilisée pour enchaîner les adaptations.    |
-|     Elle correspond à un maillage initial ou à une itération  |
-|     de poursuite d'un cas précédent.                          |
+|     Retourne l'itÃ©ration associÃ©e au maillage initial.        |
+|     Cette itÃ©ration est crÃ©Ã©e automatiquement par le module   |
+|     HOMARD et est utilisÃ©e pour enchaÃ®ner les adaptations.    |
+|     Elle correspond Ã  un maillage initial ou Ã  une itÃ©ration  |
+|     de poursuite d'un cas prÃ©cÃ©dent.                          |
 +---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
 | **AddBoundaryGroup(boundary, group)**                         |
-|     Ajoute une frontière à la définition du cas               |
+|     Ajoute une frontiÃ¨re Ã  la dÃ©finition du cas               |
 |                                                               |
-|     - ``boundary`` : nom d'une frontière courbe à suivre      |
+|     - ``boundary`` : nom d'une frontiÃ¨re courbe Ã  suivre      |
 |                                                               |
-|     Pour une frontière discrète :                             |
+|     Pour une frontiÃ¨re discrÃ¨te :                             |
 |                                                               |
 |     . si toutes les lignes courbes sont suivies, le second    |
-|       argument est une chaîne vide.                           |
+|       argument est une chaÃ®ne vide.                           |
 |     . si seulement certaines lignes courbes sont suivies,     |
-|       ``group`` est le nom d'un groupe de segments à suivre.  |
+|       ``group`` est le nom d'un groupe de segments Ã  suivre.  |
 |                                                               |
-|     Pour une frontière analytique :                           |
+|     Pour une frontiÃ¨re analytique :                           |
 |                                                               |
-|     - ``group`` : nom d'un groupe de faces placées sur la     |
-|       frontière                                               |
+|     - ``group`` : nom d'un groupe de faces placÃ©es sur la     |
+|       frontiÃ¨re                                               |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete(option)**                                            |
-|     Detruit le cas et toutes les itérations associées. Le     |
-|     fichier du maillage initial associé est conservé.         |
+|     Detruit le cas et toutes les itÃ©rations associÃ©es. Le     |
+|     fichier du maillage initial associÃ© est conservÃ©.         |
 |                                                               |
-|     - ``option`` : un entier précisant ce qui est fait des    |
-|       fichiers de maillage associés                           |
+|     - ``option`` : un entier prÃ©cisant ce qui est fait des    |
+|       fichiers de maillage associÃ©s                           |
 |                                                               |
-|         * 0 : les fichiers sont conservés                     |
-|         * 1 : les fichiers sont supprimés                     |
+|         * 0 : les fichiers sont conservÃ©s                     |
+|         * 1 : les fichiers sont supprimÃ©s                     |
 |                                                               |
 |     Retourne un entier :                                      |
-|         * 0 : destruction réussie                             |
-|         * autre valeur : problème                             |
+|         * 0 : destruction rÃ©ussie                             |
+|         * autre valeur : problÃ¨me                             |
 +---------------------------------------------------------------+
 | .. module:: GetState                                          |
 |                                                               |
 | **GetState()**                                                |
-|     Retourne l'état du cas :                                  |
-|         * 0 : correspond à un maillage initial                |
-|         * autre valeur : poursuite d'une itération de numéro n|
+|     Retourne l'Ã©tat du cas :                                  |
+|         * 0 : correspond Ã  un maillage initial                |
+|         * autre valeur : poursuite d'une itÃ©ration de numÃ©ro n|
 +---------------------------------------------------------------+
 | .. module:: CreateYACSSchema                                  |
 |                                                               |
 | **CreateYACSSchema(yacs_name, ScriptFile, DirName, MeshFile)**|
-|     Retourne une instance de la classe ``yacs`` après sa      |
-|     création                                                  |
+|     Retourne une instance de la classe ``yacs`` aprÃ¨s sa      |
+|     crÃ©ation                                                  |
 |                                                               |
-|     - ``yacs_name`` : le nom du schéma                        |
+|     - ``yacs_name`` : le nom du schÃ©ma                        |
 |     - ``ScriptFile`` : le fichier du script python qui permet |
-|       de lancer le calcul à coupler avec l'adaptation de      |
+|       de lancer le calcul Ã  coupler avec l'adaptation de      |
 |       maillage                                                |
-|     - ``DirName`` : le répertoire où a lieu le calcul         |
+|     - ``DirName`` : le rÃ©pertoire oÃ¹ a lieu le calcul         |
 |     - ``MeshFile`` : le fichier MED contenant le tout premier |
 |       maillage de calcul                                      |
 +---------------------------------------------------------------+
 
-Les options avancées
+Les options avancÃ©es
 ====================
 
 +---------------------------------------------------------------+
@@ -205,19 +205,19 @@ Les options avancées
 | .. module:: SetPyram                                          |
 |                                                               |
 | **SetPyram(option)**                                          |
-|     Définit le statut des pyramides pour le cas               |
+|     DÃ©finit le statut des pyramides pour le cas               |
 |                                                               |
-|     - ``option`` : entier précisant le statut des pyramides   |
-|       éventuellement présentes dans le maillage initial       |
+|     - ``option`` : entier prÃ©cisant le statut des pyramides   |
+|       Ã©ventuellement prÃ©sentes dans le maillage initial       |
 |                                                               |
-|         * 0 : pyramides refusées (défaut)                     |
-|         * 1 : pyramides autorisées                            |
+|         * 0 : pyramides refusÃ©es (dÃ©faut)                     |
+|         * 1 : pyramides autorisÃ©es                            |
 +---------------------------------------------------------------+
 | .. module:: GetPyram                                          |
 |                                                               |
 | **GetPyram()**                                                |
-|     Retourne le statut accordé aux pyramides éventuellement   |
-|     présentes dans le maillage initial                        |
+|     Retourne le statut accordÃ© aux pyramides Ã©ventuellement   |
+|     prÃ©sentes dans le maillage initial                        |
 +---------------------------------------------------------------+
 
 Informations sur le maillage initial
@@ -229,22 +229,22 @@ Informations sur le maillage initial
 |                                                               |
 | **MeshInfo(Qual, Diam, Conn, Tail, Inte)**                    |
 |     Donne des informations sur le maillage. Pour chaque       |
-|     option, le choix 0 correspond à ne rien faire, alors que  |
+|     option, le choix 0 correspond Ã  ne rien faire, alors que  |
 |     le choix 1 active l'option.                               |
 |                                                               |
-|     - ``Qual`` : qualité des mailles                          |
-|     - ``Diam`` : diamètre des mailles                         |
-|     - ``Conn`` : connexité du domaine ; en un seul morceau,   |
+|     - ``Qual`` : qualitÃ© des mailles                          |
+|     - ``Diam`` : diamÃ¨tre des mailles                         |
+|     - ``Conn`` : connexitÃ© du domaine ; en un seul morceau,   |
 |       combien de trous, etc.                                  |
 |     - ``Tail`` : tailles des constituants du domaine, groupe  |
 |       par groupe                                              |
-|     - ``Inte`` : interpénétration des mailles, par dimension  |
+|     - ``Inte`` : interpÃ©nÃ©tration des mailles, par dimension  |
 +---------------------------------------------------------------+
 
 
 Exemple
 *******
-La création de l'objet case_1 se fait ainsi : ::
+La crÃ©ation de l'objet case_1 se fait ainsi : ::
 
     case_name = "CAS_1"
     mesh_name = "MAILL"
