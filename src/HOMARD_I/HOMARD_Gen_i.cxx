@@ -117,7 +117,7 @@ HOMARD_Gen_i::~HOMARD_Gen_i()
 }
 //=============================================================================
 //=============================================================================
-// Utilitaires pour l'étude
+// Utilitaires pour l'Ã©tude
 //=============================================================================
 //=============================================================================
 void HOMARD_Gen_i::addInStudy(SALOMEDS::Study_ptr theStudy)
@@ -1322,13 +1322,13 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   char* MeshFile ;
   // le constructeur de ifstream permet d'ouvrir un fichier en lecture
   std::ifstream fichier( file_configuration.c_str() );
-  if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+  if ( fichier ) // ce test Ã©choue si le fichier n'est pas ouvert
   {
     std::string ligne; // variable contenant chaque ligne lue
     std::string mot_cle;
     std::string argument;
     int decalage;
-    // cette boucle sur les lignes s'arrête dès qu'une erreur de lecture survient
+    // cette boucle sur les lignes s'arrÃªte dÃ¨s qu'une erreur de lecture survient
     while ( std::getline( fichier, ligne ) )
     {
       // B.1. Pour la ligne courante, on identifie le premier mot : le mot-cle
@@ -1567,12 +1567,12 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
             CHDIR(DirName_1.c_str()) ;
 
             std::ifstream fichier( file_name_1.c_str() );
-            if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+            if ( fichier ) // ce test Ã©choue si le fichier n'est pas ouvert
             {
               int NumeIter ;
               std::string ligne; // variable contenant chaque ligne lue
               std::string mot_cle;
-              // cette boucle sur les lignes s'arrête dès qu'une erreur de lecture survient
+              // cette boucle sur les lignes s'arrÃªte dÃ¨s qu'une erreur de lecture survient
               while ( std::getline( fichier, ligne ) )
               {
                 // B.1. Pour la ligne courante, on identifie le premier mot : le mot-cle
@@ -2602,7 +2602,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
         text = "Error during the adaptation.\n" ;
         bool stopvu = false ;
         std::ifstream fichier( LogFile.c_str() );
-        if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+        if ( fichier ) // ce test Ã©choue si le fichier n'est pas ouvert
         {
           std::string ligne; // variable contenant chaque ligne lue
           while ( std::getline( fichier, ligne ) )
@@ -3246,7 +3246,7 @@ void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIterati
         // Le type d'interpolation
         std::string TypeInterpstr = std::string((*ListField)[iaux+1]) ;
         MESSAGE( "... FieldName = " << FieldName << ", TypeInterp = " << TypeInterpstr );
-        // On cherche à savoir si des instants ont été précisés pour cette itération
+        // On cherche Ã  savoir si des instants ont Ã©tÃ© prÃ©cisÃ©s pour cette itÃ©ration
         int tsrvu = 0;
         for (int jaux = 0; jaux< numberOfFieldsx3; jaux++)
         {
@@ -3269,7 +3269,7 @@ void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIterati
           }
           jaux += 2 ;
         }
-        // Si aucun instant n'a été défini
+        // Si aucun instant n'a Ã©tÃ© dÃ©fini
         if ( tsrvu == 0 )
         {
           NumField += 1 ;
@@ -3948,7 +3948,7 @@ void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich
 // Creation d'un schema YACS
 // nomCas : nom du cas a traiter
 // FileName : nom du fichier contenant le script de lancement du calcul
-// DirName : le repertoire de lancement des calculs du schéma
+// DirName : le repertoire de lancement des calculs du schÃ©ma
 //=============================================================================
 HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
 {
@@ -4129,7 +4129,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   // G. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
   YACSDriver* myDriver = new YACSDriver(XMLFile, DirName);
   std::ifstream fichier( XMLFile_base.c_str() );
-  if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+  if ( fichier ) // ce test Ã©choue si le fichier n'est pas ouvert
   {
     // G.1. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
     std::string ligne; // variable contenant chaque ligne lue
@@ -4748,7 +4748,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
 
    std::string aScript = "\"\"\"\n";
    aScript += "Python script for HOMARD\n";
-   aScript += "Copyright EDF-R&D 1996, 2011, 2014\n";
+   aScript += "Copyright 1996, 2011, 1015 EDF\n";
    aScript += "\"\"\"\n";
    aScript += "__revision__ = \"V1.2\"\n";
    aScript += "import HOMARD\n";
@@ -5021,7 +5021,7 @@ void HOMARD_Gen_i::SetPreferences( )
   File += "/bin/salome/VERSION" ;
   MESSAGE ( "File = "<<File ) ;
   std::ifstream fichier0( File.c_str() ) ;
-  if ( fichier0 ) // ce test échoue si le fichier n'est pas ouvert
+  if ( fichier0 ) // ce test Ã©choue si le fichier n'est pas ouvert
   {
     std::string ligne; // variable contenant chaque ligne lue
     while ( std::getline( fichier0, ligne ) )
@@ -5047,7 +5047,7 @@ void HOMARD_Gen_i::SetPreferences( )
     MESSAGE ( "PrefFile = "<<PrefFile ) ;
 
     std::ifstream fichier( PrefFile.c_str() );
-    if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
+    if ( fichier ) // ce test Ã©choue si le fichier n'est pas ouvert
     {
       bool section_langue = false ;
       bool section_homard = false ;
