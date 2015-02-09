@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2011-2014  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
@@ -76,11 +76,11 @@ Python script for HOMARD
     Hypo_test_2_1.SetUnifRefinUnRef(1)
     Hypo_test_2_1.AddGroup('EG')
     Hypo_test_2_1.AddGroup('BANDE')
-    print HypoName_1, " : zones utilisées :", Hypo_test_2_1.GetZones()
-    print HypoName_1, " : champ utilisé :", Hypo_test_2_1.GetFieldName()
-    print HypoName_1, " : composantes utilisées :", Hypo_test_2_1.GetComps()
+    print HypoName_1, " : zones utilisÃ©es :", Hypo_test_2_1.GetZones()
+    print HypoName_1, " : champ utilisÃ© :", Hypo_test_2_1.GetFieldName()
+    print HypoName_1, " : composantes utilisÃ©es :", Hypo_test_2_1.GetComps()
     if ( len (Hypo_test_2_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_test_2_1.GetField()
+      print ".. caractÃ©ristiques de l'adaptation :", Hypo_test_2_1.GetField()
 
   # Creation of the hypothesis 2
     HypoName_2 = "Hypo_" + Test_Name + "_2"
@@ -88,11 +88,11 @@ Python script for HOMARD
     Hypo_test_2_2 = homard.CreateHypothesis(HypoName_2)
     Hypo_test_2_2.SetUnifRefinUnRef(1)
     Hypo_test_2_2.AddGroup('M_D')
-    print HypoName_2, " : zones utilisées :", Hypo_test_2_2.GetZones()
-    print HypoName_2, " : champ utilisé :", Hypo_test_2_2.GetFieldName()
-    print HypoName_2, " : composantes utilisées :", Hypo_test_2_2.GetComps()
+    print HypoName_2, " : zones utilisÃ©es :", Hypo_test_2_2.GetZones()
+    print HypoName_2, " : champ utilisÃ© :", Hypo_test_2_2.GetFieldName()
+    print HypoName_2, " : composantes utilisÃ©es :", Hypo_test_2_2.GetComps()
     if ( len (Hypo_test_2_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_test_2_2.GetField()
+      print ".. caractÃ©ristiques de l'adaptation :", Hypo_test_2_2.GetField()
   #
   # Creation of the cases
   # =====================
