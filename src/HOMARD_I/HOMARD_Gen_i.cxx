@@ -3902,7 +3902,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 // Le reperage se fait par la 1ere lettre du commentaire : I pour Iteration n
   std::string icone ;
   std::string ior = " " ;
-  if ( Commentaire[0] == 'I' )
+  if ( Commentaire[0] == 'M' )
   { icone = "med.png" ; }
   else
   { icone = "texte_2.png" ; }

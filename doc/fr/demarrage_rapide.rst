@@ -14,16 +14,16 @@ La première action nécessite de lancer le module HOMARD, en créant une nouvel
 .. image:: images/homard_1.png
    :align: center
    :alt: HOMARD - lancement
-   :width: 565
-   :height: 154
+   :width: 560
+   :height: 150
 
 Une fois le module HOMARD activé, on crée un cas par le choix "*Nouveau cas*" dans le menu HOMARD.
 
 .. image:: images/homard_2.png
    :align: center
    :alt: Nouveau cas
-   :width: 378
-   :height: 120
+   :width: 463
+   :height: 150
 
 La fenêtre suivante apparaît :
 
@@ -33,7 +33,7 @@ La fenêtre suivante apparaît :
    :width: 554
    :height: 298
 
-Il faut fournir deux informations : le répertoire qui contiendra les fichiers produits par les adaptations successives et le fichier MED issu du calcul que l'on vient de faire. On valide par "Appliquer et fermer".
+Il faut fournir deux informations : le répertoire qui contiendra les fichiers produits par les adaptations successives et le fichier MED issu du calcul que l'on vient de faire. Dans ce cas, on laissera les options par défaut de conformité du maillage et de non prise en compte de frontières courbes. On valide par "Appliquer et fermer".
 
 .. image:: images/intro_32.png
    :align: center
@@ -46,8 +46,8 @@ L'arbre d'études est enrichi de ce cas. On déplie le cas jusqu'à afficher le 
 .. image:: images/intro_331.png
    :align: center
    :alt: Nouvelle itération
-   :width: 324
-   :height: 282
+   :width: 357
+   :height: 327
 
 La fenêtre suivante apparaît :
 
@@ -78,8 +78,10 @@ On modifie les options par défaut pour correspondre à notre choix de pilotage 
 .. image:: images/intro_36.png
    :align: center
    :alt: Fenetre
+   :width: 719
+   :height: 229
 
-On valide par "Appliquer et fermer" cette création d'hypothése, puis la création de la nouvelle itération. On se retrouve avec un arbre d'études enrichi avec la description de l'hypothèse créée et de l'itération à calculer, repérée par une icone "en attente".
+On valide par "Appliquer et fermer" cette création d'hypothèse, puis la création de la nouvelle itération. On se retrouve avec un arbre d'études enrichi avec la description de l'hypothèse créée et de l'itération à calculer, repérée par une icone "en attente".
 
 Lancer l'adaptation s'obtient en sélectionnant l'itération à calculer. On choisit ensuite "*Calculer*" dans le menu HOMARD ou à la souris. L'arbre d'études s'enrichit de fichiers d'informations et du nom du fichier au format MED qui contient le nouveau maillage, ``maill.01.med``. On remarque qu'il est placé dans le répertoire qui a été désigné à la création du cas.
 
