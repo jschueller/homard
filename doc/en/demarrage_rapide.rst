@@ -24,7 +24,7 @@ This window appears:
 .. image:: images/intro_31.png
    :align: center
 
-Two answers must be given: the directory that will contain the files produced by the further adaptations and the MED file from the initial calculation. Validate by "Apply and close".
+Two answers must be given: the directory that will contain the files produced by the further adaptations and the MED file from the initial calculation. In this case, the default options are left unchanged: conformity of the mesh and no curved boundaries. Validate by "Apply and close".
 
 .. image:: images/intro_32.png
    :align: center
