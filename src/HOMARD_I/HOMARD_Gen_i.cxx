@@ -4748,7 +4748,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
 
    std::string aScript = "\"\"\"\n";
    aScript += "Python script for HOMARD\n";
-   aScript += "Copyright 1996, 2011, 1015 EDF\n";
+   aScript += "Copyright 1996, 2011, 2015 EDF\n";
    aScript += "\"\"\"\n";
    aScript += "__revision__ = \"V1.2\"\n";
    aScript += "import HOMARD\n";

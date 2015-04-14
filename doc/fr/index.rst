@@ -7,7 +7,7 @@
 
 Documentation du composant HOMARD  |logo|
 #########################################
-HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme SALOME.
+HOMARD est le composant qui permet l'adaptation de maillage au sein de la plateforme SALOME. Cette documentation est partagée en deux parties. La première, intitulée "Mode d'emploi" décrit le pilotage du module en mode graphique, ou par un script python, ou dans un schéma YACS. La seconde partie, intitulée "Présentation générale" décrit avec des exemples les caractéristiques de HOMARD.
 
 Mode d'emploi
 *************

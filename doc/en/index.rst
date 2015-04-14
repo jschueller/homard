@@ -7,7 +7,7 @@
 
 Documentation of the component HOMARD |logo|
 ############################################
-The component HOMARD drives the mesh adaptation inside of the SALOME plateform.
+The component HOMARD drives the mesh adaptation inside of the SALOME plateform. This documentation is made of two parts. In the first part, named "User's guide", the driving of the module either with the graphical mode, or by a python script, or with a shema YACS is described. In the second part, named "General presentation", the characteristics of HOMARD are described with examples.
 
 User's guide
 ************
