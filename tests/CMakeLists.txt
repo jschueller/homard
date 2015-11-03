@@ -38,6 +38,10 @@ SET(HOMARD_TEST_FILES
   test_3.00.med
   test_3.fr.med
   test_3.apad.02.bilan
+  test_4.pdf
+  test_4.en.pdf
+  test_4.py
+  test_4.apad.03.bilan
   test_11.py
   test_11.apad.03.bilan
   test_12.py
