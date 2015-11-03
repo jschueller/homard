@@ -19,10 +19,10 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2014
+Copyright EDF-R&D 2010, 2015
 Test test_1
 """
-__revision__ = "V2.4"
+__revision__ = "V2.5"
 
 #========================================================================
 Test_Name = "test_1"
@@ -72,6 +72,9 @@ Python script for HOMARD
   #
   # Creation of the hypotheses
   # ==========================
+    dico = {}
+    dico["1"] = "raffinement"
+    dico["-1"] = "deraffinement"
   # Creation of the hypothesis a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM
     HypoName_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
     print "-------- Creation of the hypothesis", HypoName_1
@@ -82,7 +85,6 @@ Python script for HOMARD
     Hypo_1_1.SetRefinThr(3, 10.1)
     Hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
     Hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
-    print HypoName_1, " : zones utilisées :", Hypo_1_1.GetZones()
     print HypoName_1, " : champ utilisé :", Hypo_1_1.GetFieldName()
     print HypoName_1, " : composantes utilisées :", Hypo_1_1.GetComps()
     if ( len (Hypo_1_1.GetFieldName()) > 0 ) :
@@ -94,7 +96,12 @@ Python script for HOMARD
     Zones_1_et_2 = homard.CreateHypothesis(HypoName_2)
     Zones_1_et_2.AddZone('Zone_1_1', 1)
     Zones_1_et_2.AddZone('Zone_1_2', 1)
-    print HypoName_2, " : zones utilisées :", Zones_1_et_2.GetZones()
+    laux = Zones_1_et_2.GetZones()
+    nbzone = len(laux)/2
+    jaux = 0
+    for iaux in range(nbzone) :
+      print HypoName_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      jaux += 2
     print HypoName_2, " : champ utilisé :", Zones_1_et_2.GetFieldName()
     if ( len (Zones_1_et_2.GetFieldName()) > 0 ) :
       print ".. caractéristiques de l'adaptation :", Zones_1_et_2.GetField()
