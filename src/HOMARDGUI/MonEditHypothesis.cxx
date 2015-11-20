@@ -149,6 +149,12 @@ void MonEditHypothesis::InitValEdit()
       CBOutputDiameter->setEnabled(false);
     }
     else { CBOutputDiameter->setVisible(0) ; }
+/*    if ( ExtraOutput % 7 == 0 )
+    {
+      CBOutputParent->setChecked(true);
+      CBOutputParent->setEnabled(false);
+    }
+    else { CBOutputParent->setVisible(0) ; }*/
   }
   else
   { GBAdvancedOptions->setVisible(0); }

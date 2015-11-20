@@ -77,6 +77,7 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       CBOutputLevel->setChecked(false);
       CBOutputQuality->setChecked(false);
       CBOutputDiameter->setChecked(false);
+//       CBOutputParent->setChecked(false);
       _ExtraOutput = 1 ;
 //
       adjustSize();
@@ -199,6 +200,7 @@ bool MonCreateHypothesis::PushOnApply()
     if (CBOutputLevel->isChecked())    { _ExtraOutput = 2 ; }
     if (CBOutputQuality->isChecked())  { _ExtraOutput = 3*_ExtraOutput ; }
     if (CBOutputDiameter->isChecked()) { _ExtraOutput = 5*_ExtraOutput ; }
+//     if (CBOutputParent->isChecked())   { _ExtraOutput = 7*_ExtraOutput ; }
     aHypothesis->SetExtraOutput(_ExtraOutput);
   }
 
@@ -911,6 +913,7 @@ void MonCreateHypothesis::SetAdvanced()
     CBOutputLevel->setChecked(false);
     CBOutputQuality->setChecked(false);
     CBOutputDiameter->setChecked(false);
+//     CBOutputParent->setChecked(false);
     _ExtraOutput = 1 ;
   }
 //
