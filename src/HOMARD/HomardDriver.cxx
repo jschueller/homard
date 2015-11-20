@@ -992,6 +992,11 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "# Sortie des diamètres des mailles\n" ;
     _Texte += "NCDiamet DIAM\n" ;
   }
+  if ( ExtraOutput % 7 == 0 )
+  {
+    _Texte += "# Sortie des parents des mailles\n" ;
+    _Texte += "NCParent PARENT\n" ;
+  }
 }
 //===============================================================================
 // G. Les messages
