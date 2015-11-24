@@ -363,7 +363,7 @@ void MonCreateCase::SetConforme()
 {
   GBTypeNoConf->setVisible(0);
 //
-  _ConfType=1;
+  _ConfType=0;
 //
   adjustSize();
 }
@@ -374,7 +374,7 @@ void MonCreateCase::SetNonConforme()
   GBTypeNoConf->setVisible(1);
   RB1NpM->setChecked(true);
 //
-  _ConfType=2;
+  _ConfType=1;
 //
   adjustSize();
 }
@@ -388,13 +388,13 @@ void MonCreateCase::Set1NpM()
 void MonCreateCase::Set1NpA()
 // ------------------------------------------------------------------------
 {
-  _ConfType=3;
+  _ConfType=1;
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetQuelconque()
 // ------------------------------------------------------------------------
 {
-  _ConfType=4;
+  _ConfType=3;
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryD()

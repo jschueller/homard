@@ -151,29 +151,34 @@ void HomardDriver::TexteConfRaffDera( int ConfType, int TypeAdap, int TypeRaff, 
   std::string saux ;
   switch (ConfType)
   {
+    case -2: //
+    {
+      saux = "NON_CONFORME_1_ARETE" ;
+      break;
+    }
     case -1: //
     {
-      saux = "conforme_boites" ;
+      saux = "CONFORME_BOITES" ;
+      break;
+    }
+    case 0: //
+    {
+      saux = "CONFORME" ;
       break;
     }
     case 1: //
     {
-      saux = "conforme" ;
+      saux = "NON_CONFORME" ;
       break;
     }
     case 2: //
     {
-      saux = "non_conforme_1_noeud" ;
+      saux = "NON_CONFORME_1_NOEUD" ;
       break;
     }
     case 3: //
     {
-      saux = "non_conforme_1_arete" ;
-      break;
-    }
-    case 4: //
-    {
-      saux = "non_conforme_indicateur" ;
+      saux = "NON_CONFORME_INDICATEUR" ;
       break;
     }
   }
