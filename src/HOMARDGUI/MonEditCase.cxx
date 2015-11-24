@@ -68,23 +68,8 @@ void MonEditCase::InitValEdit()
   PushFichier->setVisible(0);
 
   int ConfType=aCase->GetConfType();
-  if(ConfType==0)
-  {
-    RBConforme->setChecked(true);
-    GBTypeNoConf->setVisible(0);
-  }
-  else
-  {
-    RBNonConforme->setChecked(true);
-    GBTypeNoConf->setVisible(1);
-    if (ConfType==2) { RB1NpM->setChecked(true);};
-    if (ConfType==1) { RB1NpA->setChecked(true);};
-    if (ConfType==3) { RBQuelconque->setChecked(true);};
-    RB1NpM->setEnabled(false);
-    RB1NpA->setEnabled(false);
-    RBQuelconque->setEnabled(false);
-  };
-
+  if ( ( ConfType == 0 ) || ( ConfType == -1 ) ) { RBConforme->setChecked(true); }
+  else                                           { RBNonConforme->setChecked(true); };
   RBConforme->setEnabled(false);
   RBNonConforme->setEnabled(false);
 
@@ -181,15 +166,45 @@ void MonEditCase::InitValEdit()
   CBAdvanced->setEnabled(false) ;
   int Pyram = aCase->GetPyram();
   MESSAGE("Pyram "<<Pyram);
-  if ( Pyram > 0 )
+  if ( ( Pyram > 0 ) || ( ConfType < 0 ) || ( ConfType > 1 ) )
   { GBAdvancedOptions->setVisible(1);
-    CBPyramid->setChecked(true);
-    CBPyramid->setEnabled(false);
+    if ( Pyram > 0 )
+    { CBPyramid->setChecked(true);
+      CBPyramid->setEnabled(false);
+    }
+    else
+    { CBPyramid->setChecked(false);
+      CBPyramid->setVisible(0);
+    }
+    if ( ( ConfType == 0 ) || ( ConfType == -1 ) )
+    { if ( ConfType == 0 ) { RBStandard->setChecked(true); }
+      else                 { RBBox->setChecked(true); }
+      RBStandard->setVisible(1);
+      RBBox->setVisible(1);
+      RBNC1NpA->setVisible(0);
+      RBNCQuelconque->setVisible(0);
+      RBStandard->setEnabled(false);
+      RBBox->setEnabled(false);
+    }
+    else
+    { if (ConfType==-2) { RBBox->setChecked(true);};
+      if (ConfType==1) { RBStandard->setChecked(true);};
+      if (ConfType==2) { RBNC1NpA->setChecked(true);};
+      if (ConfType==3) { RBNCQuelconque->setChecked(true);};
+      RBStandard->setVisible(1);
+      RBBox->setVisible(1);
+      RBNC1NpA->setVisible(1);
+      RBNCQuelconque->setVisible(1);
+      RBStandard->setEnabled(false);
+      RBBox->setEnabled(false);
+      RBNC1NpA->setEnabled(false);
+      RBNCQuelconque->setEnabled(false);
+    }
   }
   else
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
- }
+  }
 //
 // L'etat
   int etat = aCase->GetState();

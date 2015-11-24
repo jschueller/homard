@@ -64,9 +64,10 @@ public slots:
 
     virtual void SetConforme();
     virtual void SetNonConforme();
-    virtual void Set1NpM();
-    virtual void Set1NpA();
-    virtual void SetQuelconque();
+    virtual void SetStandard();
+    virtual void SetBox();
+    virtual void SetNC1NpA();
+    virtual void SetNCQuelconque();
 
     virtual void SetBoundaryD();
     virtual void PushBoundaryDiNew();

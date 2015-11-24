@@ -48,7 +48,7 @@ MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
     :
     Ui_CreateCase(),
     _aCaseName(""),_aDirName(""),
-    _ConfType(1),
+    _ConfType(0),
     _Pyram(0)
 {
   MESSAGE("Debut du constructeur de MonCreateCase");
@@ -60,7 +60,6 @@ MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
   SetNewName() ;
   GBBoundaryA->setVisible(0);
   GBBoundaryD->setVisible(0);
-  GBTypeNoConf->setVisible(0);
   GBAdvancedOptions->setVisible(0);
   Comment->setVisible(0);
   CBPyramid->setChecked(false);
@@ -85,9 +84,6 @@ void MonCreateCase::InitConnect()
 
     connect( RBConforme,     SIGNAL(clicked()), this, SLOT(SetConforme()));
     connect( RBNonConforme,  SIGNAL(clicked()), this, SLOT(SetNonConforme()));
-    connect( RB1NpM,         SIGNAL(clicked()), this, SLOT(Set1NpM()));
-    connect( RB1NpA,         SIGNAL(clicked()), this, SLOT(Set1NpA()));
-    connect( RBQuelconque,   SIGNAL(clicked()), this, SLOT(SetQuelconque()));
 
     connect( CBBoundaryD,      SIGNAL(stateChanged(int)), this, SLOT(SetBoundaryD()));
     connect( PBBoundaryDiNew,  SIGNAL(pressed()), this, SLOT(PushBoundaryDiNew()));
@@ -99,6 +95,10 @@ void MonCreateCase::InitConnect()
     connect( PBBoundaryAnHelp, SIGNAL(pressed()), this, SLOT(PushBoundaryAnHelp()) );
 
     connect( CBAdvanced,     SIGNAL(stateChanged(int)), this, SLOT(SetAdvanced()));
+    connect( RBStandard,     SIGNAL(clicked()), this, SLOT(SetStandard()));
+    connect( RBBox,          SIGNAL(clicked()), this, SLOT(SetBox()));
+    connect( RBNC1NpA,       SIGNAL(clicked()), this, SLOT(SetNC1NpA()));
+    connect( RBNCQuelconque, SIGNAL(clicked()), this, SLOT(SetNCQuelconque()));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
     connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply(0)));
@@ -361,9 +361,10 @@ void MonCreateCase::SetFileName()
 void MonCreateCase::SetConforme()
 // ------------------------------------------------------------------------
 {
-  GBTypeNoConf->setVisible(0);
 //
   _ConfType=0;
+  RBNC1NpA->setVisible(0);
+  RBNCQuelconque->setVisible(0);
 //
   adjustSize();
 }
@@ -371,30 +372,39 @@ void MonCreateCase::SetConforme()
 void MonCreateCase::SetNonConforme()
 // ------------------------------------------------------------------------
 {
-  GBTypeNoConf->setVisible(1);
-  RB1NpM->setChecked(true);
 //
   _ConfType=1;
+  RBNC1NpA->setVisible(1);
+  RBNCQuelconque->setVisible(1);
 //
   adjustSize();
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::Set1NpM()
+void MonCreateCase::SetStandard()
 // ------------------------------------------------------------------------
 {
-  _ConfType=2;
+  if ( ( _ConfType == 0 ) || ( _ConfType == -1 ) ) { _ConfType = 0 ; }
+  else { _ConfType = 1 ; }
+  RBStandard->setChecked(true);
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::Set1NpA()
+void MonCreateCase::SetBox()
 // ------------------------------------------------------------------------
 {
-  _ConfType=1;
+  if ( ( _ConfType == 0 ) || ( _ConfType == -1 ) ) { _ConfType = -1 ; }
+  else { _ConfType = -2 ; }
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::SetQuelconque()
+void MonCreateCase::SetNC1NpA()
 // ------------------------------------------------------------------------
 {
-  _ConfType=3;
+  _ConfType = 2;
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::SetNCQuelconque()
+// ------------------------------------------------------------------------
+{
+  _ConfType = 3;
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryD()
@@ -539,11 +549,22 @@ void MonCreateCase::SetAdvanced()
 // ------------------------------------------------------------------------
 {
   MESSAGE("Debut de SetAdvanced ");
-  if (CBAdvanced->isChecked()) { GBAdvancedOptions->setVisible(1); }
+  if (CBAdvanced->isChecked())
+  { GBAdvancedOptions->setVisible(1);
+    RBStandard->setVisible(1);
+    RBBox->setVisible(1);
+    if ( ( _ConfType == 0 ) || ( _ConfType == -1 ) )
+    { RBNC1NpA->setVisible(0);
+      RBNCQuelconque->setVisible(0);}
+    else
+    { RBNC1NpA->setVisible(1);
+      RBNCQuelconque->setVisible(1);}
+  }
   else
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
     _Pyram = 0 ;
+    SetStandard() ;
  }
 //
   adjustSize();
