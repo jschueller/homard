@@ -19,13 +19,13 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2014
 Test test_2
 """
-__revision__ = "V2.4"
+__revision__ = "V2.5"
 
 #========================================================================
 Test_Name = "test_2"
+debug=False
 n_iter_test_file = 3
 #========================================================================
 import os
@@ -40,9 +40,16 @@ pathHomard = os.getenv('HOMARD_ROOT_DIR')
 Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
 Rep_Test = os.path.normpath(Rep_Test)
 sys.path.append(Rep_Test)
+from test_util import remove_dir
 from test_util import test_results
 # Repertoire des resultats
-dircase = tempfile.mkdtemp()
+if debug :
+  dircase = os.path.join("/tmp", Test_Name)
+  if ( os.path.isdir(dircase) ) :
+    remove_dir(dircase)
+  os.mkdir(dircase)
+else :
+  dircase = tempfile.mkdtemp()
 # ==================================
 
 salome.salome_init()
@@ -101,7 +108,6 @@ Python script for HOMARD
     MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
     Case_test_2 = homard.CreateCase(CaseName, 'PLAQUE_0', MeshFile)
     Case_test_2.SetDirName(dircase)
-    Case_test_2.SetConfType(1)
     Case_test_2.AddBoundaryGroup('internal_boundary', '')
   #
   # Creation of the iterations
@@ -175,7 +181,8 @@ except Exception, e:
 # Test of the results
 #
 n_rep_test_file = n_iter_test_file
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, True)
+destroy_dir = not debug
+test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

@@ -19,13 +19,13 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2010, 2014
 Test test_11 associe au tutorial 1
 """
-__revision__ = "V2.2"
+__revision__ = "V2.3"
 
 #========================================================================
 Test_Name = "test_11"
+debug=False
 n_iter_test_file = 3
 #========================================================================
 import os
@@ -40,9 +40,16 @@ pathHomard = os.getenv('HOMARD_ROOT_DIR')
 Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
 Rep_Test = os.path.normpath(Rep_Test)
 sys.path.append(Rep_Test)
+from test_util import remove_dir
 from test_util import test_results
 # Repertoire des resultats
-dircase = tempfile.mkdtemp()
+if debug :
+  dircase = os.path.join("/tmp", Test_Name)
+  if ( os.path.isdir(dircase) ) :
+    remove_dir(dircase)
+  os.mkdir(dircase)
+else :
+  dircase = tempfile.mkdtemp()
 # Repertoire des donnees du tutorial
 data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 data_dir = os.path.normpath(data_dir)
@@ -75,7 +82,6 @@ Python script for HOMARD
   # ===
   Case_1 = homard.CreateCase('Case_1', 'MAILL', data_dir+'/tutorial_1.00.med')
   Case_1.SetDirName(dircase)
-  Case_1.SetConfType(1)
   #
   # Iterations
   # ==========
@@ -120,7 +126,8 @@ except Exception, e:
 # Test of the results
 #
 n_rep_test_file = n_iter_test_file
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file)
+destroy_dir = not debug
+test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
 #
 # ==================================
 gzip_gunzip(data_dir, 1, 1)

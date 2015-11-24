@@ -5,7 +5,7 @@ ANALYSE DU MAILLAGE
 
      Maillage apres adaptation                         
      COEUR_2D                                                                        
-     Date de creation : lundi 2 novembre 2015 a 9 h 11 mn 58 s          
+     Date de creation : mardi 24 novembre 2015 a 9 h 33 mn 8 s          
      Dimension : 2
      Degre : 1
      C'est un maillage obtenu apres      2 adaptations.
@@ -31,10 +31,10 @@ ANALYSE DU MAILLAGE
      ************************************************************
      *                      Segments                            *
      ************************************************************
-     * Nombre total                                *        359 *
+     * Nombre total                                *        418 *
      * . dont aretes isolees                       *          0 *
-     * . dont aretes de bord de regions 2D         *        240 *
-     * . dont aretes internes aux faces/volumes    *        119 *
+     * . dont aretes de bord de regions 2D         *        300 *
+     * . dont aretes internes aux faces/volumes    *        118 *
      ************************************************************
 
      ************************************************************

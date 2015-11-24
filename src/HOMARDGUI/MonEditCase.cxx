@@ -68,7 +68,7 @@ void MonEditCase::InitValEdit()
   PushFichier->setVisible(0);
 
   int ConfType=aCase->GetConfType();
-  if(ConfType==1)
+  if(ConfType==0)
   {
     RBConforme->setChecked(true);
     GBTypeNoConf->setVisible(0);
@@ -78,8 +78,8 @@ void MonEditCase::InitValEdit()
     RBNonConforme->setChecked(true);
     GBTypeNoConf->setVisible(1);
     if (ConfType==2) { RB1NpM->setChecked(true);};
-    if (ConfType==3) { RB1NpA->setChecked(true);};
-    if (ConfType==4) { RBQuelconque->setChecked(true);};
+    if (ConfType==1) { RB1NpA->setChecked(true);};
+    if (ConfType==3) { RBQuelconque->setChecked(true);};
     RB1NpM->setEnabled(false);
     RB1NpA->setEnabled(false);
     RBQuelconque->setEnabled(false);

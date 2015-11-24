@@ -237,7 +237,7 @@ CORBA::Long HOMARD_Cas_i::GetNumberofIter()
 void HOMARD_Cas_i::SetConfType( CORBA::Long ConfType )
 {
   ASSERT( myHomardCas );
-//   VERIFICATION( (ConfType>=1) && (ConfType<=4) );
+//   VERIFICATION( (ConfType>=-2) && (ConfType<=3) );
   myHomardCas->SetConfType( ConfType );
 }
 //=============================================================================

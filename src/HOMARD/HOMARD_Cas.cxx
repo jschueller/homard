@@ -50,7 +50,7 @@
  */
 //=============================================================================
 HOMARD_Cas::HOMARD_Cas():
-  _Name(""), _NomDir("/tmp"), _ConfType(1)
+  _Name(""), _NomDir("/tmp"), _ConfType(0)
 {
   MESSAGE("HOMARD_Cas");
 }
@@ -145,7 +145,7 @@ int HOMARD_Cas::GetNumberofIter()
 //=============================================================================
 void HOMARD_Cas::SetConfType( int Conftype )
 {
-//   VERIFICATION( (Conftype>=1) && (Conftype<=4) );
+//   VERIFICATION( (Conftype>=-2) && (Conftype<=3) );
   _ConfType = Conftype;
 }
 //=============================================================================
