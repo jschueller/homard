@@ -199,19 +199,19 @@ void MonCreateZone::InitValZone()
 
   if ( _Orient == 0 ) { pix = resMgr->loadPixmap( "HOMARD", "cylinderpointvector.png" ) ; }
   else                { pix = resMgr->loadPixmap( "HOMARD", "disk.png" ) ;
-                        RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                        TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                        TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                        TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8)); }
+                        RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                        TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0));
+                        TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                        TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0)); }
   IS=QIcon(pix) ;
   RBCylinder->setIcon(IS) ;
 
   if ( _Orient == 0 ) { pix = resMgr->loadPixmap( "HOMARD", "pipe.png" ) ; }
   else                { pix = resMgr->loadPixmap( "HOMARD", "diskwithhole.png" ) ;
-                        RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                        TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                        TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                        TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8)); }
+                        RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                        TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0));
+                        TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                        TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0)); }
   IS=QIcon(pix) ;
   RBPipe->setIcon(IS) ;
 

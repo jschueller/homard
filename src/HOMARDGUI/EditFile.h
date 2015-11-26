@@ -19,7 +19,7 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
-#include <QtGui/QTextBrowser>
+#include <QTextBrowser>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -103,10 +103,10 @@ public:
 
     void retranslateUi(QWidget *EditFile)
     {
-        EditFile->setWindowTitle(QApplication::translate("EditFile", "Edit a file", 0, QApplication::UnicodeUTF8));
+        EditFile->setWindowTitle(QApplication::translate("EditFile", "Edit a file", 0));
         GroupButtons->setTitle(QString());
-        buttonPrint->setText(QApplication::translate("EditFile", "Print", 0, QApplication::UnicodeUTF8));
-        buttonQuit->setText(QApplication::translate("EditFile", "Quit", 0, QApplication::UnicodeUTF8));
+        buttonPrint->setText(QApplication::translate("EditFile", "Print", 0));
+        buttonQuit->setText(QApplication::translate("EditFile", "Quit", 0));
     } // retranslateUi
 
 };

@@ -136,16 +136,16 @@ public:
 
     void retranslateUi(QDialog *CreateBoundaryDi)
     {
-        CreateBoundaryDi->setWindowTitle(QApplication::translate("CreateBoundaryDi", "Create a discrete boundary", 0, QApplication::UnicodeUTF8));
+        CreateBoundaryDi->setWindowTitle(QApplication::translate("CreateBoundaryDi", "Create a discrete boundary", 0));
         GBButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("CreateBoundaryDi", "Help", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateBoundaryDi", "Cancel", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateBoundaryDi", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("CreateBoundaryDi", "OK", 0, QApplication::UnicodeUTF8));
-        CBGroupe->setText(QApplication::translate("CreateBoundaryDi", "Filtering with groups", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("CreateBoundaryDi", "Help", 0));
+        buttonCancel->setText(QApplication::translate("CreateBoundaryDi", "Cancel", 0));
+        buttonApply->setText(QApplication::translate("CreateBoundaryDi", "Apply", 0));
+        buttonOk->setText(QApplication::translate("CreateBoundaryDi", "OK", 0));
+        CBGroupe->setText(QApplication::translate("CreateBoundaryDi", "Filtering with groups", 0));
         PushFichier->setText(QString());
-        Mesh->setText(QApplication::translate("CreateBoundaryDi", "Mesh", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateBoundaryDi", "Name", 0, QApplication::UnicodeUTF8));
+        Mesh->setText(QApplication::translate("CreateBoundaryDi", "Mesh", 0));
+        Name->setText(QApplication::translate("CreateBoundaryDi", "Name", 0));
     } // retranslateUi
 
 };

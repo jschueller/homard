@@ -131,18 +131,18 @@ public:
 
     void retranslateUi(QDialog *IterInfo)
     {
-        IterInfo->setWindowTitle(QApplication::translate("IterInfo", "Information on a mesh", 0, QApplication::UnicodeUTF8));
-        GBOptions->setTitle(QApplication::translate("IterInfo", "Options", 0, QApplication::UnicodeUTF8));
-        CBQuality->setText(QApplication::translate("IterInfo", "Quality", 0, QApplication::UnicodeUTF8));
-        CBConnection->setText(QApplication::translate("IterInfo", "Connection", 0, QApplication::UnicodeUTF8));
-        CBDiametre->setText(QApplication::translate("IterInfo", "Diametre", 0, QApplication::UnicodeUTF8));
-        CBBlockSize->setText(QApplication::translate("IterInfo", "Group size", 0, QApplication::UnicodeUTF8));
-        CBEntanglement->setText(QApplication::translate("IterInfo", "Entanglement", 0, QApplication::UnicodeUTF8));
+        IterInfo->setWindowTitle(QApplication::translate("IterInfo", "Information on a mesh", 0));
+        GBOptions->setTitle(QApplication::translate("IterInfo", "Options", 0));
+        CBQuality->setText(QApplication::translate("IterInfo", "Quality", 0));
+        CBConnection->setText(QApplication::translate("IterInfo", "Connection", 0));
+        CBDiametre->setText(QApplication::translate("IterInfo", "Diametre", 0));
+        CBBlockSize->setText(QApplication::translate("IterInfo", "Group size", 0));
+        CBEntanglement->setText(QApplication::translate("IterInfo", "Entanglement", 0));
         GroupButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("IterInfo", "Help", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("IterInfo", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("IterInfo", "OK", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("IterInfo", "Cancel", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("IterInfo", "Help", 0));
+        buttonApply->setText(QApplication::translate("IterInfo", "Apply", 0));
+        buttonOk->setText(QApplication::translate("IterInfo", "OK", 0));
+        buttonCancel->setText(QApplication::translate("IterInfo", "Cancel", 0));
     } // retranslateUi
 
 };

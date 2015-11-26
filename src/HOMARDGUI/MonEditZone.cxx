@@ -190,8 +190,8 @@ void MonEditZone::SetBox()
   RBPipe->setDisabled(true);
   if ( _Type == 2 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "boxdxy.png" ) ;
                           QIcon IS=QIcon(pix) ;
@@ -268,11 +268,11 @@ void MonEditZone::SetCylinder()
   RBPipe->setDisabled(true);
   if ( _Type == 5 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                          TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                          TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                          TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                          TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0));
+                          TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                          TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "disk.png" ) ;
                           QIcon IS=QIcon(pix) ;
@@ -327,11 +327,11 @@ void MonEditZone::SetPipe()
   RBCylinder->setDisabled(true);
   if ( _Type == 7 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                          TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                          TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                          TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                          TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0));
+                          TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                          TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "diskwithhole.png" ) ;
                           QIcon IS=QIcon(pix) ;

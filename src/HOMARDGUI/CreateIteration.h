@@ -382,28 +382,28 @@ public:
 
     void retranslateUi(QScrollArea *CreateIteration)
     {
-        CreateIteration->setWindowTitle(QApplication::translate("CreateIteration", "Create an iteration", 0, QApplication::UnicodeUTF8));
-        Iteration_Name->setText(QApplication::translate("CreateIteration", "Iteration Name", 0, QApplication::UnicodeUTF8));
-        Iter_Parent->setText(QApplication::translate("CreateIteration", "Previous iteration", 0, QApplication::UnicodeUTF8));
+        CreateIteration->setWindowTitle(QApplication::translate("CreateIteration", "Create an iteration", 0));
+        Iteration_Name->setText(QApplication::translate("CreateIteration", "Iteration Name", 0));
+        Iter_Parent->setText(QApplication::translate("CreateIteration", "Previous iteration", 0));
         PBIterParent->setText(QString());
-        Mesh_n->setText(QApplication::translate("CreateIteration", "Mesh n", 0, QApplication::UnicodeUTF8));
-        Mesh_np1->setText(QApplication::translate("CreateIteration", "Mesh n+1", 0, QApplication::UnicodeUTF8));
-        GBField->setTitle(QApplication::translate("CreateIteration", "Field information", 0, QApplication::UnicodeUTF8));
-        RBChosen->setText(QApplication::translate("CreateIteration", "Chosen time step", 0, QApplication::UnicodeUTF8));
-        Rank->setText(QApplication::translate("CreateIteration", "Rank", 0, QApplication::UnicodeUTF8));
-        TimeStep->setText(QApplication::translate("CreateIteration", "Time step", 0, QApplication::UnicodeUTF8));
-        RBLast->setText(QApplication::translate("CreateIteration", "Last time step", 0, QApplication::UnicodeUTF8));
-        RBNo->setText(QApplication::translate("CreateIteration", "No time step", 0, QApplication::UnicodeUTF8));
+        Mesh_n->setText(QApplication::translate("CreateIteration", "Mesh n", 0));
+        Mesh_np1->setText(QApplication::translate("CreateIteration", "Mesh n+1", 0));
+        GBField->setTitle(QApplication::translate("CreateIteration", "Field information", 0));
+        RBChosen->setText(QApplication::translate("CreateIteration", "Chosen time step", 0));
+        Rank->setText(QApplication::translate("CreateIteration", "Rank", 0));
+        TimeStep->setText(QApplication::translate("CreateIteration", "Time step", 0));
+        RBLast->setText(QApplication::translate("CreateIteration", "Last time step", 0));
+        RBNo->setText(QApplication::translate("CreateIteration", "No time step", 0));
         PushFieldFile->setText(QString());
-        FieldFile->setText(QApplication::translate("CreateIteration", "Field file", 0, QApplication::UnicodeUTF8));
-        Hypothese->setTitle(QApplication::translate("CreateIteration", "Hypothesis", 0, QApplication::UnicodeUTF8));
-        PBHypoEdit->setText(QApplication::translate("CreateIteration", "Edit", 0, QApplication::UnicodeUTF8));
-        PBHypoNew->setText(QApplication::translate("CreateIteration", "New", 0, QApplication::UnicodeUTF8));
+        FieldFile->setText(QApplication::translate("CreateIteration", "Field file", 0));
+        Hypothese->setTitle(QApplication::translate("CreateIteration", "Hypothesis", 0));
+        PBHypoEdit->setText(QApplication::translate("CreateIteration", "Edit", 0));
+        PBHypoNew->setText(QApplication::translate("CreateIteration", "New", 0));
         GroupButtons->setTitle(QString());
-        buttonOk->setText(QApplication::translate("CreateIteration", "OK", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateIteration", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateIteration", "Cancel", 0, QApplication::UnicodeUTF8));
-        buttonHelp->setText(QApplication::translate("CreateIteration", "Help", 0, QApplication::UnicodeUTF8));
+        buttonOk->setText(QApplication::translate("CreateIteration", "OK", 0));
+        buttonApply->setText(QApplication::translate("CreateIteration", "Apply", 0));
+        buttonCancel->setText(QApplication::translate("CreateIteration", "Cancel", 0));
+        buttonHelp->setText(QApplication::translate("CreateIteration", "Help", 0));
     } // retranslateUi
 
 };

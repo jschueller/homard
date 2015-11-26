@@ -249,7 +249,7 @@ void MonCreateIteration::PushHypoEdit()
     return;
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
-  MonEditHypothesis *HypoDlg = new MonEditHypothesis(this,TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),CBHypothese->currentText(), _CaseName, aFieldFile) ;
+  MonEditHypothesis *HypoDlg = new MonEditHypothesis(this,true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),CBHypothese->currentText(), _CaseName, aFieldFile) ;
   HypoDlg->show();
 }
 
@@ -277,7 +277,7 @@ void MonCreateIteration::PushHypoNew()
     _CaseName = aIterParent->GetCaseName();
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
-  MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this,TRUE,HOMARD::HOMARD_Gen::_duplicate(myHomardGen),QString(""),_CaseName, aFieldFile) ;
+  MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this,true,HOMARD::HOMARD_Gen::_duplicate(myHomardGen),QString(""),_CaseName, aFieldFile) ;
   HypoDlg->show();
 }
 // ------------------------------------------------------------------------
