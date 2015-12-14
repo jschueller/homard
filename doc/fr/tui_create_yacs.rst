@@ -5,11 +5,11 @@ Le schéma YACS
 
 .. index:: single: YACS
 
-Les variables sont décrites dans :ref:`gui_create_yacs`.
+Les variables sont décrites dans :doc:`gui_create_yacs`.
 
 Méthodes de la classe cas
 *************************
-Voir également dans :ref:`tui_create_case`.
+Voir également dans :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -268,7 +268,7 @@ On peut ensuite l'écrire dans un fichier :
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_yacs`
+Consulter :doc:`gui_create_yacs`
 
 
 

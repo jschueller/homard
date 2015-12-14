@@ -6,7 +6,7 @@ The case
 .. index:: single: type of conformity
 .. index:: single: mesh;initial
 
-The variables are described in :ref:`gui_create_case`.
+The variables are described in :doc:`gui_create_case`.
 
 Methods of the class homard
 ***************************
@@ -120,11 +120,13 @@ Methods of the class cas
 |                                                               |
 |     - ``conf_type``: integer as follows:                      |
 |                                                               |
-|         * 1: conformal                                        |
-|         * 2: non conformal with one hanging node per element  |
-|         * 3: non conformal with one hanging node per edge of  |
+|         * 0: conformal                                        |
+|         * 1: non conformal with at max 2 cut edges per element|
+|         * 2: non conformal with one hanging node per edge of  |
 |           element                                             |
-|         * 4: non conformal without any constraint             |
+|         * 3: non conformal without any constraint             |
+|         * -1: conformal with boxes (no staircases)            |
+|         * -2: non-conformal with boxes (no staircases)        |
 +---------------------------------------------------------------+
 | .. module:: GetConfType                                       |
 |                                                               |
@@ -260,6 +262,6 @@ The creation of the object case_1 is done as follows:
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_case`
+Look at :doc:`gui_create_case`
 
 
