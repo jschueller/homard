@@ -12,7 +12,7 @@ The zone
 .. index:: single: disk with a hole
 .. index:: single: 2D
 
-The variables are described in :ref:`gui_create_zone`.
+The variables are described in :doc:`gui_create_zone`.
 
 Methods of the class homard
 ***************************
@@ -198,7 +198,7 @@ The creation of a disk in the plane XY is done as follows:
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_zone`
+Look at :doc:`gui_create_zone`
 
 .. warning::
   With the graphical input mode, if a zone is edited and if one of the dimensions is modified, all the iterations that were computed with this zone are unvalidated. In python mode, that is not true: the iterations stay as they are.

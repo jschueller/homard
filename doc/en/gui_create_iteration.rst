@@ -49,7 +49,7 @@ The hypothesis
 **************
 The iteration in progress will control the adaptation by HOMARD according to a scenario defined on an hypothesis. This one is selected in the list of the existing hypotheses.
 
-With starting, it is necessary to create a first hypothesis by activation of the button "*New*" (see: :ref:`gui_create_hypothese`) :
+With starting, it is necessary to create a first hypothesis by activation of the button "*New*" (see: :doc:`gui_create_hypothese`) :
 
 .. image:: images/create_iteration_4.png
    :align: center
@@ -78,4 +78,4 @@ When several iterations are connected, their hypothesis is visible in the object
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_iteration`
+Look :doc:`tui_create_iteration`

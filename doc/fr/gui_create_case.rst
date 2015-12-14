@@ -76,7 +76,7 @@ On cochera le ou les boutons voulus :
 .. image:: images/create_case_5.png
    :align: center
 
-La définition des frontières est décrite dans :ref:`gui_create_boundary`.
+La définition des frontières est décrite dans :doc:`gui_create_boundary`.
 
 .. index:: single: pyramide
 
@@ -151,5 +151,5 @@ A l'issue de cette création de cas, l'arbre d'études a été enrichi de ce nou
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_case`
+Consulter :doc:`tui_create_case`
 

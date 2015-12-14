@@ -56,7 +56,7 @@ Some variations may exist. If no error indicator is available, another field can
 .. index:: single: YACS
 
 .. note::
-  This alternation (computation/adaptation) suits in the :ref:`yacs` schemes.
+  This alternation (computation/adaptation) suits in the :doc:`yacs` schemes.
 
 
 Methods for splitting the elements

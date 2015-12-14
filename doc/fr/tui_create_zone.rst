@@ -12,7 +12,7 @@ La zone
 .. index:: single: disque avec trou
 .. index:: single: 2D
 
-Les variables sont décrites dans :ref:`gui_create_zone`.
+Les variables sont décrites dans :doc:`gui_create_zone`.
 
 Méthodes de la classe homard
 ****************************
@@ -197,7 +197,7 @@ La création d'un disque dans le plan XY se fait ainsi :
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_zone`
+Consulter :doc:`gui_create_zone`
 
 .. warning::
   En mode graphique, si on édite une zone et que l'on modifie une des dimensions, toutes les itérations qui ont été calculées précédemment avec cette zone sont invalidées. En mode python, cela n'est plus vrai : les itérations restent telles quelles.

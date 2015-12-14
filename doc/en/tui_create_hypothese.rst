@@ -7,7 +7,7 @@ The hypothesis
 .. index:: single: hypothesis
 .. index:: single: zone
 
-The variables are described in :ref:`gui_create_hypothese`.
+The variables are described in :doc:`gui_create_hypothese`.
 
 Methods of the class homard
 ***************************
@@ -360,7 +360,7 @@ Interpolation of fields
 +---------------------------------------------------------------+
 
 .. note::
-  The file and the time steps for the fiels are defined with the iteration; see :ref:`tui_create_iteration`.
+  The file and the time steps for the fiels are defined with the iteration; see :doc:`tui_create_iteration`.
 
 Advanced options
 ================
@@ -447,7 +447,7 @@ The creation of the object hypo_1 is done as follows:
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_hypothese`
+Look at :doc:`gui_create_hypothese`
 
 .. warning::
   With the graphical input mode, if an hypothesis is edited and if one of the characteristic is modified, the value of the threshold for the refinement for example, all the iterations that were computed with this hypothesis are unvalidated. In python mode, that is not true: the iterations stay as they are.

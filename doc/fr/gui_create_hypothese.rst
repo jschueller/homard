@@ -28,7 +28,7 @@ Adaptation selon un champ
 *************************
 
 .. note::
-  Pour pouvoir adapter le maillage selon un champ il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :ref:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
+  Pour pouvoir adapter le maillage selon un champ il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :doc:`gui_create_iteration`). Le nom du fichier qui a été sélectionné est affiché sans modification possible ici :
 
 .. image:: images/create_hypothese_ch_1.png
    :align: center
@@ -62,7 +62,7 @@ Adaptation selon une zone
 *************************
 .. index:: single: zone
 
-Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (voir :ref:`gui_create_zone`) :
+Au démarrage, il faut créer une première zone par activation du bouton "*Nouveau*" (voir :doc:`gui_create_zone`) :
 
 .. image:: images/create_hypothese_zo_1.png
    :align: center
@@ -94,7 +94,7 @@ Interpolation de champs
 .. index:: single: interpolation
 
 .. note::
-  Pour pouvoir interpoler un champ de l'ancien vers le nouveau maillage, il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :ref:`gui_create_iteration`).
+  Pour pouvoir interpoler un champ de l'ancien vers le nouveau maillage, il faut avoir au préalable désigné le fichier med contenant le champ. Cela se fait dans la fenêtre de construction de l'itération (voir :doc:`gui_create_iteration`).
 
 Par défaut, aucun champ n'est interpolé. A contrario, on peut demander l'interpolation de tous les champs présents dans le fichier fourni :
 
@@ -134,4 +134,4 @@ L'arbre d'études contient les hypothèses créées et les itérations qui les u
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_hypothese`
+Consulter :doc:`tui_create_hypothese`

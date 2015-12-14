@@ -95,4 +95,4 @@ The disk with hole is necessarily in the plan of coordinate system. It is define
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_zone`
+Look :doc:`tui_create_zone`

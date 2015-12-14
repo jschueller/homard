@@ -32,4 +32,4 @@ Example
 
 Corresponding graphical interface
 *********************************
-Look at :ref:`gui_homard`
+Look at :doc:`gui_homard`

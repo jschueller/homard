@@ -5,11 +5,11 @@ The schema YACS
 
 .. index:: single: YACS
 
-The variables are described in :ref:`gui_create_yacs`.
+The variables are described in :doc:`gui_create_yacs`.
 
 Méthodes de la classe cas
 *************************
-See also in :ref:`tui_create_case`.
+See also in :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -269,7 +269,7 @@ It can be writen down in a file :
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_yacs`
+Look at :doc:`gui_create_yacs`
 
 
 

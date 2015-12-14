@@ -7,7 +7,7 @@ The boundary
 .. index:: single: cylinder
 .. index:: single: sphere
 
-The variables are described in :ref:`gui_create_boundary`.
+The variables are described in :doc:`gui_create_boundary`.
 
 Methods of the class homard
 ***************************
@@ -101,7 +101,7 @@ These methods returns an instance of the class boundary.
 
 Methods of the class cas
 ************************
-See also in :ref:`tui_create_case`.
+See also in :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -179,4 +179,4 @@ Creation of a discrete boundary, a spherical boundary, and a cylindrical boundar
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_boundary`
+Look at :doc:`gui_create_boundary`

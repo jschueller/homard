@@ -21,7 +21,7 @@ HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportant les mailles
 Ces mailles peuvent être présentes simultanément. Par exemple, HOMARD saura adapter un maillage comportant des triangles et des quadrangles.
 Les noeuds acceptés sont évidemment les noeuds qui sont les sommets des mailles, ce qui correspond à la description classique « en degré 1 » . Si les éléments sont décrits « en degré 2 », les noeuds complémentaires sont gérés. En revanche, il ne peut pas y avoir cohabitation de mailles décrites en degré 1 et d'autres décrites en degré 2. Enfin, HOMARD sait prendre en compte des noeuds isolés, qui n'appartiendraient à aucune définition de mailles : ils ressortiront tels quels du processus d'adaptation.
 
-Le cas des pyramides est à part. Pour un maillage comportant des hexaèdres ou des prismes, la mise en conformité du maillage issu du raffinement crée des pyramides pour assurer la liaison entre deux régions de niveaux de raffinement différents. Ces pyramides sont gérées comme toutes les mailles de transition et ne sont pas redécoupées par la suite. En revanche, si le maillage initial contient des pyramides, HOMARD ne saura pas l'adapter et émettra un message d'erreur. Dans certains cas particuliers, on pourra néanmoins traiter un tel maillage, comme il est décrit dans la rubrique :ref:`options_avancees` de la création du cas.
+Le cas des pyramides est à part. Pour un maillage comportant des hexaèdres ou des prismes, la mise en conformité du maillage issu du raffinement crée des pyramides pour assurer la liaison entre deux régions de niveaux de raffinement différents. Ces pyramides sont gérées comme toutes les mailles de transition et ne sont pas redécoupées par la suite. En revanche, si le maillage initial contient des pyramides, HOMARD ne saura pas l'adapter et émettra un message d'erreur. Dans certains cas particuliers, on pourra néanmoins traiter un tel maillage, comme il est décrit dans la rubrique :doc:`options_avancees` de la création du cas.
 
 Plusieurs motivations apparaissent pour adapter un maillage :
 
@@ -56,7 +56,7 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'e
 .. index:: single: YACS
 
 .. note::
-  Cet alternance de calculs et d'adaptions est très appropriée à la mise place de schémas :ref:`yacs`.
+  Cet alternance de calculs et d'adaptions est très appropriée à la mise place de schémas :doc:`yacs`.
 
 Mode de découpage des mailles
 *****************************

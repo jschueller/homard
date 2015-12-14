@@ -5,7 +5,7 @@ Démarrage rapide
 .. index:: single: démarrage
 .. index:: single: exemple
 
-L'ensemble des options de pilotage du module HOMARD dans SALOME est décrit dans le :ref:`gui_usage`. Mais on trouvera ici le B.A. BA pour découvrir l'utilisation de HOMARD à partir d'un exemple simple.
+L'ensemble des options de pilotage du module HOMARD dans SALOME est décrit dans le :doc:`gui_usage`. Mais on trouvera ici le B.A. BA pour découvrir l'utilisation de HOMARD à partir d'un exemple simple.
 
 Imaginons que l'on a effectué un calcul de thermique sur un maillage donné. On a récupéré en sortie de ce calcul un fichier au format MED, contenant le maillage et le champ des températures aux noeuds. On aimerait adapter le maillage de telle sorte que l'écart de température entre deux noeuds voisins soit inférieur à une valeur donnée.
 

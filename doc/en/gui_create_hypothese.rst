@@ -28,7 +28,7 @@ Adaptation by a field
 *********************
 
 .. note::
-  To be able to adapt the mesh according to a field it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :ref:`gui_create_iteration`). The name of the file which was selected is shown without possible modification here:
+  To be able to adapt the mesh according to a field it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :doc:`gui_create_iteration`). The name of the file which was selected is shown without possible modification here:
 
 .. image:: images/create_hypothese_ch_1.png
    :align: center
@@ -61,7 +61,7 @@ Adaptation by a zone
 ********************
 .. index:: single: zone
 
-In the starting up, it is necessary to create a first zone by activation of the button "*New*" (see :ref:`gui_create_zone`) :
+In the starting up, it is necessary to create a first zone by activation of the button "*New*" (see :doc:`gui_create_zone`) :
 
 .. image:: images/create_hypothese_zo_1.png
    :align: center
@@ -93,7 +93,7 @@ Interpolation of fields
 .. index:: single: interpolation
 
 .. note::
-  To be able to interpolate a field from the former towards the new mesh, it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :ref:`gui_create_iteration`).
+  To be able to interpolate a field from the former towards the new mesh, it is beforehand necessary to have indicated the file med containing the field. It is made in the window of construction of the iteration (see :doc:`gui_create_iteration`).
 
 By default, no field is interpolated. On the contrary, we can ask for the interpolation of all the present fields in the supplied file:
 
@@ -133,4 +133,4 @@ The object browser contains the created hypotheses and the iterations which use 
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_hypothese`
+Look :doc:`tui_create_hypothese`

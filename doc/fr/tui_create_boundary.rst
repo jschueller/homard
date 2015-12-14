@@ -8,7 +8,7 @@ La frontière
 .. index:: single: cylindre
 .. index:: single: sphere
 
-Les variables sont décrites dans :ref:`gui_create_boundary`.
+Les variables sont décrites dans :doc:`gui_create_boundary`.
 
 Méthodes de la classe homard
 ****************************
@@ -102,7 +102,7 @@ Ces méthodes retournent une instance de la classe boundary.
 
 Méthodes de la classe cas
 *************************
-Voir également dans :ref:`tui_create_case`.
+Voir également dans :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -180,4 +180,4 @@ Création d'une frontière discrète, d'une frontière sphèrique, puis d'une fr
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_boundary`
+Consulter :doc:`gui_create_boundary`

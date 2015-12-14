@@ -108,4 +108,4 @@ A l'issue de cette création de zone, l'arbre d'études a été enrichi. On y tr
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_zone`
+Consulter :doc:`tui_create_zone`

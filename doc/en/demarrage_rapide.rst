@@ -5,7 +5,7 @@ Quick start
 .. index:: single: start
 .. index:: single: example
 
-The options to drive HOMARD in SALOME are described into :ref:`gui_usage`. Here are the basic instructions to discover how to use HOMARD from a very simple example.
+The options to drive HOMARD in SALOME are described into :doc:`gui_usage`. Here are the basic instructions to discover how to use HOMARD from a very simple example.
 
 Let's imagine that a calculation of a thermal problem has been done with a given mesh. An output MED file was produced; it contains the mesh and the field of the temperatures over the nodes. We'd like to adapt the mesh to decrease the variation of the temperature from one node to another below a threshold.
 

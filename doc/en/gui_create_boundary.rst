@@ -136,7 +136,7 @@ At the end of this creation of boundaries, the object browser was enriched. We f
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_boundary`
+Look :doc:`tui_create_boundary`
 
 
 

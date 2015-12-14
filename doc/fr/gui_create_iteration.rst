@@ -50,7 +50,7 @@ L'hypothèse utilisée
 ********************
 L'itération en cours pilotera l'adaptation par HOMARD selon un scénario défini dans une hypothèse. Celle-ci est choisie dans la liste des hypothèses existantes.
 
-Au démarrage, il faut créer une première hypothèse par activation du bouton "*Nouveau*" (voir :ref:`gui_create_hypothese`) :
+Au démarrage, il faut créer une première hypothèse par activation du bouton "*Nouveau*" (voir :doc:`gui_create_hypothese`) :
 
 .. image:: images/create_iteration_4.png
    :align: center
@@ -79,4 +79,4 @@ Quand plusieurs itérations s'enchaînent, leur hypothèse est visible dans l'ar
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_iteration`
+Consulter :doc:`tui_create_iteration`
