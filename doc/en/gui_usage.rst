@@ -20,7 +20,7 @@ The user can choose either to start a new study or to open an old stored one, as
 Definition of an adaptation
 ***************************
 
-Once the activation of the module HOMARD is done, a case is created. The initial mesh of the series of adapted meshes is selected (see :ref:`gui_create_case`). From this case, the successive iterations are defined (see :ref:`gui_create_iteration`) with hypotheses (see :ref:`gui_create_hypothese`). The adaptations are launched as described in :ref:`gui_homard`.
+Once the activation of the module HOMARD is done, a case is created. The initial mesh of the series of adapted meshes is selected (see :doc:`gui_create_case`). From this case, the successive iterations are defined (see :doc:`gui_create_iteration`) with hypotheses (see :doc:`gui_create_hypothese`). The adaptations are launched as described in :doc:`gui_homard`.
 
 
 User's guide of the graphical interface

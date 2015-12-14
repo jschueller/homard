@@ -4,12 +4,12 @@ YACS
 ####
 .. index:: single: YACS
 
-Using a YACS scheme allows the coupling between a computation and an adaptation as described into :ref:`intro`. This coupling can be repeated inside a loop as long as a criteria for the convergence is reached for instance. Many ways are available to program a YACS scheme. The solution that is shown here is correct but many others are too!
+Using a YACS scheme allows the coupling between a computation and an adaptation as described into :doc:`intro`. This coupling can be repeated inside a loop as long as a criteria for the convergence is reached for instance. Many ways are available to program a YACS scheme. The solution that is shown here is correct but many others are too!
 
 In this part, an extensive description of a schema YACS is available.
 
 .. note::
-  The module HOMARD proposes an automatic creation of a schema YASC starting from a defined case. To do that, see :ref:`gui_create_yacs`
+  The module HOMARD proposes an automatic creation of a schema YASC starting from a defined case. To do that, see :doc:`gui_create_yacs`
 
 Introduction
 ************
@@ -167,7 +167,7 @@ The name of the case CaseName is imposed on "Calcul". The name of the case MeshN
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 483-486
 
-The options of this case must be now given. It is made by the node python CaseOptions. It is imperative to give the directory of calculation. We shall look at the description of the functions in :ref:`tui_create_case`. In output, we get back the instance of the iteration corresponding to the initial state of the case.
+The options of this case must be now given. It is made by the node python CaseOptions. It is imperative to give the directory of calculation. We shall look at the description of the functions in :doc:`tui_create_case`. In output, we get back the instance of the iteration corresponding to the initial state of the case.
 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 216-228
@@ -194,7 +194,7 @@ The directory of calculation is recovered. The name of the mesh is given.
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 325-333
 
-The hypothesis transmitted in input parameter characterized (look :ref:`tui_create_hypothese`) :
+The hypothesis transmitted in input parameter characterized (look :doc:`tui_create_hypothese`) :
 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 254-278
@@ -204,7 +204,7 @@ It is necessary to establish a name for the future iteration. To make sure that 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 280-290
 
-The iteration is supplemented : hypothesis, future mesh, field (look :ref:`tui_create_iteration`) :
+The iteration is supplemented : hypothesis, future mesh, field (look :doc:`tui_create_iteration`) :
 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 292-311
@@ -226,8 +226,8 @@ Iter_n
 
 For the following passing in the block of adaptation, it is necessary to recover:
 
-- the last created iteration: service LastIteration (look :ref:`tui_create_iteration`)
-- the created hypothesis: service GetHypothesis (look :ref:`tui_create_hypothese`)
+- the last created iteration: service LastIteration (look :doc:`tui_create_iteration`)
+- the created hypothesis: service GetHypothesis (look :doc:`tui_create_hypothese`)
 
 One passes then in the Homard_Exec node to calculate the new mesh.
 

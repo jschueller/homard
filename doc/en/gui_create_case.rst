@@ -79,7 +79,7 @@ Check the button:
 .. image:: images/create_case_5.png
    :align: center
 
-The definition of the boundaries is described in :ref:`gui_create_boundary`.
+The definition of the boundaries is described in :doc:`gui_create_boundary`.
 
 .. index:: single: pyramid
 
@@ -150,5 +150,5 @@ At the end of the creation, the case is included into the object browser. The in
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_case`
+Look :doc:`tui_create_case`
 

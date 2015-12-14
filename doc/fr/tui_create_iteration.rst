@@ -7,7 +7,7 @@ L'itération
 .. index:: single: hypothèse
 .. index:: single: zone
 
-Les variables sont décrites dans :ref:`gui_create_iteration`.
+Les variables sont décrites dans :doc:`gui_create_iteration`.
 
 Méthodes de la classe homard
 ****************************
@@ -31,7 +31,7 @@ Méthodes de la classe homard
 
 Méthodes communes aux classes cas et iteration
 **********************************************
-Voir également dans :ref:`tui_create_case`.
+Voir également dans :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -284,7 +284,7 @@ Si une seule occurence du champ de pilotage de l'adaptation est présente dans l
 Les instants pour les champs à interpoler
 -----------------------------------------
 
-Les champs à interpoler sont définis dans l'hypothèse (voir :ref:`tui_create_hypothese`).
+Les champs à interpoler sont définis dans l'hypothèse (voir :doc:`tui_create_hypothese`).
 Pour un champ donné, si aucune mention de pas de temps n'est précisé, tous les pas de temps seront pris en compte.
 Si on souhaite limiter l'interpolation à un ou plusieurs pas de temps, il faut le préciser ici.
 
@@ -380,4 +380,4 @@ Ensuite, on crée une itération suivante à l'itération parent de laquelle on 
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_iteration`
+Consulter :doc:`gui_create_iteration`

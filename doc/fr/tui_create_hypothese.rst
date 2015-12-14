@@ -7,7 +7,7 @@ L'hypothèse
 .. index:: single: hypothèse
 .. index:: single: zone
 
-Les variables sont décrites dans :ref:`gui_create_hypothese`.
+Les variables sont décrites dans :doc:`gui_create_hypothese`.
 
 Méthodes de la classe homard
 ****************************
@@ -364,7 +364,7 @@ Les champs à interpoler
 +---------------------------------------------------------------+
 
 .. note::
-  Le fichier et les instants où sont pris les champs sont définis dans l'itération ; voir :ref:`tui_create_iteration`.
+  Le fichier et les instants où sont pris les champs sont définis dans l'itération ; voir :doc:`tui_create_iteration`.
 
 Les options avancées
 ====================
@@ -451,7 +451,7 @@ La création de l'objet hypo_1 se fait ainsi : ::
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_hypothese`
+Consulter :doc:`gui_create_hypothese`
 
 .. warning::
   En mode graphique, si on édite une hypothèse et que l'on modifie une de ses caractéristiques, par exemple le seuil de raffinement, toutes les itérations qui ont été calculées précédemment avec cette hypothèse sont invalidées. En mode python, cela n'est plus vrai : les itérations restent telles quelles.

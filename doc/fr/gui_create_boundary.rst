@@ -137,7 +137,7 @@ A l'issue de cette création de frontières, l'arbre d'études a été enrichi. 
 
 Méthodes python correspondantes
 *******************************
-Consulter : :ref:`tui_create_boundary`
+Consulter : :doc:`tui_create_boundary`
 
 
 

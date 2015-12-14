@@ -88,5 +88,5 @@ As for an imported mesh, the object browser was enriched with both files of info
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_case` and :ref:`tui_create_iteration`
+Look :doc:`tui_create_case` and :doc:`tui_create_iteration`
 

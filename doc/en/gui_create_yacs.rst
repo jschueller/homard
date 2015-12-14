@@ -8,14 +8,14 @@ The schema YACS
 The object YACS contains every definition that allows the creation of a schema. This schema will drive the alternation of the computation of a physical modelization over a mesh and the adaptation of the mesh for the computation. This alternation is driven by some criteria for the convergence.
 
 .. note::
-  To read an exhaustive description of any part of the schema, see :ref:`yacs`
+  To read an exhaustive description of any part of the schema, see :doc:`yacs`
 
 Procedure
 *********
 The automatic creation of the schema is going to be made in three phases.
 
 - At first, it is necessary to have done a calculation on the very first mesh. This calculation will have produced the results in a MED file.
-- Then, a case is created in the module HOMARD, as described in :ref:`gui_create_case`. In this case, we create the following iteration of the mesh by defining a hypothesis of adaptation ; see :ref:`gui_create_iteration`.
+- Then, a case is created in the module HOMARD, as described in :doc:`gui_create_case`. In this case, we create the following iteration of the mesh by defining a hypothesis of adaptation ; see :doc:`gui_create_iteration`.
 - Last, from this case, a schema will be created, based on the hypothesis for the adaptation.
 
 
@@ -92,7 +92,7 @@ The object browser contains the created schemas, identified by their names. They
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_yacs`
+Look :doc:`tui_create_yacs`
 
 How to use the schema
 #####################
@@ -104,7 +104,7 @@ The schema that is produced by this procedure can be imported into the module YA
 
 By default, the maximal number of iterations is equal to 5 and the test for the convergence is satisfied if the variable varies less than one per a thousand in a relative value, between two successive iterations. These tests can be modified.
 
-These tests ares done into the node "Analyse" of the schema, as described in :ref:`yacs`.
+These tests ares done into the node "Analyse" of the schema, as described in :doc:`yacs`.
 
 The maximal number of iterations is given by the variable `NbCalcMax`:
 
@@ -130,7 +130,7 @@ Examples
 ########
 .. index:: single: Code_Aster
 
-A user's guide for schemas with *Code_Aster* is available here: :ref:`gui_create_yacs_aster`.
+A user's guide for schemas with *Code_Aster* is available here: :doc:`gui_create_yacs_aster`.
 
 
 

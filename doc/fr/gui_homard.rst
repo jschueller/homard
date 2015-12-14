@@ -47,5 +47,5 @@ Les deux fichiers de texte, Liste.n.vers.(n+1).log et apad.n.vers.(n+1).bilan, s
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_iteration`
+Consulter :doc:`tui_create_iteration`
 

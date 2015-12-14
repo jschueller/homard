@@ -88,5 +88,5 @@ Comme pour un maillage importé, l'arbre d'études a été enrichi avec les deux
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_case` et :ref:`tui_create_iteration`
+Consulter :doc:`tui_create_case` et :doc:`tui_create_iteration`
 

@@ -20,7 +20,7 @@ L'utilisateur a alors le choix entre créer une nouvelle étude ou en ouvrir une
 Définir une adaptation
 **********************
 
-Une fois que HOMARD a été activé, la permière action consiste à créer un cas. Il s'agit de sélectionner le maillage initial de la suite d'adaptations envisagée (voir :ref:`gui_create_case`). A partir de ce cas, on définira les itérations successives (voir :ref:`gui_create_iteration`) à partir des hypothèses (voir :ref:`gui_create_hypothese`). Les adaptations sont lancées tel que décrit dans :ref:`gui_homard`.
+Une fois que HOMARD a été activé, la permière action consiste à créer un cas. Il s'agit de sélectionner le maillage initial de la suite d'adaptations envisagée (voir :doc:`gui_create_case`). A partir de ce cas, on définira les itérations successives (voir :doc:`gui_create_iteration`) à partir des hypothèses (voir :doc:`gui_create_hypothese`). Les adaptations sont lancées tel que décrit dans :doc:`gui_homard`.
 
 
 Mode d'emploi de la saisie des données

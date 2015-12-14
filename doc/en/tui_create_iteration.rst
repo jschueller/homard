@@ -7,7 +7,7 @@ The iteration
 .. index:: single: hypothesis
 .. index:: single: zone
 
-The variables are described in :ref:`gui_create_iteration`.
+The variables are described in :doc:`gui_create_iteration`.
 
 Methods of the class homard
 ***************************
@@ -32,7 +32,7 @@ Methods of the class homard
 
 Methods of both classes cas and iteration
 ****************************************"
-See also in :ref:`tui_create_case`.
+See also in :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
@@ -287,7 +287,7 @@ If no time step is defined for the field or if a single time step is defined for
 The time steps for the fields to interpolate
 --------------------------------------------
 
-The choice of the fields to interpolated are defined in the hypothesis (see :ref:`tui_create_hypothese`).
+The choice of the fields to interpolated are defined in the hypothesis (see :doc:`tui_create_hypothese`).
 For a given field, if nothing is declared, every single time step will be considered.
 If some time steps are wanted, they must be defined as follows.
 
@@ -381,4 +381,4 @@ Then, the next iteration is created from the current iteration.
 
 Similar graphical input
 ***********************
-Look at :ref:`gui_create_iteration`
+Look at :doc:`gui_create_iteration`

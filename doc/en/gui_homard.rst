@@ -47,5 +47,5 @@ Both text files, Liste.n.vers.(n+1).log and apad.n.vers.(n+1).bilan, are visible
 
 Corresponding python functions
 ******************************
-Look :ref:`tui_create_iteration`
+Look :doc:`tui_create_iteration`
 

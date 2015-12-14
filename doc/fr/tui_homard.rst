@@ -32,4 +32,4 @@ Exemple
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_homard`
+Consulter :doc:`gui_homard`

@@ -8,14 +8,14 @@ Le schéma YACS
 L'objet YACS contient toutes les définitions permettant de créer un schéma. Ce schéma va piloter l'alternance d'un calcul représentant une modélisation physique sur un maillage et l'adaptation de ce maillage de calcul. Cette alternance est piloté par des critères de convergence.
 
 .. note::
-  Pour avoir une description détaillée de chacune des rubriques formant le schéma, consulter :ref:`yacs`
+  Pour avoir une description détaillée de chacune des rubriques formant le schéma, consulter :doc:`yacs`
 
 Procédure à employer
 ********************
 La création automatique du schéma va se faire en trois phases :
 
 - Au départ, il faut avoir fait un calcul sur un tout premier maillage. Ce calcul aura produit des résultats dans un fichier MED.
-- Ensuite, on crée un cas dans le module HOMARD, tel qu'il est décrit dans :ref:`gui_create_case`. Dans ce cas, on crée une itération suivante du maillage en définissant une hypothèse d'adaptation ; voir :ref:`gui_create_iteration`.
+- Ensuite, on crée un cas dans le module HOMARD, tel qu'il est décrit dans :doc:`gui_create_case`. Dans ce cas, on crée une itération suivante du maillage en définissant une hypothèse d'adaptation ; voir :doc:`gui_create_iteration`.
 - Enfin, de ce cas, on va créer le schéma qui se basera sur l'hypothèse d'adapation définie.
 
 
@@ -93,7 +93,7 @@ A l'issue de cette création de schéma, l'arbre d'études a été enrichi. On y
 
 Méthodes python correspondantes
 *******************************
-Consulter :ref:`tui_create_yacs`
+Consulter :doc:`tui_create_yacs`
 
 Utilisation du schéma
 #####################
@@ -105,7 +105,7 @@ Le schéma produit par cette saisie est directement importable dans le module YA
 
 Par défaut le nombre maximal d'itérations est fixé à 5 et le test de convergence est satisfait si la variable bouge de moins de 1 pour mille en valeur relative entre deux itérations successives. On peut évidemment modifier ces tests.
 
-Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décrit dans :ref:`yacs`.
+Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décrit dans :doc:`yacs`.
 
 Le nombre maximal d'itérations est modifiable par la variable `NbCalcMax` :
 
@@ -131,7 +131,7 @@ Exemples
 ########
 .. index:: single: Code_Aster
 
-Un mode d'emploi associé à la création de schéma avec *Code_Aster* est disponible en consultant : :ref:`gui_create_yacs_aster`.
+Un mode d'emploi associé à la création de schéma avec *Code_Aster* est disponible en consultant : :doc:`gui_create_yacs_aster`.
 
 
 

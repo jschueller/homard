@@ -6,7 +6,7 @@ Le cas
 .. index:: single: type de conformité
 .. index:: single: maillage;initial
 
-Les variables sont décrites dans :ref:`gui_create_case`.
+Les variables sont décrites dans :doc:`gui_create_case`.
 
 Méthodes de la classe homard
 ****************************
@@ -121,10 +121,12 @@ Méthodes de la classe cas
 |                                                               |
 |     - ``conf_type`` : entier précisant le mode de conformité  |
 |                                                               |
-|         * 1 : conforme                                        |
-|         * 2 : non conforme avec 1 noeud par maille            |
-|         * 3 : non conforme avec 1 noeud par arete de maille   |
-|         * 4 : non conforme quelconque                         |
+|         * 0 : conforme                                        |
+|         * 1 : non conforme avec au minimum 2 aretes coupees   |
+|         * 2 : non conforme avec 1 noeud par arete de maille   |
+|         * 3 : non conforme quelconque                         |
+|         * -1 : conforme avec des boites (pas d'escalier)      |
+|         * -2 : non-conforme avec des boites (pas d'escalier)  |
 +---------------------------------------------------------------+
 | .. module:: GetConfType                                       |
 |                                                               |
@@ -262,6 +264,6 @@ La création de l'objet case_1 se fait ainsi : ::
 
 Saisie graphique correspondante
 *******************************
-Consulter :ref:`gui_create_case`
+Consulter :doc:`gui_create_case`
 
 

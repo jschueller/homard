@@ -4,12 +4,12 @@ YACS
 ####
 .. index:: single: YACS
 
-L'utilisation de schémas YACS va permettre de coupler un calcul et une adaptation comme il est décrit dans :ref:`intro`. Ce couplage peut être répété au sein d'une boucle jusqu'à l'obtention d'un critère de convergence par exemple. Il existe de nombreuses façons de programmer un schéma YACS. La solution proposée ici fonctionne mais on peut très bien faire autrement !
+L'utilisation de schémas YACS va permettre de coupler un calcul et une adaptation comme il est décrit dans :doc:`intro`. Ce couplage peut être répété au sein d'une boucle jusqu'à l'obtention d'un critère de convergence par exemple. Il existe de nombreuses façons de programmer un schéma YACS. La solution proposée ici fonctionne mais on peut très bien faire autrement !
 
 On trouvera ici la description exhaustive d'un schéma YACS.
 
 .. note::
-  Le module HOMARD propose une création automatique de schéma YASC à partir d'un cas précédemment créé. Pour la mettre en oeuvre, consulter :ref:`gui_create_yacs`
+  Le module HOMARD propose une création automatique de schéma YASC à partir d'un cas précédemment créé. Pour la mettre en oeuvre, consulter :doc:`gui_create_yacs`
 
 Présentation générale
 *********************
@@ -167,7 +167,7 @@ Le nom du cas CaseName est imposé à "Calcul". Le paramètre d'entrée MeshName
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 483-486
 
-Les options de ce cas doivent maintenant être renseignées. C'est fait par le noeud python CaseOptions. Il est impératif de renseigner le répertoire de calcul. On regardera la description des fonctions dans :ref:`tui_create_case`. En sortie, on récupère l'instance de l'itération correspondant à l'état initial du cas.
+Les options de ce cas doivent maintenant être renseignées. C'est fait par le noeud python CaseOptions. Il est impératif de renseigner le répertoire de calcul. On regardera la description des fonctions dans :doc:`tui_create_case`. En sortie, on récupère l'instance de l'itération correspondant à l'état initial du cas.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 216-228
@@ -194,7 +194,7 @@ Le répertoire de calcul est récupéré. Le nom du maillage est rappelé.
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 325-333
 
-L'hypothèse transmise en paramètre d'entrée est caractérisée (voir :ref:`tui_create_hypothese`) :
+L'hypothèse transmise en paramètre d'entrée est caractérisée (voir :doc:`tui_create_hypothese`) :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 254-278
@@ -204,7 +204,7 @@ Il faut établir un nom pour la future itération. Pour s'assurer que le nom n'a
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 280-290
 
-L'itération est complétée : hypothèse, futur maillage, champ (voir :ref:`tui_create_iteration`) :
+L'itération est complétée : hypothèse, futur maillage, champ (voir :doc:`tui_create_iteration`) :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 292-311
@@ -226,8 +226,8 @@ Iter_n
 
 Aux passages suivants dans le bloc d'adaptation, il faut récupérer :
 
-- la dernière itération créée pour la poursuivre : service LastIteration (voir :ref:`tui_create_iteration`)
-- l'hypothèse créée : service GetHypothesis (voir :ref:`tui_create_hypothese`)
+- la dernière itération créée pour la poursuivre : service LastIteration (voir :doc:`tui_create_iteration`)
+- l'hypothèse créée : service GetHypothesis (voir :doc:`tui_create_hypothese`)
 
 On passe ensuite dans le noeud Homard_Exec pour calculer le nouveau maillage.
 
