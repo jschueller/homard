@@ -49,6 +49,7 @@ MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
     Ui_CreateCase(),
     _aCaseName(""),_aDirName(""),
     _ConfType(0),
+    _ExtType(0),
     _Pyram(0)
 {
   MESSAGE("Debut du constructeur de MonCreateCase");
@@ -99,6 +100,9 @@ void MonCreateCase::InitConnect()
     connect( RBBox,          SIGNAL(clicked()), this, SLOT(SetBox()));
     connect( RBNC1NpA,       SIGNAL(clicked()), this, SLOT(SetNC1NpA()));
     connect( RBNCQuelconque, SIGNAL(clicked()), this, SLOT(SetNCQuelconque()));
+
+    connect( RBMED,          SIGNAL(clicked()), this, SLOT(SetMED()));
+    connect( RBSaturne2D,    SIGNAL(clicked()), this, SLOT(SetSaturne2D()));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
     connect( buttonApply,    SIGNAL(pressed()), this, SLOT(PushOnApply(0)));
@@ -252,6 +256,7 @@ bool MonCreateCase::PushOnApply(int option)
   aCase->SetDirName(aDirName.toStdString().c_str());
   _aDirName=aDirName;
   aCase->SetConfType(_ConfType);
+  aCase->SetExtType(_ExtType);
 
 //   Menage des eventuelles frontieres deja enregistrees
   aCase->SupprBoundaryGroup() ;
@@ -407,6 +412,20 @@ void MonCreateCase::SetNCQuelconque()
   _ConfType = 3;
 }
 // ------------------------------------------------------------------------
+void MonCreateCase::SetMED()
+// ------------------------------------------------------------------------
+{
+  _ExtType = 0 ;
+  RBMED->setChecked(true);
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::SetSaturne2D()
+// ------------------------------------------------------------------------
+{
+  _ExtType = 1 ;
+  RBSaturne2D->setChecked(true);
+}
+// ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryD()
 // ------------------------------------------------------------------------
 {
@@ -551,6 +570,7 @@ void MonCreateCase::SetAdvanced()
   MESSAGE("Debut de SetAdvanced ");
   if (CBAdvanced->isChecked())
   { GBAdvancedOptions->setVisible(1);
+    GBConforme->setVisible(1);
     RBStandard->setVisible(1);
     RBBox->setVisible(1);
     if ( ( _ConfType == 0 ) || ( _ConfType == -1 ) )
@@ -559,12 +579,16 @@ void MonCreateCase::SetAdvanced()
     else
     { RBNC1NpA->setVisible(1);
       RBNCQuelconque->setVisible(1);}
+    GBFormat->setVisible(1);
+    RBMED->setVisible(1);
+    RBSaturne2D->setVisible(1);
   }
   else
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
     _Pyram = 0 ;
     SetStandard() ;
+    SetMED() ;
  }
 //
   adjustSize();

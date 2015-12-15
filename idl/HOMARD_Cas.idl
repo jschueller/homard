@@ -65,6 +65,9 @@ module HOMARD
     void     SetConfType(in long ConfType)                 raises (SALOME::SALOME_Exception);
     long     GetConfType()                                 raises (SALOME::SALOME_Exception);
 
+    void     SetExtType(in long ExtType)                   raises (SALOME::SALOME_Exception);
+    long     GetExtType()                                  raises (SALOME::SALOME_Exception);
+
     void     SetBoundingBox(in extrema LesExtremes)        raises (SALOME::SALOME_Exception);
     extrema  GetBoundingBox()                              raises (SALOME::SALOME_Exception);
 

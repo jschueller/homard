@@ -72,6 +72,7 @@ void MonEditCase::InitValEdit()
   else                                           { RBNonConforme->setChecked(true); };
   RBConforme->setEnabled(false);
   RBNonConforme->setEnabled(false);
+  int ExtType=aCase->GetExtType();
 
 //    Non affichage du mode de suivi de frontiere
   CBBoundaryA->setVisible(0);
@@ -166,16 +167,19 @@ void MonEditCase::InitValEdit()
   CBAdvanced->setEnabled(false) ;
   int Pyram = aCase->GetPyram();
   MESSAGE("Pyram "<<Pyram);
-  if ( ( Pyram > 0 ) || ( ConfType < 0 ) || ( ConfType > 1 ) )
+  if ( ( Pyram > 0 ) || ( ConfType < 0 ) || ( ConfType > 1 ) || ( ExtType > 0 ) )
   { GBAdvancedOptions->setVisible(1);
+//
     if ( Pyram > 0 )
     { CBPyramid->setChecked(true);
-      CBPyramid->setEnabled(false);
+      CBPyramid->setVisible(1);
     }
     else
     { CBPyramid->setChecked(false);
       CBPyramid->setVisible(0);
     }
+    CBPyramid->setEnabled(false);
+//
     if ( ( ConfType == 0 ) || ( ConfType == -1 ) )
     { if ( ConfType == 0 ) { RBStandard->setChecked(true); }
       else                 { RBBox->setChecked(true); }
@@ -183,8 +187,6 @@ void MonEditCase::InitValEdit()
       RBBox->setVisible(1);
       RBNC1NpA->setVisible(0);
       RBNCQuelconque->setVisible(0);
-      RBStandard->setEnabled(false);
-      RBBox->setEnabled(false);
     }
     else
     { if (ConfType==-2) { RBBox->setChecked(true);};
@@ -195,15 +197,30 @@ void MonEditCase::InitValEdit()
       RBBox->setVisible(1);
       RBNC1NpA->setVisible(1);
       RBNCQuelconque->setVisible(1);
-      RBStandard->setEnabled(false);
-      RBBox->setEnabled(false);
-      RBNC1NpA->setEnabled(false);
-      RBNCQuelconque->setEnabled(false);
     }
+    RBStandard->setEnabled(false);
+    RBBox->setEnabled(false);
+    RBNC1NpA->setEnabled(false);
+    RBNCQuelconque->setEnabled(false);
+//
+    if ( ExtType == 0 )
+    { GBFormat->setVisible(0);
+      RBMED->setChecked(true);
+    }
+    else
+    { GBFormat->setVisible(1);
+      RBMED->setVisible(1);
+      RBSaturne2D->setVisible(1);
+      RBSaturne2D->setChecked(true);
+    }
+    RBMED->setEnabled(false);
+    RBSaturne2D->setEnabled(false);
   }
   else
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
+    RBStandard->setChecked(true);
+    RBMED->setChecked(true);
   }
 //
 // L'etat

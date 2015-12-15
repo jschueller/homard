@@ -65,6 +65,9 @@ public:
   void                          SetConfType( int ConfType );
   const int                     GetConfType() const;
 
+  void                          SetExtType( int ExtType );
+  const int                     GetExtType() const;
+
   void                          SetBoundingBox( const std::vector<double>& extremas );
   const std::vector<double>&    GetBoundingBox() const;
 
@@ -91,6 +94,7 @@ private:
   std::string                   _Name;
   std::string                   _NomDir;
   int                           _ConfType;
+  int                           _ExtType;
   int                           _Etat;
 
   std::vector<double>           _Boite;         // cf HomardQTCommun pour structure du vecteur

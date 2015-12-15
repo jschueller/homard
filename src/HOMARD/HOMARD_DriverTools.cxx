@@ -112,6 +112,7 @@ namespace HOMARD
     os << cas.GetName();
     os << separator() << cas.GetDirName();
     os << separator() << cas.GetConfType();
+    os << separator() << cas.GetExtType();
 
     std::vector<double> coor = cas.GetBoundingBox();
     os << separator() << coor.size();
@@ -379,6 +380,10 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     cas.SetConfType( atoi( chunk.c_str() ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetExtType( atoi( chunk.c_str() ) );
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;

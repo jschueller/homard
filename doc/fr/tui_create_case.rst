@@ -121,7 +121,7 @@ Méthodes de la classe cas
 |                                                               |
 |     - ``conf_type`` : entier précisant le mode de conformité  |
 |                                                               |
-|         * 0 : conforme                                        |
+|         * 0 : conforme (défaut)                               |
 |         * 1 : non conforme avec au minimum 2 aretes coupees   |
 |         * 2 : non conforme avec 1 noeud par arete de maille   |
 |         * 3 : non conforme quelconque                         |
@@ -132,6 +132,21 @@ Méthodes de la classe cas
 |                                                               |
 | **GetConfType()**                                             |
 |     Retourne le type de conformité                            |
++---------------------------------------------------------------+
+| .. module:: SetExtType                                        |
+|                                                               |
+| **SetExtType(ext_type)**                                      |
+|     Définit le type externe associé au cas                    |
+|                                                               |
+|     - ``ext_type`` : entier précisant le type externe         |
+|                                                               |
+|         * 0 : MED standard (défaut)                           |
+|         * 1 : Saturne 2D                                      |
++---------------------------------------------------------------+
+| .. module:: GetExtType                                        |
+|                                                               |
+| **GetExtType()**                                              |
+|     Retourne le type externe associé au cas                   |
 +---------------------------------------------------------------+
 | .. module:: GetIter0                                          |
 |                                                               |
@@ -250,11 +265,12 @@ La création de l'objet case_1 se fait ainsi : ::
 
     case_name = "CAS_1"
     mesh_name = "MAILL"
-    mesh_file = "/local00/Salome/Adapt/m0.med"
+    mesh_file = "/home/A1789/Adapt/m0.med"
     case_1 = homard.CreateCase(case_name, mesh_name, mesh_file)
-    dirname = "/local00/Salome/Adapt/resu"
+    dirname = "/home/A1789/Adapt/resu"
     case_1.SetDirName(dirname)
     case_1.SetConfType(1)
+    case_1.SetExtType(0)
     case_1.AddBoundaryGroup( 'intersection', '' )
     case_1.AddBoundaryGroup( 'cyl_1', 'T1_EXT' )
     case_1.AddBoundaryGroup( 'cyl_1', 'T2_EXT' )

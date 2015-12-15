@@ -40,8 +40,8 @@
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0" colspan="2">
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0" colspan="3">
     <widget class="QWidget" name="WName" native="true">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
@@ -57,7 +57,7 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="2" colspan="3">
+   <item row="0" column="3" colspan="3">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -70,7 +70,7 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" colspan="6">
+   <item row="1" column="0" colspan="7">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -107,7 +107,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="5">
+   <item row="2" column="6">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -120,7 +120,7 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="6">
+   <item row="3" column="0" colspan="7">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -157,7 +157,7 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="6">
+   <item row="3" column="7">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -170,7 +170,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0" colspan="3">
+   <item row="4" column="0" colspan="4">
     <widget class="QGroupBox" name="GBTypeConf">
      <property name="title">
       <string>Conformity type</string>
@@ -202,7 +202,7 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
+   <item row="5" column="0" colspan="5">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -226,7 +226,7 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="4">
+   <item row="5" column="5">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -239,7 +239,7 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="3">
+   <item row="6" column="4">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -252,7 +252,7 @@
      </property>
     </spacer>
    </item>
-   <item row="7" column="0" colspan="5">
+   <item row="7" column="0" colspan="6">
     <widget class="QGroupBox" name="GBBoundaryD">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -329,7 +329,7 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0" colspan="7">
+   <item row="8" column="0" colspan="8">
     <widget class="QGroupBox" name="GBBoundaryA">
      <property name="minimumSize">
       <size>
@@ -405,7 +405,7 @@
      </layout>
     </widget>
    </item>
-   <item row="9" column="0" colspan="3">
+   <item row="9" column="0" colspan="4">
     <spacer name="spacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -418,20 +418,20 @@
      </property>
     </spacer>
    </item>
-   <item row="10" column="0" colspan="2">
+   <item row="10" column="0" colspan="3">
     <widget class="QCheckBox" name="CBAdvanced">
      <property name="text">
       <string>Advanced options</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="0" colspan="5">
+   <item row="11" column="0" colspan="6">
     <widget class="QGroupBox" name="GBAdvancedOptions">
      <property name="title">
       <string>Advanced options</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0" colspan="2">
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
        <widget class="QCheckBox" name="CBPyramid">
         <property name="text">
          <string>Authorized pyramids</string>
@@ -439,43 +439,82 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QRadioButton" name="RBStandard">
-        <property name="text">
-         <string>Standard</string>
+       <widget class="QGroupBox" name="GBConforme">
+        <property name="title">
+         <string>Conformité</string>
         </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QRadioButton" name="RBStandard">
+             <property name="text">
+              <string>Standard</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="RBBox">
+             <property name="text">
+              <string>Box</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="RBNC1NpA">
+             <property name="text">
+              <string>1 node per edge</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="RBNCQuelconque">
+             <property name="text">
+              <string>Free</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QRadioButton" name="RBBox">
-        <property name="text">
-         <string>Box</string>
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="GBFormat">
+        <property name="title">
+         <string>Format</string>
         </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QRadioButton" name="RBNC1NpA">
-        <property name="text">
-         <string>1 node per edge</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QRadioButton" name="RBNCQuelconque">
-        <property name="text">
-         <string>Free</string>
-        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="RBMED">
+           <property name="text">
+            <string>MED</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="RBSaturne2D">
+           <property name="text">
+            <string>Saturne 2D</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="11" column="6">
+   <item row="11" column="7">
     <spacer name="spacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -491,7 +530,7 @@
      </property>
     </spacer>
    </item>
-   <item row="12" column="0" colspan="3">
+   <item row="12" column="0" colspan="5">
     <spacer name="spacer_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -504,27 +543,14 @@
      </property>
     </spacer>
    </item>
-   <item row="13" column="0">
+   <item row="13" column="0" colspan="2">
     <widget class="QLabel" name="Comment">
      <property name="text">
       <string> No comment.</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>35</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="15" column="0" colspan="5">
+   <item row="14" column="0">
     <widget class="QGroupBox" name="GroupButtons">
      <property name="title">
       <string/>
@@ -579,7 +605,20 @@
      </layout>
     </widget>
    </item>
-   <item row="15" column="5" colspan="2">
+   <item row="14" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>35</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="14" column="6" colspan="2">
     <spacer name="spacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -596,6 +635,17 @@
     </spacer>
    </item>
   </layout>
+  <zorder>WName</zorder>
+  <zorder>GBTypeConf</zorder>
+  <zorder>GBBoundaryD</zorder>
+  <zorder>GBBoundaryA</zorder>
+  <zorder>CBAdvanced</zorder>
+  <zorder>GBAdvancedOptions</zorder>
+  <zorder>Comment</zorder>
+  <zorder>GroupButtons</zorder>
+  <zorder>RBSaturne2D</zorder>
+  <zorder>RBSaturne2D</zorder>
+  <zorder>RBSaturne2D</zorder>
  </widget>
  <resources/>
  <connections/>

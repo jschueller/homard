@@ -247,6 +247,19 @@ CORBA::Long HOMARD_Cas_i::GetConfType()
   return myHomardCas->GetConfType();
 }
 //=============================================================================
+void HOMARD_Cas_i::SetExtType( CORBA::Long ExtType )
+{
+  ASSERT( myHomardCas );
+//   VERIFICATION( (ExtType>=0) && (ExtType<=1) );
+  myHomardCas->SetExtType( ExtType );
+}
+//=============================================================================
+CORBA::Long HOMARD_Cas_i::GetExtType()
+{
+  ASSERT( myHomardCas );
+  return myHomardCas->GetExtType();
+}
+//=============================================================================
 void HOMARD_Cas_i::SetBoundingBox( const HOMARD::extrema& LesExtrema )
 {
   ASSERT( myHomardCas );

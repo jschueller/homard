@@ -75,12 +75,13 @@ void HomardDriver::TexteInit( const std::string DirCompute, const std::string Lo
 //
 }
 //===============================================================================
-void HomardDriver::TexteAdap( )
+void HomardDriver::TexteAdap( int ExtType )
 {
   MESSAGE("TexteAdap");
 //
   _Texte += "Action   homa\n" ;
-  _Texte += "CCAssoci med\n" ;
+  if ( ExtType ==  0 ) { _Texte += "CCAssoci med\n" ; }
+  else                 { _Texte += "CCAssoci saturne_2d\n" ; }
   _Texte += "ModeHOMA 1\n" ;
   _Texte += "NumeIter " + _siter + "\n" ;
 //
