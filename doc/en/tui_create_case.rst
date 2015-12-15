@@ -120,7 +120,7 @@ Methods of the class cas
 |                                                               |
 |     - ``conf_type``: integer as follows:                      |
 |                                                               |
-|         * 0: conformal                                        |
+|         * 0: conformal (default)                              |
 |         * 1: non conformal with at max 2 cut edges per element|
 |         * 2: non conformal with one hanging node per edge of  |
 |           element                                             |
@@ -132,6 +132,21 @@ Methods of the class cas
 |                                                               |
 | **GetConfType()**                                             |
 |     Returns the type of conformity                            |
++---------------------------------------------------------------+
+| .. module:: SetExtType                                        |
+|                                                               |
+| **SetExtType(ext_type)**                                      |
+|     Defines the external type for the case                    |
+|                                                               |
+|     - ``ext_type`` : integer as follows:                      |
+|                                                               |
+|         * 0 : Standard MED (default)                          |
+|         * 1 : Saturne 2D                                      |
++---------------------------------------------------------------+
+| .. module:: GetExtType                                        |
+|                                                               |
+| **GetExtType()**                                              |
+|     Returns the external type for the case                    |
 +---------------------------------------------------------------+
 | .. module:: GetIter0                                          |
 |                                                               |

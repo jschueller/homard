@@ -36,7 +36,7 @@ public:
   void        TexteInit( const std::string DirCompute, const std::string LogFile, const std::string Langue );
   void        TexteInfo( int TypeBila, int NumeIter );
   void        CreeFichierDonn();
-  void        TexteAdap( );
+  void        TexteAdap( int ExtType );
   void        CreeFichier();
   void        TexteMaillage( const std::string NomMesh, const std::string MeshFile, int apres );
   void        TexteMaillageHOMARD( const std::string Dir, const std::string liter, int apres );

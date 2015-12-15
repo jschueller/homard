@@ -76,6 +76,9 @@ public:
   void                   SetConfType( CORBA::Long ConfType );
   CORBA::Long            GetConfType();
 
+  void                   SetExtType( CORBA::Long ExtType );
+  CORBA::Long            GetExtType();
+
   void                   SetBoundingBox( const HOMARD::extrema& LesExtremes );
   HOMARD::extrema*       GetBoundingBox();
 

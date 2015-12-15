@@ -50,7 +50,7 @@
  */
 //=============================================================================
 HOMARD_Cas::HOMARD_Cas():
-  _Name(""), _NomDir("/tmp"), _ConfType(0)
+  _Name(""), _NomDir("/tmp"), _ConfType(0), _ExtType(0)
 {
   MESSAGE("HOMARD_Cas");
 }
@@ -82,6 +82,8 @@ std::string HOMARD_Cas::GetDumpPython() const
   aScript << _NomDir << "\")\n";
   aScript << "\t" <<_Name << ".SetConfType(";
   aScript << _ConfType << ")\n";
+  aScript << "\t" <<_Name << ".SetExtType(";
+  aScript << _ExtType << ")\n";
 // Suivi de frontieres
   std::list<std::string>::const_iterator it = _ListBoundaryGroup.begin();
   while(it != _ListBoundaryGroup.end())
@@ -142,6 +144,9 @@ int HOMARD_Cas::GetNumberofIter()
 {
   return _ListIter.size();
 }
+//
+// Le type de conformite ou non conformite
+//
 //=============================================================================
 void HOMARD_Cas::SetConfType( int Conftype )
 {
@@ -152,6 +157,20 @@ void HOMARD_Cas::SetConfType( int Conftype )
 const int HOMARD_Cas::GetConfType() const
 {
   return _ConfType;
+}
+//
+// Le type exterieur
+//
+//=============================================================================
+void HOMARD_Cas::SetExtType( int ExtType )
+{
+//   VERIFICATION( (ExtType>=0) && (ExtType<=1) );
+  _ExtType = ExtType;
+}
+//=============================================================================
+const int HOMARD_Cas::GetExtType() const
+{
+  return _ExtType;
 }
 //
 // La boite englobante

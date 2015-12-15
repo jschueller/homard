@@ -48,6 +48,7 @@ protected :
     QString _aDirName;
 
     int _ConfType;
+    int _ExtType;
 
     int _Pyram;
 
@@ -68,6 +69,9 @@ public slots:
     virtual void SetBox();
     virtual void SetNC1NpA();
     virtual void SetNCQuelconque();
+
+    virtual void SetMED();
+    virtual void SetSaturne2D();
 
     virtual void SetBoundaryD();
     virtual void PushBoundaryDiNew();

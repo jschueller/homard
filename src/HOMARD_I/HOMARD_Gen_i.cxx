@@ -1316,6 +1316,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   // B. Lecture du fichier de configuration
   // ATTENTION : on doit veiller a la coherence entre HomardDriver et CreateCaseFromIteration
   int NumeIter ;
+  int TypeExt = 0 ;
   int TypeConf = 0 ;
   int Pyram = 0 ;
   char* MeshName ;
@@ -1405,6 +1406,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   // D. Parametrages lus dans le fichier de configuration
 
   myCase->SetConfType (TypeConf) ;
+  myCase->SetExtType (TypeExt) ;
   myCase->SetPyram (Pyram) ;
 
   // E. Copie du fichier de maillage homard
@@ -2696,13 +2698,17 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   int ConfType = myCase->GetConfType();
   MESSAGE ( ". ConfType = " << ConfType );
 
-  // D.2. Le maillage de depart
+  // D.1. Le type externe
+  int ExtType = myCase->GetExtType();
+  MESSAGE ( ". ExtType = " << ExtType );
+
+  // D.3. Le maillage de depart
   const char* NomMeshParent = myIterationParent->GetMeshName();
   MESSAGE ( ". NomMeshParent = " << NomMeshParent );
   const char* MeshFileParent = myIterationParent->GetMeshFile();
   MESSAGE ( ". MeshFileParent = " << MeshFileParent );
 
-  // D.3. Le maillage associe a l'iteration
+  // D.4. Le maillage associe a l'iteration
   const char* MeshFile = myIteration->GetMeshFile();
   MESSAGE ( ". MeshFile = " << MeshFile );
   FILE *file = fopen(MeshFile,"r");
@@ -2733,7 +2739,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
     }
   }
 
-  // D.4. Les types de raffinement et de deraffinement
+  // D.5. Les types de raffinement et de deraffinement
   // Les appels corba sont lourds, il vaut mieux les grouper
   HOMARD::listeTypes* ListTypes = myHypo->GetAdapRefinUnRef();
   ASSERT(ListTypes->length() == 3);
@@ -2744,7 +2750,7 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
 
   // E. Texte du fichier de configuration
   // E.1. Incontournables du texte
-  myDriver->TexteAdap();
+  myDriver->TexteAdap(ExtType);
   int iaux = 0 ;
   myDriver->TexteMaillageHOMARD( DirComputePa, siter, iaux ) ;
   myDriver->TexteMaillage(NomMeshParent, MeshFileParent, 0);
