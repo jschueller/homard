@@ -121,7 +121,7 @@ This, in turn, creates 4 new tetrahedrons. It should be noted that they are simi
    :width: 229
    :height: 116
 
-Hexaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces. Edges are created connecting each centre of opposite faces. This generates a new point located at the centre of the hexaedron.
+Hexaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces. Edges are created connecting each centre of opposite faces. This generates a new point located at the centre of the hexahedron.
 
 .. image:: ../images/dec_hex.png
    :align: center
@@ -192,9 +192,9 @@ For a tetrahedron with one split edge, the middle of the split edge is joined to
    :width: 116
    :height: 116
 
-The conformal strategy for the hexaedrons is based on tetraedrons and pyramids. The situation depends on the number of non conformities, following the rules for the quadrangles. Here is some examples from the 66 possible situations.
+The conformal strategy for the hexahedrons is based on tetrahedrons and pyramids. The situation depends on the number of non conformities, following the rules for the quadrangles. Here is some examples from the 66 possible situations.
 
-For an hexaedron with one face cut, we create 4 edges, 4 tetraedrons and 5 pyramids.
+For an hexahedron with one face cut, we create 4 edges, 4 tetrahedrons and 5 pyramids.
 
 .. image:: ../images/hexaface.png
    :align: center
@@ -202,7 +202,7 @@ For an hexaedron with one face cut, we create 4 edges, 4 tetraedrons and 5 pyram
    :width: 384
    :height: 101
 
-For an hexaedron with only one edge cut, we create deux internal edges and four pyramids.
+For an hexahedron with only one edge cut, we create deux internal edges and four pyramids.
 
 .. image:: ../images/hexa1arete.png
    :align: center
@@ -210,7 +210,7 @@ For an hexaedron with only one edge cut, we create deux internal edges and four 
    :width: 384
    :height: 101
 
-For an hexaedron with two edges cut, we create one central point 10 edges, 12 tetraedrons and 2 pyramids.
+For an hexahedron with two edges cut, we create one central point 10 edges, 12 tetrahedrons and 2 pyramids.
 
 .. image:: ../images/hexa2aretes.png
    :align: center
@@ -218,7 +218,7 @@ For an hexaedron with two edges cut, we create one central point 10 edges, 12 te
    :width: 384
    :height: 101
 
-For an hexaedron with three edges cut, we create one central point, 11 edges and 18 tetraedrons.
+For an hexahedron with three edges cut, we create one central point, 11 edges and 18 tetrahedrons.
 
 .. image:: ../images/hexa3aretes.png
    :align: center

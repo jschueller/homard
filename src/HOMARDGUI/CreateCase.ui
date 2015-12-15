@@ -441,7 +441,7 @@
       <item row="1" column="0">
        <widget class="QGroupBox" name="GBConforme">
         <property name="title">
-         <string>Conformité</string>
+         <string>Conformity +</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">

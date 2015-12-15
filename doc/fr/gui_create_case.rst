@@ -51,14 +51,12 @@ Les itérations qui seront calculées pour ce cas devront toutes respecter le m�
 
 L'option par défaut, 'conforme', implique que les maillages produits par HOMARD seront conformes au sens des éléments finis. C'est le choix classique de la plupart des logiciels de simulation par éléments finis.
 
-Néanmoins, si le calcul est possible avec des maillages non conformes, on a le choix entre 3 possibilités :
+Il est possible également de traiter des maillages non conformes.
 
 .. image:: images/create_case_4.png
    :align: center
 
-* 1 noeud par maille : une maille ne peut posséder qu'un seul noeud de non conformité avec ses voisines.
-* 1 noeud par arête : chaque arête d'une maille peut être découpée sans que la maille voisine par cette arête ne le soit.
-* quelconque : aucune limitation sur les raccords de conformité d'une maille à l'autre.
+Des variantes peuvent être obtenues avec les options avancées.
 
 .. index:: single: frontière
 
@@ -84,9 +82,12 @@ La définition des frontières est décrite dans :doc:`gui_create_boundary`.
 
 Les options avancées
 ********************
-Par défaut, aucune option avancée n'est active.
+Par défaut, aucune option avancée n'est active. Néanmoins, on peut définir quelques options avancées.
 
-Néanmoins, on peut définir une option avancée :
+Les pyramides
+=============
+
+La première concerne la gestion des mailles pyramidales.
 
 .. image:: images/create_case_7.png
    :align: center
@@ -102,6 +103,35 @@ Par défaut, HOMARD sait traiter des maillages en 2 ou 3 dimensions et comportan
 
 Si le maillage initial comporte des pyramides, il y a arrêt en erreur. Toutefois, si on est certain que les raffinements ultérieurs ne toucheront aucune des arêtes des pyramides, on cochera la case "Pyramides autorisées". Les adaptations se dérouleront normalement et les pyramides seront restituées telles quelles dans le maillage final.
 
+Quelle conformité ?
+===================
+
+Pour un raffinement conforme, on a le choix entre le raffinement conforme standard, option par défaut, ou un raffinement par boîte, c'est-à-dire interdisant le raffinement en escalier.
+
+.. image:: images/create_case_8.png
+   :align: center
+
+Quelle non-conformité ?
+=======================
+
+Pour un raffinement non conforme, on a le choix entre 4 possibilités :
+* raffinement conforme standard, option par défaut
+* raffinement par boîte, c'est-à-dire interdisant le raffinement en escalier
+* 1 noeud par arête : chaque arête d'une maille peut être découpée sans que la maille voisine par cette arête ne le soit.
+* quelconque : aucune limitation sur les raccords de conformité d'une maille à l'autre.
+
+.. image:: images/create_case_9.png
+   :align: center
+
+Le format externe
+=================
+.. index:: single: MED
+.. index:: single: Saturne
+
+Par défaut le format des mailles externes est le format MED. Dans le cas d'un calcul Saturne 2D, on doit le préciser ici pour gérer correctement le caractère pseudo-2D du maillage.
+
+.. image:: ../images/create_case_1.png
+   :align: center
 
 La poursuite d'un cas
 *********************

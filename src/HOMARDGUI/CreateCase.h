@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CreateCase.ui'
 **
-** Created: Mon Dec 14 17:01:30 2015
+** Created: Tue Dec 15 14:39:25 2015
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -521,7 +521,7 @@ public:
         CBAdvanced->setText(QApplication::translate("CreateCase", "Advanced options", 0, QApplication::UnicodeUTF8));
         GBAdvancedOptions->setTitle(QApplication::translate("CreateCase", "Advanced options", 0, QApplication::UnicodeUTF8));
         CBPyramid->setText(QApplication::translate("CreateCase", "Authorized pyramids", 0, QApplication::UnicodeUTF8));
-        GBConforme->setTitle(QApplication::translate("CreateCase", "Conformit\303\251", 0, QApplication::UnicodeUTF8));
+        GBConforme->setTitle(QApplication::translate("CreateCase", "Conformity +", 0, QApplication::UnicodeUTF8));
         RBStandard->setText(QApplication::translate("CreateCase", "Standard", 0, QApplication::UnicodeUTF8));
         RBBox->setText(QApplication::translate("CreateCase", "Box", 0, QApplication::UnicodeUTF8));
         RBNC1NpA->setText(QApplication::translate("CreateCase", "1 node per edge", 0, QApplication::UnicodeUTF8));

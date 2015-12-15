@@ -53,15 +53,12 @@ The future iterations for this case must respect the the same behaviour regardin
 
 The default option, 'conformal', implies that the meshes produced by HOMARD will be conformal, as expected in the finite element method. This is a classical choice for most of the simulation software with the finite element method.
 
-Nevertheless, if the computation is available with non conformal meshes, 3 possibilities are available:
-
+The treatment of non conformal meshes is possible.
 
 .. image:: images/create_case_4.png
    :align: center
 
-* 1 node per element: an element must not have more than one hanging node with its neighbours.
-* 1 node per edge: every single edge of an element ban be split once while its neighbour is not.
-* free: no limit for the number of hanging node.
+Some extra options can be given by the advanced options.
 
 .. index:: single: boundary
 
@@ -85,9 +82,12 @@ The definition of the boundaries is described in :doc:`gui_create_boundary`.
 
 Advanced options
 ****************
-Default: no advanced option.
+Default: no advanced option. Nevertheless, some advanced options can be defined :
 
-Nevertheless, some advanced options can be defined :
+The pyramids
+============
+
+The first option is about the pyramids.
 
 .. image:: images/create_case_7.png
    :align: center
@@ -97,11 +97,43 @@ HOMARD is able to work with 2D or 3D meshes as well, including the following ele
    - segment
    - triangle
    - quadrangle
-   - tetraedron
-   - hexaedron
+   - tetrahedron
+   - hexahedron
    - prism
 
 If pyramids are present into the initial mesh, HOMARD stops with an error. However, if no refinement will be in contact with any edge of those pyramids, the "Authorized pyramids" whould be checked. The adaptation will go on and the pyramids will be back as they are into the initial mesh.
+Nevertheless, if the computation is available with non conformal meshes, 3 possibilities are available:
+
+Which conformity?
+=================
+
+With a conformal refinement, the choice is given between the standard conformal refinement, default option, and a refinement into boxes, e.g. without any staircases.
+
+.. image:: images/create_case_8.png
+   :align: center
+
+Which non conformity?
+=====================
+
+With a non conformal refinement, 4 choices are available:
+
+* standard non conformal refinement, default option
+* refinement into boxes, e.g. without any staircases
+* 1 node per edge: every single edge of an element ban be split once while its neighbour is not.
+* free: no limit for the number of hanging node.
+
+.. image:: images/create_case_9.png
+   :align: center
+
+The external format
+===================
+.. index:: single: MED
+.. index:: single: Saturne
+
+By default, the external format is MED. When coupled with Saturne 2D, it is necessary to precise it to correctly deal with the pseudo 2D situation.
+
+.. image:: ../images/create_case_1.png
+   :align: center
 
 The pursuit of a case
 *********************
