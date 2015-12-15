@@ -388,6 +388,10 @@
         <translation>Option de non conformité</translation>
     </message>
     <message>
+        <source>Conformity +</source>
+        <translation>Conformité +</translation>
+    </message>
+    <message>
         <source>Free</source>
         <translation>Libre</translation>
     </message>
