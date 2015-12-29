@@ -10,16 +10,16 @@
 #ifndef ITERINFO_H
 #define ITERINFO_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QDialog>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QPushButton>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QDialog>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 

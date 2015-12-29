@@ -10,15 +10,15 @@
 #ifndef CREATELISTGROUP_H
 #define CREATELISTGROUP_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QTableWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDialog>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QTableWidget>
 
 class Ui_CreateListGroup
 {
