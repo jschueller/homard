@@ -19,7 +19,7 @@
 #
 """
 Python script for HOMARD
-Test test_11 associe au tutorial 2
+Test test_12 associe au tutorial 2
 """
 __revision__ = "V2.3"
 
@@ -75,26 +75,26 @@ Python script for HOMARD
   #
   # Creation des zones
   # ==================
-  # Box "Zone_0"
-  Zone_0 = homard.CreateZoneBox ('Zone_0', -0.1, 1.1, -0.1, 1.1, 0.9, 1.1)
+  # Box "Zone_12_0"
+  Zone_12_0 = homard.CreateZoneBox ('Zone_12_0', -0.1, 1.1, -0.1, 1.1, 0.9, 1.1)
   #
-  # Sphere "Zone_1"
-  Zone_1 = homard.CreateZoneSphere ('Zone_1', 0., 0., 0., 1.05)
+  # Sphere "Zone_12_1"
+  Zone_12_1 = homard.CreateZoneSphere ('Zone_12_1', 0., 0., 0., 1.05)
   #
-  # Box "Zone_2"
-  Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
+  # Box "Zone_12_2"
+  Zone_12_2 = homard.CreateZoneBox ('Zone_12_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
   #
   # Hypothese "Hypo_2"
   # ==================
   Hypo_2 = homard.CreateHypothesis('Hypo_2')
-  Hypo_2.AddZone('Zone_1', 1)
-  Hypo_2.AddZone('Zone_0', 1)
+  Hypo_2.AddZone('Zone_12_1', 1)
+  Hypo_2.AddZone('Zone_12_0', 1)
   #
   # Hypothese "Hypo_2_bis"
   # ======================
   Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
-  Hypo_2_bis.AddZone('Zone_0', -1)
-  Hypo_2_bis.AddZone('Zone_2', 1)
+  Hypo_2_bis.AddZone('Zone_12_0', -1)
+  Hypo_2_bis.AddZone('Zone_12_2', 1)
   #
   # Cas
   # ===

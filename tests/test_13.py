@@ -19,7 +19,7 @@
 #
 """
 Python script for HOMARD
-Test test_11 associe au tutorial 3
+Test test_13 associe au tutorial 3
 """
 __revision__ = "V2.3"
 
