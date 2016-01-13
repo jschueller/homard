@@ -108,10 +108,9 @@ Python script for HOMARD
   # Creation of the case case_test_3
   # ===========================
       if ( num <= 1 ) :
-        casename = "case_" + TEST_NAME
-        print "-------- Creation of the case", casename
+        print "-------- Creation of the case", TEST_NAME
         mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
-        case_test_3 = HOMARD.CreateCase(casename, 'MOYEU', mesh_file)
+        case_test_3 = HOMARD.CreateCase(TEST_NAME, 'MOYEU', mesh_file)
         case_test_3.SetDirName(DIRCASE)
         case_test_3.AddBoundaryGroup('courbes', '')
         case_test_3.AddBoundaryGroup('cyl_ext', 'EXT')

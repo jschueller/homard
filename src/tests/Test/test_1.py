@@ -120,10 +120,9 @@ Python script for HOMARD
   # Creation of the cases
   # =====================
     # Creation of the case
-    casename = "Case_" + TEST_NAME
-    print "-------- Creation of the case", casename
+    print "-------- Creation of the case", TEST_NAME
     mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
-    case_test_1 = HOMARD.CreateCase(casename, 'MAILL', mesh_file)
+    case_test_1 = HOMARD.CreateCase(TEST_NAME, 'MAILL', mesh_file)
     case_test_1.SetDirName(DIRCASE)
   #
   # Creation of the iterations

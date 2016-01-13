@@ -107,9 +107,8 @@ Python script for HOMARD
   # Creation of the cases
   # =====================
     # Creation of the case
-    casename = "case_" + TEST_NAME
     mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
-    case_test_2 = HOMARD.CreateCase(casename, 'PLAQUE_0', mesh_file)
+    case_test_2 = HOMARD.CreateCase(TEST_NAME, 'PLAQUE_0', mesh_file)
     case_test_2.SetDirName(DIRCASE)
     case_test_2.AddBoundaryGroup('internal_boundary', '')
   #
