@@ -19,12 +19,12 @@
 #
 """
 Python script for HOMARD
-Test test_14 associe au tutorial 4
+Test tutorial_4 associe au tutorial 4
 """
 __revision__ = "V3.1"
 
 #========================================================================
-TEST_NAME = "test_14"
+TEST_NAME = "tutorial_4"
 DEBUG = False
 N_ITER_TEST_FILE = 3
 #========================================================================
