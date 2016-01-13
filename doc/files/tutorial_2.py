@@ -24,22 +24,22 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.10"
+__revision__ = "V2.10"
 #
 import os
 import sys
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 # Repertoire des donnees du tutorial
-data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-data_dir = os.path.normpath(data_dir)
-sys.path.append(data_dir)
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 from tutorial_util import creation_dircase
 # ==================================
-dircase = creation_dircase(2)
-gzip_gunzip(data_dir, 2, -1)
+DIRCASE = creation_dircase(2)
+gzip_gunzip(DATA_TUTORIAL, 2, -1)
 # ==================================
 #
 import salome
@@ -61,41 +61,41 @@ Zone_1 = homard.CreateZoneSphere ('Zone_1', 0., 0., 0., 1.05)
 # Box "Zone_2"
 Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 #
-# Hypothese "Hypo_2"
+# Hypothese "hypo_2"
 # ==================
-Hypo_2 = homard.CreateHypothesis('Hypo_2')
-Hypo_2.AddZone('Zone_1', 1)
-Hypo_2.AddZone('Zone_0', 1)
+hypo_2 = homard.CreateHypothesis('hypo_2')
+hypo_2.AddZone('Zone_1', 1)
+hypo_2.AddZone('Zone_0', 1)
 #
-# Hypothese "Hypo_2_bis"
+# Hypothese "hypo_2_bis"
 # ======================
-Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
-Hypo_2_bis.AddZone('Zone_0', -1)
-Hypo_2_bis.AddZone('Zone_2', 1)
+hypo_2_bis = homard.CreateHypothesis('hypo_2_bis')
+hypo_2_bis.AddZone('Zone_0', -1)
+hypo_2_bis.AddZone('Zone_2', 1)
 #
 # Cas
 # ===
-Case_2 = homard.CreateCase('Case_2', 'MZERO', data_dir+'/tutorial_2.00.med')
-Case_2.SetDirName(dircase)
+case_2 = homard.CreateCase('Case_2', 'MZERO', DATA_TUTORIAL+'/tutorial_2.00.med')
+case_2.SetDirName(DIRCASE)
 #
-# Iteration "Iter_2_1"
+# Iteration "iter_2_1"
 # ====================
-Iter_2_1 = Case_2.NextIteration('Iter_2_1')
-Iter_2_1.SetMeshName('M_1')
-Iter_2_1.SetMeshFile(dircase+'/maill.01.med')
-Iter_2_1.AssociateHypo('Hypo_2')
-error = Iter_2_1.Compute(1, 2)
+iter_2_1 = case_2.NextIteration('iter_2_1')
+iter_2_1.SetMeshName('M_1')
+iter_2_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_2_1.AssociateHypo('hypo_2')
+error = iter_2_1.Compute(1, 2)
 #
-# Iteration "Iter_2_2"
+# Iteration "iter_2_2"
 # ====================
-Iter_2_2 = Iter_2_1.NextIteration('Iter_2_2')
-Iter_2_2.SetMeshName('M_2')
-Iter_2_2.SetMeshFile(dircase+'/maill.02.med')
-Iter_2_2.AssociateHypo('Hypo_2_bis')
-error = Iter_2_2.Compute(1, 2)
+iter_2_2 = iter_2_1.NextIteration('iter_2_2')
+iter_2_2.SetMeshName('M_2')
+iter_2_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_2_2.AssociateHypo('hypo_2_bis')
+error = iter_2_2.Compute(1, 2)
 
 # ==================================
-gzip_gunzip(data_dir, 2, 1)
+gzip_gunzip(DATA_TUTORIAL, 2, 1)
 # ==================================
 
 if salome.sg.hasDesktop():

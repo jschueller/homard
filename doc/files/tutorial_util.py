@@ -21,16 +21,16 @@
 Python script for HOMARD
 Copyright EDF-R&D 2014
 """
-__revision__ = "V1.2"
+__revision__ = "V1.3"
 
 import os
 import sys
 
 PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "resources", "homard")
-REP_DATA = os.path.normpath(REP_DATA)
-sys.path.append(REP_DATA)
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 
 #========================================================================
