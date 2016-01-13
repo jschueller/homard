@@ -21,12 +21,12 @@
 Python script for HOMARD
 Test test_12 associe au tutorial 2
 """
-__revision__ = "V2.3"
+__revision__ = "V3.1"
 
 #========================================================================
-Test_Name = "test_12"
-debug=False
-n_iter_test_file = 2
+TEST_NAME = "test_12"
+DEBUG = False
+N_ITER_TEST_FILE = 2
 #========================================================================
 import os
 import tempfile
@@ -35,34 +35,37 @@ import HOMARD
 import salome
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # Repertoire des donnees du tutorial
-data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-data_dir = os.path.normpath(data_dir)
-sys.path.append(data_dir)
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 # ==================================
-gzip_gunzip(data_dir, 2, -1)
+gzip_gunzip(DATA_TUTORIAL, 2, -1)
 # ==================================
 
 salome.salome_init()
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -71,77 +74,77 @@ def homard_exec(theStudy):
 Python script for HOMARD
   """
   #
-  homard.SetCurrentStudy(theStudy)
+  HOMARD.SetCurrentStudy(theStudy)
   #
   # Creation des zones
   # ==================
   # Box "Zone_12_0"
-  Zone_12_0 = homard.CreateZoneBox ('Zone_12_0', -0.1, 1.1, -0.1, 1.1, 0.9, 1.1)
+  zone_12_0 = HOMARD.CreateZoneBox ('Zone_12_0', -0.1, 1.1, -0.1, 1.1, 0.9, 1.1)
   #
   # Sphere "Zone_12_1"
-  Zone_12_1 = homard.CreateZoneSphere ('Zone_12_1', 0., 0., 0., 1.05)
+  zone_12_1 = HOMARD.CreateZoneSphere ('Zone_12_1', 0., 0., 0., 1.05)
   #
   # Box "Zone_12_2"
-  Zone_12_2 = homard.CreateZoneBox ('Zone_12_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
+  zone_12_2 = HOMARD.CreateZoneBox ('Zone_12_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
   #
-  # Hypothese "Hypo_2"
+  # Hypothese "hypo_2"
   # ==================
-  Hypo_2 = homard.CreateHypothesis('Hypo_2')
-  Hypo_2.AddZone('Zone_12_1', 1)
-  Hypo_2.AddZone('Zone_12_0', 1)
+  hypo_2 = HOMARD.CreateHypothesis('hypo_2')
+  hypo_2.AddZone('Zone_12_1', 1)
+  hypo_2.AddZone('Zone_12_0', 1)
   #
-  # Hypothese "Hypo_2_bis"
+  # Hypothese "hypo_2_bis"
   # ======================
-  Hypo_2_bis = homard.CreateHypothesis('Hypo_2_bis')
-  Hypo_2_bis.AddZone('Zone_12_0', -1)
-  Hypo_2_bis.AddZone('Zone_12_2', 1)
+  hypo_2_bis = HOMARD.CreateHypothesis('hypo_2_bis')
+  hypo_2_bis.AddZone('Zone_12_0', -1)
+  hypo_2_bis.AddZone('Zone_12_2', 1)
   #
   # Cas
   # ===
-  Case_2 = homard.CreateCase('Case_2', 'MZERO', data_dir+'/tutorial_2.00.med')
-  Case_2.SetDirName(dircase)
+  case_2 = HOMARD.CreateCase('case_2', 'MZERO', DATA_TUTORIAL+'/tutorial_2.00.med')
+  case_2.SetDirName(DIRCASE)
   #
-  # Iteration "Iter_2_1"
+  # Iteration "iter_2_1"
   # ====================
-  Iter_2_1 = Case_2.NextIteration('Iter_2_1')
-  Iter_2_1.SetMeshName('M_1')
-  Iter_2_1.SetMeshFile(dircase+'/maill.01.med')
-  Iter_2_1.AssociateHypo('Hypo_2')
-  error = Iter_2_1.Compute(1, 2)
+  iter_2_1 = case_2.NextIteration('iter_2_1')
+  iter_2_1.SetMeshName('M_1')
+  iter_2_1.SetMeshFile(DIRCASE+'/maill.01.med')
+  iter_2_1.AssociateHypo('hypo_2')
+  error = iter_2_1.Compute(1, 2)
   #
-  # Iteration "Iter_2_2"
+  # Iteration "iter_2_2"
   # ====================
-  Iter_2_2 = Iter_2_1.NextIteration('Iter_2_2')
-  Iter_2_2.SetMeshName('M_2')
-  Iter_2_2.SetMeshFile(dircase+'/maill.02.med')
-  Iter_2_2.AssociateHypo('Hypo_2_bis')
-  error = Iter_2_2.Compute(1, 2)
+  iter_2_2 = iter_2_1.NextIteration('iter_2_2')
+  iter_2_2.SetMeshName('M_2')
+  iter_2_2.SetMeshFile(DIRCASE+'/maill.02.med')
+  iter_2_2.AssociateHypo('hypo_2_bis')
+  error = iter_2_2.Compute(1, 2)
   #
   return error
 
 #========================================================================
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load HOMARD engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 # ==================================
-gzip_gunzip(data_dir, 2, 1)
+gzip_gunzip(DATA_TUTORIAL, 2, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():

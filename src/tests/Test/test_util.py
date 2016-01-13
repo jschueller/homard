@@ -20,9 +20,9 @@
 """
 Python script for HOMARD
 Copyright EDF-R&D 2014
-Test test_1
+Utilitaires pour les tests
 """
-__revision__ = "V1.2"
+__revision__ = "V1.3"
 
 import os
 #========================================================================
@@ -46,11 +46,11 @@ Copyright EDF-R&D 2013
 #
 #========================================================================
 #========================================================================
-def test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir = True) :
+def test_results(rep_test, test_name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir = True) :
   """
 Test of the result
-Rep_Test: repertoire des tests
-Test_Name: nom du test
+rep_test: repertoire des tests
+test_name: nom du test
 dircase: repertoire des resultats du test
 n_iter_test_file: numero de l'iteration a tester
 n_rep_test_file: numero du repertoire de l'iteration a tester
@@ -61,7 +61,7 @@ Copyright EDF-R&D 2014
   test_file_suff = "apad.%02d.bilan" % n_iter_test_file
   rep_test_file = "I%02d" % n_rep_test_file
   #
-  test_file = os.path.join(Rep_Test, Test_Name + "." + test_file_suff)
+  test_file = os.path.join(rep_test, test_name + "." + test_file_suff)
   mess_error_ref = "\nReference file: " + test_file
   try :
     file = open (test_file, "r")

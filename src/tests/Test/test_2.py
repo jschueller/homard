@@ -21,12 +21,12 @@
 Python script for HOMARD
 Test test_2
 """
-__revision__ = "V2.5"
+__revision__ = "V3.1"
 
 #========================================================================
-Test_Name = "test_2"
-debug=False
-n_iter_test_file = 3
+TEST_NAME = "test_2"
+DEBUG = False
+N_ITER_TEST_FILE = 3
 #========================================================================
 import os
 import tempfile
@@ -35,27 +35,30 @@ import HOMARD
 import salome
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # ==================================
 
 salome.salome_init()
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -67,94 +70,94 @@ Python script for HOMARD
 #
   while not error :
   #
-    homard.SetCurrentStudy(theStudy)
+    HOMARD.SetCurrentStudy(theStudy)
   #
   # Creation of the boundaries
   # ==========================
-  # Creation of the discrete boundary Boundary_1
-    Boundary_1 = homard.CreateBoundaryDi('internal_boundary', 'plaque', os.path.join(Rep_Test, Test_Name + '.fr.med'))
+  # Creation of the discrete boundary boundary_1
+    boundary_1 = HOMARD.CreateBoundaryDi('internal_boundary', 'plaque', os.path.join(REP_DATA, TEST_NAME + '.fr.med'))
   #
   # Creation of the hypotheses
   # ==========================
   # Creation of the hypothesis 1
-    HypoName_1 = "Hypo_" + Test_Name + "_1"
-    print "-------- Creation of the hypothesis", HypoName_1
-    Hypo_test_2_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_test_2_1.SetUnifRefinUnRef(1)
-    Hypo_test_2_1.AddGroup('EG')
-    Hypo_test_2_1.AddGroup('BANDE')
-    print HypoName_1, " : zones utilisées :", Hypo_test_2_1.GetZones()
-    print HypoName_1, " : champ utilisé :", Hypo_test_2_1.GetFieldName()
-    print HypoName_1, " : composantes utilisées :", Hypo_test_2_1.GetComps()
-    if ( len (Hypo_test_2_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_test_2_1.GetField()
+    hyponame_1 = "hypo_" + TEST_NAME + "_1"
+    print "-------- Creation of the hypothesis", hyponame_1
+    hypo_test_2_1 = HOMARD.CreateHypothesis(hyponame_1)
+    hypo_test_2_1.SetUnifRefinUnRef(1)
+    hypo_test_2_1.AddGroup('EG')
+    hypo_test_2_1.AddGroup('BANDE')
+    print hyponame_1, " : zones utilisées :", hypo_test_2_1.GetZones()
+    print hyponame_1, " : champ utilisé :", hypo_test_2_1.GetFieldName()
+    print hyponame_1, " : composantes utilisées :", hypo_test_2_1.GetComps()
+    if ( len (hypo_test_2_1.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", hypo_test_2_1.GetField()
 
   # Creation of the hypothesis 2
-    HypoName_2 = "Hypo_" + Test_Name + "_2"
-    print "-------- Creation of the hypothesis", HypoName_2
-    Hypo_test_2_2 = homard.CreateHypothesis(HypoName_2)
-    Hypo_test_2_2.SetUnifRefinUnRef(1)
-    Hypo_test_2_2.AddGroup('M_D')
-    print HypoName_2, " : zones utilisées :", Hypo_test_2_2.GetZones()
-    print HypoName_2, " : champ utilisé :", Hypo_test_2_2.GetFieldName()
-    print HypoName_2, " : composantes utilisées :", Hypo_test_2_2.GetComps()
-    if ( len (Hypo_test_2_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_test_2_2.GetField()
+    hyponame_2 = "hypo_" + TEST_NAME + "_2"
+    print "-------- Creation of the hypothesis", hyponame_2
+    hypo_test_2_2 = HOMARD.CreateHypothesis(hyponame_2)
+    hypo_test_2_2.SetUnifRefinUnRef(1)
+    hypo_test_2_2.AddGroup('M_D')
+    print hyponame_2, " : zones utilisées :", hypo_test_2_2.GetZones()
+    print hyponame_2, " : champ utilisé :", hypo_test_2_2.GetFieldName()
+    print hyponame_2, " : composantes utilisées :", hypo_test_2_2.GetComps()
+    if ( len (hypo_test_2_2.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", hypo_test_2_2.GetField()
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    CaseName = "Case_" + Test_Name
-    MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-    Case_test_2 = homard.CreateCase(CaseName, 'PLAQUE_0', MeshFile)
-    Case_test_2.SetDirName(dircase)
-    Case_test_2.AddBoundaryGroup('internal_boundary', '')
+    casename = "case_" + TEST_NAME
+    mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
+    case_test_2 = HOMARD.CreateCase(casename, 'PLAQUE_0', mesh_file)
+    case_test_2.SetDirName(DIRCASE)
+    case_test_2.AddBoundaryGroup('internal_boundary', '')
   #
   # Creation of the iterations
   # ==========================
   # Creation of the iteration 1
-    IterName = "I_" + Test_Name + "_1"
-    Iter_test_2_1 = Case_test_2.NextIteration(IterName)
-    Iter_test_2_1.SetMeshName('PLAQUE_1')
-    Iter_test_2_1.SetMeshFile(os.path.join(dircase, 'maill.01.med'))
-    Iter_test_2_1.AssociateHypo(HypoName_1)
-    error = Iter_test_2_1.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_1"
+    iter_test_2_1 = case_test_2.NextIteration(iter_name)
+    iter_test_2_1.SetMeshName('PLAQUE_1')
+    iter_test_2_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
+    iter_test_2_1.AssociateHypo(hyponame_1)
+    error = iter_test_2_1.Compute(1, 1)
     if error :
       error = 1
       break
 
   # Creation of the iteration 2
-    IterName = "I_" + Test_Name + "_2"
-    Iter_test_2_2 = Iter_test_2_1.NextIteration(IterName)
-    Iter_test_2_2.SetMeshName('PLAQUE_2')
-    Iter_test_2_2.SetMeshFile(os.path.join(dircase, 'maill.02.med'))
-    Iter_test_2_2.AssociateHypo(HypoName_1)
-    error = Iter_test_2_2.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_2"
+    iter_test_2_2 = iter_test_2_1.NextIteration(iter_name)
+    iter_test_2_2.SetMeshName('PLAQUE_2')
+    iter_test_2_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
+    iter_test_2_2.AssociateHypo(hyponame_1)
+    error = iter_test_2_2.Compute(1, 1)
     if error :
       error = 2
       break
 
   # Creation of the iteration 3
-    IterName = "I_" + Test_Name + "_3"
-    Iter_test_2_3 = Iter_test_2_2.NextIteration(IterName)
-    Iter_test_2_3.SetMeshName('PLAQUE_3')
-    Iter_test_2_3.SetMeshFile(os.path.join(dircase, 'maill.03.med'))
-    Iter_test_2_3.AssociateHypo(HypoName_2)
-    error = Iter_test_2_3.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_3"
+    iter_test_2_3 = iter_test_2_2.NextIteration(iter_name)
+    iter_test_2_3.SetMeshName('PLAQUE_3')
+    iter_test_2_3.SetMeshFile(os.path.join(DIRCASE, 'maill.03.med'))
+    iter_test_2_3.AssociateHypo(hyponame_2)
+    error = iter_test_2_3.Compute(1, 1)
     if error :
       error = 3
       break
   #
   # Creation of the schema YACS
   # ===========================
-    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
-    ScriptFile = os.path.normpath(ScriptFile)
-    DirName = dircase
-    YACS_test_2 = Case_test_2.CreateYACSSchema("YACS_test_2", ScriptFile, DirName, MeshFile)
-    YACS_test_2.SetMaxIter(4)
-    YACS_test_2.SetType(1)
-    filexml = os.path.join(dircase, 'YACS_test_2.xml')
-    error = YACS_test_2.WriteOnFile(filexml)
+    scriptfile = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
+    scriptfile = os.path.normpath(scriptfile)
+    dirname = DIRCASE
+    yacs_test_2 = case_test_2.CreateYACSSchema("YACS_test_2", scriptfile, dirname, mesh_file)
+    yacs_test_2.SetMaxIter(4)
+    yacs_test_2.SetType(1)
+    filexml = os.path.join(DIRCASE, 'yacs_test_2.xml')
+    error = yacs_test_2.WriteOnFile(filexml)
     if error :
       error = 4
       break
@@ -165,24 +168,24 @@ Python script for HOMARD
 
 #========================================================================
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load homard engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

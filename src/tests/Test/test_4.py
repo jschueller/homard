@@ -21,12 +21,12 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V1.0"
+__revision__ = "V2.1"
 
 #========================================================================
-Test_Name = "test_4"
-debug=False
-n_iter_test_file = 3
+TEST_NAME = "test_4"
+DEBUG = False
+N_ITER_TEST_FILE = 3
 DX = 600.
 DY = 400.
 DZ = 200.
@@ -43,21 +43,24 @@ import MEDCoupling as mc
 import MEDLoader as ml
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # ==================================
 
 salome.salome_init()
@@ -71,8 +74,8 @@ from MEDLoader import MEDLoader
 from MEDCouplingRemapper import MEDCouplingRemapper
 
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -88,34 +91,34 @@ Python script for GEOM and SMESH
   #
   # Creation of the box
   # ===================
-    BOX = geompy.MakeBoxDXDYDZ(DX, DY, DZ, "BOX")
+    box_g = geompy.MakeBoxDXDYDZ(DX, DY, DZ, "BOX")
 
   # Creation of the mesh
   # ====================
     smesh = smeshBuilder.New(theStudy)
-    MESH = smesh.Mesh(BOX)
-    smesh.SetName(MESH.GetMesh(), 'MESH')
+    box_m = smesh.Mesh(box_g)
+    smesh.SetName(box_m.GetMesh(), 'MESH')
   #
   # Creation of the hypotheses
   # ==========================
-    Regular_1D = MESH.Segment()
-    smesh.SetName(Regular_1D.GetAlgorithm(), 'Regular_1D')
-    Length = min(DX, DY, DZ) / 5.
-    Local_Length = Regular_1D.LocalLength(Length,None,1e-07)
-    smesh.SetName(Local_Length, 'Local Length')
+    regular_1d = box_m.Segment()
+    smesh.SetName(regular_1d.GetAlgorithm(), 'Regular_1D')
+    length = min(DX, DY, DZ) / 5.
+    local_length = regular_1d.LocalLength(length, None, 1e-07)
+    smesh.SetName(local_length, 'Local Length')
   #
-    Quadrangle_2D = MESH.Quadrangle(algo=smeshBuilder.QUADRANGLE)
-    smesh.SetName(Quadrangle_2D.GetAlgorithm(), 'Quadrangle_2D')
-    Quadrangle_Parameters = Quadrangle_2D.QuadrangleParameters(StdMeshersBuilder.QUAD_STANDARD,-1,[],[])
-    smesh.SetName(Quadrangle_Parameters, 'Quadrangle Parameters')
+    quadrangle_2d = box_m.Quadrangle(algo=smeshBuilder.QUADRANGLE)
+    smesh.SetName(quadrangle_2d.GetAlgorithm(), 'Quadrangle_2D')
+    quadrangle_parameters = quadrangle_2d.QuadrangleParameters(StdMeshersBuilder.QUAD_STANDARD, -1, [], [])
+    smesh.SetName(quadrangle_parameters, 'Quadrangle Parameters')
   #
-    Hexa_3D = MESH.Hexahedron(algo=smeshBuilder.Hexa)
-    smesh.SetName(Hexa_3D.GetAlgorithm(), 'Hexa_3D')
+    hexa_3d = box_m.Hexahedron(algo=smeshBuilder.Hexa)
+    smesh.SetName(hexa_3d.GetAlgorithm(), 'Hexa_3D')
   #
   # Computation
   # ===========
   #
-    isDone = MESH.Compute()
+    isDone = box_m.Compute()
     if not isDone :
       error = 1
       break
@@ -124,11 +127,11 @@ Python script for GEOM and SMESH
   # ===============
   #
     try:
-      ficmed = os.path.join(dircase, 'maill.00.med')
-      MESH.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None ,1)
-    except Exception, e:
-      raise Exception('ExportToMEDX() failed. '+e.message)
+      ficmed = os.path.join(DIRCASE, 'maill.00.med')
+      box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
+    except Exception, eee:
       error = 2
+      raise Exception('ExportToMEDX() failed. '+eee.message)
   #
     break
   #
@@ -147,7 +150,7 @@ Python script for MEDCoupling
   #
   # The mesh
   # ========
-    ficmed = os.path.join(dircase, 'maill.%02d.med' % niter)
+    ficmed = os.path.join(DIRCASE, 'maill.%02d.med' % niter)
     meshMEDFileRead = ml.MEDFileMesh.New(ficmed)
     meshRead0 = meshMEDFileRead.getMeshAtLevel(0)
   # Valeurs of the field
@@ -191,98 +194,98 @@ Python script for HOMARD
 #
   while not error :
   #
-    homard.SetCurrentStudy(theStudy)
+    HOMARD.SetCurrentStudy(theStudy)
   #
   # Creation of the zones
   # =====================
   #
     epsilon = min(DX, DY, DZ) / 100.
-  # Creation of the box Zone_4_1
-    Zone_4_1 = homard.CreateZoneBox('Zone_4_1', -epsilon, DX/3.+epsilon, DY/4.-epsilon, 3.*DY/4.+epsilon, 4.*DZ/5.-epsilon, DZ+epsilon)
+  # Creation of the box zone_4_1
+    zone_4_1 = HOMARD.CreateZoneBox('Zone_4_1', -epsilon, DX/3.+epsilon, DY/4.-epsilon, 3.*DY/4.+epsilon, 4.*DZ/5.-epsilon, DZ+epsilon)
 
-  # Creation of the sphere Zone_4_2
+  # Creation of the sphere zone_4_2
     rayon = min(DX, DY, DZ) / 4.
-    Zone_4_2 = homard.CreateZoneSphere('Zone_4_2', DX/3., DY*0.3, DZ*0.6, rayon)
+    zone_4_2 = HOMARD.CreateZoneSphere('Zone_4_2', DX/3., DY*0.3, DZ*0.6, rayon)
   #
   # Creation of the hypotheses
   # ==========================
     dico = {}
     dico["1"] = "raffinement"
     dico["-1"] = "deraffinement"
-  # Creation of the hypothesis Hypo_4_1
-    HypoName_1 = "Zone_1"
-    print "-------- Creation of the hypothesis", HypoName_1
-    Hypo_4_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_4_1.AddZone('Zone_4_1', 1)
-    Hypo_4_1.SetExtraOutput(2)
-    laux = Hypo_4_1.GetZones()
+  # Creation of the hypothesis hypo_4_1
+    hyponame_1 = "Zone_1"
+    print "-------- Creation of the hypothesis", hyponame_1
+    hypo_4_1 = HOMARD.CreateHypothesis(hyponame_1)
+    hypo_4_1.AddZone('Zone_4_1', 1)
+    hypo_4_1.SetExtraOutput(2)
+    laux = hypo_4_1.GetZones()
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print HypoName_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
       jaux += 2
-  # Creation of the hypothesis Hypo_4_2
-    HypoName_2 = "Zone_2"
-    print "-------- Creation of the hypothesis", HypoName_2
-    Hypo_4_2 = homard.CreateHypothesis(HypoName_2)
-    Hypo_4_2.AddZone('Zone_4_2', 1)
-    Hypo_4_2.SetExtraOutput(2)
-    laux = Hypo_4_2.GetZones()
+  # Creation of the hypothesis hypo_4_2
+    hyponame_2 = "Zone_2"
+    print "-------- Creation of the hypothesis", hyponame_2
+    hypo_4_2 = HOMARD.CreateHypothesis(hyponame_2)
+    hypo_4_2.AddZone('Zone_4_2', 1)
+    hypo_4_2.SetExtraOutput(2)
+    laux = hypo_4_2.GetZones()
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print HypoName_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
       jaux += 2
   # Creation of the hypothesis DISTANCE INVERSE
-    HypoName_3 = "DISTANCE INVERSE"
-    print "-------- Creation of the hypothesis", HypoName_3
-    Hypo_4_3 = homard.CreateHypothesis(HypoName_3)
-    Hypo_4_3.SetField('DISTANCE')
-    Hypo_4_3.SetUseComp(0)
-    Hypo_4_3.SetRefinThr(1, 0.3)
-    Hypo_4_3.SetUnRefThr(1, 0.2)
-    Hypo_4_3.AddFieldInterp('DISTANCE')
-    Hypo_4_3.SetExtraOutput(2)
-    print HypoName_3, " : zones utilisées :", Hypo_4_3.GetZones()
-    print HypoName_3, " : champ utilisé :", Hypo_4_3.GetFieldName()
-    print HypoName_3, " : composantes utilisées :", Hypo_4_3.GetComps()
-    if ( len (Hypo_4_3.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_4_3.GetField()
-    print HypoName_3, " : champs interpolés :", Hypo_4_3.GetFieldInterps()
+    hyponame_3 = "DISTANCE INVERSE"
+    print "-------- Creation of the hypothesis", hyponame_3
+    hypo_4_3 = HOMARD.CreateHypothesis(hyponame_3)
+    hypo_4_3.SetField('DISTANCE')
+    hypo_4_3.SetUseComp(0)
+    hypo_4_3.SetRefinThr(1, 0.3)
+    hypo_4_3.SetUnRefThr(1, 0.2)
+    hypo_4_3.AddFieldInterp('DISTANCE')
+    hypo_4_3.SetExtraOutput(2)
+    print hyponame_3, " : zones utilisées :", hypo_4_3.GetZones()
+    print hyponame_3, " : champ utilisé :", hypo_4_3.GetFieldName()
+    print hyponame_3, " : composantes utilisées :", hypo_4_3.GetComps()
+    if ( len (hypo_4_3.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", hypo_4_3.GetField()
+    print hyponame_3, " : champs interpolés :", hypo_4_3.GetFieldInterps()
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    CaseName = "Case_" + Test_Name
-    print "-------- Creation of the case", CaseName
-    MeshFile = os.path.join(dircase, 'maill.00.med')
-    Case_test_4 = homard.CreateCase(CaseName, 'MESH', MeshFile)
-    Case_test_4.SetDirName(dircase)
+    casename = "case_" + TEST_NAME
+    print "-------- Creation of the case", casename
+    mesh_file = os.path.join(DIRCASE, 'maill.00.med')
+    case_test_4 = HOMARD.CreateCase(casename, 'MESH', mesh_file)
+    case_test_4.SetDirName(DIRCASE)
   #
   # Creation of the iterations
   # ==========================
   # Creation of the iteration 1
-    IterName = "I_" + Test_Name + "_1"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_4_1 = Case_test_4.NextIteration(IterName)
-    Iter_test_4_1.AssociateHypo(HypoName_1)
-    print ". Hypothese :", HypoName_1
-    Iter_test_4_1.SetMeshName('M1')
-    Iter_test_4_1.SetMeshFile(os.path.join(dircase, 'maill.01.med'))
-    error = Iter_test_4_1.Compute(1, 2)
+    iter_name = "I_" + TEST_NAME + "_1"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_4_1 = case_test_4.NextIteration(iter_name)
+    iter_test_4_1.AssociateHypo(hyponame_1)
+    print ". Hypothese :", hyponame_1
+    iter_test_4_1.SetMeshName('M1')
+    iter_test_4_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
+    error = iter_test_4_1.Compute(1, 2)
     if error :
       error = 1
       break
 
   # Creation of the iteration 2
-    IterName = "I_" + Test_Name + "_2"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_4_2 = Iter_test_4_1.NextIteration(IterName)
-    Iter_test_4_2.AssociateHypo(HypoName_2)
-    print ". Hypothese :", HypoName_2
-    Iter_test_4_2.SetMeshName('M2')
-    Iter_test_4_2.SetMeshFile(os.path.join(dircase, 'maill.02.med'))
-    error = Iter_test_4_2.Compute(1, 2)
+    iter_name = "I_" + TEST_NAME + "_2"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_4_2 = iter_test_4_1.NextIteration(iter_name)
+    iter_test_4_2.AssociateHypo(hyponame_2)
+    print ". Hypothese :", hyponame_2
+    iter_test_4_2.SetMeshName('M2')
+    iter_test_4_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
+    error = iter_test_4_2.Compute(1, 2)
     if error :
       error = 2
       break
@@ -294,15 +297,15 @@ Python script for HOMARD
       error = 30
       break
   #
-    IterName = "I_" + Test_Name + "_3"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_4_3 = Iter_test_4_2.NextIteration(IterName)
-    Iter_test_4_3.AssociateHypo(HypoName_3)
-    print ". Hypothese :", HypoName_3
-    Iter_test_4_3.SetMeshName('M3')
-    Iter_test_4_3.SetFieldFile(os.path.join(dircase, 'maill.02.med'))
-    Iter_test_4_3.SetMeshFile(os.path.join(dircase, 'maill.03.med'))
-    error = Iter_test_4_3.Compute(1, 2)
+    iter_name = "I_" + TEST_NAME + "_3"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_4_3 = iter_test_4_2.NextIteration(iter_name)
+    iter_test_4_3.AssociateHypo(hyponame_3)
+    print ". Hypothese :", hyponame_3
+    iter_test_4_3.SetMeshName('M3')
+    iter_test_4_3.SetFieldFile(os.path.join(DIRCASE, 'maill.02.med'))
+    iter_test_4_3.SetMeshFile(os.path.join(DIRCASE, 'maill.03.med'))
+    error = iter_test_4_3.Compute(1, 2)
     if error :
       error = 3
       break
@@ -316,30 +319,30 @@ Python script for HOMARD
 # Geometry and Mesh
 #
 try :
-  error_main = geom_smesh_exec(salome.myStudy)
-  if error_main :
+  ERROR = geom_smesh_exec(salome.myStudy)
+  if ERROR :
     raise Exception('Pb in geom_smesh_exec')
-except Exception, e:
-  raise Exception('Pb in geom_smesh_exec: '+e.message)
+except Exception, eee:
+  raise Exception('Pb in geom_smesh_exec: '+eee.message)
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load homard engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

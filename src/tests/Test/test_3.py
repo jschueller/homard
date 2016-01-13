@@ -21,13 +21,13 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V2.4"
+__revision__ = "V3.1"
 
 #========================================================================
-Test_Name = "test_3"
-debug=False
-n_boucle = 2
-n_iter_test_file = 2
+TEST_NAME = "test_3"
+DEBUG = False
+N_BOUCLE = 2
+N_ITER_TEST_FILE = 2
 #========================================================================
 import os
 import tempfile
@@ -36,27 +36,30 @@ import HOMARD
 import salome
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # ==================================
 
 salome.salome_init()
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -67,92 +70,92 @@ Python script for HOMARD
   error = 0
 #
   while not error :
-#
-    homard.SetCurrentStudy(theStudy)
+  #
+    HOMARD.SetCurrentStudy(theStudy)
   #
   # Creation of the boundaries
   # ==========================
   # Creation of the discrete boundary
-    Boundary_3_1 = homard.CreateBoundaryDi('courbes', 'COURBES', os.path.join(Rep_Test, Test_Name + '.fr.med'))
+    boundary_3_1 = HOMARD.CreateBoundaryDi('courbes', 'COURBES', os.path.join(REP_DATA, TEST_NAME + '.fr.med'))
   #
   # Creation of the external cylinder
-    Boundary_3_2 = homard.CreateBoundaryCylinder('cyl_ext', 50.0, 25., -25., 1., 0., 0., 100.)
+    boundary_3_2 = HOMARD.CreateBoundaryCylinder('cyl_ext', 50.0, 25., -25., 1., 0., 0., 100.)
   #
   # Creation of the internal cylinder
-    Boundary_3_3 = homard.CreateBoundaryCylinder('cyl_int', 50.0, 25., -25., 1., 0., 0., 50.)
+    boundary_3_3 = HOMARD.CreateBoundaryCylinder('cyl_int', 50.0, 25., -25., 1., 0., 0., 50.)
   #
   # Creation of the first sphere
-    Boundary_3_4 = homard.CreateBoundarySphere('sphere_1', 50.0, 25., -25., 100.)
+    boundary_3_4 = HOMARD.CreateBoundarySphere('sphere_1', 50.0, 25., -25., 100.)
   #
   # Creation of the second sphere
-    Boundary_3_5 = homard.CreateBoundarySphere('sphere_2', 450.0, 25., -25., 100.)
+    boundary_3_5 = HOMARD.CreateBoundarySphere('sphere_2', 450.0, 25., -25., 100.)
   #
   # Creation of the hypotheses
   # ==========================
   # Uniform refinement
-    HypoName = "Hypo_" + Test_Name
-    print "-------- Creation of the hypothesis", HypoName
-    Hypo_test_3 = homard.CreateHypothesis(HypoName)
-    Hypo_test_3.SetUnifRefinUnRef(1)
-    print HypoName, " : zones utilisées :", Hypo_test_3.GetZones()
-    print HypoName, " : champ utilisé :", Hypo_test_3.GetFieldName()
-    print HypoName, " : composantes utilisées :", Hypo_test_3.GetComps()
+    hyponame = "hypo_" + TEST_NAME
+    print "-------- Creation of the hypothesis", hyponame
+    hypo_test_3 = HOMARD.CreateHypothesis(hyponame)
+    hypo_test_3.SetUnifRefinUnRef(1)
+    print hyponame, " : zones utilisées :", hypo_test_3.GetZones()
+    print hyponame, " : champ utilisé :", hypo_test_3.GetFieldName()
+    print hyponame, " : composantes utilisées :", hypo_test_3.GetComps()
   #
-    for num in range (n_boucle+1) :
+    for num in range (N_BOUCLE+1) :
   #
       print "-------- num =", num, "--------"
   #
-  # Creation of the case Case_test_3
+  # Creation of the case case_test_3
   # ===========================
       if ( num <= 1 ) :
-        CaseName = "Case_" + Test_Name
-        print "-------- Creation of the case", CaseName
-        MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-        Case_test_3 = homard.CreateCase(CaseName, 'MOYEU', MeshFile)
-        Case_test_3.SetDirName(dircase)
-        Case_test_3.AddBoundaryGroup('courbes', '')
-        Case_test_3.AddBoundaryGroup('cyl_ext', 'EXT')
-        Case_test_3.AddBoundaryGroup('cyl_int', 'INT')
-        Case_test_3.AddBoundaryGroup('sphere_1', 'END_1')
-        Case_test_3.AddBoundaryGroup('sphere_2', 'END_2')
+        casename = "case_" + TEST_NAME
+        print "-------- Creation of the case", casename
+        mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
+        case_test_3 = HOMARD.CreateCase(casename, 'MOYEU', mesh_file)
+        case_test_3.SetDirName(DIRCASE)
+        case_test_3.AddBoundaryGroup('courbes', '')
+        case_test_3.AddBoundaryGroup('cyl_ext', 'EXT')
+        case_test_3.AddBoundaryGroup('cyl_int', 'INT')
+        case_test_3.AddBoundaryGroup('sphere_1', 'END_1')
+        case_test_3.AddBoundaryGroup('sphere_2', 'END_2')
   #
   # Creation of the iterations
   # ==========================
   # Creation of the iteration 1
-      IterName = "I_" + Test_Name + "_1"
-      print "-------- Creation of the iteration", IterName
-      Iter_test_3_1 = Case_test_3.NextIteration(IterName)
-      Iter_test_3_1.SetMeshName('MOYEU_1')
-      Iter_test_3_1.SetMeshFile(os.path.join(dircase, 'maill.01.med'))
-      Iter_test_3_1.AssociateHypo('Hypo_test_3')
-      error = Iter_test_3_1.Compute(1, 1)
+      iter_name = "I_" + TEST_NAME + "_1"
+      print "-------- Creation of the iteration", iter_name
+      iter_test_3_1 = case_test_3.NextIteration(iter_name)
+      iter_test_3_1.SetMeshName('MOYEU_1')
+      iter_test_3_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
+      iter_test_3_1.AssociateHypo('hypo_test_3')
+      error = iter_test_3_1.Compute(1, 1)
       if error :
         error = 10*num + 1
         break
 
   # Creation of the iteration 2
-      IterName = "I_" + Test_Name + "_2"
-      print "-------- Creation of the iteration", IterName
-      Iter_test_3_2 = Iter_test_3_1.NextIteration(IterName)
-      Iter_test_3_2.SetMeshName('MOYEU_2')
-      Iter_test_3_2.SetMeshFile(os.path.join(dircase, 'maill.02.med'))
-      Iter_test_3_2.AssociateHypo('Hypo_test_3')
-      error = Iter_test_3_2.Compute(1, 1)
+      iter_name = "I_" + TEST_NAME + "_2"
+      print "-------- Creation of the iteration", iter_name
+      iter_test_3_2 = iter_test_3_1.NextIteration(iter_name)
+      iter_test_3_2.SetMeshName('MOYEU_2')
+      iter_test_3_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
+      iter_test_3_2.AssociateHypo('hypo_test_3')
+      error = iter_test_3_2.Compute(1, 1)
       if error :
         error = 10*num + 2
         break
   #
   # Creation of the schema YACS
   # ===========================
-      ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
-      ScriptFile = os.path.normpath(ScriptFile)
-      DirName = dircase
-      YACSName = "YACS_" + Test_Name
-      print "-------- Creation of the schema", YACSName
-      YACS_test_3 = Case_test_3.CreateYACSSchema(YACSName, ScriptFile, DirName, MeshFile)
-      YACS_test_3.SetType(2)
-      YACS_test_3.SetMaxIter(2)
-      error = YACS_test_3.Write()
+      scriptfile = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
+      scriptfile = os.path.normpath(scriptfile)
+      dirname = DIRCASE
+      yacsname = "YACS_" + TEST_NAME
+      print "-------- Creation of the schema", yacsname
+      yacs_test_3 = case_test_3.CreateYACSSchema(yacsname, scriptfile, dirname, mesh_file)
+      yacs_test_3.SetType(2)
+      yacs_test_3.SetMaxIter(2)
+      error = yacs_test_3.Write()
       if error :
         error = 10*num + 5
         break
@@ -160,38 +163,38 @@ Python script for HOMARD
   # Destructions
   # ============
   # Destruction of the schema, sauf a la fin
-      if ( num < n_boucle ) :
-        print "-------- Destruction of the schema", YACS_test_3.GetName()
-        error = YACS_test_3.Delete(1)
+      if ( num < N_BOUCLE ) :
+        print "-------- Destruction of the schema", yacs_test_3.GetName()
+        error = yacs_test_3.Delete(1)
         if error :
           error = 10*num + 6
           break
   # After the first loop, the case is deleted, except the final mesh files
   # All the iterations are deleted
       if ( num == 0 ) :
-        print "-------- Destruction of the case", Case_test_3.GetName()
-        error = Case_test_3.Delete(0)
+        print "-------- Destruction of the case", case_test_3.GetName()
+        error = case_test_3.Delete(0)
         if error :
           break
   # After the second loop, the iterations are deleted, with the final mesh files
       elif ( num == 1 ) :
   # Recursive destruction of the iterations
-        print "-------- Recursive destruction of the iteration", Iter_test_3_1.GetName()
-        error = Iter_test_3_1.Delete(1)
+        print "-------- Recursive destruction of the iteration", iter_test_3_1.GetName()
+        error = iter_test_3_1.Delete(1)
         if error :
           error = 10*num + 3
           break
   # Destruction and creation of the hypothese
         if ( num == 1 ) :
-          print "-------- Destruction of the hypothese", Hypo_test_3.GetName()
-          error = Hypo_test_3.Delete()
+          print "-------- Destruction of the hypothese", hypo_test_3.GetName()
+          error = hypo_test_3.Delete()
           if error :
             error = 10*num + 4
             break
-          HypoName = "Hypo_test_3"
-          print "-------- Creation of the hypothesis", HypoName
-          Hypo_test_3 = homard.CreateHypothesis(HypoName)
-          Hypo_test_3.SetUnifRefinUnRef(1)
+          hyponame = "hypo_test_3"
+          print "-------- Creation of the hypothesis", hyponame
+          hypo_test_3 = HOMARD.CreateHypothesis(hyponame)
+          hypo_test_3.SetUnifRefinUnRef(1)
   #
     break
   #
@@ -199,24 +202,24 @@ Python script for HOMARD
 
 #========================================================================
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load homard engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file*n_boucle
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE*N_BOUCLE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

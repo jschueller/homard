@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2015  CEA/DEN, EDF R&D
+# Copyright (C) 2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,11 +25,19 @@ SET(SUBDIRS_COMMON
   HOMARD_I
   HOMARDGUI
   HOMARD_SWIG
+  tests
 )
 
 SET(SUBDIRS
   ${SUBDIRS_COMMON}
 )
+
+# For salome test
+IF(SALOME_BUILD_TESTS)
+  INSTALL(FILES CTestTestfileInstall.cmake
+          DESTINATION ${SALOME_HOMARD_INSTALL_TEST}
+          RENAME CTestTestfile.cmake)
+ENDIF(SALOME_BUILD_TESTS)
 
 FOREACH(dir ${SUBDIRS})
  ADD_SUBDIRECTORY(${dir})

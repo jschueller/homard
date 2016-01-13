@@ -21,12 +21,12 @@
 Python script for HOMARD
 Test test_14 associe au tutorial 4
 """
-__revision__ = "V2.3"
+__revision__ = "V3.1"
 
 #========================================================================
-Test_Name = "test_14"
-debug=False
-n_iter_test_file = 3
+TEST_NAME = "test_14"
+DEBUG = False
+N_ITER_TEST_FILE = 3
 #========================================================================
 import os
 import tempfile
@@ -35,34 +35,37 @@ import HOMARD
 import salome
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # Repertoire des donnees du tutorial
-data_dir = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-data_dir = os.path.normpath(data_dir)
-sys.path.append(data_dir)
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 # ==================================
-gzip_gunzip(data_dir, 4, -1)
+gzip_gunzip(DATA_TUTORIAL, 4, -1)
 # ==================================
 
 salome.salome_init()
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -71,93 +74,93 @@ def homard_exec(theStudy):
 Python script for HOMARD
   """
   #
-  homard.SetCurrentStudy(theStudy)
+  HOMARD.SetCurrentStudy(theStudy)
 #
   # Frontieres
   # ==========
-  Boun_4_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', data_dir+'/tutorial_4.fr.med')
+  boun_4_1 = HOMARD.CreateBoundaryDi('intersection', 'PIQUAGE', DATA_TUTORIAL+'/tutorial_4.fr.med')
   #
-  Boun_4_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
+  boun_4_2 = HOMARD.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
   #
-  Boun_4_3 = homard.CreateBoundaryCylinder('cyl_2_ext', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
+  boun_4_3 = HOMARD.CreateBoundaryCylinder('cyl_2_ext', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
   #
-  Boun_4_4 = homard.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 75., 75.)
+  boun_4_4 = HOMARD.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 75., 75.)
   #
-  Boun_4_5 = homard.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
+  boun_4_5 = HOMARD.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
   #
   # Hypotheses
   # ==========
-  # Creation of the hypothesis Hypo_4
-  Hypo_4 = homard.CreateHypothesis('Hypo_4')
-  Hypo_4.SetUnifRefinUnRef(1)
-  Hypo_4.AddGroup('T1_INT_I')
-  Hypo_4.AddGroup('T1_INT_O')
-  Hypo_4.AddGroup('T2_INT')
-  # Creation of the hypothesis Hypo_4_bis
-  Hypo_4_bis = homard.CreateHypothesis('Hypo_4_bis')
-  Hypo_4_bis.SetUnifRefinUnRef(1)
-  Hypo_4_bis.AddGroup('T1_EXT_I')
-  Hypo_4_bis.AddGroup('T1_EXT_O')
-  Hypo_4_bis.AddGroup('T2_EXT')
+  # Creation of the hypothesis hypo_4
+  hypo_4 = HOMARD.CreateHypothesis('hypo_4')
+  hypo_4.SetUnifRefinUnRef(1)
+  hypo_4.AddGroup('T1_INT_I')
+  hypo_4.AddGroup('T1_INT_O')
+  hypo_4.AddGroup('T2_INT')
+  # Creation of the hypothesis hypo_4_bis
+  hypo_4_bis = HOMARD.CreateHypothesis('hypo_4_bis')
+  hypo_4_bis.SetUnifRefinUnRef(1)
+  hypo_4_bis.AddGroup('T1_EXT_I')
+  hypo_4_bis.AddGroup('T1_EXT_O')
+  hypo_4_bis.AddGroup('T2_EXT')
   #
   # Cas
   # ===
-  Case_4 = homard.CreateCase('Case_4', 'PIQUAGE', data_dir+'/tutorial_4.00.med')
-  Case_4.SetDirName(dircase)
-  Case_4.AddBoundaryGroup( 'intersection', '' )
-  Case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
-  Case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
-  Case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
-  Case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
-  Case_4.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
-  Case_4.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
+  case_4 = HOMARD.CreateCase('case_4', 'PIQUAGE', DATA_TUTORIAL+'/tutorial_4.00.med')
+  case_4.SetDirName(DIRCASE)
+  case_4.AddBoundaryGroup( 'intersection', '' )
+  case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
+  case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
+  case_4.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
+  case_4.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
+  case_4.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
+  case_4.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
   #
   # Iterations
   # ==========
-  # Iteration Iter_4_1 : raffinement selon les faces internes
-  Iter_4_1 = Case_4.NextIteration('Iter_4_1')
-  Iter_4_1.SetMeshName('PIQUAGE_1')
-  Iter_4_1.SetMeshFile(dircase+'/maill.01.med')
-  Iter_4_1.AssociateHypo('Hypo_4')
-  error = Iter_4_1.Compute(1, 2)
-  # Iteration Iter_4_2 : raffinement selon les faces externes
-  Iter_4_2 = Iter_4_1.NextIteration('Iter_4_2')
-  Iter_4_2.SetMeshName('PIQUAGE_2')
-  Iter_4_2.SetMeshFile(dircase+'/maill.02.med')
-  Iter_4_2.AssociateHypo('Hypo_4_bis')
-  error = Iter_4_2.Compute(1, 2)
-  # Iteration Iter_4_3 : second raffinement selon les faces externes
-  Iter_4_3 = Iter_4_2.NextIteration('Iter_4_3')
-  Iter_4_3.SetMeshName('PIQUAGE_3')
-  Iter_4_3.SetMeshFile(dircase+'/maill.03.med')
-  Iter_4_3.AssociateHypo('Hypo_4_bis')
-  error = Iter_4_3.Compute(1, 2)
+  # Iteration iter_4_1 : raffinement selon les faces internes
+  iter_4_1 = case_4.NextIteration('iter_4_1')
+  iter_4_1.SetMeshName('PIQUAGE_1')
+  iter_4_1.SetMeshFile(DIRCASE+'/maill.01.med')
+  iter_4_1.AssociateHypo('hypo_4')
+  error = iter_4_1.Compute(1, 2)
+  # Iteration iter_4_2 : raffinement selon les faces externes
+  iter_4_2 = iter_4_1.NextIteration('iter_4_2')
+  iter_4_2.SetMeshName('PIQUAGE_2')
+  iter_4_2.SetMeshFile(DIRCASE+'/maill.02.med')
+  iter_4_2.AssociateHypo('hypo_4_bis')
+  error = iter_4_2.Compute(1, 2)
+  # Iteration iter_4_3 : second raffinement selon les faces externes
+  iter_4_3 = iter_4_2.NextIteration('iter_4_3')
+  iter_4_3.SetMeshName('PIQUAGE_3')
+  iter_4_3.SetMeshFile(DIRCASE+'/maill.03.med')
+  iter_4_3.AssociateHypo('hypo_4_bis')
+  error = iter_4_3.Compute(1, 2)
   #
   return error
 
 #========================================================================
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load HOMARD engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 # ==================================
-gzip_gunzip(data_dir, 4, 1)
+gzip_gunzip(DATA_TUTORIAL, 4, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():

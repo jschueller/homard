@@ -21,12 +21,12 @@
 Python script for HOMARD
 Test test_1
 """
-__revision__ = "V2.6"
+__revision__ = "V3.1"
 
 #========================================================================
-Test_Name = "test_1"
-debug=False
-n_iter_test_file = 3
+TEST_NAME = "test_1"
+DEBUG = False
+N_ITER_TEST_FILE = 3
 #========================================================================
 import os
 import tempfile
@@ -35,27 +35,30 @@ import HOMARD
 import salome
 #
 # ==================================
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des donnees du test
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des scripts utilitaires
+REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
+REP_PYTHON = os.path.normpath(REP_PYTHON)
+sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 from test_util import test_results
+# Repertoire des donnees du test
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
+REP_DATA = os.path.normpath(REP_DATA)
 # Repertoire des resultats
-if debug :
-  dircase = os.path.join("/tmp", Test_Name)
-  if ( os.path.isdir(dircase) ) :
-    remove_dir(dircase)
-  os.mkdir(dircase)
+if DEBUG :
+  DIRCASE = os.path.join("/tmp", TEST_NAME)
+  if ( os.path.isdir(DIRCASE) ) :
+    remove_dir(DIRCASE)
+  os.mkdir(DIRCASE)
 else :
-  dircase = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp()
 # ==================================
 
 salome.salome_init()
 import iparameters
-ipar = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-ipar.append("AP_MODULES_LIST", "Homard")
+IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
+IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
@@ -67,15 +70,15 @@ Python script for HOMARD
 #
   while not error :
   #
-    homard.SetCurrentStudy(theStudy)
+    HOMARD.SetCurrentStudy(theStudy)
   #
   # Creation of the zones
   # =====================
-  # Creation of the box Zone_1_1
-    Zone_1_1 = homard.CreateZoneBox('Zone_1_1', -0.01, 1.01, -0.01, 0.4, -0.01, 0.6)
+  # Creation of the box zone_1_1
+    zone_1_1 = HOMARD.CreateZoneBox('Zone_1_1', -0.01, 1.01, -0.01, 0.4, -0.01, 0.6)
 
-  # Creation of the sphere Zone_1_2
-    Zone_1_2 = homard.CreateZoneSphere('Zone_1_2', 0.5, 0.6, 0.7, 0.75)
+  # Creation of the sphere zone_1_2
+    zone_1_2 = HOMARD.CreateZoneSphere('Zone_1_2', 0.5, 0.6, 0.7, 0.75)
   #
   # Creation of the hypotheses
   # ==========================
@@ -83,106 +86,106 @@ Python script for HOMARD
     dico["1"] = "raffinement"
     dico["-1"] = "deraffinement"
   # Creation of the hypothesis a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM
-    HypoName_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
-    print "-------- Creation of the hypothesis", HypoName_1
-    Hypo_1_1 = homard.CreateHypothesis(HypoName_1)
-    Hypo_1_1.SetField('RESU____ERRE_ELEM_SIGM__________')
-    Hypo_1_1.SetUseComp(0)
-    Hypo_1_1.AddComp('ERREST')
-    Hypo_1_1.SetRefinThr(3, 10.1)
-    Hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
-    Hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
-    print HypoName_1, " : champ utilisé :", Hypo_1_1.GetFieldName()
-    print HypoName_1, " : composantes utilisées :", Hypo_1_1.GetComps()
-    if ( len (Hypo_1_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Hypo_1_1.GetField()
-    print HypoName_1, " : champs interpolés :", Hypo_1_1.GetFieldInterps()
+    hyponame_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
+    print "-------- Creation of the hypothesis", hyponame_1
+    hypo_1_1 = HOMARD.CreateHypothesis(hyponame_1)
+    hypo_1_1.SetField('RESU____ERRE_ELEM_SIGM__________')
+    hypo_1_1.SetUseComp(0)
+    hypo_1_1.AddComp('ERREST')
+    hypo_1_1.SetRefinThr(3, 10.1)
+    hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
+    hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
+    print hyponame_1, " : champ utilisé :", hypo_1_1.GetFieldName()
+    print hyponame_1, " : composantes utilisées :", hypo_1_1.GetComps()
+    if ( len (hypo_1_1.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", hypo_1_1.GetField()
+    print hyponame_1, " : champs interpolés :", hypo_1_1.GetFieldInterps()
   # Creation of the hypothesis Zones_1_et_2
-    HypoName_2 = "Zones_1_et_2"
-    print "-------- Creation of the hypothesis", HypoName_2
-    Zones_1_et_2 = homard.CreateHypothesis(HypoName_2)
-    Zones_1_et_2.AddZone('Zone_1_1', 1)
-    Zones_1_et_2.AddZone('Zone_1_2', 1)
-    laux = Zones_1_et_2.GetZones()
+    hyponame_2 = "Zones_1_et_2"
+    print "-------- Creation of the hypothesis", hyponame_2
+    zones_1_et_2 = HOMARD.CreateHypothesis(hyponame_2)
+    zones_1_et_2.AddZone('Zone_1_1', 1)
+    zones_1_et_2.AddZone('Zone_1_2', 1)
+    laux = zones_1_et_2.GetZones()
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print HypoName_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
       jaux += 2
-    print HypoName_2, " : champ utilisé :", Zones_1_et_2.GetFieldName()
-    if ( len (Zones_1_et_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", Zones_1_et_2.GetField()
-    print HypoName_2, " : champs interpolés :", Zones_1_et_2.GetFieldInterps()
+    print hyponame_2, " : champ utilisé :", zones_1_et_2.GetFieldName()
+    if ( len (zones_1_et_2.GetFieldName()) > 0 ) :
+      print ".. caractéristiques de l'adaptation :", zones_1_et_2.GetField()
+    print hyponame_2, " : champs interpolés :", zones_1_et_2.GetFieldInterps()
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    CaseName = "Case_" + Test_Name
-    print "-------- Creation of the case", CaseName
-    MeshFile = os.path.join(Rep_Test, Test_Name + '.00.med')
-    Case_test_1 = homard.CreateCase(CaseName, 'MAILL', MeshFile)
-    Case_test_1.SetDirName(dircase)
+    casename = "Case_" + TEST_NAME
+    print "-------- Creation of the case", casename
+    mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
+    case_test_1 = HOMARD.CreateCase(casename, 'MAILL', mesh_file)
+    case_test_1.SetDirName(DIRCASE)
   #
   # Creation of the iterations
   # ==========================
   # Creation of the iteration 1
-    IterName = "I_" + Test_Name + "_1"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_1_1 = Case_test_1.NextIteration(IterName)
-    Iter_test_1_1.AssociateHypo(HypoName_1)
-    print ". Hypothese :", HypoName_1
-    Iter_test_1_1.SetMeshName('M1')
-    Iter_test_1_1.SetMeshFile(os.path.join(dircase, 'maill.01.med'))
-    Iter_test_1_1.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.00.med'))
-    Iter_test_1_1.SetTimeStepRank(1, 1)
-    Iter_test_1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
-    Iter_test_1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", Iter_test_1_1.GetFieldInterpsTimeStepRank()
-    error = Iter_test_1_1.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_1"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_1_1 = case_test_1.NextIteration(iter_name)
+    iter_test_1_1.AssociateHypo(hyponame_1)
+    print ". Hypothese :", hyponame_1
+    iter_test_1_1.SetMeshName('M1')
+    iter_test_1_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
+    iter_test_1_1.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.00.med'))
+    iter_test_1_1.SetTimeStepRank(1, 1)
+    iter_test_1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    iter_test_1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", iter_test_1_1.GetFieldInterpsTimeStepRank()
+    error = iter_test_1_1.Compute(1, 1)
     if error :
       error = 1
       break
 
   # Creation of the iteration 2
-    IterName = "I_" + Test_Name + "_2"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_1_2 = Iter_test_1_1.NextIteration(IterName)
-    Iter_test_1_2.AssociateHypo(HypoName_1)
-    print ". Hypothese :", HypoName_1
-    Iter_test_1_2.SetMeshName('M2')
-    Iter_test_1_2.SetMeshFile(os.path.join(dircase, 'maill.02.med'))
-    Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.01.med'))
-    Iter_test_1_2.SetTimeStepRank(1, 1)
-    Iter_test_1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
-    Iter_test_1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", Iter_test_1_2.GetFieldInterpsTimeStepRank()
-    error = Iter_test_1_2.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_2"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_1_2 = iter_test_1_1.NextIteration(iter_name)
+    iter_test_1_2.AssociateHypo(hyponame_1)
+    print ". Hypothese :", hyponame_1
+    iter_test_1_2.SetMeshName('M2')
+    iter_test_1_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
+    iter_test_1_2.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.01.med'))
+    iter_test_1_2.SetTimeStepRank(1, 1)
+    iter_test_1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
+    iter_test_1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
+    print ". Instants d'interpolation :", iter_test_1_2.GetFieldInterpsTimeStepRank()
+    error = iter_test_1_2.Compute(1, 1)
     if error :
       error = 2
       break
 
   # Creation of the iteration 3
-    IterName = "I_" + Test_Name + "_3"
-    print "-------- Creation of the iteration", IterName
-    Iter_test_1_3 = Iter_test_1_2.NextIteration(IterName)
-    Iter_test_1_3.AssociateHypo(HypoName_2)
-    print ". Hypothese :", HypoName_2
-    Iter_test_1_3.SetMeshName('M3')
-    Iter_test_1_3.SetMeshFile(os.path.join(dircase, 'maill.03.med'))
-    Iter_test_1_2.SetFieldFile(os.path.join(Rep_Test, Test_Name + '.02.med'))
-    print ". Instants d'interpolation :", Iter_test_1_3.GetFieldInterpsTimeStepRank()
-    error = Iter_test_1_3.Compute(1, 1)
+    iter_name = "I_" + TEST_NAME + "_3"
+    print "-------- Creation of the iteration", iter_name
+    iter_test_1_3 = iter_test_1_2.NextIteration(iter_name)
+    iter_test_1_3.AssociateHypo(hyponame_2)
+    print ". Hypothese :", hyponame_2
+    iter_test_1_3.SetMeshName('M3')
+    iter_test_1_3.SetMeshFile(os.path.join(DIRCASE, 'maill.03.med'))
+    iter_test_1_2.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.02.med'))
+    print ". Instants d'interpolation :", iter_test_1_3.GetFieldInterpsTimeStepRank()
+    error = iter_test_1_3.Compute(1, 1)
     if error :
       error = 3
       break
   #
   # Creation of the schema YACS
   # ===========================
-    ScriptFile = os.path.join(pathHomard, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
-    ScriptFile = os.path.normpath(ScriptFile)
-    DirName = dircase
-    YACS_test_1 = Case_test_1.CreateYACSSchema("YACS_test_1", ScriptFile, DirName, MeshFile)
-    error = YACS_test_1.Write()
+    scriptfile = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "en", "_downloads", "yacs_script_test.py")
+    scriptfile = os.path.normpath(scriptfile)
+    dirname = DIRCASE
+    yacs_test_1 = case_test_1.CreateYACSSchema("YACS_test_1", scriptfile, dirname, mesh_file)
+    error = yacs_test_1.Write()
     if error :
       error = 4
       break
@@ -193,24 +196,24 @@ Python script for HOMARD
 
 #========================================================================
 
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load homard engine"
+HOMARD.SetLanguageShort("fr")
 #
 # Exec of HOMARD-SALOME
 #
 try :
-  error_main = homard_exec(salome.myStudy)
-  if error_main :
-    raise Exception('Pb in homard_exec at iteration %d' %error_main )
-except Exception, e:
-  raise Exception('Pb in homard_exec: '+e.message)
+  ERROR = homard_exec(salome.myStudy)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except Exception, eee:
+  raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
 #
-n_rep_test_file = n_iter_test_file
-destroy_dir = not debug
-test_results(Rep_Test, Test_Name, dircase, n_iter_test_file, n_rep_test_file, destroy_dir)
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)

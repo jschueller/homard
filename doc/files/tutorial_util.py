@@ -21,16 +21,16 @@
 Python script for HOMARD
 Copyright EDF-R&D 2014
 """
-__revision__ = "V1.1"
+__revision__ = "V1.2"
 
 import os
 import sys
 
-pathHomard = os.getenv('HOMARD_ROOT_DIR')
-# Repertoire des tests
-Rep_Test = os.path.join(pathHomard, "share", "salome", "resources", "homard")
-Rep_Test = os.path.normpath(Rep_Test)
-sys.path.append(Rep_Test)
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire
+REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "resources", "homard")
+REP_DATA = os.path.normpath(REP_DATA)
+sys.path.append(REP_DATA)
 from test_util import remove_dir
 
 #========================================================================
@@ -46,14 +46,14 @@ Copyright EDF-R&D 2014
 #
   ficloc_basis = "tutorial_%d" % num_tuto
 #
-  ok = True
+  erreur = 0
   num = -1
 #
 # Uncompression
 #
   if ( option == -1 ) :
 #
-    while ok :
+    while not erreur :
       num += 1
       ficloc = ficloc_basis + ".%02d.med" % num
       nomfic = os.path.join(data_dir, ficloc)
@@ -63,7 +63,7 @@ Copyright EDF-R&D 2014
         if os.path.isfile(nomfic) :
           os.system("gunzip "+nomfic)
         else :
-          ok = False
+          erreur = 1
           break
 #
     ficloc = ficloc_basis + ".fr.med"
@@ -78,7 +78,7 @@ Copyright EDF-R&D 2014
 #
   elif ( option == 1 ) :
 #
-    while ok :
+    while not erreur :
       num += 1
       ficloc = ficloc_basis + ".%02d.med.gz" % num
       nomfic = os.path.join(data_dir, ficloc)
@@ -88,7 +88,7 @@ Copyright EDF-R&D 2014
         if os.path.isfile(nomfic) :
           os.system("gzip "+nomfic)
         else :
-          ok = False
+          erreur = 2
           break
 #
     ficloc = ficloc_basis + ".fr.med.gz"
