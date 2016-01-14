@@ -21,9 +21,6 @@ IF(SALOME_BUILD_TESTS)
   ADD_SUBDIRECTORY(Test)
 ENDIF(SALOME_BUILD_TESTS)
 
-
-# --- rules ---
-
 FILE(GLOB sample_files
   ${PROJECT_SOURCE_DIR}/src/tests/samples/*.med
   ${PROJECT_SOURCE_DIR}/src/tests/samples/*.bilan
