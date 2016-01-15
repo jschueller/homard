@@ -10,23 +10,23 @@
 #ifndef CREATEYACS_H
 #define CREATEYACS_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QScrollArea>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QSpinBox>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDoubleSpinBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QScrollArea>
+#include <QSpacerItem>
+#include <QSpinBox>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -406,33 +406,33 @@ public:
 
     void retranslateUi(QScrollArea *CreateYACS)
     {
-        CreateYACS->setWindowTitle(QApplication::translate("CreateYACS", "Create YACS", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateYACS", "Name", 0, QApplication::UnicodeUTF8));
-        Case->setText(QApplication::translate("CreateYACS", "Case", 0, QApplication::UnicodeUTF8));
+        CreateYACS->setWindowTitle(QApplication::translate("CreateYACS", "Create YACS", 0));
+        Name->setText(QApplication::translate("CreateYACS", "Name", 0));
+        Case->setText(QApplication::translate("CreateYACS", "Case", 0));
         PBCaseName->setText(QString());
-        Script->setText(QApplication::translate("CreateYACS", "Script", 0, QApplication::UnicodeUTF8));
+        Script->setText(QApplication::translate("CreateYACS", "Script", 0));
         PBScriptFile->setText(QString());
-        DirectoryStart->setText(QApplication::translate("CreateYACS", "Directory", 0, QApplication::UnicodeUTF8));
+        DirectoryStart->setText(QApplication::translate("CreateYACS", "Directory", 0));
         PBDir->setText(QString());
-        MeshFile->setText(QApplication::translate("CreateYACS", "Mesh file", 0, QApplication::UnicodeUTF8));
+        MeshFile->setText(QApplication::translate("CreateYACS", "Mesh file", 0));
         PBMeshFile->setText(QString());
-        GBTypeSchema->setTitle(QApplication::translate("CreateYACS", "Type of schema", 0, QApplication::UnicodeUTF8));
-        RBConstant->setText(QApplication::translate("CreateYACS", "Constant", 0, QApplication::UnicodeUTF8));
-        RBVariable->setText(QApplication::translate("CreateYACS", "Variable", 0, QApplication::UnicodeUTF8));
-        GBMax->setTitle(QApplication::translate("CreateYACS", "Maximum of ...", 0, QApplication::UnicodeUTF8));
-        TLMaxIteration->setText(QApplication::translate("CreateYACS", "Iterations", 0, QApplication::UnicodeUTF8));
-        TLMaxNodes->setText(QApplication::translate("CreateYACS", "Nodes", 0, QApplication::UnicodeUTF8));
-        TLMaxElem->setText(QApplication::translate("CreateYACS", "Elements", 0, QApplication::UnicodeUTF8));
-        GBConvergence->setTitle(QApplication::translate("CreateYACS", "Test of convergence", 0, QApplication::UnicodeUTF8));
-        RBNone->setText(QApplication::translate("CreateYACS", "None", 0, QApplication::UnicodeUTF8));
-        RBVMinAbs->setText(QApplication::translate("CreateYACS", "Vtest > Vref", 0, QApplication::UnicodeUTF8));
-        RBVMaxAbs->setText(QApplication::translate("CreateYACS", "Vtest < Vref", 0, QApplication::UnicodeUTF8));
-        labelVref->setText(QApplication::translate("CreateYACS", "Vref", 0, QApplication::UnicodeUTF8));
+        GBTypeSchema->setTitle(QApplication::translate("CreateYACS", "Type of schema", 0));
+        RBConstant->setText(QApplication::translate("CreateYACS", "Constant", 0));
+        RBVariable->setText(QApplication::translate("CreateYACS", "Variable", 0));
+        GBMax->setTitle(QApplication::translate("CreateYACS", "Maximum of ...", 0));
+        TLMaxIteration->setText(QApplication::translate("CreateYACS", "Iterations", 0));
+        TLMaxNodes->setText(QApplication::translate("CreateYACS", "Nodes", 0));
+        TLMaxElem->setText(QApplication::translate("CreateYACS", "Elements", 0));
+        GBConvergence->setTitle(QApplication::translate("CreateYACS", "Test of convergence", 0));
+        RBNone->setText(QApplication::translate("CreateYACS", "None", 0));
+        RBVMinAbs->setText(QApplication::translate("CreateYACS", "Vtest > Vref", 0));
+        RBVMaxAbs->setText(QApplication::translate("CreateYACS", "Vtest < Vref", 0));
+        labelVref->setText(QApplication::translate("CreateYACS", "Vref", 0));
         GroupButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("CreateYACS", "Help", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateYACS", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("CreateYACS", "OK", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateYACS", "Cancel", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("CreateYACS", "Help", 0));
+        buttonApply->setText(QApplication::translate("CreateYACS", "Apply", 0));
+        buttonOk->setText(QApplication::translate("CreateYACS", "OK", 0));
+        buttonCancel->setText(QApplication::translate("CreateYACS", "Cancel", 0));
     } // retranslateUi
 
 };

@@ -10,19 +10,19 @@
 #ifndef CREATEBOUNDARYAN_H
 #define CREATEBOUNDARYAN_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDialog>
+#include <QDoubleSpinBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -744,52 +744,52 @@ public:
 
     void retranslateUi(QDialog *CreateBoundaryAn)
     {
-        CreateBoundaryAn->setWindowTitle(QApplication::translate("CreateBoundaryAn", "Create an analytical boundary", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateBoundaryAn", "Name", 0, QApplication::UnicodeUTF8));
-        TypeBoundary->setTitle(QApplication::translate("CreateBoundaryAn", "Type of boundary", 0, QApplication::UnicodeUTF8));
-        RBCylindre->setText(QApplication::translate("CreateBoundaryAn", "Cylinder", 0, QApplication::UnicodeUTF8));
-        RBSphere->setText(QApplication::translate("CreateBoundaryAn", "Sphere", 0, QApplication::UnicodeUTF8));
-        RBCone->setText(QApplication::translate("CreateBoundaryAn", "Cone", 0, QApplication::UnicodeUTF8));
-        RBTore->setText(QApplication::translate("CreateBoundaryAn", "Torus", 0, QApplication::UnicodeUTF8));
-        gBCylindre->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
-        TLradius->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0, QApplication::UnicodeUTF8));
-        TLZcent->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
-        TLYcent->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
-        TLXaxis->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
-        TLYaxis->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0, QApplication::UnicodeUTF8));
-        TLZaxis->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0, QApplication::UnicodeUTF8));
-        gBSphere->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLRayon->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0, QApplication::UnicodeUTF8));
-        TLZcentre->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
-        TLYcentre->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
-        TLXcentre->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
-        gBCone->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
-        groupBox->setTitle(QApplication::translate("CreateBoundaryAn", "Definition", 0, QApplication::UnicodeUTF8));
-        RB_Def_radius->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0, QApplication::UnicodeUTF8));
-        RB_Def_angle->setText(QApplication::translate("CreateBoundaryAn", "Angle", 0, QApplication::UnicodeUTF8));
-        TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X 1", 0, QApplication::UnicodeUTF8));
-        TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X 2", 0, QApplication::UnicodeUTF8));
-        TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y 1", 0, QApplication::UnicodeUTF8));
-        TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y 2", 0, QApplication::UnicodeUTF8));
-        TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z 1", 0, QApplication::UnicodeUTF8));
-        TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z 2", 0, QApplication::UnicodeUTF8));
-        TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "V 1", 0, QApplication::UnicodeUTF8));
-        TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "V 2", 0, QApplication::UnicodeUTF8));
-        gBTore->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLToreXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
-        TLToreXaxe->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
-        TLToreYcent->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
-        TLToreYaxe->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0, QApplication::UnicodeUTF8));
-        TLToreZcent->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
-        TLToreZaxe->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0, QApplication::UnicodeUTF8));
-        TLToreRayRev->setText(QApplication::translate("CreateBoundaryAn", "R revolution", 0, QApplication::UnicodeUTF8));
-        TLToreRayPri->setText(QApplication::translate("CreateBoundaryAn", "Primary R", 0, QApplication::UnicodeUTF8));
+        CreateBoundaryAn->setWindowTitle(QApplication::translate("CreateBoundaryAn", "Create an analytical boundary", 0));
+        Name->setText(QApplication::translate("CreateBoundaryAn", "Name", 0));
+        TypeBoundary->setTitle(QApplication::translate("CreateBoundaryAn", "Type of boundary", 0));
+        RBCylindre->setText(QApplication::translate("CreateBoundaryAn", "Cylinder", 0));
+        RBSphere->setText(QApplication::translate("CreateBoundaryAn", "Sphere", 0));
+        RBCone->setText(QApplication::translate("CreateBoundaryAn", "Cone", 0));
+        RBTore->setText(QApplication::translate("CreateBoundaryAn", "Torus", 0));
+        gBCylindre->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0));
+        TLXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0));
+        TLradius->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0));
+        TLZcent->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0));
+        TLYcent->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0));
+        TLXaxis->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0));
+        TLYaxis->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0));
+        TLZaxis->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0));
+        gBSphere->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0));
+        TLRayon->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0));
+        TLZcentre->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0));
+        TLYcentre->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0));
+        TLXcentre->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0));
+        gBCone->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0));
+        groupBox->setTitle(QApplication::translate("CreateBoundaryAn", "Definition", 0));
+        RB_Def_radius->setText(QApplication::translate("CreateBoundaryAn", "Radius", 0));
+        RB_Def_angle->setText(QApplication::translate("CreateBoundaryAn", "Angle", 0));
+        TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X 1", 0));
+        TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X 2", 0));
+        TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y 1", 0));
+        TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y 2", 0));
+        TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z 1", 0));
+        TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z 2", 0));
+        TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "V 1", 0));
+        TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "V 2", 0));
+        gBTore->setTitle(QApplication::translate("CreateBoundaryAn", "Coordinates", 0));
+        TLToreXcent->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0));
+        TLToreXaxe->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0));
+        TLToreYcent->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0));
+        TLToreYaxe->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0));
+        TLToreZcent->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0));
+        TLToreZaxe->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0));
+        TLToreRayRev->setText(QApplication::translate("CreateBoundaryAn", "R revolution", 0));
+        TLToreRayPri->setText(QApplication::translate("CreateBoundaryAn", "Primary R", 0));
         GBButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("CreateBoundaryAn", "Help", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateBoundaryAn", "Cancel", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateBoundaryAn", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("CreateBoundaryAn", "OK", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("CreateBoundaryAn", "Help", 0));
+        buttonCancel->setText(QApplication::translate("CreateBoundaryAn", "Cancel", 0));
+        buttonApply->setText(QApplication::translate("CreateBoundaryAn", "Apply", 0));
+        buttonOk->setText(QApplication::translate("CreateBoundaryAn", "OK", 0));
     } // retranslateUi
 
 };

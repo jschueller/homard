@@ -149,7 +149,7 @@ void MonEditCase::InitValEdit()
       { for ( int j = 0; j < nbcol; j++ ) TWBoundary->item( i, j )->setFlags( Qt::ItemIsSelectable ); }
 //    on met un nom blanc au coin
       QTableWidgetItem *__colItem = new QTableWidgetItem();
-      __colItem->setText(QApplication::translate("CreateCase", "", 0, QApplication::UnicodeUTF8));
+      __colItem->setText(QApplication::translate("CreateCase", "", 0));
       TWBoundary->setHorizontalHeaderItem(0, __colItem);
 //    on cache les boutons inutiles
       PBBoundaryAnNew->setVisible(0);
@@ -226,8 +226,8 @@ void MonEditCase::InitValEdit()
 // L'etat
   int etat = aCase->GetState();
   MESSAGE("etat "<<etat);
-  if ( etat == 0 ) { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE_0", 0, QApplication::UnicodeUTF8)); }
-  else             { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE", 0, QApplication::UnicodeUTF8)); }
+  if ( etat == 0 ) { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE_0", 0)); }
+  else             { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE", 0)); }
 
   Comment->setVisible(1);
 //

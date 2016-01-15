@@ -10,20 +10,20 @@
 #ifndef MESHINFO_H
 #define MESHINFO_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QDialog>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QSpacerItem>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QDialog>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpacerItem>
 
 QT_BEGIN_NAMESPACE
 
@@ -240,23 +240,23 @@ public:
 
     void retranslateUi(QDialog *MeshInfo)
     {
-        MeshInfo->setWindowTitle(QApplication::translate("MeshInfo", "Information on a mesh", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("MeshInfo", "Name", 0, QApplication::UnicodeUTF8));
-        Directory->setText(QApplication::translate("MeshInfo", "Directory", 0, QApplication::UnicodeUTF8));
+        MeshInfo->setWindowTitle(QApplication::translate("MeshInfo", "Information on a mesh", 0));
+        Name->setText(QApplication::translate("MeshInfo", "Name", 0));
+        Directory->setText(QApplication::translate("MeshInfo", "Directory", 0));
         PushDir->setText(QString());
-        Mesh_2->setText(QApplication::translate("MeshInfo", "Mesh", 0, QApplication::UnicodeUTF8));
+        Mesh_2->setText(QApplication::translate("MeshInfo", "Mesh", 0));
         PushFichier->setText(QString());
-        GBOptions->setTitle(QApplication::translate("MeshInfo", "Options", 0, QApplication::UnicodeUTF8));
-        CBQuality->setText(QApplication::translate("MeshInfo", "Quality", 0, QApplication::UnicodeUTF8));
-        CBConnection->setText(QApplication::translate("MeshInfo", "Connection", 0, QApplication::UnicodeUTF8));
-        CBDiametre->setText(QApplication::translate("MeshInfo", "Diametre", 0, QApplication::UnicodeUTF8));
-        CBBlockSize->setText(QApplication::translate("MeshInfo", "Group size", 0, QApplication::UnicodeUTF8));
-        CBEntanglement->setText(QApplication::translate("MeshInfo", "Entanglement", 0, QApplication::UnicodeUTF8));
+        GBOptions->setTitle(QApplication::translate("MeshInfo", "Options", 0));
+        CBQuality->setText(QApplication::translate("MeshInfo", "Quality", 0));
+        CBConnection->setText(QApplication::translate("MeshInfo", "Connection", 0));
+        CBDiametre->setText(QApplication::translate("MeshInfo", "Diametre", 0));
+        CBBlockSize->setText(QApplication::translate("MeshInfo", "Group size", 0));
+        CBEntanglement->setText(QApplication::translate("MeshInfo", "Entanglement", 0));
         GroupButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("MeshInfo", "Help", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("MeshInfo", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("MeshInfo", "OK", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("MeshInfo", "Cancel", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("MeshInfo", "Help", 0));
+        buttonApply->setText(QApplication::translate("MeshInfo", "Apply", 0));
+        buttonOk->setText(QApplication::translate("MeshInfo", "OK", 0));
+        buttonCancel->setText(QApplication::translate("MeshInfo", "Cancel", 0));
     } // retranslateUi
 
 };

@@ -10,27 +10,27 @@
 #ifndef CREATEHYPOTHESIS_H
 #define CREATEHYPOTHESIS_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QScrollArea>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QSpinBox>
-#include <QtGui/QTableWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QScrollArea>
+#include <QSpacerItem>
+#include <QSpinBox>
+#include <QTableWidget>
+#include <QVBoxLayout>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -818,77 +818,77 @@ public:
 
     void retranslateUi(QScrollArea *CreateHypothesis)
     {
-        CreateHypothesis->setWindowTitle(QApplication::translate("CreateHypothesis", "Create an hypothesis", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateHypothesis", "Name", 0, QApplication::UnicodeUTF8));
-        GBTypeAdaptation->setTitle(QApplication::translate("CreateHypothesis", "Type of adaptation", 0, QApplication::UnicodeUTF8));
-        RBUniforme->setText(QApplication::translate("CreateHypothesis", "Uniform", 0, QApplication::UnicodeUTF8));
-        RBChamp->setText(QApplication::translate("CreateHypothesis", "Driven by a field", 0, QApplication::UnicodeUTF8));
-        RBZone->setText(QApplication::translate("CreateHypothesis", "With geometrical zones", 0, QApplication::UnicodeUTF8));
-        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0, QApplication::UnicodeUTF8));
-        GBUniform->setTitle(QApplication::translate("CreateHypothesis", "Uniform adaptation", 0, QApplication::UnicodeUTF8));
-        RBUniDera->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0, QApplication::UnicodeUTF8));
-        RBUniRaff->setText(QApplication::translate("CreateHypothesis", "Refinement", 0, QApplication::UnicodeUTF8));
+        CreateHypothesis->setWindowTitle(QApplication::translate("CreateHypothesis", "Create an hypothesis", 0));
+        Name->setText(QApplication::translate("CreateHypothesis", "Name", 0));
+        GBTypeAdaptation->setTitle(QApplication::translate("CreateHypothesis", "Type of adaptation", 0));
+        RBUniforme->setText(QApplication::translate("CreateHypothesis", "Uniform", 0));
+        RBChamp->setText(QApplication::translate("CreateHypothesis", "Driven by a field", 0));
+        RBZone->setText(QApplication::translate("CreateHypothesis", "With geometrical zones", 0));
+        CBGroupe->setText(QApplication::translate("CreateHypothesis", "Filtering with groups", 0));
+        GBUniform->setTitle(QApplication::translate("CreateHypothesis", "Uniform adaptation", 0));
+        RBUniDera->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0));
+        RBUniRaff->setText(QApplication::translate("CreateHypothesis", "Refinement", 0));
         GBFieldFile->setTitle(QString());
-        FieldFile->setText(QApplication::translate("CreateHypothesis", "File of the fields", 0, QApplication::UnicodeUTF8));
-        GBFieldManagement->setTitle(QApplication::translate("CreateHypothesis", "Governing field for the adaptation", 0, QApplication::UnicodeUTF8));
-        FieldName->setText(QApplication::translate("CreateHypothesis", "Field name", 0, QApplication::UnicodeUTF8));
+        FieldFile->setText(QApplication::translate("CreateHypothesis", "File of the fields", 0));
+        GBFieldManagement->setTitle(QApplication::translate("CreateHypothesis", "Governing field for the adaptation", 0));
+        FieldName->setText(QApplication::translate("CreateHypothesis", "Field name", 0));
         QTableWidgetItem *___qtablewidgetitem = TWCMP->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("CreateHypothesis", "Selection", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem->setText(QApplication::translate("CreateHypothesis", "Selection", 0));
         QTableWidgetItem *___qtablewidgetitem1 = TWCMP->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("CreateHypothesis", "Component", 0, QApplication::UnicodeUTF8));
-        RBL2->setText(QApplication::translate("CreateHypothesis", "L2 norm", 0, QApplication::UnicodeUTF8));
-        RBInf->setText(QApplication::translate("CreateHypothesis", "Infinite norm", 0, QApplication::UnicodeUTF8));
-        CBJump->setText(QApplication::translate("CreateHypothesis", "Jump between elements", 0, QApplication::UnicodeUTF8));
-        GBRefinementThresholds->setTitle(QApplication::translate("CreateHypothesis", "Refinement threshold", 0, QApplication::UnicodeUTF8));
-        RBRPE->setText(QApplication::translate("CreateHypothesis", "Percentage of meshes", 0, QApplication::UnicodeUTF8));
-        SpinBox_RPE->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
-        RBRRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0, QApplication::UnicodeUTF8));
-        SpinBox_RRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
-        RBRAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0, QApplication::UnicodeUTF8));
-        RBRMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean + n*(std deviation)", 0, QApplication::UnicodeUTF8));
-        RBRNo->setText(QApplication::translate("CreateHypothesis", "No refinement", 0, QApplication::UnicodeUTF8));
-        GBCoarseningThresholds->setTitle(QApplication::translate("CreateHypothesis", "Coarsening threshold", 0, QApplication::UnicodeUTF8));
-        RBCPE->setText(QApplication::translate("CreateHypothesis", "Percentage of meshes", 0, QApplication::UnicodeUTF8));
-        SpinBox_CPE->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
-        RBCRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0, QApplication::UnicodeUTF8));
-        SpinBox_CRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0, QApplication::UnicodeUTF8));
-        RBCAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0, QApplication::UnicodeUTF8));
-        RBCMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean - n*(std deviation)", 0, QApplication::UnicodeUTF8));
-        RBCNo->setText(QApplication::translate("CreateHypothesis", "No coarsening", 0, QApplication::UnicodeUTF8));
-        GBAreaManagement->setTitle(QApplication::translate("CreateHypothesis", "Zone management", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem1->setText(QApplication::translate("CreateHypothesis", "Component", 0));
+        RBL2->setText(QApplication::translate("CreateHypothesis", "L2 norm", 0));
+        RBInf->setText(QApplication::translate("CreateHypothesis", "Infinite norm", 0));
+        CBJump->setText(QApplication::translate("CreateHypothesis", "Jump between elements", 0));
+        GBRefinementThresholds->setTitle(QApplication::translate("CreateHypothesis", "Refinement threshold", 0));
+        RBRPE->setText(QApplication::translate("CreateHypothesis", "Percentage of meshes", 0));
+        SpinBox_RPE->setSuffix(QApplication::translate("CreateHypothesis", " %", 0));
+        RBRRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0));
+        SpinBox_RRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0));
+        RBRAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0));
+        RBRMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean + n*(std deviation)", 0));
+        RBRNo->setText(QApplication::translate("CreateHypothesis", "No refinement", 0));
+        GBCoarseningThresholds->setTitle(QApplication::translate("CreateHypothesis", "Coarsening threshold", 0));
+        RBCPE->setText(QApplication::translate("CreateHypothesis", "Percentage of meshes", 0));
+        SpinBox_CPE->setSuffix(QApplication::translate("CreateHypothesis", " %", 0));
+        RBCRel->setText(QApplication::translate("CreateHypothesis", "Relative", 0));
+        SpinBox_CRel->setSuffix(QApplication::translate("CreateHypothesis", " %", 0));
+        RBCAbs->setText(QApplication::translate("CreateHypothesis", "Absolute", 0));
+        RBCMuSigma->setText(QApplication::translate("CreateHypothesis", "Mean - n*(std deviation)", 0));
+        RBCNo->setText(QApplication::translate("CreateHypothesis", "No coarsening", 0));
+        GBAreaManagement->setTitle(QApplication::translate("CreateHypothesis", "Zone management", 0));
         QTableWidgetItem *___qtablewidgetitem2 = TWZone->horizontalHeaderItem(0);
-        ___qtablewidgetitem2->setText(QApplication::translate("CreateHypothesis", "Refinement", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem2->setText(QApplication::translate("CreateHypothesis", "Refinement", 0));
         QTableWidgetItem *___qtablewidgetitem3 = TWZone->horizontalHeaderItem(1);
-        ___qtablewidgetitem3->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem3->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0));
         QTableWidgetItem *___qtablewidgetitem4 = TWZone->horizontalHeaderItem(2);
-        ___qtablewidgetitem4->setText(QApplication::translate("CreateHypothesis", "Zone name", 0, QApplication::UnicodeUTF8));
-        PBZoneNew->setText(QApplication::translate("CreateHypothesis", "New", 0, QApplication::UnicodeUTF8));
-        PBZoneEdit->setText(QApplication::translate("CreateHypothesis", "Edit", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setText(QApplication::translate("CreateHypothesis", "Zone name", 0));
+        PBZoneNew->setText(QApplication::translate("CreateHypothesis", "New", 0));
+        PBZoneEdit->setText(QApplication::translate("CreateHypothesis", "Edit", 0));
         PBZoneDelete->setText(QString());
-        GBField->setTitle(QApplication::translate("CreateHypothesis", "Field Interpolation", 0, QApplication::UnicodeUTF8));
-        RBFieldNo->setText(QApplication::translate("CreateHypothesis", "None", 0, QApplication::UnicodeUTF8));
-        RBFieldAll->setText(QApplication::translate("CreateHypothesis", "All", 0, QApplication::UnicodeUTF8));
-        RBFieldChosen->setText(QApplication::translate("CreateHypothesis", "Chosen", 0, QApplication::UnicodeUTF8));
+        GBField->setTitle(QApplication::translate("CreateHypothesis", "Field Interpolation", 0));
+        RBFieldNo->setText(QApplication::translate("CreateHypothesis", "None", 0));
+        RBFieldAll->setText(QApplication::translate("CreateHypothesis", "All", 0));
+        RBFieldChosen->setText(QApplication::translate("CreateHypothesis", "Chosen", 0));
         QTableWidgetItem *___qtablewidgetitem5 = TWField->horizontalHeaderItem(0);
-        ___qtablewidgetitem5->setText(QApplication::translate("CreateHypothesis", "Selection", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem5->setText(QApplication::translate("CreateHypothesis", "Selection", 0));
         QTableWidgetItem *___qtablewidgetitem6 = TWField->horizontalHeaderItem(1);
-        ___qtablewidgetitem6->setText(QApplication::translate("CreateHypothesis", "Field Name", 0, QApplication::UnicodeUTF8));
-        CBAdvanced->setText(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
-        GBAdvancedOptions->setTitle(QApplication::translate("CreateHypothesis", "Advanced options", 0, QApplication::UnicodeUTF8));
-        TLMinimalDiameter->setText(QApplication::translate("CreateHypothesis", "Minimal diameter", 0, QApplication::UnicodeUTF8));
-        TLMaximalLevel->setText(QApplication::translate("CreateHypothesis", "Maximal level", 0, QApplication::UnicodeUTF8));
-        GBAdapInit->setTitle(QApplication::translate("CreateHypothesis", "Initialization of adaptation", 0, QApplication::UnicodeUTF8));
-        RBAIN->setText(QApplication::translate("CreateHypothesis", "Nothing", 0, QApplication::UnicodeUTF8));
-        RBAIR->setText(QApplication::translate("CreateHypothesis", "Refinement", 0, QApplication::UnicodeUTF8));
-        RBAID->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0, QApplication::UnicodeUTF8));
-        CBOutputLevel->setText(QApplication::translate("CreateHypothesis", "Output of the level of refinement", 0, QApplication::UnicodeUTF8));
-        CBOutputQuality->setText(QApplication::translate("CreateHypothesis", "Output of the qualities", 0, QApplication::UnicodeUTF8));
-        CBOutputDiameter->setText(QApplication::translate("CreateHypothesis", "Output of the diameters", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem6->setText(QApplication::translate("CreateHypothesis", "Field Name", 0));
+        CBAdvanced->setText(QApplication::translate("CreateHypothesis", "Advanced options", 0));
+        GBAdvancedOptions->setTitle(QApplication::translate("CreateHypothesis", "Advanced options", 0));
+        TLMinimalDiameter->setText(QApplication::translate("CreateHypothesis", "Minimal diameter", 0));
+        TLMaximalLevel->setText(QApplication::translate("CreateHypothesis", "Maximal level", 0));
+        GBAdapInit->setTitle(QApplication::translate("CreateHypothesis", "Initialization of adaptation", 0));
+        RBAIN->setText(QApplication::translate("CreateHypothesis", "Nothing", 0));
+        RBAIR->setText(QApplication::translate("CreateHypothesis", "Refinement", 0));
+        RBAID->setText(QApplication::translate("CreateHypothesis", "Coarsening", 0));
+        CBOutputLevel->setText(QApplication::translate("CreateHypothesis", "Output of the level of refinement", 0));
+        CBOutputQuality->setText(QApplication::translate("CreateHypothesis", "Output of the qualities", 0));
+        CBOutputDiameter->setText(QApplication::translate("CreateHypothesis", "Output of the diameters", 0));
         GBButtons->setTitle(QString());
-        buttonOk->setText(QApplication::translate("CreateHypothesis", "OK", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateHypothesis", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateHypothesis", "Cancel", 0, QApplication::UnicodeUTF8));
-        buttonHelp->setText(QApplication::translate("CreateHypothesis", "Help", 0, QApplication::UnicodeUTF8));
+        buttonOk->setText(QApplication::translate("CreateHypothesis", "OK", 0));
+        buttonApply->setText(QApplication::translate("CreateHypothesis", "Apply", 0));
+        buttonCancel->setText(QApplication::translate("CreateHypothesis", "Cancel", 0));
+        buttonHelp->setText(QApplication::translate("CreateHypothesis", "Help", 0));
     } // retranslateUi
 
 };

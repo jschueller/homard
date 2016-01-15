@@ -316,7 +316,7 @@ void MonCreateHypothesis::PushZoneNew()
 // ------------------------------------------------------------------------
 {
   MESSAGE("Debut de MonCreateHypothesis::PushZoneNew")
-  MonCreateZone *aDlg = new MonCreateZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName) ;
+  MonCreateZone *aDlg = new MonCreateZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName) ;
   aDlg->show();
 }
 
@@ -334,7 +334,7 @@ void MonCreateHypothesis::PushZoneEdit()
     return;
   }
   QString zoneName = monItem->text().trimmed();
-  MonEditZone *aDlg = new MonEditZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, zoneName) ;
+  MonEditZone *aDlg = new MonEditZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, zoneName) ;
   aDlg->show();
 }
 // ------------------------------------------------------------------------
@@ -709,7 +709,7 @@ void MonCreateHypothesis::SetFiltrage()
 // ------------------------------------------------------------------------
 {
   if (!CBGroupe->isChecked()) return;
-  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
+  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
   aDlg->show();
 }
 

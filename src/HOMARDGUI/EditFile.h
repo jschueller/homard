@@ -10,17 +10,17 @@
 #ifndef EDITFILE_H
 #define EDITFILE_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QPushButton>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QTextBrowser>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QPushButton>
+#include <QSpacerItem>
+#include <QTextBrowser>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -103,10 +103,10 @@ public:
 
     void retranslateUi(QWidget *EditFile)
     {
-        EditFile->setWindowTitle(QApplication::translate("EditFile", "Edit a file", 0, QApplication::UnicodeUTF8));
+        EditFile->setWindowTitle(QApplication::translate("EditFile", "Edit a file", 0));
         GroupButtons->setTitle(QString());
-        buttonPrint->setText(QApplication::translate("EditFile", "Print", 0, QApplication::UnicodeUTF8));
-        buttonQuit->setText(QApplication::translate("EditFile", "Quit", 0, QApplication::UnicodeUTF8));
+        buttonPrint->setText(QApplication::translate("EditFile", "Print", 0));
+        buttonQuit->setText(QApplication::translate("EditFile", "Quit", 0));
     } // retranslateUi
 
 };

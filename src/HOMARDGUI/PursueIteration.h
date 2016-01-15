@@ -10,21 +10,21 @@
 #ifndef PURSUEITERATION_H
 #define PURSUEITERATION_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QSpinBox>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDialog>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QSpacerItem>
+#include <QSpinBox>
 
 QT_BEGIN_NAMESPACE
 
@@ -229,22 +229,22 @@ public:
 
     void retranslateUi(QDialog *PursueIteration)
     {
-        PursueIteration->setWindowTitle(QApplication::translate("PursueIteration", "Pursue an iteration", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("PursueIteration", "Name", 0, QApplication::UnicodeUTF8));
-        Directory->setText(QApplication::translate("PursueIteration", "Directory", 0, QApplication::UnicodeUTF8));
+        PursueIteration->setWindowTitle(QApplication::translate("PursueIteration", "Pursue an iteration", 0));
+        Name->setText(QApplication::translate("PursueIteration", "Name", 0));
+        Directory->setText(QApplication::translate("PursueIteration", "Directory", 0));
         PushDir->setText(QString());
-        RBIteration->setText(QApplication::translate("PursueIteration", "From an iteration", 0, QApplication::UnicodeUTF8));
-        RBCase->setText(QApplication::translate("PursueIteration", "From a case", 0, QApplication::UnicodeUTF8));
-        DirectoryStart->setText(QApplication::translate("PursueIteration", "Directory", 0, QApplication::UnicodeUTF8));
+        RBIteration->setText(QApplication::translate("PursueIteration", "From an iteration", 0));
+        RBCase->setText(QApplication::translate("PursueIteration", "From a case", 0));
+        DirectoryStart->setText(QApplication::translate("PursueIteration", "Directory", 0));
         PushDirStart->setText(QString());
-        GBIterationintoCase->setTitle(QApplication::translate("PursueIteration", "Iteration into the case", 0, QApplication::UnicodeUTF8));
-        RBCaseLastIteration->setText(QApplication::translate("PursueIteration", "Last iteration", 0, QApplication::UnicodeUTF8));
-        RBCaseNIteration->setText(QApplication::translate("PursueIteration", "Iteration number", 0, QApplication::UnicodeUTF8));
+        GBIterationintoCase->setTitle(QApplication::translate("PursueIteration", "Iteration into the case"));
+        RBCaseLastIteration->setText(QApplication::translate("PursueIteration", "Last iteration", 0));
+        RBCaseNIteration->setText(QApplication::translate("PursueIteration", "Iteration number", 0));
         GroupButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("PursueIteration", "Help", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("PursueIteration", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("PursueIteration", "OK", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("PursueIteration", "Cancel", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("PursueIteration", "Help", 0));
+        buttonApply->setText(QApplication::translate("PursueIteration", "Apply", 0));
+        buttonOk->setText(QApplication::translate("PursueIteration", "OK", 0));
+        buttonCancel->setText(QApplication::translate("PursueIteration", "Cancel", 0));
     } // retranslateUi
 
 };

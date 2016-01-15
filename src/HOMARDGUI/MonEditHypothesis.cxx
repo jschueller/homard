@@ -450,7 +450,7 @@ void MonEditHypothesis::SetFiltrage()
 {
   if (CBGroupe->isChecked())
   {
-    MonEditListGroup *aDlg = new MonEditListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
+    MonEditListGroup *aDlg = new MonEditListGroup(this, NULL, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
     aDlg->show();
   }
 }

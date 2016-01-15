@@ -10,20 +10,20 @@
 #ifndef CREATEZONE_H
 #define CREATEZONE_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QSpacerItem>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDialog>
+#include <QDoubleSpinBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QSpacerItem>
 
 QT_BEGIN_NAMESPACE
 
@@ -751,49 +751,49 @@ public:
 
     void retranslateUi(QDialog *CreateZone)
     {
-        CreateZone->setWindowTitle(QApplication::translate("CreateZone", "Create a zone", 0, QApplication::UnicodeUTF8));
-        Name->setText(QApplication::translate("CreateZone", "Name", 0, QApplication::UnicodeUTF8));
-        TypeZone->setTitle(QApplication::translate("CreateZone", "Type of zone", 0, QApplication::UnicodeUTF8));
-        RBSphere->setText(QApplication::translate("CreateZone", "Sphere", 0, QApplication::UnicodeUTF8));
-        RBPipe->setText(QApplication::translate("CreateZone", "Pipe", 0, QApplication::UnicodeUTF8));
-        RBCylinder->setText(QApplication::translate("CreateZone", "Cylinder", 0, QApplication::UnicodeUTF8));
-        RBBox->setText(QApplication::translate("CreateZone", "Box", 0, QApplication::UnicodeUTF8));
-        gBBox->setTitle(QApplication::translate("CreateZone", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLXmini->setText(QApplication::translate("CreateZone", "X mini", 0, QApplication::UnicodeUTF8));
-        TLYmini->setText(QApplication::translate("CreateZone", "Y mini", 0, QApplication::UnicodeUTF8));
-        TLZmini->setText(QApplication::translate("CreateZone", "Z mini", 0, QApplication::UnicodeUTF8));
-        TLXmaxi->setText(QApplication::translate("CreateZone", "X maxi", 0, QApplication::UnicodeUTF8));
-        TLZmaxi->setText(QApplication::translate("CreateZone", "Z maxi", 0, QApplication::UnicodeUTF8));
-        TLYmaxi->setText(QApplication::translate("CreateZone", "Y maxi", 0, QApplication::UnicodeUTF8));
-        gBSphere->setTitle(QApplication::translate("CreateZone", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLXcentre->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-        TLYcentre->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-        TLRayon->setText(QApplication::translate("CreateZone", "Radius", 0, QApplication::UnicodeUTF8));
-        TLZcentre->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8));
-        gBCylindre->setTitle(QApplication::translate("CreateZone", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLHaut->setText(QApplication::translate("CreateZone", "Height", 0, QApplication::UnicodeUTF8));
-        TLRadius->setText(QApplication::translate("CreateZone", "Radius", 0, QApplication::UnicodeUTF8));
-        TLZaxis->setText(QApplication::translate("CreateZone", "Z axis", 0, QApplication::UnicodeUTF8));
-        TLYaxis->setText(QApplication::translate("CreateZone", "Y axis", 0, QApplication::UnicodeUTF8));
-        TLXaxis->setText(QApplication::translate("CreateZone", "X axis", 0, QApplication::UnicodeUTF8));
-        TLYbase->setText(QApplication::translate("CreateZone", "Y base", 0, QApplication::UnicodeUTF8));
-        TLZbase->setText(QApplication::translate("CreateZone", "Z base", 0, QApplication::UnicodeUTF8));
-        TLXbase->setText(QApplication::translate("CreateZone", "X base", 0, QApplication::UnicodeUTF8));
-        gBPipe->setTitle(QApplication::translate("CreateZone", "Coordinates", 0, QApplication::UnicodeUTF8));
-        TLHaut_p->setText(QApplication::translate("CreateZone", "Height", 0, QApplication::UnicodeUTF8));
-        TLXbase_p->setText(QApplication::translate("CreateZone", "X base", 0, QApplication::UnicodeUTF8));
-        TLRadius_int->setText(QApplication::translate("CreateZone", "Internal radius", 0, QApplication::UnicodeUTF8));
-        TLZbase_p->setText(QApplication::translate("CreateZone", "Z base", 0, QApplication::UnicodeUTF8));
-        TLYbase_p->setText(QApplication::translate("CreateZone", "Y base", 0, QApplication::UnicodeUTF8));
-        TLXaxis_p->setText(QApplication::translate("CreateZone", "X axis", 0, QApplication::UnicodeUTF8));
-        TLYaxis_p->setText(QApplication::translate("CreateZone", "Y axis", 0, QApplication::UnicodeUTF8));
-        TLZaxis_p->setText(QApplication::translate("CreateZone", "Z axis", 0, QApplication::UnicodeUTF8));
-        TLRadius_ext->setText(QApplication::translate("CreateZone", "External radius", 0, QApplication::UnicodeUTF8));
+        CreateZone->setWindowTitle(QApplication::translate("CreateZone", "Create a zone", 0));
+        Name->setText(QApplication::translate("CreateZone", "Name", 0));
+        TypeZone->setTitle(QApplication::translate("CreateZone", "Type of zone", 0));
+        RBSphere->setText(QApplication::translate("CreateZone", "Sphere", 0));
+        RBPipe->setText(QApplication::translate("CreateZone", "Pipe", 0));
+        RBCylinder->setText(QApplication::translate("CreateZone", "Cylinder", 0));
+        RBBox->setText(QApplication::translate("CreateZone", "Box", 0));
+        gBBox->setTitle(QApplication::translate("CreateZone", "Coordinates", 0));
+        TLXmini->setText(QApplication::translate("CreateZone", "X mini", 0));
+        TLYmini->setText(QApplication::translate("CreateZone", "Y mini", 0));
+        TLZmini->setText(QApplication::translate("CreateZone", "Z mini", 0));
+        TLXmaxi->setText(QApplication::translate("CreateZone", "X maxi", 0));
+        TLZmaxi->setText(QApplication::translate("CreateZone", "Z maxi", 0));
+        TLYmaxi->setText(QApplication::translate("CreateZone", "Y maxi", 0));
+        gBSphere->setTitle(QApplication::translate("CreateZone", "Coordinates", 0));
+        TLXcentre->setText(QApplication::translate("CreateZone", "X centre", 0));
+        TLYcentre->setText(QApplication::translate("CreateZone", "Y centre", 0));
+        TLRayon->setText(QApplication::translate("CreateZone", "Radius", 0));
+        TLZcentre->setText(QApplication::translate("CreateZone", "Z centre", 0));
+        gBCylindre->setTitle(QApplication::translate("CreateZone", "Coordinates", 0));
+        TLHaut->setText(QApplication::translate("CreateZone", "Height", 0));
+        TLRadius->setText(QApplication::translate("CreateZone", "Radius", 0));
+        TLZaxis->setText(QApplication::translate("CreateZone", "Z axis", 0));
+        TLYaxis->setText(QApplication::translate("CreateZone", "Y axis", 0));
+        TLXaxis->setText(QApplication::translate("CreateZone", "X axis", 0));
+        TLYbase->setText(QApplication::translate("CreateZone", "Y base", 0));
+        TLZbase->setText(QApplication::translate("CreateZone", "Z base", 0));
+        TLXbase->setText(QApplication::translate("CreateZone", "X base", 0));
+        gBPipe->setTitle(QApplication::translate("CreateZone", "Coordinates", 0));
+        TLHaut_p->setText(QApplication::translate("CreateZone", "Height", 0));
+        TLXbase_p->setText(QApplication::translate("CreateZone", "X base", 0));
+        TLRadius_int->setText(QApplication::translate("CreateZone", "Internal radius", 0));
+        TLZbase_p->setText(QApplication::translate("CreateZone", "Z base", 0));
+        TLYbase_p->setText(QApplication::translate("CreateZone", "Y base", 0));
+        TLXaxis_p->setText(QApplication::translate("CreateZone", "X axis", 0));
+        TLYaxis_p->setText(QApplication::translate("CreateZone", "Y axis", 0));
+        TLZaxis_p->setText(QApplication::translate("CreateZone", "Z axis", 0));
+        TLRadius_ext->setText(QApplication::translate("CreateZone", "External radius", 0));
         GBButtons->setTitle(QString());
-        buttonHelp->setText(QApplication::translate("CreateZone", "Help", 0, QApplication::UnicodeUTF8));
-        buttonCancel->setText(QApplication::translate("CreateZone", "Cancel", 0, QApplication::UnicodeUTF8));
-        buttonApply->setText(QApplication::translate("CreateZone", "Apply", 0, QApplication::UnicodeUTF8));
-        buttonOk->setText(QApplication::translate("CreateZone", "OK", 0, QApplication::UnicodeUTF8));
+        buttonHelp->setText(QApplication::translate("CreateZone", "Help", 0));
+        buttonCancel->setText(QApplication::translate("CreateZone", "Cancel", 0));
+        buttonApply->setText(QApplication::translate("CreateZone", "Apply", 0));
+        buttonOk->setText(QApplication::translate("CreateZone", "OK", 0));
     } // retranslateUi
 
 };

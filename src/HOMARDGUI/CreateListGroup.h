@@ -10,15 +10,15 @@
 #ifndef CREATELISTGROUP_H
 #define CREATELISTGROUP_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QTableWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QDialog>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QTableWidget>
 
 class Ui_CreateListGroup
 {
@@ -107,22 +107,22 @@ public:
 
     void retranslateUi(QDialog *CreateListGroup)
     {
-    CreateListGroup->setWindowTitle(QApplication::translate("CreateListGroup", "Selection of groups", 0, QApplication::UnicodeUTF8));
+    CreateListGroup->setWindowTitle(QApplication::translate("CreateListGroup", "Selection of groups", 0));
     GBButtons->setTitle(QString());
-    buttonHelp->setText(QApplication::translate("CreateListGroup", "Help", 0, QApplication::UnicodeUTF8));
-    buttonCancel->setText(QApplication::translate("CreateListGroup", "Cancel", 0, QApplication::UnicodeUTF8));
-    buttonApply->setText(QApplication::translate("CreateListGroup", "Apply", 0, QApplication::UnicodeUTF8));
-    buttonOk->setText(QApplication::translate("CreateListGroup", "OK", 0, QApplication::UnicodeUTF8));
-    GBOptions->setTitle(QApplication::translate("CreateListGroup", "Selected groups", 0, QApplication::UnicodeUTF8));
+    buttonHelp->setText(QApplication::translate("CreateListGroup", "Help", 0));
+    buttonCancel->setText(QApplication::translate("CreateListGroup", "Cancel", 0));
+    buttonApply->setText(QApplication::translate("CreateListGroup", "Apply", 0));
+    buttonOk->setText(QApplication::translate("CreateListGroup", "OK", 0));
+    GBOptions->setTitle(QApplication::translate("CreateListGroup", "Selected groups", 0));
     if (TWGroupe->columnCount() < 2)
         TWGroupe->setColumnCount(2);
 
     QTableWidgetItem *__colItem = new QTableWidgetItem();
-    __colItem->setText(QApplication::translate("CreateListGroup", "Selection", 0, QApplication::UnicodeUTF8));
+    __colItem->setText(QApplication::translate("CreateListGroup", "Selection", 0));
     TWGroupe->setHorizontalHeaderItem(0, __colItem);
 
     QTableWidgetItem *__colItem1 = new QTableWidgetItem();
-    __colItem1->setText(QApplication::translate("CreateListGroup", "Group", 0, QApplication::UnicodeUTF8));
+    __colItem1->setText(QApplication::translate("CreateListGroup", "Group", 0));
     TWGroupe->setHorizontalHeaderItem(1, __colItem1);
     Q_UNUSED(CreateListGroup);
     } // retranslateUi
