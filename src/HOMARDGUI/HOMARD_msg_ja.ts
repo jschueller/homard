@@ -389,10 +389,6 @@
       <translation>非共形オプション</translation>
     </message>
     <message>
-      <source>Conformity type</source>
-      <translation>適合タイプ</translation>
-    </message>
-    <message>
       <source>Free</source>
       <translation>Free</translation>
     </message>
