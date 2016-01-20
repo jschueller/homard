@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Boundary)
 
-#include <CreateBoundaryDi.h>
+#include "ui_CreateBoundaryDi.h"
 #include <QDialog>
 
 class MonCreateCase;

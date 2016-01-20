@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <MeshInfo.h>
+#include "ui_MeshInfo.h"
 #include <QWidget>
 
 class HOMARD_EXPORT MonMeshInfo : public QDialog, public Ui_MeshInfo

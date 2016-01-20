@@ -21,6 +21,7 @@ INCLUDE(UseQtExt)
 INCLUDE(UsePyQt)
 
 # --- options ---
+
 # additional include directories
 INCLUDE_DIRECTORIES(
   ${QT_INCLUDES}
@@ -33,6 +34,7 @@ INCLUDE_DIRECTORIES(
   ${KERNEL_INCLUDE_DIRS}
   ${GUI_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
   ${PROJECT_BINARY_DIR}
   ${PROJECT_BINARY_DIR}/idl
   ${PROJECT_BINARY_DIR}/adm_local/unix
@@ -56,6 +58,31 @@ SET(_link_LIBRARIES
   ${GUI_SalomeApp}
   SalomeIDLHOMARD
   HOMARDEngine
+)
+
+# --- resources ---
+
+# resource files / to be processed by lrelease
+SET(_ts_RESOURCES
+  HOMARD_msg_en.ts
+  HOMARD_msg_fr.ts
+  HOMARD_msg_ja.ts
+) 
+
+# resource files / to be processed by uic
+SET(_uic_FILES
+  CreateBoundaryAn.ui
+  CreateBoundaryDi.ui
+  CreateCase.ui
+  CreateHypothesis.ui
+  CreateIteration.ui
+  CreateListGroup.ui
+  CreateYACS.ui
+  CreateZone.ui
+  EditFile.ui
+  IterInfo.ui
+  MeshInfo.ui
+  PursueIteration.ui
 )
 
 # --- headers ---
@@ -85,27 +112,18 @@ SET(_moc_HEADERS
   MonEditFile.h
 )
 
-# header files / no moc processing
+# header files / uic wrappings
+QT_WRAP_UIC(_uic_HEADERS ${_uic_FILES})
+  
+# header files / static
 SET(_other_HEADERS
-  CreateBoundaryAn.h
-  CreateBoundaryDi.h
-  CreateCase.h
-  CreateZone.h
-  CreateHypothesis.h
-  CreateListGroup.h
-  CreateIteration.h
-  PursueIteration.h
-  MeshInfo.h
-  IterInfo.h
-  CreateYACS.h
   HOMARDGUI_Utils.h
-  EditFile.h
   HomardQtCommun.h
   HOMARDGUI_Exports.hxx
 )
 
 # header files / to install
-SET(HOMARD_HEADERS ${_other_HEADERS} ${_moc_HEADERS})
+SET(HOMARD_HEADERS ${_other_HEADERS} ${_moc_HEADERS} ${_uic_HEADERS})
 
 # --- sources ---
 
@@ -140,36 +158,7 @@ SET(_other_SOURCES
 )
 
 # sources / to compile
-SET(HOMARD_SOURCES ${_other_SOURCES} ${_moc_SOURCES})
-
-# --- resources ---
-
-# resource files / to be processed by lrelease
-SET(_ts_RESOURCES
-  HOMARD_msg_en.ts
-  HOMARD_msg_fr.ts
-  HOMARD_msg_ja.ts
-) 
-
-# no install files
-# uic files / to be processed by pyuic
-SET(_pyuic_files
-  CreateBoundaryAn.ui
-  CreateBoundaryDi.ui
-  CreateCase.ui
-  CreateHypothesis.ui
-  CreateIteration.ui
-  CreateListGroup.ui
-  CreateZone.ui
-  PursueIteration.ui
-  MeshInfo.ui
-  IterInfo.ui
-  CreateYACS.ui
-  EditFile.ui
-)
-
-# scripts / pyuic wrappings
-PYQT_WRAP_UIC(_pyuic_SCRIPTS ${_pyuic_files})
+SET(HOMARD_SOURCES ${_other_SOURCES} ${_moc_SOURCES} ${_uic_HEADERS})
 
 # --- rules ---
 

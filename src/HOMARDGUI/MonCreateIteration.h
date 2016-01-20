@@ -29,10 +29,8 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <CreateIteration.h>
+#include "ui_CreateIteration.h"
 #include <QScrollArea>
-// #include <QDialog>
-// #include <QWidget>
 
 class HOMARD_EXPORT MonCreateIteration : public QScrollArea, public Ui_CreateIteration
 {

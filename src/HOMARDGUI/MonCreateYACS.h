@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <CreateYACS.h>
+#include "ui_CreateYACS.h"
 #include <QScrollArea>
 
 class HOMARD_EXPORT MonCreateYACS : public QScrollArea, public Ui_CreateYACS

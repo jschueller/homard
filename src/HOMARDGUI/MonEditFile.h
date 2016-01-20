@@ -30,7 +30,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include "EditFile.h"
+#include "ui_EditFile.h"
 #include <QWidget>
 
 class QListBox;

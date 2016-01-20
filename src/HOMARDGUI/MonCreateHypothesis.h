@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
 
-#include <CreateHypothesis.h>
+#include "ui_CreateHypothesis.h"
 #include <QScrollArea>
 
 class MonCreateIteration;

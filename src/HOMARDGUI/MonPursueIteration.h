@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <PursueIteration.h>
+#include "ui_PursueIteration.h"
 #include <QWidget>
 
 class HOMARD_EXPORT MonPursueIteration : public QDialog, public Ui_PursueIteration

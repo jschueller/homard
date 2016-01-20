@@ -29,10 +29,9 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <IterInfo.h>
+#include "ui_IterInfo.h"
 #include <QDialog>
 #include <QWidget>
-#include "EditFile.h"
 
 class QListBox;
 
