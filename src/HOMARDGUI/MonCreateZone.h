@@ -28,7 +28,7 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 
-#include <CreateZone.h>
+#include "ui_CreateZone.h"
 #include <QDialog>
 
 class MonCreateHypothesis;

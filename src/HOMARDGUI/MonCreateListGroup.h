@@ -28,7 +28,7 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 
-#include <CreateListGroup.h>
+#include "ui_CreateListGroup.h"
 #include <QDialog>
 
 class MonCreateHypothesis;

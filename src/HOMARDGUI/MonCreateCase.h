@@ -29,7 +29,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <CreateCase.h>
+#include "ui_CreateCase.h"
 #include <QWidget>
 
 class HOMARD_EXPORT MonCreateCase : public QDialog, public Ui_CreateCase
