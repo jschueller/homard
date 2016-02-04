@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V2.1"
+__revision__ = "V2.2"
 
 #========================================================================
 TEST_NAME = "test_4"
@@ -70,7 +70,6 @@ from salome.geom import geomBuilder
 from salome.smesh import smeshBuilder
 from salome.StdMeshers import StdMeshersBuilder
 #
-from MEDLoader import MEDLoader
 from MEDCouplingRemapper import MEDCouplingRemapper
 
 import iparameters
