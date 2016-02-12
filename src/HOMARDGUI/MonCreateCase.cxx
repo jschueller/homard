@@ -118,7 +118,7 @@ void MonCreateCase::InitBoundarys()
 // Pour les frontieres analytiques : la colonne des groupes
   HOMARD::ListGroupType_var _listeGroupesCas = aCase->GetGroups();
   QTableWidgetItem *__colItem = new QTableWidgetItem();
-  __colItem->setText(QApplication::translate("CreateCase", "", 0, QApplication::UnicodeUTF8));
+  __colItem->setText(QApplication::translate("CreateCase", "", 0));
   TWBoundary->setHorizontalHeaderItem(0, __colItem);
   for ( int i = 0; i < _listeGroupesCas->length(); i++ )
   {
@@ -503,7 +503,7 @@ void MonCreateCase::AddBoundaryAn(QString newBoundary)
   nbcol += 1 ;
   TWBoundary->setColumnCount ( nbcol ) ;
   QTableWidgetItem *__colItem = new QTableWidgetItem();
-  __colItem->setText(QApplication::translate("CreateCase", newBoundary.toStdString().c_str(), 0, QApplication::UnicodeUTF8));
+  __colItem->setText(QApplication::translate("CreateCase", newBoundary.toStdString().c_str(), 0));
   TWBoundary->setHorizontalHeaderItem(nbcol-1, __colItem);
 /*  TWBoundary->horizontalHeaderItem(nbcol-1)->setFlags( Qt::ItemIsSelectable|Qt::ItemIsEnabled );*/
 // Chaque case est a cocher

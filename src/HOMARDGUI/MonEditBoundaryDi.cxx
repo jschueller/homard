@@ -98,7 +98,7 @@ void MonEditBoundaryDi::SetFiltrage()
   HOMARD::HOMARD_Cas_var monCas= myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
 
-  MonEditListGroup *aDlg = new MonEditListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
+  MonEditListGroup *aDlg = new MonEditListGroup(NULL, this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
                             _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }

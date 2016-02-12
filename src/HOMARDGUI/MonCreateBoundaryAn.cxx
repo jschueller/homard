@@ -611,28 +611,28 @@ void MonCreateBoundaryAn::SetConeR()
 //
   _Type=4;
 //
-  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X centre 1", 0, QApplication::UnicodeUTF8));
+  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X centre 1", 0));
   SpinBox_Cone_X1->setValue(_BoundaryAnXcone1);
-  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y centre 1", 0, QApplication::UnicodeUTF8));
+  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y centre 1", 0));
   SpinBox_Cone_Y1->setValue(_BoundaryAnYcone1);
-  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z centre 1", 0, QApplication::UnicodeUTF8));
+  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z centre 1", 0));
   SpinBox_Cone_Z1->setValue(_BoundaryAnZcone1);
 //
-  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Radius 1", 0, QApplication::UnicodeUTF8));
+  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Radius 1", 0));
   SpinBox_Cone_V1->setSingleStep(_Rayon/10.);
   SpinBox_Cone_V1->setMaximum(100000.*_DMax);
   SpinBox_Cone_V1->setValue(_BoundaryAnRayon1);
 //
-  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre 2", 0, QApplication::UnicodeUTF8));
+  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre 2", 0));
   SpinBox_Cone_X2->setValue(_BoundaryAnXcone2);
-  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre 2", 0, QApplication::UnicodeUTF8));
+  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre 2", 0));
   SpinBox_Cone_Y2->setValue(_BoundaryAnYcone2);
-  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre 2", 0, QApplication::UnicodeUTF8));
+  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre 2", 0));
   SpinBox_Cone_Z2->setValue(_BoundaryAnZcone2);
 //
   TLCone_V2->setVisible(1);
   SpinBox_Cone_V2->setVisible(1);
-  TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "Radius 2", 0, QApplication::UnicodeUTF8));
+  TLCone_V2->setText(QApplication::translate("CreateBoundaryAn", "Radius 2", 0));
   SpinBox_Cone_V2->setValue(_BoundaryAnRayon2);
 //
 //   MESSAGE("Fin de SetConeR")
@@ -666,21 +666,21 @@ void MonCreateBoundaryAn::SetConeA()
 //
   _Type=3;
 //
-  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0, QApplication::UnicodeUTF8));
+  TLCone_X1->setText(QApplication::translate("CreateBoundaryAn", "X axis", 0));
   SpinBox_Cone_X1->setValue(_BoundaryAnXaxisCone);
-  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0, QApplication::UnicodeUTF8));
+  TLCone_Y1->setText(QApplication::translate("CreateBoundaryAn", "Y axis", 0));
   SpinBox_Cone_Y1->setValue(_BoundaryAnYaxisCone);
-  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0, QApplication::UnicodeUTF8));
+  TLCone_Z1->setText(QApplication::translate("CreateBoundaryAn", "Z axis", 0));
   SpinBox_Cone_Z1->setValue(_BoundaryAnZaxisCone);
 //
-  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0, QApplication::UnicodeUTF8));
+  TLCone_X2->setText(QApplication::translate("CreateBoundaryAn", "X centre", 0));
   SpinBox_Cone_X2->setValue(_BoundaryAnXorigCone);
-  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0, QApplication::UnicodeUTF8));
+  TLCone_Y2->setText(QApplication::translate("CreateBoundaryAn", "Y centre", 0));
   SpinBox_Cone_Y2->setValue(_BoundaryAnYorigCone);
-  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0, QApplication::UnicodeUTF8));
+  TLCone_Z2->setText(QApplication::translate("CreateBoundaryAn", "Z centre", 0));
   SpinBox_Cone_Z2->setValue(_BoundaryAnZorigCone);
 //
-  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Angle", 0, QApplication::UnicodeUTF8));
+  TLCone_V1->setText(QApplication::translate("CreateBoundaryAn", "Angle", 0));
   SpinBox_Cone_V1->setValue(_BoundaryAngle);
   SpinBox_Cone_V1->setSingleStep(1.);
   SpinBox_Cone_V1->setMaximum(90.);

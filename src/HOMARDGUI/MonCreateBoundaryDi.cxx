@@ -204,7 +204,7 @@ void MonCreateBoundaryDi::SetFiltrage()
     return;
   }
 
-  MonCreateListGroup *aDlg = new MonCreateListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
+  MonCreateListGroup *aDlg = new MonCreateListGroup(NULL, this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
                             _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }
