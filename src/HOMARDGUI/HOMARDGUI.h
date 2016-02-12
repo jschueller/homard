@@ -34,7 +34,7 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 #include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
 
-#include <QtCore/QString>
+#include <QString>
 
 class SalomeApp_Application;
 
