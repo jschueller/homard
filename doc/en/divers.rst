@@ -44,7 +44,7 @@ SALOME RELEASE 7.2:
       ``iter.Compute(option)`` becomes ``iter.Compute(option1, option2)``
     - A serie of iterations that is stored in a directory can be followed (see :ref:`gui_create_case`)
 
-SALOME VERSION 7.3:
+SALOME RELEASE 7.3:
     - English documentation
     - Options to track the computation (see :ref:`tui_create_iteration`): ``iter.SetInfoCompute(MessInfo)``
     - Automatic creation of YACS schema:
@@ -57,7 +57,7 @@ SALOME VERSION 7.3:
       ``SetFieldInterpTimeStepRank(FieldInterp, TimeStep, Rank)``: defines the time step and the rank for the interpolation of the field (see :ref:`tui_create_iteration`)
     - If error occurs into the python instructions, the program stops.
 
-SALOME VERSION 7.4 :
+SALOME RELEASE 7.4 :
     - Scroll bar for the large windows.
     - The meshes are published only if requested.
     - The torus is a new possibility for the analytical boundary.
@@ -65,8 +65,16 @@ SALOME VERSION 7.4 :
     - If an error occurs, the name of the message file is displayed.
     - Release 11.1 for the HOMARD binary. The conformal refinement of the meshes with hexaedra is improved: less meshes are produced.
 
-SALOME VERSION 7.5 :
+SALOME RELEASE 7.5 :
     - Additional extra output: diameters and qualities; the function ``SetExtraOutput(option)`` is now used (see :ref:`tui_create_hypothese`).
     - Release 11.2 for the HOMARD binary ; improvement for the 1D curve boundaries.
+
+SALOME RELEASE 7.6 :
+    - Interpolation of all the fields into the input file.
+
+SALOME RELEASE 8.1 :
+    - New options withinthe choice conformal/non-conformal.
+    - Less meshes are involved in the case of a non conformal refinement of a mesh made of hexahedra.
+    - Correction of an error when refinement and unrefinement are coupled for a mesh made of hexahedra.
 
 

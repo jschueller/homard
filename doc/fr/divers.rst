@@ -69,5 +69,13 @@ SALOME VERSION 7.5 :
     - Sorties supplémentaires optionnelles : diamètre et qualité ; on utilisera ``SetExtraOutput(option)`` (voir :ref:`tui_create_hypothese`).
     - Passage à la version 11.2 de l'exécutable HOMARD ; amélioration du suivi des frontières courbes 1D.
 
+SALOME VERSION 7.6 :
+    - Pilotage de l’interpolation de tous les champs présents dans le fichier d’entrée.
+
+SALOME VERSION 8.1 :
+    - Variantes dans les choix conforme / non conforme.
+    - Diminution du nombre de mailles impactées dans le cas d’un raffinement non conforme d’un maillage en hexaèdres.
+    - Correction d'une anomalie en raffinement / déraffinement d’un maillage en hexaèdres.
+
 
 
