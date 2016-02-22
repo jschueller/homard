@@ -73,6 +73,7 @@ SALOME RELEASE 7.6 :
     - Interpolation of all the fields into the input file.
 
 SALOME RELEASE 8.1 :
+    - Interface with med 3.2.0
     - New options withinthe choice conformal/non-conformal.
     - Less meshes are involved in the case of a non conformal refinement of a mesh made of hexahedra.
     - Correction of an error when refinement and unrefinement are coupled for a mesh made of hexahedra.

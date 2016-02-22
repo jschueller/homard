@@ -90,4 +90,3 @@ gzip_gunzip(DATA_TUTORIAL, 1, 1)
 #
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(1)
-  iparameters.getSession().restoreVisualState(1)
