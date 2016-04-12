@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2013-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
@@ -94,7 +94,7 @@ Le constructeur de la classe Script
           self.verbose = 1
           self.verbose_max = 1
 #
-# 2. Les paramètres de base
+# 2. Les paramÃ¨tres de base
 #
     self.dico = {}
 #

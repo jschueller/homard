@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2013-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
@@ -178,7 +178,7 @@ Le constructeur de la classe Script
         elif saux == "-DUMP" :
           self.dump = 1
 #
-# 2. Les paramètres de base
+# 2. Les paramÃ¨tres de base
 #
     self.dico = {}
     self.nomfic_export = None
@@ -623,7 +623,7 @@ Modification du fichier export et reperage de quelques informations
             if typfic == "mmed" :
               nomfic = self.mesh_file
 #
-# 3.2.2.2. Pour les autres fichiers, on recupère le nom initial
+# 3.2.2.2. Pour les autres fichiers, on recupÃ¨re le nom initial
 #
             else :
               nomfic_l_0 = os.path.basename(nomfic_0)

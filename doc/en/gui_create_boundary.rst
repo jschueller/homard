@@ -71,7 +71,7 @@ This operation is repeated as often as we wish to place faces of meshs on a curv
   Conversely, a boundary can be very well retained by no group. It occurs if it was defined for a previous case and if it is groundless for the case in the course of definition.
 
 
-There are three types of analytical boundary:
+There are four types of analytical boundary:
 
   - Cylindre
   - Sphere

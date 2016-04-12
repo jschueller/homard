@@ -71,7 +71,7 @@ Cette opération est répétée autant de fois que l'on souhaite placer des face
   Inversement, une frontière peut très bien n'être retenue par aucun groupe. Cela arrive si elle a été définie pour un cas précédent et qu'elle est sans objet pour le cas en cours de définition.
 
 
-Il existe trois types de frontière analytique :
+Il existe quatre types de frontière analytique :
 
   - Cylindre
   - Sphère
