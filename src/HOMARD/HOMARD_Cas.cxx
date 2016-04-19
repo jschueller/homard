@@ -164,7 +164,7 @@ const int HOMARD_Cas::GetConfType() const
 //=============================================================================
 void HOMARD_Cas::SetExtType( int ExtType )
 {
-//   VERIFICATION( (ExtType>=0) && (ExtType<=1) );
+//   VERIFICATION( (ExtType>=0) && (ExtType<=2) );
   _ExtType = ExtType;
 }
 //=============================================================================

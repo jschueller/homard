@@ -210,10 +210,13 @@ void MonEditCase::InitValEdit()
     else
     { GBFormat->setVisible(1);
       RBMED->setVisible(1);
+      RBSaturne->setVisible(1);
       RBSaturne2D->setVisible(1);
-      RBSaturne2D->setChecked(true);
+      if ( ExtType == 1 ) { RBSaturne->setChecked(true); }
+      else                { RBSaturne2D->setChecked(true); }
     }
     RBMED->setEnabled(false);
+    RBSaturne->setEnabled(false);
     RBSaturne2D->setEnabled(false);
   }
   else

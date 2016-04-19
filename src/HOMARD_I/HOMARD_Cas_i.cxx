@@ -250,7 +250,7 @@ CORBA::Long HOMARD_Cas_i::GetConfType()
 void HOMARD_Cas_i::SetExtType( CORBA::Long ExtType )
 {
   ASSERT( myHomardCas );
-//   VERIFICATION( (ExtType>=0) && (ExtType<=1) );
+//   VERIFICATION( (ExtType>=0) && (ExtType<=2) );
   myHomardCas->SetExtType( ExtType );
 }
 //=============================================================================

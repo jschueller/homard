@@ -141,7 +141,8 @@ Methods of the class cas
 |     - ``ext_type`` : integer as follows:                      |
 |                                                               |
 |         * 0 : Standard MED (default)                          |
-|         * 1 : Saturne 2D                                      |
+|         * 1 : Saturne MED                                     |
+|         * 2 : Saturne 2D MED                                  |
 +---------------------------------------------------------------+
 | .. module:: GetExtType                                        |
 |                                                               |

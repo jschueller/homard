@@ -102,6 +102,7 @@ void MonCreateCase::InitConnect()
     connect( RBNCQuelconque, SIGNAL(clicked()), this, SLOT(SetNCQuelconque()));
 
     connect( RBMED,          SIGNAL(clicked()), this, SLOT(SetMED()));
+    connect( RBSaturne,      SIGNAL(clicked()), this, SLOT(SetSaturne()));
     connect( RBSaturne2D,    SIGNAL(clicked()), this, SLOT(SetSaturne2D()));
 
     connect( buttonOk,       SIGNAL(pressed()), this, SLOT(PushOnOK()));
@@ -419,10 +420,17 @@ void MonCreateCase::SetMED()
   RBMED->setChecked(true);
 }
 // ------------------------------------------------------------------------
-void MonCreateCase::SetSaturne2D()
+void MonCreateCase::SetSaturne()
 // ------------------------------------------------------------------------
 {
   _ExtType = 1 ;
+  RBSaturne->setChecked(true);
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::SetSaturne2D()
+// ------------------------------------------------------------------------
+{
+  _ExtType = 2 ;
   RBSaturne2D->setChecked(true);
 }
 // ------------------------------------------------------------------------

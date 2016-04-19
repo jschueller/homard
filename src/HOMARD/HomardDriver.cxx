@@ -80,8 +80,9 @@ void HomardDriver::TexteAdap( int ExtType )
   MESSAGE("TexteAdap");
 //
   _Texte += "Action   homa\n" ;
-  if ( ExtType ==  0 ) { _Texte += "CCAssoci med\n" ; }
-  else                 { _Texte += "CCAssoci saturne_2d\n" ; }
+  if ( ExtType ==  0 )      { _Texte += "CCAssoci med\n" ; }
+  else if ( ExtType ==  1 ) { _Texte += "CCAssoci saturne\n" ; }
+  else                      { _Texte += "CCAssoci saturne_2d\n" ; }
   _Texte += "ModeHOMA 1\n" ;
   _Texte += "NumeIter " + _siter + "\n" ;
 //
@@ -230,10 +231,10 @@ void HomardDriver::TexteConfRaffDera( int ConfType, int TypeAdap, int TypeRaff, 
 //   MESSAGE("A la fin de HomardDriver::TexteConfRaffDera, _Texte ="<<_Texte);
 }
 //===============================================================================
-void HomardDriver::TexteCompo( int NumeComp, const std::string NompCompo)
+void HomardDriver::TexteCompo( int NumeComp, const std::string NomCompo)
 {
-  MESSAGE("TexteCompo, NumeComp = "<<NumeComp<<", NompCompo = "<<NompCompo);
-  _Texte +="CCCoChaI \"" + NompCompo + "\"\n" ;
+  MESSAGE("TexteCompo, NumeComp = "<<NumeComp<<", NomCompo = "<<NomCompo);
+  _Texte +="CCCoChaI \"" + NomCompo + "\"\n" ;
 }
 //===============================================================================
 void HomardDriver::TexteZone( int NumeZone, int ZoneType, int TypeUse, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8 )

@@ -71,6 +71,7 @@ public slots:
     virtual void SetNCQuelconque();
 
     virtual void SetMED();
+    virtual void SetSaturne();
     virtual void SetSaturne2D();
 
     virtual void SetBoundaryD();

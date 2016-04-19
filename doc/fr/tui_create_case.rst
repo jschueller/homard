@@ -141,7 +141,8 @@ Méthodes de la classe cas
 |     - ``ext_type`` : entier précisant le type externe         |
 |                                                               |
 |         * 0 : MED standard (défaut)                           |
-|         * 1 : Saturne 2D                                      |
+|         * 1 : Saturne MED                                     |
+|         * 2 : Saturne 2D MED                                  |
 +---------------------------------------------------------------+
 | .. module:: GetExtType                                        |
 |                                                               |
