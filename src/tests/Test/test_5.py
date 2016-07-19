@@ -27,7 +27,6 @@ __revision__ = "V1.0"
 #========================================================================
 TEST_NAME = "test_5"
 DEBUG = False
-DEBUG = True
 VERBOSE = True
 N_ITER_TEST_FILE = 3
 NBCELL_X = 10

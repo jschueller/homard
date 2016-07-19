@@ -19,10 +19,9 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2014
 Utilitaires pour les tests
 """
-__revision__ = "V1.3"
+__revision__ = "V1.4"
 
 import os
 #========================================================================
@@ -63,41 +62,53 @@ Copyright EDF-R&D 2014
   #
   test_file = os.path.join(rep_test, test_name + "." + test_file_suff)
   mess_error_ref = "\nReference file: " + test_file
+#
+# Existence du fichier de référence
+#
   try :
     file = open (test_file, "r")
-    mess_ref = file.readlines()
+    les_lignes_ref = file.readlines()
     file.close()
   except :
     mess_error = mess_error_ref + "\nThis file does not exist.\n"
     destroy_dir = False
     raise Exception(mess_error)
-  #
+#
+# Existence du fichier de l'exécution courante
+#
   test_file = os.path.join(dircase, rep_test_file, test_file_suff)
   if os.path.isfile (test_file) :
     file = open (test_file, "r")
-    mess = file.readlines()
+    les_lignes = file.readlines()
     file.close()
   else :
     mess_error  = "\nResult file: " + test_file
     mess_error += "\nThis file does not exist.\n"
     destroy_dir = False
     raise Exception(mess_error)
-
-  nblign = len(mess_ref)
-  if ( len(mess) != nblign ):
+#
+# Nombre de lignes identiques
+#
+  nblign = len(les_lignes_ref)
+  if ( len(les_lignes) != nblign ):
     mess_error = mess_error_ref +  "\nResult file: " + test_file
     mess_error += "\nThe number of lines of the files are not the same.\n"
     destroy_dir = False
     raise Exception(mess_error)
-
+#
+# Comparaison des lignes, à l'esception de la date
+#
   for num in range(nblign) :
-    if (( "creation" not in mess_ref[num] ) and ( mess_ref[num] != mess[num])) :
-      message_erreur = "\nRefe : " + mess_ref[num]
-      message_erreur += "Test : " + mess[num][:-1]
-      message_erreur += "\nThe test is different from the reference."
-      destroy_dir = False
-      raise Exception(message_erreur)
-  #
+    if ( "creation" not in les_lignes_ref[num] ) :
+      if ( les_lignes_ref[num] != les_lignes[num] ) :
+        message_erreur = "\nRefe : " + les_lignes_ref[num]
+        message_erreur += "Test : " + les_lignes[num][:-1]
+        message_erreur += "\nThe test is different from the reference."
+        destroy_dir = False
+        raise Exception(message_erreur)
+#
+# Destruction éventuelle du répertoire du calcul
+#
   if destroy_dir:
     remove_dir(dircase)
 #
