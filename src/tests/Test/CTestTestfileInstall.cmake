@@ -27,6 +27,7 @@ test_1
 test_2
 test_3
 test_4
+test_5
 tutorial_1
 tutorial_2
 tutorial_3
