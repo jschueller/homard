@@ -221,6 +221,6 @@ DESTROY_DIR = not DEBUG
 test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(1)
+  salome.sg.updateObjBrowser(True)
   iparameters.getSession().restoreVisualState(1)
 
