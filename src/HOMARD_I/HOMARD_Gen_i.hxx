@@ -141,9 +141,7 @@ public:
   HOMARD::HOMARD_Iteration_ptr    LastIteration  (const char* nomCas);
 
 // L'etude
-  SALOMEDS::Study_ptr             GetCurrentStudy();
-  void                            SetCurrentStudy(SALOMEDS::Study_ptr theStudy);
-  CORBA::Long                     GetCurrentStudyID();
+  void                            UpdateStudy();
   void                            IsValidStudy();
 
 // Liens entre structures
@@ -256,8 +254,7 @@ public:
   // --> Data publishing
   virtual CORBA::Boolean          CanPublishInStudy(CORBA::Object_ptr theIOR);
 
-  virtual SALOMEDS::SObject_ptr   PublishInStudy(SALOMEDS::Study_ptr theStudy,
-                                                 SALOMEDS::SObject_ptr theSObject,
+  virtual SALOMEDS::SObject_ptr   PublishInStudy(SALOMEDS::SObject_ptr theSObject,
                                                  CORBA::Object_ptr theObject,
                                                  const char* theName);
 
@@ -276,16 +273,15 @@ public:
 //   virtual void SALOMEException( std::string message );
 
 private:
-  void                            addInStudy(SALOMEDS::Study_ptr theStudy);
-  SALOMEDS::SObject_ptr           PublishBoundaryInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+  SALOMEDS::SObject_ptr           PublishBoundaryInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_Boundary_ptr theObject, const char* theName);
-  SALOMEDS::SObject_ptr           PublishCaseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+  SALOMEDS::SObject_ptr           PublishCaseInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_Cas_ptr theObject, const char* theName);
-  SALOMEDS::SObject_ptr           PublishHypotheseInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+  SALOMEDS::SObject_ptr           PublishHypotheseInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_Hypothesis_ptr theObject, const char* theName);
-  SALOMEDS::SObject_ptr           PublishYACSInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+  SALOMEDS::SObject_ptr           PublishYACSInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_YACS_ptr theObject, const char* theName);
-  SALOMEDS::SObject_ptr           PublishZoneInStudy(SALOMEDS::Study_ptr theStudy, SALOMEDS::StudyBuilder_var aStudyBuilder,
+  SALOMEDS::SObject_ptr           PublishZoneInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      HOMARD::HOMARD_Zone_ptr theObject, const char* theName);
   virtual void                    PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                      SALOMEDS::SObject_var aResultSO,
@@ -320,11 +316,10 @@ private:
     std::map<std::string, HOMARD::HOMARD_Zone_var>       _mesZones;
     std::map<int, PortableServer::ServantBase*>          _idmap;
   };
-  typedef std::map<int, StudyContext> ContextMap;
 
   ::HOMARD_Gen*                 myHomard;
-  SALOMEDS::Study_var           myCurrentStudy;
-  ContextMap                    myContextMap;
+  SALOMEDS::Study_var           myStudy;
+  StudyContext                  myStudyContext;
   SALOME_NamingService*         _NS;
 
   int _tag_gene ;

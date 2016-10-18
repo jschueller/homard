@@ -142,9 +142,7 @@ module HOMARD
 //
 // A.3. L'etude
 //
-    void SetCurrentStudy(in SALOMEDS::Study theStudy)      raises (SALOME::SALOME_Exception);
-    SALOMEDS::Study GetCurrentStudy()                      raises (SALOME::SALOME_Exception);
-    long GetCurrentStudyID()                               raises (SALOME::SALOME_Exception);
+    void UpdateStudy()      raises (SALOME::SALOME_Exception);
 //
 // A.4. Les caracteristiques generales
 //

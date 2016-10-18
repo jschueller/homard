@@ -241,7 +241,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.SetCurrentStudy(theStudy)
+    HOMARD.UpdateStudy()
   #
   # Creation of the hypothese DISTANCE INVERSE
   # ==========================================

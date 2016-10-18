@@ -1106,22 +1106,6 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
-                        <service-name>SetCurrentStudy</service-name>
-                        <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>theStudy</inParameter-name>
-                                <inParameter-type>SALOMEDS/Study</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
                         <service-name>PublishFileUnderIteration</service-name>
                         <service-author>EDF</service-author>
                         <service-version>1.6</service-version>

@@ -74,7 +74,7 @@ def homard_exec(theStudy):
 Python script for HOMARD
   """
   #
-  HOMARD.SetCurrentStudy(theStudy)
+  HOMARD.UpdateStudy()
   #
   # Creation des zones
   # ==================

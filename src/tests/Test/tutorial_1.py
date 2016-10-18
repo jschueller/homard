@@ -74,7 +74,7 @@ def homard_exec(theStudy):
 Python script for HOMARD
   """
   #
-  homard.SetCurrentStudy(theStudy)
+  homard.UpdateStudy()
   #
   # Hypotheses
   # ==========

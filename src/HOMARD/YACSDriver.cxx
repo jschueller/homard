@@ -127,7 +127,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
-  _Texte += "                              <node>Etude_Initialisation.SetCurrentStudy</node>\n" ;
+  _Texte += "                              <node>Etude_Initialisation.UpdateStudy</node>\n" ;
   _Texte += "                              <method>" + methode + "</method>\n" ;
 // 4. Les inports
 // 4.1. Le nom de la zone
@@ -293,7 +293,7 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
-  _Texte += "                              <node>Etude_Initialisation.SetCurrentStudy</node>\n" ;
+  _Texte += "                              <node>Etude_Initialisation.UpdateStudy</node>\n" ;
   _Texte += "                              <method>" + methode + "</method>\n" ;
 // 4. Les inports
 //    ATTENTION : les noms doivent etre les memes que dans Gen.xml, donc HOMARD_Gen.idl
