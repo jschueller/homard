@@ -1707,7 +1707,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
 //     MESSAGE ( "CreateCase0 : Les valeurs extremes des coordonnees" );
     std::vector<double> LesExtremes =GetBoundingBoxInMedFile(MeshFile) ;
     HOMARD::extrema_var aSeq = new HOMARD::extrema() ;
-    if (LesExtremes.size()!=10) { return false; }
+    if (LesExtremes.size()!=10) { return 0; }
     aSeq->length(10) ;
     for (int i =0 ; i< LesExtremes.size() ; i++)
         aSeq[i]=LesExtremes[i] ;
