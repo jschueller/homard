@@ -49,6 +49,10 @@ Some variations may exist. If no error indicator is available, another field can
 .. note::
   To quote HOMARD, please refer to:
 
+  Gérald Nicolas, Thierry Fouquet, Samuel Geniaut, Sam Cuvilliez, Improved adaptive mesh refinement for conformal hexahedral meshes, "*Advances in Engineering Software*", Vol. 102, pp. 14-28, 2016, doi:10.1016/j.advengsoft.2016.07.014
+
+  `Available here <http://dx.doi.org/10.1016/j.advengsoft.2016.07.014>`_
+
   G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
   `Available here <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
@@ -238,8 +242,8 @@ The algorithm is:
 
    * Transfer of refining or coarsening indications over element into decisions to split or group edges, triangles and quadrangles.
    * Removal of temporary compliance element.
-   * By considering all triangles and quadrangles from the lowest splitting level to the highest splitting level, conflict solving on coarsening using the basic rules.
    * By considering all triangles and quadrangles from the lowest splitting level to the highest splitting level, conflict solving on refining using the basic rules.
+   * By considering all triangles and quadrangles from the lowest splitting level to the highest splitting level, conflict solving on coarsening using the basic rules.
    * Effective generation of new meshing : standard splitting, compliance tracking.
 
 
@@ -251,34 +255,41 @@ Some examples of use cases can be found on the site of `HOMARD <http://www.code-
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_3.png                              |
+|    :alt: Strap                                                |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_4.png                              |
+|    :alt: Pin                                                  |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_5.png                              |
 |    :align: center                                             |
-|                                                               |
+|    :alt: Hexaedron and non conformal adaptation               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_6.png                              |
+|    :alt: Tetrahedron                                          |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_7.png                              |
+|    :alt: Hexaedron and conformal adaptation                   |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_8.gif                              |
+|    :alt: Propagation in 2D                                    |
 |    :align: center                                             |
-|                                                               |
++---------------------------------------------------------------+
+| .. image:: ../images/intro_9.2.png                            |
+|    :alt: Refinement; level 2                                  |
+|    :align: center                                             |
+|    :scale: 80                                                 |
+| .. image:: ../images/intro_9.3.png                            |
+|    :alt: Refinement; level 3                                  |
+|    :align: center                                             |
+|    :scale: 80                                                 |
+| .. image:: ../images/intro_9.4.png                            |
+|    :alt: Refinement; level 4                                  |
+|    :align: center                                             |
+|    :scale: 80                                                 |
 +---------------------------------------------------------------+
 

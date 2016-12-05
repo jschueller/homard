@@ -49,6 +49,10 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'e
 .. note::
   Pour une référence à HOMARD, utiliser :
 
+  Gérald Nicolas, Thierry Fouquet, Samuel Geniaut, Sam Cuvilliez, Improved adaptive mesh refinement for conformal hexahedral meshes, "*Advances in Engineering Software*", Vol. 102, pp. 14-28, 2016, doi:10.1016/j.advengsoft.2016.07.014
+
+  `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.advengsoft.2016.07.014>`_
+
   G. Nicolas and T. Fouquet, Adaptive Mesh Refinement for Conformal Hexahedral Meshes, "*Finite Elements in Analysis and Design*", Vol. 67, pp. 1-12, 2013, doi:10.1016/j.finel.2012.11.008
 
   `Accessible en cliquant ici <http://dx.doi.org/10.1016/j.finel.2012.11.008>`_
@@ -56,7 +60,7 @@ Des variantes de ce schéma de base sont possibles. Si aucun calcul d'erreur n'e
 .. index:: single: YACS
 
 .. note::
-  Cet alternance de calculs et d'adaptions est très appropriée à la mise place de schémas :doc:`yacs`.
+  Cet alternance de calculs et d'adaptions est très appropriée à la mise en place de schémas :doc:`yacs`.
 
 Mode de découpage des mailles
 *****************************
@@ -254,8 +258,8 @@ L'algorithme général est donc le suivant :
 
     * Transfert des indications de raffinement ou de déraffinement des mailles en décisions de découpage ou de regroupement d'arêtes, de triangles et de quadrangles.
     * Suppression des mailles temporaires de mise en conformité.
-    * Par examen de tous les triangles et quadrangles du niveau de découpage le plus bas vers le niveau le plus haut, règlement des conflits sur le déraffinement au moyen des règles de base.
     * Par examen de tous les triangles et quadrangles du niveau de découpage le plus haut vers le niveau le plus bas, règlement des conflits sur le raffinement au moyen des règles de base.
+    * Par examen de tous les triangles et quadrangles du niveau de découpage le plus bas vers le niveau le plus haut, règlement des conflits sur le déraffinement au moyen des règles de base.
     * Création effective du nouveau maillage : découpage standard, suivi de mise en conformité.
 
 
@@ -267,34 +271,41 @@ On pourra trouver des exemples d'utilisations de l'adaptation de maillage sur le
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_3.png                              |
+|    :alt: Bride                                                |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_4.png                              |
+|    :alt: Goupille                                             |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_5.png                              |
 |    :align: center                                             |
-|                                                               |
+|    :alt: Hexaèdre en non conforme                             |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_6.png                              |
+|    :alt: Tétraèdre                                            |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_7.png                              |
+|    :alt: Hexaèdre en conforme                                 |
 |    :align: center                                             |
-|                                                               |
 +---------------------------------------------------------------+
-|                                                               |
 | .. image:: ../images/intro_8.gif                              |
+|    :alt: Propagation en 2D                                    |
 |    :align: center                                             |
-|                                                               |
++---------------------------------------------------------------+
+| .. image:: ../images/intro_9.2.png                            |
+|    :alt: Niveau 2 de raffinement                              |
+|    :align: center                                             |
+|    :scale: 80                                                 |
+| .. image:: ../images/intro_9.3.png                            |
+|    :alt: Niveau 3 de raffinement                              |
+|    :align: center                                             |
+|    :scale: 80                                                 |
+| .. image:: ../images/intro_9.4.png                            |
+|    :alt: Niveau 4 de raffinement                              |
+|    :align: center                                             |
+|    :scale: 80                                                 |
 +---------------------------------------------------------------+
 
