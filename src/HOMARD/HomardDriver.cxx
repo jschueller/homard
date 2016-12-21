@@ -1004,6 +1004,11 @@ void HomardDriver::TexteAdvanced( int Pyram, int NivMax, double DiamMin, int Ada
     _Texte += "# Sortie des parents des mailles\n" ;
     _Texte += "NCParent PARENT\n" ;
   }
+  if ( ExtraOutput % 11 == 0 )
+  {
+    _Texte += "# Volumes voisins par recollement\n" ;
+    _Texte += "NCVoisRc Voisin-Recollement\n" ;
+  }
 }
 //===============================================================================
 // G. Les messages

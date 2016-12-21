@@ -414,7 +414,8 @@ Advanced options
 |                                                               |
 | **SetExtraOutput(option)**                                    |
 |     Acts if some extra information are required into the      |
-|     output MED file. The option is a product of 2, 3, 5, 7.   |
+|     output MED file. The option is a product of               |
+|     2, 3, 5, 7, 11.                                           |
 |                                                               |
 |     - ``option``: integer as follows:                         |
 |                                                               |
@@ -423,6 +424,7 @@ Advanced options
 |         *  3x : the quality of every mesh                     |
 |         *  5x : the diameter of every mesh                    |
 |         *  7x : common parent of every mesh                   |
+|         * 11x : neighbours of glued cells                     |
 +---------------------------------------------------------------+
 | .. module:: GetExtraOutput                                    |
 |                                                               |

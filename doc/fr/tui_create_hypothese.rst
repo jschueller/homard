@@ -418,7 +418,7 @@ Les options avancées
 | **SetExtraOutput(option)**                                    |
 |     Précise quelles sorties supplémentaires sur les mailles on|
 |     veut récupérer dans le fichier MED de sortie. C'est un    |
-|     entier multiple ou non de 2, 3, 5, 7.                     |
+|     entier multiple ou non de 2, 3, 5, 7, 11.                 |
 |                                                               |
 |     - ``option`` : entier précisant le choix retenu           |
 |                                                               |
@@ -427,6 +427,7 @@ Les options avancées
 |         *  3x : la qualité de chaque maille                   |
 |         *  5x : le diamètre de chaque maille                  |
 |         *  7x : les fratries des mailles                      |
+|         * 11x : les voisins des mailles recollées             |
 +---------------------------------------------------------------+
 | .. module:: GetExtraOutput                                    |
 |                                                               |
