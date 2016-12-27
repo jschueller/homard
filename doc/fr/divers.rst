@@ -78,5 +78,7 @@ SALOME VERSION 8.1 :
     - Diminution du nombre de mailles impactées dans le cas d’un raffinement non conforme d’un maillage en hexaèdres.
     - Correction d'une anomalie en raffinement / déraffinement d’un maillage en hexaèdres.
 
-
+SALOME VERSION 8.3 :
+    - Interfaçage avec med 3.2.1
+    - Sortie des listes de mailles volumiques raccordées par non-conformité
 

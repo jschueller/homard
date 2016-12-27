@@ -74,8 +74,11 @@ SALOME RELEASE 7.6 :
 
 SALOME RELEASE 8.1 :
     - Interface with med 3.2.0
-    - New options withinthe choice conformal/non-conformal.
+    - New options within the choice conformal/non-conformal.
     - Less meshes are involved in the case of a non conformal refinement of a mesh made of hexahedra.
     - Correction of an error when refinement and unrefinement are coupled for a mesh made of hexahedra.
 
+SALOME RELEASE 8.3 :
+    - Interface with med 3.2.1
+    - Output of the list of the meshes that are connected with a non conformal link.
 
