@@ -436,6 +436,14 @@
         <translation>Sortie des diamètres</translation>
     </message>
     <message>
+        <source>Output of the parents</source>
+        <translation>Sortie des parents</translation>
+    </message>
+    <message>
+        <source>Output of the neighbours</source>
+        <translation>Sortie des voisins</translation>
+    </message>
+    <message>
         <source>Create an iteration</source>
         <translation>Création d&apos;une itération</translation>
     </message>
