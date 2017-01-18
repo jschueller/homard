@@ -4329,9 +4329,9 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
   aFileName += "_HOMARD.dat";
 
   // initialize sequence of file names
-  SALOMEDS::ListOfFileNames_var aFileSeq = new SALOMEDS::ListOfFileNames;
-  aFileSeq->length(1);
-  aFileSeq[0] = CORBA::string_dup(aFileName.c_str()) ;
+  SALOMEDS_Tool::ListOfFiles aFileSeq;
+  aFileSeq.reserve(1);
+  aFileSeq.push_back(CORBA::string_dup(aFileName.c_str())) ;
 
   // get full path to the data file
   aFileName = tmpDir + aFileName;
@@ -4406,11 +4406,11 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
 
   // put temporary files to the stream
   MESSAGE ("put temporary files to the stream");
-  aStreamFile = SALOMEDS_Tool::PutFilesToStream(tmpDir.c_str(), aFileSeq.in(), isMultiFile);
+  aStreamFile = SALOMEDS_Tool::PutFilesToStream(tmpDir.c_str(), aFileSeq, isMultiFile);
 
   // remove temporary files
   MESSAGE ("remove temporary files");
-  if (!isMultiFile) SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq.in(), true);
+  if (!isMultiFile) SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq, true);
 
   // return data stream
   MESSAGE ("return data stream");
@@ -4444,9 +4444,9 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
   std::string tmpDir = isMultiFile ? std::string(theURL) : SALOMEDS_Tool::GetTmpDir();
 
   // Convert the stream into sequence of files to process
-  SALOMEDS::ListOfFileNames_var aFileSeq = SALOMEDS_Tool::PutStreamToFiles(theStream,
-                                                                            tmpDir.c_str(),
-                                                                            isMultiFile);
+  SALOMEDS_Tool::ListOfFiles aFileSeq = SALOMEDS_Tool::PutStreamToFiles(theStream,
+                                                                        tmpDir.c_str(),
+                                                                        isMultiFile);
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
@@ -4552,7 +4552,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
 
   // Remove temporary files created from the stream
   if (!isMultiFile)
-    SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq.in(), true);
+    SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq, true);
 
   return true;
 };
