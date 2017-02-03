@@ -38,6 +38,7 @@
 #include "SALOMEDS_Tool.hxx"
 #include "SALOME_LifeCycleCORBA.hxx"
 #include "SALOMEconfig.h"
+#include <SMESH_Gen_i.hxx>
 #include CORBA_CLIENT_HEADER(SALOME_ModuleCatalog)
 #include CORBA_CLIENT_HEADER(SMESH_Gen)
 
@@ -99,8 +100,7 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
   _NS->init_orb(_orb);
 
-  CORBA::Object_var aStudyObject = _NS->Resolve( "/Study" );
-  myStudy = SALOMEDS::Study::_narrow( aStudyObject );
+  myStudy = SALOMEDS::Study::_duplicate( SMESH_Gen_i::getStudyServant() );
 
   _tag_gene = 0 ;
   _tag_boun = 0 ;
@@ -4319,13 +4319,12 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
   // get temporary directory name
   std::string tmpDir = isMultiFile ? std::string(theURL) : SALOMEDS_Tool::GetTmpDir();
 
-  SALOMEDS::Study_var aStudy = theComponent->GetStudy();
   StudyContext& context = myStudyContext;
 
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(SMESH_Gen_i::getStudyServant()->URL());
   aFileName += "_HOMARD.dat";
 
   // initialize sequence of file names
@@ -4434,7 +4433,6 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
 				   CORBA::Boolean isMultiFile)
 {
   MESSAGE ("Load pour theURL = "<< theURL);
-  SALOMEDS::Study_var aStudy = theComponent->GetStudy();
 
   // set current study
   if (myStudy->_is_nil())
@@ -4450,7 +4448,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(SMESH_Gen_i::getStudyServant()->URL());
   aFileName = tmpDir + aFileName + "_HOMARD.dat";
 
   StudyContext& context = myStudyContext;
@@ -4570,9 +4568,6 @@ CORBA::Boolean HOMARD_Gen_i::LoadASCII(SALOMEDS::SComponent_ptr theComponent,
 //===========================================================================
 void HOMARD_Gen_i::Close(SALOMEDS::SComponent_ptr theComponent)
 {
-  if (theComponent->GetStudy())
-    // - nullify myStudy
-    myStudy = SALOMEDS::Study::_nil();
 };
 
 //===========================================================================
@@ -4708,18 +4703,14 @@ PortableServer::ServantBase_var HOMARD_Gen_i::GetServant(CORBA::Object_ptr theOb
 }
 
 //==========================================================================
-Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
-                                       CORBA::Boolean isPublished,
-                                       CORBA::Boolean isMultiFile,
-                                       CORBA::Boolean& isValidScript)
+Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Boolean isPublished,
+                                           CORBA::Boolean isMultiFile,
+                                           CORBA::Boolean& isValidScript)
 {
    MESSAGE ("Entree dans DumpPython");
    isValidScript=1;
-   SALOMEDS::Study_var aStudy = SALOMEDS::Study::_narrow(theStudy);
-   if(CORBA::is_nil(aStudy))
-     return new Engines::TMPFile(0);
 
-   SALOMEDS::SObject_var aSO = aStudy->FindComponent("HOMARD");
+   SALOMEDS::SObject_var aSO = SMESH_Gen_i::getStudyServant()->FindComponent("HOMARD");
    if(CORBA::is_nil(aSO))
       return new Engines::TMPFile(0);
 
@@ -4888,7 +4879,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
 void HOMARD_Gen_i::IsValidStudy( )
 {
 //   MESSAGE( "IsValidStudy" );
-  if (CORBA::is_nil(myStudy))
+  if (CORBA::is_nil(SMESH_Gen_i::getStudyServant()))
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;

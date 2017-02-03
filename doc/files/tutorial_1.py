@@ -87,4 +87,4 @@ gzip_gunzip(DATA_TUTORIAL, 1, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()

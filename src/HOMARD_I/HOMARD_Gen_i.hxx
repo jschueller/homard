@@ -297,10 +297,9 @@ private:
   HOMARD::HOMARD_Zone_ptr         newZone();
 
 
-  virtual Engines::TMPFile*       DumpPython(CORBA::Object_ptr theStudy,
-					     CORBA::Boolean isPublished,
-					     CORBA::Boolean isMultiFile,
-					     CORBA::Boolean& isValidScript);
+  virtual Engines::TMPFile*       DumpPython(CORBA::Boolean isPublished,
+					                         CORBA::Boolean isMultiFile,
+					                         CORBA::Boolean& isValidScript);
 
   virtual char*                   getVersion();
   std::string GetStringInTexte( const std::string Texte, const std::string String, int option ) ;

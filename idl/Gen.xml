@@ -18,7 +18,6 @@
             <component-author>EDF</component-author>
             <component-version>1.6</component-version>
             <component-comment>unknown</component-comment>
-            <component-multistudy>1</component-multistudy>
             <component-impltype>1</component-impltype>
             <component-icone>HOMARD_2.png</component-icone>
             <constraint></constraint>
