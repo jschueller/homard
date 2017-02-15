@@ -127,10 +127,10 @@ Python script for GEOM and SMESH
   #
     try:
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
-      box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
+      box_m.ExportMED(ficmed)
     except Exception as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. ' + str(eee))
+      raise Exception('ExportMED() failed. ' + str(eee))
   #
     break
   #

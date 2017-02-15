@@ -169,7 +169,7 @@ Python script for MED
       meshMEDFile3D.write(ficmed, 2)
     except Exception as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. ' + str(eee))
+      raise Exception('MEDFileUMesh.write() failed. ' + str(eee))
   #
     break
   #
