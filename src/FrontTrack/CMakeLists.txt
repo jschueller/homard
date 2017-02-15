@@ -1,7 +1,7 @@
 # --- options ---
 # additional include directories
 INCLUDE_DIRECTORIES(
-  ${CAS_INCLUDE_DIRS}
+  ${OpenCASCADE_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${GEOM_INCLUDE_DIRS}
   ${MEDFILE_INCLUDE_DIRS}
@@ -11,7 +11,7 @@ INCLUDE_DIRECTORIES(
 
 # additional preprocessor / compiler flags
 ADD_DEFINITIONS(
-  ${CAS_DEFINITIONS}
+  ${OpenCASCADE_DEFINITIONS}
   ${BOOST_DEFINITIONS}
 )
 
@@ -21,13 +21,9 @@ ENDIF(FRONTTRACK_USE_TBB)
 
 # libraries to link to
 SET(_link_LIBRARIES
-  ${CAS_TKShHealing}
-  ${CAS_TKernel}
-  ${CAS_TKBRep}
-  ${CAS_TKG3d}
-  ${CAS_TKTopAlgo}
-  ${CAS_TKGeomBase}
-  ${CAS_TKGeomAlgo}
+  ${OpenCASCADE_FoundationClasses_LIBRARIES}
+  ${OpenCASCADE_ModelingAlgorithms_LIBRARIES}
+  ${OpenCASCADE_ModelingData_LIBRARIES}
   ${GEOM_XAO}
   ${MEDCoupling_medloader}
   ${TBB_LIBS}
