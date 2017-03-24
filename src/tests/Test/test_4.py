@@ -128,7 +128,7 @@ Python script for GEOM and SMESH
     try:
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
       box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
-    except Exception, eee:
+    except Exception as eee:
       error = 2
       raise Exception('ExportToMEDX() failed. '+eee.message)
   #
@@ -166,7 +166,7 @@ Python script for MEDCoupling
       valeur[iaux] = 1.e0 / max ( 1.e-5, np.sqrt(distance) )
     #print ". valeur", valeur
     nparr = valeur.toNumPyArray()
-    print ". mini/maxi", nparr.min(), nparr.max()
+    print(". mini/maxi", nparr.min(), nparr.max())
   #
   # Creation of the field
   # =====================
@@ -213,7 +213,7 @@ Python script for HOMARD
     dico["-1"] = "deraffinement"
   # Creation of the hypothesis hypo_4_1
     hyponame_1 = "Zone_1"
-    print "-------- Creation of the hypothesis", hyponame_1
+    print("-------- Creation of the hypothesis", hyponame_1)
     hypo_4_1 = HOMARD.CreateHypothesis(hyponame_1)
     hypo_4_1.AddZone('Zone_4_1', 1)
     hypo_4_1.SetExtraOutput(2)
@@ -221,11 +221,11 @@ Python script for HOMARD
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print(hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis hypo_4_2
     hyponame_2 = "Zone_2"
-    print "-------- Creation of the hypothesis", hyponame_2
+    print("-------- Creation of the hypothesis", hyponame_2)
     hypo_4_2 = HOMARD.CreateHypothesis(hyponame_2)
     hypo_4_2.AddZone('Zone_4_2', 1)
     hypo_4_2.SetExtraOutput(2)
@@ -233,11 +233,11 @@ Python script for HOMARD
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis DISTANCE INVERSE
     hyponame_3 = "DISTANCE INVERSE"
-    print "-------- Creation of the hypothesis", hyponame_3
+    print("-------- Creation of the hypothesis", hyponame_3)
     hypo_4_3 = HOMARD.CreateHypothesis(hyponame_3)
     hypo_4_3.SetField('DISTANCE')
     hypo_4_3.SetUseComp(0)
@@ -245,17 +245,17 @@ Python script for HOMARD
     hypo_4_3.SetUnRefThr(1, 0.2)
     hypo_4_3.AddFieldInterp('DISTANCE')
     hypo_4_3.SetExtraOutput(2)
-    print hyponame_3, " : zones utilisées :", hypo_4_3.GetZones()
-    print hyponame_3, " : champ utilisé :", hypo_4_3.GetFieldName()
-    print hyponame_3, " : composantes utilisées :", hypo_4_3.GetComps()
+    print(hyponame_3, " : zones utilisées :", hypo_4_3.GetZones())
+    print(hyponame_3, " : champ utilisé :", hypo_4_3.GetFieldName())
+    print(hyponame_3, " : composantes utilisées :", hypo_4_3.GetComps())
     if ( len (hypo_4_3.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", hypo_4_3.GetField()
-    print hyponame_3, " : champs interpolés :", hypo_4_3.GetFieldInterps()
+      print(".. caractéristiques de l'adaptation :", hypo_4_3.GetField())
+    print(hyponame_3, " : champs interpolés :", hypo_4_3.GetFieldInterps())
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    print "-------- Creation of the case", TEST_NAME
+    print("-------- Creation of the case", TEST_NAME)
     mesh_file = os.path.join(DIRCASE, 'maill.00.med')
     case_test_4 = HOMARD.CreateCase(TEST_NAME, 'MESH', mesh_file)
     case_test_4.SetDirName(DIRCASE)
@@ -264,10 +264,10 @@ Python script for HOMARD
   # ==========================
   # Creation of the iteration 1
     iter_name = "I_" + TEST_NAME + "_1"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_4_1 = case_test_4.NextIteration(iter_name)
     iter_test_4_1.AssociateHypo(hyponame_1)
-    print ". Hypothese :", hyponame_1
+    print(". Hypothese :", hyponame_1)
     iter_test_4_1.SetMeshName('M1')
     iter_test_4_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
     error = iter_test_4_1.Compute(1, 2)
@@ -277,10 +277,10 @@ Python script for HOMARD
 
   # Creation of the iteration 2
     iter_name = "I_" + TEST_NAME + "_2"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_4_2 = iter_test_4_1.NextIteration(iter_name)
     iter_test_4_2.AssociateHypo(hyponame_2)
-    print ". Hypothese :", hyponame_2
+    print(". Hypothese :", hyponame_2)
     iter_test_4_2.SetMeshName('M2')
     iter_test_4_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
     error = iter_test_4_2.Compute(1, 2)
@@ -296,10 +296,10 @@ Python script for HOMARD
       break
   #
     iter_name = "I_" + TEST_NAME + "_3"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_4_3 = iter_test_4_2.NextIteration(iter_name)
     iter_test_4_3.AssociateHypo(hyponame_3)
-    print ". Hypothese :", hyponame_3
+    print(". Hypothese :", hyponame_3)
     iter_test_4_3.SetMeshName('M3')
     iter_test_4_3.SetFieldFile(os.path.join(DIRCASE, 'maill.02.med'))
     iter_test_4_3.SetMeshFile(os.path.join(DIRCASE, 'maill.03.med'))
@@ -320,7 +320,7 @@ try :
   ERROR = geom_smesh_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in geom_smesh_exec')
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in geom_smesh_exec: '+eee.message)
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
@@ -333,7 +333,7 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results

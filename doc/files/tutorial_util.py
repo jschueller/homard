@@ -110,7 +110,7 @@ num_tuto: number of the tutorial
 Copyright EDF-R&D 2014
   """
 #
-  if os.environ.has_key("LOGNAME") :
+  if "LOGNAME" in os.environ :
     user = os.environ ["LOGNAME"]
   else :
     user = "anonymous"
