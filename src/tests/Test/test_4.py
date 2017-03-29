@@ -130,7 +130,7 @@ Python script for GEOM and SMESH
       box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
     except Exception as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+eee.message)
+      raise Exception('ExportToMEDX() failed. ' + str(eee))
   #
     break
   #
@@ -218,7 +218,7 @@ Python script for HOMARD
     hypo_4_1.AddZone('Zone_4_1', 1)
     hypo_4_1.SetExtraOutput(2)
     laux = hypo_4_1.GetZones()
-    nbzone = len(laux)/2
+    nbzone = len(laux) // 2
     jaux = 0
     for iaux in range(nbzone) :
       print(hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
@@ -230,7 +230,7 @@ Python script for HOMARD
     hypo_4_2.AddZone('Zone_4_2', 1)
     hypo_4_2.SetExtraOutput(2)
     laux = hypo_4_2.GetZones()
-    nbzone = len(laux)/2
+    nbzone = len(laux) // 2
     jaux = 0
     for iaux in range(nbzone) :
       print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
@@ -321,7 +321,7 @@ try :
   if ERROR :
     raise Exception('Pb in geom_smesh_exec')
 except Exception as eee:
-  raise Exception('Pb in geom_smesh_exec: '+eee.message)
+  raise Exception('Pb in geom_smesh_exec: ' + str(eee))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert HOMARD is not None, "Impossible to load homard engine"
@@ -334,7 +334,7 @@ try :
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+  raise Exception('Pb in homard_exec: ' + str(eee))
 #
 # Test of the results
 #
