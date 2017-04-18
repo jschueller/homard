@@ -169,7 +169,7 @@ Python script for MED
       meshMEDFile3D.write(ficmed, 2)
     except Exception as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+eee.message)
+      raise Exception('ExportToMEDX() failed. ' + str(eee))
   #
     break
   #
@@ -309,7 +309,7 @@ try :
   if ERROR :
     raise Exception('Pb in mesh_exec')
 except Exception as eee:
-  raise Exception('Pb in mesh_exec: '+eee.message)
+  raise Exception('Pb in mesh_exec: ' + str(eee))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert HOMARD is not None, "Impossible to load homard engine"
@@ -322,7 +322,7 @@ try :
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+  raise Exception('Pb in homard_exec: ' + str(eee))
 #
 # Test of the results
 #
