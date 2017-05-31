@@ -25,6 +25,8 @@ SET(SUBDIRS_COMMON
   HOMARD_I
   HOMARDGUI
   HOMARD_SWIG
+  FrontTrack
+  FrontTrack_SWIG
   tests
 )
 
