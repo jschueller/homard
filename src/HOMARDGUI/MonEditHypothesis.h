@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,8 @@
 #ifndef MON_EDITHYPOTHESIS_H
 #define MON_EDITHYPOTHESIS_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,13 +30,13 @@
 
 #include <MonCreateHypothesis.h>
 
-class MonEditHypothesis : public MonCreateHypothesis
+class HOMARD_EXPORT MonEditHypothesis : public MonCreateHypothesis
 {
     Q_OBJECT
 public:
     MonEditHypothesis( MonCreateIteration* parent, bool modal,
                        HOMARD::HOMARD_Gen_var myHomardGen,
-                       QString caseName, QString HypothesisName, QString aFieldFile );
+                       QString caseName, QString Name, QString aFieldFile );
     virtual ~MonEditHypothesis();
 
 protected :

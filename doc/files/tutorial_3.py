@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 
-# Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+# Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
-# version 2.1 of the License.
+# version 2.1 of the License, or (at your option) any later version.
 #
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,15 +22,24 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.3"
+__revision__ = "V2.1"
+#
+import os
+import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_3.00.med, tutorial_3.01.med
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
-dircase = "/tmp"
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
+from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+DIRCASE = creation_dircase(3)
+gzip_gunzip(DATA_TUTORIAL, 3, -1)
 # ==================================
 #
 import salome
@@ -41,81 +50,82 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Hypothesis "Hypo_0vers1"
+# Hypothese "hypo_0vers1"
+# =======================
+hypo_0vers1 = homard.CreateHypothesis('hypo_0vers1')
+# Characterization of the field
+hypo_0vers1.SetField('SOLU_0__QIRE_ELEM_SIGM__________')
+hypo_0vers1.SetUseComp(0)
+hypo_0vers1.AddComp('ERREST          ')
+hypo_0vers1.SetRefinThr(3, 1.0)
+hypo_0vers1.SetTypeFieldInterp(2)
+hypo_0vers1.AddFieldInterp('SOLU_0__DEPL____________________')
+hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
+#
+# Hypothese "hypo_1vers2"
+# =======================
+hypo_1vers2 = homard.CreateHypothesis('hypo_1vers2')
+# Characterization of the field
+hypo_1vers2.SetField('SOLU_1__QIRE_ELEM_SIGM__________')
+hypo_1vers2.SetUseComp(0)
+hypo_1vers2.AddComp('ERREST          ')
+hypo_1vers2.SetRefinThr(3, 1.5)
+hypo_1vers2.SetUnRefThr(3, 6.)
+hypo_1vers2.SetTypeFieldInterp(2)
+hypo_1vers2.AddFieldInterp('SOLU_1__DEPL____________________')
+hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
+#
+# Hypothese "hypo_1vers2_bis"
+# ===========================
+hypo_1vers2_bis = homard.CreateHypothesis('hypo_1vers2_bis')
+# Characterization of the field
+hypo_1vers2_bis.SetField('SOLU_1__DEPL____________________')
+hypo_1vers2_bis.SetUseComp(1)
+hypo_1vers2_bis.AddComp('DX')
+hypo_1vers2_bis.AddComp('DY')
+hypo_1vers2_bis.AddComp('DZ')
+hypo_1vers2_bis.SetRefinThr(1, 0.0001)
+hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
+hypo_1vers2_bis.SetTypeFieldInterp(0)
+#
+# Cas
+# ===
+case_3 = homard.CreateCase('Case_3', 'G_0', DATA_TUTORIAL+'/tutorial_3.00.med')
+case_3.SetDirName(DIRCASE)
+#
+# Iteration "iter_3_1"
+# ====================
+iter_3_1 = case_3.NextIteration('iter_3_1')
+iter_3_1.SetMeshName('H_1')
+iter_3_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_3_1.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.00.med')
+iter_3_1.SetTimeStepRank( 1, 1)
+iter_3_1.AssociateHypo('hypo_0vers1')
+error = iter_3_1.Compute(1, 2)
+#
+# Iteration "iter_3_2"
+# ====================
+iter_3_2 = iter_3_1.NextIteration('iter_3_2')
+iter_3_2.SetMeshName('H_2')
+iter_3_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_3_2.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
+iter_3_2.SetTimeStepRank(1, 1)
+iter_3_2.AssociateHypo('hypo_1vers2')
+error = iter_3_2.Compute(1, 2)
+#
+# Iteration "iter_3_2_bis"
 # ========================
-Hypo_0vers1 = homard.CreateHypothesis('Hypo_0vers1')
-Hypo_0vers1.SetAdapRefinUnRef(1, 1, 0)
-# Characterization of the field
-Hypo_0vers1.SetField('SOLU_0__QIRE_ELEM_SIGM__________')
-Hypo_0vers1.SetUseComp(0)
-Hypo_0vers1.AddComp('ERREST          ')
-Hypo_0vers1.SetRefinThr(3, 1.0)
-Hypo_0vers1.SetTypeFieldInterp(2)
-Hypo_0vers1.AddFieldInterp('SOLU_0__DEPL____________________')
-Hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
-#
-# Hypothesis "Hypo_1vers2"
-# ========================
-Hypo_1vers2 = homard.CreateHypothesis('Hypo_1vers2')
-Hypo_1vers2.SetAdapRefinUnRef(1, 1, 1)
-# Characterization of the field
-Hypo_1vers2.SetField('SOLU_1__QIRE_ELEM_SIGM__________')
-Hypo_1vers2.SetUseComp(0)
-Hypo_1vers2.AddComp('ERREST          ')
-Hypo_1vers2.SetRefinThr(3, 1.5)
-Hypo_1vers2.SetUnRefThr(3, 6.)
-Hypo_1vers2.SetTypeFieldInterp(2)
-Hypo_1vers2.AddFieldInterp('SOLU_1__DEPL____________________')
-Hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
-#
-# Hypothesis "Hypo_1vers2_bis"
-# ============================
-Hypo_1vers2_bis = homard.CreateHypothesis('Hypo_1vers2_bis')
-Hypo_1vers2_bis.SetAdapRefinUnRef(1, 1, 1)
-# Characterization of the field
-Hypo_1vers2_bis.SetField('SOLU_1__DEPL____________________')
-Hypo_1vers2_bis.SetUseComp(1)
-Hypo_1vers2_bis.AddComp('DX')
-Hypo_1vers2_bis.AddComp('DY')
-Hypo_1vers2_bis.AddComp('DZ')
-Hypo_1vers2_bis.SetRefinThr(1, 0.0001)
-Hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
-Hypo_1vers2_bis.SetTypeFieldInterp(0)
-#
-# Case "Case_1"
-# =============
-Case_1 = homard.CreateCase('Case_1', 'G_0', dircase+'/tutorial_3.00.med')
-Case_1.SetDirName(dircase)
-#
-# Iteration "Iter_1"
-# ==================
-Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name())
-Iter_1.SetMeshName('H_1')
-Iter_1.SetMeshFile(dircase+'/maill.01.med')
-Iter_1.SetFieldFile(dircase+'/tutorial_3.00.med')
-Iter_1.SetTimeStepRank( 1, 1)
-homard.AssociateIterHypo('Iter_1', 'Hypo_0vers1')
-codret = Iter_1.Compute(1)
-#
-# Iteration "Iter_2"
-# ==================
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
-Iter_2.SetMeshName('H_2')
-Iter_2.SetMeshFile(dircase+'/maill.02.med')
-Iter_2.SetFieldFile(dircase+'/tutorial_3.01.med')
-Iter_2.SetTimeStepRank(1, 1)
-homard.AssociateIterHypo('Iter_2', 'Hypo_1vers2')
-codret = Iter_2.Compute(1)
-#
-# Iteration "Iter_2_bis"
-# ======================
-Iter_2_bis = homard.CreateIteration('Iter_2_bis', 'Iter_1')
-Iter_2_bis.SetMeshName('H_2_bis')
-Iter_2_bis.SetMeshFile(dircase+'/maill.02.bis.med')
-Iter_2_bis.SetFieldFile(dircase+'/tutorial_3.01.med')
-Iter_2_bis.SetTimeStepRank(1, 1)
-homard.AssociateIterHypo('Iter_2_bis', 'Hypo_1vers2_bis')
-codret = Iter_2_bis.Compute(1)
-#
+iter_3_2_bis = iter_3_1.NextIteration('iter_3_2_bis')
+iter_3_2_bis.SetMeshName('H_2_bis')
+iter_3_2_bis.SetMeshFile(DIRCASE+'/maill.02.bis.med')
+iter_3_2_bis.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
+iter_3_2_bis.SetTimeStepRank(1, 1)
+iter_3_2_bis.AssociateHypo('hypo_1vers2_bis')
+error = iter_3_2_bis.Compute(1, 2)
+
+# ==================================
+gzip_gunzip(DATA_TUTORIAL, 3, 1)
+# ==================================
+
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(1)
+  salome.sg.updateObjBrowser(True)

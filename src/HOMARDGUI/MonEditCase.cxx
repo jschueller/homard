@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditCase.h"
 
 #include "SalomeApp_Tools.h"
@@ -26,21 +24,22 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
-// -------------------------------------------------------------
-MonEditCase::MonEditCase ( QWidget* parent, bool modal,
-                           HOMARD::HOMARD_Gen_var myHomardGen,
-                           QString CaseName ):
 // -------------------------------------------------------------
 /* Constructs a MonEditCase
     herite de MonCreateCase
 */
-   MonCreateCase(parent, modal, myHomardGen)
+// -------------------------------------------------------------
+MonEditCase::MonEditCase ( bool modal,
+                           HOMARD::HOMARD_Gen_var myHomardGen,
+                           QString CaseName ):
+   MonCreateCase(modal, myHomardGen)
 {
     MESSAGE("Debut de MonEditCase" << CaseName.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_CASE_EDIT_WINDOW_TITLE"));
     _aCaseName = CaseName;
-    aCase = _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+    aCase = myHomardGen->GetCase(_aCaseName.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------
@@ -48,15 +47,13 @@ MonEditCase::~MonEditCase()
 // ------------------------------
 {
 }
-
-
 // ------------------------------
 void MonEditCase::InitValEdit()
 // ------------------------------
 {
   MESSAGE("InitValEdit");
-  LECaseName->setText(_aCaseName);
-  LECaseName->setReadOnly(true);
+  LEName->setText(_aCaseName);
+  LEName->setReadOnly(true);
 
   QString aDirName = aCase->GetDirName();
   LEDirName->setText(aDirName);
@@ -64,33 +61,18 @@ void MonEditCase::InitValEdit()
   PushDir->setVisible(0);
 
   QString _aitername=aCase->GetIter0Name();
-  HOMARD::HOMARD_Iteration_var aIter = _myHomardGen->GetIteration(_aitername.toStdString().c_str());
+  HOMARD::HOMARD_Iteration_var aIter = myHomardGen->GetIteration(_aitername.toStdString().c_str());
   QString aFileName = aIter->GetMeshFile();
   LEFileName->setText(aFileName);
   LEFileName->setReadOnly(true);
   PushFichier->setVisible(0);
 
   int ConfType=aCase->GetConfType();
-  if(ConfType==1)
-  {
-      GBTypeNoConf->setVisible(0);
-      RBConforme->setChecked(true);
-  }
-  else
-  {
-    RBNonConforme->setChecked(true);
-    GBTypeNoConf->setVisible(1);
-    RB1NpM->setEnabled(false);
-    RB1NpA->setEnabled(false);
-    RBQuelconque->setEnabled(false);
-  };
-
-  if (_ConfType==2) { RB1NpM->setChecked(true);};
-  if (_ConfType==3) { RB1NpA->setChecked(true);};
-  if (_ConfType==4) { RBQuelconque->setChecked(true);};
-
-  RBNonConforme->setEnabled(false);
+  if ( ( ConfType == 0 ) || ( ConfType == -1 ) ) { RBConforme->setChecked(true); }
+  else                                           { RBNonConforme->setChecked(true); };
   RBConforme->setEnabled(false);
+  RBNonConforme->setEnabled(false);
+  int ExtType=aCase->GetExtType();
 
 //    Non affichage du mode de suivi de frontiere
   CBBoundaryA->setVisible(0);
@@ -112,8 +94,8 @@ void MonEditCase::InitValEdit()
       NomFron = mesBoundarys[i++];
       MESSAGE("NomFron "<<NomFron.toStdString().c_str());
 //        L'objet associe pour en deduire le type
-      HOMARD::HOMARD_Boundary_var myBoundary = _myHomardGen->GetBoundary(NomFron.toStdString().c_str());
-      int type_obj = myBoundary->GetBoundaryType() ;
+      HOMARD::HOMARD_Boundary_var myBoundary = myHomardGen->GetBoundary(NomFron.toStdString().c_str());
+      int type_obj = myBoundary->GetType() ;
 //        C'est une frontiere discrete
 //        Rermarque : on ne gere pas les groupes
       if ( type_obj==0 )
@@ -150,7 +132,7 @@ void MonEditCase::InitValEdit()
         {
           ListeFron.append(NomFron);
           ok = ListeFron.size() ;
-          addBoundaryAn(NomFron);
+          AddBoundaryAn(NomFron);
         }
 //          on coche la case correspondant au couple (frontiere,groupe) en cours d'examen
         TWBoundary->item( 0, ok )->setCheckState( Qt::Checked );
@@ -167,7 +149,7 @@ void MonEditCase::InitValEdit()
       { for ( int j = 0; j < nbcol; j++ ) TWBoundary->item( i, j )->setFlags( Qt::ItemIsSelectable ); }
 //    on met un nom blanc au coin
       QTableWidgetItem *__colItem = new QTableWidgetItem();
-      __colItem->setText(QApplication::translate("CreateCase", "", 0, QApplication::UnicodeUTF8));
+      __colItem->setText(QApplication::translate("CreateCase", "", 0));
       TWBoundary->setHorizontalHeaderItem(0, __colItem);
 //    on cache les boutons inutiles
       PBBoundaryAnNew->setVisible(0);
@@ -185,15 +167,72 @@ void MonEditCase::InitValEdit()
   CBAdvanced->setEnabled(false) ;
   int Pyram = aCase->GetPyram();
   MESSAGE("Pyram "<<Pyram);
-  if ( Pyram > 0 )
+  if ( ( Pyram > 0 ) || ( ConfType < 0 ) || ( ConfType > 1 ) || ( ExtType > 0 ) )
   { GBAdvancedOptions->setVisible(1);
-    CBPyramid->setChecked(true);
+//
+    if ( Pyram > 0 )
+    { CBPyramid->setChecked(true);
+      CBPyramid->setVisible(1);
+    }
+    else
+    { CBPyramid->setChecked(false);
+      CBPyramid->setVisible(0);
+    }
     CBPyramid->setEnabled(false);
+//
+    if ( ( ConfType == 0 ) || ( ConfType == -1 ) )
+    { if ( ConfType == 0 ) { RBStandard->setChecked(true); }
+      else                 { RBBox->setChecked(true); }
+      RBStandard->setVisible(1);
+      RBBox->setVisible(1);
+      RBNC1NpA->setVisible(0);
+      RBNCQuelconque->setVisible(0);
+    }
+    else
+    { if (ConfType==-2) { RBBox->setChecked(true);};
+      if (ConfType==1) { RBStandard->setChecked(true);};
+      if (ConfType==2) { RBNC1NpA->setChecked(true);};
+      if (ConfType==3) { RBNCQuelconque->setChecked(true);};
+      RBStandard->setVisible(1);
+      RBBox->setVisible(1);
+      RBNC1NpA->setVisible(1);
+      RBNCQuelconque->setVisible(1);
+    }
+    RBStandard->setEnabled(false);
+    RBBox->setEnabled(false);
+    RBNC1NpA->setEnabled(false);
+    RBNCQuelconque->setEnabled(false);
+//
+    if ( ExtType == 0 )
+    { GBFormat->setVisible(0);
+      RBMED->setChecked(true);
+    }
+    else
+    { GBFormat->setVisible(1);
+      RBMED->setVisible(1);
+      RBSaturne->setVisible(1);
+      RBSaturne2D->setVisible(1);
+      if ( ExtType == 1 ) { RBSaturne->setChecked(true); }
+      else                { RBSaturne2D->setChecked(true); }
+    }
+    RBMED->setEnabled(false);
+    RBSaturne->setEnabled(false);
+    RBSaturne2D->setEnabled(false);
   }
   else
   { GBAdvancedOptions->setVisible(0);
     CBPyramid->setChecked(false);
- }
+    RBStandard->setChecked(true);
+    RBMED->setChecked(true);
+  }
+//
+// L'etat
+  int etat = aCase->GetState();
+  MESSAGE("etat "<<etat);
+  if ( etat == 0 ) { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE_0", 0)); }
+  else             { Comment->setText(QApplication::translate("CreateCase", "HOM_CASE_EDIT_STATE", 0)); }
+
+  Comment->setVisible(1);
 //
   adjustSize();
 }

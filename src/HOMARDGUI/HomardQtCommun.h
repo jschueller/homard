@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef HOMARDQTCOMMUN_H
 #define HOMARDQTCOMMUN_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include "SALOME_Selection.h"
@@ -38,17 +39,17 @@ class QComboBox;
 
 namespace HOMARD_QT_COMMUN
 {
-    QString PushNomFichier(bool avertir=true);
-    QString LireNomMaillage(int Medidt,int MeshId);
-    QString LireNomMaillage(QString aFile);
+    HOMARD_EXPORT QString PushNomFichier(bool avertir, QString TypeFichier="");
+    HOMARD_EXPORT QString LireNomMaillage(int Medidt,int MeshId);
+    HOMARD_EXPORT QString LireNomMaillage(QString aFile);
 
-    int     OuvrirFichier(QString aFile);
+    HOMARD_EXPORT int     OuvrirFichier(QString aFile);
 
-    std::list<QString> GetListeChamps(QString aFile);
-    std::list<QString> GetListeComposants(QString aFile, QString aChamp);
+    HOMARD_EXPORT std::list<QString> GetListeChamps(QString aFile);
+    HOMARD_EXPORT std::list<QString> GetListeComposants(QString aFile, QString aChamp);
 
-    QString SelectionArbreEtude(QString commentaire, int grave );
-    QString SelectionCasEtude();
+    HOMARD_EXPORT QString SelectionArbreEtude(QString commentaire, int grave );
+    HOMARD_EXPORT QString SelectionCasEtude();
 
 };
 

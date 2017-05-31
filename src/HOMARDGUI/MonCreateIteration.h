@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef MON_CREATEITERATION_H
 #define MON_CREATEITERATION_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -28,12 +29,11 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <CreateIteration.h>
-#include <QDialog>
-#include <QWidget>
+#include "ui_CreateIteration.h"
+#include <QScrollArea>
 
-class MonCreateIteration : public QDialog, public Ui_CreateIteration
-{ 
+class HOMARD_EXPORT MonCreateIteration : public QScrollArea, public Ui_CreateIteration
+{
     Q_OBJECT
 
 public:
@@ -46,7 +46,7 @@ public:
 protected :
     MonCreateIteration( QWidget* parent, HOMARD::HOMARD_Gen_var myHomardGen, QString IterParentName );
 
-    QString _IterationName;
+    QString _Name;
     QString _IterParentName;
     QString _CaseName;
 
@@ -54,12 +54,12 @@ protected :
     HOMARD::HOMARD_Iteration_var aIter ;
     HOMARD::HOMARD_Iteration_var aIterParent ;
     HOMARD::HOMARD_Cas_var aCas ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
 
     virtual void InitConnect();
     virtual void GetHypotheses();
-    virtual void SetNewIterationName();
+    virtual void SetNewName();
 
 public slots:
     virtual void SetIterParentName();

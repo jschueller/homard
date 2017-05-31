@@ -1,11 +1,11 @@
-//  HOMARD HOMARD : implementaion of HOMARD idl descriptions
+//  HOMARD HOMARD : implementation of HOMARD idl descriptions
 //
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,13 +19,15 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 //  File   : HOMARD_Gen.hxx
-//  Author : Paul RASCLE, EDF
+//  Author : Gerald NICOLAS, EDF
 //  Module : HOMARD
 
 #ifndef _HOMARD_GEN_HXX_
 #define _HOMARD_GEN_HXX_
 
-class HOMARD_Gen
+#include "HOMARD.hxx"
+
+class HOMARDIMPL_EXPORT HOMARD_Gen
 {
 public :
   HOMARD_Gen();

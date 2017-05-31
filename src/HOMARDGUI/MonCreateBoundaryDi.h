@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef MON_CREATEBOUNDARYDI_H
 #define MON_CREATEBOUNDARYDI_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -28,11 +29,11 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Boundary)
 
-#include <CreateBoundaryDi.h>
+#include "ui_CreateBoundaryDi.h"
 #include <QDialog>
 
 class MonCreateCase;
-class MonCreateBoundaryDi : public QDialog, public Ui_CreateBoundaryDi
+class HOMARD_EXPORT MonCreateBoundaryDi : public QDialog, public Ui_CreateBoundaryDi
 {
     Q_OBJECT
 
@@ -47,18 +48,18 @@ protected :
 
     MonCreateCase *_parent;
 
-    QString _aBoundaryName;
+    QString _aName;
     QString _aCaseName;
 
 
-    HOMARD::HOMARD_Boundary_var _aBoundary;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Boundary_var aBoundary;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     QStringList  _listeGroupesBoundary;
 
     virtual void AssocieLesGroupes();
     virtual void InitConnect();
-    virtual void SetNewBoundaryName();
+    virtual void SetNewName();
 
 public slots:
 

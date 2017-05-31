@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditBoundaryDi.h"
 #include "MonEditListGroup.h"
 
@@ -29,33 +27,34 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -------------------------------------------------------------------------------------------------------------------------------------
 MonEditBoundaryDi::MonEditBoundaryDi( MonCreateCase* parent, bool modal,
                                       HOMARD::HOMARD_Gen_var myHomardGen,
-                                      QString caseName, QString BoundaryName):
+                                      QString caseName, QString Name):
 // -------------------------------------------------------------------------------------------------------------------------------------
 /* Constructs a MonEditBoundaryDi
     herite de MonCreateBoundaryDi
 */
-    MonCreateBoundaryDi(parent, modal, myHomardGen, caseName, BoundaryName)
+    MonCreateBoundaryDi(parent, modal, myHomardGen, caseName, Name)
 {
-    MESSAGE("Debut de Boundary pour " << BoundaryName.toStdString().c_str());
+    MESSAGE("Debut de Boundary pour " << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_BOUN_D_EDIT_WINDOW_TITLE"));
     try
     {
-     _aBoundary=_myHomardGen->GetBoundary(CORBA::string_dup(_aBoundaryName.toStdString().c_str()));
-     if (caseName==QString("")) { _aCaseName=_aBoundary->GetCaseCreation();}
+     aBoundary=myHomardGen->GetBoundary(CORBA::string_dup(_aName.toStdString().c_str()));
+     if (caseName==QString("")) { _aCaseName=aBoundary->GetCaseCreation();}
      InitValEdit();
     }
     catch( SALOME::SALOME_Exception& S_ex )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QString(CORBA::string_dup(S_ex.details.text)) );
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
       return;
     }
 
-    HOMARD::ListGroupType_var maListe = _aBoundary->GetGroups();
+    HOMARD::ListGroupType_var maListe = aBoundary->GetGroups();
     for ( int i = 0; i < maListe->length(); i++ )
        _listeGroupesBoundary << QString(maListe[i]);
 
@@ -65,18 +64,18 @@ MonEditBoundaryDi::~MonEditBoundaryDi()
 // ------------------------------
 {
 }
-
 // ------------------------------
 void MonEditBoundaryDi::InitValEdit()
 // ------------------------------
 {
-      LEBoundaryName->setText(_aBoundaryName);
-      LEBoundaryName->setReadOnly(true);
+      LEName->setText(_aName);
+      LEName->setReadOnly(true);
 
-      QString aMeshFile = _aBoundary->GetMeshFile();
+      QString aMeshFile = aBoundary->GetMeshFile();
       LEFileName->setText(aMeshFile);
       LEFileName->setReadOnly(1);
       PushFichier->setVisible(0);
+//
       adjustSize();
 }
 // ------------------------------
@@ -96,10 +95,10 @@ void MonEditBoundaryDi::SetFiltrage()
                               QObject::tr("HOM_BOUN_CASE") );
     return;
   }
-  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+  HOMARD::HOMARD_Cas_var monCas= myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
 
-  MonEditListGroup *aDlg = new MonEditListGroup(NULL,this,  TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),
+  MonEditListGroup *aDlg = new MonEditListGroup(NULL, this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
                             _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }

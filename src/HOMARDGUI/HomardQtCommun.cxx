@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,35 +27,40 @@
 #include <qfiledialog.h>
 #include <qstring.h>
 #include <stdlib.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 
 #include "SalomeApp_Tools.h"
 
 using namespace std;
-extern "C"
-{
+
 #include <med.h>
-}
-
 
 // ============================================================================
-QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int grave )
+QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
 // ============================================================================
-// Regarde si l'objet selectionne correspond a un objet de tyoe
-// commentaire. si c'est le cas, retourne le nom de  cet objet,
-// sinon retourne une QString("")
-// Si grave = 0, ce n'est pas grave de ne rien trouver et pas de message
-// Si grave = 1, ce n'est pas grave de ne rien trouver mais on emet un message
+// Retourne l'objet selectionne dans l'arbre d'etudes
+// commentaire :
+// . si le commentaire est une chaine vide, on ne tient pas compte du type de l'objet
+//   et on retourne le nom de cet objet
+// . sinon :
+//   . si l'objet est du type defini par commentaire, retourne le nom de cet objet
+//   . sinon on retourne une QString("")
+// option :
+// . Si option = 0, ce n'est pas grave de ne rien trouver ; aucun message n'est emis
+// . Si option = 1, ce n'est pas grave de ne rien trouver mais on emet un message
 {
+//   MESSAGE("SelectionArbreEtude : commentaire = " << commentaire.toStdString().c_str() << " et option = " << option);
   int nbSel = HOMARD_UTILS::IObjectCount() ;
   if ( nbSel == 0 )
   {
-    if ( grave == 1 )
+    if ( option == 1 )
     {
       QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                                QObject::tr("HOM_SELECT_OBJECT_1") );
+                               QObject::tr("HOM_SELECT_OBJECT_1") );
     }
     return QString("");
   }
@@ -69,19 +74,25 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int grave )
   Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
   if ( aIO->hasEntry() )
   {
+//     MESSAGE("aIO->getEntry() = " << aIO->getEntry());
     _PTR(Study) aStudy = HOMARD_UTILS::GetActiveStudyDocument();
     _PTR(SObject) aSO ( aStudy->FindObjectID( aIO->getEntry() ) );
     _PTR(GenericAttribute) anAttr;
     if (aSO->FindAttribute(anAttr, "AttributeComment") )
     {
-      _PTR(AttributeComment) attributComment = anAttr;
-      QString aComment= QString(attributComment->Value().data());
-      int iteration = aComment.lastIndexOf(commentaire);
-      if ( iteration !=0  )
+      if ( commentaire != "" )
       {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr("HOM_SELECT_OBJECT_3").arg(commentaire) );
-        return QString("");
+        _PTR(AttributeComment) attributComment = anAttr;
+        QString aComment= QString(attributComment->Value().data());
+//         MESSAGE("... aComment = " << aComment.toStdString().c_str());
+        int iaux = aComment.lastIndexOf(commentaire);
+//         MESSAGE("... iaux = " << iaux);
+        if ( iaux !=0  )
+        {
+          QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                    QObject::tr("HOM_SELECT_OBJECT_3").arg(commentaire) );
+          return QString("");
+        }
       }
       if (aSO->FindAttribute(anAttr, "AttributeName") )
       {
@@ -131,7 +142,7 @@ QString HOMARD_QT_COMMUN::SelectionCasEtude()
 }
 
 // =======================================================================
-QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
+QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir, QString TypeFichier)
 // =======================================================================
 // Gestion les boutons qui permettent  de
 // 1) retourne le nom d'un fichier par une fenetre de dialogue si aucun
@@ -139,19 +150,31 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
 // 2) retourne le nom du fichier asocie a l objet
 //    selectionne dans l arbre d etude
 {
-  MESSAGE("HOMARD_QT_COMMUN::PushNomFichier");
-  QString aFile=QString::null;
+//   MESSAGE("PushNomFichier avec avertir "<<avertir<<" et TypeFichier = "<<TypeFichier.toStdString().c_str());
+  QString aFile = QString::null;
+//
+  // A. Filtre
+  QString filtre  ;
+//
+  if ( TypeFichier == "med" )     { filtre = QString("Med") ; }
+  else if ( TypeFichier == "py" ) { filtre = QString("Python") ; }
+  else                            { filtre = TypeFichier ; }
+//
+  if ( TypeFichier != "" ) { filtre += QString(" files (*.") + TypeFichier + QString(");;") ; }
+//
+  filtre += QString("all (*) ") ;
+//
+  // B. Selection
   int nbSel = HOMARD_UTILS::IObjectCount() ;
+//   MESSAGE("nbSel ="<<nbSel);
+  // B.1. Rien n'est selectionne
   if ( nbSel == 0 )
   {
-    aFile = QFileDialog::getOpenFileName(0,QString("File Selection"),QString("") ,QString("Med files (*.med);;all (*) ") );
+//     aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), QString("Med files (*.med);;all (*) ") );
+    aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), filtre );
   }
-  if (nbSel > 1)
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_SELECT_FILE_2") );
-  }
-  if (nbSel == 1)
+  // B.2. Un objet est selectionne
+  else if (nbSel == 1)
   {
     Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
     if ( aIO->hasEntry() )
@@ -178,20 +201,20 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir)
     {
       if ( avertir ) {
         QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                                QObject::tr("HOM_SELECT_STUDY") );
+                                 QObject::tr("HOM_SELECT_STUDY") );
       }
-      aFile = QFileDialog::getOpenFileName();
-      if (!aFile.isEmpty())
-      {
-        aFile=aFile;
-      }
+      aFile = QFileDialog::getOpenFileName(0, QObject::tr("HOM_SELECT_FILE_0"), QString(""), filtre );
     }
   }
+  // B.3. Bizarre
+  else
+  {
+    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                              QObject::tr("HOM_SELECT_FILE_2") );
+  }
+
   return aFile;
-
 }
-
-
 // =======================================================================
 int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 // =======================================================================
@@ -210,21 +233,40 @@ int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
 // ========================================================
 {
-  med_int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  med_int numberOfMeshes = MEDnMesh(medIdt) ;
-  if (numberOfMeshes == 0 )
+  QString nomMaillage = "" ;
+  int erreur = 0 ;
+  med_int medIdt ;
+  while ( erreur == 0 )
   {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_2") );
-  }
-  if (numberOfMeshes > 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                              QObject::tr("HOM_MED_FILE_3") );
-  }
+    //  Ouverture du fichier
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
+    med_int numberOfMeshes = MEDnMesh(medIdt) ;
+    if (numberOfMeshes == 0 )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_MED_FILE_2") );
+      erreur = 2 ;
+      break ;
+    }
+    if (numberOfMeshes > 1 )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_MED_FILE_3") );
+      erreur = 3 ;
+      break ;
+    }
 
-  QString nomMaillage= HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
-  MEDfileClose(medIdt);
+    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
+    break ;
+  }
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return nomMaillage;
 }
 // =======================================================================
@@ -257,15 +299,13 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(int medIdt ,int meshId)
                           axisname,
                           axisunit);
 
-  if ( aRet < 0 )
-  {
-  QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_4") );
-  }
-  else
-  {
-    NomMaillage=QString(meshname);
-  }
+  if ( aRet < 0 ) { QMessageBox::critical( 0, QObject::tr("HOM_ERROR"), \
+                                              QObject::tr("HOM_MED_FILE_4") );  }
+  else            { NomMaillage=QString(meshname); }
+
+  delete[] axisname ;
+  delete[] axisunit ;
+
   return NomMaillage;
 }
 
@@ -276,54 +316,61 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeChamps(QString aFile)
 {
 // Il faut voir si plusieurs maillages
 
-  MESSAGE("HOMARD_QT_COMMUN::GetListeChamps");
-  std::list<QString> ListeChamp;
+  MESSAGE("GetListeChamps");
+  std::list<QString> ListeChamp ;
 
-  char *comp, *unit;
-  char nomcha  [MED_NAME_SIZE+1];
-  char meshname[MED_NAME_SIZE+1];
-  med_field_type typcha;
-  med_int ncomp;
-  med_bool local;
-  med_int nbofcstp;
+  med_err erreur = 0 ;
+  med_int medIdt ;
 
-  SCRUTE(aFile.toStdString());
-  med_int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  if ( medIdt < 0 ) { return ListeChamp; }
-
-  // Le fichier Med est lisible
-  // Lecture du maillage
-
+  while ( erreur == 0 )
+  {
+    // Ouverture du fichier
+    SCRUTE(aFile.toStdString());
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
   // Lecture du nombre de champs
-  med_int ncha = MEDnField(medIdt) ;
-  if (ncha < 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_5") );
-    MEDfileClose(medIdt);
-    return ListeChamp;
-  }
-
-  for (int i=0; i< ncha; i++)
-  {
-    /* Lecture du type du champ, des noms des composantes et du nom de l'unite*/
-    ncomp = MEDfieldnComponent(medIdt,i+1);
-    comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    char dtunit[MED_SNAME_SIZE+1];
-    if ( MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) < 0 )
+    med_int ncha = MEDnField(medIdt) ;
+    if (ncha < 1 )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QObject::tr("HOM_MED_FILE_6") );
-      MEDfileClose(medIdt);
-      return ListeChamp;
+                                QObject::tr("HOM_MED_FILE_5") );
+      erreur = 2 ;
+      break ;
     }
-
-    ListeChamp.push_back(QString(nomcha));
-    free(comp);
-    free(unit);
+  // Lecture des caracteristiques des champs
+    for (int i=0; i< ncha; i++)
+    {
+//       Lecture du nombre de composantes
+      med_int ncomp = MEDfieldnComponent(medIdt,i+1);
+//       Lecture du type du champ, des noms des composantes et du nom de l'unite
+      char nomcha  [MED_NAME_SIZE+1];
+      char meshname[MED_NAME_SIZE+1];
+      char * comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char * unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char dtunit[MED_SNAME_SIZE+1];
+      med_bool local;
+      med_field_type typcha;
+      med_int nbofcstp;
+      erreur = MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) ;
+      free(comp);
+      free(unit);
+      if ( erreur < 0 )
+      {
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr("HOM_MED_FILE_6") );
+        break ;
+      }
+      ListeChamp.push_back(QString(nomcha));
+    }
+    break ;
   }
-  MEDfileClose(medIdt);
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return ListeChamp;
 }
 
@@ -336,61 +383,71 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeComposants(QString aFile, QString a
 
   std::list<QString> ListeComposants;
 
-  char *comp, *unit;
-  char nomcha  [MED_NAME_SIZE+1];
-  char meshname[MED_NAME_SIZE+1];
-  med_field_type typcha;
-  med_int ncomp;
-  med_bool local;
-  med_int nbofcstp;
+  med_err erreur = 0 ;
+  med_int medIdt ;
 
-  int medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
-  if ( medIdt < 0 ) { return ListeComposants; }
-
-
+  while ( erreur == 0 )
+  {
+    // Ouverture du fichier
+    SCRUTE(aFile.toStdString());
+    medIdt = HOMARD_QT_COMMUN::OuvrirFichier(aFile);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
   // Lecture du nombre de champs
-  med_int ncha = MEDnField(medIdt) ;
-  if (ncha < 1 )
-  {
-    QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                            QObject::tr("HOM_MED_FILE_5") );
-    MEDfileClose(medIdt);
-    return ListeComposants;
-  }
-
-  for (int i=0; i< ncha; i++)
-  {
-    /* Lecture du type du champ, des noms des composantes et du nom de l'unite*/
-    ncomp = MEDfieldnComponent(medIdt,i+1);
-    comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
-    char dtunit[MED_SNAME_SIZE+1];
-
-    if ( MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) < 0 )
+    med_int ncha = MEDnField(medIdt) ;
+    if (ncha < 1 )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QObject::tr("HOM_MED_FILE_6") );
-      MEDfileClose(medIdt);
-      return ListeComposants;
+                                QObject::tr("HOM_MED_FILE_5") );
+      erreur = 2 ;
+      break ;
     }
-    
-    if ( QString(nomcha) != aChamp ) {
-      free(comp);
-      free(unit);
-      continue;
-    }
-
-    for (int j = 0; j <ncomp; j++)
+  // Lecture des caracteristiques des champs
+    for (int i=0; i< ncha; i++)
     {
-      char cible[MED_SNAME_SIZE +1];
-      strncpy(cible,comp+j*MED_SNAME_SIZE,MED_SNAME_SIZE );
-      cible[MED_SNAME_SIZE ]='\0';
-      ListeComposants.push_back(QString(cible));
+//       Lecture du nombre de composantes
+      med_int ncomp = MEDfieldnComponent(medIdt,i+1);
+//       Lecture du type du champ, des noms des composantes et du nom de l'unite
+      char nomcha  [MED_NAME_SIZE+1];
+      char meshname[MED_NAME_SIZE+1];
+      char * comp = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char * unit = (char*) malloc(ncomp*MED_SNAME_SIZE+1);
+      char dtunit[MED_SNAME_SIZE+1];
+      med_bool local;
+      med_field_type typcha;
+      med_int nbofcstp;
+      erreur = MEDfieldInfo(medIdt,i+1,nomcha,meshname,&local,&typcha,comp,unit,dtunit,&nbofcstp) ;
+      free(unit);
+      if ( erreur < 0 )
+      {
+        free(comp);
+        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                  QObject::tr("HOM_MED_FILE_6") );
+        break ;
+      }
+      // Lecture des composantes si c'est le bon champ
+      if ( QString(nomcha) == aChamp )
+      {
+        for (int j = 0; j <ncomp; j++)
+        {
+          char cible[MED_SNAME_SIZE +1];
+          strncpy(cible,comp+j*MED_SNAME_SIZE,MED_SNAME_SIZE );
+          cible[MED_SNAME_SIZE ]='\0';
+          ListeComposants.push_back(QString(cible));
+        }
+      }
+      // Menage
+      free(comp);
+      // Sortie si c'est bon
+      if ( QString(nomcha) == aChamp ) { break ; }
     }
-    break;
+    break ;
   }
-  free(comp);
-  free(unit);
-  MEDfileClose(medIdt);
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return ListeComposants;
 }

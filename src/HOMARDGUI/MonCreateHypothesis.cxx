@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,8 +16,6 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
-
-using namespace std;
 
 #include "MonCreateHypothesis.h"
 #include "MonCreateListGroup.h"
@@ -33,16 +31,18 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
+
 // -------------------------------------------------------------------------------
 MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
-                                         HOMARD::HOMARD_Gen_var myHomardGen,
-                                         QString aHypothesisName,
+                                         HOMARD::HOMARD_Gen_var myHomardGen0,
+                                         QString Name,
                                          QString caseName, QString aFieldFile)
 // ---------------------------------------------------------------------------------
 /* Constructs a MonCreateHypothesis */
     :
-    QDialog(0), Ui_CreateHypothesis(),
-    _parent(parent), _aHypothesisName(aHypothesisName),
+    QScrollArea(0), Ui_CreateHypothesis(),
+    _parent(parent), _Name(Name),
     _aCaseName(caseName), _aFieldFile(aFieldFile),
     _aFieldName(""),
     _aTypeAdap(-2), _aTypeRaff(1), _aTypeDera(0),
@@ -51,15 +51,19 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
     _UsField(0), _UsCmpI(0), _TypeFieldInterp(0),
     _NivMax(-1),
     _DiamMin(-1.),
-    _AdapInit(0)
+    _AdapInit(0),
+    _ExtraOutput(1)
+
 {
       MESSAGE("Constructeur") ;
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
-      setModal(modal);
+      if ( modal ) { setWindowModality(Qt::WindowModal); }
+      else         { setWindowModality(Qt::NonModal); }
+      setWindowFlags( Qt::WindowStaysOnTopHint ) ;
       InitConnect();
 
-      SetNewHypothesisName();
+      SetNewName();
       if (_aFieldFile != QString(""))
       { RBChamp->setChecked(1);
         SetChamp();
@@ -70,6 +74,14 @@ MonCreateHypothesis::MonCreateHypothesis(MonCreateIteration* parent, bool modal,
       }
       SetFieldNo();
       GBAdvancedOptions->setVisible(0);
+      CBOutputLevel->setChecked(false);
+      CBOutputQuality->setChecked(false);
+      CBOutputDiameter->setChecked(false);
+      CBOutputParent->setChecked(false);
+      CBOutputVoisins->setChecked(false);
+      _ExtraOutput = 1 ;
+//
+      adjustSize();
 }
 
 // ------------------------------------------------------------------------
@@ -91,10 +103,12 @@ void MonCreateHypothesis::InitConnect()
     connect( CBFieldName,  SIGNAL(activated(int)), this, SLOT( SetFieldName()));
     connect( RBRPE,        SIGNAL(clicked()), this, SLOT(SetRPE()));
     connect( RBRRel,       SIGNAL(clicked()), this, SLOT(SetRRel()));
+    connect( RBRMuSigma,   SIGNAL(clicked()), this, SLOT(SetRMS()));
     connect( RBRAbs,       SIGNAL(clicked()), this, SLOT(SetRAbs()));
     connect( RBRNo,        SIGNAL(clicked()), this, SLOT(SetRNo()));
     connect( RBCPE,        SIGNAL(clicked()), this, SLOT(SetCPE()));
     connect( RBCRel,       SIGNAL(clicked()), this, SLOT(SetCRel()));
+    connect( RBCMuSigma,   SIGNAL(clicked()), this, SLOT(SetCMS()));
     connect( RBCAbs,       SIGNAL(clicked()), this, SLOT(SetCAbs()));
     connect( RBCNo,        SIGNAL(clicked()), this, SLOT(SetCNo()));
     connect( RBL2,         SIGNAL(clicked()), this, SLOT(SetUCL2()));
@@ -129,7 +143,7 @@ bool MonCreateHypothesis::PushOnApply()
 // Verifications
 
 
-  if (LEHypothesisName->text().trimmed()=="") {
+  if (LEName->text().trimmed()=="") {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_HYPO_NAME") );
     return false;
@@ -139,13 +153,13 @@ bool MonCreateHypothesis::PushOnApply()
   if (VerifieComposant() == false)  return false;
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
-  if (LEHypothesisName->text().trimmed() != _aHypothesisName)
+  if (LEName->text().trimmed() != _Name)
   {
-    _aHypothesisName=LEHypothesisName->text().trimmed();
+    _Name=LEName->text().trimmed();
     try
     {
-     _aHypothesis=_myHomardGen->CreateHypothesis(CORBA::string_dup(_aHypothesisName.toStdString().c_str()) );
-     _parent->addHypothese(_aHypothesisName);
+     aHypothesis=myHomardGen->CreateHypothesis(CORBA::string_dup(_Name.toStdString().c_str()) );
+     _parent->addHypothese(_Name);
     }
     catch( SALOME::SALOME_Exception& S_ex )
     {
@@ -156,9 +170,15 @@ bool MonCreateHypothesis::PushOnApply()
   }
 
 // Mise en place des attributs
-  _aHypothesis->SetAdapRefinUnRef(_aTypeAdap,_aTypeRaff,_aTypeDera);
-  _aHypothesis->SetTypeFieldInterp(_TypeFieldInterp);
-  _aHypothesis->SetCaseCreation(_aCaseName.toStdString().c_str());
+  if ( _aTypeAdap == -1 )
+  {
+    int TypeRaffDera ;
+    if ( _aTypeRaff == 1 ) { TypeRaffDera = 1 ; }
+    else                   { TypeRaffDera = -1 ; }
+    aHypothesis->SetUnifRefinUnRef(TypeRaffDera);
+  }
+  aHypothesis->SetTypeFieldInterp(_TypeFieldInterp);
+  aHypothesis->SetCaseCreation(_aCaseName.toStdString().c_str());
 
   AssocieLesZones();
   AssocieComposants();
@@ -169,16 +189,25 @@ bool MonCreateHypothesis::PushOnApply()
   if (CBAdvanced->isChecked())
   {
 // Enregistrement du niveau maximal
-    _NivMax = spinBoxNivMax->value() ;
-    _aHypothesis->SetNivMax(_NivMax);
+    _NivMax = SpinBoxNivMax->value() ;
+    aHypothesis->SetNivMax(_NivMax);
 // Enregistrement du diametre minimal
     _DiamMin = doubleSpinBoxDiamMin->value() ;
-    _aHypothesis->SetDiamMin(_DiamMin);
+    aHypothesis->SetDiamMin(_DiamMin);
 // Enregistrement de l'intialisation de l'adaptation
-    _aHypothesis->SetAdapInit(_AdapInit);
+    aHypothesis->SetAdapInit(_AdapInit);
+// Sortie optionnelle des niveaux de raffinement, des diametres, des qualites
+    _ExtraOutput = 1 ;
+    if (CBOutputLevel->isChecked())    { _ExtraOutput =  2 ; }
+    if (CBOutputQuality->isChecked())  { _ExtraOutput =  3*_ExtraOutput ; }
+    if (CBOutputDiameter->isChecked()) { _ExtraOutput =  5*_ExtraOutput ; }
+    if (CBOutputParent->isChecked())   { _ExtraOutput =  7*_ExtraOutput ; }
+    if (CBOutputVoisins->isChecked())  { _ExtraOutput = 11*_ExtraOutput ; }
+    aHypothesis->SetExtraOutput(_ExtraOutput);
   }
 
-  HOMARD_UTILS::updateObjBrowser();
+  HOMARD_UTILS::updateObjBrowser() ;
+
   return true;
 }
 
@@ -194,31 +223,32 @@ void MonCreateHypothesis::PushOnOK()
 void MonCreateHypothesis::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""), QString(LanguageShort.c_str()));
 }
 // -------------------------------------------------
-void MonCreateHypothesis::SetNewHypothesisName()
+void MonCreateHypothesis::SetNewName()
 // --------------------------------------------------
 {
 
-  HOMARD::listeHypotheses_var  MyHypos = _myHomardGen->GetAllHypotheses();
+  HOMARD::listeHypotheses_var  MyObjects = myHomardGen->GetAllHypothesesName();
   int num = 0;//
-  QString aHypothesisName="";
-  while (aHypothesisName=="" )
+  QString aName="";
+  while (aName=="" )
   {
-    aHypothesisName.setNum(num+1) ;
-    aHypothesisName.insert(0, QString("Hypo_")) ;
-    for ( int i=0; i<MyHypos->length(); i++)
+    aName.setNum(num+1) ;
+    aName.insert(0, QString("Hypo_")) ;
+    for ( int i=0; i<MyObjects->length(); i++)
     {
-      if ( aHypothesisName ==  QString(MyHypos[i]))
+      if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aHypothesisName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
     }
   }
-  LEHypothesisName->setText(aHypothesisName);
+  LEName->setText(aName);
 }
 
 //
@@ -231,8 +261,10 @@ void MonCreateHypothesis::SetUniforme()
   else                         { GBFieldFile->setVisible(1); }
   GBAreaManagement->setVisible(0);
   GBUniform->setVisible(1);
-  adjustSize();
+
   _aTypeAdap = -1 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetChamp()
@@ -258,9 +290,10 @@ void MonCreateHypothesis::SetChamp()
   GBAreaManagement->adjustSize();
   GBFieldManagement->adjustSize();
   GBFieldFile->adjustSize();
-  adjustSize();
 
   _aTypeAdap = 1 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetZone()
@@ -272,10 +305,12 @@ void MonCreateHypothesis::SetZone()
   if ( _TypeFieldInterp == 0 ) { GBFieldFile->setVisible(0); }
   else                         { GBFieldFile->setVisible(1); }
   GBAreaManagement->setVisible(1);
-  adjustSize();
+
   _aTypeRaff = 1 ;
   _aTypeDera = 0 ;
   _aTypeAdap = 0 ;
+//
+  adjustSize();
 }
 
 // ------------------------------------------------------------------------
@@ -283,7 +318,7 @@ void MonCreateHypothesis::PushZoneNew()
 // ------------------------------------------------------------------------
 {
   MESSAGE("Debut de MonCreateHypothesis::PushZoneNew")
-  MonCreateZone *aDlg = new MonCreateZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), _aCaseName) ;
+  MonCreateZone *aDlg = new MonCreateZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName) ;
   aDlg->show();
 }
 
@@ -294,14 +329,14 @@ void MonCreateHypothesis::PushZoneEdit()
   MESSAGE("Debut de MonCreateHypothesis::PushZoneEdit")
   int colonne = TWZone->currentColumn();
   QTableWidgetItem * monItem = TWZone->currentItem();
-  if (colonne !=2  or monItem == NULL)
+  if (colonne !=2  || monItem == NULL)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_HYPO_ZONE_1") );
     return;
   }
   QString zoneName = monItem->text().trimmed();
-  MonEditZone *aDlg = new MonEditZone(this, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen), _aCaseName, zoneName) ;
+  MonEditZone *aDlg = new MonEditZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, zoneName) ;
   aDlg->show();
 }
 // ------------------------------------------------------------------------
@@ -310,7 +345,7 @@ void MonCreateHypothesis::PushZoneDelete()
 {
   MESSAGE("Debut de MonCreateHypothesis::PushZoneDelete")
   QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                        QObject::tr("HOM_INACTIVE_BUTTON") );
+                          QObject::tr("HOM_INACTIVE_BUTTON") );
   return;
 }
 
@@ -322,7 +357,7 @@ void MonCreateHypothesis::GetAllZones()
 // Par defaut, aucune n'est selectionnee
 {
   MESSAGE("Debut de GetAllZones") ;
-  HOMARD::listeZones_var mesZones = _myHomardGen->GetAllZones();
+  HOMARD::listeZones_var mesZones = myHomardGen->GetAllZonesName();
   int nbrow=TWZone->rowCount();
   for ( int row=0; row< nbrow; row++)
   {
@@ -390,7 +425,7 @@ QStringList MonCreateHypothesis::GetZonesChecked()
   int Pbm = 0 ;
   for ( int row=0; row< TWZone->rowCount(); row++)
   {
-    if ( ( TWZone->item( row, 0 )->checkState() == Qt::Checked ) and ( TWZone->item( row, 1 )->checkState() == Qt::Checked ) )
+    if ( ( TWZone->item( row, 0 )->checkState() == Qt::Checked ) && ( TWZone->item( row, 1 )->checkState() == Qt::Checked ) )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_HYPO_ZONE_3") );
@@ -450,8 +485,12 @@ void MonCreateHypothesis::AssocieFieldInterp()
 {
   if ( _TypeFieldInterp != 2 ) return;
   for ( int row=0; row< TWField->rowCount(); row++)
-      if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
-      { _aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str()); }
+  {
+    if ( TWField->item( row, 0 )->checkState() == Qt::Checked )
+    {
+      aHypothesis->AddFieldInterp(TWField->item(row, 1)->text().toStdString().c_str());
+    }
+  }
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetUniRaff()
@@ -488,7 +527,7 @@ void MonCreateHypothesis::SetFieldName()
 {
   MESSAGE("Debut de SetFieldName");
   _aFieldName=CBFieldName->currentText();
-  if (QString(_aFieldFile) == QString("") or QString(_aFieldName) == QString("") ) { return; }
+  if (QString(_aFieldFile) == QString("") || QString(_aFieldName) == QString("") ) { return; }
 
   int nbrow= TWCMP->rowCount() ;
   for ( int row=0; row < nbrow ; row++)
@@ -535,6 +574,7 @@ void MonCreateHypothesis::SetRPE()
   SpinBox_RPE->setEnabled(true);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRRel()
@@ -546,6 +586,7 @@ void MonCreateHypothesis::SetRRel()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(true);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRAbs()
@@ -557,6 +598,19 @@ void MonCreateHypothesis::SetRAbs()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(true);
+  SpinBox_RMuSigma->setEnabled(false);
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetRMS()
+// ------------------------------------------------------------------------
+{
+  _aTypeRaff = 1 ;
+  _TypeThR = 4 ;
+  RBRMuSigma->setChecked(true);
+  SpinBox_RPE->setEnabled(false);
+  SpinBox_RRel->setEnabled(false);
+  SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(true);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetRNo()
@@ -568,6 +622,7 @@ void MonCreateHypothesis::SetRNo()
   SpinBox_RPE->setEnabled(false);
   SpinBox_RRel->setEnabled(false);
   SpinBox_RAbs->setEnabled(false);
+  SpinBox_RMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCPE()
@@ -579,6 +634,7 @@ void MonCreateHypothesis::SetCPE()
   SpinBox_CPE->setEnabled(true);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCRel()
@@ -590,6 +646,7 @@ void MonCreateHypothesis::SetCRel()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(true);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCAbs()
@@ -601,6 +658,19 @@ void MonCreateHypothesis::SetCAbs()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(true);
+  SpinBox_CMuSigma->setEnabled(false);
+}
+// ------------------------------------------------------------------------
+void MonCreateHypothesis::SetCMS()
+// ------------------------------------------------------------------------
+{
+  _aTypeDera = 1 ;
+  _TypeThC = 4 ;
+  RBCMuSigma->setChecked(true);
+  SpinBox_CPE->setEnabled(false);
+  SpinBox_CRel->setEnabled(false);
+  SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(true);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetCNo()
@@ -612,6 +682,7 @@ void MonCreateHypothesis::SetCNo()
   SpinBox_CPE->setEnabled(false);
   SpinBox_CRel->setEnabled(false);
   SpinBox_CAbs->setEnabled(false);
+  SpinBox_CMuSigma->setEnabled(false);
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetUCL2()
@@ -624,7 +695,8 @@ void MonCreateHypothesis::SetUCL2()
 void MonCreateHypothesis::SetUCInf()
 // ------------------------------------------------------------------------
 {
-  _UsCmpI = 1 ;
+  if ( TWCMP->rowCount() == 1 ) { _UsCmpI = 2 ; }
+  else                          { _UsCmpI = 1 ; }
   RBInf->setChecked(true);
 }
 // ------------------------------------------------------------------------
@@ -639,7 +711,7 @@ void MonCreateHypothesis::SetFiltrage()
 // ------------------------------------------------------------------------
 {
   if (!CBGroupe->isChecked()) return;
-  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),_aCaseName, _aListeGroupes) ;
+  MonCreateListGroup *aDlg = new MonCreateListGroup(this, NULL, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),_aCaseName, _aListeGroupes) ;
   aDlg->show();
 }
 
@@ -694,7 +766,7 @@ void MonCreateHypothesis::AssocieLesZones()
   for ( int i=0 ; i< _aListeZone.count() ; i++ )
   { if ( _aListeZone[i+1] == Raff ) { TypeUse =  1 ; }
     else                            { TypeUse = -1 ; }
-   _myHomardGen->AssociateHypoZone(_aHypothesisName.toStdString().c_str(), _aListeZone[i].toStdString().c_str(), TypeUse);
+    aHypothesis->AddZone(_aListeZone[i].toStdString().c_str(), TypeUse);
     i += 1 ;
   }
   MESSAGE( "Fin de AssocieLesZones" );
@@ -711,21 +783,23 @@ void MonCreateHypothesis::AssocieComposants()
   if ( _TypeThR == 1 ) { _ThreshR = SpinBox_RAbs->value();}
   if ( _TypeThR == 2 ) { _ThreshR = SpinBox_RRel->value();}
   if ( _TypeThR == 3 ) { _ThreshR = SpinBox_RPE->value(); }
+  if ( _TypeThR == 4 ) { _ThreshR = SpinBox_RMuSigma->value(); }
 
   _ThreshC = 0;
   if ( _TypeThC == 1 ) { _ThreshC = SpinBox_CAbs->value();}
   if ( _TypeThC == 2 ) { _ThreshC = SpinBox_CRel->value();}
   if ( _TypeThC == 3 ) { _ThreshC = SpinBox_CPE->value(); }
+  if ( _TypeThC == 4 ) { _ThreshC = SpinBox_CMuSigma->value(); }
 
   _aFieldName=CBFieldName->currentText();
-  _aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
-  _aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ;
-  _aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ;
-  _aHypothesis->SetUseField( _UsField ) ;
-  _aHypothesis->SetUseComp( _UsCmpI ) ;
+  aHypothesis->SetField(CORBA::string_dup(_aFieldName.toStdString().c_str()) ) ;
+  if ( _TypeThR > 0 ) { aHypothesis->SetRefinThr( _TypeThR, _ThreshR ) ; }
+  if ( _TypeThC > 0 ) { aHypothesis->SetUnRefThr( _TypeThC, _ThreshC ) ; }
+  aHypothesis->SetUseField( _UsField ) ;
+  aHypothesis->SetUseComp( _UsCmpI ) ;
   _aListeComposant = GetListCompChecked() ;
   for ( int i=0 ; i< _aListeComposant.count() ; i++ )
-      { _aHypothesis->AddComp(_aListeComposant[i].toStdString().c_str()); }
+      { aHypothesis->AddComp(_aListeComposant[i].toStdString().c_str()); }
 };
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::AssocieLesGroupes()
@@ -737,7 +811,7 @@ void MonCreateHypothesis::AssocieLesGroupes()
   int i=0;
   for (it = _aListeGroupes.constBegin(); it != _aListeGroupes.constEnd(); it++)
      aSeqGroupe[i++]=(*it).toStdString().c_str();
-  _aHypothesis->SetGroups(aSeqGroupe);
+  aHypothesis->SetGroups(aSeqGroupe);
 
 }
 // ------------------------------------------------------------------------
@@ -749,8 +823,9 @@ void MonCreateHypothesis::SetFieldNo()
   else                   { GBFieldFile->setVisible(0); }
   TWField->setVisible(0);
 //
-   adjustSize();
   _TypeFieldInterp = 0 ;
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetFieldAll()
@@ -771,7 +846,8 @@ void MonCreateHypothesis::SetFieldAll()
   TWField->setVisible(0);
 //
   _TypeFieldInterp = 1 ;
-   adjustSize();
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetFieldChosen()
@@ -818,7 +894,8 @@ void MonCreateHypothesis::SetFieldChosen()
   TWField->setVisible(1);
 
   _TypeFieldInterp = 2 ;
-   adjustSize();
+//
+  adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateHypothesis::SetAdvanced()
@@ -827,19 +904,22 @@ void MonCreateHypothesis::SetAdvanced()
   MESSAGE("Debut de SetAdvanced ");
   if (CBAdvanced->isChecked())
   { GBAdvancedOptions->setVisible(1);
-    if (_aFieldFile != QString(""))
-    { GBAdapInit->setVisible(1) ;
-    }
-    else
-    { GBAdapInit->setVisible(0) ;
-    }
+    if (_aFieldFile != QString("")) { GBAdapInit->setVisible(1) ; }
+    else                            { GBAdapInit->setVisible(0) ; }
   }
   else
   { GBAdvancedOptions->setVisible(0);
     _NivMax = -1 ;
     _DiamMin = -1. ;
     _AdapInit = 0 ;
+    CBOutputLevel->setChecked(false);
+    CBOutputQuality->setChecked(false);
+    CBOutputDiameter->setChecked(false);
+    CBOutputParent->setChecked(false);
+    CBOutputVoisins->setChecked(false);
+    _ExtraOutput = 1 ;
   }
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------

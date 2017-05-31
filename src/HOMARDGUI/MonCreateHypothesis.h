@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef MON_CREATEHYPOTHESIS_H
 #define MON_CREATEHYPOTHESIS_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -28,11 +29,11 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
 
-#include <CreateHypothesis.h>
-#include <QDialog>
+#include "ui_CreateHypothesis.h"
+#include <QScrollArea>
 
 class MonCreateIteration;
-class MonCreateHypothesis : public QDialog, public Ui_CreateHypothesis
+class HOMARD_EXPORT MonCreateHypothesis : public QScrollArea, public Ui_CreateHypothesis
 {
     Q_OBJECT
 
@@ -50,7 +51,7 @@ protected :
 
     MonCreateIteration *_parent;
 
-    QString _aHypothesisName;
+    QString _Name;
     QString _aFieldFile ;
     QString _aFieldName;
     QString _aCaseName;
@@ -71,9 +72,10 @@ protected :
     int _NivMax;
     double _DiamMin;
     int _AdapInit;
+    int _ExtraOutput;
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
-    HOMARD::HOMARD_Hypothesis_var _aHypothesis;
+    HOMARD::HOMARD_Hypothesis_var aHypothesis;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     QStringList _aListeZone;
     QStringList _aListeComposant;
@@ -82,7 +84,7 @@ protected :
     virtual void InitConnect();
     virtual void InitFields();
     virtual void GetAllZones();
-    virtual void SetNewHypothesisName();
+    virtual void SetNewName();
 
     virtual void AssocieFieldInterp();
     virtual void AssocieLesZones();
@@ -105,10 +107,12 @@ public slots:
     virtual void SetRPE();
     virtual void SetRAbs();
     virtual void SetRRel();
+    virtual void SetRMS();
     virtual void SetRNo();
     virtual void SetCPE();
     virtual void SetCAbs();
     virtual void SetCRel();
+    virtual void SetCMS();
     virtual void SetCNo();
     virtual void SetUCL2();
     virtual void SetUCInf();

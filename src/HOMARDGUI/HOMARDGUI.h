@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,11 +17,13 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-//  HOMARDGUI : HOMARD component GUI implemetation 
+//  HOMARDGUI : HOMARD component GUI implemetation
 //
 
 #ifndef _HOMARDGUI_H_
 #define _HOMARDGUI_H_
+
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SalomeApp_Module.h>
 #include "SalomeApp_Study.h"
@@ -32,11 +34,11 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 #include CORBA_CLIENT_HEADER(HOMARD_Hypothesis)
 
-#include <QtCore/QString>
+#include <QString>
 
 class SalomeApp_Application;
 
-class HOMARDGUI: public SalomeApp_Module 
+class HOMARD_EXPORT HOMARDGUI: public SalomeApp_Module
 {
   Q_OBJECT
 
@@ -61,15 +63,17 @@ public slots:
 
 private slots:
     void OnGUIEvent();
-    void EditBoDi();
-    void EditZone();
-    void EditHypo();
-    void EditIter();
-    void EditCase();
     void EditAsciiFile();
-    void LanceCalcul();
+    void LanceCalcul0();
+    void LanceCalcul1();
+    void IterInfo();
     void NextIter();
-    void XmGraceFichier();
+    void MeshPublish0();
+    void MeshPublish1();
+    void YACSCreate();
+    void YACSWrite();
+    void Edit();
+    void Delete();
 
 public:
    virtual void  contextMenuPopup( const QString&, QMenu*, QString& );
@@ -80,6 +84,7 @@ private:
                             const int key = 0, const bool toggle = false );
    void createActions();
    void createMenus();
+   void recupPreferences();
    void createPopupMenus();
    _PTR(SObject)  chercheMonObjet();
 
@@ -89,6 +94,13 @@ private:
 
    int anId;
    QString _ObjectName;
+   QString _LanguageShort ;
+   int _PublisMeshIN ;
+   int _PublisMeshOUT ;
+   int _YACSMaxIter ;
+   int _YACSMaxNode ;
+   int _YACSMaxElem ;
+   int _YACSTypeTest ;
 };
 
 #endif

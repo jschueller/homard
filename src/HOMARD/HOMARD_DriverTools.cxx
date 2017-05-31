@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,6 +27,7 @@
 #include "HOMARD_Hypothesis.hxx"
 #include "HOMARD_Iteration.hxx"
 #include "HOMARD_Zone.hxx"
+#include "HOMARD_YACS.hxx"
 #include <sstream>
 #include <cstdlib>
 #include "utilities.h"
@@ -34,7 +35,7 @@
 namespace HOMARD
 {
 
-  const char* const SEPARATOR = "|";
+  std::string SEPARATOR = "|" ;
 
   /*!
     \brief Read next chunk of data from the string
@@ -78,6 +79,7 @@ namespace HOMARD
     case Hypothesis: signature = "HYPO"; break;
     case Iteration:  signature = "ITER"; break;
     case Boundary:   signature = "BOUNDARY"; break;
+    case YACS:       signature = "YACS"; break;
     default: break;
     }
     signature += separator();
@@ -90,11 +92,11 @@ namespace HOMARD
   */
   std::string separator()
   {
-    return std::string( SEPARATOR );
+    return SEPARATOR ;
   }
 
 // =======================
-// Case
+// 1.1. Case
 // =======================
   /*!
     \brief Dump case to the string
@@ -104,11 +106,13 @@ namespace HOMARD
   std::string Dump( const HOMARD_Cas& cas )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump du cas "<<cas.GetName());
+    MESSAGE( ". Sauvegarde du cas "<<cas.GetName());
     os << cas.GetName();
     os << separator() << cas.GetDirName();
     os << separator() << cas.GetConfType();
+    os << separator() << cas.GetExtType();
 
     std::vector<double> coor = cas.GetBoundingBox();
     os << separator() << coor.size();
@@ -132,12 +136,14 @@ namespace HOMARD
 
     os << separator() << cas.GetPyram();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
-// Iteration
-// ==========
+// ==============
+// 1.2. Iteration
+// ==============
 //
   /*!
     \brief Dump iteration to the string
@@ -147,18 +153,19 @@ namespace HOMARD
   std::string Dump( const HOMARD_Iteration& iteration )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump de l'iteration "<<iteration.GetName());
+    MESSAGE( ". Sauvegarde de l'iteration "<<iteration.GetName());
     os << iteration.GetName();
-    os << separator() << iteration.GetEtat();
+    os << separator() << iteration.GetState();
     os << separator() << iteration.GetNumber();
     os << separator() << iteration.GetMeshFile();
-    os << separator() << iteration.GetMessFile();
+    os << separator() << iteration.GetLogFile();
     os << separator() << iteration.GetMeshName();
     os << separator() << iteration.GetFieldFile();
     os << separator() << iteration.GetTimeStep();
     os << separator() << iteration.GetRank();
-    os << separator() << iteration.GetIterParent();
+    os << separator() << iteration.GetIterParentName();
     //
     std::list<std::string> ListString = iteration.GetIterations();
     os << separator() << ListString.size();
@@ -168,14 +175,16 @@ namespace HOMARD
 
     os << separator() << iteration.GetHypoName();
     os << separator() << iteration.GetCaseName();
-    os << separator() << iteration.GetDirName();
+    os << separator() << iteration.GetDirNameLoc();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
-// hypothese
-// ==============================
+// ==============
+// 1.3. hypothese
+// ==============
   /*!
     \brief Dump hypothesis to the string
     \param hypothesis hypothesis being dumped
@@ -184,8 +193,9 @@ namespace HOMARD
   std::string Dump( const HOMARD_Hypothesis& hypothesis )
   {
     std::stringstream os;
+    std::string saux ;
     // ...
-    MESSAGE( ". Dump de l'hypothese "<<hypothesis.GetName());
+    MESSAGE( ". Sauvegarde de l'hypothese "<<hypothesis.GetName());
     os << hypothesis.GetName();
     os << separator() << hypothesis.GetCaseCreation();
     os << separator() << hypothesis.GetAdapType();
@@ -197,7 +207,7 @@ namespace HOMARD
     os << separator() << hypothesis.GetUnRefThrType();
     os << separator() << hypothesis.GetThreshC();
     os << separator() << hypothesis.GetUseField();
-    os << separator() << hypothesis.GetUseCompI();
+    os << separator() << hypothesis.GetUseComp();
     os << separator() << hypothesis.GetTypeFieldInterp();
 
     std::list<std::string> ListString = hypothesis.GetIterations();
@@ -211,7 +221,7 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-    ListString = hypothesis.GetListComp();
+    ListString = hypothesis.GetComps();
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
          os << separator() << *it;
@@ -221,20 +231,24 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-    ListString = hypothesis.GetListFieldInterp();
+    ListString = hypothesis.GetFieldInterps();
     os << separator() << ListString.size();
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
     os << separator() << hypothesis.GetNivMax();
     os << separator() << hypothesis.GetDiamMin();
+    os << separator() << hypothesis.GetAdapInit();
+    os << separator() << hypothesis.GetExtraOutput();
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
-// Zone
-// =========================
+// =========
+// 1.4. Zone
+// =========
 
   /*!
     \brief Dump zone to the string
@@ -244,9 +258,10 @@ namespace HOMARD
   std::string Dump( const HOMARD_Zone& zone )
   {
     std::stringstream os;
-    MESSAGE( ". Dump de la zone "<<zone.GetName());
+    std::string saux ;
+    MESSAGE( ". Sauvegarde de la zone "<<zone.GetName());
     os << zone.GetName();
-    os << separator() << zone.GetZoneType();
+    os << separator() << zone.GetType();
 
     std::vector<double> coords = zone.GetCoords();
     for ( int i = 0; i < coords.size(); i++ )
@@ -262,10 +277,12 @@ namespace HOMARD
     for ( it = hypos.begin(); it != hypos.end(); ++it )
       os << separator() << *it;
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 //
+// ==============================
 // 1.5. Archivage d'une frontiere
 // ==============================
 
@@ -277,9 +294,10 @@ namespace HOMARD
   std::string Dump( const HOMARD_Boundary& boundary )
   {
     std::stringstream os;
-    MESSAGE( ". Dump de la frontiere "<<boundary.GetName());
+    std::string saux ;
+    MESSAGE( ". Sauvegarde de la frontiere "<<boundary.GetName());
 
-    int BoundaryType = boundary.GetBoundaryType() ;
+    int BoundaryType = boundary.GetType() ;
 
     os << boundary.GetName() ;
     os << separator() << BoundaryType ;
@@ -305,14 +323,37 @@ namespace HOMARD
     for ( it = ListString.begin(); it != ListString.end(); ++it )
           os << separator() << *it;
 
-//    MESSAGE( ". Fin avec "<<os.str());
-    return os.str();
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
   }
 
 //
-// Restauration des objets
+// =========
+// 1.6. YACS
+// =========
+
+  /*!
+    \brief Dump YACS to the string
+    \param yacs yacs being dumped
+    \return string representation of the zone
+  */
+  std::string Dump( const HOMARD_YACS& yacs )
+  {
+    std::stringstream os;
+    std::string saux ;
+    MESSAGE( ". Sauvegarde du schema YACS "<<yacs.GetName());
+    os << yacs.GetName();
+    os << separator() << yacs.GetType();
+
+    saux = os.str();
+//     MESSAGE( ". Fin avec "<<saux);
+    return saux ;
+  }
+//
+// 2. Restauration des objets
 // ==========================
-// Case
+// 2.1. Case
 // ==========================
 //
   /*!
@@ -339,6 +380,10 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     cas.SetConfType( atoi( chunk.c_str() ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    cas.SetExtType( atoi( chunk.c_str() ) );
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
@@ -392,8 +437,9 @@ namespace HOMARD
     return true;
   }
 //
-//  Iteration
-// =================================
+// ==============
+// 2.2. Iteration
+// ==============
   /*!
     \brief Restore iteration from the string
     \param iteration iteration being restored
@@ -411,7 +457,7 @@ namespace HOMARD
     iteration.SetName( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetEtat( (bool)atoi( chunk.c_str() ) );
+    iteration.SetState( atoi( chunk.c_str() ) );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     iteration.SetNumber( atoi( chunk.c_str() ) );
@@ -420,7 +466,7 @@ namespace HOMARD
     iteration.SetMeshFile( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetMessFile( chunk.c_str() );
+    iteration.SetLogFile( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     iteration.SetMeshName( chunk.c_str() );
@@ -438,7 +484,7 @@ namespace HOMARD
     iteration.SetTimeStepRank( timestep, rank );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetIterParent( chunk.c_str() );
+    iteration.SetIterParentName( chunk.c_str() );
     //
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
@@ -446,7 +492,7 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      iteration.AddIteration( chunk.c_str() );
+      iteration.LinkNextIteration( chunk.c_str() );
     }
     //
     chunk = getNextChunk( stream, start, ok );
@@ -457,13 +503,14 @@ namespace HOMARD
     iteration.SetCaseName( chunk.c_str() );
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
-    iteration.SetDirName( chunk.c_str() );
+    iteration.SetDirNameLoc( chunk.c_str() );
     return true;
   }
 
 //
-// hypothese
-// =================================
+// ==============
+// 2.3. hypothese
+// ==============
   /*!
     \brief Restore hypothesis from the string
     \param hypothesis hypothesis being restored
@@ -534,7 +581,7 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      hypothesis.AddIteration( chunk.c_str() );
+      hypothesis.LinkIteration( chunk.c_str() );
     }
 
     chunk = getNextChunk( stream, start, ok );
@@ -574,7 +621,11 @@ namespace HOMARD
     for ( int i = 0; i < size; i++ ) {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      hypothesis.AddFieldInterp( chunk.c_str() );
+      i++;
+      chunkNext = getNextChunk( stream, start, ok );
+      int TypeInterp = atoi( chunkNext.c_str() );
+      if ( !ok ) return false;
+      hypothesis.AddFieldInterpType( chunk.c_str(), TypeInterp );
     }
 
     chunk = getNextChunk( stream, start, ok );
@@ -585,12 +636,21 @@ namespace HOMARD
     if ( !ok ) return false;
     hypothesis.SetDiamMin( strtod( chunk.c_str(), 0 ) );
 
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetAdapInit( strtod( chunk.c_str(), 0 ) );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    hypothesis.SetExtraOutput( strtod( chunk.c_str(), 0 ) );
+
     return true;
   }
 
 //
-// Zone
-// ============================
+// =========
+// 2.4. Zone
+// =========
   /*!
     \brief Restore zone from the string
     \param zone zone being restored
@@ -610,14 +670,14 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     int ZoneType = atoi( chunk.c_str() ) ;
-    zone.SetZoneType( ZoneType );
+    zone.SetType( ZoneType );
     // Les coordonnees des zones : le nombre depend du type
     std::vector<double> coords;
     int lgcoords ;
-    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) ) { lgcoords = 6 ; }
+    if ( ZoneType == 2 || ( ZoneType >= 11 && ZoneType <= 13 ) ) { lgcoords = 6 ; }
     else if ( ZoneType == 4 ) { lgcoords = 4 ; }
-    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) ) { lgcoords = 8 ; }
-    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) ) { lgcoords = 9 ; }
+    else if ( ZoneType == 5 || ( ZoneType >= 31 && ZoneType <= 33 ) ) { lgcoords = 8 ; }
+    else if ( ZoneType == 7 || ( ZoneType >= 61 && ZoneType <= 63 ) ) { lgcoords = 9 ; }
     else return false;
     coords.resize( lgcoords );
     for ( int i = 0; i < lgcoords; i++ ) {
@@ -625,13 +685,13 @@ namespace HOMARD
       if ( !ok ) return false;
       coords[i] = strtod( chunk.c_str(), 0 );
     }
-    if ( ZoneType == 2 or ( ZoneType >= 11 and ZoneType <= 13 ) )
+    if ( ZoneType == 2 || ( ZoneType >= 11 && ZoneType <= 13 ) )
     { zone.SetBox( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5] ); }
     else if ( ZoneType == 4 )
     { zone.SetSphere( coords[0], coords[1], coords[2], coords[3] ); }
-    else if ( ZoneType == 5 or ( ZoneType >= 31 and ZoneType <= 33 ) )
+    else if ( ZoneType == 5 || ( ZoneType >= 31 && ZoneType <= 33 ) )
     { zone.SetCylinder( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7] ); }
-    else if ( ZoneType == 7 or ( ZoneType >= 61 and ZoneType <= 63 ) )
+    else if ( ZoneType == 7 || ( ZoneType >= 61 && ZoneType <= 63 ) )
     { zone.SetPipe( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7], coords[8] ); }
     // Remarque : la taille de coords est suffisante pour les limites
     for ( int i = 0; i < 3; i++ ) {
@@ -653,6 +713,7 @@ namespace HOMARD
   }
 
 //
+// =================================
 // 2.5. Restauration d'une frontiere
 // =================================
 
@@ -660,7 +721,7 @@ namespace HOMARD
     \brief Restore boundary from the string
     \param boundary boundary being restored
     \param stream string representation of the boundary
-    \return \c true if zone is correctly restored or \c false otherwise
+    \return \c true if the boundary is correctly restored or \c false otherwise
   */
   bool Restore( HOMARD_Boundary& boundary, const std::string& stream )
   {
@@ -675,7 +736,7 @@ namespace HOMARD
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
     int BoundaryType = atoi( chunk.c_str() ) ;
-    boundary.SetBoundaryType( BoundaryType );
+    boundary.SetType( BoundaryType );
 
     chunk = getNextChunk( stream, start, ok );
     if ( !ok ) return false;
@@ -710,6 +771,10 @@ namespace HOMARD
       { boundary.SetCylinder(coords[0],coords[1],coords[2],coords[3],coords[4],coords[5],coords[6]); }
       else if ( BoundaryType == 2 )
       { boundary.SetSphere( coords[0], coords[1], coords[2], coords[3]); }
+      else if ( BoundaryType == 3 )
+      { boundary.SetConeA( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6]); }
+      else if ( BoundaryType == 4 )
+      { boundary.SetConeR( coords[0], coords[1], coords[2], coords[3], coords[4], coords[5], coords[6], coords[7]); }
       // Remarque : la taille de coords est suffisante pour les limites
       for ( int i = 0; i < 3; i++ ) {
         chunk = getNextChunk( stream, start, ok );
@@ -727,6 +792,35 @@ namespace HOMARD
       if ( !ok ) return false;
       boundary.AddGroup( chunk.c_str() );
     }
+
+    return true;
+  }
+
+//
+// ==================================
+// 2.6. Restauration d'un schema YACS
+// ==================================
+
+  /*!
+    \brief Restore a schema YACS from the string
+    \param yacs yacs being restored
+    \param stream string representation of the schema yacs
+    \return \c true if yacs is correctly restored or \c false otherwise
+  */
+  bool Restore( HOMARD_YACS& yacs, const std::string& stream )
+  {
+    std::string::size_type start = 0;
+    std::string chunk;
+    bool ok;
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    yacs.SetName( chunk.c_str() );
+
+    chunk = getNextChunk( stream, start, ok );
+    if ( !ok ) return false;
+    int YACSType = atoi( chunk.c_str() ) ;
+    yacs.SetType( YACSType );
 
     return true;
   }

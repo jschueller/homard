@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,107 +25,119 @@
 #include <cstring>
 #include <algorithm>
 
-extern "C" 
-{
 #include <med.h>
-}
 
 #include "utilities.h"
+// =======================================================================
+int MEDFileExist( const char * aFile )
+// Retourne 1 si le fichier existe, 0 sinon
+// =======================================================================
+{
+  int existe ;
+  med_idt medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
+  if ( medIdt < 0 ) { existe = 0 ; }
+  else              { MEDfileClose(medIdt);
+                      existe = 1 ; }
+  return existe ;
+}
 // =======================================================================
 std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
 // =======================================================================
 {
   std::set<std::string> ListeGroupes;
-  med_idt medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
-  if ( medIdt < 0 ) { return ListeGroupes; };
-
-  char meshname[MED_NAME_SIZE+1];
-  med_int spacedim,meshdim;
-  med_mesh_type meshtype;
-  char descriptionription[MED_COMMENT_SIZE+1];
-  char dtunit[MED_SNAME_SIZE+1];
-  med_sorting_type sortingtype;
-  med_int nstep;
-  med_axis_type axistype;
-  int naxis = MEDmeshnAxis(medIdt,1);
-  char *axisname=new char[naxis*MED_SNAME_SIZE+1];
-  char *axisunit=new char[naxis*MED_SNAME_SIZE+1];
-  med_err aRet = MEDmeshInfo(medIdt,
-                          1,
-                          meshname,
-                          &spacedim,
-                          &meshdim,
-                          &meshtype,
-                          descriptionription,
-                          dtunit,
-                          &sortingtype,
-                          &nstep,
-                          &axistype,
-                          axisname,
-                          axisunit);
-   if ( aRet < 0 ) { return ListeGroupes; };
-   
-   med_int nfam, ngro, natt;
-   if ((nfam = MEDnFamily(medIdt,meshname)) < 0) { return ListeGroupes; };
-   
-  char familyname[MED_NAME_SIZE+1];
-  med_int numfam;
-  for (int i=0;i<nfam;i++) 
+  med_err erreur = 0 ;
+  med_int medIdt ;
+  while ( erreur == 0 )
   {
-    if ((ngro = MEDnFamilyGroup(medIdt,meshname,i+1)) < 0) 
+    //  Ouverture du fichier
+    medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
+    if ( medIdt < 0 )
     {
-      // GERALD -- QMESSAGE BOX
-      std::cerr << " Error : Families are unreadable" << std::endl;
-      std::cerr << "Pb avec la famille : " << i+1 << std::endl;
-      break;
+      erreur = 1 ;
+      break ;
     }
-    if (ngro == 0) continue;
-
-    if ((natt = MEDnFamily23Attribute(medIdt,meshname,i+1)) < 0) 
+    // Caracteristiques du maillage
+    char meshname[MED_NAME_SIZE+1];
+    med_int spacedim,meshdim;
+    med_mesh_type meshtype;
+    char descriptionription[MED_COMMENT_SIZE+1];
+    char dtunit[MED_SNAME_SIZE+1];
+    med_sorting_type sortingtype;
+    med_int nstep;
+    med_axis_type axistype;
+    int naxis = MEDmeshnAxis(medIdt,1);
+    char *axisname=new char[naxis*MED_SNAME_SIZE+1];
+    char *axisunit=new char[naxis*MED_SNAME_SIZE+1];
+    erreur = MEDmeshInfo(medIdt,
+                            1,
+                            meshname,
+                            &spacedim,
+                            &meshdim,
+                            &meshtype,
+                            descriptionription,
+                            dtunit,
+                            &sortingtype,
+                            &nstep,
+                            &axistype,
+                            axisname,
+                            axisunit);
+    delete[] axisname ;
+    delete[] axisunit ;
+    if ( erreur < 0 ) { break ; }
+    // Nombre de familles
+    med_int nfam ;
+    nfam = MEDnFamily(medIdt,meshname) ;
+    if ( nfam < 0 )
     {
-      // GERALD -- QMESSAGE BOX
-      std::cerr << " Error : Families are unreadable" << std::endl;
-      std::cerr << "Pb avec la famille : " << i+1 << std::endl;
-      break;
+      erreur = 2 ;
+      break ;
     }
-
-    med_int* attide = (med_int*) malloc(sizeof(med_int)*natt);
-    med_int* attval = (med_int*) malloc(sizeof(med_int)*natt);
-    char*    attdes = (char *)   malloc(MED_COMMENT_SIZE*natt+1);
-    char*    gro    = (char*)    malloc(MED_LNAME_SIZE*ngro+1);
-    
-    med_err aRet = MEDfamily23Info(medIdt,
-                                meshname,
-                                i+1,
-                                familyname,
-                                attide,
-                                attval,
-                                attdes,
-                                &numfam,
-                                gro);
-    
-    if (aRet < 0) 
-    { 
-      // GERALD -- QMESSAGE BOX
-      std::cerr << " Error : Families are unreadable" << std::endl;
-      std::cerr << "Pb avec la famille : " << i+1 << std::endl;
-        break;
-    }
-    free(attide);
-    free(attval);
-    free(attdes);
-    if ((numfam )> 0) { continue;} // On ne garde que les familles d elts
-
-    for (int j=0;j<ngro;j++) 
+  // Lecture des caracteristiques des familles
+    for (int i=0;i<nfam;i++)
     {
-          char str2[MED_LNAME_SIZE+1];
-          strncpy(str2,gro+j*MED_LNAME_SIZE,MED_LNAME_SIZE);
-          str2[MED_LNAME_SIZE] = '\0';
-          ListeGroupes.insert(std::string(str2));
+//       Lecture du nombre de groupes
+      med_int ngro = MEDnFamilyGroup(medIdt,meshname,i+1);
+      if ( ngro < 0 )
+      {
+        erreur = 3 ;
+        break ;
+      }
+//       Lecture de la famille
+      else if ( ngro > 0 )
+      {
+        char familyname[MED_NAME_SIZE+1];
+        med_int numfam;
+        char* gro = (char*) malloc(MED_LNAME_SIZE*ngro+1);
+        erreur = MEDfamilyInfo(medIdt,
+                               meshname,
+                               i+1,
+                               familyname,
+                               &numfam,
+                               gro);
+        if ( erreur < 0 )
+        {
+          free(gro);
+          break ;
+        }
+        // Lecture des groupes pour une famille de mailles
+        if ( numfam < 0)
+        {
+          for (int j=0;j<ngro;j++)
+          {
+            char str2[MED_LNAME_SIZE+1];
+            strncpy(str2,gro+j*MED_LNAME_SIZE,MED_LNAME_SIZE);
+            str2[MED_LNAME_SIZE] = '\0';
+            ListeGroupes.insert(std::string(str2));
+          }
+        }
+        free(gro);
+      }
     }
-    free(gro);
+    break ;
   }
-  MEDfileClose(medIdt);
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
+
   return ListeGroupes;
 }
 
@@ -139,150 +151,145 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
 // en position 6 et 7 Zmin, Zmax et en position 8 Dz si < 0  2D
 //  9 distance max dans le maillage
 
-   std::vector<double> LesExtremes;
-   
-   // Ouverture du Fichier Med
-   med_idt medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
-   if (medIdt <0) 
-   {
-          // GERALD -- QMESSAGE BOX
-          std::cerr << "Error : mesh is unreadable" << std::endl;
-          return LesExtremes;
-   }
-
-                                // Le fichier Med est lisible
-    // Boucle sur les noms de maillage
-   med_int numberOfMeshes = MEDnMesh(medIdt) ;
-   if (numberOfMeshes != 1 ) 
-   {
-          // GERALD -- QMESSAGE BOX
-          std::cerr << "Error : file contains more than one mesh" << std::endl;
-          return LesExtremes;
-   }
-
-  char meshname[MED_NAME_SIZE+1];
-  med_int spacedim,meshdim;
-  med_mesh_type meshtype;
-  char descriptionription[MED_COMMENT_SIZE+1];
-  char dtunit[MED_SNAME_SIZE+1];
-  med_sorting_type sortingtype;
-  med_int nstep;
-  med_axis_type axistype;
-  int naxis = MEDmeshnAxis(medIdt,1);
-  char *axisname=new char[naxis*MED_SNAME_SIZE+1];
-  char *axisunit=new char[naxis*MED_SNAME_SIZE+1];
-  med_err aRet = MEDmeshInfo(medIdt,
-                          1,
-                          meshname,
-                          &spacedim,
-                          &meshdim,
-                          &meshtype,
-                          descriptionription,
-                          dtunit,
-                          &sortingtype,
-                          &nstep,
-                          &axistype,
-                          axisname,
-                          axisunit);
-
-   if (aRet < 0) 
-   {
-          // GERALD -- QMESSAGE BOX
-          std::cerr << "Error : mesh is unreadable" << std::endl;
-          return LesExtremes;
-   }
-
-  med_bool chgt,trsf;
-  med_int nnoe  = MEDmeshnEntity(medIdt,
+  std::vector<double> LesExtremes;
+  med_err erreur = 0 ;
+  med_int medIdt ;
+  while ( erreur == 0 )
+  {
+    //  Ouverture du fichier
+    medIdt = MEDfileOpen(aFile,MED_ACC_RDONLY);
+    if ( medIdt < 0 )
+    {
+      erreur = 1 ;
+      break ;
+    }
+    //Nombre de maillage : on ne peut en lire qu'un seul
+    med_int numberOfMeshes = MEDnMesh(medIdt) ;
+    if (numberOfMeshes != 1 )
+    {
+      erreur = 2 ;
+      break ;
+    }
+    // Caracteristiques du maillage
+    char meshname[MED_NAME_SIZE+1];
+    med_int spacedim,meshdim;
+    med_mesh_type meshtype;
+    char descriptionription[MED_COMMENT_SIZE+1];
+    char dtunit[MED_SNAME_SIZE+1];
+    med_sorting_type sortingtype;
+    med_int nstep;
+    med_axis_type axistype;
+    int naxis = MEDmeshnAxis(medIdt,1);
+    char *axisname=new char[naxis*MED_SNAME_SIZE+1];
+    char *axisunit=new char[naxis*MED_SNAME_SIZE+1];
+    erreur = MEDmeshInfo(medIdt,
+                            1,
                             meshname,
-                            MED_NO_DT,
-                            MED_NO_IT,
-                            MED_NODE,
-                            MED_NO_GEOTYPE,
-                            MED_COORDINATE,
-                            MED_NO_CMODE,
-                            &chgt,
-                            &trsf);
-   if ( nnoe < 0) 
-   {
-          // GERALD -- QMESSAGE BOX
-          std::cerr << "Error : mesh is unreadable" << std::endl;
-          return LesExtremes;
-   }
+                            &spacedim,
+                            &meshdim,
+                            &meshtype,
+                            descriptionription,
+                            dtunit,
+                            &sortingtype,
+                            &nstep,
+                            &axistype,
+                            axisname,
+                            axisunit);
+    delete[] axisname ;
+    delete[] axisunit ;
+    if ( erreur < 0 ) { break ; }
 
-  med_float* coo    = (med_float*) malloc(sizeof(med_float)*nnoe*spacedim);
+    // Nombre de noeuds
+    med_bool chgt,trsf;
+    med_int nnoe  = MEDmeshnEntity(medIdt,
+                              meshname,
+                              MED_NO_DT,
+                              MED_NO_IT,
+                              MED_NODE,
+                              MED_NO_GEOTYPE,
+                              MED_COORDINATE,
+                              MED_NO_CMODE,
+                              &chgt,
+                              &trsf);
+    if ( nnoe < 0 )
+    {
+      erreur =  4;
+      break ;
+    }
 
-  aRet = MEDmeshNodeCoordinateRd(medIdt,
+    // Les coordonnees
+    med_float* coo    = (med_float*) malloc(sizeof(med_float)*nnoe*spacedim);
+
+    erreur = MEDmeshNodeCoordinateRd(medIdt,
                                       meshname,
                                       MED_NO_DT,
                                       MED_NO_IT,
                                       MED_NO_INTERLACE,
                                       coo);
-   if ( aRet < 0) 
-   {
-          // GERALD -- QMESSAGE BOX
-          std::cerr << "Error : mesh coordinates are unreadable" << std::endl;
-          return LesExtremes;
-   }
+    if ( erreur < 0 )
+    {
+      free(coo) ;
+      break ;
+    }
 
-   med_float xmin,xmax,ymin,ymax,zmin,zmax;
-   
-   xmin=coo[0];
-   xmax=coo[0];
-   for (int i=1;i<nnoe;i++)
-   {
-      xmin = std::min(xmin,coo[i]);
-      xmax = std::max(xmax,coo[i]);
-   }
-//
-   if (spacedim > 1)
-   {
-       ymin=coo[nnoe]; ymax=coo[nnoe];
-       for (int i=nnoe+1;i<2*nnoe;i++)
-       {
-           ymin = std::min(ymin,coo[i]);
-           ymax = std::max(ymax,coo[i]);
-       }
-   }
-   else
-   {
-       ymin=0;
-       ymax=0;
-       zmin=0;
-       zmax=0;
-   }
-//
-   if (spacedim > 2)
-   {
-       zmin=coo[2*nnoe]; zmax=coo[2*nnoe];
-       for (int i=2*nnoe+1;i<3*nnoe;i++)
-       {
-           zmin = std::min(zmin,coo[i]);
-           zmax = std::max(zmax,coo[i]);
-       }
-   }
-   else
-   {
-       zmin=0;
-       zmax=0;
-   }
-   MEDfileClose(medIdt);
+    // Calcul des extremes
+    med_float xmin,xmax,ymin,ymax,zmin,zmax;
 
-   MESSAGE( "_______________________________________");
-   MESSAGE( "xmin : " << xmin << " xmax : " << xmax );
-   MESSAGE( "ymin : " << ymin << " ymax : " << ymax );
-   MESSAGE( "zmin : " << zmin << " zmax : " << zmax );
-   MESSAGE( "_______________________________________" );
-   double epsilon = 1.e-6 ;
-   LesExtremes.push_back(xmin);
-   LesExtremes.push_back(xmax);
-   LesExtremes.push_back(0);
-   LesExtremes.push_back(ymin);
-   LesExtremes.push_back(ymax);
-   LesExtremes.push_back(0);
-   LesExtremes.push_back(zmin);
-   LesExtremes.push_back(zmax);
-   LesExtremes.push_back(0);
+    xmin=coo[0];
+    xmax=coo[0];
+    for (int i=1;i<nnoe;i++)
+    {
+        xmin = std::min(xmin,coo[i]);
+        xmax = std::max(xmax,coo[i]);
+    }
+  //
+    if (spacedim > 1)
+    {
+        ymin=coo[nnoe]; ymax=coo[nnoe];
+        for (int i=nnoe+1;i<2*nnoe;i++)
+        {
+            ymin = std::min(ymin,coo[i]);
+            ymax = std::max(ymax,coo[i]);
+        }
+    }
+    else
+    {
+        ymin=0;
+        ymax=0;
+        zmin=0;
+        zmax=0;
+    }
+//
+    if (spacedim > 2)
+    {
+        zmin=coo[2*nnoe]; zmax=coo[2*nnoe];
+        for (int i=2*nnoe+1;i<3*nnoe;i++)
+        {
+            zmin = std::min(zmin,coo[i]);
+            zmax = std::max(zmax,coo[i]);
+        }
+    }
+    else
+    {
+        zmin=0;
+        zmax=0;
+    }
+
+    MESSAGE( "_______________________________________");
+    MESSAGE( "xmin : " << xmin << " xmax : " << xmax );
+    MESSAGE( "ymin : " << ymin << " ymax : " << ymax );
+    MESSAGE( "zmin : " << zmin << " zmax : " << zmax );
+    MESSAGE( "_______________________________________" );
+    double epsilon = 1.e-6 ;
+    LesExtremes.push_back(xmin);
+    LesExtremes.push_back(xmax);
+    LesExtremes.push_back(0);
+    LesExtremes.push_back(ymin);
+    LesExtremes.push_back(ymax);
+    LesExtremes.push_back(0);
+    LesExtremes.push_back(zmin);
+    LesExtremes.push_back(zmax);
+    LesExtremes.push_back(0);
 
 
    double max1=std::max ( LesExtremes[1] - LesExtremes[0] , LesExtremes[4] - LesExtremes[3] ) ;
@@ -298,42 +305,30 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
 // On fait un traitement pour dans le cas d'une coordonnee constante
 // inhiber ce cas en mettant un increment negatif
 //
-   double diff = LesExtremes[1] - LesExtremes[0];
-   if (fabs(diff)  > epsilon*max2)
-   {
-      LesExtremes[2] = diff/100.;
-   }
-   else
-   {
-      LesExtremes[2] = -1. ;
-   }
+    double diff = LesExtremes[1] - LesExtremes[0];
+    if ( fabs(diff) > epsilon*max2 ) { LesExtremes[2] = diff/100.; }
+    else                             { LesExtremes[2] = -1. ; }
 
-   diff = LesExtremes[4] - LesExtremes[3];
-   if (fabs(diff)  > epsilon*max2)
-   {
-      LesExtremes[5]=diff/100.;
-   }
-   else
-   {
-      LesExtremes[5] = -1. ;
-   }
+    diff = LesExtremes[4] - LesExtremes[3];
+    if ( fabs(diff) > epsilon*max2 ) { LesExtremes[5]=diff/100.; }
+    else                             { LesExtremes[5] = -1. ; }
 
-   diff = LesExtremes[7] - LesExtremes[6];
-   if (fabs(diff)  > epsilon*max2)
-   {
-      LesExtremes[8]=diff/100.;
-   }
-   else
-   {
-      LesExtremes[8] = -1. ;
-   }
+    diff = LesExtremes[7] - LesExtremes[6];
+    if ( fabs(diff) > epsilon*max2 ) { LesExtremes[8]=diff/100.; }
+    else                             { LesExtremes[8] = -1. ;  }
 
-   MESSAGE ( "_______________________________________" );
-   MESSAGE ( "xmin : " << LesExtremes[0] << " xmax : " << LesExtremes[1] << " xincr : " << LesExtremes[2] );
-   MESSAGE ( "ymin : " << LesExtremes[3] << " ymax : " << LesExtremes[4] << " yincr : " << LesExtremes[5] );
-   MESSAGE ( "zmin : " << LesExtremes[6] << " zmax : " << LesExtremes[7] << " zincr : " << LesExtremes[8] );
-   MESSAGE ( "dmax : " << LesExtremes[9] );
-   MESSAGE ( "_______________________________________" );
+    MESSAGE ( "_______________________________________" );
+    MESSAGE ( "xmin : " << LesExtremes[0] << " xmax : " << LesExtremes[1] << " xincr : " << LesExtremes[2] );
+    MESSAGE ( "ymin : " << LesExtremes[3] << " ymax : " << LesExtremes[4] << " yincr : " << LesExtremes[5] );
+    MESSAGE ( "zmin : " << LesExtremes[6] << " zmax : " << LesExtremes[7] << " zincr : " << LesExtremes[8] );
+    MESSAGE ( "dmax : " << LesExtremes[9] );
+    MESSAGE ( "_______________________________________" );
+
+    free(coo) ;
+    break ;
+  }
+  // Fermeture du fichier
+  if ( medIdt > 0 ) MEDfileClose(medIdt);
 
    return  LesExtremes;
 }

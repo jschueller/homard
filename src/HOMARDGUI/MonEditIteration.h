@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,8 @@
 #ifndef MON_EDITITERATION_H
 #define MON_EDITITERATION_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,13 +30,13 @@
 
 #include <MonCreateIteration.h>
 
-class MonEditIteration : public MonCreateIteration
+class HOMARD_EXPORT MonEditIteration : public MonCreateIteration
 {
     Q_OBJECT
 public:
     MonEditIteration( QWidget* parent, bool modal,
                       HOMARD::HOMARD_Gen_var myHomardGen,
-                      QString IterParentName, QString IterName );
+                      QString IterParentName, QString Name );
     virtual ~MonEditIteration();
 
 protected :
@@ -45,7 +47,7 @@ protected :
     int _step ;
 
     virtual void InitValEdit();
-    virtual void InitValEdit0();
+    virtual void InitValEdit0(int etat);
     virtual bool PushOnApply();
 
 public slots:

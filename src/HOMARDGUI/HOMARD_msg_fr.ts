@@ -8,40 +8,60 @@
         <translation>HOMARD</translation>
     </message>
     <message>
+        <source>HOM_MEN_MODIFICATION</source>
+        <translation>Modification</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_INFORMATION</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
         <source>HOM_MEN_NEW_CASE</source>
         <translation>Nouveau cas</translation>
     </message>
     <message>
         <source>HOM_MEN_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_PURSUE_ITERATION</source>
+        <translation>Cas de poursuite d&apos;une itération</translation>
     </message>
     <message>
         <source>HOM_MEN_COMPUTE</source>
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_MEN_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
+        <source>HOM_MEN_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
+        <source>HOM_MEN_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
+        <source>HOM_MEN_MESH_INFO</source>
+        <translation>Analyse de maillage</translation>
     </message>
     <message>
-        <source>HOM_MEN_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_MEN_MESH_PUBLICATION</source>
+        <translation>Publication du maillage</translation>
     </message>
     <message>
         <source>HOM_MEN_EDIT_MESS_FILE</source>
         <translation>Afficher le fichier</translation>
+    </message>
+    <message>
+        <source>HOM_MEN_WRITE</source>
+        <translation>Ecrire</translation>
     </message>
     <message>
         <source>HOM_TOP_HOMARD</source>
@@ -53,31 +73,27 @@
     </message>
     <message>
         <source>HOM_TOP_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
+    </message>
+    <message>
+        <source>HOM_TOP_PURSUE_ITERATION</source>
+        <translation>Cas de poursuite d&apos;une itération</translation>
     </message>
     <message>
         <source>HOM_TOP_COMPUTE</source>
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_TOP_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
+        <source>HOM_TOP_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_TOP_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
-    </message>
-    <message>
-        <source>HOM_TOP_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_TOP_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>HOM_TOP_EDIT_MESS_FILE</source>
@@ -93,31 +109,27 @@
     </message>
     <message>
         <source>HOM_STB_NEW_ITERATION</source>
-        <translation>Nouvelle itération</translation>
+        <translation>Itération suivante</translation>
+    </message>
+    <message>
+        <source>HOM_STB_PURSUE_ITERATION</source>
+        <translation>Cas de poursuite d&apos;une itération</translation>
     </message>
     <message>
         <source>HOM_STB_COMPUTE</source>
         <translation>Calculer</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_CASE</source>
-        <translation>Editer le cas</translation>
+        <source>HOM_STB_COMPUTE_PUBLISH</source>
+        <translation>Calculer et publier</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_ITERATION</source>
-        <translation>Editer l&apos;itération</translation>
+        <source>HOM_STB_EDIT</source>
+        <translation>Editer</translation>
     </message>
     <message>
-        <source>HOM_STB_EDIT_HYPO</source>
-        <translation>Editer l&apos;hypothèse</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_ZONE</source>
-        <translation>Editer la zone</translation>
-    </message>
-    <message>
-        <source>HOM_STB_EDIT_BOUNDARY</source>
-        <translation>Editer la frontière</translation>
+        <source>HOM_STB_DELETE</source>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>HOM_STB_EDIT_MESS_FILE</source>
@@ -200,12 +212,24 @@
         <translation>Sélectionner un objet de type %1.</translation>
     </message>
     <message>
+        <source>HOM_SELECT_FILE_0</source>
+        <translation>Choix de fichier</translation>
+    </message>
+    <message>
         <source>HOM_SELECT_FILE_1</source>
         <translation>Sélectionner un fichier.</translation>
     </message>
     <message>
         <source>HOM_SELECT_FILE_2</source>
         <translation>Sélectionner un seul fichier.</translation>
+    </message>
+    <message>
+        <source>HOM_SELECT_FILE_3</source>
+        <translation>Impossible d&apos;ouvrir ce fichier.</translation>
+    </message>
+    <message>
+        <source>HOM_SCRIPT_FILE</source>
+        <translation>Il faut donner un fichier pour le script python.</translation>
     </message>
     <message>
         <source>HOM_MED_FILE_1</source>
@@ -249,11 +273,23 @@
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_2</source>
-        <translation>Ce répertoire est déjà utilisé.</translation>
+        <translation>Ce répertoire est déjà utilisé par le cas </translation>
     </message>
     <message>
         <source>HOM_CASE_DIRECTORY_3</source>
         <translation>Un répertoire valide doit être choisi.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_DIRECTORY_4</source>
+        <translation>Il faut choisir un répertoire de travail pour le calcul.</translation>
+    </message>
+    <message>
+        <source>HOM_START_DIRECTORY_1</source>
+        <translation>Il faut choisir un répertoire contenant l&apos;itération à poursuivre.</translation>
+    </message>
+    <message>
+        <source>HOM_START_DIRECTORY_3</source>
+        <translation>Un répertoire valide contenant l&apos;itération à poursuivre doit être choisi.</translation>
     </message>
     <message>
         <source>HOM_CASE_MESH</source>
@@ -266,6 +302,30 @@
     <message>
         <source>HOM_CASE_EDIT_WINDOW_TITLE</source>
         <translation>Edition d&apos;un cas</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_EDIT_STATE_0</source>
+        <translation>Maillage initial.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_EDIT_STATE</source>
+        <translation>Poursuite d&apos;une itération.</translation>
+    </message>
+    <message>
+        <source>HOM_CASE_PURSUE_WINDOW_TITLE</source>
+        <translation>Cas de poursuite d&apos;une itération</translation>
+    </message>
+    <message>
+        <source>The configuration file cannot be found.</source>
+        <translation>Le fichier de configuration de HOMARD est introuvable.</translation>
+    </message>
+    <message>
+        <source>The configuration file cannot be read.</source>
+        <translation>Le fichier de configuration de HOMARD est illisible.</translation>
+    </message>
+    <message>
+        <source>The HOMARD mesh file cannot be found.</source>
+        <translation>Le fichier de maillage de HOMARD est introuvable.</translation>
     </message>
     <message>
         <source>HOM_ITER_NAME</source>
@@ -293,7 +353,11 @@
     </message>
     <message>
         <source>HOM_ITER_STARTING_POINT_1</source>
-        <translation>Itération initiale du cas</translation>
+        <translation>Itération initiale du cas.</translation>
+    </message>
+    <message>
+        <source>HOM_ITER_STARTING_POINT_2</source>
+        <translation>Itération initiale du cas pour la poursuite.</translation>
     </message>
     <message>
         <source>HOM_ITER_EDIT_WINDOW_TITLE</source>
@@ -322,6 +386,10 @@
     <message>
         <source>Non conformal option</source>
         <translation>Option de non conformité</translation>
+    </message>
+    <message>
+        <source>Conformity +</source>
+        <translation>Conformité +</translation>
     </message>
     <message>
         <source>Free</source>
@@ -356,6 +424,26 @@
         <translation>Niveau maximal</translation>
     </message>
     <message>
+        <source>Output of the level of refinement</source>
+        <translation>Sortie du niveau de raffinement</translation>
+    </message>
+    <message>
+        <source>Output of the qualities</source>
+        <translation>Sortie des qualités</translation>
+    </message>
+    <message>
+        <source>Output of the diameters</source>
+        <translation>Sortie des diamètres</translation>
+    </message>
+    <message>
+        <source>Output of the parents</source>
+        <translation>Sortie des parents</translation>
+    </message>
+    <message>
+        <source>Output of the neighbours</source>
+        <translation>Sortie des voisins</translation>
+    </message>
+    <message>
         <source>Create an iteration</source>
         <translation>Création d&apos;une itération</translation>
     </message>
@@ -366,6 +454,78 @@
     <message>
         <source>Previous iteration</source>
         <translation>Itération précédente</translation>
+    </message>
+    <message>
+        <source>Invalid boundary</source>
+        <translation>Frontière non valable</translation>
+    </message>
+    <message>
+        <source>Invalid case</source>
+        <translation>Cas non valable</translation>
+    </message>
+    <message>
+        <source>Invalid case context</source>
+        <translation>Cas contextuel non valable</translation>
+    </message>
+    <message>
+        <source>Invalid hypothesis</source>
+        <translation>Hypothèse non valable</translation>
+    </message>
+    <message>
+        <source>Invalid iteration</source>
+        <translation>Itération non valable</translation>
+    </message>
+    <message>
+        <source>Invalid zone</source>
+        <translation>Zone non valable</translation>
+    </message>
+    <message>
+        <source>This boundary has already been defined.</source>
+        <translation>Cette frontière est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This case has already been defined.</source>
+        <translation>Ce cas est déjà défini.</translation>
+    </message>
+    <message>
+        <source>This hypothesis has already been defined.</source>
+        <translation>Cette hypothèse est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This iteration has already been defined.</source>
+        <translation>Cette itération est déjà définie.</translation>
+    </message>
+    <message>
+        <source>This zone has already been defined.</source>
+        <translation>Cette zone est déjà définie.</translation>
+    </message>
+    <message>
+        <source>The parent iteration is not defined.</source>
+        <translation>L&apos;itération parent n&apos;est pas définie.</translation>
+    </message>
+    <message>
+        <source>Unable to create the iteration.</source>
+        <translation>Impossible de créer l&apos;itération.</translation>
+    </message>
+    <message>
+        <source>The directory for the computation cannot be created.</source>
+        <translation>Impossible de créer le répertoire pour le calcul de l&apos;itération.</translation>
+    </message>
+    <message>
+        <source>This iteration is the first of the case and cannot be computed.</source>
+        <translation>Cette itération définit le point de départ du cas. Elle ne peut pas être calculée.</translation>
+    </message>
+    <message>
+        <source>This iteration does not have any associated hypothesis.</source>
+        <translation>Cette itération n&apos;est associée à aucune hypothèse.</translation>
+    </message>
+    <message>
+        <source>The mesh file does not exist.</source>
+        <translation>Le fichier du maillage n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>The mesh file cannot be deleted.</source>
+        <translation>Impossible de supprimer le fichier du maillage.</translation>
     </message>
     <message>
         <source>Mesh n</source>
@@ -520,8 +680,16 @@
         <translation>Pourcentage de mailles</translation>
     </message>
     <message>
+        <source>Mean + n*(std deviation)</source>
+        <translation>Moyenne + n*(ecart-type)</translation>
+    </message>
+    <message>
         <source>No refinement</source>
         <translation>Sans raffinement</translation>
+    </message>
+    <message>
+        <source>Mean - n*(std deviation)</source>
+        <translation>Moyenne - n*(ecart-type)</translation>
     </message>
     <message>
         <source>No coarsening</source>
@@ -608,8 +776,20 @@
         <translation>Type de la frontière</translation>
     </message>
     <message>
+        <source>Torus</source>
+        <translation>Tore</translation>
+    </message>
+    <message>
         <source>Radius</source>
         <translation>Rayon</translation>
+    </message>
+    <message>
+        <source>Radius 1</source>
+        <translation>Rayon 1</translation>
+    </message>
+    <message>
+        <source>Radius 2</source>
+        <translation>Rayon 2</translation>
     </message>
     <message>
         <source>External radius</source>
@@ -634,6 +814,14 @@
     <message>
         <source>Z axis</source>
         <translation>Z axe</translation>
+    </message>
+    <message>
+        <source>R revolution</source>
+        <translation>R révolution</translation>
+    </message>
+    <message>
+        <source>Primary R</source>
+        <translation>R primaire</translation>
     </message>
     <message>
         <source>HOM_BOUN_NAME</source>
@@ -664,6 +852,70 @@
         <translation>Groupes choisis</translation>
     </message>
     <message>
+        <source>The height must be positive.</source>
+        <translation>La hauteur doit être positive.</translation>
+    </message>
+    <message>
+        <source>The radius must be positive.</source>
+        <translation>Un rayon doit être positif.</translation>
+    </message>
+    <message>
+        <source>The axis must be a non 0 vector.</source>
+        <translation>L&apos;axe doit être un vecteur non nul.</translation>
+    </message>
+    <message>
+        <source>The angle must be included higher than 0 degree and lower than 90 degrees.</source>
+        <translation>L&apos;angle doit être compris entre 0 et 90 degrés.</translation>
+    </message>
+    <message>
+        <source>The radius must be different.</source>
+        <translation>Les rayons doivent être différents.</translation>
+    </message>
+    <message>
+        <source>The centers must be different.</source>
+        <translation>Les centres doivent être différents.</translation>
+    </message>
+    <message>
+        <source>The external radius must be higher than the internal radius.</source>
+        <translation>Le rayon externe doit être supérieur au rayon interne.</translation>
+    </message>
+    <message>
+        <source>The X coordinates are not coherent.</source>
+        <translation>Les coordonnées en X ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The Y coordinates are not coherent.</source>
+        <translation>Les coordonnées en Y ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The Z coordinates are not coherent.</source>
+        <translation>Les coordonnées en Z ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The first coordinates are not coherent.</source>
+        <translation>Les premières coordonnées ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The second coordinates are not coherent.</source>
+        <translation>Les secondes coordonnées ne sont pas cohérentes.</translation>
+    </message>
+    <message>
+        <source>The orientation must be 1, 2 or 3.</source>
+        <translation>L&apos;orientation vaut 1, 2 ou 3.</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_0</source>
+        <translation>Analyse de maillage</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_1</source>
+        <translation>Choisir au moins une option.</translation>
+    </message>
+    <message>
+        <source>HOM_MESH_INFO_2</source>
+        <translation>Bilan de l&apos;analyse dans l&apos;arbre d&apos;études, fichier </translation>
+    </message>
+    <message>
         <source>Filtering with groups</source>
         <translation>Filtrage par les groupes</translation>
     </message>
@@ -680,12 +932,212 @@
         <translation>Groupe</translation>
     </message>
     <message>
+        <source>Information on a mesh</source>
+        <translation>Analyse d&apos;un maillage</translation>
+    </message>
+    <message>
+        <source>Group size</source>
+        <translation>Taille des domaines</translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation>Qualité</translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation>Connexité</translation>
+    </message>
+    <message>
+        <source>Diametre</source>
+        <translation>Diamètre</translation>
+    </message>
+    <message>
+        <source>Entanglement</source>
+        <translation>Interpénétration</translation>
+    </message>
+    <message>
+        <source>No change is allowed in a boundary. Ask for evolution.</source>
+        <translation>Impossible de changer une donnée dans une frontière. Demander une évolution.</translation>
+    </message>
+    <message>
+        <source>This boundary is used in a case and cannot be deleted.</source>
+        <translation>Cette frontière est utilisée dans un cas ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This hypothesis is used and cannot be deleted.</source>
+        <translation>Cette hypothèse est utilisée dans une itération ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This iteration cannot be deleted.</source>
+        <translation>Cette itération ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>This zone is used in an hypothesis and cannot be deleted.</source>
+        <translation>Cette zone est utilisée dans une hypothèse ; elle ne peut pas être détruite.</translation>
+    </message>
+    <message>
+        <source>The directory for the calculation cannot be cleared.</source>
+        <translation>Menage du repertoire de calcul impossible</translation>
+    </message>
+    <message>
+        <source>Starting point</source>
+        <translation>Point de départ</translation>
+    </message>
+    <message>
+        <source>From an iteration</source>
+        <translation>A partir d&apos;une itération</translation>
+    </message>
+    <message>
+        <source>From a case</source>
+        <translation>A partir d&apos;un cas</translation>
+    </message>
+    <message>
+        <source>Iteration into the case</source>
+        <translation>Choix d&apos;une itération dans le cas</translation>
+    </message>
+    <message>
+        <source>Last iteration</source>
+        <translation>A partir de la dernière itération</translation>
+    </message>
+    <message>
+        <source>Iteration number</source>
+        <translation>A partir d&apos;une itération numérotée</translation>
+    </message>
+    <message>
+        <source>The directory of the case does not exist.</source>
+        <translation>Le répertoire du cas n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>The directory for the case cannot be modified because some iterations are already defined.</source>
+        <translation>Impossible de changer le répertoire du cas car des itérations ont déjà été définies.</translation>
+    </message>
+    <message>
+        <source>The directory for the case cannot be reached.</source>
+        <translation>Impossible d&apos;atteindre ce répertoire pour le cas.</translation>
+    </message>
+    <message>
+        <source>The starting point for the case cannot be copied into the working directory.</source>
+        <translation>Impossible de copier le point de départ du cas dans le répertoire de travail.</translation>
+    </message>
+    <message>
+        <source>The starting point for the case cannot be moved into the new directory.</source>
+        <translation>Impossible de déplacer le point de départ du cas dans le nouveau répertoire.</translation>
+    </message>
+    <message>
+        <source>The directory of the case for the pursuit does not exist.</source>
+        <translation>Le répertoire du cas de reprise n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>The directory of the iteration does not exist.</source>
+        <translation>Le répertoire de l&apos;itération de reprise n&apos;existe pas.</translation>
+    </message>
+    <message>
+        <source>The number of iteration must be positive.</source>
+        <translation>Le numéro de l&apos;itération doit etre positif.</translation>
+    </message>
+    <message>
+        <source>Number of iteration</source>
+        <translation>Numéro de l&apos;itération</translation>
+    </message>
+    <message>
+        <source>Case</source>
+        <translation>Cas</translation>
+    </message>
+    <message>
+        <source>Mesh file</source>
+        <translation>Maillage initial</translation>
+    </message>
+    <message>
+        <source>Constant</source>
+        <translation>Constant</translation>
+    </message>
+    <message>
+        <source>Variable</source>
+        <translation>Variable</translation>
+    </message>
+    <message>
+        <source>Type of schema</source>
+        <translation>Type de schema</translation>
+    </message>
+    <message>
+        <source>Maximum of ...</source>
+        <translation>Maximum de ...</translation>
+    </message>
+    <message>
+        <source>Iterations</source>
+        <translation>Itérations</translation>
+    </message>
+    <message>
+        <source>Nodes</source>
+        <translation>Noeuds</translation>
+    </message>
+    <message>
+        <source>Elements</source>
+        <translation>Eléments</translation>
+    </message>
+    <message>
+        <source>Test of convergence</source>
+        <translation>Test de convergence</translation>
+    </message>
+    <message>
         <source>Edit a file</source>
         <translation>Affichage d&apos;un fichier</translation>
     </message>
     <message>
         <source>Print</source>
         <translation>Imprimer</translation>
+    </message>
+    <message>
+        <source>Invalid study context</source>
+        <translation>Etude contextuelle non valable</translation>
+    </message>
+    <message>
+        <source>HOM_YACS_EDIT_WINDOW_TITLE</source>
+        <translation>Edition d&apos;un schéma YACS</translation>
+    </message>
+    <message>
+        <source>PREF_TAB_GENERAL</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION</source>
+        <translation>Publication</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_IN</source>
+        <translation>Les maillages d&apos;entrée</translation>
+    </message>
+    <message>
+        <source>PREF_PUBLICATION_MAILLAGE_OUT</source>
+        <translation>Les maillages de sortie</translation>
+    </message>
+    <message>
+        <source>PREF_YACS</source>
+        <translation>YACS</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX</source>
+        <translation>Nombres maximum</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ITER</source>
+        <translation>Itérations</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_NODE</source>
+        <translation>Noeuds</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_MAX_ELEM</source>
+        <translation>Eléments</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_CONVERGENCE</source>
+        <translation>Convergence</translation>
+    </message>
+    <message>
+        <source>PREF_YACS_TYPE_TEST</source>
+        <translation>Type de test</translation>
     </message>
 </context>
 </TS>

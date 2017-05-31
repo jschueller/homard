@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditFile.h"
 
 #include <QFile>
@@ -29,6 +27,8 @@ using namespace std;
 #include "HOMARDGUI_Utils.h"
 #include "HomardQtCommun.h"
 #include <utilities.h>
+
+using namespace std;
 
 /* ---------------------------------------------------------
  * MonEditFile classe derivee de EditFile
@@ -44,10 +44,12 @@ using namespace std;
  */
 MonEditFile::MonEditFile( QWidget* parent,  bool modal,
                           HOMARD::HOMARD_Gen_var myHomardGen,
-                          QString aFileName):
+                          QString aFileName, int option):
 //    QWidget(0),
     Ui_EditFile(),
-    _aFileName (aFileName)
+    _aFileName (aFileName),
+    _option (option),
+    _codret (0)
 {
   MESSAGE("Debut de MonEditFile " << aFileName.toStdString().c_str());
   setupUi(this);
@@ -82,19 +84,26 @@ void MonEditFile::EditText()
 // Lecture
 //    Remarque : il serait plus clair de tout lire d'un coup mais cela ne marche pas !
 //               alors on fait ligne par ligne et on cumule en ajoutant un saut de ligne.
-      QTextStream stream( &file );
-      QString tout;
-      while ( !stream.atEnd() )
-      {
-        tout = tout + stream.readLine() + "\n" ;
-      }
+    QTextStream stream( &file );
+    QString tout;
+    while ( !stream.atEnd() )
+    {
+      tout = tout + stream.readLine() + "\n" ;
+    }
 //       tout = stream.readAll() ;
-      QTBEditFile->setPlainText( tout );
+    QTBEditFile->setPlainText( tout );
   }
   else
   {
-     // GERALD -- QMESSAGE BOX
-     MESSAGE( "EditText " << _aFileName.toStdString().c_str() << "est impossible a ouvrir ");
+    // Option = 0 : emission d'un message d'erreur
+    if ( _option == 0 )
+    {
+      MESSAGE( "EditText " << _aFileName.toStdString().c_str() << " est impossible a ouvrir ");
+      QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                              QObject::tr("HOM_SELECT_FILE_3") );
+    }
+    // Sinon : rien
+    _codret = 1 ;
   }
 }
 // ------------------------------------------------------------------------

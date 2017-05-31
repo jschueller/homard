@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 
-# Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+# Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
-# version 2.1 of the License.
+# version 2.1 of the License, or (at your option) any later version.
 #
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,15 +22,24 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.2"
+__revision__ = "V2.1"
+#
+import os
+import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_5.00.med, tutorial_5.fr.med
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med
-dircase = "/tmp"
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
+from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+DIRCASE = creation_dircase(5)
+gzip_gunzip(DATA_TUTORIAL, 5, -1)
 # ==================================
 #
 import salome
@@ -41,52 +50,53 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Creation of the boundaries
-# ==========================
-# Creation of the discrete boundary Boun_1
-Boun_1 = homard.CreateBoundaryDi('Boun_1', 'MAIL_EXT', dircase+'/tutorial_5.fr.med')
+# Frontiere
+# =========
+# Creation of the discrete boundary boun_5_1
+boun_5_1 = homard.CreateBoundaryDi('boun_5_1', 'MAIL_EXT', DATA_TUTORIAL+'/tutorial_5.fr.med')
 #
-# Creation of the zones
-# =====================
+# Creation des zones
+# ==================
 # Creation of the disk with hole enveloppe
 enveloppe = homard.CreateZoneDiskWithHole( 'enveloppe', 0., 0., 250., 193., 1 )
 # Creation of the rectangle quart_sup
 quart_sup = homard.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
 #
-# Hypothesis
+# Hypotheses
 # ==========
-# Creation of the hypothesis Hypo_1
-Hypo_1 = homard.CreateHypothesis('Hypo_1')
-Hypo_1.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('enveloppe', 'Hypo_1')
-# Creation of the hypothesis Hypo_2
-Hypo_2 = homard.CreateHypothesis('Hypo_2')
-Hypo_2.SetAdapRefinUnRef(0, 1, 0)
-homard.AssociateHypoZone('quart_sup', 'Hypo_2')
+# Creation of the hypothesis hypo_5
+hypo_5 = homard.CreateHypothesis('hypo_5')
+hypo_5.AddZone('enveloppe', 1)
+# Creation of the hypothesis hypo_5_bis
+hypo_5_bis = homard.CreateHypothesis('hypo_5_bis')
+hypo_5_bis.AddZone('quart_sup', 1)
 #
-# Case "Case_1"
-# =============
-Case_1 = homard.CreateCase('Case_1', 'COEUR_2D', dircase+'/tutorial_5.00.med')
-Case_1.SetDirName(dircase)
-Case_1.SetConfType(3)
-Case_1.AddBoundaryGroup('Boun_1', '')
+# Cas
+# ===
+case_5 = homard.CreateCase('Case_5', 'COEUR_2D', DATA_TUTORIAL+'/tutorial_5.00.med')
+case_5.SetDirName(DIRCASE)
+case_5.SetConfType(3)
+case_5.AddBoundaryGroup('boun_5_1', '')
 #
-# Iteration "Iter_1"
-# ==================
-Iter_1 = homard.CreateIteration('Iter_1', Case_1.GetIter0Name())
-Iter_1.SetMeshName('COEUR_2D_01')
-Iter_1.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_1')
-codret = Iter_1.Compute(1)
+# Iteration "iter_5_1"
+# ====================
+iter_5_1 = case_5.NextIteration('iter_5_1')
+iter_5_1.SetMeshName('COEUR_2D_01')
+iter_5_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_5_1.AssociateHypo('hypo_5')
+error = iter_5_1.Compute(1, 2)
 #
-# Iteration "Iter_2"
-# ==================
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
-Iter_2.SetMeshName('COEUR_2D_02')
-Iter_2.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_2', 'Hypo_2')
-codret = Iter_2.Compute(1)
+# Iteration "iter_5_2"
+# ====================
+iter_5_2 = iter_5_1.NextIteration('iter_5_2')
+iter_5_2.SetMeshName('COEUR_2D_02')
+iter_5_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_5_2.AssociateHypo('hypo_5_bis')
+error = iter_5_2.Compute(1, 2)
 
+# ==================================
+gzip_gunzip(DATA_TUTORIAL, 5, 1)
+# ==================================
 
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(1)
+  salome.sg.updateObjBrowser(True)

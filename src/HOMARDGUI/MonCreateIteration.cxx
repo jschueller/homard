@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonCreateIteration.h"
 #include "MonCreateHypothesis.h"
 #include "MonEditHypothesis.h"
@@ -31,36 +29,37 @@ using namespace std;
 #include "HomardQtCommun.h"
 #include <utilities.h>
 
+using namespace std;
 
 // -----------------------------------------------------------------------------------------------------
 MonCreateIteration::MonCreateIteration(QWidget* parent, bool modal,
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString IterParentName ):
+                                       HOMARD::HOMARD_Gen_var myHomardGen0, QString IterParentName ):
 // -----------------------------------------------------------------------------------------------------
 /* Constructs a MonCreateIteration
  * Inherits from CasHomard
  * Sets attributes to default values
  */
-    QDialog(0),
+    QScrollArea(0),
     Ui_CreateIteration(),
-    _IterationName(""),
+    _Name(""),
     _IterParentName(IterParentName),
     _CaseName("")
     {
       MESSAGE("Constructeur");
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
       setupUi(this);
-      setModal(modal);
+      if ( modal ) { setWindowModality(Qt::WindowModal); }
+      else         { setWindowModality(Qt::NonModal); }
       InitConnect();
 
-      SetNewIterationName();
+      SetNewName();
       GetHypotheses();
-      if (_IterParentName != QString(""))
-         { SetIterParentName(); }
-      else
-         {setModal(false); /* permet selection de l iteration dans l arbre d etude */}
+      if (_IterParentName != QString("")) { SetIterParentName(); }
+      else                                { setWindowModality(Qt::NonModal) ; /* permet selection de l'iteration dans l arbre d etude */}
       SetTSNo();
+//
+      adjustSize();
     }
-
 // ------------------------------------------------------------------------
 MonCreateIteration::~MonCreateIteration()
 // ------------------------------------------------------------------------
@@ -88,22 +87,21 @@ void MonCreateIteration::InitConnect()
 void MonCreateIteration::GetHypotheses()
 // ------------------------------------------------------------------------
 {
-     HOMARD::listeHypotheses_var  mesHypotheses = _myHomardGen->GetAllHypotheses();
+     HOMARD::listeHypotheses_var  mesHypotheses = myHomardGen->GetAllHypothesesName();
      for (int i=0; i<mesHypotheses->length(); i++)
      {
          CBHypothese->addItem(QString(mesHypotheses[i]));
      }
 }
-
 // ------------------------------------------------------------------------
 bool MonCreateIteration::PushOnApply()
 // ------------------------------------------------------------------------
 // Appele lorsque l'un des boutons Ok ou Apply est presse
 {
-  MESSAGE("MonCreateIteration::PushOnApply");
+  MESSAGE("PushOnApply");
 //
-  QString aIterationName = LEIterationName->text().trimmed();
-  if ( aIterationName == QString (""))
+  QString aName = LEName->text().trimmed();
+  if ( aName == QString (""))
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_ITER_NAME") );
@@ -130,10 +128,10 @@ bool MonCreateIteration::PushOnApply()
                               QObject::tr("HOM_ITER_HYPO") );
     return false;
   }
-  HOMARD::HOMARD_Hypothesis_var _myHypothesis = _myHomardGen->GetHypothesis(monHypoName.toStdString().c_str());
+  HOMARD::HOMARD_Hypothesis_var _myHypothesis = myHomardGen->GetHypothesis(monHypoName.toStdString().c_str());
   HOMARD::listeTypes_var ListTypes (_myHypothesis->GetAdapRefinUnRef());
   int TypeAdap = ListTypes[0];
-  if ( TypeAdap == 1 and LEFieldFile->text().trimmed() == QString("") )
+  if ( TypeAdap == 1 && LEFieldFile->text().trimmed() == QString("") )
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_ITER_FIELD_FILE") );
@@ -145,43 +143,42 @@ bool MonCreateIteration::PushOnApply()
   MESSAGE ("_IterParentName.toStdString " << _IterParentName.toStdString() );
 
 // Creation de l'objet CORBA si ce n'est pas deja fait sous le meme nom
-  if (_IterationName != aIterationName)
+  if (_Name != aName)
   {
     try
     {
-      _IterationName = aIterationName;
-      std::cerr << _IterationName.toStdString() << std::endl;
-      aIter = _myHomardGen->CreateIteration( \
-               CORBA::string_dup(_IterationName.toStdString().c_str()),
+      _Name = aName;
+      std::cerr << _Name.toStdString() << std::endl;
+      aIter = myHomardGen->CreateIteration( \
+               CORBA::string_dup(_Name.toStdString().c_str()),
                CORBA::string_dup(_IterParentName.toStdString().c_str()));
     }
     catch( SALOME::SALOME_Exception& S_ex )
     {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                QString(CORBA::string_dup(S_ex.details.text)) );
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
        return false;
     }
   }
-
 // Mise en place des attributs
-  const char* IterName = aIter->GetName() ;
-  std::cerr << IterName << std::endl;
+  std::string IterName = aIter->GetName() ;
 
   if ( LEFieldFile->text().trimmed() != QString(""))
   {
     QString FieldFile=LEFieldFile->text().trimmed();
+    aIter->SetFieldFile(CORBA::string_dup(FieldFile.toStdString().c_str()));
     int rank = SpinBox_Rank->value();
     int step = SpinBox_TimeStep->value();
-    aIter->SetFieldFile(CORBA::string_dup(FieldFile.toStdString().c_str()));
-    aIter->SetTimeStepRank(step,rank);
+    if ( step == -2 ) { aIter->SetTimeStepRankLast(); }
+    else              { aIter->SetTimeStepRank(step,rank); }
   }
-  _myHomardGen->AssociateIterHypo (IterName, monHypoName.toStdString().c_str());
+  myHomardGen->AssociateIterHypo (IterName.c_str(), monHypoName.toStdString().c_str());
   aIter->SetMeshName(CORBA::string_dup(aMeshName_np1.toStdString().c_str()));
 
-  HOMARD_UTILS::updateObjBrowser();
+  HOMARD_UTILS::updateObjBrowser() ;
+
   return true;
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushOnOK()
 // ------------------------------------------------------------------------
@@ -189,14 +186,13 @@ void MonCreateIteration::PushOnOK()
      bool bOK = PushOnApply();
      if ( bOK )  this->close();
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_iteration.html"));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_iteration.html"), QString(""), QString(LanguageShort.c_str()));
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetIterParentName()
 // ------------------------------------------------------------------------
@@ -206,7 +202,7 @@ void MonCreateIteration::SetIterParentName()
     if (_IterParentName == QString("")) { raise();return;};
   }
   _CaseName=HOMARD_QT_COMMUN::SelectionCasEtude();
-  HOMARD::HOMARD_Iteration_var aIterParent = _myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
+  HOMARD::HOMARD_Iteration_var aIterParent = myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
   QString MeshName = aIterParent->GetMeshName();
 
   LEMeshName_n->setText(MeshName);
@@ -215,34 +211,31 @@ void MonCreateIteration::SetIterParentName()
 
   LEIterationParentName->setText(_IterParentName);
 }
-
 // -------------------------------------------------
-void MonCreateIteration::SetNewIterationName()
+void MonCreateIteration::SetNewName()
 // --------------------------------------------------
 {
 // Recherche d'un nom par defaut qui n'existe pas encore
 
-  HOMARD::listeIterations_var  myIters=_myHomardGen->GetAllIterations();
+  HOMARD::listeIterations_var  MyObjects=myHomardGen->GetAllIterationsName();
   int num = 0;//
-  QString aIterationName="";
-  while (aIterationName=="" )
+  QString aName="";
+  while (aName=="" )
   {
-    aIterationName.setNum(num+1) ;
-    aIterationName.insert(0, QString("Iter_"));
-    for ( int i=0; i< myIters->length(); i++)
+    aName.setNum(num+1) ;
+    aName.insert(0, QString("Iter_"));
+    for ( int i=0; i< MyObjects->length(); i++)
     {
-      if ( aIterationName ==  QString((myIters)[i]))
+      if ( aName ==  QString((MyObjects)[i]))
       {
-          num=num+1;
-          aIterationName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
-  LEIterationName->setText(aIterationName);
+  LEName->setText(aName);
 }
-
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::PushHypoEdit()
 // ------------------------------------------------------------------------
@@ -256,7 +249,7 @@ void MonCreateIteration::PushHypoEdit()
     return;
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
-  MonEditHypothesis *HypoDlg = new MonEditHypothesis(this,TRUE, HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),CBHypothese->currentText(), _CaseName, aFieldFile) ;
+  MonEditHypothesis *HypoDlg = new MonEditHypothesis(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),CBHypothese->currentText(), _CaseName, aFieldFile) ;
   HypoDlg->show();
 }
 
@@ -280,20 +273,19 @@ void MonCreateIteration::PushHypoNew()
   }
   if ( _CaseName == QString(""))
   {
-        _CaseName = _myHomardGen->GetCaseName(CORBA::string_dup(_IterParentName.toStdString().c_str()));
+    HOMARD::HOMARD_Iteration_var aIterParent = myHomardGen->GetIteration(_IterParentName.toStdString().c_str()) ;
+    _CaseName = aIterParent->GetCaseName();
   }
   QString aFieldFile=LEFieldFile->text().trimmed();
-  MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this,TRUE,HOMARD::HOMARD_Gen::_duplicate(_myHomardGen),QString(""),_CaseName, aFieldFile) ;
+  MonCreateHypothesis *HypoDlg = new MonCreateHypothesis(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), QString(""), _CaseName, aFieldFile) ;
   HypoDlg->show();
 }
-
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetFieldFile()
 // ------------------------------------------------------------------------
-
 {
   QString fileName0 = LEFieldFile->text().trimmed();
-  QString fileName = HOMARD_QT_COMMUN::PushNomFichier(false);
+  QString fileName = HOMARD_QT_COMMUN::PushNomFichier( false, QString("med") ) ;
   if (fileName.isEmpty()) fileName = fileName0 ;
   LEFieldFile->setText(fileName);
   raise();
@@ -301,36 +293,47 @@ void MonCreateIteration::SetFieldFile()
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetTSNo()
 // ------------------------------------------------------------------------
-// Par defaut, on declare que le pas de temps vaut -1
+// Si on ne tient pas compte du pas de temps, on declare que le pas de temps
+// vaut -1, valeur par defaut de med
 {
   Rank->setVisible(0);
   SpinBox_Rank->setVisible(0);
+  SpinBox_Rank->setValue(-1);
+
   TimeStep->setVisible(0);
   SpinBox_TimeStep->setVisible(0);
   SpinBox_TimeStep->setValue(-1);
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetTSLast()
 // ------------------------------------------------------------------------
-// Par defaut, on declare que le pas de temps vaut -2
+// Si on choisit le dernier instant, on declare que le pas de temps vaut -2
 {
   Rank->setVisible(0);
   SpinBox_Rank->setVisible(0);
+  SpinBox_Rank->setValue(-2);
+
   TimeStep->setVisible(0);
   SpinBox_TimeStep->setVisible(0);
   SpinBox_TimeStep->setValue(-2);
+//
   adjustSize();
 }
 // ------------------------------------------------------------------------
 void MonCreateIteration::SetTSChosen()
 // ------------------------------------------------------------------------
+// Si choisit un instant, on prepositionne a 0
 {
   Rank->setVisible(1);
   SpinBox_Rank->setVisible(1);
+  SpinBox_Rank->setValue(0);
+
   TimeStep->setVisible(1);
   SpinBox_TimeStep->setVisible(1);
-  SpinBox_TimeStep->setValue(1);
+  SpinBox_TimeStep->setValue(0);
+//
   adjustSize();
 }
 

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>CreateBoundaryDi</class>
- <widget class="QDialog" name="CreateBoundaryDi" >
-  <property name="geometry" >
+ <widget class="QDialog" name="CreateBoundaryDi">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,66 +10,64 @@
     <height>169</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>0</hsizetype>
-    <vsizetype>0</vsizetype>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Create a discrete boundary</string>
   </property>
-  <property name="autoFillBackground" >
+  <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>6</number>
    </property>
-   <item row="3" column="0" colspan="3" >
-    <widget class="QGroupBox" name="GBButtons" >
-     <property name="title" >
+   <item row="3" column="0" colspan="3">
+    <widget class="QGroupBox" name="GBButtons">
+     <property name="title">
       <string/>
      </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
+     <layout class="QGridLayout">
+      <property name="margin">
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="spacing">
        <number>6</number>
       </property>
-      <item row="0" column="3" >
-       <widget class="QPushButton" name="buttonHelp" >
-        <property name="text" >
+      <item row="0" column="3">
+       <widget class="QPushButton" name="buttonHelp">
+        <property name="text">
          <string>Help</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2" >
-       <widget class="QPushButton" name="buttonCancel" >
-        <property name="text" >
+      <item row="0" column="2">
+       <widget class="QPushButton" name="buttonCancel">
+        <property name="text">
          <string>Cancel</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QPushButton" name="buttonApply" >
-        <property name="text" >
+      <item row="0" column="1">
+       <widget class="QPushButton" name="buttonApply">
+        <property name="text">
          <string>Apply</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QPushButton" name="buttonOk" >
-        <property name="text" >
+      <item row="0" column="0">
+       <widget class="QPushButton" name="buttonOk">
+        <property name="text">
          <string>OK</string>
         </property>
        </widget>
@@ -76,16 +75,16 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3" >
-    <widget class="QCheckBox" name="CBGroupe" >
-     <property name="text" >
+   <item row="2" column="0" colspan="3">
+    <widget class="QCheckBox" name="CBGroupe">
+     <property name="text">
       <string>Filtering with groups</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <widget class="QLineEdit" name="LEFileName" >
-     <property name="minimumSize" >
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="LEFileName">
+     <property name="minimumSize">
       <size>
        <width>370</width>
        <height>21</height>
@@ -93,36 +92,36 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QPushButton" name="PushFichier" >
-     <property name="text" >
+   <item row="1" column="1">
+    <widget class="QPushButton" name="PushFichier">
+     <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="Mesh" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="Mesh">
+     <property name="text">
       <string>Mesh</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
-    <widget class="QLineEdit" name="LEBoundaryName" >
-     <property name="minimumSize" >
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="LEName">
+     <property name="minimumSize">
       <size>
        <width>382</width>
        <height>21</height>
       </size>
      </property>
-     <property name="maxLength" >
+     <property name="maxLength">
       <number>32</number>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="Name" >
-     <property name="text" >
+   <item row="0" column="0">
+    <widget class="QLabel" name="Name">
+     <property name="text">
       <string>Name</string>
      </property>
     </widget>

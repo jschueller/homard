@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,8 @@
 #ifndef MON_CREATECASE_H
 #define MON_CREATECASE_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -27,34 +29,35 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include <CreateCase.h>
+#include "ui_CreateCase.h"
 #include <QWidget>
 
-class MonCreateCase : public QDialog, public Ui_CreateCase
+class HOMARD_EXPORT MonCreateCase : public QDialog, public Ui_CreateCase
 {
     Q_OBJECT
 
 public:
-    MonCreateCase( QWidget* parent, bool modal, HOMARD::HOMARD_Gen_var myHomardGen);
+    MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen );
     ~MonCreateCase();
 
-    void addBoundaryAn(QString newBoundary);
-    void addBoundaryDi(QString newBoundary);
+    void AddBoundaryAn(QString newBoundary);
+    void AddBoundaryDi(QString newBoundary);
 
 protected :
     QString _aCaseName;
     QString _aDirName;
 
     int _ConfType;
+    int _ExtType;
 
     int _Pyram;
 
     HOMARD::HOMARD_Cas_var aCase ;
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     virtual void InitConnect();
     virtual void InitBoundarys();
-    virtual void SetNewCaseName();
+    virtual void SetNewName();
 
 public slots:
     virtual void SetDirName();
@@ -62,9 +65,14 @@ public slots:
 
     virtual void SetConforme();
     virtual void SetNonConforme();
-    virtual void Set1NpM();
-    virtual void Set1NpA();
-    virtual void SetQuelconque();
+    virtual void SetStandard();
+    virtual void SetBox();
+    virtual void SetNC1NpA();
+    virtual void SetNCQuelconque();
+
+    virtual void SetMED();
+    virtual void SetSaturne();
+    virtual void SetSaturne2D();
 
     virtual void SetBoundaryD();
     virtual void PushBoundaryDiNew();
@@ -78,7 +86,7 @@ public slots:
     virtual void SetAdvanced();
 
     virtual void PushOnOK();
-    virtual bool PushOnApply();
+    virtual bool PushOnApply(int option);
     virtual void PushOnHelp();
 
     virtual void CaseNameChanged();

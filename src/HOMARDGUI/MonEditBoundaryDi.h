@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,8 @@
 #ifndef MON_EDITBOUNDARYDI_H
 #define MON_EDITBOUNDARYDI_H
 
+#include "HOMARDGUI_Exports.hxx"
+
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
 
@@ -28,13 +30,13 @@
 
 #include <MonCreateBoundaryDi.h>
 
-class MonEditBoundaryDi : public MonCreateBoundaryDi
+class HOMARD_EXPORT MonEditBoundaryDi : public MonCreateBoundaryDi
 {
     Q_OBJECT
 public:
     MonEditBoundaryDi( MonCreateCase* parent, bool modal,
                        HOMARD::HOMARD_Gen_var myHomardGen,
-                       QString caseName, QString BoundaryName );
+                       QString caseName, QString Name );
     virtual ~MonEditBoundaryDi();
 
 protected :

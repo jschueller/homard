@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 
-# Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+# Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
-# version 2.1 of the License.
+# version 2.1 of the License, or (at your option) any later version.
 #
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,15 +22,24 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010
+Copyright EDF-R&D 1996, 2010, 2014
 """
-__revision__ = "V1.2"
+__revision__ = "V2.1"
+#
+import os
+import sys
 #
 # ==================================
-# Repertoire a personnaliser
-# Ce repertoire contient les fichiers de donnees : tutorial_1.00.med
-# Ce repertoire contiendra les fichiers de resultats : maill.01.med, maill.02.med, maill.03.med
-dircase = "/tmp"
+PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+# Repertoire des donnees du tutorial
+DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+sys.path.append(DATA_TUTORIAL)
+from tutorial_util import gzip_gunzip
+from tutorial_util import creation_dircase
+# ==================================
+DIRCASE = creation_dircase(1)
+gzip_gunzip(DATA_TUTORIAL, 1, -1)
 # ==================================
 #
 import salome
@@ -41,39 +50,43 @@ homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
 study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
 #
-# Hypothesis "Hypo_0"
-# ===================
-Hypo_0 = homard.CreateHypothesis('Hypo_0')
-Hypo_0.SetAdapRefinUnRef(-1, 1, 0)
+# Hypotheses
+# ==========
+hypo_1 = homard.CreateHypothesis('hypo_1')
+hypo_1.SetUnifRefinUnRef(1)
 #
-# Case "Case_1"
-# =============
-Case_1 = homard.CreateCase('Case_1', 'MAILL', dircase+'/tutorial_1.00.med')
-Case_1.SetDirName(dircase)
-Case_1.SetConfType(1)
+# Cas
+# ===
+case_1 = homard.CreateCase('Case_1', 'MAILL', DATA_TUTORIAL+'/tutorial_1.00.med')
+case_1.SetDirName(DIRCASE)
+case_1.SetConfType(1)
 #
 # Iterations
 # ==========
-# Iteration "Iter_0"
-Iter_0 = homard.CreateIteration('Iter_0', Case_1.GetIter0Name())
-Iter_0.SetMeshName('MESH')
-Iter_0.SetMeshFile(dircase+'/maill.01.med')
-homard.AssociateIterHypo('Iter_0', 'Hypo_0')
-codret = Iter_0.Compute(1)
+# Iteration "iter_1_1"
+iter_1_1 = case_1.NextIteration('iter_1_1')
+iter_1_1.SetMeshName('MESH')
+iter_1_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_1_1.AssociateHypo('hypo_1')
+error = iter_1_1.Compute(1, 2)
 
-# Iteration "Iter_1"
-Iter_1 = homard.CreateIteration('Iter_1', 'Iter_0')
-Iter_1.SetMeshName('MESH')
-Iter_1.SetMeshFile(dircase+'/maill.02.med')
-homard.AssociateIterHypo('Iter_1', 'Hypo_0')
-codret = Iter_1.Compute(1)
+# Iteration "iter_1_2"
+iter_1_2 = iter_1_1.NextIteration('iter_1_2')
+iter_1_2.SetMeshName('MESH')
+iter_1_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_1_2.AssociateHypo('hypo_1')
+error = iter_1_2.Compute(1, 2)
 
-# Iteration "Iter_2"
-Iter_2 = homard.CreateIteration('Iter_2', 'Iter_1')
-Iter_2.SetMeshName('MESH')
-Iter_2.SetMeshFile(dircase+'/maill.03.med')
-homard.AssociateIterHypo('Iter_2', 'Hypo_0')
-codret = Iter_2.Compute(1)
-
+# Iteration "iter_1_3"
+iter_1_3 = iter_1_2.NextIteration('iter_1_3')
+iter_1_3.SetMeshName('MESH')
+iter_1_3.SetMeshFile(DIRCASE+'/maill.03.med')
+iter_1_3.AssociateHypo('hypo_1')
+error = iter_1_3.Compute(1, 2)
+#
+# ==================================
+gzip_gunzip(DATA_TUTORIAL, 1, 1)
+# ==================================
+#
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(1)
+  salome.sg.updateObjBrowser(True)

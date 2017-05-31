@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,6 +17,16 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
+//
+
 #ifndef _HOMARD_Zone_I_HXX_
 #define _HOMARD_Zone_I_HXX_
 
@@ -24,6 +34,7 @@
 #include CORBA_SERVER_HEADER(HOMARD_Gen)
 #include CORBA_SERVER_HEADER(HOMARD_Zone)
 
+#include "HOMARD_i.hxx"
 #include "SALOME_Component_i.hxx"
 #include "SALOME_NamingService.hxx"
 #include "Utils_CorbaException.hxx"
@@ -32,7 +43,7 @@
 
 class HOMARD_Zone;
 
-class HOMARD_Zone_i:
+class HOMARDENGINE_EXPORT HOMARD_Zone_i:
   public virtual Engines_Component_i,
   public virtual POA_HOMARD::HOMARD_Zone,
   public virtual PortableServer::ServantBase
@@ -43,38 +54,45 @@ public:
 
   virtual ~HOMARD_Zone_i();
 
-  void                   SetName( const char* NomZone );
+// Generalites
+  void                   SetName( const char* Name );
   char*                  GetName();
+
+  CORBA::Long            Delete();
+
   char*                  GetDumpPython();
 
-  void                   SetZoneType( CORBA::Long ZoneType );
+  std::string            Dump() const;
+  bool                   Restore( const std::string& stream );
 
-  CORBA::Long            GetZoneType();
+// Caracteristiques
+  void                   SetType( CORBA::Long Type );
+  CORBA::Long            GetType();
 
-  HOMARD::double_array*  GetCoords();
   void                   SetBox( double Xmini, double Xmaxi,
                                  double Ymini, double Ymaxi,
                                  double Zmini, double Zmaxi );
 
-  void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
-                                    double Rayon );
-
   void                   SetCylinder( double Xcentre, double Ycentre, double ZCentre,
                                       double Xaxis, double Yaxis, double Zaxis,
                                       double Rayon, double Haut );
+
   void                   SetPipe( double Xcentre, double Ycentre, double ZCentre,
                                   double Xaxis, double Yaxis, double Zaxis,
                                   double Rayon, double Haut, double Rayonint );
 
-  HOMARD::double_array*  GetLimit();
+  void                   SetSphere( double Xcentre, double Ycentre, double ZCentre,
+                                    double Rayon );
+
+  HOMARD::double_array*  GetCoords();
+
   void                   SetLimit( double Xincr, double Yincr, double Zincr);
+  HOMARD::double_array*  GetLimit();
 
+// Liens avec les autres structures
   void                   AddHypo( const char *NomHypo );
-  void                   SupprHypo( const char *NomHypo );
   HOMARD::listeHypo*     GetHypo();
-
-  std::string            Dump() const;
-  bool                   Restore( const std::string& stream );
+  void                   SupprHypo( const char *NomHypo );
 
 private:
   ::HOMARD_Zone*         myHomardZone;

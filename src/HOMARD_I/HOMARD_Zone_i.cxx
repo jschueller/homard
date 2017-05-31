@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +15,16 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
+//
+
+// Remarques :
+// L'ordre de description des fonctions est le meme dans tous les fichiers
+// HOMARD_aaaa.idl, HOMARD_aaaa.hxx, HOMARD_aaaa.cxx, HOMARD_aaaa_i.hxx, HOMARD_aaaa_i.cxx :
+// 1. Les generalites : Name, Delete, DumpPython, Dump, Restore
+// 2. Les caracteristiques
+// 3. Le lien avec les autres structures
+//
+// Quand les 2 fonctions Setxxx et Getxxx sont presentes, Setxxx est decrit en premier
 //
 
 #include "HOMARD_Zone_i.hxx"
@@ -58,74 +68,68 @@ HOMARD_Zone_i::HOMARD_Zone_i( CORBA::ORB_ptr orb,
 HOMARD_Zone_i::~HOMARD_Zone_i()
 {
 }
-
 //=============================================================================
-/*!
- */
 //=============================================================================
-void HOMARD_Zone_i::SetName( const char* NomZone )
+// Generalites
+//=============================================================================
+//=============================================================================
+void HOMARD_Zone_i::SetName( const char* Name )
 {
   ASSERT( myHomardZone );
-  myHomardZone->SetName( NomZone );
+  myHomardZone->SetName( Name );
 }
-
 //=============================================================================
 char* HOMARD_Zone_i::GetName()
 {
   ASSERT( myHomardZone );
   return CORBA::string_dup( myHomardZone->GetName().c_str() );
 }
-
+//=============================================================================
+CORBA::Long HOMARD_Zone_i::Delete()
+{
+  ASSERT( myHomardZone );
+  char* ZoneName = GetName() ;
+  MESSAGE ( "Delete : destruction de la zone " << ZoneName );
+  return _gen_i->DeleteZone(ZoneName) ;
+}
 //=============================================================================
 char* HOMARD_Zone_i::GetDumpPython()
 {
   ASSERT( myHomardZone );
   return CORBA::string_dup( myHomardZone->GetDumpPython().c_str() );
 }
-
-
 //=============================================================================
-void HOMARD_Zone_i::SetZoneType( CORBA::Long ZoneType )
+std::string HOMARD_Zone_i::Dump() const
+{
+  return HOMARD::Dump( *myHomardZone );
+}
+//=============================================================================
+bool HOMARD_Zone_i::Restore( const std::string& stream )
+{
+  return HOMARD::Restore( *myHomardZone, stream );
+}
+//=============================================================================
+//=============================================================================
+// Caracteristiques
+//=============================================================================
+//=============================================================================
+void HOMARD_Zone_i::SetType( CORBA::Long Type )
 {
   ASSERT( myHomardZone );
-  myHomardZone->SetZoneType( ZoneType );
+  myHomardZone->SetType( Type );
 }
-
 //=============================================================================
-CORBA::Long HOMARD_Zone_i::GetZoneType()
+CORBA::Long HOMARD_Zone_i::GetType()
 {
   ASSERT( myHomardZone );
-  return  CORBA::Long( myHomardZone->GetZoneType() );
+  return  CORBA::Long( myHomardZone->GetType() );
 }
-
 //=============================================================================
 void HOMARD_Zone_i::SetBox( double X0, double X1, double X2, double X3, double X4, double X5 )
 {
   ASSERT( myHomardZone );
   myHomardZone->SetBox( X0, X1, X2, X3, X4, X5 );
 }
-
-//=============================================================================
-HOMARD::double_array* HOMARD_Zone_i::GetCoords()
-{
-  ASSERT( myHomardZone );
-  HOMARD::double_array_var aResult = new HOMARD::double_array();
-  std::vector<double> mesCoor = myHomardZone->GetCoords();
-  aResult->length( mesCoor .size() );
-  std::vector<double>::const_iterator it;
-  int i = 0;
-  for ( it = mesCoor.begin(); it != mesCoor.end(); it++ )
-    aResult[i++] = (*it);
-  return aResult._retn();
-}
-
-//=============================================================================
-void HOMARD_Zone_i::SetSphere( double Xcentre, double Ycentre, double Zcentre, double Rayon )
-{
-  ASSERT( myHomardZone );
-  myHomardZone->SetSphere( Xcentre, Ycentre, Zcentre, Rayon );
-}
-
 //=============================================================================
 void HOMARD_Zone_i::SetCylinder( double Xcentre, double Ycentre, double Zcentre,
                                  double Xaxis, double Yaxis, double Zaxis,
@@ -142,7 +146,25 @@ void HOMARD_Zone_i::SetPipe( double Xcentre, double Ycentre, double Zcentre,
   ASSERT( myHomardZone );
   myHomardZone->SetPipe( Xcentre, Ycentre, Zcentre, Xaxis, Yaxis, Zaxis, Rayon, Haut, Rayonint );
 }
-
+//=============================================================================
+void HOMARD_Zone_i::SetSphere( double Xcentre, double Ycentre, double Zcentre, double Rayon )
+{
+  ASSERT( myHomardZone );
+  myHomardZone->SetSphere( Xcentre, Ycentre, Zcentre, Rayon );
+}
+//=============================================================================
+HOMARD::double_array* HOMARD_Zone_i::GetCoords()
+{
+  ASSERT( myHomardZone );
+  HOMARD::double_array_var aResult = new HOMARD::double_array();
+  std::vector<double> mesCoor = myHomardZone->GetCoords();
+  aResult->length( mesCoor .size() );
+  std::vector<double>::const_iterator it;
+  int i = 0;
+  for ( it = mesCoor.begin(); it != mesCoor.end(); it++ )
+    aResult[i++] = (*it);
+  return aResult._retn();
+}
 //=============================================================================
 void HOMARD_Zone_i::SetLimit( double Xincr, double Yincr, double Zincr )
 {
@@ -150,7 +172,6 @@ void HOMARD_Zone_i::SetLimit( double Xincr, double Yincr, double Zincr )
   ASSERT( myHomardZone );
   myHomardZone->SetLimit( Xincr, Yincr, Zincr );
 }
-
 //=============================================================================
 HOMARD::double_array* HOMARD_Zone_i::GetLimit()
 {
@@ -164,21 +185,16 @@ HOMARD::double_array* HOMARD_Zone_i::GetLimit()
     aResult[i++] = (*it);
   return aResult._retn();
 }
-
+//=============================================================================
+//=============================================================================
+// Liens avec les autres structures
+//=============================================================================
 //=============================================================================
 void HOMARD_Zone_i::AddHypo( const char* NomHypo )
 {
   MESSAGE ( " AddHypo, NomHypo= " << NomHypo);
   ASSERT( myHomardZone );
   myHomardZone->AddHypo( NomHypo );
-  MESSAGE ( " FIn de AddHypo");
-}
-
-//=============================================================================
-void HOMARD_Zone_i::SupprHypo( const char* NomHypo )
-{
-  ASSERT( myHomardZone );
-  myHomardZone->SupprHypo( NomHypo );
 }
 //=============================================================================
 HOMARD::listeHypo* HOMARD_Zone_i::GetHypo()
@@ -193,15 +209,10 @@ HOMARD::listeHypo* HOMARD_Zone_i::GetHypo()
     aResult[i++] = CORBA::string_dup( (*it).c_str() );
   return aResult._retn();
 }
-
 //=============================================================================
-std::string HOMARD_Zone_i::Dump() const
+void HOMARD_Zone_i::SupprHypo( const char* NomHypo )
 {
-  return HOMARD::Dump( *myHomardZone );
+  ASSERT( myHomardZone );
+  myHomardZone->SupprHypo( NomHypo );
 }
 
-//=============================================================================
-bool HOMARD_Zone_i::Restore( const std::string& stream )
-{
-  return HOMARD::Restore( *myHomardZone, stream );
-}

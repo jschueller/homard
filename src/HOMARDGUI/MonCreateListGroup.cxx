@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,8 +16,6 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
-
-using namespace std;
 
 #include "MonCreateListGroup.h"
 #include "MonCreateHypothesis.h"
@@ -36,9 +34,11 @@ using namespace std;
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
 
+using namespace std;
+
 // --------------------------------------------------------------------------------------------------------------
 MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreateBoundaryDi* parentBound, bool modal,
-                                       HOMARD::HOMARD_Gen_var myHomardGen, QString aCaseName,  QStringList listeGroupesHypo) :
+                                       HOMARD::HOMARD_Gen_var myHomardGen0, QString aCaseName,  QStringList listeGroupesHypo) :
 // --------------------------------------------------------------------------------------------------------------
 //
     QDialog(0), Ui_CreateListGroup(),
@@ -48,7 +48,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentBound(parentBound)
 {
     MESSAGE("Debut de  MonCreateListGroup")
-     _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+     myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
     setupUi(this);
     setModal(modal);
     InitConnect();
@@ -65,7 +65,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentHyp(parentHyp),
     _parentBound(parentBound)
 {
-    _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
+    myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen);
     setupUi(this);
     InitConnect();
 }
@@ -115,7 +115,8 @@ void MonCreateListGroup::PushOnOK()
 void MonCreateListGroup::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"));
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_hypothese.html"), QString(""), QString(LanguageShort.c_str()));
 }
 // ------------------------------------------------------------------------
 void MonCreateListGroup::InitGroupes()
@@ -126,7 +127,7 @@ void MonCreateListGroup::InitGroupes()
       TWGroupe->removeRow(row);
   TWGroupe->setRowCount(0);
   if (_aCaseName == QString("")) { return; };
-  HOMARD::HOMARD_Cas_var monCas= _myHomardGen->GetCas(_aCaseName.toStdString().c_str());
+  HOMARD::HOMARD_Cas_var monCas= myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
   for ( int i = 0; i < _listeGroupesCas->length(); i++ )
   {

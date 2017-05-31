@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,6 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-using namespace std;
-
 #include "MonEditZone.h"
 
 #include "SalomeApp_Tools.h"
@@ -30,21 +28,22 @@ using namespace std;
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
 
+using namespace std;
 
 // ------------------------------------------------------------------------
 MonEditZone::MonEditZone( MonCreateHypothesis* parent, bool modal,
                           HOMARD::HOMARD_Gen_var myHomardGen,
-                          QString caseName, QString zoneName ):
+                          QString caseName, QString Name ):
 // ------------------------------------------------------------------------
 /* Constructs a MonEditZone
     herite de MonCreateZone
 */
     MonCreateZone(parent, myHomardGen, caseName)
 {
-    MESSAGE("Debut de MonEditZone pour " << zoneName.toStdString().c_str());
+    MESSAGE("Debut de MonEditZone pour " << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_ZONE_EDIT_WINDOW_TITLE"));
-    _aZoneName=zoneName;
-    aZone = _myHomardGen->GetZone(_aZoneName.toStdString().c_str());
+    _Name=Name;
+    aZone = myHomardGen->GetZone(_Name.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------------------------------------------------
@@ -58,13 +57,13 @@ void MonEditZone::InitValEdit()
 // ------------------------------------------------------------------------
 {
   MESSAGE("InitValEdit ");
-  LEZoneName->setText(_aZoneName);
-  LEZoneName->setReadOnly(true);
-  _ZoneType = aZone->GetZoneType();
-  MESSAGE("InitValEdit _ZoneType ="<<_ZoneType);
+  LEName->setText(_Name);
+  LEName->setReadOnly(true);
+  _Type = aZone->GetType();
+  MESSAGE("InitValEdit _Type ="<<_Type);
   InitValZoneLimit();
   if (_aCaseName != QString("")) InitValZone();
-  switch (_ZoneType)
+  switch (_Type)
   {
     case 11 : // il s agit d un rectangle
     { }
@@ -189,10 +188,10 @@ void MonEditZone::SetBox()
   adjustSize();
   RBCylinder->setDisabled(true);
   RBPipe->setDisabled(true);
-  if ( _ZoneType == 2 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 2 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "boxdxy.png" ) ;
                           QIcon IS=QIcon(pix) ;
@@ -219,11 +218,11 @@ void MonEditZone::SetBox()
   SpinBox_Zmini->setSingleStep(incr);
   SpinBox_Zmaxi->setSingleStep(incr);
 
-  if ( _ZoneType == 12 ) { SpinBox_Xmini->setDisabled(true) ;
+  if ( _Type == 12 ) { SpinBox_Xmini->setDisabled(true) ;
                            SpinBox_Xmaxi->setDisabled(true) ; }
-  else if ( _ZoneType == 13 ) { SpinBox_Ymini->setDisabled(true) ;
+  else if ( _Type == 13 ) { SpinBox_Ymini->setDisabled(true) ;
                                 SpinBox_Ymaxi->setDisabled(true) ; }
-  else if ( _ZoneType == 11 ) { SpinBox_Zmini->setDisabled(true) ;
+  else if ( _Type == 11 ) { SpinBox_Zmini->setDisabled(true) ;
                                 SpinBox_Zmaxi->setDisabled(true) ; }
 
 }
@@ -253,7 +252,6 @@ void MonEditZone::SetSphere()
   if ( _Zincr > 0) { SpinBox_Zcentre->setSingleStep(_Zincr); }
   else             { SpinBox_Zcentre->setSingleStep(1);}
 
-  SpinBox_Rayon->setMinimum(0.);
   SpinBox_Rayon->setValue(_ZoneRayon);
 }
 // ------------------------------------------------------------------------
@@ -268,13 +266,13 @@ void MonEditZone::SetCylinder()
   RBCylinder->setChecked(1);
   RBBox->setDisabled(true);
   RBPipe->setDisabled(true);
-  if ( _ZoneType == 5 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 5 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                          TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                          TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                          TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                          TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0));
+                          TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                          TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "disk.png" ) ;
                           QIcon IS=QIcon(pix) ;
@@ -293,10 +291,9 @@ void MonEditZone::SetCylinder()
   if ( _Zincr > 0) { SpinBox_Zbase->setSingleStep(_Zincr); }
   else             { SpinBox_Zbase->setSingleStep(1) ;}
 
-  SpinBox_Radius->setMinimum(0.);
   SpinBox_Radius->setValue(_ZoneRayon);
 
-  if ( _ZoneType == 5 )
+  if ( _Type == 5 )
   { SpinBox_Xaxis->setValue(_ZoneXaxis) ;
     SpinBox_Yaxis->setValue(_ZoneYaxis) ;
     SpinBox_Zaxis->setValue(_ZoneZaxis) ;
@@ -311,9 +308,9 @@ void MonEditZone::SetCylinder()
     TLYaxis->setVisible(0) ;
     TLZaxis->setVisible(0) ;
     TLHaut->setVisible(0) ;
-    if ( _ZoneType == 32 ) { SpinBox_Xbase->setDisabled(true) ; }
-    else if ( _ZoneType == 33 ) { SpinBox_Ybase->setDisabled(true) ; }
-    else if ( _ZoneType == 31 ) { SpinBox_Zbase->setDisabled(true) ; }
+    if ( _Type == 32 ) { SpinBox_Xbase->setDisabled(true) ; }
+    else if ( _Type == 33 ) { SpinBox_Ybase->setDisabled(true) ; }
+    else if ( _Type == 31 ) { SpinBox_Zbase->setDisabled(true) ; }
   }
 }
 // ------------------------------------------------------------------------
@@ -328,13 +325,13 @@ void MonEditZone::SetPipe()
   RBPipe->setChecked(1);
   RBBox->setDisabled(true);
   RBCylinder->setDisabled(true);
-  if ( _ZoneType == 7 ) { RBSphere->setDisabled(true); }
+  if ( _Type == 7 ) { RBSphere->setDisabled(true); }
   else                  { RBSphere->setVisible(0);
-                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                          TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                          TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                          TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8));
+                          RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                          RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                          TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0));
+                          TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                          TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0));
                           SUIT_ResourceMgr* resMgr = SUIT_Session::session()->resourceMgr() ;
                           QPixmap pix = resMgr->loadPixmap( "HOMARD", "diskwithhole.png" ) ;
                           QIcon IS=QIcon(pix) ;
@@ -353,12 +350,10 @@ void MonEditZone::SetPipe()
   if ( _Zincr > 0) { SpinBox_Zbase_p->setSingleStep(_Zincr); }
   else             { SpinBox_Zbase_p->setSingleStep(1) ;}
 
-  SpinBox_Radius_int->setMinimum(0.);
   SpinBox_Radius_int->setValue(_ZoneRayonInt);
-  SpinBox_Radius_ext->setMinimum(0.);
   SpinBox_Radius_ext->setValue(_ZoneRayon);
 
-  if ( _ZoneType == 7 )
+  if ( _Type == 7 )
   { SpinBox_Xaxis_p->setValue(_ZoneXaxis) ;
     SpinBox_Yaxis_p->setValue(_ZoneYaxis) ;
     SpinBox_Zaxis_p->setValue(_ZoneZaxis) ;
@@ -373,9 +368,9 @@ void MonEditZone::SetPipe()
     TLYaxis_p->setVisible(0) ;
     TLZaxis_p->setVisible(0) ;
     TLHaut_p->setVisible(0) ;
-    if ( _ZoneType == 62 ) { SpinBox_Xbase_p->setDisabled(true) ; }
-    else if ( _ZoneType == 63 ) { SpinBox_Ybase_p->setDisabled(true) ; }
-    else if ( _ZoneType == 61 ) { SpinBox_Zbase_p->setDisabled(true) ; }
+    if ( _Type == 62 ) { SpinBox_Xbase_p->setDisabled(true) ; }
+    else if ( _Type == 63 ) { SpinBox_Ybase_p->setDisabled(true) ; }
+    else if ( _Type == 61 ) { SpinBox_Zbase_p->setDisabled(true) ; }
   }
 }
 
@@ -388,7 +383,7 @@ bool MonEditZone::CreateOrUpdateZone()
 {
   try
   {
-    switch (_ZoneType)
+    switch (_Type)
     {
       case 11 : // il s agit d un rectangle
       { }
@@ -425,7 +420,7 @@ bool MonEditZone::CreateOrUpdateZone()
         break;
       }
     }
-    if (Chgt) _myHomardGen->InvalideZone(_aZoneName.toStdString().c_str());
+    if (Chgt) myHomardGen->InvalideZone(_Name.toStdString().c_str());
     HOMARD_UTILS::updateObjBrowser();
   }
   catch( const SALOME::SALOME_Exception& S_ex ) {

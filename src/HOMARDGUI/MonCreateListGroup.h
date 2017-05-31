@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef MON_CREATELISTGROUP_H
 #define MON_CREATELISTGROUP_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include <SalomeApp_Module.h>
@@ -27,12 +28,12 @@
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 
-#include <CreateListGroup.h>
+#include "ui_CreateListGroup.h"
 #include <QDialog>
 
 class MonCreateHypothesis;
 class MonCreateBoundaryDi;
-class MonCreateListGroup : public QDialog, public Ui_CreateListGroup
+class HOMARD_EXPORT MonCreateListGroup : public QDialog, public Ui_CreateListGroup
 {
     Q_OBJECT
 
@@ -43,7 +44,7 @@ public:
 
 protected :
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
 
     MonCreateHypothesis * _parentHyp;
     MonCreateBoundaryDi * _parentBound;

@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@
 #ifndef MON_EDITFILE_H
 #define MON_EDITFILE_H
 
+#include "HOMARDGUI_Exports.hxx"
 
 #include <SALOMEconfig.h>
 #include "SALOME_Selection.h"
@@ -29,26 +30,28 @@
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
 #include CORBA_CLIENT_HEADER(HOMARD_Cas)
 
-#include "EditFile.h"
+#include "ui_EditFile.h"
 #include <QWidget>
 
 class QListBox;
 class QDialog;
 
-class MonEditFile : public QWidget, public Ui_EditFile
+class HOMARD_EXPORT MonEditFile : public QWidget, public Ui_EditFile
 {
     Q_OBJECT
 
 public:
     MonEditFile( QWidget* parent,  bool modal,
                  HOMARD::HOMARD_Gen_var myHomardGen,
-                 QString FileName );
+                 QString FileName, int option );
     ~MonEditFile();
+    int _codret ;
 
 protected :
 
-    HOMARD::HOMARD_Gen_var _myHomardGen;
+    HOMARD::HOMARD_Gen_var myHomardGen;
     QString _aFileName ;
+    int _option ;
 
     virtual void InitConnect();
     virtual void EditText();

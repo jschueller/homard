@@ -1,9 +1,9 @@
-// Copyright (C) 2011-2012  CEA/DEN, EDF R&D
+// Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
-// version 2.1 of the License.
+// version 2.1 of the License, or (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,8 +16,6 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
-
-using namespace std;
 
 #include "MonCreateZone.h"
 #include "MonCreateHypothesis.h"
@@ -36,21 +34,23 @@ using namespace std;
 #include <SUIT_Session.h>
 #include <SUIT_ViewManager.h>
 
-// ------------------------------------------------------------------------------------------------------------------------
+using namespace std;
+
+// ----------------------------------------------------------------------
 MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName) :
-// ------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 /* Constructs a MonCreateZone
    appele pour une vraie creation
    initialise une boite et non une sphere
 */
     QDialog(0), Ui_CreateZone(),
     _parent(parent),
-    _aZoneName (""),
+    _Name (""),
     _aCaseName(caseName),
     _Orient(0),
-    _ZoneType(2),
+    _Type(2),
     _Xcentre(0), _Ycentre(0), _Zcentre(0), _Rayon(0),
     _ZoneXcentre(0), _ZoneYcentre(0), _ZoneZcentre(0), _ZoneRayon(0),
     _Xmin(0), _Xmax(0), _Xincr(0), _Ymin(0), _Ymax(0), _Yincr(0), _Zmin(0), _Zmax(0), _Zincr(0),
@@ -61,31 +61,31 @@ MonCreateZone::MonCreateZone(MonCreateHypothesis* parent, bool modal,
     Chgt (false)
     {
       MESSAGE("Constructeur") ;
-      _myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen) ;
+      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0) ;
       setupUi(this) ;
       setModal(modal) ;
       InitConnect( ) ;
 
-      SetNewZoneName() ;
+      SetNewName() ;
       InitValZone() ;           // Cherche les valeurs de la boite englobante le maillage
       InitMinMax() ;            // Initialise les bornes des boutons
       SetBox() ;                // Propose une boite en premier choix
 
     }
-// --------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 MonCreateZone::MonCreateZone(MonCreateHypothesis* parent,
-                             HOMARD::HOMARD_Gen_var myHomardGen,
+                             HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName):
-// --------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 // Constructeur appele par MonEditZone
 //
     QDialog(0), Ui_CreateZone(),
-     _myHomardGen(myHomardGen),
+     myHomardGen(myHomardGen0),
     _parent(parent),
-    _aZoneName (""),
+    _Name (""),
     _aCaseName(caseName),
     _Orient(0),
-    _ZoneType(2),
+    _Type(2),
     _Xcentre(0), _Ycentre(0), _Zcentre(0), _Rayon(0),
     _ZoneXcentre(0), _ZoneYcentre(0), _ZoneZcentre(0), _ZoneRayon(0),
     _ZoneXmin(0), _ZoneXmax(0), _ZoneYmin(0), _ZoneYmax(0), _ZoneZmin(0), _ZoneZmax(0),
@@ -131,7 +131,7 @@ void MonCreateZone::InitValZone()
 //
   if (_aCaseName == QString("")) { return; }
 
-  HOMARD::HOMARD_Cas_var aCas = _myHomardGen->GetCas(_aCaseName.toStdString().c_str()) ;
+  HOMARD::HOMARD_Cas_var aCas = myHomardGen->GetCase(_aCaseName.toStdString().c_str()) ;
   HOMARD::extrema_var  MesExtremes = aCas->GetBoundingBox() ;
   int num = MesExtremes->length() ;
   ASSERT(num == 10) ;
@@ -199,19 +199,19 @@ void MonCreateZone::InitValZone()
 
   if ( _Orient == 0 ) { pix = resMgr->loadPixmap( "HOMARD", "cylinderpointvector.png" ) ; }
   else                { pix = resMgr->loadPixmap( "HOMARD", "disk.png" ) ;
-                        RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0, QApplication::UnicodeUTF8));
-                        TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                        TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                        TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8)); }
+                        RBCylinder->setText(QApplication::translate("CreateZone", "Disk", 0));
+                        TLXbase->setText(QApplication::translate("CreateZone", "X centre", 0));
+                        TLYbase->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                        TLZbase->setText(QApplication::translate("CreateZone", "Z centre", 0)); }
   IS=QIcon(pix) ;
   RBCylinder->setIcon(IS) ;
 
   if ( _Orient == 0 ) { pix = resMgr->loadPixmap( "HOMARD", "pipe.png" ) ; }
   else                { pix = resMgr->loadPixmap( "HOMARD", "diskwithhole.png" ) ;
-                        RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0, QApplication::UnicodeUTF8));
-                        TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0, QApplication::UnicodeUTF8));
-                        TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0, QApplication::UnicodeUTF8));
-                        TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0, QApplication::UnicodeUTF8)); }
+                        RBPipe->setText(QApplication::translate("CreateZone", "Disk with hole", 0));
+                        TLXbase_p->setText(QApplication::translate("CreateZone", "X centre", 0));
+                        TLYbase_p->setText(QApplication::translate("CreateZone", "Y centre", 0));
+                        TLZbase_p->setText(QApplication::translate("CreateZone", "Z centre", 0)); }
   IS=QIcon(pix) ;
   RBPipe->setIcon(IS) ;
 
@@ -287,13 +287,9 @@ void MonCreateZone::InitMinMax()
     }
 // Rayons
     SpinBox_Rayon->setSingleStep(_Rayon/10.) ;
-    SpinBox_Rayon->setMinimum(0.) ;
     SpinBox_Radius->setSingleStep(_Rayon/10.) ;
-    SpinBox_Radius->setMinimum(0.) ;
     SpinBox_Radius_int->setSingleStep(_Rayon/20.) ;
-    SpinBox_Radius_int->setMinimum(0.) ;
     SpinBox_Radius_ext->setSingleStep(_Rayon/10.) ;
-    SpinBox_Radius_ext->setMinimum(0.) ;
 // Axe et hauteur
 // Si une coordonnee est constante, inutile de demander l'axe et la hauteur
     if ( _Orient > 0) {
@@ -315,9 +311,7 @@ void MonCreateZone::InitMinMax()
       TLHaut_p->setVisible(0) ;
     }
     else {
-      SpinBox_Haut->setMinimum(0.) ;
       SpinBox_Haut->setSingleStep(_Rayon/10.) ;
-      SpinBox_Haut_p->setMinimum(0.) ;
       SpinBox_Haut_p->setSingleStep(_Rayon/10.) ;
     }
 }
@@ -327,15 +321,14 @@ bool MonCreateZone::PushOnApply()
 // Appele lorsque l'un des boutons Ok ou Apply est presse
 //
 {
-  std::cerr << LEZoneName->text().trimmed().toStdString() << std::endl;
-  if (LEZoneName->text().trimmed()=="")
+  if (LEName->text().trimmed()=="")
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_ZONE_NAME") ) ;
     return false;
   }
 
-  switch (_ZoneType)
+  switch (_Type)
   {
     case 11 : // il s agit d un rectangle
     { }
@@ -345,11 +338,11 @@ bool MonCreateZone::PushOnApply()
     { }
     case 2 : // il s agit d un parallelipipede rectangle
     {
-      if (  (_ZoneXmin != SpinBox_Xmini->value()) or
-            (_ZoneXmax != SpinBox_Xmaxi->value()) or
-            (_ZoneYmin != SpinBox_Ymini->value()) or
-            (_ZoneYmax != SpinBox_Ymaxi->value()) or
-            (_ZoneZmin != SpinBox_Zmini->value()) or
+      if (  (_ZoneXmin != SpinBox_Xmini->value()) ||
+            (_ZoneXmax != SpinBox_Xmaxi->value()) ||
+            (_ZoneYmin != SpinBox_Ymini->value()) ||
+            (_ZoneYmax != SpinBox_Ymaxi->value()) ||
+            (_ZoneZmin != SpinBox_Zmini->value()) ||
             (_ZoneZmax   != SpinBox_Zmaxi->value()) )
       {
         Chgt = true;
@@ -361,9 +354,9 @@ bool MonCreateZone::PushOnApply()
     }
     case 4 : // il s agit d une sphere
     {
-      if (  (_ZoneXcentre != SpinBox_Xcentre->value()) or
-            (_ZoneYcentre != SpinBox_Ycentre->value()) or
-            (_ZoneZcentre != SpinBox_Zbase->value())   or
+      if (  (_ZoneXcentre != SpinBox_Xcentre->value()) ||
+            (_ZoneYcentre != SpinBox_Ycentre->value()) ||
+            (_ZoneZcentre != SpinBox_Zbase->value())   ||
             (_ZoneRayon   != SpinBox_Rayon->value()) )
       {
         Chgt = true;
@@ -382,13 +375,13 @@ bool MonCreateZone::PushOnApply()
     { }
     case 5 : // il s agit d un cylindre
     {
-      if (  (_ZoneXcentre != SpinBox_Xbase->value())  or
-            (_ZoneYcentre != SpinBox_Ybase->value())  or
-            (_ZoneZcentre != SpinBox_Zbase->value())  or
-            (_ZoneRayon   != SpinBox_Radius->value()) or
-            (_ZoneHaut    != SpinBox_Haut->value())   or
-            (_ZoneXaxis   != SpinBox_Xaxis->value())  or
-            (_ZoneYaxis   != SpinBox_Yaxis->value())  or
+      if (  (_ZoneXcentre != SpinBox_Xbase->value())  ||
+            (_ZoneYcentre != SpinBox_Ybase->value())  ||
+            (_ZoneZcentre != SpinBox_Zbase->value())  ||
+            (_ZoneRayon   != SpinBox_Radius->value()) ||
+            (_ZoneHaut    != SpinBox_Haut->value())   ||
+            (_ZoneXaxis   != SpinBox_Xaxis->value())  ||
+            (_ZoneYaxis   != SpinBox_Yaxis->value())  ||
             (_ZoneZaxis   != SpinBox_Zaxis->value()) )
       {
         Chgt = true;
@@ -411,14 +404,14 @@ bool MonCreateZone::PushOnApply()
     { }
     case 7 : // il s agit d un tuyau
     {
-      if (  (_ZoneXcentre  != SpinBox_Xbase_p->value())  or
-            (_ZoneYcentre  != SpinBox_Ybase_p->value())  or
-            (_ZoneZcentre  != SpinBox_Zbase_p->value())  or
-            (_ZoneRayonInt != SpinBox_Radius_int->value()) or
-            (_ZoneRayon    != SpinBox_Radius_ext->value()) or
-            (_ZoneHaut     != SpinBox_Haut_p->value())   or
-            (_ZoneXaxis    != SpinBox_Xaxis_p->value())  or
-            (_ZoneYaxis    != SpinBox_Yaxis_p->value())  or
+      if (  (_ZoneXcentre  != SpinBox_Xbase_p->value())  ||
+            (_ZoneYcentre  != SpinBox_Ybase_p->value())  ||
+            (_ZoneZcentre  != SpinBox_Zbase_p->value())  ||
+            (_ZoneRayonInt != SpinBox_Radius_int->value()) ||
+            (_ZoneRayon    != SpinBox_Radius_ext->value()) ||
+            (_ZoneHaut     != SpinBox_Haut_p->value())   ||
+            (_ZoneXaxis    != SpinBox_Xaxis_p->value())  ||
+            (_ZoneYaxis    != SpinBox_Yaxis_p->value())  ||
             (_ZoneZaxis    != SpinBox_Zaxis_p->value()) )
       {
         Chgt = true;
@@ -438,25 +431,25 @@ bool MonCreateZone::PushOnApply()
 
 // Controles
 // Pour un rectangle ou un parallelepipede :
-  if ( ( _ZoneType >= 11 and _ZoneType <= 13 ) or _ZoneType == 2 )
+  if ( ( _Type >= 11 && _Type <= 13 ) || _Type == 2 )
   {
-    if ((_ZoneXmin >= _ZoneXmax) and (_Xincr > 0)) {
+    if ((_ZoneXmin >= _ZoneXmax) && (_Xincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("X") ) ;
       return false; }
 
-    if  ((_ZoneYmin >= _ZoneYmax) and (_Yincr > 0)) {
+    if  ((_ZoneYmin >= _ZoneYmax) && (_Yincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("Y") ) ;
       return false; }
 
-    if ((_ZoneZmin >= _ZoneZmax) and (_Zincr > 0)) {
+    if ((_ZoneZmin >= _ZoneZmax) && (_Zincr > 0)) {
       QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                                 QObject::tr("HOM_ZONE_LIMIT").arg("Z") ) ;
       return false; }
   }
 // L'axe pour un cylindre ou un tuyau :
-  if ( _ZoneType == 5 or _ZoneType == 7 )
+  if ( _Type == 5 || _Type == 7 )
   {
     double daux = _ZoneXaxis*_ZoneXaxis + _ZoneYaxis*_ZoneYaxis + _ZoneZaxis*_ZoneZaxis ;
     if ( daux < 0.0000001 )
@@ -467,7 +460,7 @@ bool MonCreateZone::PushOnApply()
     }
   }
 // Rayons pour disque avec trou ou un tuyau :
-  if ( ( _ZoneType >= 61 and _ZoneType <= 63 ) or _ZoneType == 7 )
+  if ( ( _Type >= 61 && _Type <= 63 ) || _Type == 7 )
   {
     if ( _ZoneRayonInt >= _ZoneRayon )
     {
@@ -477,6 +470,9 @@ bool MonCreateZone::PushOnApply()
     }
   }
   bool bOK = CreateOrUpdateZone() ;
+
+  if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
+
   return bOK;
 
 }
@@ -485,85 +481,94 @@ bool MonCreateZone:: CreateOrUpdateZone()
 //----------------------------------------------------
 //  Creation de la zone
 {
-  MESSAGE("CreateOrUpdateZone _ZoneType ="<<_ZoneType);
-  if (_aZoneName != LEZoneName->text().trimmed())
+  MESSAGE("CreateOrUpdateZone _Type ="<<_Type);
+  if (_Name != LEName->text().trimmed())
   {
-    _aZoneName = LEZoneName->text().trimmed() ;
-    switch (_ZoneType)
+    _Name = LEName->text().trimmed() ;
+    try
     {
-      case 11 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _Orient );
-        break;
-      }
-      case 12 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax, _Orient );
-        break;
-      }
-      case 13 : // il s agit d un rectangle
-      { aZone = _myHomardGen->CreateZoneBox2D(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZmin, _ZoneZmax, _ZoneXmin, _ZoneXmax, _Orient );
-        break;
-      }
-      case 2 : // il s agit d un parallelepipede
-      { aZone = _myHomardGen->CreateZoneBox(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax );
-        break;
-      }
-      case 4 : // il s agit d une sphere
-      { aZone = _myHomardGen->CreateZoneSphere(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon );
-        break;
-      }
-      case 31 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _Orient );
-        break;
+      switch (_Type)
+      {
+        case 11 : // il s agit d un rectangle
+        { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _Orient );
+          break;
         }
-      case 32 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _Orient );
-        break;
+        case 12 : // il s agit d un rectangle
+        { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax, _Orient );
+          break;
+        }
+        case 13 : // il s agit d un rectangle
+        { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneZmin, _ZoneZmax, _ZoneXmin, _ZoneXmax, _Orient );
+          break;
+        }
+        case 2 : // il s agit d un parallelepipede
+        { aZone = myHomardGen->CreateZoneBox(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax );
+          break;
+        }
+        case 4 : // il s agit d une sphere
+        { aZone = myHomardGen->CreateZoneSphere(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon );
+          break;
+        }
+        case 31 : // il s agit d un disque issu d'un cylindre
+        { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _Orient );
+          break;
+          }
+        case 32 : // il s agit d un disque issu d'un cylindre
+        { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _Orient );
+          break;
+        }
+        case 33 : // il s agit d un disque issu d'un cylindre
+        { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _Orient );
+          break;
+        }
+        case 5 : // il s agit d un cylindre
+        { aZone = myHomardGen->CreateZoneCylinder(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut );
+          break;
+        }
+        case 61 : // il s agit d un disque avec trou
+        { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 62 : // il s agit d un disque avec trou
+        { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 63 : // il s agit d un disque avec trou
+        { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
+          break;
+          }
+        case 7 : // il s agit d un tuyau
+        { aZone = myHomardGen->CreateZonePipe(CORBA::string_dup(_Name.toStdString().c_str()), \
+          _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
+          break;
+          }
       }
-      case 33 : // il s agit d un disque issu d'un cylindre
-      { aZone = _myHomardGen->CreateZoneDisk(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _Orient );
-        break;
-      }
-      case 5 : // il s agit d un cylindre
-      { aZone = _myHomardGen->CreateZoneCylinder(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut );
-        break;
-      }
-      case 61 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 62 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 63 : // il s agit d un disque avec trou
-      { aZone = _myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
-        break;
-        }
-      case 7 : // il s agit d un tuyau
-      { aZone = _myHomardGen->CreateZonePipe(CORBA::string_dup(_aZoneName.toStdString().c_str()), \
-        _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
-        break;
-        }
     }
-    _parent->addZoneinTWZone(_aZoneName) ;
-  }
+    catch( SALOME::SALOME_Exception& S_ex )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+      return false ;
+    }
+    _parent->addZoneinTWZone(_Name) ;
 // Mise en place des attributs
-  aZone->SetLimit(_Xincr, _Yincr, _Zincr) ;
+    aZone->SetLimit(_Xincr, _Yincr, _Zincr) ;
 
-  HOMARD_UTILS::updateObjBrowser() ;
-  return true;
+    return true;
+  }
+  else { return false ; }
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::PushOnOK()
@@ -575,33 +580,33 @@ void MonCreateZone::PushOnOK()
 void MonCreateZone::PushOnHelp()
 // ------------------------------------------------------------------------
 {
-  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html") ) ;
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_zone.html"), QString(""), QString(LanguageShort.c_str()));
 }
 
 // -----------------------------------
-void MonCreateZone::SetNewZoneName()
+void MonCreateZone::SetNewName()
 // -----------------------------------
 {
 // Recherche d'un nom par defaut qui n'existe pas encore
 
-  HOMARD::listeZones_var  MyZones = _myHomardGen->GetAllZones() ;
-  int num = 0; QString aZoneName="";
-  while (aZoneName=="" )
+  HOMARD::listeZones_var  MyObjects = myHomardGen->GetAllZonesName() ;
+  int num = 0; QString aName="";
+  while (aName=="" )
   {
-    aZoneName.setNum(num+1) ;
-    aZoneName.insert(0, QString("Zone_")) ;
-    for ( int i=0; i<MyZones->length() ; i++)
+    aName.setNum(num+1) ;
+    aName.insert(0, QString("Zone_")) ;
+    for ( int i=0; i<MyObjects->length() ; i++)
     {
-      if ( aZoneName ==  QString(MyZones[i]))
+      if ( aName ==  QString(MyObjects[i]))
       {
-          num=num+1;
-          aZoneName="";
-          break;
+        num ++ ;
+        aName = "" ;
+        break ;
       }
    }
   }
-  LEZoneName->clear() ;
-  LEZoneName->insert(aZoneName) ;
+  LEName->setText(aName);
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetBox()
@@ -612,18 +617,18 @@ void MonCreateZone::SetBox()
   gBCylindre->setVisible(0) ;
   gBPipe->setVisible(0) ;
   adjustSize() ;
-  _ZoneType=2;
+  _Type=2;
 // Sachant que l'increment est le 1/100eme de l'ecart (min/max), cela revient
 // a initialiser la boite sur une boite 'centrale' comprise entre 2/5 et 3/5
   if ( _Xincr > 0 ) { SpinBox_Xmini->setValue(_Xcentre-10*_Xincr) ;
                       SpinBox_Xmaxi->setValue(_Xcentre+10*_Xincr) ; }
-  else { _ZoneType=12 ; }
+  else { _Type=12 ; }
   if ( _Yincr > 0 ) { SpinBox_Ymini->setValue(_Ycentre-10*_Yincr) ;
                       SpinBox_Ymaxi->setValue(_Ycentre+10*_Yincr) ; }
-  else { _ZoneType=13 ; }
+  else { _Type=13 ; }
   if ( _Zincr > 0 ) { SpinBox_Zmini->setValue(_Zcentre-10*_Zincr) ;
                       SpinBox_Zmaxi->setValue(_Zcentre+10*_Zincr) ; }
-  else { _ZoneType=11 ; }
+  else { _Type=11 ; }
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetSphere()
@@ -635,7 +640,7 @@ void MonCreateZone::SetSphere()
   gBCylindre->setVisible(0) ;
   gBPipe->setVisible(0) ;
   adjustSize() ;
-  _ZoneType=4;
+  _Type=4;
   SpinBox_Xcentre->setValue(_Xcentre) ;
   SpinBox_Ycentre->setValue(_Ycentre) ;
   SpinBox_Zcentre->setValue(_Zcentre) ;
@@ -652,16 +657,16 @@ void MonCreateZone::SetCylinder()
   gBCylindre->setVisible(1) ;
   gBPipe->setVisible(0) ;
   adjustSize() ;
-  _ZoneType=5;
+  _Type=5;
   if ( _Xincr > 0 ) { SpinBox_Xbase->setValue(_Xcentre) ;
                       SpinBox_Xaxis->setValue(0.) ; }
-  else { _ZoneType=32 ; }
+  else { _Type=32 ; }
   if ( _Yincr > 0 ) { SpinBox_Ybase->setValue(_Ycentre) ;
                       SpinBox_Yaxis->setValue(0.) ; }
-  else { _ZoneType=33 ; }
+  else { _Type=33 ; }
   if ( _Zincr > 0 ) { SpinBox_Zbase->setValue(_Zcentre) ;
                       SpinBox_Zaxis->setValue(1.) ; }
-  else { _ZoneType=31 ; }
+  else { _Type=31 ; }
   SpinBox_Radius->setValue(_Rayon) ;
   SpinBox_Haut->setValue(_Haut) ;
   MESSAGE("Fin de SetCylinder")
@@ -676,16 +681,16 @@ void MonCreateZone::SetPipe()
   gBCylindre->setVisible(0) ;
   gBPipe->setVisible(1) ;
   adjustSize() ;
-  _ZoneType=7;
+  _Type=7;
   if ( _Xincr > 0 ) { SpinBox_Xbase_p->setValue(_Xcentre) ;
                       SpinBox_Xaxis_p->setValue(0.) ; }
-  else { _ZoneType=62 ; }
+  else { _Type=62 ; }
   if ( _Yincr > 0 ) { SpinBox_Ybase_p->setValue(_Ycentre) ;
                       SpinBox_Yaxis_p->setValue(0.) ; }
-  else { _ZoneType=63 ; }
+  else { _Type=63 ; }
   if ( _Zincr > 0 ) { SpinBox_Zbase_p->setValue(_Zcentre) ;
                       SpinBox_Zaxis_p->setValue(1.) ; }
-  else { _ZoneType=61 ; }
+  else { _Type=61 ; }
   SpinBox_Radius_int->setValue(_RayonInt) ;
   SpinBox_Radius_ext->setValue(_Rayon) ;
   SpinBox_Haut_p->setValue(_Haut) ;
