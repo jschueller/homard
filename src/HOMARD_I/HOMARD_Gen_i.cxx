@@ -33,6 +33,7 @@
 #include "HOMARD_version.h"
 
 #include "utilities.h"
+#include "Basics_Utils.hxx"
 #include "Utils_SINGLETON.hxx"
 #include "Utils_CorbaException.hxx"
 #include "SALOMEDS_Tool.hxx"
@@ -4351,7 +4352,7 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(aStudy->URL()));
   aFileName += "_HOMARD.dat";
 
   // initialize sequence of file names
@@ -4476,7 +4477,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(aStudy->URL()));
   aFileName = tmpDir + aFileName + "_HOMARD.dat";
 
   StudyContext& context = myContextMap[ aStudy->StudyId() ];
