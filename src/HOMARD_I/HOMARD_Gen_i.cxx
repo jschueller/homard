@@ -38,6 +38,7 @@
 #include "SALOMEDS_Tool.hxx"
 #include "SALOME_LifeCycleCORBA.hxx"
 #include "SALOMEconfig.h"
+#include <SMESH_Gen_i.hxx>
 #include CORBA_CLIENT_HEADER(SALOME_ModuleCatalog)
 #include CORBA_CLIENT_HEADER(SMESH_Gen)
 
@@ -99,6 +100,8 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
   _NS->init_orb(_orb);
 
+  myStudy = SALOMEDS::Study::_duplicate( SMESH_Gen_i::getStudyServant() );
+
   _tag_gene = 0 ;
   _tag_boun = 0 ;
   _tag_hypo = 0 ;
@@ -120,21 +123,20 @@ HOMARD_Gen_i::~HOMARD_Gen_i()
 // Utilitaires pour l'étude
 //=============================================================================
 //=============================================================================
-void HOMARD_Gen_i::addInStudy(SALOMEDS::Study_ptr theStudy)
+void HOMARD_Gen_i::UpdateStudy()
 {
-  ASSERT(!CORBA::is_nil(theStudy));
-  MESSAGE("addInStudy: ajout eventuel du composant HOMARD dans current study ID = " << GetCurrentStudyID()) ;
-  SALOMEDS::StudyBuilder_var myBuilder = theStudy->NewBuilder();
+  ASSERT(!CORBA::is_nil(myStudy));
+  SALOMEDS::StudyBuilder_var myBuilder = myStudy->NewBuilder();
 
   // Create SComponent labelled 'homard' if it doesn't already exit
-  SALOMEDS::SComponent_var homardFather = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var homardFather = myStudy->FindComponent(ComponentDataType());
   if (CORBA::is_nil(homardFather))
   {
     myBuilder->NewCommand();
     MESSAGE("Add Component HOMARD");
 
-    bool aLocked = theStudy->GetProperties()->IsLocked();
-    if (aLocked) theStudy->GetProperties()->SetLocked(false);
+    bool aLocked = myStudy->GetProperties()->IsLocked();
+    if (aLocked) myStudy->GetProperties()->SetLocked(false);
 
     homardFather = myBuilder->NewComponent(ComponentDataType());
     SALOMEDS::GenericAttribute_var anAttr = myBuilder->FindOrCreateAttribute(homardFather,"AttributeName");
@@ -153,32 +155,10 @@ void HOMARD_Gen_i::addInStudy(SALOMEDS::Study_ptr theStudy)
     aPixmap->SetPixMap("HOMARD_2.png");
     myBuilder->DefineComponentInstance(homardFather, HOMARD_Gen::_this());
 
-    if (aLocked) theStudy->GetProperties()->SetLocked(true);
+    if (aLocked) myStudy->GetProperties()->SetLocked(true);
     myBuilder->CommitCommand();
   }
 }
-//=============================================================================
-void HOMARD_Gen_i::SetCurrentStudy(SALOMEDS::Study_ptr theStudy)
-{
-  MESSAGE("SetCurrentStudy: current study Id = " << GetCurrentStudyID());
-  myCurrentStudy = SALOMEDS::Study::_duplicate(theStudy);
-  this->addInStudy(myCurrentStudy);
-}
-//=============================================================================
-SALOMEDS::Study_ptr HOMARD_Gen_i::GetCurrentStudy()
-//=============================================================================
-{
-  MESSAGE("GetCurrentStudy: study Id = " << GetCurrentStudyID());
-  return SALOMEDS::Study::_duplicate(myCurrentStudy);
-}
-//=============================================================================
-CORBA::Long HOMARD_Gen_i::GetCurrentStudyID()
-//=============================================================================
-{
-  return myCurrentStudy->_is_nil() ? -1 : myCurrentStudy->StudyId();
-}
-//=============================================================================
-//=============================================================================
 
 //=============================================================================
 //=============================================================================
@@ -189,7 +169,7 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
 //=====================================================================================
 {
   MESSAGE( "SetEtatIter : affectation de l'etat " << Etat << " a l'iteration " << nomIter );
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
       SALOME::ExceptionStruct es;
@@ -201,8 +181,8 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
 
   myIteration->SetState(Etat);
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
 
   std::string icone ;
   if ( Etat <= 0 )
@@ -227,7 +207,7 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
 CORBA::Long HOMARD_Gen_i::DeleteBoundary(const char* BoundaryName)
 {
   MESSAGE ( "DeleteBoundary : BoundaryName = " << BoundaryName );
-  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+  HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
   if (CORBA::is_nil(myBoundary))
   {
     SALOME::ExceptionStruct es;
@@ -249,7 +229,7 @@ CORBA::Long HOMARD_Gen_i::DeleteBoundary(const char* BoundaryName)
   {
     CaseName = std::string((*maListe)[NumeCas]);
     MESSAGE ( "... Examen du cas = " << CaseName.c_str() );
-    myCase = myContextMap[GetCurrentStudyID()]._mesCas[CaseName];
+    myCase = myStudyContext._mesCas[CaseName];
     ASSERT(!CORBA::is_nil(myCase));
     ListBoundaryGroupType = myCase->GetBoundaryGroup();
     numberOfitems = ListBoundaryGroupType->length();
@@ -268,11 +248,11 @@ CORBA::Long HOMARD_Gen_i::DeleteBoundary(const char* BoundaryName)
   }
 
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesBoundarys.erase(BoundaryName);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(BoundaryName, ComponentDataType());
+  myStudyContext._mesBoundarys.erase(BoundaryName);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(BoundaryName, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
 
   return 0 ;
 }
@@ -281,7 +261,7 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas, CORBA::Long Option)
 {
   // Pour detruire un cas
   MESSAGE ( "DeleteCase : nomCas = " << nomCas << ", avec option = " << Option );
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
     SALOME::ExceptionStruct es;
@@ -299,11 +279,11 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas, CORBA::Long Option)
   };
 
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesCas.erase(nomCas);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomCas, ComponentDataType());
+  myStudyContext._mesCas.erase(nomCas);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(nomCas, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
 
   return 0 ;
 }
@@ -311,7 +291,7 @@ CORBA::Long HOMARD_Gen_i::DeleteCase(const char* nomCas, CORBA::Long Option)
 CORBA::Long HOMARD_Gen_i::DeleteHypo(const char* nomHypo)
 {
   MESSAGE ( "DeleteHypo : nomHypo = " << nomHypo );
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
   if (CORBA::is_nil(myHypo))
   {
     SALOME::ExceptionStruct es;
@@ -346,11 +326,11 @@ CORBA::Long HOMARD_Gen_i::DeleteHypo(const char* nomHypo)
   }
 
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesHypotheses.erase(nomHypo);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomHypo, ComponentDataType());
+  myStudyContext._mesHypotheses.erase(nomHypo);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(nomHypo, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
 
   return 0 ;
 }
@@ -373,7 +353,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   //  Option2 = 0 : On ne supprime pas le fichier du maillage associe
   //  Option2 = 1 : On supprime le fichier du maillage associe
   MESSAGE ( "DeleteIterationOption : nomIter = " << nomIter << ", avec options = " << Option1<< ", " << Option2 );
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
     SALOME::ExceptionStruct es;
@@ -418,7 +398,7 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   {
     std::string nomIterationParent = myIteration->GetIterParentName();
     MESSAGE ( "Retrait dans la descendance de nomIterationParent " << nomIterationParent );
-    HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
+    HOMARD::HOMARD_Iteration_var myIterationParent = myStudyContext._mesIterations[nomIterationParent];
     if (CORBA::is_nil(myIterationParent))
     {
       SALOME::ExceptionStruct es;
@@ -434,17 +414,17 @@ CORBA::Long HOMARD_Gen_i::DeleteIterationOption(const char* nomIter, CORBA::Long
   if ( numero > 0 )
   {
     std::string nomHypo = myIteration->GetHypoName();
-    HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+    HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
     ASSERT(!CORBA::is_nil(myHypo));
     myHypo->UnLinkIteration(nomIter);
   }
 
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesIterations.erase(nomIter);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomIter, ComponentDataType());
+  myStudyContext._mesIterations.erase(nomIter);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(nomIter, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
   // on peut aussi faire RemoveObject
 //   MESSAGE ( "Au final" );
 //   HOMARD::listeIterations* Liste = GetAllIterationsName() ;
@@ -463,7 +443,7 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
   //  Option = 0 : On ne supprime pas le fichier du schema associe
   //  Option = 1 : On supprime le fichier du schema associe
   MESSAGE ( "DeleteYACS : nomYACS = " << nomYACS << ", avec option = " << Option );
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
   if (CORBA::is_nil(myYACS))
   {
     SALOME::ExceptionStruct es;
@@ -488,11 +468,11 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
     }
   }
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesYACSs.erase(nomYACS);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomYACS, ComponentDataType());
+  myStudyContext._mesYACSs.erase(nomYACS);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(nomYACS, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
 
   return 0 ;
 }
@@ -500,7 +480,7 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
 CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
 {
   MESSAGE ( "DeleteZone : nomZone = " << nomZone );
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[nomZone];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[nomZone];
   if (CORBA::is_nil(myZone))
   {
     SALOME::ExceptionStruct es;
@@ -524,11 +504,11 @@ CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
   };
 //
   // comme on a un _var comme pointeur CORBA, on ne se preoccupe pas du delete
-  myContextMap[GetCurrentStudyID()]._mesZones.erase(nomZone);
-  SALOMEDS::Study::ListOfSObject_var listSO = myCurrentStudy->FindObjectByName(nomZone, ComponentDataType());
+  myStudyContext._mesZones.erase(nomZone);
+  SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(nomZone, ComponentDataType());
   SALOMEDS::SObject_var aSO =listSO[0];
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  myCurrentStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  myStudy->NewBuilder()->RemoveObjectWithChildren(aSO);
 
   return 0 ;
 }
@@ -543,7 +523,7 @@ CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
 void HOMARD_Gen_i::InvalideBoundary(const char* BoundaryName)
 {
   MESSAGE( "InvalideBoundary : BoundaryName = " << BoundaryName  );
-  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+  HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
   if (CORBA::is_nil(myBoundary))
   {
     SALOME::ExceptionStruct es;
@@ -565,7 +545,7 @@ void HOMARD_Gen_i::InvalideBoundary(const char* BoundaryName)
 void HOMARD_Gen_i::InvalideHypo(const char* nomHypo)
 {
   MESSAGE( "InvalideHypo : nomHypo    = " << nomHypo  );
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
   if (CORBA::is_nil(myHypo))
   {
       SALOME::ExceptionStruct es;
@@ -598,7 +578,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
   //  Option = 0 : On ne supprime pas le fichier du maillage associe
   //  Option = 1 : On supprime le fichier du maillage associe
   MESSAGE ( "InvalideIterOption : nomIter = " << nomIter << ", avec option = " << Option );
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
       SALOME::ExceptionStruct es;
@@ -619,8 +599,8 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
 
   // On arrive ici pour une iteration sans fille
   MESSAGE ( "Invalidation effective de " << nomIter );
-  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
-  SALOMEDS::ChildIterator_var  aIter = myCurrentStudy->NewChildIterator(aIterSO);
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::ChildIterator_var  aIter = myStudy->NewChildIterator(aIterSO);
   for (; aIter->More(); aIter->Next())
   {
       SALOMEDS::SObject_var so = aIter->Value();
@@ -630,7 +610,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
       std::string value (aCommentAttr->Value());
       if(value == std::string("IterationHomard")) continue;
       if(value == std::string("HypoHomard")) continue;
-      SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+      SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
       aStudyBuilder->RemoveObject(so);
   }
 
@@ -639,7 +619,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
   {
     SetEtatIter(nomIter,1);
     const char * nomCas = myIteration->GetCaseName();
-    HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+    HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
     if (CORBA::is_nil(myCase))
     {
         SALOME::ExceptionStruct es;
@@ -671,7 +651,7 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
 void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
 {
   MESSAGE("InvalideIterInfo : nomIter = " << nomIter);
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
       SALOME::ExceptionStruct es;
@@ -681,8 +661,8 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
       return ;
   };
 
-  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
-  SALOMEDS::ChildIterator_var  aIter = myCurrentStudy->NewChildIterator(aIterSO);
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::ChildIterator_var  aIter = myStudy->NewChildIterator(aIterSO);
   for (; aIter->More(); aIter->Next())
   {
       SALOMEDS::SObject_var so = aIter->Value();
@@ -693,13 +673,13 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
 /*      MESSAGE("... value = " << value);*/
       if( (value == std::string("logInfo")) || ( value == std::string("SummaryInfo")) )
       {
-        SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+        SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
         aStudyBuilder->RemoveObject(so);
       }
   }
 
   const char * nomCas = myIteration->GetCaseName();
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
       SALOME::ExceptionStruct es;
@@ -725,7 +705,7 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
 void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
 {
   MESSAGE( "InvalideYACS : YACSName    = " << YACSName );
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[YACSName];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[YACSName];
   if (CORBA::is_nil(myYACS))
   {
       SALOME::ExceptionStruct es;
@@ -735,8 +715,8 @@ void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
       return ;
   };
   //
-  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
-  SALOMEDS::ChildIterator_var  aYACS = myCurrentStudy->NewChildIterator(aYACSSO);
+  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  SALOMEDS::ChildIterator_var  aYACS = myStudy->NewChildIterator(aYACSSO);
   for (; aYACS->More(); aYACS->Next())
   {
     SALOMEDS::SObject_var so = aYACS->Value();
@@ -746,7 +726,7 @@ void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
     std::string value (aCommentAttr->Value());
     if( value == std::string("xml") )
     {
-      SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+      SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
       aStudyBuilder->RemoveObject(so);
     }
   }
@@ -766,7 +746,7 @@ void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
 void HOMARD_Gen_i::InvalideZone(const char* ZoneName)
 {
   MESSAGE( "InvalideZone : ZoneName    = " << ZoneName );
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
   if (CORBA::is_nil(myZone))
   {
       SALOME::ExceptionStruct es;
@@ -797,7 +777,7 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
 {
   MESSAGE( "AssociateCaseIter : " << nomCas << ", " << nomIter << ", "  << labelIter );
 
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
     SALOME::ExceptionStruct es;
@@ -807,7 +787,7 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
     return ;
   };
 
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   if (CORBA::is_nil(myIteration))
   {
     SALOME::ExceptionStruct es;
@@ -817,8 +797,8 @@ void HOMARD_Gen_i::AssociateCaseIter(const char* nomCas, const char* nomIter, co
     return ;
   };
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
-  SALOMEDS::SObject_var aCasSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myCase)));
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  SALOMEDS::SObject_var aCasSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myCase)));
   if (CORBA::is_nil(aCasSO))
   {
     SALOME::ExceptionStruct es;
@@ -842,17 +822,17 @@ void HOMARD_Gen_i::AssociateHypoZone(const char* nomHypothesis, const char* Zone
 {
   MESSAGE ( "AssociateHypoZone : nomHypo = " << nomHypothesis << ", ZoneName= " << ZoneName << ", TypeUse = " << TypeUse);
 
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypothesis];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypothesis];
   ASSERT(!CORBA::is_nil(myHypo));
-  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
+  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
   ASSERT(!CORBA::is_nil(aHypoSO));
 
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
   ASSERT(!CORBA::is_nil(myZone));
-  SALOMEDS::SObject_var aZoneSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myZone)));
+  SALOMEDS::SObject_var aZoneSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myZone)));
   ASSERT(!CORBA::is_nil(aZoneSO));
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
 
@@ -870,19 +850,19 @@ void HOMARD_Gen_i::AssociateIterHypo(const char* nomIter, const char* nomHypo)
   MESSAGE("AssociateIterHypo : nomHypo = " << nomHypo << " nomIter = " << nomIter);
 
   // Verification de l'existence de l'hypothese
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
   ASSERT(!CORBA::is_nil(myHypo));
-  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
+  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
   ASSERT(!CORBA::is_nil(aHypoSO));
 
   // Verification de l'existence de l'iteration
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[nomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[nomIter];
   ASSERT(!CORBA::is_nil(myIteration));
-  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   ASSERT(!CORBA::is_nil(aIterSO));
 
   // Gestion de l'arbre d'etudes
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
   aStudyBuilder->NewCommand();
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aIterSO);
   aStudyBuilder->Addreference(aSubSO, aHypoSO);
@@ -915,19 +895,19 @@ void HOMARD_Gen_i::DissociateHypoZone(const char* nomHypothesis, const char* Zon
 {
   MESSAGE ( "DissociateHypoZone : ZoneName= " << ZoneName << ", nomHypo = " << nomHypothesis);
 
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypothesis];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypothesis];
   ASSERT(!CORBA::is_nil(myHypo));
-  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
+  SALOMEDS::SObject_var aHypoSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myHypo)));
   ASSERT(!CORBA::is_nil(aHypoSO));
 
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
   ASSERT(!CORBA::is_nil(myZone));
-  SALOMEDS::SObject_var aZoneSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myZone)));
+  SALOMEDS::SObject_var aZoneSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myZone)));
   ASSERT(!CORBA::is_nil(aZoneSO));
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
-  SALOMEDS::ChildIterator_var it = myCurrentStudy->NewChildIterator(aHypoSO);
+  SALOMEDS::ChildIterator_var it = myStudy->NewChildIterator(aHypoSO);
   for (; it->More(); it->Next())
   {
     SALOMEDS::SObject_var aHypObj = it->Value();
@@ -962,11 +942,11 @@ HOMARD::listeBoundarys* HOMARD_Gen_i::GetAllBoundarysName()
   IsValidStudy () ;
 
   HOMARD::listeBoundarys_var ret = new HOMARD::listeBoundarys;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesBoundarys.size());
+  ret->length(myStudyContext._mesBoundarys.size());
   std::map<std::string, HOMARD::HOMARD_Boundary_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesBoundarys.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesBoundarys.end(); it++)
+  for (it = myStudyContext._mesBoundarys.begin();
+  it != myStudyContext._mesBoundarys.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -980,11 +960,11 @@ HOMARD::listeCases* HOMARD_Gen_i::GetAllCasesName()
   IsValidStudy () ;
 
   HOMARD::listeCases_var ret = new HOMARD::listeCases;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesCas.size());
+  ret->length(myStudyContext._mesCas.size());
   std::map<std::string, HOMARD::HOMARD_Cas_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesCas.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesCas.end(); it++)
+  for (it = myStudyContext._mesCas.begin();
+  it != myStudyContext._mesCas.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -998,11 +978,11 @@ HOMARD::listeHypotheses* HOMARD_Gen_i::GetAllHypothesesName()
   IsValidStudy () ;
 
   HOMARD::listeHypotheses_var ret = new HOMARD::listeHypotheses;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesHypotheses.size());
+  ret->length(myStudyContext._mesHypotheses.size());
   std::map<std::string, HOMARD::HOMARD_Hypothesis_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesHypotheses.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesHypotheses.end(); it++)
+  for (it = myStudyContext._mesHypotheses.begin();
+  it != myStudyContext._mesHypotheses.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -1016,11 +996,11 @@ HOMARD::listeIterations* HOMARD_Gen_i::GetAllIterationsName()
   IsValidStudy () ;
 
   HOMARD::listeIterations_var ret = new HOMARD::listeIterations;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesIterations.size());
+  ret->length(myStudyContext._mesIterations.size());
   std::map<std::string, HOMARD::HOMARD_Iteration_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesIterations.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesIterations.end(); it++)
+  for (it = myStudyContext._mesIterations.begin();
+  it != myStudyContext._mesIterations.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -1034,11 +1014,11 @@ HOMARD::listeYACSs* HOMARD_Gen_i::GetAllYACSsName()
   IsValidStudy () ;
 
   HOMARD::listeYACSs_var ret = new HOMARD::listeYACSs;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesYACSs.size());
+  ret->length(myStudyContext._mesYACSs.size());
   std::map<std::string, HOMARD::HOMARD_YACS_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesYACSs.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesYACSs.end(); it++)
+  for (it = myStudyContext._mesYACSs.begin();
+  it != myStudyContext._mesYACSs.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -1052,11 +1032,11 @@ HOMARD::listeZones* HOMARD_Gen_i::GetAllZonesName()
   IsValidStudy () ;
 
   HOMARD::listeZones_var ret = new HOMARD::listeZones;
-  ret->length(myContextMap[GetCurrentStudyID()]._mesZones.size());
+  ret->length(myStudyContext._mesZones.size());
   std::map<std::string, HOMARD::HOMARD_Zone_var>::const_iterator it;
   int i = 0;
-  for (it = myContextMap[GetCurrentStudyID()]._mesZones.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesZones.end(); it++)
+  for (it = myStudyContext._mesZones.begin();
+  it != myStudyContext._mesZones.end(); it++)
   {
     ret[i++] = CORBA::string_dup((*it).first.c_str());
   }
@@ -1073,42 +1053,42 @@ HOMARD::listeZones* HOMARD_Gen_i::GetAllZonesName()
 //=============================================================================
 HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::GetBoundary(const char* nomBoundary)
 {
-  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[nomBoundary];
+  HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[nomBoundary];
   ASSERT(!CORBA::is_nil(myBoundary));
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary);
 }
 //=============================================================================
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::GetCase(const char* nomCas)
 {
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
 }
 //=============================================================================
 HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::GetHypothesis(const char* nomHypothesis)
 {
-  HOMARD::HOMARD_Hypothesis_var myHypothesis = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypothesis];
+  HOMARD::HOMARD_Hypothesis_var myHypothesis = myStudyContext._mesHypotheses[nomHypothesis];
   ASSERT(!CORBA::is_nil(myHypothesis));
   return HOMARD::HOMARD_Hypothesis::_duplicate(myHypothesis);
 }
 //=============================================================================
 HOMARD::HOMARD_Iteration_ptr  HOMARD_Gen_i::GetIteration(const char* NomIterationation)
 {
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIterationation];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[NomIterationation];
   ASSERT(!CORBA::is_nil(myIteration));
   return HOMARD::HOMARD_Iteration::_duplicate(myIteration);
 }
 //=============================================================================
 HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::GetYACS(const char* nomYACS)
 {
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
   return HOMARD::HOMARD_YACS::_duplicate(myYACS);
 }
 //=============================================================================
 HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::GetZone(const char* ZoneName)
 {
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
   ASSERT(!CORBA::is_nil(myZone));
   return HOMARD::HOMARD_Zone::_duplicate(myZone);
 }
@@ -1146,7 +1126,7 @@ void HOMARD_Gen_i::MeshInfo(const char* nomCas, const char* MeshName, const char
 //=============================================================================
 HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::LastIteration(const char* nomCas)
 {
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
 //
   HOMARD::HOMARD_Iteration_var myIteration = myCase->LastIteration();
@@ -1666,7 +1646,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   IsValidStudy () ;
 
   // A.2. Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesCas).find(nomCas)!=(myContextMap[GetCurrentStudyID()]._mesCas).end())
+  if ((myStudyContext._mesCas).find(nomCas)!=(myStudyContext._mesCas).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -1697,8 +1677,8 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   HOMARD::HOMARD_Cas_var myCase = newCase();
   myCase->SetName(nomCas);
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myCase, nomCas);
-  myContextMap[GetCurrentStudyID()]._mesCas[nomCas] = myCase;
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(aSO, myCase, nomCas);
+  myStudyContext._mesCas[nomCas] = myCase;
 
   // C. Caracteristiques du maillage
   if ( existeMeshFile != 0 )
@@ -1730,7 +1710,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   // Si ce nom d'iteration existe deja, on incremente avec 0, 1, 2, etc.
   int monNum = 0;
   std::string NomIteration = std::string(MeshName) ;
-  while ( (myContextMap[GetCurrentStudyID()]._mesIterations).find(NomIteration) != (myContextMap[GetCurrentStudyID()]._mesIterations.end()) )
+  while ( (myStudyContext._mesIterations).find(NomIteration) != (myStudyContext._mesIterations.end()) )
   {
     std::ostringstream nom;
     nom << MeshName << monNum;
@@ -1741,7 +1721,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
 
   // D.2. Creation de l'iteration
   HOMARD::HOMARD_Iteration_var anIter = newIteration();
-  myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration] = anIter;
+  myStudyContext._mesIterations[NomIteration] = anIter;
   anIter->SetName(NomIteration.c_str());
   AssociateCaseIter (nomCas, NomIteration.c_str(), "IterationHomard");
 
@@ -1769,7 +1749,7 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   IsValidStudy () ;
 
   // A. Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesHypotheses).find(nomHypothesis) != (myContextMap[GetCurrentStudyID()]._mesHypotheses).end())
+  if ((myStudyContext._mesHypotheses).find(nomHypothesis) != (myStudyContext._mesHypotheses).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -1791,10 +1771,10 @@ HOMARD::HOMARD_Hypothesis_ptr HOMARD_Gen_i::CreateHypothesis(const char* nomHypo
   myHypothesis->SetName(nomHypothesis);
 
   // C. Enregistrement
-  myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypothesis] = myHypothesis;
+  myStudyContext._mesHypotheses[nomHypothesis] = myHypothesis;
 
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myHypothesis, nomHypothesis);
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(aSO, myHypothesis, nomHypothesis);
 
   // D. Valeurs par defaut des options avancees
   myHypothesis->SetNivMax(-1);
@@ -1812,7 +1792,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   INFOS ("CreateIteration : NomIteration  = " << NomIteration << ", nomIterParent = " << nomIterParent);
   IsValidStudy () ;
 
-  HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterParent];
+  HOMARD::HOMARD_Iteration_var myIterationParent = myStudyContext._mesIterations[nomIterParent];
   if (CORBA::is_nil(myIterationParent))
   {
     SALOME::ExceptionStruct es;
@@ -1824,7 +1804,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
 
   const char* nomCas = myIterationParent->GetCaseName();
   MESSAGE ("CreateIteration : nomCas = " << nomCas);
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   if (CORBA::is_nil(myCase))
   {
     SALOME::ExceptionStruct es;
@@ -1836,7 +1816,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   const char* nomDirCase = myCase->GetDirName();
 
   // Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesIterations).find(NomIteration)!=(myContextMap[GetCurrentStudyID()]._mesIterations).end())
+  if ((myStudyContext._mesIterations).find(NomIteration)!=(myStudyContext._mesIterations).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -1854,7 +1834,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
-  myContextMap[GetCurrentStudyID()]._mesIterations[std::string(NomIteration)] = myIteration;
+  myStudyContext._mesIterations[std::string(NomIteration)] = myIteration;
 // Nom de l'iteration et du maillage
   myIteration->SetName(NomIteration);
   myIteration->SetMeshName(NomIteration);
@@ -1894,9 +1874,9 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   myIterationParent->LinkNextIteration(NomIteration);
   myIteration->SetIterParentName(nomIterParent);
   // Gestion de l'arbre d'etudes
-  SALOMEDS::SObject_var aIterSOParent = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIterationParent)));
-  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::SObject_var aIterSOParent = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIterationParent)));
+  SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
   aStudyBuilder->NewCommand();
   SALOMEDS::SObject_var aSubSO = aStudyBuilder->NewObject(aIterSO);
   aStudyBuilder->Addreference(aSubSO, aIterSOParent);
@@ -1911,7 +1891,7 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
   IsValidStudy () ;
 
   // Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesBoundarys).find(BoundaryName)!=(myContextMap[GetCurrentStudyID()]._mesBoundarys).end())
+  if ((myStudyContext._mesBoundarys).find(BoundaryName)!=(myStudyContext._mesBoundarys).end())
   {
     MESSAGE ("CreateBoundary : la frontiere " << BoundaryName << " existe deja");
     SALOME::ExceptionStruct es;
@@ -1925,10 +1905,10 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
   myBoundary->SetName(BoundaryName);
   myBoundary->SetType(BoundaryType);
 
-  myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName] = myBoundary;
+  myStudyContext._mesBoundarys[BoundaryName] = myBoundary;
 
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myBoundary, BoundaryName);
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(aSO, myBoundary, BoundaryName);
 
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary);
 }
@@ -2091,7 +2071,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZone(const char* ZoneName, CORBA::Lo
   IsValidStudy () ;
 
   // Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesZones).find(ZoneName)!=(myContextMap[GetCurrentStudyID()]._mesZones).end())
+  if ((myStudyContext._mesZones).find(ZoneName)!=(myStudyContext._mesZones).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -2104,10 +2084,10 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZone(const char* ZoneName, CORBA::Lo
   myZone->SetName(ZoneName);
   myZone->SetType(ZoneType);
 
-  myContextMap[GetCurrentStudyID()]._mesZones[ZoneName] = myZone;
+  myStudyContext._mesZones[ZoneName] = myZone;
 
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myZone, ZoneName);
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(aSO, myZone, ZoneName);
 
   return HOMARD::HOMARD_Zone::_duplicate(myZone);
 }
@@ -2411,7 +2391,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   int codret = 0;
 
   // A.1. L'objet iteration
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIteration];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[NomIteration];
   ASSERT(!CORBA::is_nil(myIteration));
 
   // A.2. Controle de la possibilite d'agir
@@ -2478,7 +2458,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 
   // A.4. Le cas
   const char* nomCas = myIteration->GetCaseName();
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
 
   // B. Les repertoires
@@ -2670,12 +2650,12 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
       throw SALOME::SALOME_Exception(es);
       return 2;
   };
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
   ASSERT(!CORBA::is_nil(myHypo));
 
   // B. L'iteration parent
   const char* nomIterationParent = myIteration->GetIterParentName();
-  HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
+  HOMARD::HOMARD_Iteration_var myIterationParent = myStudyContext._mesIterations[nomIterationParent];
   ASSERT(!CORBA::is_nil(myIterationParent));
   // Si l'iteration parent n'est pas calculee, on le fait (recursivite amont)
   if ( myIterationParent->GetState() == 1 )
@@ -2993,7 +2973,7 @@ char* HOMARD_Gen_i::ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD
   // Le sous-repertoire de l'iteration precedente
 
   const char* nomIterationParent = myIteration->GetIterParentName();
-  HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
+  HOMARD::HOMARD_Iteration_var myIterationParent = myStudyContext._mesIterations[nomIterationParent];
   const char* nomDirItPa = myIterationParent->GetDirNameLoc();
   std::stringstream DirComputePa ;
   DirComputePa << nomDirCase << "/" << nomDirItPa;
@@ -3016,7 +2996,7 @@ void HOMARD_Gen_i::DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardD
   {
     std::string ZoneName = std::string((*ListZone)[iaux]);
     MESSAGE ( "... ZoneName = " << ZoneName);
-    HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+    HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
     ASSERT(!CORBA::is_nil(myZone));
 
     int ZoneType = myZone->GetType();
@@ -3127,7 +3107,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
     if ( A_faire == 1 )
     {
       // 2.2.1. Caracteristiques de la frontiere
-      HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+      HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
       ASSERT(!CORBA::is_nil(myBoundary));
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType );
@@ -3183,7 +3163,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
   {
     std::string BoundaryName = std::string((*ListBoundaryGroupType)[NumBoundary]);
     MESSAGE ( "... BoundaryName = " << BoundaryName);
-    HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+    HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
     ASSERT(!CORBA::is_nil(myBoundary));
     int BoundaryType = myBoundary->GetType();
     MESSAGE ( "... BoundaryType = " << BoundaryType );
@@ -3299,14 +3279,13 @@ void HOMARD_Gen_i::DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIterati
 // Publications
 //===========================================================================
 //===========================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
-                                                   SALOMEDS::SObject_ptr theSObject,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::SObject_ptr theSObject,
                                                    CORBA::Object_ptr theObject,
                                                    const char* theName)
 {
   MESSAGE("PublishInStudy pour " << theName);
   SALOMEDS::SObject_var aResultSO;
-  if (CORBA::is_nil(theStudy))
+  if (CORBA::is_nil(myStudy))
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -3323,12 +3302,12 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
   HOMARD::HOMARD_YACS_var       aYACS = HOMARD::HOMARD_YACS::_narrow(theObject);
   HOMARD::HOMARD_Zone_var       aZone = HOMARD::HOMARD_Zone::_narrow(theObject);
 
-   addInStudy(theStudy);
+  UpdateStudy();
 
 // Controle de la non publication d'un objet de meme nom
    if ( (!aBoundary->_is_nil()) || (!aHypo->_is_nil()) || (!aYACS->_is_nil()) || (!aZone->_is_nil()) )
   {
-    SALOMEDS::Study::ListOfSObject_var listSO = theStudy->FindObjectByName(theName, ComponentDataType());
+    SALOMEDS::Study::ListOfSObject_var listSO = myStudy->FindObjectByName(theName, ComponentDataType());
     if (listSO->length() >= 1)
     {
       MESSAGE("This name "<<theName<<" is already used "<<listSO->length()<<" time(s)");
@@ -3338,36 +3317,35 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishInStudy(SALOMEDS::Study_ptr theStudy,
   }
 
   // Caracteristiques de l'etude
-  SALOMEDS::StudyBuilder_var aStudyBuilder = theStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
   aStudyBuilder->NewCommand();
   if(!aBoundary->_is_nil())
-    aResultSO = PublishBoundaryInStudy(theStudy, aStudyBuilder, aBoundary, theName);
+    aResultSO = PublishBoundaryInStudy(aStudyBuilder, aBoundary, theName);
   else if(!aCase->_is_nil())
-    aResultSO = PublishCaseInStudy(theStudy, aStudyBuilder, aCase, theName);
+    aResultSO = PublishCaseInStudy(aStudyBuilder, aCase, theName);
   else if(!aHypo->_is_nil())
-    aResultSO = PublishHypotheseInStudy(theStudy, aStudyBuilder, aHypo, theName);
+    aResultSO = PublishHypotheseInStudy(aStudyBuilder, aHypo, theName);
   else if(!aYACS->_is_nil())
-    aResultSO = PublishYACSInStudy(theStudy, aStudyBuilder, aYACS, theName);
+    aResultSO = PublishYACSInStudy(aStudyBuilder, aYACS, theName);
   else if(!aZone->_is_nil())
-    aResultSO = PublishZoneInStudy(theStudy, aStudyBuilder, aZone, theName);
+    aResultSO = PublishZoneInStudy(aStudyBuilder, aZone, theName);
 
   aStudyBuilder->CommitCommand();
 
   return aResultSO._retn();
 };
 //=============================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr theStudy,
-                   SALOMEDS::StudyBuilder_var aStudyBuilder,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy( SALOMEDS::StudyBuilder_var aStudyBuilder,
                    HOMARD::HOMARD_Boundary_ptr theObject, const char* theName)
 {
   MESSAGE("PublishBoundaryStudy pour "<<theName);
   SALOMEDS::SObject_var aResultSO;
 
   // Caracteristique de la Boundary
-  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[theName];
+  HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[theName];
 
   // On recupere le module pere dans l etude
-  SALOMEDS::SComponent_var       theFatherHomard = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var       theFatherHomard = myStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
     MESSAGE("theFatherHomard->_is_nil()");
@@ -3432,8 +3410,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
   return aResultSO._retn();
 }
 //=============================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theStudy,
-                                                       SALOMEDS::StudyBuilder_var aStudyBuilder,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                                        HOMARD::HOMARD_Cas_ptr theObject, const char* theName)
 {
   MESSAGE("PublishCaseInStudy pour "<<theName);
@@ -3443,13 +3420,13 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theSt
     MESSAGE("HOMARD_Gen_i::theObject->_is_nil()");
     return aResultSO._retn();
   }
-  if (theStudy->_is_nil()) {
-    MESSAGE("HOMARD_Gen_i::theStudy->_is_nil()");
+  if (myStudy->_is_nil()) {
+    MESSAGE("HOMARD_Gen_i::myStudy->_is_nil()");
     return aResultSO._retn();
   }
 
   // On recupere le module pere dans l etude
-  SALOMEDS::SComponent_var theFatherHomard = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var theFatherHomard = myStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
     MESSAGE("theFatherHomard->_is_nil()");
@@ -3465,8 +3442,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishCaseInStudy(SALOMEDS::Study_ptr theSt
   return aResultSO._retn();
 }
 //=============================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::Study_ptr theStudy,
-                   SALOMEDS::StudyBuilder_var aStudyBuilder,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                    HOMARD::HOMARD_Hypothesis_ptr theObject, const char* theName)
 {
   MESSAGE("PublishHypotheseInStudy pour "<<theName);
@@ -3474,7 +3450,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::Study_ptr 
 
   // On recupere le module pere dans l etude
   // On ajoute la categorie des hypotheses dans l etude si necessaire
-  SALOMEDS::SComponent_var theFatherHomard = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var theFatherHomard = myStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
     MESSAGE("theFatherHomard->_is_nil()");
@@ -3504,8 +3480,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishHypotheseInStudy(SALOMEDS::Study_ptr 
   return aResultSO._retn();
 }
 //=============================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::Study_ptr theStudy,
-                   SALOMEDS::StudyBuilder_var aStudyBuilder,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                    HOMARD::HOMARD_YACS_ptr theObject, const char* theName)
 {
   MESSAGE("PublishYACSInStudy pour "<<theName);
@@ -3513,7 +3488,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::Study_ptr theSt
 
   // On recupere le module pere dans l etude
   // On ajoute la categorie des schemas YACS dans l etude si necessaire
-  SALOMEDS::SComponent_var theFatherHomard = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var theFatherHomard = myStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
     MESSAGE("theFatherHomard->_is_nil()");
@@ -3543,8 +3518,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishYACSInStudy(SALOMEDS::Study_ptr theSt
 }
 
 //=============================================================================
-SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theStudy,
-                   SALOMEDS::StudyBuilder_var aStudyBuilder,
+SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::StudyBuilder_var aStudyBuilder,
                    HOMARD::HOMARD_Zone_ptr theObject, const char* theName)
 {
   MESSAGE("PublishZoneStudy pour "<<theName);
@@ -3554,12 +3528,12 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
     MESSAGE("PublishZoneInStudy : theObject->_is_nil()");
     return aResultSO._retn();
   }
-  if (theStudy->_is_nil())
+  if (myStudy->_is_nil())
   {
-    MESSAGE("PublishZoneInStudy : theStudy->_is_nil()");
+    MESSAGE("PublishZoneInStudy : myStudy->_is_nil()");
     return aResultSO._retn();
   }
-  SALOMEDS::SComponent_var theFatherHomard = theStudy->FindComponent(ComponentDataType());
+  SALOMEDS::SComponent_var theFatherHomard = myStudy->FindComponent(ComponentDataType());
   if (theFatherHomard->_is_nil())
   {
     MESSAGE("PublishZoneInStudy : theFatherHomard->_is_nil()");
@@ -3567,7 +3541,7 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishZoneInStudy(SALOMEDS::Study_ptr theSt
   }
 
   // Caracteristique de la zone
-  HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[theName];
+  HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[theName];
   CORBA::Long ZoneType = myZone->GetType();
 
   // On ajoute la categorie des zones dans l etude si necessaire
@@ -3682,17 +3656,17 @@ void HOMARD_Gen_i::PublishBoundaryUnderCase(const char* CaseName, const char* Bo
 {
   MESSAGE ( "PublishBoundaryUnderCase : CaseName = " << CaseName << ", BoundaryName= " << BoundaryName );
 
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[CaseName];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[CaseName];
   ASSERT(!CORBA::is_nil(myCase));
-  SALOMEDS::SObject_var aCaseSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myCase)));
+  SALOMEDS::SObject_var aCaseSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myCase)));
   ASSERT(!CORBA::is_nil(aCaseSO));
 
-  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+  HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
   ASSERT(!CORBA::is_nil(myBoundary));
-  SALOMEDS::SObject_var aBoundarySO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myBoundary)));
+  SALOMEDS::SObject_var aBoundarySO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myBoundary)));
   ASSERT(!CORBA::is_nil(aBoundarySO));
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
 
@@ -3708,17 +3682,17 @@ void HOMARD_Gen_i::PublishCaseUnderYACS(const char* nomYACS, const char* CaseNam
 {
   MESSAGE ( "PublishCaseUnderYACS : nomYACS = " << nomYACS << ", CaseName= " << CaseName );
 
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
-  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  SALOMEDS::SObject_var aYACSSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
   ASSERT(!CORBA::is_nil(aYACSSO));
 
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[CaseName];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[CaseName];
   ASSERT(!CORBA::is_nil(myCase));
-  SALOMEDS::SObject_var aCaseSO = SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myCase)));
+  SALOMEDS::SObject_var aCaseSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myCase)));
   ASSERT(!CORBA::is_nil(aCaseSO));
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
 
@@ -3734,7 +3708,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
 //  Option = 1 : fichier issu d'une execution HOMARD
 {
   MESSAGE( "PublishResultInSmesh " << NomFich << ", avec Option = " << Option);
-  if (CORBA::is_nil(myCurrentStudy))
+  if (CORBA::is_nil(myStudy))
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -3744,12 +3718,12 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
   };
 
 // Le module SMESH est-il actif ?
-  SALOMEDS::SObject_var aSmeshSO = myCurrentStudy->FindComponent("SMESH");
+  SALOMEDS::SObject_var aSmeshSO = myStudy->FindComponent("SMESH");
 //
   if (!CORBA::is_nil(aSmeshSO))
   {
 // On verifie que le fichier n est pas deja publie
-    SALOMEDS::ChildIterator_var aIter = myCurrentStudy->NewChildIterator(aSmeshSO);
+    SALOMEDS::ChildIterator_var aIter = myStudy->NewChildIterator(aSmeshSO);
     for (; aIter->More(); aIter->Next())
     {
       SALOMEDS::SObject_var  aSO = aIter->Value();
@@ -3783,7 +3757,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
   SALOME_LifeCycleCORBA* myLCC = new SALOME_LifeCycleCORBA(_NS);
   SMESH::SMESH_Gen_var aSmeshEngine = SMESH::SMESH_Gen::_narrow(myLCC->FindOrLoad_Component("FactoryServer","SMESH"));
   ASSERT(!CORBA::is_nil(aSmeshEngine));
-  aSmeshEngine->SetCurrentStudy(myCurrentStudy);
+  aSmeshEngine->UpdateStudy();
   SMESH::DriverMED_ReadStatus theStatus;
   //aSmeshEngine->CreateMeshesFromMED(NomFich, theStatus);
 
@@ -3793,8 +3767,8 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
   {
     MESSAGE( ". Mise a jour des attributs du maillage");
     SMESH::SMESH_Mesh_var monMaillage= (*mesMaillages)[i];
-    SALOMEDS::SObject_var aSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(monMaillage)));
-    SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+    SALOMEDS::SObject_var aSO=SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(monMaillage)));
+    SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
     SALOMEDS::GenericAttribute_var aGAttr = aStudyBuilder->FindOrCreateAttribute(aSO, "AttributeExternalFileDef");
     SALOMEDS::AttributeExternalFileDef_var anAttr = SALOMEDS::AttributeExternalFileDef::_narrow(aGAttr);
     anAttr->SetValue(NomFich);
@@ -3811,7 +3785,7 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
 void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName)
 {
   MESSAGE ("DeleteResultInSmesh pour le maillage " << MeshName << " dans le fichier " << NomFich );
-  if (CORBA::is_nil(myCurrentStudy))
+  if (CORBA::is_nil(myStudy))
   {
       SALOME::ExceptionStruct es;
       es.type = SALOME::BAD_PARAM;
@@ -3821,15 +3795,15 @@ void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName
   };
 
 // Le module SMESH est-il actif ?
-  SALOMEDS::SObject_var aSmeshSO = myCurrentStudy->FindComponent("SMESH");
+  SALOMEDS::SObject_var aSmeshSO = myStudy->FindComponent("SMESH");
 //
   if (CORBA::is_nil(aSmeshSO))
   {
       return ;
   };
 // On verifie que le fichier est deja publie
-  SALOMEDS::StudyBuilder_var myBuilder = myCurrentStudy->NewBuilder();
-  SALOMEDS::ChildIterator_var aIter = myCurrentStudy->NewChildIterator(aSmeshSO);
+  SALOMEDS::StudyBuilder_var myBuilder = myStudy->NewBuilder();
+  SALOMEDS::ChildIterator_var aIter = myStudy->NewChildIterator(aSmeshSO);
   for (; aIter->More(); aIter->Next())
   {
      SALOMEDS::SObject_var  aSO = aIter->Value();
@@ -3858,9 +3832,9 @@ void HOMARD_Gen_i::DeleteResultInSmesh(std::string NomFich, std::string MeshName
 void HOMARD_Gen_i::PublishMeshIterInSmesh(const char* NomIter)
 {
   MESSAGE( "PublishMeshIterInSmesh " << NomIter);
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[NomIter];
 
-  SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   if (CORBA::is_nil(myIteration))
   {
       SALOME::ExceptionStruct es;
@@ -3889,9 +3863,9 @@ void HOMARD_Gen_i::PublishMeshIterInSmesh(const char* NomIter)
 void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* NomFich, const char* Commentaire)
 {
 //   MESSAGE ("PublishFileUnderIteration pour l'iteration " << NomIter << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
-  HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[NomIter];
+  HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[NomIter];
 
-  SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
+  SALOMEDS::SObject_var aIterSO=SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
   if (CORBA::is_nil(myIteration))
   {
       SALOME::ExceptionStruct es;
@@ -3901,7 +3875,7 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
       return ;
   };
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
 
@@ -3924,9 +3898,9 @@ void HOMARD_Gen_i::PublishFileUnderIteration(const char* NomIter, const char* No
 void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich, const char* Commentaire)
 {
 //   MESSAGE ("PublishFileUnderYACS pour le schema " << nomYACS << " du fichier " << NomFich << " avec le commentaire " << Commentaire );
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
 
-  SALOMEDS::SObject_var aYACSSO=SALOMEDS::SObject::_narrow(myCurrentStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
+  SALOMEDS::SObject_var aYACSSO=SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myYACS)));
   if (CORBA::is_nil(myYACS))
   {
       SALOME::ExceptionStruct es;
@@ -3936,7 +3910,7 @@ void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich
       return ;
   };
 
-  SALOMEDS::StudyBuilder_var aStudyBuilder = myCurrentStudy->NewBuilder();
+  SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
 
   aStudyBuilder->NewCommand();
 
@@ -3968,7 +3942,7 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   INFOS ( ". MeshFile   : " << MeshFile);
 
   // A. Controle du nom :
-  if ((myContextMap[GetCurrentStudyID()]._mesYACSs).find(nomYACS) != (myContextMap[GetCurrentStudyID()]._mesYACSs).end())
+  if ((myStudyContext._mesYACSs).find(nomYACS) != (myStudyContext._mesYACSs).end())
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -3990,10 +3964,10 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   myYACS->SetName( nomYACS ) ;
 
   // C. Enregistrement
-  myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS] = myYACS;
+  myStudyContext._mesYACSs[nomYACS] = myYACS;
 
   SALOMEDS::SObject_var aSO;
-  SALOMEDS::SObject_var aResultSO=PublishInStudy(myCurrentStudy, aSO, myYACS, nomYACS);
+  SALOMEDS::SObject_var aResultSO=PublishInStudy(aSO, myYACS, nomYACS);
 
   PublishCaseUnderYACS(nomYACS, nomCas);
 
@@ -4030,7 +4004,7 @@ CORBA::Long HOMARD_Gen_i::YACSWrite(const char* nomYACS)
 {
   INFOS ( "YACSWrite : Ecriture de " << nomYACS );
 // Le repertoire du cas
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
 // Le nom du fichier du schema
   std::string XMLFile ;
@@ -4052,7 +4026,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
 
   // B. L'objet YACS
   // B.1. L'objet
-  HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
+  HOMARD::HOMARD_YACS_var myYACS = myStudyContext._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
   // B.2. Les caracteristiques
   std::string DirName = myYACS->GetDirName() ;
@@ -4066,7 +4040,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   // C. Le cas
   // C.1. L'objet cas
   const char* nomCas = myYACS->GetCaseName();
-  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  HOMARD::HOMARD_Cas_var myCase = myStudyContext._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
   // C.2. Les instructions python associees au cas
   CORBA::String_var dumpCorbaCase = myCase->GetDumpPython();
@@ -4105,7 +4079,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   // E.1. La structure
   std::string nomHypo = Iter1->GetHypoName();
   MESSAGE (". nomHypo = " << nomHypo);
-  HOMARD::HOMARD_Hypothesis_var myHypo = myContextMap[GetCurrentStudyID()]._mesHypotheses[nomHypo];
+  HOMARD::HOMARD_Hypothesis_var myHypo = myStudyContext._mesHypotheses[nomHypo];
   ASSERT(!CORBA::is_nil(myHypo));
   // E.2. Les caracteristiques de l'adaptation
   HOMARD::listeTypes* ListTypes = myHypo->GetAdapRefinUnRef();
@@ -4231,7 +4205,7 @@ std::string HOMARD_Gen_i::YACSDriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHy
     // 1. Reperage de la zone
     std::string ZoneName = std::string((*ListZone)[iaux]);
     MESSAGE ( "\n. ZoneName = " << ZoneName << " - " <<iaux);
-    HOMARD::HOMARD_Zone_var myZone = myContextMap[GetCurrentStudyID()]._mesZones[ZoneName];
+    HOMARD::HOMARD_Zone_var myZone = myStudyContext._mesZones[ZoneName];
     ASSERT(!CORBA::is_nil(myZone));
     // 2. Les instructions python associees a la zone
     //    La premiere ligne est un commentaire a eliminer
@@ -4290,7 +4264,7 @@ std::string HOMARD_Gen_i::YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase,
     if ( A_faire == 1 )
     {
     // 1. Caracteristiques de la frontiere
-      HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+      HOMARD::HOMARD_Boundary_var myBoundary = myStudyContext._mesBoundarys[BoundaryName];
       ASSERT(!CORBA::is_nil(myBoundary));
       // 2. Les instructions python associees a la frontiere
       //    La premiere ligne est un commentaire a eliminer
@@ -4345,19 +4319,18 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
   // get temporary directory name
   std::string tmpDir = isMultiFile ? std::string(theURL) : SALOMEDS_Tool::GetTmpDir();
 
-  SALOMEDS::Study_var aStudy = theComponent->GetStudy();
-  StudyContext& context = myContextMap[ aStudy->StudyId() ];
+  StudyContext& context = myStudyContext;
 
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(SMESH_Gen_i::getStudyServant()->URL());
   aFileName += "_HOMARD.dat";
 
   // initialize sequence of file names
-  SALOMEDS::ListOfFileNames_var aFileSeq = new SALOMEDS::ListOfFileNames;
-  aFileSeq->length(1);
-  aFileSeq[0] = CORBA::string_dup(aFileName.c_str()) ;
+  SALOMEDS_Tool::ListOfFiles aFileSeq;
+  aFileSeq.reserve(1);
+  aFileSeq.push_back(CORBA::string_dup(aFileName.c_str())) ;
 
   // get full path to the data file
   aFileName = tmpDir + aFileName;
@@ -4432,11 +4405,11 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
 
   // put temporary files to the stream
   MESSAGE ("put temporary files to the stream");
-  aStreamFile = SALOMEDS_Tool::PutFilesToStream(tmpDir.c_str(), aFileSeq.in(), isMultiFile);
+  aStreamFile = SALOMEDS_Tool::PutFilesToStream(tmpDir.c_str(), aFileSeq, isMultiFile);
 
   // remove temporary files
   MESSAGE ("remove temporary files");
-  if (!isMultiFile) SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq.in(), true);
+  if (!isMultiFile) SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq, true);
 
   // return data stream
   MESSAGE ("return data stream");
@@ -4460,26 +4433,25 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
 				   CORBA::Boolean isMultiFile)
 {
   MESSAGE ("Load pour theURL = "<< theURL);
-  SALOMEDS::Study_var aStudy = theComponent->GetStudy();
 
   // set current study
-  if (myCurrentStudy->_is_nil() || aStudy->StudyId() != myCurrentStudy->StudyId())
-    SetCurrentStudy(aStudy);
+  if (myStudy->_is_nil())
+    UpdateStudy();
 
   // get temporary directory name
   std::string tmpDir = isMultiFile ? std::string(theURL) : SALOMEDS_Tool::GetTmpDir();
 
   // Convert the stream into sequence of files to process
-  SALOMEDS::ListOfFileNames_var aFileSeq = SALOMEDS_Tool::PutStreamToFiles(theStream,
-                                                                            tmpDir.c_str(),
-                                                                            isMultiFile);
+  SALOMEDS_Tool::ListOfFiles aFileSeq = SALOMEDS_Tool::PutStreamToFiles(theStream,
+                                                                        tmpDir.c_str(),
+                                                                        isMultiFile);
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(aStudy->URL());
+    aFileName = SALOMEDS_Tool::GetNameFromPath(SMESH_Gen_i::getStudyServant()->URL());
   aFileName = tmpDir + aFileName + "_HOMARD.dat";
 
-  StudyContext& context = myContextMap[ aStudy->StudyId() ];
+  StudyContext& context = myStudyContext;
 
   // save data
   // -> create file
@@ -4578,7 +4550,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
 
   // Remove temporary files created from the stream
   if (!isMultiFile)
-    SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq.in(), true);
+    SALOMEDS_Tool::RemoveTemporaryFiles(tmpDir.c_str(), aFileSeq, true);
 
   return true;
 };
@@ -4596,15 +4568,6 @@ CORBA::Boolean HOMARD_Gen_i::LoadASCII(SALOMEDS::SComponent_ptr theComponent,
 //===========================================================================
 void HOMARD_Gen_i::Close(SALOMEDS::SComponent_ptr theComponent)
 {
-  if (theComponent->GetStudy()->StudyId() == GetCurrentStudyID()) {
-    // clearing study context should be done here:
-    // - destroy all servants and related CORBA objects
-    // ... (TODO)
-    // - remove context from myContextMap
-    myContextMap.erase(theComponent->GetStudy()->StudyId());
-    // - nullify myCurrentStudy
-    myCurrentStudy = SALOMEDS::Study::_nil();
-  }
 };
 
 //===========================================================================
@@ -4621,7 +4584,7 @@ char* HOMARD_Gen_i::IORToLocalPersistentID(SALOMEDS::SObject_ptr theSObject,
 {
   CORBA::String_var aString("");
   if (!CORBA::is_nil(theSObject) && strcmp(IORString, "") != 0) {
-    StudyContext context = myContextMap[ theSObject->GetStudy()->StudyId() ];
+    StudyContext context = myStudyContext;
     CORBA::Object_var anObj = _orb->string_to_object(IORString);
     if (!CORBA::is_nil(anObj)) {
       PortableServer::ServantBase_var aServant = GetServant(anObj);
@@ -4649,7 +4612,7 @@ char* HOMARD_Gen_i::LocalPersistentIDToIOR(SALOMEDS::SObject_ptr theSObject,
 {
   CORBA::String_var aString("");
   if (!CORBA::is_nil(theSObject) && strcmp(aLocalPersistentID, "") != 0) {
-    StudyContext context = myContextMap[ theSObject->GetStudy()->StudyId() ];
+    StudyContext context = myStudyContext;
     int id = atoi(aLocalPersistentID);
     if (id > 0 && context._idmap.find(id) != context._idmap.end()) {
       CORBA::Object_var object = _poa->servant_to_reference(context._idmap[ id ]);
@@ -4664,7 +4627,7 @@ char* HOMARD_Gen_i::LocalPersistentIDToIOR(SALOMEDS::SObject_ptr theSObject,
 //===========================================================================
 CORBA::Boolean HOMARD_Gen_i::CanPublishInStudy(CORBA::Object_ptr theIOR)
 {
-  if(CORBA::is_nil(myCurrentStudy))
+  if(CORBA::is_nil(myStudy))
     return false;
 
   HOMARD::HOMARD_Cas_var aCas = HOMARD::HOMARD_Cas::_narrow(theIOR);
@@ -4740,18 +4703,14 @@ PortableServer::ServantBase_var HOMARD_Gen_i::GetServant(CORBA::Object_ptr theOb
 }
 
 //==========================================================================
-Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
-                                       CORBA::Boolean isPublished,
-                                       CORBA::Boolean isMultiFile,
-                                       CORBA::Boolean& isValidScript)
+Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Boolean isPublished,
+                                           CORBA::Boolean isMultiFile,
+                                           CORBA::Boolean& isValidScript)
 {
    MESSAGE ("Entree dans DumpPython");
    isValidScript=1;
-   SALOMEDS::Study_var aStudy = SALOMEDS::Study::_narrow(theStudy);
-   if(CORBA::is_nil(aStudy))
-     return new Engines::TMPFile(0);
 
-   SALOMEDS::SObject_var aSO = aStudy->FindComponent("HOMARD");
+   SALOMEDS::SObject_var aSO = SMESH_Gen_i::getStudyServant()->FindComponent("HOMARD");
    if(CORBA::is_nil(aSO))
       return new Engines::TMPFile(0);
 
@@ -4764,24 +4723,19 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    if( isMultiFile )
       aScript += "import salome\n";
    aScript += "homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')\n";
-   if( isMultiFile ) {
-      aScript += "def RebuildData(theStudy):\n";
-      aScript += "\thomard.SetCurrentStudy(theStudy)\n";
-   }
-   else
-      aScript += "\thomard.SetCurrentStudy(salome.myStudy)\n";
+   aScript += "\thomard.UpdateStudy()\n";
    MESSAGE (". Au depart \n"<<aScript);
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesBoundarys.size() > 0)
+   if (myStudyContext._mesBoundarys.size() > 0)
    {
     MESSAGE (". Ecritures des frontieres");
     aScript += "#\n# Creation of the boundaries";
     aScript +=  "\n# ==========================";
    }
    std::map<std::string, HOMARD::HOMARD_Boundary_var>::const_iterator it_boundary;
-   for (it_boundary  = myContextMap[GetCurrentStudyID()]._mesBoundarys.begin();
-        it_boundary != myContextMap[GetCurrentStudyID()]._mesBoundarys.end(); ++it_boundary)
+   for (it_boundary  = myStudyContext._mesBoundarys.begin();
+        it_boundary != myStudyContext._mesBoundarys.end(); ++it_boundary)
    {
     HOMARD::HOMARD_Boundary_var maBoundary = (*it_boundary).second;
     CORBA::String_var dumpCorbaBoundary = maBoundary->GetDumpPython();
@@ -4791,15 +4745,15 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    }
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesZones.size() > 0)
+   if (myStudyContext._mesZones.size() > 0)
    {
     MESSAGE (". Ecritures des zones");
     aScript += "#\n# Creation of the zones";
     aScript +=  "\n# =====================";
    }
    std::map<std::string, HOMARD::HOMARD_Zone_var>::const_iterator it_zone;
-   for ( it_zone  = myContextMap[GetCurrentStudyID()]._mesZones.begin();
-         it_zone != myContextMap[GetCurrentStudyID()]._mesZones.end(); ++it_zone)
+   for ( it_zone  = myStudyContext._mesZones.begin();
+         it_zone != myStudyContext._mesZones.end(); ++it_zone)
    {
     HOMARD::HOMARD_Zone_var myZone = (*it_zone).second;
     CORBA::String_var dumpCorbaZone = myZone->GetDumpPython();
@@ -4809,15 +4763,15 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    }
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesHypotheses.size() > 0)
+   if (myStudyContext._mesHypotheses.size() > 0)
    {
     MESSAGE (". Ecritures des hypotheses");
     aScript += "#\n# Creation of the hypotheses";
     aScript +=  "\n# ==========================";
    }
    std::map<std::string, HOMARD::HOMARD_Hypothesis_var>::const_iterator it_hypo;
-   for ( it_hypo  = myContextMap[GetCurrentStudyID()]._mesHypotheses.begin();
-         it_hypo != myContextMap[GetCurrentStudyID()]._mesHypotheses.end(); it_hypo++)
+   for ( it_hypo  = myStudyContext._mesHypotheses.begin();
+         it_hypo != myStudyContext._mesHypotheses.end(); it_hypo++)
    {
     HOMARD::HOMARD_Hypothesis_var monHypo = (*it_hypo).second;
     CORBA::String_var dumpCorbaHypo = monHypo->GetDumpPython();
@@ -4827,15 +4781,15 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    }
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesCas.size() > 0)
+   if (myStudyContext._mesCas.size() > 0)
    {
     MESSAGE (". Ecritures des cas");
     aScript += "#\n# Creation of the cases";
     aScript += "\n# =====================";
    }
    std::map<std::string, HOMARD::HOMARD_Cas_var>::const_iterator it_cas;
-   for (it_cas  = myContextMap[GetCurrentStudyID()]._mesCas.begin();
-        it_cas != myContextMap[GetCurrentStudyID()]._mesCas.end(); it_cas++)
+   for (it_cas  = myStudyContext._mesCas.begin();
+        it_cas != myStudyContext._mesCas.end(); it_cas++)
         {
            std::string nomCas = (*it_cas).first;
            std::string dumpCas = std::string("\n# Creation of the case ") ;
@@ -4847,7 +4801,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
            CORBA::String_var cIter0= myCase->GetIter0Name();
            std::string iter0 = cIter0.in();
 
-           HOMARD::HOMARD_Iteration_var myIteration = myContextMap[GetCurrentStudyID()]._mesIterations[iter0];
+           HOMARD::HOMARD_Iteration_var myIteration = myStudyContext._mesIterations[iter0];
            CORBA::String_var cMesh0= myIteration->GetMeshFile();
            std::string mesh0 = cMesh0.in();
            CORBA::String_var cMeshName0= myIteration->GetMeshName();
@@ -4861,15 +4815,15 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
         };
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesIterations.size() > 0)
+   if (myStudyContext._mesIterations.size() > 0)
    {
     MESSAGE (". Ecritures des iterations");
     aScript += "#\n# Creation of the iterations" ;
     aScript += "\n# ==========================";
    }
    std::map<std::string, HOMARD::HOMARD_Iteration_var>::const_iterator it_iter;
-   for (it_iter  = myContextMap[GetCurrentStudyID()]._mesIterations.begin();
-        it_iter != myContextMap[GetCurrentStudyID()]._mesIterations.end(); ++it_iter)
+   for (it_iter  = myStudyContext._mesIterations.begin();
+        it_iter != myStudyContext._mesIterations.end(); ++it_iter)
    {
     HOMARD::HOMARD_Iteration_var aIter = (*it_iter).second;
     CORBA::String_var dumpCorbaIter = aIter->GetDumpPython();
@@ -4879,15 +4833,15 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
    }
 
 
-   if (myContextMap[GetCurrentStudyID()]._mesYACSs.size() > 0)
+   if (myStudyContext._mesYACSs.size() > 0)
    {
     MESSAGE (". Ecritures des schemas YACS");
     aScript += "#\n# Creation of the schemas YACS";
     aScript +=  "\n# ============================";
    }
    std::map<std::string, HOMARD::HOMARD_YACS_var>::const_iterator it_yacs;
-   for ( it_yacs  = myContextMap[GetCurrentStudyID()]._mesYACSs.begin();
-         it_yacs != myContextMap[GetCurrentStudyID()]._mesYACSs.end(); ++it_yacs)
+   for ( it_yacs  = myStudyContext._mesYACSs.begin();
+         it_yacs != myStudyContext._mesYACSs.end(); ++it_yacs)
    {
     HOMARD::HOMARD_YACS_var myYACS = (*it_yacs).second;
     CORBA::String_var dumpCorbaYACS = myYACS->GetDumpPython();
@@ -4925,7 +4879,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Object_ptr theStudy,
 void HOMARD_Gen_i::IsValidStudy( )
 {
 //   MESSAGE( "IsValidStudy" );
-  if (CORBA::is_nil(myCurrentStudy))
+  if (CORBA::is_nil(SMESH_Gen_i::getStudyServant()))
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -4940,8 +4894,8 @@ char* HOMARD_Gen_i::VerifieDir(const char* nomDir)
 {
   std::string casename = std::string("") ;
   std::map<std::string, HOMARD::HOMARD_Cas_var>::const_iterator it;
-  for (it = myContextMap[GetCurrentStudyID()]._mesCas.begin();
-  it != myContextMap[GetCurrentStudyID()]._mesCas.end(); it++)
+  for (it = myStudyContext._mesCas.begin();
+  it != myStudyContext._mesCas.end(); it++)
   {
    if (std::string(nomDir) == std::string(it->second->GetDirName()))
    {

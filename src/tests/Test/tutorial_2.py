@@ -69,12 +69,12 @@ IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
-def homard_exec(theStudy):
+def homard_exec():
   """
 Python script for HOMARD
   """
   #
-  HOMARD.SetCurrentStudy(theStudy)
+  HOMARD.UpdateStudy()
   #
   # Creation des zones
   # ==================
@@ -131,7 +131,7 @@ HOMARD.SetLanguageShort("fr")
 # Exec of HOMARD-SALOME
 #
 try :
-  ERROR = homard_exec(salome.myStudy)
+  ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except Exception, eee:
@@ -148,6 +148,6 @@ gzip_gunzip(DATA_TUTORIAL, 2, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

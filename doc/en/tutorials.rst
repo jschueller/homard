@@ -16,7 +16,6 @@ The loading of the module HOMARD is done in a way similar to the other modules.
 
   import HOMARD
   homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')
-  homard.SetCurrentStudy(salome.myStudy)
 
 To use the module HOMARD within a distributed scheme YACS, the loading is made as follows:
 
@@ -25,7 +24,6 @@ To use the module HOMARD within a distributed scheme YACS, the loading is made a
   import HOMARD
   my_container.load_component_Library('HOMARD')
   homard = my_container.create_component_instance('HOMARD',0)
-  homard.SetCurrentStudy(salome.myStudy)
 
 Uniform refinement
 ******************

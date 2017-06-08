@@ -54,7 +54,6 @@
             <component-author>HOMARD team - EDF RD</component-author>
             <component-version>1.4</component-version>
             <component-comment>unknown</component-comment>
-            <component-multistudy>1</component-multistudy>
             <component-impltype>1</component-impltype>
             <component-icone>HOMARD_2.png</component-icone>
             <constraint></constraint>
@@ -1083,22 +1082,6 @@
                                 <outParameter-comment>unknown</outParameter-comment>
                             </outParameter>
                         </outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>SetCurrentStudy</service-name>
-                        <service-author>HOMARD team - EDF RD</service-author>
-                        <service-version>1.1</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>theStudy</inParameter-name>
-                                <inParameter-type>Study</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>

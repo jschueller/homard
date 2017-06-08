@@ -90,7 +90,6 @@ private:
 
    virtual void createPreferences();
    HOMARD::HOMARD_Gen_var myComponentHomard;
-   SALOMEDS::Study_var       myStudy;
 
    int anId;
    QString _ObjectName;

@@ -53,7 +53,7 @@ Etude_Initialisation
 The box Etude_Initialisation launches the component HOMARD inside SALOME. It is a block consisted of two parts, that are invariable whatever is the envisaged application:
 
 - StudyCreation : python node
-- SetCurrentStudy : service of the component HOMARD
+- UpdateStudy : service of the component HOMARD
 
 .. image:: ../images/yacs_b_01.png
    :align: center
@@ -66,7 +66,7 @@ The python node StudyCreation initialize the SALOME study that is given through 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 44-62
 
-The service SetCurrentStudy connects this study to an instance of HOMARD.
+The service UpdateStudy connects this study to an instance of HOMARD.
 
 .. literalinclude:: ../files/yacs_01.en.xml
    :lines: 63-68

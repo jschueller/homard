@@ -53,7 +53,7 @@ Etude_Initialisation
 La boîte Etude_Initialisation lance le composant HOMARD dans SALOME. C'est un bloc composé de deux parties, qui sont invariables quelle que soit l'application envisagée :
 
 - StudyCreation : noeud python
-- SetCurrentStudy : service du composant HOMARD
+- UpdateStudy : service du composant HOMARD
 
 .. image:: ../images/yacs_b_01.png
    :align: center
@@ -66,7 +66,7 @@ Le noeud python StudyCreation sert à initialiser l'étude SALOME qui est fourni
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 44-62
 
-Le service SetCurrentStudy affecte cette étude à une instance de HOMARD.
+Le service UpdateStudy affecte cette étude à une instance de HOMARD.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
    :lines: 63-68

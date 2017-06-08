@@ -48,6 +48,7 @@ SET(_link_LIBRARIES
   ${KERNEL_TOOLSDS}
   ${KERNEL_SalomeGenericObj}
   ${SMESH_SalomeIDLSMESH}
+  ${SMESH_SMESHEngine}
   SalomeIDLHOMARD
   HOMARDImpl
 )

@@ -368,18 +368,12 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
   }
 
   SUIT_Desktop* parent = application()->desktop();
+
   HOMARD::HOMARD_Gen_var homardGen = HOMARDGUI::InitHOMARDGen(app);
 
   if (!CORBA::is_nil(homardGen))
-  {
-    // Set current study
-    SalomeApp_Study* aSAStudy =dynamic_cast<SalomeApp_Study*>(app->activeStudy());
-    _PTR(Study) aStudy = aSAStudy->studyDS();
-    SALOMEDS::Study_ptr aStudyDS;
-    if (aStudy)
-      aStudyDS = _CAST(Study,aStudy)->GetStudy();
-      homardGen->SetCurrentStudy(aStudyDS);
-   }
+    homardGen->UpdateStudy();
+
   getApp()->updateObjectBrowser();
 
 // B. Choix selon les commandes

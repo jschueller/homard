@@ -75,7 +75,7 @@ QString HOMARD_QT_COMMUN::SelectionArbreEtude(QString commentaire, int option )
   if ( aIO->hasEntry() )
   {
 //     MESSAGE("aIO->getEntry() = " << aIO->getEntry());
-    _PTR(Study) aStudy = HOMARD_UTILS::GetActiveStudyDocument();
+    _PTR(Study) aStudy = HOMARD_UTILS::getStudy();
     _PTR(SObject) aSO ( aStudy->FindObjectID( aIO->getEntry() ) );
     _PTR(GenericAttribute) anAttr;
     if (aSO->FindAttribute(anAttr, "AttributeComment") )
@@ -127,7 +127,7 @@ QString HOMARD_QT_COMMUN::SelectionCasEtude()
   Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
   if ( aIO->hasEntry() )
   {
-	_PTR(Study) aStudy = HOMARD_UTILS::GetActiveStudyDocument();
+	_PTR(Study) aStudy = HOMARD_UTILS::getStudy();
 	_PTR(SObject) aSO ( aStudy->FindObjectID( aIO->getEntry() ) );
         _PTR(SObject) aSObjCas = aSO->GetFather();
 	_PTR(GenericAttribute) anAttr;
@@ -179,7 +179,7 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir, QString TypeFichier)
     Handle(SALOME_InteractiveObject) aIO = HOMARD_UTILS::firstIObject();
     if ( aIO->hasEntry() )
     {
-      _PTR(Study) aStudy = HOMARD_UTILS::GetActiveStudyDocument();
+      _PTR(Study) aStudy = HOMARD_UTILS::getStudy();
       _PTR(SObject) aSO ( aStudy->FindObjectID( aIO->getEntry() ) );
       _PTR(GenericAttribute) anAttr;
       _PTR(AttributeFileType) aFileType;
