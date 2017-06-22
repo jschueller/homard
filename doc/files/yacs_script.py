@@ -98,7 +98,7 @@ Exemples :
 #
 # 0.2. ==> Le user
 #
-  if os.environ.has_key("LOGNAME") :
+  if "LOGNAME" in os.environ :
     user = os.environ ["LOGNAME"]
   else :
     user = "salome"
@@ -187,13 +187,13 @@ Le constructeur de la classe Script
 #
     if self.verbose_max :
       nom_fonction = __name__ + "/__init__"
-      print "\nDans " + nom_fonction + ","
-      print ". rep_calc       :", self.rep_calc
-      print ". mesh_file      :", self.mesh_file
-      print ". numero         :", self.numero
-      print ". opt1           :", self.opt1
-      print ". opt2           :", self.opt2
-      print ". attente        :", self.attente
+      print("\nDans " + nom_fonction + ",")
+      print(". rep_calc       :", self.rep_calc)
+      print(". mesh_file      :", self.mesh_file)
+      print(". numero         :", self.numero)
+      print(". opt1           :", self.opt1)
+      print(". opt2           :", self.opt2)
+      print(". attente        :", self.attente)
 #
 #=========================  Fin de la fonction ===================================
 #
@@ -257,8 +257,8 @@ Lancement d'un calcul
       break
 #
     if self.verbose_max :
-      print blabla
-      print ". erreur :", erreur
+      print(blabla)
+      print(". erreur :", erreur)
 #
     return erreur, message_erreur, dico_resu
 #
@@ -279,10 +279,10 @@ Preparation d'un calcul
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". rep_calc       :", self.rep_calc
-      print ". mesh_file      :", self.mesh_file
-      print ". tr             :", self.tr
+      print(blabla)
+      print(". rep_calc       :", self.rep_calc)
+      print(". mesh_file      :", self.mesh_file)
+      print(". tr             :", self.tr)
 #
     while not erreur :
 #
@@ -316,8 +316,8 @@ Preparation d'un calcul
       break
 #
     if self.verbose_max :
-      print blabla, "a la fin"
-      print ". erreur :", erreur
+      print(blabla, "a la fin")
+      print(". erreur :", erreur)
 #
     return erreur, message_erreur
 #
@@ -349,14 +349,14 @@ Controle les arguments et stockage de quelques informations
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". rep_calc       :", self.rep_calc
-      print ". mesh_file      :", self.mesh_file
-      print ". numero         :", self.numero
-      print ". tr             :", self.tr
-      print ". opt1           :", self.opt1
-      print ". opt2           :", self.opt2
-      print ". attente        :", self.attente
+      print(blabla)
+      print(". rep_calc       :", self.rep_calc)
+      print(". mesh_file      :", self.mesh_file)
+      print(". numero         :", self.numero)
+      print(". tr             :", self.tr)
+      print(". opt1           :", self.opt1)
+      print(". opt2           :", self.opt2)
+      print(". attente        :", self.attente)
 #
     while not erreur :
 #
@@ -373,7 +373,7 @@ Controle les arguments et stockage de quelques informations
 #
 # 1.2. Le repertoire de calcul
 #
-      if os.environ.has_key("HOME") :
+      if "HOME" in os.environ :
         HOME = os.environ ["HOME"]
       else :
         HOME = "/local/home/salome"
@@ -410,7 +410,7 @@ Controle les arguments et stockage de quelques informations
 #
       self.nomcas = os.path.basename(self.rep_calc)
       if self.verbose_max :
-        print ". Cas :", self.nomcas
+        print(". Cas :", self.nomcas)
 #
 # 3. Le temps d'attente
 #
@@ -524,10 +524,10 @@ Controle les arguments et stockage de quelques informations
       message_erreur = messages_erreur[erreur]
 #
     if self.verbose_max :
-      print ". rep_calc  :", self.rep_calc
-      print ". mesh_file :", self.mesh_file
-      print ". opt1      :", self.opt1
-      print ". opt2      :", self.opt2
+      print(". rep_calc  :", self.rep_calc)
+      print(". mesh_file :", self.mesh_file)
+      print(". opt1      :", self.opt1)
+      print(". opt2      :", self.opt2)
 #
     return erreur, message_erreur
 #
@@ -550,9 +550,9 @@ Modification du fichier export et reperage de quelques informations
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". numero     :", self.numero
-      print ". mesh_file  :", self.mesh_file
+      print(blabla)
+      print(". numero     :", self.numero)
+      print(". mesh_file  :", self.mesh_file)
 #
     while not erreur :
 #
@@ -571,7 +571,7 @@ Modification du fichier export et reperage de quelques informations
       nomfic += "." + self.numero_str + ".export"
       self.nomfic_export = os.path.join(self.rep_calc, nomfic)
       if self.verbose_max :
-        print ". nouveau fic_export :", self.nomfic_export
+        print(". nouveau fic_export :", self.nomfic_export)
       fic = open (self.nomfic_export, "w")
 #
 # 3. Exploration des lignes
@@ -606,7 +606,7 @@ Modification du fichier export et reperage de quelques informations
           if ( typfic == "comm" ) :
 #
             if self.verbose_max :
-              print ". Commandes : mise a jour du nom du repertoire"
+              print(". Commandes : mise a jour du nom du repertoire")
             chgt = True
             nomfic_l_0 = os.path.basename(nomfic_0)
             nomfic = os.path.join(self.rep_calc, nomfic_l_0)
@@ -615,7 +615,7 @@ Modification du fichier export et reperage de quelques informations
 #
           elif ( ( statut == "R" ) or ( typfic == "mmed" ) ) :
             if self.verbose_max :
-              print ". Mise a jour du nom"
+              print(". Mise a jour du nom")
             chgt = True
 #
 # 3.2.2.1. Le fichier de maillage est celui passe en argument
@@ -739,13 +739,13 @@ Modification du fichier export et reperage de quelques informations
       message_erreur = messages_erreur[erreur]
 #
     if self.verbose_max :
-      print ". mclient    ", self.mclient
-      print ". uclient    ", self.uclient
-      print ". serveur    ", self.serveur
-      print ". username   ", self.username
-      print ". aster_root ", self.aster_root
-      print ". nomjob     ", self.nomjob
-      print ". mode       ", self.mode
+      print(". mclient    ", self.mclient)
+      print(". uclient    ", self.uclient)
+      print(". serveur    ", self.serveur)
+      print(". username   ", self.username)
+      print(". aster_root ", self.aster_root)
+      print(". nomjob     ", self.nomjob)
+      print(". mode       ", self.mode)
 #
     return erreur, message_erreur
 #
@@ -769,9 +769,9 @@ Modification du fichier de commandes lie au cas transitoire
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". opt1 :", self.opt1
-      print ". opt2 :", self.opt2
+      print(blabla)
+      print(". opt1 :", self.opt1)
+      print(". opt2 :", self.opt2)
 #
     while not erreur :
 #
@@ -795,7 +795,7 @@ Modification du fichier de commandes lie au cas transitoire
       for ligne in les_lignes :
 #
         if self.verbose_max :
-          print "ligne =", ligne[:-1]
+          print("ligne =", ligne[:-1])
 #
 # 3.1. Pas de modification, a priori
 #
@@ -875,10 +875,10 @@ Modification du fichier de commandes lie au cas de l'excavation
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". numero     :", self.numero
-      print ". nro_couche :", self.nro_couche
-      print ". nro_adap   :", self.nro_adap
+      print(blabla)
+      print(". numero     :", self.numero)
+      print(". nro_couche :", self.nro_couche)
+      print(". nro_adap   :", self.nro_adap)
 #
     while not erreur :
 #
@@ -902,7 +902,7 @@ Modification du fichier de commandes lie au cas de l'excavation
       for ligne in les_lignes :
 #
         if self.verbose_max :
-          print "ligne =", ligne[:-1]
+          print("ligne =", ligne[:-1])
 #
 # 3.1. Pas de modification, a priori
 #
@@ -974,8 +974,8 @@ Lancement d'un calcul
     message_erreur = " "
 #
     if self.verbose_max :
-      print ". mclient    ", self.mclient
-      print ". serveur    ", self.serveur
+      print(". mclient    ", self.mclient)
+      print(". serveur    ", self.serveur)
 #
 # 1. Copie du fichier export sur le serveur de calcul
 #
@@ -984,8 +984,8 @@ Lancement d'un calcul
       nomfic_export_dist = self.nomjob + ".export"
       commande = "scp " + self.nomfic_export + " " + self.username + "@" + self.serveur + ":" + nomfic_export_dist
       if self.verbose_max :
-        print "Copie du fichier export vers", self.serveur, ":"
-        print commande
+        print("Copie du fichier export vers", self.serveur, ":")
+        print(commande)
       erreur = os.system(commande)
 #
 # 2. Commande du lancement
@@ -1015,8 +1015,8 @@ Lancement d'un calcul
     commande += " 1>" + fic_caract
     commande += " 2>" + fic_caract_2
     if self.verbose_max :
-      print "Lancement sur", self.serveur, ":"
-      print commande
+      print("Lancement sur", self.serveur, ":")
+      print(commande)
 #
 # 3.2. Lancement vrai
 #
@@ -1029,10 +1029,10 @@ Lancement d'un calcul
       self.message_info += self.dico["rmed"]+"\n"
 #
     if self.verbose_max :
-      print blabla
-      print ". erreur     :", erreur
-      print ". self.mode  :", self.mode
-      print ". fic_caract :", fic_caract
+      print(blabla)
+      print(". erreur     :", erreur)
+      print(". self.mode  :", self.mode)
+      print(". fic_caract :", fic_caract)
 #
     if erreur :
       message_erreur = messages_erreur[erreur]
@@ -1057,11 +1057,11 @@ fic_caract : fichier caracteristique du job
     message_erreur = " "
 #
     if self.verbose_max :
-      print ". fic_caract :", fic_caract
-      print ". nomjob     :", self.nomjob
-      print ". rep_calc   :", self.rep_calc
-      print ". mode       :", self.mode
-      print ". attente    :", self.attente
+      print(". fic_caract :", fic_caract)
+      print(". nomjob     :", self.nomjob)
+      print(". rep_calc   :", self.rep_calc)
+      print(". mode       :", self.mode)
+      print(". attente    :", self.attente)
 #
     if ( self.mode != "interactif" ) :
 #
@@ -1088,7 +1088,7 @@ fic_caract : fichier caracteristique du job
             numjob = laux1[0]
   #
       if self.verbose :
-        print ". numjob :", numjob
+        print(". numjob :", numjob)
 #
 # 2. Commande de l'examen de l'etat du job,
 #
@@ -1098,7 +1098,7 @@ fic_caract : fichier caracteristique du job
       commande_base  = os.path.join(self.aster_root, "bin", "as_run")
       commande_base += " --actu " + numjob + " " + self.nomjob + " " + self.mode
       if self.verbose_max :
-        print "commande_base =", commande_base
+        print("commande_base =", commande_base)
       if ( self.mclient == self.serveur ) :
         commande  = commande_base
       else :
@@ -1107,8 +1107,8 @@ fic_caract : fichier caracteristique du job
       commande += " 1>" + fic_etat
       commande += " 2>" + fic_etat_2
       if self.verbose_max :
-        print "Examen sur", self.serveur, ":"
-        print commande
+        print("Examen sur", self.serveur, ":")
+        print(commande)
 #
 # 3. Examen de l'etat du job, jusqu'a la fin
 #
@@ -1117,7 +1117,7 @@ fic_caract : fichier caracteristique du job
   #
         if encore % 4 == 0 :
           aux = ((encore-1)*self.attente) / 60
-          print "..", aux, "mn"
+          print("..", aux, "mn")
           #print diag
   #
         time.sleep(self.attente)
@@ -1138,7 +1138,7 @@ fic_caract : fichier caracteristique du job
               laux1 = laux[1].split("=")
               diag = laux1[1]
               if self.verbose_max :
-                print etat, diag
+                print(etat, diag)
               if etat in ( "RUN", "PEND" ) :
                 encore += 1
               else :
@@ -1163,8 +1163,8 @@ fic_caract : fichier caracteristique du job
       os.remove(fic_etat_2)
 #
     if self.verbose_max :
-      print blabla
-      print ". erreur :", erreur
+      print(blabla)
+      print(". erreur :", erreur)
 #
     if erreur :
       message_erreur = "Erreur dans le calcul"
@@ -1191,8 +1191,7 @@ Affichage de resultats selon les cas
     message_erreur = " "
 #
     dico_resu = {}
-    for cle in dico_resu_init.keys() :
-      dico_resu[cle] = dico_resu_init[cle]
+    dico_resu.update(dico_resu_init)
 #
     while not erreur :
 #
@@ -1270,9 +1269,9 @@ Affichage de resultats selon les cas
       break
 #
     if self.verbose :
-      print blabla
-      print ". erreur :", erreur
-      print ". dico_resu :", dico_resu
+      print(blabla)
+      print(". erreur :", erreur)
+      print(". dico_resu :", dico_resu)
 #
     if erreur :
       message_erreur = messages_erreur[erreur]
@@ -1306,7 +1305,7 @@ info = la ou les lignes recherchees
     nom_fonction = __name__ + "/post_aster_1"
     blabla = "\nDans " + nom_fonction + " :"
     if self.verbose_max :
-      print blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc
+      print(blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc)
 #
     trouve = False
     erreur = 0
@@ -1353,8 +1352,8 @@ info = la ou les lignes recherchees
       erreur = -1
 #
     if ( self.verbose_max or ( erreur>0 ) ) :
-      print blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc
-      print ". erreur =", erreur
+      print(blabla, "nomfic =", nomfic, "chaine =", chaine, ", nuocc =", nuocc)
+      print(". erreur =", erreur)
 #
     if erreur :
       message_erreur = messages_erreur[erreur]
@@ -1396,8 +1395,8 @@ Dump du resultat du calcul
       self.message_info += fic_dump+"\n"
 #
     if self.verbose_max :
-      print blabla
-      print ". erreur :", erreur
+      print(blabla)
+      print(". erreur :", erreur)
 #
     os.remove(nomfic_donn)
 #

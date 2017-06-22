@@ -81,28 +81,28 @@ Python script for HOMARD
   # ==========================
   # Creation of the hypothesis 1
     hyponame_1 = "hypo_" + TEST_NAME + "_1"
-    print "-------- Creation of the hypothesis", hyponame_1
+    print("-------- Creation of the hypothesis", hyponame_1)
     hypo_test_2_1 = HOMARD.CreateHypothesis(hyponame_1)
     hypo_test_2_1.SetUnifRefinUnRef(1)
     hypo_test_2_1.AddGroup('EG')
     hypo_test_2_1.AddGroup('BANDE')
-    print hyponame_1, " : zones utilisées :", hypo_test_2_1.GetZones()
-    print hyponame_1, " : champ utilisé :", hypo_test_2_1.GetFieldName()
-    print hyponame_1, " : composantes utilisées :", hypo_test_2_1.GetComps()
+    print(hyponame_1, " : zones utilisées :", hypo_test_2_1.GetZones())
+    print(hyponame_1, " : champ utilisé :", hypo_test_2_1.GetFieldName())
+    print(hyponame_1, " : composantes utilisées :", hypo_test_2_1.GetComps())
     if ( len (hypo_test_2_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", hypo_test_2_1.GetField()
+      print(".. caractéristiques de l'adaptation :", hypo_test_2_1.GetField())
 
   # Creation of the hypothesis 2
     hyponame_2 = "hypo_" + TEST_NAME + "_2"
-    print "-------- Creation of the hypothesis", hyponame_2
+    print("-------- Creation of the hypothesis", hyponame_2)
     hypo_test_2_2 = HOMARD.CreateHypothesis(hyponame_2)
     hypo_test_2_2.SetUnifRefinUnRef(1)
     hypo_test_2_2.AddGroup('M_D')
-    print hyponame_2, " : zones utilisées :", hypo_test_2_2.GetZones()
-    print hyponame_2, " : champ utilisé :", hypo_test_2_2.GetFieldName()
-    print hyponame_2, " : composantes utilisées :", hypo_test_2_2.GetComps()
+    print(hyponame_2, " : zones utilisées :", hypo_test_2_2.GetZones())
+    print(hyponame_2, " : champ utilisé :", hypo_test_2_2.GetFieldName())
+    print(hyponame_2, " : composantes utilisées :", hypo_test_2_2.GetComps())
     if ( len (hypo_test_2_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", hypo_test_2_2.GetField()
+      print(".. caractéristiques de l'adaptation :", hypo_test_2_2.GetField())
   #
   # Creation of the cases
   # =====================
@@ -177,7 +177,7 @@ try :
   ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results

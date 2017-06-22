@@ -150,7 +150,7 @@ try :
   ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
