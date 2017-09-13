@@ -40,22 +40,39 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
   if ( theNodeFiles.empty() )
     return;
 
+#ifdef _DEBUG_
+  std::cout << "Input MED file:" << theInputMedFile << std::endl;
+#endif
   if ( !FT_Utils::fileExists( theInputMedFile ))
     throw std::invalid_argument( "Input MED file does not exist: " + theInputMedFile );
 
+#ifdef _DEBUG_
+  std::cout << "Output MED file:" << theOutputMedFile << std::endl;
+#endif
   if ( !FT_Utils::canWrite( theOutputMedFile ))
     throw std::invalid_argument( "Can't create the output MED file: " + theOutputMedFile );
 
   for ( size_t i = 0; i < theNodeFiles.size(); ++i )
+  {
+#ifdef _DEBUG_
+    std::cout << "Fichier" << theNodeFiles[i] << std::endl;
+#endif
     if ( !FT_Utils::fileExists( theNodeFiles[i] ))
       throw std::invalid_argument( "Input node file does not exist: " + theNodeFiles[i] );
+  }
 
+#ifdef _DEBUG_
+  std::cout << "XAO file:" << theXaoFileName << std::endl;
+#endif
   if ( !FT_Utils::fileExists( theXaoFileName ))
     throw std::invalid_argument( "Input XAO file does not exist: " + theXaoFileName );
 
 
   // read a mesh
 
+#ifdef _DEBUG_
+  std::cout << "Lecture du maillage" << std::endl;
+#endif
   MEDCoupling::MCAuto< MEDCoupling::MEDFileUMesh >
     mfMesh( MEDCoupling::MEDFileUMesh::New( theInputMedFile ));
   if ( mfMesh.isNull() )
@@ -68,6 +85,9 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
 
   // read a geometry
 
+#ifdef _DEBUG_
+  std::cout << "Lecture de la geometrie" << std::endl;
+#endif
   XAO::Xao xao;
   if ( !xao.importXAO( theXaoFileName ) || !xao.getGeometry() )
     throw std::invalid_argument( "Failed to read the XAO input file: " + theXaoFileName );
@@ -79,12 +99,18 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
 
   // read groups of nodes and associate them with boundary shapes using names (no projection so far)
 
+#ifdef _DEBUG_
+  std::cout << "Lecture des groupes" << std::endl;
+#endif
   FT_NodeGroups nodeGroups;
   nodeGroups.read( theNodeFiles, &xao, nodeCoords );
 
 
   // project nodes to the boundary shapes and change their coordinates
 
+#ifdef _DEBUG_
+  std::cout << "Projection des noeuds" << std::endl;
+#endif
   OSD_Parallel::For( 0, nodeGroups.nbOfGroups(), nodeGroups, !theIsParallel );
 
   // save the modified mesh
