@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_3 associe au tutorial 3
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "tutorial_3"
@@ -163,7 +163,7 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results

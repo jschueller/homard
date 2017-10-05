@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_1
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "test_1"
@@ -87,7 +87,7 @@ Python script for HOMARD
     dico["-1"] = "deraffinement"
   # Creation of the hypothesis a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM
     hyponame_1 = "a10_1pc_de_mailles_a_raffiner_sur_ERRE_ELEM_SIGM"
-    print "-------- Creation of the hypothesis", hyponame_1
+    print("-------- Creation of the hypothesis", hyponame_1)
     hypo_1_1 = HOMARD.CreateHypothesis(hyponame_1)
     hypo_1_1.SetField('RESU____ERRE_ELEM_SIGM__________')
     hypo_1_1.SetUseComp(0)
@@ -95,14 +95,14 @@ Python script for HOMARD
     hypo_1_1.SetRefinThr(3, 10.1)
     hypo_1_1.AddFieldInterp('RESU____DEPL____________________')
     hypo_1_1.AddFieldInterp('RESU____ERRE_ELEM_SIGM__________')
-    print hyponame_1, " : champ utilisé :", hypo_1_1.GetFieldName()
-    print hyponame_1, " : composantes utilisées :", hypo_1_1.GetComps()
+    print(hyponame_1, " : champ utilisé :", hypo_1_1.GetFieldName())
+    print(hyponame_1, " : composantes utilisées :", hypo_1_1.GetComps())
     if ( len (hypo_1_1.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", hypo_1_1.GetField()
-    print hyponame_1, " : champs interpolés :", hypo_1_1.GetFieldInterps()
+      print(".. caractéristiques de l'adaptation :", hypo_1_1.GetField())
+    print(hyponame_1, " : champs interpolés :", hypo_1_1.GetFieldInterps())
   # Creation of the hypothesis Zones_1_et_2
     hyponame_2 = "Zones_1_et_2"
-    print "-------- Creation of the hypothesis", hyponame_2
+    print("-------- Creation of the hypothesis", hyponame_2)
     zones_1_et_2 = HOMARD.CreateHypothesis(hyponame_2)
     zones_1_et_2.AddZone('Zone_1_1', 1)
     zones_1_et_2.AddZone('Zone_1_2', 1)
@@ -110,17 +110,17 @@ Python script for HOMARD
     nbzone = len(laux)/2
     jaux = 0
     for iaux in range(nbzone) :
-      print hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux]
+      print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
-    print hyponame_2, " : champ utilisé :", zones_1_et_2.GetFieldName()
+    print(hyponame_2, " : champ utilisé :", zones_1_et_2.GetFieldName())
     if ( len (zones_1_et_2.GetFieldName()) > 0 ) :
-      print ".. caractéristiques de l'adaptation :", zones_1_et_2.GetField()
-    print hyponame_2, " : champs interpolés :", zones_1_et_2.GetFieldInterps()
+      print(".. caractéristiques de l'adaptation :", zones_1_et_2.GetField())
+    print(hyponame_2, " : champs interpolés :", zones_1_et_2.GetFieldInterps())
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    print "-------- Creation of the case", TEST_NAME
+    print("-------- Creation of the case", TEST_NAME)
     mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
     case_test_1 = HOMARD.CreateCase(TEST_NAME, 'MAILL', mesh_file)
     case_test_1.SetDirName(DIRCASE)
@@ -129,17 +129,17 @@ Python script for HOMARD
   # ==========================
   # Creation of the iteration 1
     iter_name = "I_" + TEST_NAME + "_1"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_1_1 = case_test_1.NextIteration(iter_name)
     iter_test_1_1.AssociateHypo(hyponame_1)
-    print ". Hypothese :", hyponame_1
+    print(". Hypothese :", hyponame_1)
     iter_test_1_1.SetMeshName('M1')
     iter_test_1_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
     iter_test_1_1.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.00.med'))
     iter_test_1_1.SetTimeStepRank(1, 1)
     iter_test_1_1.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
     iter_test_1_1.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", iter_test_1_1.GetFieldInterpsTimeStepRank()
+    print(". Instants d'interpolation :", iter_test_1_1.GetFieldInterpsTimeStepRank())
     error = iter_test_1_1.Compute(1, 1)
     if error :
       error = 1
@@ -147,17 +147,17 @@ Python script for HOMARD
 
   # Creation of the iteration 2
     iter_name = "I_" + TEST_NAME + "_2"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_1_2 = iter_test_1_1.NextIteration(iter_name)
     iter_test_1_2.AssociateHypo(hyponame_1)
-    print ". Hypothese :", hyponame_1
+    print(". Hypothese :", hyponame_1)
     iter_test_1_2.SetMeshName('M2')
     iter_test_1_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
     iter_test_1_2.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.01.med'))
     iter_test_1_2.SetTimeStepRank(1, 1)
     iter_test_1_2.SetFieldInterpTimeStep('RESU____DEPL____________________', 1)
     iter_test_1_2.SetFieldInterpTimeStepRank('RESU____ERRE_ELEM_SIGM__________', 1, 1)
-    print ". Instants d'interpolation :", iter_test_1_2.GetFieldInterpsTimeStepRank()
+    print(". Instants d'interpolation :", iter_test_1_2.GetFieldInterpsTimeStepRank())
     error = iter_test_1_2.Compute(1, 1)
     if error :
       error = 2
@@ -165,14 +165,14 @@ Python script for HOMARD
 
   # Creation of the iteration 3
     iter_name = "I_" + TEST_NAME + "_3"
-    print "-------- Creation of the iteration", iter_name
+    print("-------- Creation of the iteration", iter_name)
     iter_test_1_3 = iter_test_1_2.NextIteration(iter_name)
     iter_test_1_3.AssociateHypo(hyponame_2)
-    print ". Hypothese :", hyponame_2
+    print(". Hypothese :", hyponame_2)
     iter_test_1_3.SetMeshName('M3')
     iter_test_1_3.SetMeshFile(os.path.join(DIRCASE, 'maill.03.med'))
     iter_test_1_2.SetFieldFile(os.path.join(REP_DATA, TEST_NAME + '.02.med'))
-    print ". Instants d'interpolation :", iter_test_1_3.GetFieldInterpsTimeStepRank()
+    print(". Instants d'interpolation :", iter_test_1_3.GetFieldInterpsTimeStepRank())
     error = iter_test_1_3.Compute(1, 1)
     if error :
       error = 3
@@ -205,7 +205,7 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results

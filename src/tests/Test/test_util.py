@@ -21,7 +21,7 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V2.1"
+__revision__ = "V3.01"
 
 import os
 import MEDLoader as ml
@@ -152,7 +152,7 @@ def saveGeometry( xao_file, name, author="" ):
         break
 
   if not geomObj:
-    raise RuntimeError, "Cant find a geometry object in the SALOME study with name = '%s'" % name
+    raise RuntimeError("Cant find a geometry object in the SALOME study with name = '%s'" % name)
 
   # save the geom object in a XAO file
   l_fields = list()
@@ -179,7 +179,7 @@ Entrées :
     ligne += "\nfic_med_brut = %s" % fic_med_brut
     ligne += "\nfic_med_new  = %s" % fic_med_new
     ligne += "\nxao_file     = %s" % xao_file
-    print ligne
+    print(ligne)
 
   message = ""
   erreur = 0
@@ -233,8 +233,8 @@ Entrées :
     if l_fr :
 #
       if verbose :
-        print "l_fr =", l_fr
-        print "fic_hom_med =", fic_hom_med
+        print("l_fr =", l_fr)
+        print("fic_hom_med =", fic_hom_med)
 #
 # 2.1.  La fonction :
 #    . prend le maillage brut dans le fichier fic_med_brut
@@ -262,7 +262,7 @@ Entrées :
 # 2.3. Ménage de l'ancien fichier MED
 #
       if ( fic_med_brut != fic_med_new ) :
-        print "Suppression du fichier %s" % fic_med_new
+        print("Suppression du fichier %s" % fic_med_new)
         os.remove(fic_med_brut)
 #
 # 3. Renommage du fichier si aucun noeud n'est concerné
@@ -297,7 +297,7 @@ Entrées :
   if verbose :
     ligne =    "rep_calc     = %s" % rep_calc
     ligne += "\nfic_med_calc = %s" % fic_med_calc
-    print ligne
+    print(ligne)
 
   message = ""
   erreur = 0
@@ -356,12 +356,12 @@ Entrées :
 # 3. Mise à jour
 # 3.1. Détermination de l'exécutable
 #
-    if os.environ.has_key("HOMARD_REP_EXE_PRIVATE") :
+    if "HOMARD_REP_EXE_PRIVATE" in os.environ :
       HOMARD_REP_EXE  = os.environ["HOMARD_REP_EXE_PRIVATE"]
     else :
       HOMARD_REP_EXE  = os.environ["HOMARD_REP_EXE"]
 #
-    if os.environ.has_key("HOMARD_EXE_PRIVATE") :
+    if "HOMARD_EXE_PRIVATE" in os.environ :
       HOMARD_EXE  = os.environ["HOMARD_EXE_PRIVATE"]
     else :
       HOMARD_EXE  = os.environ["HOMARD_EXE"]
@@ -369,7 +369,7 @@ Entrées :
     homard_exe = os.path.join(HOMARD_REP_EXE, HOMARD_EXE)
     if verbose :
       ligne = "homard_exe = %s" % homard_exe
-      print ligne
+      print(ligne)
 #
     if not os.path.isfile(homard_exe) :
       message = "homard_exe = %s" % homard_exe

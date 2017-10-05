@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "test_3"
@@ -94,21 +94,21 @@ Python script for HOMARD
   # ==========================
   # Uniform refinement
     hyponame = "hypo_" + TEST_NAME
-    print "-------- Creation of the hypothesis", hyponame
+    print("-------- Creation of the hypothesis", hyponame)
     hypo_test_3 = HOMARD.CreateHypothesis(hyponame)
     hypo_test_3.SetUnifRefinUnRef(1)
-    print hyponame, " : zones utilisées :", hypo_test_3.GetZones()
-    print hyponame, " : champ utilisé :", hypo_test_3.GetFieldName()
-    print hyponame, " : composantes utilisées :", hypo_test_3.GetComps()
+    print(hyponame, " : zones utilisées :", hypo_test_3.GetZones())
+    print(hyponame, " : champ utilisé :", hypo_test_3.GetFieldName())
+    print(hyponame, " : composantes utilisées :", hypo_test_3.GetComps())
   #
     for num in range (N_BOUCLE+1) :
   #
-      print "-------- num =", num, "--------"
+      print("-------- num =", num, "--------")
   #
   # Creation of the case case_test_3
   # ===========================
       if ( num <= 1 ) :
-        print "-------- Creation of the case", TEST_NAME
+        print("-------- Creation of the case", TEST_NAME)
         mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
         case_test_3 = HOMARD.CreateCase(TEST_NAME, 'MOYEU', mesh_file)
         case_test_3.SetDirName(DIRCASE)
@@ -122,7 +122,7 @@ Python script for HOMARD
   # ==========================
   # Creation of the iteration 1
       iter_name = "I_" + TEST_NAME + "_1"
-      print "-------- Creation of the iteration", iter_name
+      print("-------- Creation of the iteration", iter_name)
       iter_test_3_1 = case_test_3.NextIteration(iter_name)
       iter_test_3_1.SetMeshName('MOYEU_1')
       iter_test_3_1.SetMeshFile(os.path.join(DIRCASE, 'maill.01.med'))
@@ -134,7 +134,7 @@ Python script for HOMARD
 
   # Creation of the iteration 2
       iter_name = "I_" + TEST_NAME + "_2"
-      print "-------- Creation of the iteration", iter_name
+      print("-------- Creation of the iteration", iter_name)
       iter_test_3_2 = iter_test_3_1.NextIteration(iter_name)
       iter_test_3_2.SetMeshName('MOYEU_2')
       iter_test_3_2.SetMeshFile(os.path.join(DIRCASE, 'maill.02.med'))
@@ -150,7 +150,7 @@ Python script for HOMARD
       scriptfile = os.path.normpath(scriptfile)
       dirname = DIRCASE
       yacsname = "YACS_" + TEST_NAME
-      print "-------- Creation of the schema", yacsname
+      print("-------- Creation of the schema", yacsname)
       yacs_test_3 = case_test_3.CreateYACSSchema(yacsname, scriptfile, dirname, mesh_file)
       yacs_test_3.SetType(2)
       yacs_test_3.SetMaxIter(2)
@@ -163,7 +163,7 @@ Python script for HOMARD
   # ============
   # Destruction of the schema, sauf a la fin
       if ( num < N_BOUCLE ) :
-        print "-------- Destruction of the schema", yacs_test_3.GetName()
+        print("-------- Destruction of the schema", yacs_test_3.GetName())
         error = yacs_test_3.Delete(1)
         if error :
           error = 10*num + 6
@@ -171,27 +171,27 @@ Python script for HOMARD
   # After the first loop, the case is deleted, except the final mesh files
   # All the iterations are deleted
       if ( num == 0 ) :
-        print "-------- Destruction of the case", case_test_3.GetName()
+        print("-------- Destruction of the case", case_test_3.GetName())
         error = case_test_3.Delete(0)
         if error :
           break
   # After the second loop, the iterations are deleted, with the final mesh files
       elif ( num == 1 ) :
   # Recursive destruction of the iterations
-        print "-------- Recursive destruction of the iteration", iter_test_3_1.GetName()
+        print("-------- Recursive destruction of the iteration", iter_test_3_1.GetName())
         error = iter_test_3_1.Delete(1)
         if error :
           error = 10*num + 3
           break
   # Destruction and creation of the hypothese
         if ( num == 1 ) :
-          print "-------- Destruction of the hypothese", hypo_test_3.GetName()
+          print("-------- Destruction of the hypothese", hypo_test_3.GetName())
           error = hypo_test_3.Delete()
           if error :
             error = 10*num + 4
             break
           hyponame = "hypo_test_3"
-          print "-------- Creation of the hypothesis", hyponame
+          print("-------- Creation of the hypothesis", hyponame)
           hypo_test_3 = HOMARD.CreateHypothesis(hyponame)
           hypo_test_3.SetUnifRefinUnRef(1)
   #
@@ -211,7 +211,7 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results

@@ -22,7 +22,7 @@ Python script for HOMARD
 Specific conditions for Code_Saturne
 Test test_5
 """
-__revision__ = "V1.0"
+__revision__ = "V2.01"
 
 #========================================================================
 TEST_NAME = "test_5"
@@ -167,7 +167,7 @@ Python script for MED
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
       #print "Ecriture du maillage dans le fichier", ficmed
       meshMEDFile3D.write(ficmed, 2)
-    except Exception, eee:
+    except Exception as eee:
       error = 2
       raise Exception('ExportToMEDX() failed. '+eee.message)
   #
@@ -214,7 +214,7 @@ Python script for MEDCoupling
       valeur[num_mail] = 1.e0 / max ( 1.e-5, distance)
     #print ". valeur", valeur
     nparr = valeur.toNumPyArray()
-    print ". mini/maxi", nparr.min(), nparr.max()
+    print(". mini/maxi", nparr.min(), nparr.max())
   #
   # Creation of the field
   # =====================
@@ -246,19 +246,19 @@ Python script for HOMARD
   # Creation of the hypothese DISTANCE INVERSE
   # ==========================================
     hyponame = "DISTANCE INVERSE"
-    print "-------- Creation of the hypothesis", hyponame
+    print("-------- Creation of the hypothesis", hyponame)
     hypo_5 = HOMARD.CreateHypothesis(hyponame)
     hypo_5.SetField('DISTANCE')
     hypo_5.SetUseComp(0)
     hypo_5.SetRefinThr(1, 0.020)
     hypo_5.SetUnRefThr(1, 0.015)
-    print hyponame, " : champ utilisé :", hypo_5.GetFieldName()
-    print ".. caractéristiques de l'adaptation :", hypo_5.GetField()
+    print(hyponame, " : champ utilisé :", hypo_5.GetFieldName())
+    print(".. caractéristiques de l'adaptation :", hypo_5.GetField())
   #
   # Creation of the cases
   # =====================
     # Creation of the case
-    print "-------- Creation of the case", TEST_NAME
+    print("-------- Creation of the case", TEST_NAME)
     mesh_file = os.path.join(DIRCASE, 'maill.00.med')
     case_test_5 = HOMARD.CreateCase(TEST_NAME, 'MESH', mesh_file)
     case_test_5.SetDirName(DIRCASE)
@@ -282,7 +282,7 @@ Python script for HOMARD
     # Creation of the iteration
     #
       iter_name = "I_" + TEST_NAME + "_" + s_niterp1
-      print "-------- Creation of the iteration", iter_name
+      print("-------- Creation of the iteration", iter_name)
       if ( niter == 0 ) :
         iter_test_5 = case_test_5.NextIteration(iter_name)
       else :
@@ -308,7 +308,7 @@ try :
   ERROR = mesh_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in mesh_exec')
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in mesh_exec: '+eee.message)
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
@@ -321,7 +321,7 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception, eee:
+except Exception as eee:
   raise Exception('Pb in homard_exec: '+eee.message)
 #
 # Test of the results
