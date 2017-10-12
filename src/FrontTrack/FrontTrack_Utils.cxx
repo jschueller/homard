@@ -138,7 +138,7 @@ int FT_Utils::XaoGroups::getProjectors( const std::string&                   gro
     // IDs in XAO correspond to indices of allProjectors
     std::set<int>::iterator id = groups[i]->begin(), end = groups[i]->end();
     for ( ; id != end; ++id, ++nbFound )
-      if ( *id < allProjectors.size() )
+      if ( *id < (int) allProjectors.size() )
         groupProjectors.push_back ( & allProjectors[ *id ]);
   }
 
