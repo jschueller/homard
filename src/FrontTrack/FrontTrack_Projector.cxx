@@ -106,7 +106,7 @@ namespace // actual projection algorithms
     {
       gp_Pnt         proj;
       Standard_Real param;
-      
+
       if ( prevSolution )
       {
         _dist = _projector.NextProject( prevSolution[0], _curve, P, _tol, proj, param );
@@ -114,8 +114,8 @@ namespace // actual projection algorithms
       else
       {
         _dist = _projector.Project( _curve, P, _tol, proj, param, false );
-        proj  = _curve.Value( param );
       }
+      proj = _curve.Value( param );
 
       newSolution[0] = param;
 
