@@ -34,6 +34,9 @@ namespace
   {
     TopTools_IndexedMapOfShape subShapes;
     TopExp::MapShapes( theMainShape, theSubType, subShapes );
+#ifdef _DEBUG_
+    std::cout << ". Nombre de subShapes : " << subShapes.Size() << std::endl;
+#endif
 
     theProjectors.resize( subShapes.Size() );
     for ( int i = 1; i <= subShapes.Size(); ++i )

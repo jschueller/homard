@@ -236,6 +236,10 @@ void FT_NodesOnGeom::projectAndMove()
   size_t iP, iProjector;
   gp_Pnt newXyz;
 
+#ifdef _DEBUG_
+    std::cout << ".. _projectors.size() = " << _projectors.size() << std::endl;
+    std::cout << ".. _nodesOrder.size() = " << _nodesOrder.size() << std::endl;
+#endif
   if ( _projectors.size() > 1 )
   {
     // the nodes are to be projected onto several boundary shapes;
@@ -288,6 +292,8 @@ void FT_NodesOnGeom::projectAndMove()
       gp_Pnt        xyz = getPoint( nn._nodeToMove );
       gp_Pnt       xyz1 = getPoint( nn._neighborNodes[0] );
       gp_Pnt       xyz2 = getPoint( nn._neighborNodes[1] );
+
+// maxDist2 : le quart du carré de la distance entre les deux voisins du noued à bouger
       double   maxDist2 = xyz1.SquareDistance( xyz2 ) / 4.;
       if ( _projectors[ 0 ].project( xyz, maxDist2, newXyz,
                                      nn._params, nn._nearParams ))

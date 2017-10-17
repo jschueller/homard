@@ -55,7 +55,7 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
   for ( size_t i = 0; i < theNodeFiles.size(); ++i )
   {
 #ifdef _DEBUG_
-    std::cout << "Fichier" << theNodeFiles[i] << std::endl;
+    std::cout << "Input node file:" << theNodeFiles[i] << std::endl;
 #endif
     if ( !FT_Utils::fileExists( theNodeFiles[i] ))
       throw std::invalid_argument( "Input node file does not exist: " + theNodeFiles[i] );
@@ -92,6 +92,9 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
   if ( !xao.importXAO( theXaoFileName ) || !xao.getGeometry() )
     throw std::invalid_argument( "Failed to read the XAO input file: " + theXaoFileName );
 
+#ifdef _DEBUG_
+  std::cout << "Conversion en BREP" << std::endl;
+#endif
   XAO::BrepGeometry* xaoGeom = dynamic_cast<XAO::BrepGeometry*>( xao.getGeometry() );
   if ( !xaoGeom || xaoGeom->getTopoDS_Shape().IsNull() )
     throw std::invalid_argument( "Failed to get a BREP shape from the XAO input file" );
@@ -104,17 +107,22 @@ void FrontTrack::track( const std::string&                 theInputMedFile,
 #endif
   FT_NodeGroups nodeGroups;
   nodeGroups.read( theNodeFiles, &xao, nodeCoords );
-
+#ifdef _DEBUG_
+  std::cout << "Nombre de groupes : " << nodeGroups.nbOfGroups() << std::endl;
+#endif
 
   // project nodes to the boundary shapes and change their coordinates
 
 #ifdef _DEBUG_
-  std::cout << "Projection des noeuds" << std::endl;
+  std::cout << "Projection des noeuds, theIsParallel=" << theIsParallel << std::endl;
 #endif
   OSD_Parallel::For( 0, nodeGroups.nbOfGroups(), nodeGroups, !theIsParallel );
 
   // save the modified mesh
 
+#ifdef _DEBUG_
+  std::cout << "Ecriture du maillage" << std::endl;
+#endif
   const int erase = 2;
   mfMesh->write( theOutputMedFile, /*mode=*/erase );
 
