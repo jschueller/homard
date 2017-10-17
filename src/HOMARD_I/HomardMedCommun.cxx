@@ -46,7 +46,7 @@ std::set<std::string> GetListeGroupesInMedFile(const char * aFile)
 {
   std::set<std::string> ListeGroupes;
   med_err erreur = 0 ;
-  med_int medIdt ;
+  med_idt medIdt ;
   while ( erreur == 0 )
   {
     //  Ouverture du fichier
@@ -153,7 +153,7 @@ std::vector<double> GetBoundingBoxInMedFile(const char * aFile)
 
   std::vector<double> LesExtremes;
   med_err erreur = 0 ;
-  med_int medIdt ;
+  med_idt medIdt ;
   while ( erreur == 0 )
   {
     //  Ouverture du fichier
