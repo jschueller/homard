@@ -220,7 +220,7 @@ int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 // =======================================================================
 // renvoie le medId associe au fichier Med apres ouverture
 {
-  med_int medIdt = MEDfileOpen(aFile.toStdString().c_str(),MED_ACC_RDONLY);
+  med_idt medIdt = MEDfileOpen(aFile.toStdString().c_str(),MED_ACC_RDONLY);
   if (medIdt <0)
   {
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
@@ -235,7 +235,7 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
 {
   QString nomMaillage = "" ;
   int erreur = 0 ;
-  med_int medIdt ;
+  med_idt medIdt ;
   while ( erreur == 0 )
   {
     //  Ouverture du fichier
@@ -320,7 +320,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeChamps(QString aFile)
   std::list<QString> ListeChamp ;
 
   med_err erreur = 0 ;
-  med_int medIdt ;
+  med_idt medIdt ;
 
   while ( erreur == 0 )
   {
@@ -384,7 +384,7 @@ std::list<QString> HOMARD_QT_COMMUN::GetListeComposants(QString aFile, QString a
   std::list<QString> ListeComposants;
 
   med_err erreur = 0 ;
-  med_int medIdt ;
+  med_idt medIdt ;
 
   while ( erreur == 0 )
   {
