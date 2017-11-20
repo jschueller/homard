@@ -786,6 +786,9 @@ void FT_Projector::prepareForProjection()
       }
       break;
     }
+
+    if ( !_realProjector )
+      delete classifier;
   }
 }
 
@@ -859,7 +862,13 @@ bool FT_Projector::project( const gp_Pnt& point,
   _realProjector->_dist = 1e100;
   projection = _realProjector->project( point, newSolution, prevSolution );
 
-  return ( _realProjector->_dist * _realProjector->_dist < maxDist2 );
+  bool ok = ( _realProjector->_dist * _realProjector->_dist < maxDist2 );
+  if ( !ok && _tryWOPrevSolution && prevSolution )
+  {
+    projection = _realProjector->project( point, newSolution );
+    ok = ( _realProjector->_dist * _realProjector->_dist < maxDist2 );
+  }
+  return ok;
 }
 
 //================================================================================
@@ -889,8 +898,12 @@ bool FT_Projector::projectAndClassify( const gp_Pnt& point,
   if ( _bndBox.IsOut( point ) || !_realProjector )
     return false;
 
-  return _realProjector->projectAndClassify( point, maxDist2, projection,
-                                             newSolution, prevSolution );
+  bool ok = _realProjector->projectAndClassify( point, maxDist2, projection,
+                                                newSolution, prevSolution );
+  if ( !ok && _tryWOPrevSolution && prevSolution )
+    ok = _realProjector->projectAndClassify( point, maxDist2, projection, newSolution );
+
+  return ok;
 }
 
 //================================================================================

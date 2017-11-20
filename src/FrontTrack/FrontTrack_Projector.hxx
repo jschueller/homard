@@ -40,6 +40,12 @@ public:
   // return true if projection is not needed
   bool isPlanarBoundary() const;
 
+
+  // switch a mode of usage of prevSolution.
+  // If projection fails, to try to project without usage of prevSolution.
+  // By default this mode is off
+  void tryWithoutPrevSolution( bool toTry ) { _tryWOPrevSolution = toTry; }
+
   // project a point to the boundary shape
   bool project( const gp_Pnt& point,
                 const double  maxDist2,
@@ -65,6 +71,7 @@ private:
   FT_RealProjector* _realProjector;
   Bnd_Box           _bndBox;
   TopoDS_Shape      _shape;
+  bool              _tryWOPrevSolution;
 };
 
 #endif

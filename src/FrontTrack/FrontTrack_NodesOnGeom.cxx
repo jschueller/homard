@@ -293,7 +293,7 @@ void FT_NodesOnGeom::projectAndMove()
       gp_Pnt       xyz1 = getPoint( nn._neighborNodes[0] );
       gp_Pnt       xyz2 = getPoint( nn._neighborNodes[1] );
 
-// maxDist2 : le quart du carré de la distance entre les deux voisins du noued à bouger
+      // maxDist2 : le quart du carré de la distance entre les deux voisins du noued à bouger
       double   maxDist2 = xyz1.SquareDistance( xyz2 ) / 4.;
       if ( _projectors[ 0 ].project( xyz, maxDist2, newXyz,
                                      nn._params, nn._nearParams ))
@@ -326,6 +326,7 @@ void FT_NodesOnGeom::projectAndMove()
       for ( iP = 0; iP < projectors.size(); ++iP )
       {
         projectors[ iProjector ].prepareForProjection();
+        projectors[ iProjector ].tryWithoutPrevSolution( true );
 
         if (( ok = projectors[ iProjector ].isOnShape( xyz1, tol2, nn._params, nn._nearParams )) &&
             ( ok = projectors[ iProjector ].isOnShape( xyz2, tol2, nn._params, nn._params )))
