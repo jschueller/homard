@@ -649,6 +649,7 @@ FT_Projector::FT_Projector(const TopoDS_Shape& shape)
 {
   _realProjector = 0;
   setBoundaryShape( shape );
+  _tryWOPrevSolution = false;
 }
 
 //================================================================================
@@ -662,6 +663,7 @@ FT_Projector::FT_Projector(const FT_Projector& other)
   _realProjector = 0;
   _shape = other._shape;
   _bndBox = other._bndBox;
+  _tryWOPrevSolution = false;
 }
 
 //================================================================================
