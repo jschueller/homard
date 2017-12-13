@@ -437,6 +437,14 @@
       <translation>直径の出力</translation>
     </message>
     <message>
+      <source>Output of the parents</source>
+      <translation>親直径の出力</translation>
+    </message>
+    <message>
+      <source>Output of the neighbours</source>
+      <translation>隣の直径の出力</translation>
+    </message>
+    <message>
       <source>Create an iteration</source>
       <translation>イテレーションの作成</translation>
     </message>
