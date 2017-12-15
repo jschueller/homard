@@ -32,10 +32,9 @@
 <!--     <parameter name="def_precision"                value="3"  /> -->
   </section>
   <section name="homard_help" >
-    <parameter name="sub_menu"      value="%1 module"/>
-    <parameter name="Mode d'emploi" value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/fr/index.html"/>
+    <parameter name="User's Guide/Homard Module/Mode d'emploi" value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/fr/index.html"/>
 <!--     <parameter name="Mode d'emploi" value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/fr/index.html" icon="drapeau_fr.gif"/> -->
-    <parameter name="User's Guide"  value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/en/index.html"/>
+    <parameter name="User's Guide/Homard Module/User's Guide"  value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/en/index.html"/>
 <!--     <parameter name="User's Guide"  value="%HOMARD_ROOT_DIR%/share/doc/salome/gui/HOMARD/en/index.html" icon="drapeau_en.gif"/> -->
   </section>
   <section name="resources">
