@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_1
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "test_1"
@@ -109,7 +109,7 @@ Python script for HOMARD
     laux = zones_1_et_2.GetZones()
     nbzone = len(laux) // 2
     jaux = 0
-    for _ in range(nbzone) :
+    for iaux in range(nbzone) :
       print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
     print(hyponame_2, " : champ utilisé :", zones_1_et_2.GetFieldName())
@@ -206,7 +206,7 @@ try :
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except Exception as eee:
-  raise Exception('Pb in homard_exec: ' + str(eee))
+  raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results
 #

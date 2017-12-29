@@ -22,7 +22,7 @@ Python script for HOMARD
 Specific conditions for Code_Saturne
 Test test_5
 """
-__revision__ = "V1.0"
+__revision__ = "V2.01"
 
 #========================================================================
 TEST_NAME = "test_5"
@@ -309,7 +309,7 @@ try :
   if ERROR :
     raise Exception('Pb in mesh_exec')
 except Exception as eee:
-  raise Exception('Pb in mesh_exec: ' + str(eee))
+  raise Exception('Pb in mesh_exec: '+str(eee.message))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert HOMARD is not None, "Impossible to load homard engine"
@@ -322,7 +322,7 @@ try :
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except Exception as eee:
-  raise Exception('Pb in homard_exec: ' + str(eee))
+  raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results
 #

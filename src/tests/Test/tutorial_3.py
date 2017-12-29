@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_3 associe au tutorial 3
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "tutorial_3"

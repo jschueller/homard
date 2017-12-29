@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V3.1"
+__revision__ = "V4.01"
 
 #========================================================================
 TEST_NAME = "test_3"

@@ -19,9 +19,9 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2014
+Copyright EDF-R&D 2014, 2017
 """
-__revision__ = "V1.3"
+__revision__ = "V2.01"
 
 import os
 import sys
