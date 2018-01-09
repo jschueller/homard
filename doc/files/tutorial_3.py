@@ -22,15 +22,15 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010, 2014
+Copyright EDF 1996, 2010, 2018
 """
-__revision__ = "V2.1"
+__revision__ = "V3.1"
 #
 import os
 import sys
 #
 # ==================================
-PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+PATH_HOMARD = os.getenv("HOMARD_ROOT_DIR")
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -47,8 +47,9 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
-study_main = salome.myStudyManager.NewStudy("HOMARD")
 homard.SetCurrentStudy(salome.myStudy)
+#
+#============================= Début des commandes =============================
 #
 # Hypothese "hypo_0vers1"
 # =======================
@@ -90,39 +91,41 @@ hypo_1vers2_bis.SetTypeFieldInterp(0)
 #
 # Cas
 # ===
-case_3 = homard.CreateCase('Case_3', 'G_0', DATA_TUTORIAL+'/tutorial_3.00.med')
-case_3.SetDirName(DIRCASE)
+le_cas = homard.CreateCase('Case_3', 'G_0', os.path.join(DATA_TUTORIAL, "tutorial_3.00.med"))
+le_cas.SetDirName(DIRCASE)
 #
 # Iteration "iter_3_1"
 # ====================
-iter_3_1 = case_3.NextIteration('iter_3_1')
+iter_3_1 = le_cas.NextIteration('iter_3_1')
 iter_3_1.SetMeshName('H_1')
-iter_3_1.SetMeshFile(DIRCASE+'/maill.01.med')
-iter_3_1.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.00.med')
+iter_3_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+iter_3_1.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.00.med"))
 iter_3_1.SetTimeStepRank( 1, 1)
 iter_3_1.AssociateHypo('hypo_0vers1')
-error = iter_3_1.Compute(1, 2)
+erreur = iter_3_1.Compute(1, 2)
 #
 # Iteration "iter_3_2"
 # ====================
 iter_3_2 = iter_3_1.NextIteration('iter_3_2')
 iter_3_2.SetMeshName('H_2')
-iter_3_2.SetMeshFile(DIRCASE+'/maill.02.med')
-iter_3_2.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
+iter_3_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
+iter_3_2.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
 iter_3_2.SetTimeStepRank(1, 1)
 iter_3_2.AssociateHypo('hypo_1vers2')
-error = iter_3_2.Compute(1, 2)
+erreur = iter_3_2.Compute(1, 2)
 #
 # Iteration "iter_3_2_bis"
 # ========================
 iter_3_2_bis = iter_3_1.NextIteration('iter_3_2_bis')
 iter_3_2_bis.SetMeshName('H_2_bis')
-iter_3_2_bis.SetMeshFile(DIRCASE+'/maill.02.bis.med')
-iter_3_2_bis.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
+iter_3_2_bis.SetMeshFile(os.path.join(DIRCASE, "maill.02.bis.med"))
+iter_3_2_bis.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
 iter_3_2_bis.SetTimeStepRank(1, 1)
 iter_3_2_bis.AssociateHypo('hypo_1vers2_bis')
-error = iter_3_2_bis.Compute(1, 2)
-
+erreur = iter_3_2_bis.Compute(1, 2)
+#
+#============================== Fin des commandes ==============================
+#
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 3, 1)
 # ==================================
