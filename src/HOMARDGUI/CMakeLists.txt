@@ -67,10 +67,11 @@ SET(_ts_RESOURCES
   HOMARD_msg_en.ts
   HOMARD_msg_fr.ts
   HOMARD_msg_ja.ts
-) 
+)
 
 # resource files / to be processed by uic
 SET(_uic_FILES
+  CreateBoundaryCAO.ui
   CreateBoundaryAn.ui
   CreateBoundaryDi.ui
   CreateCase.ui
@@ -90,9 +91,11 @@ SET(_uic_FILES
 # header files / to be processed by moc
 SET(_moc_HEADERS
   HOMARDGUI.h
+  MonCreateBoundaryCAO.h
   MonCreateBoundaryAn.h
-  MonEditBoundaryAn.h
   MonCreateBoundaryDi.h
+  MonEditBoundaryCAO.h
+  MonEditBoundaryAn.h
   MonEditBoundaryDi.h
   MonCreateCase.h
   MonEditCase.h
@@ -101,7 +104,9 @@ SET(_moc_HEADERS
   MonCreateHypothesis.h
   MonEditHypothesis.h
   MonCreateListGroup.h
+  MonCreateListGroupCAO.h
   MonEditListGroup.h
+  MonEditListGroupCAO.h
   MonCreateIteration.h
   MonEditIteration.h
   MonPursueIteration.h
@@ -114,7 +119,7 @@ SET(_moc_HEADERS
 
 # header files / uic wrappings
 QT_WRAP_UIC(_uic_HEADERS ${_uic_FILES})
-  
+
 # header files / static
 SET(_other_HEADERS
   HOMARDGUI_Utils.h
@@ -134,16 +139,20 @@ QT_WRAP_MOC(_moc_SOURCES ${_moc_HEADERS})
 SET(_other_SOURCES
   HOMARDGUI.cxx
   HOMARDGUI_Utils.cxx
+  MonCreateBoundaryCAO.cxx
   MonCreateBoundaryAn.cxx
-  MonEditBoundaryAn.cxx
   MonCreateBoundaryDi.cxx
+  MonEditBoundaryCAO.cxx
+  MonEditBoundaryAn.cxx
   MonEditBoundaryDi.cxx
   MonCreateCase.cxx
   MonEditCase.cxx
   MonCreateHypothesis.cxx
   MonEditHypothesis.cxx
   MonCreateListGroup.cxx
+  MonCreateListGroupCAO.cxx
   MonEditListGroup.cxx
+  MonEditListGroupCAO.cxx
   MonCreateIteration.cxx
   MonEditIteration.cxx
   MonPursueIteration.cxx

@@ -24,11 +24,13 @@ SET(HOMARD_TEST_FILES
   test_3.py
   test_4.py
   test_5.py
+  test_6.py
   tutorial_1.py
   tutorial_2.py
   tutorial_3.py
   tutorial_4.py
   tutorial_5.py
+  tutorial_6.py
   test_util.py
 )
 

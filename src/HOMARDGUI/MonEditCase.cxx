@@ -74,31 +74,43 @@ void MonEditCase::InitValEdit()
   RBNonConforme->setEnabled(false);
   int ExtType=aCase->GetExtType();
 
-//    Non affichage du mode de suivi de frontiere
-  CBBoundaryA->setVisible(0);
-  GBBoundaryA->setVisible(0);
-  CBBoundaryD->setVisible(0);
-  GBBoundaryD->setVisible(0);
 
+// Suivi de frontiere
+// A priori, aucun affichage
+  GBTypeBoun->setVisible(0);
+  CBBoundaryD->setVisible(0);
+  CBBoundaryA->setVisible(0);
+  GBBoundaryC->setVisible(0);
+  GBBoundaryD->setVisible(0);
+  GBBoundaryA->setVisible(0);
 //    On passe en revue tous les couples (frontiere,groupe) du cas
   HOMARD::ListBoundaryGroupType_var mesBoundarys = aCase->GetBoundaryGroup();
   if (mesBoundarys->length()>0)
   {
     QStringList ListeFron ;
     QString NomFron ;
+    bool BounCAO = false ;
     bool BounDi = false ;
     bool BounAn = false ;
     for (int i=0; i<mesBoundarys->length(); i++)
     {
-//        Nom de la frontiere
+//    Nom de la frontiere
       NomFron = mesBoundarys[i++];
       MESSAGE("NomFron "<<NomFron.toStdString().c_str());
-//        L'objet associe pour en deduire le type
+//    L'objet associe pour en deduire le type
       HOMARD::HOMARD_Boundary_var myBoundary = myHomardGen->GetBoundary(NomFron.toStdString().c_str());
       int type_obj = myBoundary->GetType() ;
+      MESSAGE("type_obj "<<type_obj);
+//        C'est une frontiere CAO
+//        Remarque : on ne gere pas les groupes
+      if ( type_obj==-1 )
+      {
+        BounCAO = true ;
+        CBBoundaryCAO->addItem(NomFron);
+      }
 //        C'est une frontiere discrete
 //        Rermarque : on ne gere pas les groupes
-      if ( type_obj==0 )
+      else if ( type_obj==0 )
       {
         BounDi = true ;
         CBBoundaryDi->addItem(NomFron);
@@ -138,9 +150,23 @@ void MonEditCase::InitValEdit()
         TWBoundary->item( 0, ok )->setCheckState( Qt::Checked );
       }
     }
-    MESSAGE("BounDi "<<BounDi<<", BounAn "<<BounAn);
+    MESSAGE("BounCAO "<<BounCAO<<",BounDi "<<BounDi<<", BounAn "<<BounAn);
+    GBTypeBoun->setVisible(1);
+    if ( BounCAO )
+    { RBBoundaryCAO->setChecked(true);
+      GBBoundaryC->setVisible(1);
+      CBBoundaryCAO->setDisabled(true);
+      PBBoundaryCAONew->setVisible(0);
+      PBBoundaryCAOHelp->setVisible(0); }
+    if ( BounDi )
+    { RBBoundaryNonCAO->setChecked(true);
+      GBBoundaryD->setVisible(1);
+      CBBoundaryDi->setDisabled(true);
+      PBBoundaryDiNew->setVisible(0);
+      PBBoundaryDiHelp->setVisible(0); }
     if ( BounAn )
-    { GBBoundaryA->setVisible(1);
+    { RBBoundaryNonCAO->setChecked(true);
+      GBBoundaryA->setVisible(1);
 //    On rend les cases non modifiables.
 //    On ne peut pas le faire pour tout le tableau sinon on perd l'ascenseur !
       int nbcol = TWBoundary->columnCount();
@@ -155,11 +181,9 @@ void MonEditCase::InitValEdit()
       PBBoundaryAnNew->setVisible(0);
       PBBoundaryAnHelp->setVisible(0);
     }
-    if ( BounDi )
-    { GBBoundaryD->setVisible(1);
-      CBBoundaryDi->setDisabled(true);
-      PBBoundaryDiNew->setVisible(0);
-      PBBoundaryDiHelp->setVisible(0); }
+    RBBoundaryNo->setEnabled(false);
+    RBBoundaryCAO->setEnabled(false);
+    RBBoundaryNonCAO->setEnabled(false);
   }
 //
 // Les options avancees (non modifiables)

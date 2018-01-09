@@ -134,18 +134,18 @@ char* HOMARD_Boundary_i::GetMeshName()
   return CORBA::string_dup( myHomardBoundary->GetMeshName().c_str() );
 }
 //=============================================================================
-void HOMARD_Boundary_i::SetMeshFile( const char* MeshFile )
+void HOMARD_Boundary_i::SetDataFile( const char* DataFile )
 {
   ASSERT( myHomardBoundary );
-  myHomardBoundary->SetMeshFile( MeshFile );
+  myHomardBoundary->SetDataFile( DataFile );
   int PublisMeshIN = _gen_i->GetPublisMeshIN () ;
-  if ( PublisMeshIN != 0 ) { _gen_i->PublishResultInSmesh(MeshFile, 0); }
+  if ( PublisMeshIN != 0 ) { _gen_i->PublishResultInSmesh(DataFile, 0); }
 }
 //=============================================================================
-char* HOMARD_Boundary_i::GetMeshFile()
+char* HOMARD_Boundary_i::GetDataFile()
 {
   ASSERT( myHomardBoundary );
-  return CORBA::string_dup( myHomardBoundary->GetMeshFile().c_str() );
+  return CORBA::string_dup( myHomardBoundary->GetDataFile().c_str() );
 }
 //=============================================================================
 void HOMARD_Boundary_i::SetCylinder( double X0, double X1, double X2, double X3, double X4, double X5, double X6 )

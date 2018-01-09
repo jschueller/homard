@@ -72,8 +72,8 @@ public:
   void                   SetMeshName( const char* MeshName );
   char*                  GetMeshName();
 
-  void                   SetMeshFile( const char* MeshFile );
-  char*                  GetMeshFile();
+  void                   SetDataFile( const char* DataFile );
+  char*                  GetDataFile();
 
   void                   SetCylinder( double Xcentre, double Ycentre, double ZCentre,
                                       double Xaxe, double Yaxe, double Zaxe,

@@ -22,7 +22,7 @@
  *  \param [in] theInputMedFile - a MED file holding a mesh including nodes that will be
  *         moved onto the geometry
  *  \param [in] theOutputMedFile - a MED file to create, that will hold a modified mesh
- *  \param [in] theNodeFiles - an array of names of files describing groups of nodes that
+ *  \param [in] theInputNodeFiles - an array of names of files describing groups of nodes that
  *         will be moved onto the geometry
  *  \param [in] theXaoFileName - a path to a file in XAO format holding the geometry and
  *         the geometrical groups.
@@ -31,42 +31,57 @@
  */
 void FrontTrack::track( const std::string&                 theInputMedFile,
                         const std::string&                 theOutputMedFile,
-                        const std::vector< std::string > & theNodeFiles,
+                        const std::vector< std::string > & theInputNodeFiles,
                         const std::string&                 theXaoFileName,
                         bool                               theIsParallel )
 {
   // check arguments
+#ifdef _DEBUG_
+  std::cout << "FrontTrack::track" << std::endl;
+#endif
 
-  if ( theNodeFiles.empty() )
+  if ( theInputNodeFiles.empty() )
     return;
 
 #ifdef _DEBUG_
-  std::cout << "Input MED file:" << theInputMedFile << std::endl;
+  std::cout << "Input MED file: " << theInputMedFile << std::endl;
 #endif
   if ( !FT_Utils::fileExists( theInputMedFile ))
     throw std::invalid_argument( "Input MED file does not exist: " + theInputMedFile );
 
 #ifdef _DEBUG_
-  std::cout << "Output MED file:" << theOutputMedFile << std::endl;
+  std::cout << "Output MED file: " << theOutputMedFile << std::endl;
 #endif
   if ( !FT_Utils::canWrite( theOutputMedFile ))
     throw std::invalid_argument( "Can't create the output MED file: " + theOutputMedFile );
 
-  for ( size_t i = 0; i < theNodeFiles.size(); ++i )
+  std::vector< std::string > theNodeFiles ;
+  for ( size_t i = 0; i < theInputNodeFiles.size(); ++i )
   {
 #ifdef _DEBUG_
-    std::cout << "Input node file:" << theNodeFiles[i] << std::endl;
+    std::cout << "Initial input node file #"<<i<<": " << theInputNodeFiles[i] << std::endl;
 #endif
-    if ( !FT_Utils::fileExists( theNodeFiles[i] ))
-      throw std::invalid_argument( "Input node file does not exist: " + theNodeFiles[i] );
+    if ( !FT_Utils::fileExists( theInputNodeFiles[i] ))
+      throw std::invalid_argument( "Input node file does not exist: " + theInputNodeFiles[i] );
+    // the name of the groupe on line #1, then the numbers of nodes on line #>1
+    // keep only files with more than 1 line:
+    std::ifstream fichier(theInputNodeFiles[i].c_str());
+    std::string s;
+    unsigned int nb_lines = 0;
+    while(std::getline(fichier,s)) ++nb_lines;
+//     std::cout << ". nb_lines: " << nb_lines << std::endl;
+    if ( nb_lines >= 2 ) { theNodeFiles.push_back( theInputNodeFiles[i] ); }
   }
+#ifdef _DEBUG_
+  for ( size_t i = 0; i < theNodeFiles.size(); ++i )
+  { std::cout << "Valid input node file #"<<i<<": " << theNodeFiles[i] << std::endl; }
+#endif
 
 #ifdef _DEBUG_
-  std::cout << "XAO file:" << theXaoFileName << std::endl;
+  std::cout << "XAO file: " << theXaoFileName << std::endl;
 #endif
   if ( !FT_Utils::fileExists( theXaoFileName ))
     throw std::invalid_argument( "Input XAO file does not exist: " + theXaoFileName );
-
 
   // read a mesh
 

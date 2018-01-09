@@ -30,6 +30,8 @@
 #include "YACSDriver.hxx"
 #include "HOMARD.hxx"
 
+#include "FrontTrack.hxx"
+
 #include "HOMARD_version.h"
 
 #include "utilities.h"
@@ -892,7 +894,7 @@ void HOMARD_Gen_i::AssociateIterHypo(const char* nomIter, const char* nomHypo)
   myIteration->SetHypoName(nomHypo);
   myHypo->LinkIteration(nomIter);
 
-  // On stocke les noms des champ a interpoler pour le futur controle de la donnee des pas de temps
+  // On stocke les noms des champ a interpoler pour le futur controle de la donnée des pas de temps
   myIteration->SupprFieldInterps() ;
   HOMARD::listeFieldInterpsHypo* ListField = myHypo->GetFieldInterps();
   int numberOfFieldsx2 = ListField->length();
@@ -1239,7 +1241,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas, const char* DirNameStart)
 //
 // nomCas : nom du cas a creer
-// DirNameStart : nom du repertoire contenant l'iteration de reprise
+// DirNameStart : nom du répertoire contenant l'iteration de reprise
 //
 {
   INFOS ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
@@ -1247,7 +1249,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   int codret ;
 
   // A. Decodage du point de reprise
-  // A.1. Controle du repertoire de depart de l'iteration
+  // A.1. Controle du répertoire de depart de l'iteration
   codret = CHDIR(DirNameStart) ;
   if ( codret != 0 )
   {
@@ -1257,7 +1259,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
-  // A.2. Reperage des fichiers du repertoire de reprise
+  // A.2. Reperage des fichiers du répertoire de reprise
   std::string file_configuration = "" ;
   std::string file_maillage_homard = "" ;
   int bilan ;
@@ -1410,9 +1412,9 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   myCase->SetPyram (Pyram) ;
 
   // E. Copie du fichier de maillage homard
-  // E.1. Repertoire associe au cas
+  // E.1. Répertoire associe au cas
   char* nomDirCase = myCase->GetDirName() ;
-  // E.2. Repertoire associe a l'iteration de ce cas
+  // E.2. Répertoire associe a l'iteration de ce cas
   char* IterName ;
   IterName = myCase->GetIter0Name() ;
   HOMARD::HOMARD_Iteration_var Iter = GetIteration(IterName) ;
@@ -1460,7 +1462,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseLastIteration(const char* nomCas, const char* DirNameStart)
 //
 // nomCas : nom du cas a creer
-// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+// DirNameStart : nom du répertoire du cas contenant l'iteration de reprise
 //
 {
   INFOS ( "CreateCaseFromCaseLastIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
@@ -1476,7 +1478,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseLastIteration(const char*
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseIteration(const char* nomCas, const char* DirNameStart, CORBA::Long Number)
 //
 // nomCas : nom du cas a creer
-// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+// DirNameStart : nom du répertoire du cas contenant l'iteration de reprise
 // Number : numero de l'iteration de depart
 //
 {
@@ -1500,8 +1502,8 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseIteration(const char* nom
 //=============================================================================
 std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Number)
 //
-// Retourne le nom du repertoire ou se trouve l'iteration voulue.
-// DirNameStart : nom du repertoire du cas contenant l'iteration de reprise
+// Retourne le nom du répertoire ou se trouve l'iteration voulue.
+// DirNameStart : nom du répertoire du cas contenant l'iteration de reprise
 // Number : numero de l'iteration de depart ou -1 si on cherche la derniere
 //
 {
@@ -1511,7 +1513,7 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   int codret ;
   int NumeIterMax = -1 ;
 
-  // A.1. Controle du repertoire de depart du cas
+  // A.1. Controle du répertoire de depart du cas
   codret = CHDIR(DirNameStart) ;
   if ( codret != 0 )
   {
@@ -1521,7 +1523,7 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
-  // A.2. Reperage des sous-repertoire du repertoire de reprise
+  // A.2. Reperage des sous-répertoire du répertoire de reprise
   bool existe = false ;
 #ifndef WIN32
   DIR *dp;
@@ -1544,7 +1546,7 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
     {
       if ( CHDIR(DirName_1.c_str()) == 0 )
       {
-//      On cherche le fichier de configuration dans ce sous-repertoire
+//      On cherche le fichier de configuration dans ce sous-répertoire
         codret = CHDIR(DirNameStart);
 #ifndef WIN32
         DIR *dp_1;
@@ -1703,8 +1705,8 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   // C. Caracteristiques du maillage
   if ( existeMeshFile != 0 )
   {
-  // Les valeurs extremes des coordonnees
-//     MESSAGE ( "CreateCase0 : Les valeurs extremes des coordonnees" );
+  // Les valeurs extremes des coordonnées
+//     MESSAGE ( "CreateCase0 : Les valeurs extremes des coordonnées" );
     std::vector<double> LesExtremes =GetBoundingBoxInMedFile(MeshFile) ;
     HOMARD::extrema_var aSeq = new HOMARD::extrema() ;
     if (LesExtremes.size()!=10) { return 0; }
@@ -1864,7 +1866,7 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   myIteration->SetNumber(numero);
 
 // Nombre d'iterations deja connues pour le cas, permettant
-// la creation d'un sous-repertoire unique
+// la creation d'un sous-répertoire unique
   int nbitercase = myCase->GetNumberofIter();
   char* nomDirIter = CreateDirNameIter(nomDirCase, nbitercase );
   myIteration->SetDirNameLoc(nomDirIter);
@@ -1933,11 +1935,20 @@ HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundary(const char* BoundaryNam
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary);
 }
 //=============================================================================
+HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryCAO(const char* BoundaryName, const char* CAOFile)
+{
+  INFOS ("CreateBoundaryCAO : BoundaryName  = " << BoundaryName << ", CAOFile = " << CAOFile );
+  HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, -1);
+  myBoundary->SetDataFile( CAOFile ) ;
+
+  return HOMARD::HOMARD_Boundary::_duplicate(myBoundary);
+}
+//=============================================================================
 HOMARD::HOMARD_Boundary_ptr HOMARD_Gen_i::CreateBoundaryDi(const char* BoundaryName, const char* MeshName, const char* MeshFile)
 {
-  INFOS ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << ", MeshName = " << MeshName );
+  INFOS ("CreateBoundaryDi : BoundaryName  = " << BoundaryName << ", MeshName = " << MeshName << ", MeshFile = " << MeshFile );
   HOMARD::HOMARD_Boundary_var myBoundary = CreateBoundary(BoundaryName, 0);
-  myBoundary->SetMeshFile( MeshFile ) ;
+  myBoundary->SetDataFile( MeshFile ) ;
   myBoundary->SetMeshName( MeshName ) ;
 
   return HOMARD::HOMARD_Boundary::_duplicate(myBoundary);
@@ -2394,7 +2405,7 @@ HOMARD::HOMARD_Zone_ptr HOMARD_Gen_i::CreateZoneDiskWithHole(const char* ZoneNam
 //=============================================================================
 //=============================================================================
 // Traitement d'une iteration
-// etatMenage = 1 : destruction du repertoire d'execution
+// etatMenage = 1 : destruction du répertoire d'execution
 // modeHOMARD  = 1 : adaptation
 //            != 1 : information avec les options modeHOMARD
 // Option1 >0 : appel depuis python
@@ -2481,10 +2492,10 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
   ASSERT(!CORBA::is_nil(myCase));
 
-  // B. Les repertoires
-  // B.1. Le repertoire courant
+  // B. Les répertoires
+  // B.1. Le répertoire courant
   std::string nomDirWork = getenv("PWD") ;
-  // B.2. Le sous-repertoire de l'iteration a traiter
+  // B.2. Le sous-répertoire de l'iteration a traiter
   char* DirCompute = ComputeDirManagement(myCase, myIteration, etatMenage);
   MESSAGE( ". DirCompute = " << DirCompute );
 
@@ -2507,11 +2518,11 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   FileInfo += "." + siterp1 + ".bilan" ;
   myIteration->SetFileInfo(FileInfo.c_str());
 
-   // D. On passe dans le repertoire de l'iteration a calculer
+   // D. On passe dans le répertoire de l'iteration a calculer
   MESSAGE ( ". On passe dans DirCompute = " << DirCompute );
   CHDIR(DirCompute);
 
-  // E. Les donnees de l'execution HOMARD
+  // E. Les données de l'exécution HOMARD
   // E.1. L'objet du texte du fichier de configuration
   HomardDriver* myDriver = new HomardDriver(siter, siterp1);
   myDriver->TexteInit(DirCompute, LogFile, _Langue);
@@ -2522,7 +2533,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   const char* MeshFile = myIteration->GetMeshFile();
   MESSAGE ( ". MeshFile = " << MeshFile );
 
-  // E.3. Les donnees du traitement HOMARD
+  // E.3. Les données du traitement HOMARD
   int iaux ;
   if ( modeHOMARD == 1 )
   {
@@ -2542,7 +2553,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   }
 
   // E.4. Ajout des informations liees a l'eventuel suivi de frontiere
-  DriverTexteBoundary(myCase, myDriver) ;
+  int BoundaryOption = DriverTexteBoundary(myCase, myDriver) ;
 
   // E.5. Ecriture du texte dans le fichier
   MESSAGE ( ". Ecriture du texte dans le fichier de configuration ; codret = "<<codret );
@@ -2551,7 +2562,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 
 // G. Execution
 //
-  int codretexec = 12 ;
+  int codretexec = 1789 ;
   if (codret == 0)
   {
     codretexec = myDriver->ExecuteHomard(Option1);
@@ -2632,7 +2643,7 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     }
   }
 
-  // I. Menage et retour dans le repertoire du cas
+  // I. Menage et retour dans le répertoire du cas
   if (codret == 0)
   {
     delete myDriver;
@@ -2641,14 +2652,28 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
     CHDIR(nomDirWork.c_str());
   }
 
+  // J. Suivi de la frontière CAO
+//   std::cout << "- codret : " << codret << std::endl;
+//   std::cout << "- modeHOMARD : " << modeHOMARD << std::endl;
+//   std::cout << "- BoundaryOption : " << BoundaryOption << std::endl;
+//   std::cout << "- codretexec : " << codretexec << std::endl;
+  if (codret == 0)
+  {
+    if ( ( modeHOMARD == 1 ) && ( BoundaryOption % 5 == 0 ) && (codretexec == 0) )
+    {
+      INFOS ( "Suivi de frontière CAO" );
+      codret = ComputeCAO(myCase, myIteration, Option1, Option2) ;
+    }
+  }
+
   return codretexec ;
 }
 //=============================================================================
-// Calcul d'une iteration : partie specifique a l'adaptation
+// Calcul d'une iteration : partie spécifique à l'adaptation
 //=============================================================================
 CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option1, CORBA::Long Option2)
 {
-  MESSAGE ( "ComputeAdap" );
+  MESSAGE ( "ComputeAdap avec Option1 = " << Option1 << ", Option2 = " << Option2 );
 
   // A. Prealable
   // A.1. Bases
@@ -2689,11 +2714,11 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
     }
   };
 
-  // C. Le sous-repertoire de l'iteration precedente
+  // C. Le sous-répertoire de l'iteration precedente
   char* DirComputePa = ComputeDirPaManagement(myCase, myIteration);
   MESSAGE( ". DirComputePa = " << DirComputePa );
 
-  // D. Les donnees de l'adaptation HOMARD
+  // D. Les données de l'adaptation HOMARD
   // D.1. Le type de conformite
   int ConfType = myCase->GetConfType();
   MESSAGE ( ". ConfType = " << ConfType );
@@ -2802,14 +2827,221 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
   return codret ;
 }
 //=============================================================================
-// Creation d'un nom de sous-repertoire pour l'iteration au sein d'un repertoire parent
-//  nomrep : nom du repertoire parent
-//  num : le nom du sous-repertoire est sous la forme 'In', n est >= num
+// Calcul d'une iteration : partie spécifique au suivi de frontière CAO
+//=============================================================================
+CORBA::Long HOMARD_Gen_i::ComputeCAO(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long Option1, CORBA::Long Option2)
+{
+  MESSAGE ( "ComputeCAO avec Option1 = " << Option1 << ", Option2 = " << Option2 );
+
+  // A. Prealable
+  // A.1. Bases
+  int codret = 0;
+  // A.2. Le sous-répertoire de l'iteration en cours de traitement
+  char* DirCompute = myIteration->GetDirName();
+  // A.3. Le maillage résultat de l'iteration en cours de traitement
+  char* MeshFile = myIteration->GetMeshFile();
+
+  // B. Les données pour FrontTrack
+  // B.1. Le maillage à modifier
+  const std::string theInputMedFile = MeshFile;
+  MESSAGE ( ". theInputMedFile  = " << theInputMedFile );
+
+  // B.2. Le maillage après modification : fichier identique
+  const std::string theOutputMedFile = MeshFile ;
+  MESSAGE ( ". theOutputMedFile = " << theInputMedFile );
+
+  // B.3. La liste des fichiers contenant les numéros des noeuds à bouger
+  std::vector< std::string > theInputNodeFiles ;
+  MESSAGE ( ". DirCompute = " << DirCompute );
+  int bilan ;
+  int icpt = 0 ;
+#ifndef WIN32
+  DIR *dp;
+  struct dirent *dirp;
+  dp  = opendir(DirCompute);
+  while ( (dirp = readdir(dp)) != NULL )
+  {
+    std::string file_name(dirp->d_name);
+    bilan = file_name.find("fr") ;
+    if ( bilan != string::npos )
+    {
+      std::stringstream filename_total ;
+      filename_total << DirCompute << "/" << file_name ;
+      theInputNodeFiles.push_back(filename_total.str()) ;
+      icpt += 1 ;
+    }
+  }
+#else
+  HANDLE hFind = INVALID_HANDLE_VALUE;
+  WIN32_FIND_DATA ffd;
+  hFind = FindFirstFile(DirNameStart, &ffd);
+  if (INVALID_HANDLE_VALUE != hFind) {
+    while (FindNextFile(hFind, &ffd) != 0) {
+      std::string file_name(ffd.cFileName);
+      bilan = file_name.find("fr") ;
+      if ( bilan != string::npos )
+      {
+        std::stringstream filename_total ;
+        filename_total << DirCompute << "/" << file_name ;
+        theInputNodeFiles.push_back(filename_total.str()) ;
+        icpt += 1 ;
+      }
+    }
+    FindClose(hFind);
+  }
+#endif
+  for ( int i = 0; i < icpt; i++ )
+  { MESSAGE ( ". theInputNodeFiles["<< i << "] = " << theInputNodeFiles[i] ); }
+
+  // B.4. Le fichier de la CAO
+  HOMARD::ListBoundaryGroupType* ListBoundaryGroupType = myCase->GetBoundaryGroup();
+  std::string BoundaryName = std::string((*ListBoundaryGroupType)[0]);
+  MESSAGE ( ". BoundaryName = " << BoundaryName );
+  HOMARD::HOMARD_Boundary_var myBoundary = myContextMap[GetCurrentStudyID()]._mesBoundarys[BoundaryName];
+  const std::string theXaoFileName = myBoundary->GetDataFile();
+  MESSAGE ( ". theXaoFileName = " << theXaoFileName );
+
+  // B.5. Parallélisme
+  bool theIsParallel = false;
+
+  // C. Lancement des projections
+  MESSAGE ( ". Lancement des projections" );
+  FrontTrack* myFrontTrack = new FrontTrack();
+  myFrontTrack->track(theInputMedFile, theOutputMedFile, theInputNodeFiles, theXaoFileName, theIsParallel);
+
+  // D. Transfert des coordonnées modifiées dans le fichier historique de HOMARD
+  //    On lance une exécution spéciale de HOMARD en attendant de savoir le faire avec MEDCoupling
+  MESSAGE ( ". Transfert des coordonnées" );
+  codret = ComputeCAObis(myIteration, Option1, Option2) ;
+
+  return codret ;
+}
+//=============================================================================
+//=============================================================================
+// Transfert des coordonnées en suivi de frontière CAO
+// Option1 >0 : appel depuis python
+//         <0 : appel depuis GUI
+// Option2 : multiple de nombres premiers
+//         1 : aucune option
+//        x2 : publication du maillage dans SMESH
+//=============================================================================
+CORBA::Long HOMARD_Gen_i::ComputeCAObis(HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long Option1, CORBA::Long Option2)
+{
+  MESSAGE ( "ComputeCAObis, avec Option1 = " << Option1 << ", Option2 = " << Option2 );
+
+  // A. Prealable
+  int codret = 0;
+
+  // A.1. Controle de la possibilite d'agir
+  // A.1.1. Etat de l'iteration
+  int etat = myIteration->GetState();
+  MESSAGE ( "etat = "<<etat );
+  // A.1.2. L'iteration doit être calculee
+  if ( etat == 1 )
+  {
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+    es.text = "This iteration is not computed.";
+    throw SALOME::SALOME_Exception(es);
+    return 1 ;
+  }
+  // A.2. Numero de l'iteration
+  //     siterp1 : numero de l'iteration a traiter
+  int NumeIter = myIteration->GetNumber();
+  std::string siterp1 ;
+  std::stringstream saux1 ;
+  saux1 << NumeIter ;
+  siterp1 = saux1.str() ;
+  if (NumeIter < 10) { siterp1 = "0" + siterp1 ; }
+  MESSAGE ( "siterp1 = "<<siterp1 );
+
+  // A.3. Le cas
+  const char* nomCas = myIteration->GetCaseName();
+  HOMARD::HOMARD_Cas_var myCase = myContextMap[GetCurrentStudyID()]._mesCas[nomCas];
+  ASSERT(!CORBA::is_nil(myCase));
+
+  // A.4. Le sous-répertoire de l'iteration a traiter
+  char* DirCompute = myIteration->GetDirName();
+  MESSAGE( ". DirCompute = " << DirCompute );
+
+  // C. Le fichier des messages
+  std::string LogFile = DirCompute ;
+  LogFile += "/Liste." + siterp1 + ".maj_coords.log" ;
+  MESSAGE (". LogFile = " << LogFile);
+  myIteration->SetFileInfo(LogFile.c_str());
+
+   // D. On passe dans le répertoire de l'iteration a calculer
+  MESSAGE ( ". On passe dans DirCompute = " << DirCompute );
+  CHDIR(DirCompute);
+
+  // E. Les données de l'exécution HOMARD
+  // E.1. L'objet du texte du fichier de configuration
+  HomardDriver* myDriver = new HomardDriver("", siterp1);
+  myDriver->TexteInit(DirCompute, LogFile, _Langue);
+
+  // E.2. Le maillage associe a l'iteration
+  const char* NomMesh = myIteration->GetMeshName();
+  MESSAGE ( ". NomMesh = " << NomMesh );
+  const char* MeshFile = myIteration->GetMeshFile();
+  MESSAGE ( ". MeshFile = " << MeshFile );
+
+  // E.3. Les données du traitement HOMARD
+  int iaux ;
+  myDriver->TexteMajCoords( NumeIter ) ;
+  iaux = 0 ;
+  myDriver->TexteMaillageHOMARD( DirCompute, siterp1, iaux ) ;
+  myDriver->TexteMaillage(NomMesh, MeshFile, 0);
+//
+  // E.4. Ecriture du texte dans le fichier
+  MESSAGE ( ". Ecriture du texte dans le fichier de configuration ; codret = "<<codret );
+  if (codret == 0)
+  { myDriver->CreeFichier(); }
+
+// F. Execution
+//
+  int codretexec = 1789 ;
+  if (codret == 0)
+  {
+    codretexec = myDriver->ExecuteHomard(Option1);
+    MESSAGE ( "Erreur en executant HOMARD : " << codretexec );
+  }
+
+  // G. Gestion des resultats
+  if (codret == 0)
+  {
+    // G.1. Le fichier des messages, dans tous les cas
+    const char* NomIteration = myIteration->GetName();
+    std::string Commentaire = "logmaj_coords" ;
+    PublishFileUnderIteration(NomIteration, LogFile.c_str(), Commentaire.c_str());
+    // G.2 Message d'erreur
+    if (codretexec != 0)
+    {
+      std::string text = "\n\nSee the file " + LogFile + "\n" ;
+      INFOS ( text ) ;
+      SALOME::ExceptionStruct es;
+      es.type = SALOME::BAD_PARAM;
+      es.text = CORBA::string_dup(text.c_str());
+      throw SALOME::SALOME_Exception(es);
+
+      // On force le succes pour pouvoir consulter le fichier log
+      codretexec = 0 ;
+    }
+  }
+
+  // H. Menage et retour dans le répertoire du cas
+  if (codret == 0) { delete myDriver; }
+
+  return codret ;
+}
+//=============================================================================
+// Creation d'un nom de sous-répertoire pour l'iteration au sein d'un répertoire parent
+//  nomrep : nom du répertoire parent
+//  num : le nom du sous-répertoire est sous la forme 'In', n est >= num
 //=============================================================================
 char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
 {
   MESSAGE ( "CreateDirNameIter : nomrep ="<< nomrep << ", num = "<<num);
-  // On verifie que le repertoire parent existe
+  // On verifie que le répertoire parent existe
   int codret = CHDIR(nomrep) ;
   if ( codret != 0 )
   {
@@ -2821,11 +3053,11 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
   };
   std::string nomDirActuel = getenv("PWD") ;
   std::string DirName ;
-  // On boucle sur tous les noms possibles jusqu'a trouver un nom correspondant a un repertoire inconnu
+  // On boucle sur tous les noms possibles jusqu'a trouver un nom correspondant a un répertoire inconnu
   bool a_chercher = true ;
   while ( a_chercher )
   {
-    // On passe dans le repertoire parent
+    // On passe dans le répertoire parent
 
     CHDIR(nomrep);
     // On recherche un nom sous la forme Iabc, avec abc representant le numero
@@ -2839,7 +3071,7 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
     iaux << std::setw(jaux) << std::setfill('0') << num ;
     std::ostringstream DirNameA ;
     DirNameA << "I" << iaux.str();
-    // Si on ne pas peut entrer dans le repertoire, on doit verifier
+    // Si on ne pas peut entrer dans le répertoire, on doit verifier
     // que c'est bien un probleme d'absence
     if ( CHDIR(DirNameA.str().c_str()) != 0 )
     {
@@ -2883,29 +3115,29 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
   return CORBA::string_dup( DirName.c_str() );
 }
 //=============================================================================
-// Calcul d'une iteration : gestion du repertoire de calcul
-//        Si le sous-repertoire existe :
-//         etatMenage =  0 : on sort en erreur si le repertoire n'est pas vide
-//         etatMenage =  1 : on fait le menage du repertoire
+// Calcul d'une iteration : gestion du répertoire de calcul
+//        Si le sous-répertoire existe :
+//         etatMenage =  0 : on sort en erreur si le répertoire n'est pas vide
+//         etatMenage =  1 : on fait le menage du répertoire
 //         etatMenage = -1 : on ne fait rien
 //=============================================================================
 char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage)
 {
-  MESSAGE ( "ComputeDirManagement : repertoires pour le calcul" );
-  // B.2. Le repertoire du cas
+  MESSAGE ( "ComputeDirManagement : répertoires pour le calcul" );
+  // B.2. Le répertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
 
-  // B.3. Le sous-repertoire de l'iteration a calculer, puis le repertoire complet a creer
-  // B.3.1. Le nom du sous-repertoire
+  // B.3. Le sous-répertoire de l'iteration a calculer, puis le répertoire complet a creer
+  // B.3.1. Le nom du sous-répertoire
   const char* nomDirIt = myIteration->GetDirNameLoc();
 
-  // B.3.2. Le nom complet du sous-repertoire
+  // B.3.2. Le nom complet du sous-répertoire
   std::stringstream DirCompute ;
   DirCompute << nomDirCase << "/" << nomDirIt;
   MESSAGE (". DirCompute = " << DirCompute.str() );
 
-  // B.3.3. Si le sous-repertoire n'existe pas, on le cree
+  // B.3.3. Si le sous-répertoire n'existe pas, on le cree
   if (CHDIR(DirCompute.str().c_str()) != 0)
   {
 #ifndef WIN32
@@ -2915,24 +3147,24 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
 #endif
     {
        // GERALD -- QMESSAGE BOX
-       std::cerr << "Pb Creation du repertoire DirCompute = " << DirCompute.str() << std::endl;
-       VERIFICATION("Pb a la creation du repertoire" == 0);
+       std::cerr << "Pb Creation du répertoire DirCompute = " << DirCompute.str() << std::endl;
+       VERIFICATION("Pb a la creation du répertoire" == 0);
     }
   }
   else
   {
-//  Le repertoire existe
+//  Le répertoire existe
 //  On demande de faire le menage de son contenu :
     if (etatMenage == 1)
     {
-      MESSAGE (". Menage du repertoire DirCompute = " << DirCompute.str());
+      MESSAGE (". Menage du répertoire DirCompute = " << DirCompute.str());
       std::string commande = "rm -rf " + DirCompute.str()+"/*" ;
       int codret = system(commande.c_str());
       if (codret != 0)
       {
         // GERALD -- QMESSAGE BOX
-        std::cerr << ". Menage du repertoire de calcul" << DirCompute.str() << std::endl;
-        VERIFICATION("Pb au menage du repertoire de calcul" == 0);
+        std::cerr << ". Menage du répertoire de calcul" << DirCompute.str() << std::endl;
+        VERIFICATION("Pb au menage du répertoire de calcul" == 0);
       }
     }
 //  On n'a pas demande de faire le menage de son contenu : on sort en erreur :
@@ -2981,16 +3213,16 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
   return CORBA::string_dup( DirCompute.str().c_str() );
 }
 //=============================================================================
-// Calcul d'une iteration : gestion du repertoire de calcul de l'iteration parent
+// Calcul d'une iteration : gestion du répertoire de calcul de l'iteration parent
 //=============================================================================
 char* HOMARD_Gen_i::ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration)
 {
-  MESSAGE ( "ComputeDirPaManagement : repertoires pour le calcul" );
-  // Le repertoire du cas
+  MESSAGE ( "ComputeDirPaManagement : répertoires pour le calcul" );
+  // Le répertoire du cas
   const char* nomDirCase = myCase->GetDirName();
   MESSAGE ( ". nomDirCase = " << nomDirCase );
 
-  // Le sous-repertoire de l'iteration precedente
+  // Le sous-répertoire de l'iteration precedente
 
   const char* nomIterationParent = myIteration->GetIterParentName();
   HOMARD::HOMARD_Iteration_var myIterationParent = myContextMap[GetCurrentStudyID()]._mesIterations[nomIterationParent];
@@ -3098,7 +3330,7 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
 //    2. les liens avec les groupes
 //    3. un entier resumant le type de comportement pour les frontieres
 //=============================================================================
-void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver)
+int HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver)
 {
   MESSAGE ( "... DriverTexteBoundary" );
   // 1. Recuperation des frontieres
@@ -3132,17 +3364,24 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType );
       // 2.2.2. Ecriture selon le type
-      // 2.2.2.1. Cas d une frontiere discrete
-      if (BoundaryType == 0)
+      // 2.2.2.1. Cas d une frontiere CAO
+      if (BoundaryType == -1)
+      {
+//         const char* CAOFile = myBoundary->GetDataFile() ;
+//         MESSAGE ( ". CAOFile = " << CAOFile );
+        if ( BoundaryOption % 5 != 0 ) { BoundaryOption = BoundaryOption*5 ; }
+      }
+      // 2.2.2.2. Cas d une frontiere discrete
+      else if (BoundaryType == 0)
       {
         const char* MeshName = myBoundary->GetMeshName() ;
         MESSAGE ( ". MeshName = " << MeshName );
-        const char* MeshFile = myBoundary->GetMeshFile() ;
+        const char* MeshFile = myBoundary->GetDataFile() ;
         MESSAGE ( ". MeshFile = " << MeshFile );
         myDriver->TexteBoundaryDi( MeshName, MeshFile);
         if ( BoundaryOption % 2 != 0 ) { BoundaryOption = BoundaryOption*2 ; }
       }
-      // 2.2.2.1. Cas d une frontiere analytique
+      // 2.2.2.3. Cas d une frontiere analytique
       else
       {
         NumBoundaryAnalytical++ ;
@@ -3190,12 +3429,17 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
     // 3.1. Recuperation du nom du groupe
     std::string GroupName = std::string((*ListBoundaryGroupType)[NumBoundary+1]);
     MESSAGE ( "... GroupName = " << GroupName);
-    // 3.2. Cas d une frontiere discrete
-    if ( BoundaryType == 0 )
+    // 3.2. Cas d une frontiere CAO
+    if ( BoundaryType == -1 )
+    {
+      if ( GroupName.size() > 0 ) { myDriver->TexteBoundaryCAOGr ( GroupName ) ; }
+    }
+    // 3.3. Cas d une frontiere discrete
+    else if ( BoundaryType == 0 )
     {
       if ( GroupName.size() > 0 ) { myDriver->TexteBoundaryDiGr ( GroupName ) ; }
     }
-    // 3.3. Cas d une frontiere analytique
+    // 3.4. Cas d une frontiere analytique
     else
     {
       NumBoundaryAnalytical++ ;
@@ -3205,7 +3449,7 @@ void HOMARD_Gen_i::DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriv
   // 4. Ecriture de l'option finale
   myDriver->TexteBoundaryOption(BoundaryOption);
 //
-  return ;
+  return BoundaryOption ;
 }
 //=============================================================================
 // Calcul d'une iteration : ecriture des interpolations dans le fichier de configuration
@@ -3396,6 +3640,11 @@ SALOMEDS::SObject_ptr HOMARD_Gen_i::PublishBoundaryInStudy(SALOMEDS::Study_ptr t
   std::string value ;
   switch (BoundaryType)
   {
+    case -1 :
+    { value = "BoundaryCAOHomard" ;
+      icone = "geometry.png" ;
+      break;
+    }
     case 0 :
     { value = "BoundaryDiHomard" ;
       icone = "mesh_tree_mesh.png" ;
@@ -3957,7 +4206,7 @@ void HOMARD_Gen_i::PublishFileUnderYACS(const char* nomYACS, const char* NomFich
 // Creation d'un schema YACS
 // nomCas : nom du cas a traiter
 // FileName : nom du fichier contenant le script de lancement du calcul
-// DirName : le repertoire de lancement des calculs du schéma
+// DirName : le répertoire de lancement des calculs du schéma
 //=============================================================================
 HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, const char* nomCas, const char* ScriptFile, const char* DirName, const char* MeshFile)
 {
@@ -4014,7 +4263,7 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   myYACS->SetMaxNode( defaut_i ) ;
   defaut_i = GetYACSMaxElem() ;
   myYACS->SetMaxElem( defaut_i ) ;
-  // D.3. Fichier de sauvegarde dans le repertoire du cas
+  // D.3. Fichier de sauvegarde dans le répertoire du cas
   HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(nomCas) ;
   std::string dirnamecase = caseyacs->GetDirName() ;
   std::string XMLFile ;
@@ -4029,7 +4278,7 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
 CORBA::Long HOMARD_Gen_i::YACSWrite(const char* nomYACS)
 {
   INFOS ( "YACSWrite : Ecriture de " << nomYACS );
-// Le repertoire du cas
+// Le répertoire du cas
   HOMARD::HOMARD_YACS_var myYACS = myContextMap[GetCurrentStudyID()]._mesYACSs[nomYACS];
   ASSERT(!CORBA::is_nil(myYACS));
 // Le nom du fichier du schema
@@ -4119,7 +4368,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   MESSAGE ("pythonHypo :\n"<<pythonHypo<<"\n");
 
   // F. Le fichier du schema de reference
-  // HOMARD_ROOT_DIR : repertoire ou se trouve le module HOMARD
+  // HOMARD_ROOT_DIR : répertoire ou se trouve le module HOMARD
   std::string XMLFile_base ;
   if ( getenv("HOMARD_ROOT_DIR") != NULL ) { XMLFile_base = getenv("HOMARD_ROOT_DIR") ; }
   else
@@ -4135,12 +4384,12 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
 //   if ( _Langue ==
   MESSAGE("XMLFile_base ="<<XMLFile_base);
 
-  // G. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
+  // G. Lecture du schema de reference et insertion des données propres au fil de la rencontre des mots-cles
   YACSDriver* myDriver = new YACSDriver(XMLFile, DirName);
   std::ifstream fichier( XMLFile_base.c_str() );
   if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
   {
-    // G.1. Lecture du schema de reference et insertion des donnees propres au fil de la rencontre des mots-cles
+    // G.1. Lecture du schema de reference et insertion des données propres au fil de la rencontre des mots-cles
     std::string ligne; // variable contenant chaque ligne lue
     std::string mot_cle;
     while ( std::getline( fichier, ligne ) )
@@ -4157,7 +4406,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
       // G.1.4. Les options du cas
       else if ( mot_cle == "Iter_1_Case_Options" )
       { myDriver->Texte_Iter_1_Case_Options(pythonCas); }
-      // G.1.5. Execution de HOMARD : le repertoire du cas
+      // G.1.5. Execution de HOMARD : le répertoire du cas
       else if ( mot_cle == "HOMARD_Exec_DirName" )
       { myDriver->Texte_HOMARD_Exec_DirName(); }
       // G.1.6. Execution de HOMARD : le nom du maillage
@@ -4311,16 +4560,21 @@ std::string HOMARD_Gen_i::YACSDriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase,
       int BoundaryType = myBoundary->GetType();
       MESSAGE ( "... BoundaryType = " << BoundaryType);
       const char* MeshName ;
-      const char* MeshFile ;
-      if (BoundaryType == 0)
+      const char* DataFile ;
+      if (BoundaryType == -1)
+      {
+        DataFile = myBoundary->GetDataFile() ;
+        MESSAGE ( ". CAOFile = " << DataFile );
+      }
+      else if (BoundaryType == 0)
       {
         MeshName = myBoundary->GetMeshName() ;
         MESSAGE ( ". MeshName = " << MeshName );
-        MeshFile = myBoundary->GetMeshFile() ;
-        MESSAGE ( ". MeshFile = " << MeshFile );
+        DataFile = myBoundary->GetDataFile() ;
+        MESSAGE ( ". MeshFile = " << DataFile );
       }
       std::string texte_control_0 ;
-      texte_control_0 = myDriver->Texte_Iter_1_Boundary(BoundaryType, pythonStructure, methode, BoundaryName, MeshName, MeshFile );
+      texte_control_0 = myDriver->Texte_Iter_1_Boundary(BoundaryType, pythonStructure, methode, BoundaryName, MeshName, DataFile );
       texte_control += texte_control_0 ;
       // 5. Memorisation du traitement
       ListeBoundaryTraitees.push_back( BoundaryName );

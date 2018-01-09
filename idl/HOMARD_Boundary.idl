@@ -54,8 +54,8 @@ module HOMARD
     void     SetType (in long Type)                        raises (SALOME::SALOME_Exception);
     long     GetType()                                     raises (SALOME::SALOME_Exception);
 
-    void     SetMeshFile(in string MeshFile)               raises (SALOME::SALOME_Exception);
-    string   GetMeshFile()                                 raises (SALOME::SALOME_Exception);
+    void     SetDataFile(in string DataFile)               raises (SALOME::SALOME_Exception);
+    string   GetDataFile()                                 raises (SALOME::SALOME_Exception);
 
     void     SetMeshName(in string MeshName)               raises (SALOME::SALOME_Exception);
     string   GetMeshName()                                 raises (SALOME::SALOME_Exception);

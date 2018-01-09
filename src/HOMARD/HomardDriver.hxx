@@ -35,6 +35,7 @@ public:
   //
   void        TexteInit( const std::string DirCompute, const std::string LogFile, const std::string Langue );
   void        TexteInfo( int TypeBila, int NumeIter );
+  void        TexteMajCoords( int NumeIter );
   void        CreeFichierDonn();
   void        TexteAdap( int ExtType );
   void        CreeFichier();
@@ -50,6 +51,7 @@ public:
   void        TexteCompo( int NumeComp, const std::string NomCompo);
 
   void        TexteBoundaryOption( int BoundaryOption );
+  void        TexteBoundaryCAOGr( const std::string GroupName );
   void        TexteBoundaryDi( const std::string MeshName, const std::string MeshFile );
   void        TexteBoundaryDiGr( const std::string GroupName );
   void        TexteBoundaryAn( const std::string NameBoundary, int NumeBoundary, int BoundaryType, double x0, double x1, double x2, double x3, double x4, double x5, double x6, double x7 );
@@ -65,6 +67,7 @@ public:
   //
 
 public:
+  int         _modeHOMARD;
   std::string _HOMARD_Exec;
   std::string _NomDir;
   std::string _NomFichierConfBase;

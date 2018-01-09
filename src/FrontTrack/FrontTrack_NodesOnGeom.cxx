@@ -55,7 +55,7 @@ void FT_NodesOnGeom::read( const std::string&            theNodeFile,
   // get shape dimension by the file name
   // -------------------------------------
 
-  // hope the file name is something like "fr2D.**"
+  // hope the file name is something like "frnD.**" with n in (1,2)
   int dimPos = theNodeFile.size() - 5;
   if ( theNodeFile[ dimPos ] == '2' )
     _shapeDim = 2;
@@ -63,6 +63,9 @@ void FT_NodesOnGeom::read( const std::string&            theNodeFile,
     _shapeDim = 1;
   else
     throw std::invalid_argument( "Can't define dimension by node file name " + theNodeFile );
+#ifdef _DEBUG_
+  std::cout << ". Dimension of the file " << theNodeFile << ": " << _shapeDim << std::endl;
+#endif
 
   // -------------------------------------
   // read geom group names; several lines
@@ -77,7 +80,9 @@ void FT_NodesOnGeom::read( const std::string&            theNodeFile,
   while ( ::fgets( line, maxLineLen, file )) // read a line
   {
     if ( ::feof( file ))
+    {
       return; // no nodes in the file
+    }
 
     // check if the line describes node ids in format 3I10 (e.g. "       120         1        43\n")
     size_t lineLen = strlen( line );
@@ -149,6 +154,9 @@ void FT_NodesOnGeom::read( const std::string&            theNodeFile,
   for ( size_t i = 0; i < geomNames.size(); ++i )
   {
     std::string & groupName = geomNames[i];
+#ifdef _DEBUG_
+    std::cout << ". Group name: " << groupName << std::endl;
+#endif
 
     // remove trailing white spaces
     for ( int iC = groupName.size() - 1; iC >= 0; --iC )
@@ -219,7 +227,9 @@ void FT_NodesOnGeom::read( const std::string&            theNodeFile,
 void FT_NodesOnGeom::projectAndMove()
 {
   _OK = true;
-
+//
+// 1. Préalables
+//
   // check if all the shapes are planar
   bool isAllPlanar = true;
   for ( size_t i = 0; i < _projectors.size() &&  isAllPlanar; ++i )
@@ -240,6 +250,10 @@ void FT_NodesOnGeom::projectAndMove()
     std::cout << ".. _projectors.size() = " << _projectors.size() << std::endl;
     std::cout << ".. _nodesOrder.size() = " << _nodesOrder.size() << std::endl;
 #endif
+//
+// 2. Calculs
+// 2.1. Avec plusieurs shapes
+//
   if ( _projectors.size() > 1 )
   {
     // the nodes are to be projected onto several boundary shapes;
@@ -284,6 +298,9 @@ void FT_NodesOnGeom::projectAndMove()
       }
     }
   }
+//
+// 2.2. Avec une seule shape
+//
   else // one shape
   {
     for ( size_t i = 0; i < _nodesOrder.size(); ++i )
@@ -293,8 +310,11 @@ void FT_NodesOnGeom::projectAndMove()
       gp_Pnt       xyz1 = getPoint( nn._neighborNodes[0] );
       gp_Pnt       xyz2 = getPoint( nn._neighborNodes[1] );
 
-      // maxDist2 : le quart du carré de la distance entre les deux voisins du noued à bouger
+// maxDist2 : le quart du carré de la distance entre les deux voisins du noeud à bouger
       double   maxDist2 = xyz1.SquareDistance( xyz2 ) / 4.;
+#ifdef _DEBUG_
+    std::cout << "\n.. maxDist2 = " << maxDist2 << " entre " << nn._neighborNodes[0] << " et " << nn._neighborNodes[1] << " - milieu " << nn._nodeToMove << " - d/2 = " << sqrt(maxDist2) << " - d = " << sqrt(xyz1.SquareDistance( xyz2 )) << std::endl;
+#endif
       if ( _projectors[ 0 ].project( xyz, maxDist2, newXyz,
                                      nn._params, nn._nearParams ))
         moveNode( nn._nodeToMove, newXyz );
@@ -302,8 +322,9 @@ void FT_NodesOnGeom::projectAndMove()
         notProjectedNodes.push_back( &nn );
     }
   }
-
-
+//
+// 3. Bilan
+//
   if ( !notProjectedNodes.empty() )
   {
     // project nodes that are not projected by any of _projectors;

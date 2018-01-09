@@ -16,7 +16,7 @@
             <component-username>HOMARD</component-username>
             <component-type>OTHER</component-type>
             <component-author>EDF</component-author>
-            <component-version>1.6</component-version>
+            <component-version>1.7</component-version>
             <component-comment>unknown</component-comment>
             <component-multistudy>1</component-multistudy>
             <component-impltype>1</component-impltype>
@@ -27,9 +27,36 @@
                 <component-interface-comment>unknown</component-interface-comment>
                 <component-service-list>
                     <component-service>
+                        <service-name>CreateBoundaryCAO</service-name>
+                        <service-author>EDF</service-author>
+                        <service-version>2.1</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>BoundaryName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                            <inParameter>
+                                <inParameter-name>FileName</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>HOMARD/HOMARD_Boundary</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
                         <service-name>CreateBoundaryDi</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -61,7 +88,7 @@
                     <component-service>
                         <service-name>CreateBoundaryCylinder</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -118,7 +145,7 @@
                     <component-service>
                         <service-name>CreateBoundarySphere</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -160,7 +187,7 @@
                     <component-service>
                         <service-name>CreateBoundaryConeR</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -222,7 +249,7 @@
                     <component-service>
                         <service-name>CreateBoundaryConeA</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -279,7 +306,7 @@
                     <component-service>
                         <service-name>CreateBoundaryTorus</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -341,7 +368,7 @@
                     <component-service>
                         <service-name>CreateCase</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -373,7 +400,7 @@
                     <component-service>
                         <service-name>CreateCaseFromIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -400,7 +427,7 @@
                     <component-service>
                         <service-name>CreateCaseFromCaseLastIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -427,7 +454,7 @@
                     <component-service>
                         <service-name>CreateCaseFromCaseIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -459,7 +486,7 @@
                     <component-service>
                         <service-name>CreateHypothesis</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -481,7 +508,7 @@
                     <component-service>
                         <service-name>CreateZoneBox</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -533,7 +560,7 @@
                     <component-service>
                         <service-name>CreateZoneBox2D</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -580,7 +607,7 @@
                     <component-service>
                         <service-name>CreateZoneCylinder</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -642,7 +669,7 @@
                     <component-service>
                         <service-name>CreateZoneDisk</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -684,7 +711,7 @@
                     <component-service>
                         <service-name>CreateZoneDiskWithHole</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -731,7 +758,7 @@
                     <component-service>
                         <service-name>CreateZonePipe</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -798,7 +825,7 @@
                     <component-service>
                         <service-name>CreateZoneSphere</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -840,7 +867,7 @@
                     <component-service>
                         <service-name>GetBoundary</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -862,7 +889,7 @@
                     <component-service>
                         <service-name>GetCase</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -884,7 +911,7 @@
                     <component-service>
                         <service-name>GetHypothesis</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -906,7 +933,7 @@
                     <component-service>
                         <service-name>GetIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -928,7 +955,7 @@
                     <component-service>
                         <service-name>GetZone</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -950,7 +977,7 @@
                     <component-service>
                         <service-name>GetAllBoundarysName</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list></inParameter-list>
@@ -966,7 +993,7 @@
                     <component-service>
                         <service-name>GetAllCasesName</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list></inParameter-list>
@@ -982,7 +1009,7 @@
                     <component-service>
                         <service-name>GetAllHypothesesName</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list></inParameter-list>
@@ -998,7 +1025,7 @@
                     <component-service>
                         <service-name>GetAllIterationsName</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list></inParameter-list>
@@ -1014,7 +1041,7 @@
                     <component-service>
                         <service-name>GetAllZonesName</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list></inParameter-list>
@@ -1030,7 +1057,7 @@
                     <component-service>
                         <service-name>MeshInfo</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1086,7 +1113,7 @@
                     <component-service>
                         <service-name>LastIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1108,7 +1135,7 @@
                     <component-service>
                         <service-name>SetCurrentStudy</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1122,9 +1149,41 @@
                         <DataStream-list></DataStream-list>
                     </component-service>
                     <component-service>
+                        <service-name>SetLanguageShort</service-name>
+                        <service-author>EDF</service-author>
+                        <service-version>1.7</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list>
+                            <inParameter>
+                                <inParameter-name>LanguageShort</inParameter-name>
+                                <inParameter-type>string</inParameter-type>
+                                <inParameter-comment>unknown</inParameter-comment>
+                            </inParameter>
+                        </inParameter-list>
+                        <outParameter-list></outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
+                        <service-name>GetLanguageShort</service-name>
+                        <service-author>EDF</service-author>
+                        <service-version>1.7</service-version>
+                        <service-comment>unknown</service-comment>
+                        <service-by-default>0</service-by-default>
+                        <inParameter-list></inParameter-list>
+                        <outParameter-list>
+                            <outParameter>
+                                <outParameter-name>return</outParameter-name>
+                                <outParameter-type>string</outParameter-type>
+                                <outParameter-comment>unknown</outParameter-comment>
+                            </outParameter>
+                        </outParameter-list>
+                        <DataStream-list></DataStream-list>
+                    </component-service>
+                    <component-service>
                         <service-name>PublishFileUnderIteration</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1150,7 +1209,7 @@
                     <component-service>
                         <service-name>PublishBoundaryUnderCase</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1171,7 +1230,7 @@
                     <component-service>
                         <service-name>PublishResultInSmesh</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1192,7 +1251,7 @@
                     <component-service>
                         <service-name>PublishMeshIterInSmesh</service-name>
                         <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
+                        <service-version>1.7</service-version>
                         <service-comment>unknown</service-comment>
                         <service-by-default>0</service-by-default>
                         <inParameter-list>
@@ -1203,38 +1262,6 @@
                             </inParameter>
                         </inParameter-list>
                         <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>SetLanguageShort</service-name>
-                        <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list>
-                            <inParameter>
-                                <inParameter-name>LanguageShort</inParameter-name>
-                                <inParameter-type>string</inParameter-type>
-                                <inParameter-comment>unknown</inParameter-comment>
-                            </inParameter>
-                        </inParameter-list>
-                        <outParameter-list></outParameter-list>
-                        <DataStream-list></DataStream-list>
-                    </component-service>
-                    <component-service>
-                        <service-name>GetLanguageShort</service-name>
-                        <service-author>EDF</service-author>
-                        <service-version>1.6</service-version>
-                        <service-comment>unknown</service-comment>
-                        <service-by-default>0</service-by-default>
-                        <inParameter-list></inParameter-list>
-                        <outParameter-list>
-                            <outParameter>
-                                <outParameter-name>return</outParameter-name>
-                                <outParameter-type>string</outParameter-type>
-                                <outParameter-comment>unknown</outParameter-comment>
-                            </outParameter>
-                        </outParameter-list>
                         <DataStream-list></DataStream-list>
                     </component-service>
                 </component-service-list>

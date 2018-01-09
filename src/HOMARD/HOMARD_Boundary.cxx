@@ -77,12 +77,19 @@ std::string HOMARD_Boundary::GetDumpPython() const
 //
   switch (_Type)
   {
+    case -1:
+    {
+      aScript << "CAO boundary " << _Name << "\n";
+      aScript << "\t" << _Name << " = homard.CreateBoundaryCAO(\"" << _Name << "\", ";
+      aScript << "\"" << _DataFile << "\")\n";
+      break ;
+    }
     case 0:
     {
       aScript << "discrete boundary " << _Name << "\n";
       aScript << "\t" << _Name << " = homard.CreateBoundaryDi(\"" << _Name << "\", ";
       aScript << "\"" << _MeshName << "\", ";
-      aScript << "\"" << _MeshFile << "\")\n";
+      aScript << "\"" << _DataFile << "\")\n";
       break ;
     }
     case 1:
@@ -149,14 +156,14 @@ std::string HOMARD_Boundary::GetMeshName() const
   return _MeshName;
 }
 //=============================================================================
-void HOMARD_Boundary::SetMeshFile( const char* MeshFile )
+void HOMARD_Boundary::SetDataFile( const char* DataFile )
 {
-  _MeshFile = std::string( MeshFile );
+  _DataFile = std::string( DataFile );
 }
 //=============================================================================
-std::string HOMARD_Boundary::GetMeshFile() const
+std::string HOMARD_Boundary::GetDataFile() const
 {
-  return _MeshFile;
+  return _DataFile;
 }
 //=======================================================================================
 void HOMARD_Boundary::SetCylinder( double X0, double X1, double X2,

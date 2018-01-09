@@ -29,6 +29,7 @@ INCLUDE_DIRECTORIES(
   ${PROJECT_BINARY_DIR}
   ${PROJECT_BINARY_DIR}/idl
   ${PROJECT_BINARY_DIR}/adm_local/unix
+  ${PROJECT_SOURCE_DIR}/src/FrontTrack
   ${PROJECT_SOURCE_DIR}/src/HOMARD
   ${PROJECT_SOURCE_DIR}/src/HOMARDGUI
 )
@@ -48,6 +49,7 @@ SET(_link_LIBRARIES
   ${KERNEL_TOOLSDS}
   ${KERNEL_SalomeGenericObj}
   ${SMESH_SalomeIDLSMESH}
+  FrontTrack
   SalomeIDLHOMARD
   HOMARDImpl
 )
@@ -64,7 +66,7 @@ SET(HOMARDEngine_HEADERS
   HOMARD_Boundary_i.hxx
   HOMARD_YACS_i.hxx
   HomardMedCommun.h
-  HOMARD_i.hxx 
+  HOMARD_i.hxx
 )
 
 # --- sources ---

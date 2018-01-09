@@ -105,7 +105,6 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent,
                              HOMARD::HOMARD_Gen_var myHomardGen0,
                              QString caseName):
 // --------------------------------------------------------------------------------------------------------------
-// Constructeur appele par MonEditBoundaryAn
 //
     QDialog(0), Ui_CreateBoundaryAn(),
      myHomardGen(myHomardGen0),

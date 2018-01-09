@@ -76,6 +76,7 @@ public:
   const std::list<std::string>& GetGroups() const;
   void                          SupprGroups();
 
+  void                          AddBoundary( const char* Boundary );
   void                          AddBoundaryGroup( const char* Boundary, const char* Group );
   const std::list<std::string>& GetBoundaryGroup() const;
   void                          SupprBoundaryGroup();
