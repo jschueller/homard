@@ -152,7 +152,7 @@ Généralités
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé à      |
+|     Retourne le nom du répertoire des résultats associé à     |
 |     l'itération                                               |
 +---------------------------------------------------------------+
 | .. module:: Delete                                            |

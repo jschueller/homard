@@ -103,16 +103,16 @@ Méthodes de la classe cas
 | .. module:: SetDirName                                        |
 |                                                               |
 | **SetDirName(dirname)**                                       |
-|     Affecte le répertoire des résutats associé au cas. Cela ne|
-|     peut se faire qu'après la création du cas et avant le     |
+|     Affecte le répertoire des résultats associé au cas. Cela  |
+|     ne peut se faire qu'après la création du cas et avant le  |
 |     premier calcul.                                           |
 |                                                               |
-|     - ``dirname`` : le nom du répertoire des résutats         |
+|     - ``dirname`` : le nom du répertoire des résultats        |
 +---------------------------------------------------------------+
 | .. module:: GetDirName                                        |
 |                                                               |
 | **GetDirName()**                                              |
-|     Retourne le nom du répertoire des résutats associé au cas |
+|     Retourne le nom du répertoire des résultats associé au cas|
 +---------------------------------------------------------------+
 | .. module:: SetConfType                                       |
 |                                                               |
