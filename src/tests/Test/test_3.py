@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V4.01"
+__revision__ = "V4.02"
 
 #========================================================================
 TEST_NAME = "test_3"
@@ -53,7 +53,7 @@ if DEBUG :
     remove_dir(DIRCASE)
   os.mkdir(DIRCASE)
 else :
-  DIRCASE = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
 # ==================================
 
 salome.salome_init()
@@ -112,7 +112,7 @@ Python script for HOMARD
         mesh_file = os.path.join(REP_DATA, TEST_NAME + '.00.med')
         case_test_3 = HOMARD.CreateCase(TEST_NAME, 'MOYEU', mesh_file)
         case_test_3.SetDirName(DIRCASE)
-        case_test_3.AddBoundaryGroup('courbes', '')
+        case_test_3.AddBoundary('courbes')
         case_test_3.AddBoundaryGroup('cyl_ext', 'EXT')
         case_test_3.AddBoundaryGroup('cyl_int', 'INT')
         case_test_3.AddBoundaryGroup('sphere_1', 'END_1')

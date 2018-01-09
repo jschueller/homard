@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_3 associe au tutorial 3
 """
-__revision__ = "V4.01"
+__revision__ = "V4.02"
 
 #========================================================================
 TEST_NAME = "tutorial_3"
@@ -52,7 +52,7 @@ if DEBUG :
     remove_dir(DIRCASE)
   os.mkdir(DIRCASE)
 else :
-  DIRCASE = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -67,110 +67,153 @@ import iparameters
 IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 IPAR.append("AP_MODULES_LIST", "Homard")
 #
-#========================================================================
-#========================================================================
-def homard_exec(theStudy):
+#
+#========================= Debut de la fonction ==================================
+#
+def homard_exec(nom, ficmed, verbose=False):
   """
 Python script for HOMARD
   """
+  erreur = 0
+  message = ""
   #
-  HOMARD.SetCurrentStudy(theStudy)
+  while not erreur :
+    #
+    HOMARD.SetCurrentStudy(salome.myStudy)
+    #
+    # Hypotheses
+    # ==========
+    if verbose :
+      print(". Hypothèses")
+    # Hypothese "hypo_0vers1"
+    # =======================
+    hypo_0vers1 = HOMARD.CreateHypothesis('hypo_0vers1')
+    # Characterization of the field
+    hypo_0vers1.SetField('SOLU_0__QIRE_ELEM_SIGM__________')
+    hypo_0vers1.SetUseComp(0)
+    hypo_0vers1.AddComp('ERREST          ')
+    hypo_0vers1.SetRefinThr(3, 1.0)
+    hypo_0vers1.SetTypeFieldInterp(2)
+    hypo_0vers1.AddFieldInterp('SOLU_0__DEPL____________________')
+    hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
+    #
+    # Hypothese "hypo_1vers2"
+    # =======================
+    hypo_1vers2 = HOMARD.CreateHypothesis('hypo_1vers2')
+    # Characterization of the field
+    hypo_1vers2.SetField('SOLU_1__QIRE_ELEM_SIGM__________')
+    hypo_1vers2.SetUseComp(0)
+    hypo_1vers2.AddComp('ERREST          ')
+    hypo_1vers2.SetRefinThr(3, 1.5)
+    hypo_1vers2.SetUnRefThr(3, 6.)
+    hypo_1vers2.SetTypeFieldInterp(2)
+    hypo_1vers2.AddFieldInterp('SOLU_1__DEPL____________________')
+    hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
+    #
+    # Hypothese "hypo_1vers2_bis"
+    # ===========================
+    hypo_1vers2_bis = HOMARD.CreateHypothesis('hypo_1vers2_bis')
+    # Characterization of the field
+    hypo_1vers2_bis.SetField('SOLU_1__DEPL____________________')
+    hypo_1vers2_bis.SetUseComp(1)
+    hypo_1vers2_bis.AddComp('DX')
+    hypo_1vers2_bis.AddComp('DY')
+    hypo_1vers2_bis.AddComp('DZ')
+    hypo_1vers2_bis.SetRefinThr(1, 0.0001)
+    hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
+    hypo_1vers2_bis.SetTypeFieldInterp(0)
+    #
+    # Cas
+    # ===
+    if verbose :
+      print(". Cas")
+    le_cas = HOMARD.CreateCase('case_3', nom, ficmed)
+    le_cas.SetDirName(DIRCASE)
+    #
+    # Itérations
+    # ==========
+    if verbose :
+      option = 2
+    else :
+      option = 1
+    if verbose :
+      print(". Itérations")
+    # Iteration "iter_3_1"
+    # ====================
+    iter_3_1 = le_cas.NextIteration('iter_3_1')
+    iter_3_1.SetMeshName('H_1')
+    iter_3_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+    iter_3_1.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.00.med"))
+    iter_3_1.SetTimeStepRank( 1, 1)
+    iter_3_1.AssociateHypo('hypo_0vers1')
+    erreur = iter_3_1.Compute(1, option)
+    if erreur :
+      break
+    #
+    # Iteration "iter_3_2"
+    # ====================
+    iter_3_2 = iter_3_1.NextIteration('iter_3_2')
+    iter_3_2.SetMeshName('H_2')
+    iter_3_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
+    iter_3_2.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
+    iter_3_2.SetTimeStepRank(1, 1)
+    iter_3_2.AssociateHypo('hypo_1vers2')
+    erreur = iter_3_2.Compute(1, option)
+    if erreur :
+      break
+    #
+    # Iteration "iter_3_2_bis"
+    # ========================
+    iter_3_2_bis = iter_3_1.NextIteration('iter_3_2_bis')
+    iter_3_2_bis.SetMeshName('H_2_bis')
+    iter_3_2_bis.SetMeshFile(os.path.join(DIRCASE, "maill.02.bis.med"))
+    iter_3_2_bis.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
+    iter_3_2_bis.SetTimeStepRank(1, 1)
+    iter_3_2_bis.AssociateHypo('hypo_1vers2_bis')
+    erreur = iter_3_2_bis.Compute(1, option)
+    if erreur :
+      break
   #
-  # Hypothese "hypo_0vers1"
-  # =======================
-  hypo_0vers1 = HOMARD.CreateHypothesis('hypo_0vers1')
-  # Characterization of the field
-  hypo_0vers1.SetField('SOLU_0__QIRE_ELEM_SIGM__________')
-  hypo_0vers1.SetUseComp(0)
-  hypo_0vers1.AddComp('ERREST          ')
-  hypo_0vers1.SetRefinThr(3, 1.0)
-  hypo_0vers1.SetTypeFieldInterp(2)
-  hypo_0vers1.AddFieldInterp('SOLU_0__DEPL____________________')
-  hypo_0vers1.AddFieldInterp('SOLU_0__ERRE_ELEM_SIGM__________')
+    break
   #
-  # Hypothese "hypo_1vers2"
-  # =======================
-  hypo_1vers2 = HOMARD.CreateHypothesis('hypo_1vers2')
-  # Characterization of the field
-  hypo_1vers2.SetField('SOLU_1__QIRE_ELEM_SIGM__________')
-  hypo_1vers2.SetUseComp(0)
-  hypo_1vers2.AddComp('ERREST          ')
-  hypo_1vers2.SetRefinThr(3, 1.5)
-  hypo_1vers2.SetUnRefThr(3, 6.)
-  hypo_1vers2.SetTypeFieldInterp(2)
-  hypo_1vers2.AddFieldInterp('SOLU_1__DEPL____________________')
-  hypo_1vers2.AddFieldInterp('SOLU_1__QIRE_ELEM_SIGM__________')
+  if erreur :
+    message += "Erreur au calcul de l'itération %d" % erreur
   #
-  # Hypothese "hypo_1vers2_bis"
-  # ===========================
-  hypo_1vers2_bis = HOMARD.CreateHypothesis('hypo_1vers2_bis')
-  # Characterization of the field
-  hypo_1vers2_bis.SetField('SOLU_1__DEPL____________________')
-  hypo_1vers2_bis.SetUseComp(1)
-  hypo_1vers2_bis.AddComp('DX')
-  hypo_1vers2_bis.AddComp('DY')
-  hypo_1vers2_bis.AddComp('DZ')
-  hypo_1vers2_bis.SetRefinThr(1, 0.0001)
-  hypo_1vers2_bis.SetUnRefThr(1, 0.000001)
-  hypo_1vers2_bis.SetTypeFieldInterp(0)
-  #
-  # Cas
-  # ===
-  case_3 = HOMARD.CreateCase('case_3', 'G_0', DATA_TUTORIAL+'/tutorial_3.00.med')
-  case_3.SetDirName(DIRCASE)
-  #
-  # Iteration "iter_3_1"
-  # ====================
-  iter_3_1 = case_3.NextIteration('iter_3_1')
-  iter_3_1.SetMeshName('H_1')
-  iter_3_1.SetMeshFile(DIRCASE+'/maill.01.med')
-  iter_3_1.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.00.med')
-  iter_3_1.SetTimeStepRank( 1, 1)
-  iter_3_1.AssociateHypo('hypo_0vers1')
-  error = iter_3_1.Compute(1, 2)
-  #
-  # Iteration "iter_3_2"
-  # ====================
-  iter_3_2 = iter_3_1.NextIteration('iter_3_2')
-  iter_3_2.SetMeshName('H_2')
-  iter_3_2.SetMeshFile(DIRCASE+'/maill.02.med')
-  iter_3_2.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
-  iter_3_2.SetTimeStepRank(1, 1)
-  iter_3_2.AssociateHypo('hypo_1vers2')
-  error = iter_3_2.Compute(1, 2)
-  #
-  # Iteration "iter_3_2_bis"
-  # ========================
-  iter_3_2_bis = iter_3_1.NextIteration('iter_3_2_bis')
-  iter_3_2_bis.SetMeshName('H_2_bis')
-  iter_3_2_bis.SetMeshFile(DIRCASE+'/maill.02.bis.med')
-  iter_3_2_bis.SetFieldFile(DATA_TUTORIAL+'/tutorial_3.01.med')
-  iter_3_2_bis.SetTimeStepRank(1, 1)
-  iter_3_2_bis.AssociateHypo('hypo_1vers2_bis')
-  error = iter_3_2_bis.Compute(1, 2)
-  #
-  return error
-
-#========================================================================
-
-HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert HOMARD is not None, "Impossible to load HOMARD engine"
-HOMARD.SetLanguageShort("fr")
+  return erreur, message
 #
-# Exec of HOMARD-SALOME
+#==========================  Fin de la fonction ==================================
 #
-try :
-  ERROR = homard_exec(salome.myStudy)
-  if ERROR :
-    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+ERREUR = 0
+MESSAGE = ""
+while not ERREUR :
+  #
+  # A. Exec of HOMARD-SALOME
+  #
+  HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+  assert HOMARD is not None, "Impossible to load homard engine"
+  HOMARD.SetLanguageShort("fr")
 #
-# Test of the results
+  FICMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".00.med")
+  try:
+    ERREUR, MESSAGE = homard_exec("G_0", FICMED, DEBUG)
+  except Exception, eee:
+    ERREUR = 2
+    MESSAGE = eee.message
+  #
+  if ERREUR :
+    MESSAGE += "Pb in homard_exec"
+    break
+  #
+  # B. Test of the results
+  #
+  N_REP_TEST_FILE = 3
+  DESTROY_DIR = not DEBUG
+  test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+  #
+  break
 #
-N_REP_TEST_FILE = 3
-DESTROY_DIR = not DEBUG
-test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+if ERREUR:
+  raise Exception(MESSAGE)
 #
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 3, 1)

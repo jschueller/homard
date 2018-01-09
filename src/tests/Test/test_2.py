@@ -52,7 +52,7 @@ if DEBUG :
     remove_dir(DIRCASE)
   os.mkdir(DIRCASE)
 else :
-  DIRCASE = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
 # ==================================
 
 salome.salome_init()

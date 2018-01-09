@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_1 associe au tutorial 1
 """
-__revision__ = "V4.01"
+__revision__ = "V4.02"
 
 #========================================================================
 TEST_NAME = "tutorial_1"
@@ -52,7 +52,7 @@ if DEBUG :
     remove_dir(DIRCASE)
   os.mkdir(DIRCASE)
 else :
-  DIRCASE = tempfile.mkdtemp()
+  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -67,70 +67,109 @@ import iparameters
 IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 IPAR.append("AP_MODULES_LIST", "Homard")
 #
-#========================================================================
-#========================================================================
-def homard_exec(theStudy):
+#
+#========================= Debut de la fonction ==================================
+#
+def homard_exec(nom, ficmed, verbose=False):
   """
 Python script for HOMARD
   """
+  erreur = 0
+  message = ""
   #
-  homard.SetCurrentStudy(theStudy)
-  #
-  # Hypotheses
-  # ==========
-  hypo_1 = homard.CreateHypothesis('hypo_1')
-  hypo_1.SetUnifRefinUnRef(1)
-  #
-  # Cas
-  # ===
-  case_1 = homard.CreateCase('case_1', 'MAILL', DATA_TUTORIAL+'/tutorial_1.00.med')
-  case_1.SetDirName(DIRCASE)
-  #
-  # Iterations
-  # ==========
-  # Iteration "iter_1_1"
-  iter_1_1 = case_1.NextIteration('iter_1_1')
-  iter_1_1.SetMeshName('MESH')
-  iter_1_1.SetMeshFile(DIRCASE+'/maill.01.med')
-  iter_1_1.AssociateHypo('hypo_1')
-  error = iter_1_1.Compute(1, 2)
+  while not erreur :
+    #
+    HOMARD.SetCurrentStudy(salome.myStudy)
+    #
+    # Hypotheses
+    # ==========
+    if verbose :
+      print(". Hypothèses")
+    hypo_1 = HOMARD.CreateHypothesis('hypo_1')
+    hypo_1.SetUnifRefinUnRef(1)
+    #
+    # Cas
+    # ===
+    if verbose :
+      print(". Cas")
+    le_cas = HOMARD.CreateCase('case_1', nom, ficmed)
+    le_cas.SetDirName(DIRCASE)
+    #
+    # Itérations
+    # ==========
+    if verbose :
+      option = 2
+    else :
+      option = 1
+    if verbose :
+      print(". Itérations")
+    # Iteration "iter_1_1"
+    iter_1_1 = le_cas.NextIteration('iter_1_1')
+    iter_1_1.SetMeshName('MESH')
+    iter_1_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+    iter_1_1.AssociateHypo('hypo_1')
+    erreur = iter_1_1.Compute(1, option)
+    if erreur :
+      break
 
-  # Iteration "iter_1_2"
-  iter_1_2 = iter_1_1.NextIteration('iter_1_2')
-  iter_1_2.SetMeshName('MESH')
-  iter_1_2.SetMeshFile(DIRCASE+'/maill.02.med')
-  iter_1_2.AssociateHypo('hypo_1')
-  error = iter_1_2.Compute(1, 2)
+    # Iteration "iter_1_2"
+    iter_1_2 = iter_1_1.NextIteration('iter_1_2')
+    iter_1_2.SetMeshName('MESH')
+    iter_1_2.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+    iter_1_2.AssociateHypo('hypo_1')
+    erreur = iter_1_2.Compute(1, option)
+    if erreur :
+      break
 
-  # Iteration "iter_1_3"
-  iter_1_3 = iter_1_2.NextIteration('iter_1_3')
-  iter_1_3.SetMeshName('MESH')
-  iter_1_3.SetMeshFile(DIRCASE+'/maill.03.med')
-  iter_1_3.AssociateHypo('hypo_1')
-  error = iter_1_3.Compute(1, 2)
+    # Iteration "iter_1_3"
+    iter_1_3 = iter_1_2.NextIteration('iter_1_3')
+    iter_1_3.SetMeshName('MESH')
+    iter_1_3.SetMeshFile(os.path.join(DIRCASE, "maill.03.med"))
+    iter_1_3.AssociateHypo('hypo_1')
+    erreur = iter_1_3.Compute(1, option)
+    if erreur :
+      break
   #
-  return error
-
-#========================================================================
-
-homard = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert homard is not None, "Impossible to load homard engine"
-homard.SetLanguageShort("fr")
+    break
+  #
+  if erreur :
+    message += "Erreur au calcul de l'itération %d" % erreur
+  #
+  return erreur, message
 #
-# Exec of HOMARD-SALOME
+#==========================  Fin de la fonction ==================================
 #
-try :
-  ERROR = homard_exec(salome.myStudy)
-  if ERROR :
-    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+ERREUR = 0
+MESSAGE = ""
+while not ERREUR :
+  #
+  # A. Exec of HOMARD-SALOME
+  #
+  HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+  assert HOMARD is not None, "Impossible to load homard engine"
+  HOMARD.SetLanguageShort("fr")
 #
-# Test of the results
+  FICMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".00.med")
+  try:
+    ERREUR, MESSAGE = homard_exec("MAILL", FICMED, DEBUG)
+  except Exception, eee:
+    ERREUR = 2
+    MESSAGE = eee.message
+  #
+  if ERREUR :
+    MESSAGE += "Pb in homard_exec"
+    break
+  #
+  # B. Test of the results
+  #
+  N_REP_TEST_FILE = N_ITER_TEST_FILE
+  DESTROY_DIR = not DEBUG
+  test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+  #
+  break
 #
-N_REP_TEST_FILE = N_ITER_TEST_FILE
-DESTROY_DIR = not DEBUG
-test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+if ERREUR:
+  raise Exception(MESSAGE)
 #
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 1, 1)
