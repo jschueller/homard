@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF 1996, 2011, 2018
 """
-__revision__ = "V4.3"
+__revision__ = "V4.4"
 #
 import os
 import sys
@@ -54,7 +54,7 @@ homard.SetCurrentStudy(salome.myStudy)
 #
 # Frontières
 # ==========
-boun_6_1 = homard.CreateBoundaryDi('intersection', 'PIQUAGE', os.path.join(DATA_TUTORIAL, "tutorial_6.fr.med"))
+boun_6_1 = homard.CreateBoundaryDi('intersection', 'COURBES', os.path.join(DATA_TUTORIAL, "tutorial_6.fr.med"))
 #
 boun_6_2 = homard.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
 #
@@ -83,6 +83,8 @@ le_cas.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 # Creation of the hypothesis hypo_6
 l_hypothese = homard.CreateHypothesis('hypo_6')
 l_hypothese.SetUnifRefinUnRef(1)
+l_hypothese.AddGroup('IN1')
+l_hypothese.AddGroup('IN2')
 l_hypothese.AddGroup('T1_INT_I')
 l_hypothese.AddGroup('T1_INT_O')
 l_hypothese.AddGroup('T2_INT')
