@@ -22,7 +22,7 @@ Python script for HOMARD
 Specific conditions for Code_Saturne
 Test test_5
 """
-__revision__ = "V2.01"
+__revision__ = "V2.02"
 
 #========================================================================
 TEST_NAME = "test_5"
@@ -38,7 +38,6 @@ LG_Z = 160.
 MESH_NAME = "MESH"
 #========================================================================
 import os
-import tempfile
 import sys
 import numpy as np
 import salome
@@ -52,19 +51,11 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()
@@ -103,11 +94,11 @@ Python script for MED
 #
     coordinates = list()
     coo_z = -0.5*LG_Z
-    for kaux in range(nbno_z) :
+    for _ in range(nbno_z) :
       coo_y = -0.5*LG_Y
-      for jaux in range(nbno_y) :
+      for _ in range(nbno_y) :
         coo_x = -0.5*LG_X
-        for iaux in range(nbno_x) :
+        for _ in range(nbno_x) :
           coordinates.append(coo_x)
           coordinates.append(coo_y)
           coordinates.append(coo_z)
@@ -167,9 +158,9 @@ Python script for MED
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
       #print "Ecriture du maillage dans le fichier", ficmed
       meshMEDFile3D.write(ficmed, 2)
-    except Exception as eee:
+    except IOError as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+eee.message)
+      raise Exception('ExportToMEDX() failed. '+str(eee.message))
   #
     break
   #
@@ -308,8 +299,8 @@ try :
   ERROR = mesh_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in mesh_exec')
-except Exception as eee:
-  raise Exception('Pb in mesh_exec: '+eee.message)
+except RuntimeError as eee:
+  raise Exception('Pb in mesh_exec: '+str(eee.message))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert HOMARD is not None, "Impossible to load homard engine"
@@ -321,8 +312,8 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+except RuntimeError as eee:
+  raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results
 #

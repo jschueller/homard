@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_6
 """
-__revision__ = "V1.02"
+__revision__ = "V1.03"
 
 #========================================================================
 TEST_NAME = "test_6"
@@ -32,7 +32,6 @@ TAILLE = 10.
 LG_ARETE = TAILLE*2.5
 #========================================================================
 import os
-import tempfile
 import sys
 import HOMARD
 import salome
@@ -43,20 +42,12 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
-from test_util import test_results
 from test_util import saveGeometry
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
+from test_util import get_dir
+from test_util import test_results
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 
 salome.salome_init()
 import iparameters
@@ -299,9 +290,9 @@ while not ERREUR :
   XAO_FILE = os.path.join(DIRCASE, TEST_NAME+".xao")
   try :
     ERREUR = saveGeometry(XAO_FILE, TEST_NAME, "test_salome_"+TEST_NAME)
-  except Exception, eee:
-    ERREUR = 2000
-    MESSAGE = eee.message
+  except IOError as eee:
+    ERREUR = os.error
+    MESSAGE = str(eee.message)
   #
   if ERREUR :
     MESSAGE += "Pb in saveGeometry"
@@ -321,9 +312,9 @@ while not ERREUR :
 #
   try:
     ERREUR, MESSAGE = homard_exec(TEST_NAME, FICMED, XAO_FILE, VERBOSE)
-  except Exception, eee:
-    ERREUR = 4000
-    MESSAGE = eee.message
+  except RuntimeError as eee:
+    ERREUR = os.error
+    MESSAGE = str(eee.message)
   #
   if ERREUR :
     MESSAGE += "Pb in homard_exec"

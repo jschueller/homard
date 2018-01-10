@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V3.01"
+__revision__ = "V3.02"
 
 #========================================================================
 TEST_NAME = "test_4"
@@ -32,7 +32,6 @@ DY = 400.
 DZ = 200.
 #========================================================================
 import os
-import tempfile
 import sys
 import numpy as np
 import salome
@@ -48,19 +47,11 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()
@@ -128,9 +119,9 @@ Python script for GEOM and SMESH
     try:
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
       box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
-    except Exception as eee:
+    except IOError as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+eee.message)
+      raise Exception('ExportToMEDX() failed. '+str(eee.message))
   #
     break
   #
@@ -218,9 +209,9 @@ Python script for HOMARD
     hypo_4_1.AddZone('Zone_4_1', 1)
     hypo_4_1.SetExtraOutput(2)
     laux = hypo_4_1.GetZones()
-    nbzone = len(laux)/2
+    nbzone = len(laux) // 2
     jaux = 0
-    for iaux in range(nbzone) :
+    for _ in range(nbzone) :
       print(hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis hypo_4_2
@@ -230,9 +221,9 @@ Python script for HOMARD
     hypo_4_2.AddZone('Zone_4_2', 1)
     hypo_4_2.SetExtraOutput(2)
     laux = hypo_4_2.GetZones()
-    nbzone = len(laux)/2
+    nbzone = len(laux) // 2
     jaux = 0
-    for iaux in range(nbzone) :
+    for _ in range(nbzone) :
       print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis DISTANCE INVERSE
@@ -320,8 +311,8 @@ try :
   ERROR = geom_smesh_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in geom_smesh_exec')
-except Exception as eee:
-  raise Exception('Pb in geom_smesh_exec: '+eee.message)
+except RuntimeError as eee:
+  raise Exception('Pb in geom_smesh_exec: '+str(eee.message))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
 assert HOMARD is not None, "Impossible to load homard engine"
@@ -333,8 +324,8 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+except RuntimeError as eee:
+  raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results
 #

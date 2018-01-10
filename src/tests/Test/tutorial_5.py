@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_5 associe au tutorial 5
 """
-__revision__ = "V4.02"
+__revision__ = "V4.03"
 
 #========================================================================
 TEST_NAME = "tutorial_5"
@@ -29,7 +29,6 @@ DEBUG = False
 N_ITER_TEST_FILE = 2
 #========================================================================
 import os
-import tempfile
 import sys
 import HOMARD
 import salome
@@ -40,22 +39,12 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
-# Repertoire des donnees du tutorial
-DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
+# ==================================
 sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 # ==================================
@@ -169,9 +158,9 @@ while not ERREUR :
   FICFRMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".fr.med")
   try:
     ERREUR, MESSAGE = homard_exec("COEUR_2D", FICMED, "MAIL_EXT", FICFRMED, DEBUG)
-  except Exception, eee:
+  except RuntimeError as eee:
     ERREUR = 2
-    MESSAGE = eee.message
+    MESSAGE = str(eee.message)
   #
   if ERREUR :
     MESSAGE += "Pb in homard_exec"

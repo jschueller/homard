@@ -21,11 +21,39 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V3.03"
+__revision__ = "V4.01"
 
 import os
+import tempfile
 import MEDLoader as ml
 import shutil
+#========================================================================
+#========================================================================
+def get_dir(path_homard, test_name, debug=False) :
+  """
+Get directories for the test.
+Copyright EDF 2018
+  """
+#
+# Répertoire des données du test
+  rep_data = os.path.join(path_homard, "share", "salome", "homardsamples")
+  rep_data = os.path.normpath(rep_data)
+#
+# Répertoire des résultats
+  if debug :
+    dircase = os.path.join("/tmp", test_name)
+    if ( os.path.isdir(dircase) ) :
+      remove_dir(dircase)
+    os.mkdir(dircase)
+  else :
+    dircase = tempfile.mkdtemp(prefix=test_name)
+#
+# Répertoire des données du tutorial
+  data_tutorial = os.path.join(path_homard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+  data_tutorial = os.path.normpath(data_tutorial)
+#
+  return rep_data, dircase, data_tutorial
+#
 #========================================================================
 #========================================================================
 def remove_dir(directory) :
