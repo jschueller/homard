@@ -3315,11 +3315,8 @@ void HOMARD_Gen_i::DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HO
   for (int NumeComp = 0; NumeComp< numberOfCompos; NumeComp++)
   {
     std::string nomCompo = std::string((*mescompo)[NumeComp]);
-    if ((system(nomCompo.c_str())) != 0)
-    {
-      MESSAGE( "... nomCompo = " << nomCompo );
-      myDriver->TexteCompo(NumeComp, nomCompo);
-    }
+    MESSAGE( "... nomCompo = " << nomCompo );
+    myDriver->TexteCompo(NumeComp, nomCompo);
   }
   return ;
 }

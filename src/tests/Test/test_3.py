@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V4.02"
+__revision__ = "V4.04"
 
 #========================================================================
 TEST_NAME = "test_3"
@@ -30,7 +30,6 @@ N_BOUCLE = 2
 N_ITER_TEST_FILE = 2
 #========================================================================
 import os
-import tempfile
 import sys
 import HOMARD
 import salome
@@ -41,19 +40,11 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp(prefix=TEST_NAME)
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()
@@ -211,8 +202,8 @@ try :
   ERROR = homard_exec(salome.myStudy)
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+except RuntimeError as eee:
+  raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results
 #

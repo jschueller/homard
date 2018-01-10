@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF 1996, 2010, 2018
 """
-__revision__ = "V3.1"
+__revision__ = "V3.2"
 #
 import os
 import sys
@@ -85,7 +85,7 @@ iter_5_1 = le_cas.NextIteration('iter_5_1')
 iter_5_1.SetMeshName('COEUR_2D_01')
 iter_5_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
 iter_5_1.AssociateHypo('hypo_5')
-error = iter_5_1.Compute(1, 2)
+erreur = iter_5_1.Compute(1, 2)
 #
 # Iteration "iter_5_2"
 # ====================
@@ -93,7 +93,7 @@ iter_5_2 = iter_5_1.NextIteration('iter_5_2')
 iter_5_2.SetMeshName('COEUR_2D_02')
 iter_5_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
 iter_5_2.AssociateHypo('hypo_5_bis')
-error = iter_5_2.Compute(1, 2)
+erreur = iter_5_2.Compute(1, 2)
 #
 #============================== Fin des commandes ==============================
 #
