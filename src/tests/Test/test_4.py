@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V3.02"
+__revision__ = "V3.03"
 
 #========================================================================
 TEST_NAME = "test_4"
@@ -51,7 +51,7 @@ from test_util import get_dir
 from test_util import test_results
 # ==================================
 # Répertoires pour ce test
-REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()

@@ -21,7 +21,7 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V4.01"
+__revision__ = "V4.02"
 
 import os
 import tempfile
@@ -48,12 +48,21 @@ Copyright EDF 2018
   else :
     dircase = tempfile.mkdtemp(prefix=test_name)
 #
+  return rep_data, dircase
+#
+#========================================================================
+#========================================================================
+def get_dir_tutorial(path_homard) :
+  """
+Get directory for the tutorial.
+Copyright EDF 2018
+  """
+#
 # Répertoire des données du tutorial
   data_tutorial = os.path.join(path_homard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
   data_tutorial = os.path.normpath(data_tutorial)
 #
-  return rep_data, dircase, data_tutorial
-#
+  return data_tutorial
 #========================================================================
 #========================================================================
 def remove_dir(directory) :

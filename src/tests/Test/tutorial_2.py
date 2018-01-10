@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_2 associe au tutorial 2
 """
-__revision__ = "V4.03"
+__revision__ = "V4.04"
 
 #========================================================================
 TEST_NAME = "tutorial_2"
@@ -40,10 +40,12 @@ REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
 from test_util import get_dir
+from test_util import get_dir_tutorial
 from test_util import test_results
 # ==================================
 # Répertoires pour ce test
-REP_DATA, DIRCASE, DATA_TUTORIAL = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
+DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
 # ==================================
 sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
