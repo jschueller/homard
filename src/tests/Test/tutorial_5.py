@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_5 associe au tutorial 5
 """
-__revision__ = "V4.01"
+__revision__ = "V4.04"
 
 #========================================================================
 TEST_NAME = "tutorial_5"
@@ -29,7 +29,6 @@ DEBUG = False
 N_ITER_TEST_FILE = 2
 #========================================================================
 import os
-import tempfile
 import sys
 import HOMARD
 import salome
@@ -40,22 +39,14 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
+from test_util import get_dir_tutorial
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp()
-# Repertoire des donnees du tutorial
-DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
+DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
+# ==================================
 sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 # ==================================
@@ -67,81 +58,126 @@ import iparameters
 IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 IPAR.append("AP_MODULES_LIST", "Homard")
 #
-#========================================================================
-#========================================================================
-def homard_exec():
+#
+#========================= Debut de la fonction ==================================
+#
+def homard_exec(nom, ficmed, nomfr, ficfrmed, verbose=False):
   """
 Python script for HOMARD
   """
-  #
-  HOMARD.UpdateStudy()
+  erreur = 0
+  message = ""
 #
-  # Frontiere
-  # =========
-  # Creation of the discrete boundary Boun_5_1
-  boun_5_1 = HOMARD.CreateBoundaryDi('Boun_5_1', 'MAIL_EXT', DATA_TUTORIAL+'/tutorial_5.fr.med')
+  while not erreur :
+    #
+    HOMARD.UpdateStudy()
+    #
+    # Frontiere
+    # =========
+    if verbose :
+      print(". Frontière")
+    # Creation of the discrete boundary Boun_5_1
+    boun_5_1 = HOMARD.CreateBoundaryDi('Boun_5_1', nomfr, ficfrmed)
+    #
+    # Creation des zones
+    # ==================
+    if verbose :
+      print(". Zones")
+    # Creation of the disk with hole enveloppe
+    enveloppe = HOMARD.CreateZoneDiskWithHole( 'enveloppe', 0., 0., 250., 193., 1 )
+    # Creation of the rectangle quart_sup
+    quart_sup = HOMARD.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
+    #
+    # Hypotheses
+    # ==========
+    if verbose :
+      print(". Hypothèses")
+    # Creation of the hypothesis hypo_5
+    hypo_5 = HOMARD.CreateHypothesis('hypo_5')
+    hypo_5.AddZone('enveloppe', 1)
+    # Creation of the hypothesis hypo_5_bis
+    hypo_5_bis = HOMARD.CreateHypothesis('hypo_5_bis')
+    hypo_5_bis.AddZone('quart_sup', 1)
+    #
+    # Cas
+    # ===
+    if verbose :
+      print(". Cas")
+    le_cas = HOMARD.CreateCase('case_5', nom, ficmed)
+    le_cas.SetDirName(DIRCASE)
+    le_cas.SetConfType(1)
+    le_cas.AddBoundary('Boun_5_1')
+    #
+    # Itérations
+    # ==========
+    if verbose :
+      option = 2
+    else :
+      option = 1
+    if verbose :
+      print(". Itérations")
+    #
+    # Iteration "iter_5_1"
+    # ====================
+    iter_5_1 = le_cas.NextIteration('iter_5_1')
+    iter_5_1.SetMeshName('COEUR_2D_01')
+    iter_5_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+    iter_5_1.AssociateHypo('hypo_5')
+    erreur = iter_5_1.Compute(1, option)
+    if erreur :
+      break
+    #
+    # Iteration "iter_5_2"
+    # ====================
+    iter_5_2 = iter_5_1.NextIteration('iter_5_2')
+    iter_5_2.SetMeshName('COEUR_2D_02')
+    iter_5_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
+    iter_5_2.AssociateHypo('hypo_5_bis')
+    erreur = iter_5_2.Compute(1, option)
+    if erreur :
+      break
   #
-  # Creation des zones
-  # ==================
-  # Creation of the disk with hole enveloppe
-  enveloppe = HOMARD.CreateZoneDiskWithHole( 'enveloppe', 0., 0., 250., 193., 1 )
-  # Creation of the rectangle quart_sup
-  quart_sup = HOMARD.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
+    break
   #
-  # Hypotheses
-  # ==========
-  # Creation of the hypothesis hypo_5
-  hypo_5 = HOMARD.CreateHypothesis('hypo_5')
-  hypo_5.AddZone('enveloppe', 1)
-  # Creation of the hypothesis hypo_5_bis
-  hypo_5_bis = HOMARD.CreateHypothesis('hypo_5_bis')
-  hypo_5_bis.AddZone('quart_sup', 1)
+  if erreur :
+    message += "Erreur au calcul de l'itération %d" % erreur
   #
-  # Cas
-  # ===
-  case_5 = HOMARD.CreateCase('case_5', 'COEUR_2D', DATA_TUTORIAL+'/tutorial_5.00.med')
-  case_5.SetDirName(DIRCASE)
-  case_5.SetConfType(1)
-  case_5.AddBoundaryGroup('Boun_5_1', '')
-  #
-  # Iteration "iter_5_1"
-  # ====================
-  iter_5_1 = case_5.NextIteration('iter_5_1')
-  iter_5_1.SetMeshName('COEUR_2D_01')
-  iter_5_1.SetMeshFile(DIRCASE+'/maill.01.med')
-  iter_5_1.AssociateHypo('hypo_5')
-  error = iter_5_1.Compute(1, 2)
-  #
-  # Iteration "iter_5_2"
-  # ====================
-  iter_5_2 = iter_5_1.NextIteration('iter_5_2')
-  iter_5_2.SetMeshName('COEUR_2D_02')
-  iter_5_2.SetMeshFile(DIRCASE+'/maill.02.med')
-  iter_5_2.AssociateHypo('hypo_5_bis')
-  error = iter_5_2.Compute(1, 2)
-  #
-  return error
+  return erreur, message
 
-#========================================================================
-
-HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-assert HOMARD is not None, "Impossible to load HOMARD engine"
-HOMARD.SetLanguageShort("fr")
+#==========================  Fin de la fonction ==================================
 #
-# Exec of HOMARD-SALOME
+ERREUR = 0
+MESSAGE = ""
+while not ERREUR :
+  #
+  # A. Exec of HOMARD-SALOME
+  #
+  HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+  assert HOMARD is not None, "Impossible to load homard engine"
+  HOMARD.SetLanguageShort("fr")
 #
-try :
-  ERROR = homard_exec()
-  if ERROR :
-    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
-  raise Exception('Pb in homard_exec: '+eee.message)
+  FICMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".00.med")
+  FICFRMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".fr.med")
+  try:
+    ERREUR, MESSAGE = homard_exec("COEUR_2D", FICMED, "MAIL_EXT", FICFRMED, DEBUG)
+  except RuntimeError as eee:
+    ERREUR = 2
+    MESSAGE = str(eee.message)
+  #
+  if ERREUR :
+    MESSAGE += "Pb in homard_exec"
+    break
+  #
+  # B. Test of the results
+  #
+  N_REP_TEST_FILE = N_ITER_TEST_FILE
+  DESTROY_DIR = not DEBUG
+  test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+  #
+  break
 #
-# Test of the results
-#
-N_REP_TEST_FILE = N_ITER_TEST_FILE
-DESTROY_DIR = not DEBUG
-test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+if ERREUR:
+  raise Exception(MESSAGE)
 #
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 5, 1)

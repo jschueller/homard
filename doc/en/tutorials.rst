@@ -16,6 +16,7 @@ The loading of the module HOMARD is done in a way similar to the other modules.
 
   import HOMARD
   homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')
+  homard.UpdateStudy()
 
 To use the module HOMARD within a distributed scheme YACS, the loading is made as follows:
 
@@ -24,6 +25,7 @@ To use the module HOMARD within a distributed scheme YACS, the loading is made a
   import HOMARD
   my_container.load_component_Library('HOMARD')
   homard = my_container.create_component_instance('HOMARD',0)
+  homard.UpdateStudy()
 
 Uniform refinement
 ******************
@@ -35,7 +37,8 @@ One will make here three successive uniform refinements of the mesh contained in
 
 
 .. literalinclude:: ../files/tutorial_1.py
-   :lines: 52-85
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Download the files
@@ -53,7 +56,8 @@ Refinement by zones
 One proceeds here to refinement according to zones. To pass from the initial mesh to the mesh 'M_1', one uses a box framing the z=1 plane and a sphere centered on the origin with radius 1.05. Then to pass from the mesh 'M_1' to the mesh 'M_2', one replaces the sphere by a box framing the cube on side 0.5, pointing on the origin and the meshes in the very first zone are unrefined.
 
 .. literalinclude:: ../files/tutorial_2.py
-   :lines: 52-95
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Download the files
@@ -71,7 +75,8 @@ One proceeds here to refinement according to a field. The hypotheses are used to
 To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are applied. In the first, Iter_2, the field is a scalar field of indicators of error and one cuts out the 1.5% of elements where the error is largest. In the second alternative, Iter_2_bis, one is based on a vector field and one examines the jump of this vector between an element and its neighbors: one will cut out where the infinite standard of this jump is higher than the absolute threshold of 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
-   :lines: 52-124
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Download the files
@@ -84,23 +89,41 @@ To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are 
 
 Non plane boundaries
 ********************
-.. index:: single: field
+.. index:: single: boundary
+.. index:: single: CAO
 .. index:: single: YACS
 
-One tests the follow-up of the curved borders here: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. The driving of refinement is the following: uniform refinement of all the elements contained in indicated groups. One starts by refining the inner faces with the pipes; then, one refines continuation twice the external faces with the pipes.
+One tests the follow-up of the curved borders here, giving the representation of the domain by its CAO. That CAO is given in a XAO format file.
+The driving of refinement is the following: uniform refinement of all the elements contained in indicated groups. One starts by refining the inner faces with the pipes; then, one refines continuation twice the external faces with the pipes.
 Scheme YACS carrying out this adaptation is downloadable.
 
 .. literalinclude:: ../files/tutorial_4.py
-   :lines: 52-111
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
+
+.. note::
+  Téléchargement des fichiers
+
+  * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
+  * :download:`CAO<../files/tutorial_4.xao.gz>`
+  * :download:`python scrip<../files/tutorial_4.py>`
+  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`YACS scheme<../files/tutorial_4.xml>`
+
+If the CAO is not available, the boundaries can be approximated: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. Only the definition of the boundaries has to be modified.
+
+.. literalinclude:: ../files/tutorial_6.py
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Download the files
 
   * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
-  * :download:`mesh of the discrete boundary<../files/tutorial_4.fr.med.gz>`
-  * :download:`python script<../files/tutorial_4.py>`
+  * :download:`mesh of the discrete boundary<../files/tutorial_6.fr.med.gz>`
+  * :download:`python script<../files/tutorial_6.py>`
   * :download:`python script for the compression<../files/tutorial_util.py>`
-  * :download:`YACS scheme<../files/tutorial_4.xml>`
+  * :download:`YACS scheme<../files/tutorial_6.xml>`
 
 
 Specific instructions for a 2D mesh
@@ -111,7 +134,8 @@ The instructions to adapt a 2D mesh are exactly identical to those necessary to 
 In the case presented here, one for the first time refines all the elements contained in a bored disk, then in one second iteration, all the elements contained in a rectangle. One will note the use of the follow-up of the circular borders of the field.
 
 .. literalinclude:: ../files/tutorial_5.py
-   :lines: 52-95
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Download the files
@@ -124,3 +148,4 @@ In the case presented here, one for the first time refines all the elements cont
 
 .. toctree::
    :maxdepth: 2
+

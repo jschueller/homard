@@ -109,11 +109,11 @@ std::string HOMARD_Cas::GetDumpPython() const
 //=============================================================================
 int HOMARD_Cas::SetDirName( const char* NomDir )
 {
-  MESSAGE("SetDirName,  NomDir : "<<NomDir);
-  MESSAGE("SetDirName, _NomDir : "<<_NomDir);
+//   MESSAGE("SetDirName,  NomDir : "<<NomDir);
+//   MESSAGE("SetDirName, _NomDir : "<<_NomDir);
   int erreur = 0 ;
   // On vérifie qu'aucun calcul n'a eu lieu pour ce cas
-  MESSAGE("SetDirName, _ListIter.size() : "<<_ListIter.size());
+//   MESSAGE("SetDirName, _ListIter.size() : "<<_ListIter.size());
   if ( _ListIter.size() > 1 ) { erreur = 1 ; }
   // Creation
   if ( CHDIR(NomDir) == 0 )
@@ -220,10 +220,17 @@ void HOMARD_Cas::SupprGroups()
 // Les frontieres
 //
 //=============================================================================
+void HOMARD_Cas::AddBoundary( const char* Boundary )
+{
+//   MESSAGE ( ". HOMARD_Cas::AddBoundary : Boundary = " << Boundary );
+  const char* Group = "";
+  AddBoundaryGroup( Boundary, Group );
+}
+//=============================================================================
 void HOMARD_Cas::AddBoundaryGroup( const char* Boundary, const char* Group )
 {
-//  MESSAGE ( ". AddBoundaryGroup : Boundary = " << Boundary );
-//   MESSAGE ( ". AddBoundaryGroup : Group = " << Group );
+//   MESSAGE ( ". HOMARD_Cas::AddBoundaryGroup : Boundary = " << Boundary );
+//   MESSAGE ( ". HOMARD_Cas::AddBoundaryGroup : Group = " << Group );
   _ListBoundaryGroup.push_back( Boundary );
   _ListBoundaryGroup.push_back( Group    );
 }

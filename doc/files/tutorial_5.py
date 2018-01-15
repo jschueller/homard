@@ -22,15 +22,15 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010, 2014
+Copyright EDF 1996, 2010, 2018
 """
-__revision__ = "V2.1"
+__revision__ = "V3.2"
 #
 import os
 import sys
 #
 # ==================================
-PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+PATH_HOMARD = os.getenv("HOMARD_ROOT_DIR")
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -47,11 +47,14 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
+homard.UpdateStudy()
 #
-# Frontiere
+#============================= Début des commandes =============================
+#
+# Frontière
 # =========
 # Creation of the discrete boundary boun_5_1
-boun_5_1 = homard.CreateBoundaryDi('boun_5_1', 'MAIL_EXT', DATA_TUTORIAL+'/tutorial_5.fr.med')
+boun_5_1 = homard.CreateBoundaryDi('boun_5_1', 'MAIL_EXT', os.path.join(DATA_TUTORIAL, "tutorial_5.fr.med"))
 #
 # Creation des zones
 # ==================
@@ -63,35 +66,37 @@ quart_sup = homard.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
 # Hypotheses
 # ==========
 # Creation of the hypothesis hypo_5
-hypo_5 = homard.CreateHypothesis('hypo_5')
-hypo_5.AddZone('enveloppe', 1)
-# Creation of the hypothesis hypo_5_bis
-hypo_5_bis = homard.CreateHypothesis('hypo_5_bis')
-hypo_5_bis.AddZone('quart_sup', 1)
+l_hypothese = homard.CreateHypothesis('hypo_5')
+l_hypothese.AddZone('enveloppe', 1)
+# Creation of the hypothesis l_hypothese_bis
+l_hypothese_bis = homard.CreateHypothesis('hypo_5_bis')
+l_hypothese_bis.AddZone('quart_sup', 1)
 #
 # Cas
 # ===
-case_5 = homard.CreateCase('Case_5', 'COEUR_2D', DATA_TUTORIAL+'/tutorial_5.00.med')
-case_5.SetDirName(DIRCASE)
-case_5.SetConfType(3)
-case_5.AddBoundaryGroup('boun_5_1', '')
+le_cas = homard.CreateCase('Case_5', 'COEUR_2D', os.path.join(DATA_TUTORIAL, "tutorial_5.00.med"))
+le_cas.SetDirName(DIRCASE)
+le_cas.SetConfType(1)
+le_cas.AddBoundary('boun_5_1')
 #
 # Iteration "iter_5_1"
 # ====================
-iter_5_1 = case_5.NextIteration('iter_5_1')
+iter_5_1 = le_cas.NextIteration('iter_5_1')
 iter_5_1.SetMeshName('COEUR_2D_01')
-iter_5_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_5_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
 iter_5_1.AssociateHypo('hypo_5')
-error = iter_5_1.Compute(1, 2)
+erreur = iter_5_1.Compute(1, 2)
 #
 # Iteration "iter_5_2"
 # ====================
 iter_5_2 = iter_5_1.NextIteration('iter_5_2')
 iter_5_2.SetMeshName('COEUR_2D_02')
-iter_5_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_5_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
 iter_5_2.AssociateHypo('hypo_5_bis')
-error = iter_5_2.Compute(1, 2)
-
+erreur = iter_5_2.Compute(1, 2)
+#
+#============================== Fin des commandes ==============================
+#
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 5, 1)
 # ==================================

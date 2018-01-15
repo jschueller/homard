@@ -38,6 +38,7 @@ SET(HOMARD_RESOURCES_FILES
   diskwithhole.png
   diskwithhole_2.png
   full_view.png
+  geometry.png
   HOMARD.png
   HOMARD_2.png
   hypotheses.png

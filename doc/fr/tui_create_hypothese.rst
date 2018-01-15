@@ -151,7 +151,7 @@ Le champ de pilotage de l'adaptation et les seuils
 |        * 4 : moyenne + n fois l'écart-type                    |
 |                                                               |
 |     - ``threshold`` : valeur numérique entrant dans la        |
-|                       définition du seuil                     |
+|       définition du seuil                                     |
 +---------------------------------------------------------------+
 | .. module:: GetRefinThrType                                   |
 |                                                               |

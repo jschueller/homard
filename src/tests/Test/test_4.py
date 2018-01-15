@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V3.01"
+__revision__ = "V3.03"
 
 #========================================================================
 TEST_NAME = "test_4"
@@ -32,7 +32,6 @@ DY = 400.
 DZ = 200.
 #========================================================================
 import os
-import tempfile
 import sys
 import numpy as np
 import salome
@@ -48,19 +47,11 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp()
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()
@@ -128,7 +119,7 @@ Python script for GEOM and SMESH
     try:
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
       box_m.ExportMED(ficmed)
-    except Exception as eee:
+    except IOError as eee:
       error = 2
       raise Exception('ExportMED() failed. ' + str(eee))
   #
@@ -220,7 +211,7 @@ Python script for HOMARD
     laux = hypo_4_1.GetZones()
     nbzone = len(laux) // 2
     jaux = 0
-    for iaux in range(nbzone) :
+    for _ in range(nbzone) :
       print(hyponame_1, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis hypo_4_2
@@ -232,7 +223,7 @@ Python script for HOMARD
     laux = hypo_4_2.GetZones()
     nbzone = len(laux) // 2
     jaux = 0
-    for iaux in range(nbzone) :
+    for _ in range(nbzone) :
       print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
       jaux += 2
   # Creation of the hypothesis DISTANCE INVERSE
@@ -320,7 +311,7 @@ try :
   ERROR = geom_smesh_exec()
   if ERROR :
     raise Exception('Pb in geom_smesh_exec')
-except Exception as eee:
+except RuntimeError as eee:
   raise Exception('Pb in geom_smesh_exec: '+str(eee.message))
 
 HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
@@ -333,7 +324,7 @@ try :
   ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
+except RuntimeError as eee:
   raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results

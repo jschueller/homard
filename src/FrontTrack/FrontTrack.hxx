@@ -15,21 +15,21 @@ public:
 
   /*!
    * \brief Relocate nodes to lie on geometry
-   *  \param [in] inputMedFile - a MED file holding a mesh including nodes that will be
+   *  \param [in] theInputMedFile - a MED file holding a mesh including nodes that will be
    *         moved onto the geometry
-   *  \param [in] outputMedFile - a MED file to create, that will hold a modified mesh
-   *  \param [in] nodeFiles - an array of names of files describing groups of nodes that
+   *  \param [in] theOutputMedFile - a MED file to create, that will hold a modified mesh
+   *  \param [in] theInputNodeFiles - an array of names of files describing groups of nodes that
    *         will be moved onto the geometry
-   *  \param [in] xaoFileName - a path to a file in XAO format  holding the geometry and
+   *  \param [in] theXaoFileName - a path to a file in XAO format  holding the geometry and
    *         the geometrical groups.
-   *  \param [in] isParallel - if \c true, all processors are used to treat boundary shapes
+   *  \param [in] theIsParallel - if \c true, all processors are used to treat boundary shapes
    *          in parallel.
    */
-  void track( const std::string&                 inputMedFile,
-              const std::string&                 outputMedFile,
-              const std::vector< std::string > & nodeFiles,
-              const std::string&                 xaoFileName,
-              bool                               isParallel=true);
+  void track( const std::string&                 theInputMedFile,
+              const std::string&                 theOutputMedFile,
+              const std::vector< std::string > & theInputNodeFiles,
+              const std::string&                 theXaoFileName,
+              bool                               theIsParallel=true);
 
 };
 

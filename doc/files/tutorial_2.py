@@ -22,15 +22,15 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010, 2014
+Copyright EDF 1996, 2010, 2018
 """
-__revision__ = "V2.10"
+__revision__ = "V3.01"
 #
 import os
 import sys
 #
 # ==================================
-PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+PATH_HOMARD = os.getenv("HOMARD_ROOT_DIR")
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -47,6 +47,9 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
+homard.UpdateStudy()
+#
+#============================= Début des commandes =============================
 #
 # Creation des zones
 # ==================
@@ -61,37 +64,39 @@ Zone_2 = homard.CreateZoneBox ('Zone_2', -0.1, 0.51, -0.1, 0.51, -0.1, 0.51)
 #
 # Hypothese "hypo_2"
 # ==================
-hypo_2 = homard.CreateHypothesis('hypo_2')
-hypo_2.AddZone('Zone_1', 1)
-hypo_2.AddZone('Zone_0', 1)
+l_hypothese = homard.CreateHypothesis('hypo_2')
+l_hypothese.AddZone('Zone_1', 1)
+l_hypothese.AddZone('Zone_0', 1)
 #
 # Hypothese "hypo_2_bis"
 # ======================
-hypo_2_bis = homard.CreateHypothesis('hypo_2_bis')
-hypo_2_bis.AddZone('Zone_0', -1)
-hypo_2_bis.AddZone('Zone_2', 1)
+l_hypothese_bis = homard.CreateHypothesis('hypo_2_bis')
+l_hypothese_bis.AddZone('Zone_0', -1)
+l_hypothese_bis.AddZone('Zone_2', 1)
 #
 # Cas
 # ===
-case_2 = homard.CreateCase('Case_2', 'MZERO', DATA_TUTORIAL+'/tutorial_2.00.med')
-case_2.SetDirName(DIRCASE)
+le_cas = homard.CreateCase('Case_2', 'MZERO', os.path.join(DATA_TUTORIAL, "tutorial_2.00.med"))
+le_cas.SetDirName(DIRCASE)
 #
 # Iteration "iter_2_1"
 # ====================
-iter_2_1 = case_2.NextIteration('iter_2_1')
+iter_2_1 = le_cas.NextIteration('iter_2_1')
 iter_2_1.SetMeshName('M_1')
-iter_2_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_2_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
 iter_2_1.AssociateHypo('hypo_2')
-error = iter_2_1.Compute(1, 2)
+erreur = iter_2_1.Compute(1, 2)
 #
 # Iteration "iter_2_2"
 # ====================
 iter_2_2 = iter_2_1.NextIteration('iter_2_2')
 iter_2_2.SetMeshName('M_2')
-iter_2_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_2_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
 iter_2_2.AssociateHypo('hypo_2_bis')
-error = iter_2_2.Compute(1, 2)
-
+erreur = iter_2_2.Compute(1, 2)
+#
+#============================== Fin des commandes ==============================
+#
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 2, 1)
 # ==================================

@@ -66,12 +66,15 @@ Quand le bord du domaine est courbe, HOMARD sait placer les nouveaux noeuds sur 
 
 Deux cas de figure sont présents :
 
-* courbe 1D : cette courbe peut être définie dans un plan, par exemple pour un calcul 2D. Elle peut également être définie dans l'espace 3D, par exemple pour l'intersection de deux surfaces. Une ligne à suivre est décrite de manière discrète.
-* surface : une surface à suivre est décrite de manière analytique.
+- CAO : la CAO du domaine associé au maillage est disponible. Le calcul s'appuiera sur elle pour réaliser les projections.
+- Pas de CAO : en l'absence de CAO, il est possible d'avoir une version approchée des frontières :
 
-On cochera le ou les boutons voulus :
+  * courbe 1D : cette courbe peut être définie dans un plan, par exemple pour un calcul 2D. Elle peut également être définie dans l'espace 3D, par exemple pour l'intersection de deux surfaces. Une ligne à suivre est décrite de manière discrète.
+  * surface : une surface à suivre est décrite de manière analytique.
 
-.. image:: images/create_case_5.png
+On cochera le bouton voulu :
+
+.. image:: images/create_boundary_1.png
    :align: center
 
 La définition des frontières est décrite dans :doc:`gui_create_boundary`.

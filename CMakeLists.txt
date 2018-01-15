@@ -287,7 +287,7 @@ INCLUDE(CMakePackageConfigHelpers)
 # List of targets in this project we want to make visible to the rest of the world.
 # They all have to be INSTALL'd with the option "EXPORT ${PROJECT_NAME}TargetGroup"
 SET(_${PROJECT_NAME}_exposed_targets
-  HOMARDImpl HOMARDEngine HOMARD SalomeIDLHOMARD
+  HOMARDImpl HOMARDEngine HOMARD SalomeIDLHOMARD FrontTrack
 )
 
 # Add all targets to the build-tree export set

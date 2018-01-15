@@ -51,6 +51,8 @@ module HOMARD
 //
 // A.1. Les creations
 //
+    HOMARD_Boundary   CreateBoundaryCAO (in string BoundaryName, in string FileName)
+    raises(SALOME::SALOME_Exception);
     HOMARD_Boundary   CreateBoundaryDi (in string BoundaryName, in string MeshName, in string FileName)
     raises(SALOME::SALOME_Exception);
     HOMARD_Boundary   CreateBoundaryCylinder (in string BoundaryName,

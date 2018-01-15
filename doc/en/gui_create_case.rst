@@ -68,12 +68,15 @@ If the limit of the domain is curved, HOMARD can put the new nodes onto these cu
 
 Two situations:
 
-* 1D curve: this curve may be defined into a plane, for example for a 2D calculation. It can also be defined into the 3D space, for example to describe the intersection of two surfaces. Such a line is defined with a discrete desription.
-* a surface: such a surface is defined with an analytical description.
+- CAO: the CAO of the domain is available. The computtion will rely on it to project the nodes.
+- No CAO: if no CAO is available, an approximative approach is possible:
+
+  * 1D curve: this curve may be defined into a plane, for example for a 2D calculation. It can also be defined into the 3D space, for example to describe the intersection of two surfaces. Such a line is defined with a discrete desription.
+  * a surface: such a surface is defined with an analytical description.
 
 Check the button:
 
-.. image:: images/create_case_5.png
+.. image:: images/create_boundary_1.png
    :align: center
 
 The definition of the boundaries is described in :doc:`gui_create_boundary`.

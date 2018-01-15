@@ -59,6 +59,7 @@
 #include "MonCreateIteration.h"
 #include "MonPursueIteration.h"
 #include "MonCreateYACS.h"
+#include "MonEditBoundaryCAO.h"
 #include "MonEditBoundaryAn.h"
 #include "MonEditBoundaryDi.h"
 #include "MonEditCase.h"
@@ -465,8 +466,14 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       _PTR(SObject) obj = chercheMonObjet();
       if (obj)
       {
+        // Edition d'une frontiere CAO
+        if (HOMARD_UTILS::isBoundaryCAO(obj))
+        {
+          MonEditBoundaryCAO *aDlg = new MonEditBoundaryCAO(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
+          aDlg->show();
+        }
         // Edition d'une frontiere discrete
-        if (HOMARD_UTILS::isBoundaryDi(obj))
+        else if (HOMARD_UTILS::isBoundaryDi(obj))
         {
           MonEditBoundaryDi *aDlg = new MonEditBoundaryDi(0, true, HOMARD::HOMARD_Gen::_duplicate(homardGen), QString(""), _ObjectName ) ;
           aDlg->show();
@@ -521,7 +528,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
       if (obj)
       {
         // Suppression d'une frontiere
-        if ( HOMARD_UTILS::isBoundaryDi(obj) || HOMARD_UTILS::isBoundaryAn(obj) )
+        if ( HOMARD_UTILS::isBoundaryCAO(obj) || HOMARD_UTILS::isBoundaryDi(obj) || HOMARD_UTILS::isBoundaryAn(obj) )
         {
           try
           { homardGen->DeleteBoundary(_ObjectName.toStdString().c_str()); }
@@ -755,7 +762,12 @@ void HOMARDGUI::contextMenuPopup( const QString& client, QMenu* menu, QString& t
     bool DeleteObject = false ;
     bool EditObject = false ;
 //
-    if ( HOMARD_UTILS::isBoundaryAn(obj) )
+    if ( HOMARD_UTILS::isBoundaryCAO(obj) )
+    {
+      EditObject = true ;
+      DeleteObject = true ;
+    }
+    else if ( HOMARD_UTILS::isBoundaryAn(obj) )
     {
       EditObject = true ;
       DeleteObject = true ;

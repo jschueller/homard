@@ -21,11 +21,48 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V3.01"
+__revision__ = "V4.02"
 
 import os
+import tempfile
 import MEDLoader as ml
 import shutil
+#========================================================================
+#========================================================================
+def get_dir(path_homard, test_name, debug=False) :
+  """
+Get directories for the test.
+Copyright EDF 2018
+  """
+#
+# Répertoire des données du test
+  rep_data = os.path.join(path_homard, "share", "salome", "homardsamples")
+  rep_data = os.path.normpath(rep_data)
+#
+# Répertoire des résultats
+  if debug :
+    dircase = os.path.join("/tmp", test_name)
+    if ( os.path.isdir(dircase) ) :
+      remove_dir(dircase)
+    os.mkdir(dircase)
+  else :
+    dircase = tempfile.mkdtemp(prefix=test_name)
+#
+  return rep_data, dircase
+#
+#========================================================================
+#========================================================================
+def get_dir_tutorial(path_homard) :
+  """
+Get directory for the tutorial.
+Copyright EDF 2018
+  """
+#
+# Répertoire des données du tutorial
+  data_tutorial = os.path.join(path_homard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
+  data_tutorial = os.path.normpath(data_tutorial)
+#
+  return data_tutorial
 #========================================================================
 #========================================================================
 def remove_dir(directory) :
@@ -61,16 +98,15 @@ Copyright EDF-R&D 2014
   #
   test_file_suff = "apad.%02d.bilan" % n_iter_test_file
   rep_test_file = "I%02d" % n_rep_test_file
+#
+# Existence du fichier de référence
   #
   test_file = os.path.join(rep_test, test_name + "." + test_file_suff)
   mess_error_ref = "\nReference file: " + test_file
-#
-# Existence du fichier de référence
-#
+  #print ("test_file = %s" % test_file)
   try :
-    file = open (test_file, "r")
-    les_lignes_ref = file.readlines()
-    file.close()
+    with open (test_file, "r") as fichier :
+      les_lignes_ref = fichier.readlines()
   except :
     mess_error = mess_error_ref + "\nThis file does not exist.\n"
     destroy_dir = False
@@ -80,9 +116,8 @@ Copyright EDF-R&D 2014
 #
   test_file = os.path.join(dircase, rep_test_file, test_file_suff)
   if os.path.isfile (test_file) :
-    file = open (test_file, "r")
-    les_lignes = file.readlines()
-    file.close()
+    with open (test_file, "r") as fichier :
+      les_lignes = fichier.readlines()
   else :
     mess_error  = "\nResult file: " + test_file
     mess_error += "\nThis file does not exist.\n"
@@ -164,7 +199,7 @@ def saveGeometry( xao_file, name, author="" ):
 #========================================================================
 #========================================================================
 #
-def repositionnement (rep_calc, fic_med_brut, fic_med_new, xao_file, verbose=False) :
+def repositionnement (rep_calc, fic_med_brut, fic_med_new, xao_file, menage=True, verbose=False) :
 #
   """
 Pilote le repositionnement des noeuds qui ont bougé
@@ -173,12 +208,14 @@ Entrées :
   fic_med_brut : fichier MED du calcul avec les coordonnées avant projection
   fic_med_new  : fichier MED du calcul avec les coordonnées après projection
   xao_file : fichier XAO de la géométrie
+  menage : Suppression du fichier fic_med_brut
   """
   if verbose :
     ligne =    "rep_calc     = %s" % rep_calc
     ligne += "\nfic_med_brut = %s" % fic_med_brut
     ligne += "\nfic_med_new  = %s" % fic_med_new
     ligne += "\nxao_file     = %s" % xao_file
+    ligne += "\nmenage       = %d" % menage
     print(ligne)
 
   message = ""
@@ -186,8 +223,6 @@ Entrées :
   while not erreur :
 #
 # 1. l_fr = liste des fichiers des lignes/surfaces a suivre
-#           Les fichiers des numéros de groupes par frontière sont renommés selon le support
-#           à condition de ne pas être vide.
 #
     fic_hom_med = None
     laux = os.listdir(rep_calc)
@@ -197,33 +232,8 @@ Entrées :
     icpt_2D = 0
     for fic in laux :
       #print "\t" + fic
-      if ( fic[:5] == 'fort.' ) :
-        fic_fort = os.path.join(rep_calc, fic)
-        fichier = open (fic_fort, "r")
-        les_lignes = fichier.readlines()
-        fichier.close()
-        os.remove(fic_fort)
-        a_faire = False
-        for ligne in les_lignes[1:] :
-          laux1 = ligne.split()
-          if ( len(laux1) >= 3 ) :
-            a_faire = True
-            break
-        if a_faire :
-          if ( "1D" in les_lignes[0] ) :
-            nomfic_bis = "fr1D.%02d" % icpt_1D
-            icpt_1D += 1
-          else :
-            nomfic_bis = "fr2D.%02d" % icpt_2D
-            icpt_2D += 1
-          fic_1 = os.path.join(rep_calc, nomfic_bis)
-          fichier = open (fic_1, "w")
-          for ligne in les_lignes[1:] :
-            if ( ( "1D" not in ligne ) and ( "2D" not in ligne ) ) :
-              fichier.write(ligne)
-          fichier.close()
-          #print "\t\tajout de %s" % fic_1
-          l_fr.append(fic_1)
+      if ( fic[:2] == 'fr' ) :
+        l_fr.append(os.path.join(rep_calc, fic))
       elif ( fic[-4:] == '.med' ) :
         fic_hom_med = os.path.join(rep_calc, fic)
         #print "\t\treperage de fic_hom_med =", fic_hom_med
@@ -259,11 +269,14 @@ Entrées :
       #if erreur :
         #break
 #
-# 2.3. Ménage de l'ancien fichier MED
+# 2.3. Ménage éventuel de l'ancien fichier MED
 #
-      if ( fic_med_brut != fic_med_new ) :
-        print("Suppression du fichier %s" % fic_med_new)
-        os.remove(fic_med_brut)
+      if menage :
+#
+        if ( fic_med_brut != fic_med_new ) :
+          if verbose :
+            print("Suppression du fichier %s" % fic_med_brut)
+          os.remove(fic_med_brut)
 #
 # 3. Renommage du fichier si aucun noeud n'est concerné
 #
@@ -306,9 +319,8 @@ Entrées :
 # 1. Recherche des inforamtions permanentes dans le fichier de configuration
 #
     fic_conf = os.path.join(rep_calc, "HOMARD.Configuration")
-    fichier = open (fic_conf, "r")
-    les_lignes = fichier.readlines()
-    fichier.close()
+    with open (fic_conf, "r") as fichier :
+      les_lignes = fichier.readlines()
 #
     ligne0 = ""
     icpt = 0
@@ -336,22 +348,22 @@ Entrées :
 # 2. Création du fichier de configuration
 #
     fic_conf_sv = os.path.join(rep_calc, "HOMARD.Configuration.majc")
-    fichier = open (fic_conf_sv, "w")
 #
-    ligne = ligne0
-    ligne += "ModeHOMA 5\n"
-    fic = os.path.join(rep_calc, "Liste.%s.maj_coords.log" % s_iter)
-    ligne += "ListeStd %s\n" % fic
-    ligne += "CCMaiN__ %s\n" % fic_med_calc
-    ligne += "RepeTrav %s\n" % rep_calc
-    ligne += "RepeInfo %s\n" % rep_calc
-    ligne += "Action   homa\n"
-    ligne += "CCAssoci med\n"
-    ligne += "EcriFiHO N_SANS_FRONTIERE\n"
-    ligne += "MessInfo 10\n"
+    with open (fic_conf_sv, "w") as fichier :
 #
-    fichier.write(ligne)
-    fichier.close()
+      ligne = ligne0
+      ligne += "ModeHOMA 5\n"
+      fic = os.path.join(rep_calc, "Liste.%s.maj_coords.log" % s_iter)
+      ligne += "ListeStd %s\n" % fic
+      ligne += "CCMaiN__ %s\n" % fic_med_calc
+      ligne += "RepeTrav %s\n" % rep_calc
+      ligne += "RepeInfo %s\n" % rep_calc
+      ligne += "Action   homa\n"
+      ligne += "CCAssoci med\n"
+      ligne += "EcriFiHO N_SANS_FRONTIERE\n"
+      ligne += "MessInfo 10\n"
+#
+      fichier.write(ligne)
 #
 # 3. Mise à jour
 # 3.1. Détermination de l'exécutable

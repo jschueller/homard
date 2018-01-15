@@ -71,8 +71,8 @@ void MonEditBoundaryDi::InitValEdit()
       LEName->setText(_aName);
       LEName->setReadOnly(true);
 
-      QString aMeshFile = aBoundary->GetMeshFile();
-      LEFileName->setText(aMeshFile);
+      QString aDataFile = aBoundary->GetDataFile();
+      LEFileName->setText(aDataFile);
       LEFileName->setReadOnly(1);
       PushFichier->setVisible(0);
 //

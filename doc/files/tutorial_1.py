@@ -22,15 +22,15 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF-R&D 1996, 2010, 2014
+Copyright EDF 1996, 2010, 2018
 """
-__revision__ = "V2.1"
+__revision__ = "V3.1"
 #
 import os
 import sys
 #
 # ==================================
-PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
+PATH_HOMARD = os.getenv("HOMARD_ROOT_DIR")
 # Repertoire des donnees du tutorial
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
@@ -47,40 +47,44 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
+homard.UpdateStudy()
+#
+#============================= Début des commandes =============================
 #
 # Hypotheses
 # ==========
-hypo_1 = homard.CreateHypothesis('hypo_1')
-hypo_1.SetUnifRefinUnRef(1)
+l_hypothese = homard.CreateHypothesis('hypo_1')
+l_hypothese.SetUnifRefinUnRef(1)
 #
 # Cas
 # ===
-case_1 = homard.CreateCase('Case_1', 'MAILL', DATA_TUTORIAL+'/tutorial_1.00.med')
-case_1.SetDirName(DIRCASE)
-case_1.SetConfType(1)
+le_cas = homard.CreateCase('Case_1', 'MAILL', os.path.join(DATA_TUTORIAL, "tutorial_1.00.med"))
+le_cas.SetDirName(DIRCASE)
 #
 # Iterations
 # ==========
 # Iteration "iter_1_1"
-iter_1_1 = case_1.NextIteration('iter_1_1')
+iter_1_1 = le_cas.NextIteration('iter_1_1')
 iter_1_1.SetMeshName('MESH')
-iter_1_1.SetMeshFile(DIRCASE+'/maill.01.med')
+iter_1_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
 iter_1_1.AssociateHypo('hypo_1')
-error = iter_1_1.Compute(1, 2)
+erreur = iter_1_1.Compute(1, 2)
 
 # Iteration "iter_1_2"
 iter_1_2 = iter_1_1.NextIteration('iter_1_2')
 iter_1_2.SetMeshName('MESH')
-iter_1_2.SetMeshFile(DIRCASE+'/maill.02.med')
+iter_1_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
 iter_1_2.AssociateHypo('hypo_1')
-error = iter_1_2.Compute(1, 2)
+erreur = iter_1_2.Compute(1, 2)
 
 # Iteration "iter_1_3"
 iter_1_3 = iter_1_2.NextIteration('iter_1_3')
 iter_1_3.SetMeshName('MESH')
-iter_1_3.SetMeshFile(DIRCASE+'/maill.03.med')
+iter_1_3.SetMeshFile(os.path.join(DIRCASE, "maill.03.med"))
 iter_1_3.AssociateHypo('hypo_1')
-error = iter_1_3.Compute(1, 2)
+erreur = iter_1_3.Compute(1, 2)
+#
+#============================== Fin des commandes ==============================
 #
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 1, 1)

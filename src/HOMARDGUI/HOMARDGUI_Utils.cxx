@@ -186,6 +186,13 @@ bool HOMARD_UTILS::isObject(_PTR(SObject) MonObj, QString TypeObject, int option
   return bOK ;
 }
 //================================================================
+// Retourne vrai si l'objet est une frontiere CAO
+//================================================================
+bool HOMARD_UTILS::isBoundaryCAO(_PTR(SObject) MonObj)
+{
+   return isObject( MonObj, QString("BoundaryCAOHomard"), -1 ) ;
+}
+//================================================================
 // Retourne vrai si l'objet est une frontiere analytique
 //================================================================
 bool HOMARD_UTILS::isBoundaryAn(_PTR(SObject) MonObj)

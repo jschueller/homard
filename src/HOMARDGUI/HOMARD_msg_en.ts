@@ -364,12 +364,20 @@
         <translation>The file for the mesh of the boundary must be selected.</translation>
     </message>
     <message>
+        <source>HOM_BOUN_CAO</source>
+        <translation>The file for the CAO must be selected.</translation>
+    </message>
+    <message>
         <source>HOM_BOUN_CASE</source>
         <translation>The meshfile of the case is unknown.</translation>
     </message>
     <message>
         <source>HOM_AXE</source>
         <translation>The axis must be a non 0 vector.</translation>
+    </message>
+    <message>
+        <source>HOM_BOUN_C_EDIT_WINDOW_TITLE</source>
+        <translation>Edition of a CAO based boundary</translation>
     </message>
     <message>
         <source>HOM_BOUN_A_EDIT_WINDOW_TITLE</source>

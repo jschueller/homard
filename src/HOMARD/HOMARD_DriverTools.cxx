@@ -303,10 +303,14 @@ namespace HOMARD
     os << separator() << BoundaryType ;
     os << separator() << boundary.GetCaseCreation() ;
 
-    if ( BoundaryType == 0 )
+    if ( BoundaryType == -1 )
+    {
+      os << separator() << boundary.GetDataFile();
+    }
+    else if ( BoundaryType == 0 )
     {
       os << separator() << boundary.GetMeshName();
-      os << separator() << boundary.GetMeshFile();
+      os << separator() << boundary.GetDataFile();
     }
     else {
       std::vector<double> coor = boundary.GetCoords() ;
@@ -744,12 +748,20 @@ namespace HOMARD
 
     // Si analytique, les coordonnees des frontieres : le nombre depend du type
     // Si discret, le maillage
+    // Si CAO, la géométrie
     int lgcoords ;
-    if ( BoundaryType == 1 ) { lgcoords = 7 ; }
+    if ( BoundaryType == -1 ) { lgcoords = -1 ; }
+    else if ( BoundaryType == 1 ) { lgcoords = 7 ; }
     else if ( BoundaryType == 2 ) { lgcoords = 4 ; }
     else { lgcoords = 0 ; }
 //
-    if ( lgcoords == 0 )
+    if ( lgcoords == -1 )
+    {
+      chunk = getNextChunk( stream, start, ok );
+      if ( !ok ) return false;
+      boundary.SetDataFile( chunk.c_str() );
+    }
+    else if ( lgcoords == 0 )
     {
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
@@ -757,7 +769,7 @@ namespace HOMARD
 
       chunk = getNextChunk( stream, start, ok );
       if ( !ok ) return false;
-      boundary.SetMeshFile( chunk.c_str() );
+      boundary.SetDataFile( chunk.c_str() );
     }
     else
     { std::vector<double> coords;

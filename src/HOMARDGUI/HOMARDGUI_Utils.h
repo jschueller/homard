@@ -71,6 +71,7 @@ namespace HOMARD_UTILS {
                                       // Function returns the last selected object in the list
                                        // of selected objects
 
+  HOMARD_EXPORT bool isBoundaryCAO(_PTR(SObject)  MonObj);
   HOMARD_EXPORT bool isBoundaryAn(_PTR(SObject)  MonObj);
   HOMARD_EXPORT bool isBoundaryDi(_PTR(SObject)  MonObj);
   HOMARD_EXPORT bool isCase(_PTR(SObject)  MonObj);
