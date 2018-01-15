@@ -75,6 +75,7 @@ module HOMARD
     void     SetGroups(in ListGroupType ListGroup)         raises (SALOME::SALOME_Exception);
     ListGroupType GetGroups()                              raises (SALOME::SALOME_Exception);
 
+    void     AddBoundary(in string BoundaryName)           raises (SALOME::SALOME_Exception);
     void     AddBoundaryGroup(in string BoundaryName, in string Group)
                                                            raises (SALOME::SALOME_Exception);
     ListBoundaryGroupType GetBoundaryGroup()               raises (SALOME::SALOME_Exception);
