@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_1
 """
-__revision__ = "V4.01"
+__revision__ = "V4.03"
 
 #========================================================================
 TEST_NAME = "test_1"
@@ -29,7 +29,6 @@ DEBUG = False
 N_ITER_TEST_FILE = 3
 #========================================================================
 import os
-import tempfile
 import sys
 import HOMARD
 import salome
@@ -40,19 +39,11 @@ PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import remove_dir
+from test_util import get_dir
 from test_util import test_results
-# Repertoire des donnees du test
-REP_DATA = os.path.join(PATH_HOMARD, "share", "salome", "homardsamples")
-REP_DATA = os.path.normpath(REP_DATA)
-# Repertoire des resultats
-if DEBUG :
-  DIRCASE = os.path.join("/tmp", TEST_NAME)
-  if ( os.path.isdir(DIRCASE) ) :
-    remove_dir(DIRCASE)
-  os.mkdir(DIRCASE)
-else :
-  DIRCASE = tempfile.mkdtemp()
+# ==================================
+# Répertoires pour ce test
+REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
 salome.salome_init()
@@ -108,10 +99,10 @@ Python script for HOMARD
     zones_1_et_2.AddZone('Zone_1_2', 1)
     laux = zones_1_et_2.GetZones()
     nbzone = len(laux) // 2
-    jaux = 0
-    for iaux in range(nbzone) :
-      print(hyponame_2, " : ", dico[laux[jaux+1]], "sur la zone", laux[jaux])
-      jaux += 2
+    iaux = 0
+    for _ in range(nbzone) :
+      print(hyponame_2, " : ", dico[laux[iaux+1]], "sur la zone", laux[iaux])
+      iaux += 2
     print(hyponame_2, " : champ utilisé :", zones_1_et_2.GetFieldName())
     if ( len (zones_1_et_2.GetFieldName()) > 0 ) :
       print(".. caractéristiques de l'adaptation :", zones_1_et_2.GetField())
@@ -205,7 +196,7 @@ try :
   ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
-except Exception as eee:
+except RuntimeError as eee:
   raise Exception('Pb in homard_exec: '+str(eee.message))
 #
 # Test of the results

@@ -22,7 +22,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.9"
+__revision__ = "V5.11"
 #
 import sys
 import os

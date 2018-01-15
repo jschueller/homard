@@ -28,11 +28,13 @@ test_2
 test_3
 test_4
 test_5
+test_6
 tutorial_1
 tutorial_2
 tutorial_3
 tutorial_4
 tutorial_5
+tutorial_6
 )
 
 FOREACH(tfile ${HOMARD_TEST_FILES})

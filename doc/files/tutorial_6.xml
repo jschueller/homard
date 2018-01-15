@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='iso-8859-1' ?>
-<proc name="tutorial_4">
+<proc name="tutorial_6">
    <property name="DefaultStudyID" value="1"/>
    <objref name="CALCIUM_real" id="IDL:Ports/Calcium_Ports/Calcium_Real_Port:1.0"/>
    <type name="string" kind="string"/>
@@ -53,7 +53,8 @@ import HOMARD_Zone_idl
 import HOMARD_Boundary_idl
 
 clt = orbmodule.client()
-CurrentStudy = clt.Resolve("/Study")
+StudyManager = clt.Resolve("/myStudyManager")
+CurrentStudy = StudyManager.GetStudyByID(1)
 ]]></code></script>
          <load container="DefaultContainer"/>
          <outport name="CurrentStudy" type="Study"/>
@@ -63,6 +64,45 @@ CurrentStudy = clt.Resolve("/Study")
          <load container="DefaultContainer"/>
          <method>SetCurrentStudy</method>
          <inport name="theStudy" type="Study"/>
+      </service>
+      <service name="CreateBoundarycyl_1_int">
+         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <method>CreateBoundaryCylinder</method>
+         <inport name="BoundaryName" type="string"/>
+         <inport name="Xcentre" type="double"/>
+         <inport name="Ycentre" type="double"/>
+         <inport name="Zcentre" type="double"/>
+         <inport name="Xaxis" type="double"/>
+         <inport name="Yaxis" type="double"/>
+         <inport name="Zaxis" type="double"/>
+         <inport name="Radius" type="double"/>
+         <outport name="return" type="HOMARD_Boundary"/>
+      </service>
+      <service name="CreateBoundarycyl_1_ext">
+         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <method>CreateBoundaryCylinder</method>
+         <inport name="BoundaryName" type="string"/>
+         <inport name="Xcentre" type="double"/>
+         <inport name="Ycentre" type="double"/>
+         <inport name="Zcentre" type="double"/>
+         <inport name="Xaxis" type="double"/>
+         <inport name="Yaxis" type="double"/>
+         <inport name="Zaxis" type="double"/>
+         <inport name="Radius" type="double"/>
+         <outport name="return" type="HOMARD_Boundary"/>
+      </service>
+      <service name="CreateBoundarycyl_2_int">
+         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <method>CreateBoundaryCylinder</method>
+         <inport name="BoundaryName" type="string"/>
+         <inport name="Xcentre" type="double"/>
+         <inport name="Ycentre" type="double"/>
+         <inport name="Zcentre" type="double"/>
+         <inport name="Xaxis" type="double"/>
+         <inport name="Yaxis" type="double"/>
+         <inport name="Zaxis" type="double"/>
+         <inport name="Radius" type="double"/>
+         <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateHypothesis_1">
          <node>Etude_Initialisation.SetCurrentStudy</node>
@@ -95,7 +135,13 @@ Hypo.AddGroup('T2_INT')
 # Repertoire d'execution
 Case.SetDirName(DirName)
 # Liens avec les frontieres
-Case.AddBoundary(CAO.GetName())
+Case.AddBoundaryGroup( 'intersection', '' )
+Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
+Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
+Case.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
+Case.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
+Case.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
+Case.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
 # Resultats
 # =========
 # Iteration 0 associee
@@ -104,13 +150,26 @@ Iter0 = Case.GetIter0()
          <load container="DefaultContainer"/>
          <inport name="Case" type="HOMARD_Cas"/>
          <inport name="DirName" type="string"/>
-         <inport name="CAO" type="HOMARD_Boundary"/>
          <outport name="Iter0" type="HOMARD_Iteration"/>
       </inline>
-      <service name="CreateBoundaryCAO">
+      <service name="CreateBoundarycyl_2_ext">
          <node>Etude_Initialisation.SetCurrentStudy</node>
-         <method>CreateBoundaryCAO</method>
+         <method>CreateBoundaryCylinder</method>
          <inport name="BoundaryName" type="string"/>
+         <inport name="Xcentre" type="double"/>
+         <inport name="Ycentre" type="double"/>
+         <inport name="Zcentre" type="double"/>
+         <inport name="Xaxis" type="double"/>
+         <inport name="Yaxis" type="double"/>
+         <inport name="Zaxis" type="double"/>
+         <inport name="Radius" type="double"/>
+         <outport name="return" type="HOMARD_Boundary"/>
+      </service>
+      <service name="CreateBoundaryintersection">
+         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <method>CreateBoundaryDi</method>
+         <inport name="BoundaryName" type="string"/>
+         <inport name="MeshName" type="string"/>
          <inport name="FileName" type="string"/>
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
@@ -132,13 +191,16 @@ Hypo.AddGroup('T2_EXT')
          <inport name="Hypo" type="HOMARD_Hypothesis"/>
       </inline>
       <control> <fromnode>StudyCreation</fromnode> <tonode>SetCurrentStudy</tonode> </control>
-      <control> <fromnode>SetCurrentStudy</fromnode> <tonode>CreateBoundaryCAO</tonode> </control>
+      <control> <fromnode>SetCurrentStudy</fromnode> <tonode>CreateBoundarycyl_1_int</tonode> </control>
+      <control> <fromnode>CreateBoundarycyl_1_int</fromnode> <tonode>CreateBoundarycyl_1_ext</tonode> </control>
+      <control> <fromnode>CreateBoundarycyl_1_ext</fromnode> <tonode>CreateBoundarycyl_2_int</tonode> </control>
+      <control> <fromnode>CreateBoundarycyl_2_int</fromnode> <tonode>CreateBoundarycyl_2_ext</tonode> </control>
       <control> <fromnode>CreateHypothesis_1</fromnode> <tonode>Hypo_Options_1</tonode> </control>
       <control> <fromnode>CreateCase</fromnode> <tonode>Case_Options</tonode> </control>
       <control> <fromnode>Hypo_Options_1</fromnode> <tonode>CreateHypothesis_2</tonode> </control>
       <control> <fromnode>Case_Options</fromnode> <tonode>CreateHypothesis_1</tonode> </control>
-      <control> <fromnode>CreateBoundaryCAO</fromnode> <tonode>CreateCase</tonode> </control>
-      <control> <fromnode>CreateBoundaryCAO</fromnode> <tonode>Case_Options</tonode> </control>
+      <control> <fromnode>CreateBoundarycyl_2_ext</fromnode> <tonode>CreateBoundaryintersection</tonode> </control>
+      <control> <fromnode>CreateBoundaryintersection</fromnode> <tonode>CreateCase</tonode> </control>
       <control> <fromnode>CreateHypothesis_2</fromnode> <tonode>Hypo_Options_2</tonode> </control>
       <datalink control="false">
          <fromnode>StudyCreation</fromnode> <fromport>CurrentStudy</fromport>
@@ -151,10 +213,6 @@ Hypo.AddGroup('T2_EXT')
       <datalink control="false">
          <fromnode>CreateCase</fromnode> <fromport>return</fromport>
          <tonode>Case_Options</tonode> <toport>Case</toport>
-      </datalink>
-      <datalink control="false">
-         <fromnode>CreateBoundaryCAO</fromnode> <fromport>return</fromport>
-         <tonode>Case_Options</tonode> <toport>CAO</toport>
       </datalink>
       <datalink control="false">
          <fromnode>CreateHypothesis_2</fromnode> <fromport>return</fromport>
@@ -216,7 +274,6 @@ else :
     MessInfo = ""
 
 ]]></code></script>
-         <load container="DefaultContainer"/>
          <inport name="NumAdapt" type="int"/>
          <inport name="LastIter" type="HOMARD_Iteration"/>
          <inport name="Hypo" type="HOMARD_Hypothesis"/>
@@ -271,12 +328,14 @@ MeshName = "PIQUAGE"
 # . Fichier du maillage
 FileName = os.path.join(data_dir, "tutorial_4.00.med")
 #
-# CAO
-# . Fichier XAO
-BFileName = os.path.join(data_dir, "tutorial_4.xao")
+# Maillage de la frontiere
+# . Nom du maillage
+BMeshName = "PIQUAGE"
+# . Fichier du maillage
+BFileName = os.path.join(data_dir, "tutorial_6.fr.med")
 #
-# Repertoire de travail
-if "LOGNAME" in os.environ :
+# RÃ©pertoire de travail
+if os.environ.has_key("LOGNAME") :
   user = os.environ ["LOGNAME"]
 else :
   user = "anonymous"
@@ -284,9 +343,9 @@ DirName = os.path.join( os.sep, "tmp", "HOMARD_"+user)
 if not os.path.isdir(DirName) :
     os.mkdir (DirName)
 ]]></code></script>
-      <load container="DefaultContainer"/>
       <outport name="MeshName" type="string"/>
       <outport name="FileName" type="string"/>
+      <outport name="BMeshName" type="string"/>
       <outport name="BFileName" type="string"/>
       <outport name="DirName" type="string"/>
    </inline>
@@ -367,16 +426,20 @@ else :
       <tonode>Etude_Initialisation.CreateCase</tonode> <toport>FileName</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>DataInit</fromnode> <fromport>BFileName</fromport>
-      <tonode>Etude_Initialisation.CreateBoundaryCAO</tonode> <toport>FileName</toport>
+      <fromnode>DataInit</fromnode> <fromport>BMeshName</fromport>
+      <tonode>Etude_Initialisation.CreateBoundaryintersection</tonode> <toport>MeshName</toport>
    </datalink>
    <datalink control="false">
-      <fromnode>DataInit</fromnode> <fromport>DirName</fromport>
-      <tonode>Etude_Initialisation.Case_Options</tonode> <toport>DirName</toport>
+      <fromnode>DataInit</fromnode> <fromport>BFileName</fromport>
+      <tonode>Etude_Initialisation.CreateBoundaryintersection</tonode> <toport>FileName</toport>
    </datalink>
    <datalink control="false">
       <fromnode>DataInit</fromnode> <fromport>DirName</fromport>
       <tonode>ForLoop.HOMARD_2</tonode> <toport>DirName</toport>
+   </datalink>
+   <datalink control="false">
+      <fromnode>DataInit</fromnode> <fromport>DirName</fromport>
+      <tonode>Etude_Initialisation.Case_Options</tonode> <toport>DirName</toport>
    </datalink>
    <datalink control="false">
       <fromnode>DataInit</fromnode> <fromport>DirName</fromport>
@@ -419,39 +482,171 @@ else :
       <tonode>HOMARD_1</tonode> <toport>Hypo</toport>
    </datalink>
    <parameter>
-      <tonode>Etude_Initialisation.CreateBoundaryCAO</tonode><toport>BoundaryName</toport>
-      <value><string>CAO</string></value>
+      <tonode>Etude_Initialisation.CreateHypothesis_2</tonode><toport>HypoName</toport>
+      <value><string>Hypo_6_bis</string></value>
    </parameter>
    <parameter>
-      <tonode>Etude_Initialisation.CreateHypothesis_2</tonode><toport>HypoName</toport>
-      <value><string>Hypo_4_bis</string></value>
+      <tonode>Etude_Initialisation.CreateBoundaryintersection</tonode><toport>BoundaryName</toport>
+      <value><string>intersection</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>BoundaryName</toport>
+      <value><string>cyl_2_ext</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Xcentre</toport>
+      <value><double>17.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Ycentre</toport>
+      <value><double>-2.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Zcentre</toport>
+      <value><double>-12.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Xaxis</toport>
+      <value><double>-100</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Yaxis</toport>
+      <value><double>-75</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Zaxis</toport>
+      <value><double>-25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_ext</tonode><toport>Radius</toport>
+      <value><double>50</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateHypothesis_1</tonode><toport>HypoName</toport>
+      <value><string>Hypo_6</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>BoundaryName</toport>
+      <value><string>cyl_2_int</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Xcentre</toport>
+      <value><double>17.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Ycentre</toport>
+      <value><double>-2.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Zcentre</toport>
+      <value><double>-12.5</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Xaxis</toport>
+      <value><double>-100</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Yaxis</toport>
+      <value><double>-75</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Zaxis</toport>
+      <value><double>-25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_2_int</tonode><toport>Radius</toport>
+      <value><double>25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>BoundaryName</toport>
+      <value><string>cyl_1_ext</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Xcentre</toport>
+      <value><double>0</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Ycentre</toport>
+      <value><double>25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Zcentre</toport>
+      <value><double>-25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Xaxis</toport>
+      <value><double>25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Yaxis</toport>
+      <value><double>50</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Zaxis</toport>
+      <value><double>75</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_ext</tonode><toport>Radius</toport>
+      <value><double>100</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateCase</tonode><toport>CaseName</toport>
+      <value><string>tutorial_6</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>BoundaryName</toport>
+      <value><string>cyl_1_int</string></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Xcentre</toport>
+      <value><double>0</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Ycentre</toport>
+      <value><double>25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Zcentre</toport>
+      <value><double>-25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Xaxis</toport>
+      <value><double>25</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Yaxis</toport>
+      <value><double>50</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Zaxis</toport>
+      <value><double>75</double></value>
+   </parameter>
+   <parameter>
+      <tonode>Etude_Initialisation.CreateBoundarycyl_1_int</tonode><toport>Radius</toport>
+      <value><double>75</double></value>
    </parameter>
    <parameter>
       <tonode>ForLoop</tonode><toport>nsteps</toport>
       <value><int>2</int></value>
    </parameter>
-   <parameter>
-      <tonode>Etude_Initialisation.CreateCase</tonode><toport>CaseName</toport>
-      <value><string>tutorial_4</string></value>
-   </parameter>
-   <parameter>
-      <tonode>Etude_Initialisation.CreateHypothesis_1</tonode><toport>HypoName</toport>
-      <value><string>Hypo_4</string></value>
-   </parameter>
-   <presentation name="Etude_Initialisation.StudyCreation" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation.SetCurrentStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation.Hypo_Options_1" x="163" y="214.605" width="158" height="63" expanded="1" expx="163" expy="214.605" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation.CreateBoundaryCAO" x="4" y="96" width="158" height="90" expanded="1" expx="4" expy="96" expWidth="158" expHeight="90" shownState="0"/>
-   <presentation name="Etude_Initialisation.Case_Options" x="322.605" y="98.2103" width="158" height="117" expanded="1" expx="322.605" expy="98.2103" expWidth="158" expHeight="117" shownState="0"/>
-   <presentation name="Etude_Initialisation.Hypo_Options_2" x="481.105" y="212.395" width="158" height="63" expanded="1" expx="481.105" expy="212.395" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Etude_Initialisation.CreateHypothesis_2" x="321.5" y="242.71" width="158" height="63" expanded="1" expx="321.5" expy="242.71" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="Bilan" x="332.5" y="513.71" width="158" height="90" expanded="1" expx="332.5" expy="513.71" expWidth="158" expHeight="90" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateHypothesis_2" x="321.5" y="465.422" width="158" height="63" expanded="1" expx="321.5" expy="465.422" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateBoundaryintersection" x="638.5" y="96.1845" width="158" height="117" expanded="1" expx="638.5" expy="96.1845" expWidth="158" expHeight="117" shownState="0"/>
+   <presentation name="Etude_Initialisation.Hypo_Options_2" x="480" y="466.933" width="158" height="63" expanded="1" expx="480" expy="466.933" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="HOMARD_1" x="4" y="738.933" width="158" height="144" expanded="1" expx="4" expy="738.933" expWidth="158" expHeight="144" shownState="0"/>
+   <presentation name="DataInit" x="4" y="32" width="158" height="171" expanded="1" expx="4" expy="32" expWidth="158" expHeight="171" shownState="0"/>
+   <presentation name="Bilan" x="650.874" y="738.933" width="158" height="90" expanded="1" expx="650.874" expy="738.933" expWidth="158" expHeight="90" shownState="0"/>
+   <presentation name="Etude_Initialisation.Case_Options" x="163" y="348.5" width="158" height="90" expanded="1" expx="163" expy="348.5" expWidth="158" expHeight="90" shownState="0"/>
+   <presentation name="Etude_Initialisation.Hypo_Options_1" x="163" y="466.424" width="158" height="63" expanded="1" expx="163" expy="466.424" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateBoundarycyl_2_ext" x="480" y="96.1845" width="158" height="252" expanded="1" expx="480" expy="96.1845" expWidth="158" expHeight="252" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateHypothesis_1" x="4" y="466" width="158" height="63" expanded="1" expx="4" expy="466" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateBoundarycyl_2_int" x="321.5" y="96" width="158" height="252" expanded="1" expx="321.5" expy="96" expWidth="158" expHeight="252" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateBoundarycyl_1_ext" x="163" y="96" width="158" height="252" expanded="1" expx="163" expy="96" expWidth="158" expHeight="252" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateCase" x="4" y="348.5" width="158" height="117" expanded="1" expx="4" expy="348.5" expWidth="158" expHeight="117" shownState="0"/>
+   <presentation name="Etude_Initialisation.CreateBoundarycyl_1_int" x="4" y="96" width="158" height="252" expanded="1" expx="4" expy="96" expWidth="158" expHeight="252" shownState="0"/>
    <presentation name="ForLoop.HOMARD_2" x="7" y="62" width="158" height="171" expanded="1" expx="7" expy="62" expWidth="158" expHeight="171" shownState="0"/>
-   <presentation name="HOMARD_1" x="4" y="513.71" width="158" height="144" expanded="1" expx="4" expy="513.71" expWidth="158" expHeight="144" shownState="0"/>
-   <presentation name="DataInit" x="4" y="32" width="158" height="144" expanded="1" expx="4" expy="32" expWidth="158" expHeight="144" shownState="0"/>
-   <presentation name="Etude_Initialisation" x="4" y="203.5" width="643.105" height="309.71" expanded="1" expx="4" expy="203.5" expWidth="643.105" expHeight="309.71" shownState="0"/>
-   <presentation name="ForLoop" x="163" y="513.71" width="169" height="237" expanded="1" expx="163" expy="513.71" expWidth="169" expHeight="237" shownState="0"/>
-   <presentation name="Etude_Initialisation.CreateCase" x="163" y="97.1052" width="158" height="117" expanded="1" expx="163" expy="97.1052" expWidth="158" expHeight="117" shownState="0"/>
-   <presentation name="Etude_Initialisation.CreateHypothesis_1" x="4" y="214.605" width="158" height="63" expanded="1" expx="4" expy="214.605" expWidth="158" expHeight="63" shownState="0"/>
-   <presentation name="__ROOT__" x="0" y="0" width="651.105" height="754.71" expanded="1" expx="0" expy="0" expWidth="651.105" expHeight="754.71" shownState="0"/>
+   <presentation name="Etude_Initialisation.SetCurrentStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.StudyCreation" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="ForLoop" x="163" y="738.933" width="169" height="237" expanded="1" expx="163" expy="738.933" expWidth="169" expHeight="237" shownState="0"/>
+   <presentation name="Etude_Initialisation" x="4" y="204" width="800.5" height="533.933" expanded="1" expx="4" expy="204" expWidth="800.5" expHeight="533.933" shownState="0"/>
+   <presentation name="__ROOT__" x="0" y="0" width="812.874" height="979.933" expanded="1" expx="0" expy="0" expWidth="812.874" expHeight="979.933" shownState="0"/>
 </proc>

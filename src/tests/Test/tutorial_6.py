@@ -19,14 +19,14 @@
 #
 """
 Python script for HOMARD
-Test tutorial_5 associe au tutorial 5
+Test tutorial_6 associe au tutorial 6
 """
 __revision__ = "V4.04"
 
 #========================================================================
-TEST_NAME = "tutorial_5"
+TEST_NAME = "tutorial_6"
 DEBUG = False
-N_ITER_TEST_FILE = 2
+N_ITER_TEST_FILE = 3
 #========================================================================
 import os
 import sys
@@ -50,7 +50,8 @@ DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
 sys.path.append(DATA_TUTORIAL)
 from tutorial_util import gzip_gunzip
 # ==================================
-gzip_gunzip(DATA_TUTORIAL, 5, -1)
+gzip_gunzip(DATA_TUTORIAL, 4, -1)
+gzip_gunzip(DATA_TUTORIAL, 6, -1)
 # ==================================
 
 salome.salome_init()
@@ -72,41 +73,59 @@ Python script for HOMARD
     #
     HOMARD.UpdateStudy()
     #
-    # Frontiere
-    # =========
+    # Frontières
+    # ==========
     if verbose :
-      print(". Frontière")
-    # Creation of the discrete boundary Boun_5_1
-    boun_5_1 = HOMARD.CreateBoundaryDi('Boun_5_1', nomfr, ficfrmed)
+      print(". Frontières")
+    boun_6_1 = HOMARD.CreateBoundaryDi('intersection', nomfr, ficfrmed)
     #
-    # Creation des zones
-    # ==================
-    if verbose :
-      print(". Zones")
-    # Creation of the disk with hole enveloppe
-    enveloppe = HOMARD.CreateZoneDiskWithHole( 'enveloppe', 0., 0., 250., 193., 1 )
-    # Creation of the rectangle quart_sup
-    quart_sup = HOMARD.CreateZoneBox2D( 'quart_sup', 0., 250., 0., 250., 1 )
+    boun_6_2 = HOMARD.CreateBoundaryCylinder('cyl_1_ext', 0.0, 25., -25., 25., 50., 75., 100.)
+    #
+    boun_6_3 = HOMARD.CreateBoundaryCylinder('cyl_2_ext', 17.5, -2.5, -12.5, -100., -75., -25., 50.)
+    #
+    boun_6_6 = HOMARD.CreateBoundaryCylinder('cyl_1_int', 0.0, 25., -25., 25., 50., 75., 75.)
+    #
+    boun_6_5 = HOMARD.CreateBoundaryCylinder('cyl_2_int', 17.5, -2.5, -12.5, -100., -75., -25., 25.)
     #
     # Hypotheses
     # ==========
     if verbose :
       print(". Hypothèses")
-    # Creation of the hypothesis hypo_5
-    hypo_5 = HOMARD.CreateHypothesis('hypo_5')
-    hypo_5.AddZone('enveloppe', 1)
-    # Creation of the hypothesis hypo_5_bis
-    hypo_5_bis = HOMARD.CreateHypothesis('hypo_5_bis')
-    hypo_5_bis.AddZone('quart_sup', 1)
+    # Creation of the hypothesis hypo_0_1
+    l_hypothese_0_1 = HOMARD.CreateHypothesis('hypo_6_0_1')
+    l_hypothese_0_1.SetUnifRefinUnRef(1)
+    l_hypothese_0_1.AddGroup('IN1')
+    l_hypothese_0_1.AddGroup('IN2')
+    l_hypothese_0_1.AddGroup('T1_INT_I')
+    l_hypothese_0_1.AddGroup('T1_INT_O')
+    l_hypothese_0_1.AddGroup('T2_INT')
+    # Creation of the hypothesis hypo_1_2
+    l_hypothese_1_2 = HOMARD.CreateHypothesis('hypo_6_1_2')
+    l_hypothese_1_2.SetUnifRefinUnRef(1)
+    l_hypothese_1_2.AddGroup('T1_EXT_I')
+    l_hypothese_1_2.AddGroup('T1_EXT_O')
+    l_hypothese_1_2.AddGroup('T2_EXT')
+    # Creation of the hypothesis hypo_2_3
+    l_hypothese_2_3 = HOMARD.CreateHypothesis('hypo_6_2_3')
+    l_hypothese_2_3.SetUnifRefinUnRef(1)
+    l_hypothese_2_3.AddGroup('INT_I')
+    l_hypothese_2_3.AddGroup('INT_E')
+    l_hypothese_2_3.AddGroup('IN1')
+    l_hypothese_2_3.AddGroup('IN2')
     #
     # Cas
     # ===
     if verbose :
       print(". Cas")
-    le_cas = HOMARD.CreateCase('case_5', nom, ficmed)
+    le_cas = HOMARD.CreateCase('case_'+nom, nom, ficmed)
     le_cas.SetDirName(DIRCASE)
-    le_cas.SetConfType(1)
-    le_cas.AddBoundary('Boun_5_1')
+    le_cas.AddBoundary( 'intersection' )
+    le_cas.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_I' )
+    le_cas.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_I' )
+    le_cas.AddBoundaryGroup( 'cyl_1_int', 'T1_INT_O' )
+    le_cas.AddBoundaryGroup( 'cyl_1_ext', 'T1_EXT_O' )
+    le_cas.AddBoundaryGroup( 'cyl_2_int', 'T2_INT' )
+    le_cas.AddBoundaryGroup( 'cyl_2_ext', 'T2_EXT' )
     #
     # Itérations
     # ==========
@@ -116,24 +135,29 @@ Python script for HOMARD
       option = 1
     if verbose :
       print(". Itérations")
-    #
-    # Iteration "iter_5_1"
-    # ====================
-    iter_5_1 = le_cas.NextIteration('iter_5_1')
-    iter_5_1.SetMeshName('COEUR_2D_01')
-    iter_5_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
-    iter_5_1.AssociateHypo('hypo_5')
-    erreur = iter_5_1.Compute(1, option)
+    # Iteration iter_6_1 : raffinement selon les faces internes
+    iter_6_1 = le_cas.NextIteration('iter_6_1')
+    iter_6_1.SetMeshName('PIQUAGE_1')
+    iter_6_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
+    iter_6_1.AssociateHypo('hypo_6_0_1')
+    erreur = iter_6_1.Compute(1, option)
+    print ("erreur = %d" % erreur)
     if erreur :
       break
-    #
-    # Iteration "iter_5_2"
-    # ====================
-    iter_5_2 = iter_5_1.NextIteration('iter_5_2')
-    iter_5_2.SetMeshName('COEUR_2D_02')
-    iter_5_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
-    iter_5_2.AssociateHypo('hypo_5_bis')
-    erreur = iter_5_2.Compute(1, option)
+    # Iteration iter_6_2 : raffinement selon les faces externes
+    iter_6_2 = iter_6_1.NextIteration('iter_6_2')
+    iter_6_2.SetMeshName('PIQUAGE_2')
+    iter_6_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
+    iter_6_2.AssociateHypo('hypo_6_1_2')
+    erreur = iter_6_2.Compute(1, option)
+    if erreur :
+      break
+    # Iteration iter_6_3 : second raffinement selon les faces externes
+    iter_6_3 = iter_6_2.NextIteration('iter_6_3')
+    iter_6_3.SetMeshName('PIQUAGE_3')
+    iter_6_3.SetMeshFile(os.path.join(DIRCASE, "maill.03.med"))
+    iter_6_3.AssociateHypo('hypo_6_2_3')
+    erreur = iter_6_3.Compute(1, option)
     if erreur :
       break
   #
@@ -143,7 +167,7 @@ Python script for HOMARD
     message += "Erreur au calcul de l'itération %d" % erreur
   #
   return erreur, message
-
+#
 #==========================  Fin de la fonction ==================================
 #
 ERREUR = 0
@@ -156,10 +180,10 @@ while not ERREUR :
   assert HOMARD is not None, "Impossible to load homard engine"
   HOMARD.SetLanguageShort("fr")
 #
-  FICMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".00.med")
+  FICMED = os.path.join(DATA_TUTORIAL, "tutorial_4.00.med")
   FICFRMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".fr.med")
   try:
-    ERREUR, MESSAGE = homard_exec("COEUR_2D", FICMED, "MAIL_EXT", FICFRMED, DEBUG)
+    ERREUR, MESSAGE = homard_exec("PIQUAGE", FICMED, "COURBES", FICFRMED, DEBUG)
   except RuntimeError as eee:
     ERREUR = 2
     MESSAGE = str(eee.message)
@@ -180,7 +204,8 @@ if ERREUR:
   raise Exception(MESSAGE)
 #
 # ==================================
-gzip_gunzip(DATA_TUTORIAL, 5, 1)
+gzip_gunzip(DATA_TUTORIAL, 4, 1)
+gzip_gunzip(DATA_TUTORIAL, 6, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():

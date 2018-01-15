@@ -22,7 +22,7 @@
 """
 Pseudo-lancement d'un calcul pour valider les tests
 """
-__revision__ = "V2.1"
+__revision__ = "V2.2"
 #
 import sys
 import os

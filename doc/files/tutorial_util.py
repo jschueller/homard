@@ -19,9 +19,9 @@
 #
 """
 Python script for HOMARD
-Copyright EDF-R&D 2014, 2017
+Copyright EDF 2014, 2018
 """
-__revision__ = "V2.01"
+__revision__ = "V2.02"
 
 import os
 import sys
@@ -33,11 +33,12 @@ REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
 from test_util import remove_dir
 
-#========================================================================
-#========================================================================
+#
+#========================= Debut de la fonction ==================================
+#
 def gzip_gunzip(data_dir, num_tuto, option) :
   """
-Compression/Uncompression of the med files of a directory such as tutorial_x.nn.med
+Compression/Uncompression of the med(or xao) files of a directory such as tutorial_x.nn.med (or tutorial_x.nn.xao)
 data_dir: directory
 num_tuto: number of the tutorial
 option  : 1: compression, -1: uncompression
@@ -66,13 +67,14 @@ Copyright EDF-R&D 2014
           erreur = 1
           break
 #
-    ficloc = ficloc_basis + ".fr.med"
-    nomfic = os.path.join(data_dir, ficloc)
-    if not os.path.isfile(nomfic) :
-      ficloc += ".gz"
+    for suffixe in ( "xao", "fr.med" ) :
+      ficloc = ficloc_basis + "." + suffixe
       nomfic = os.path.join(data_dir, ficloc)
-      if os.path.isfile(nomfic) :
-        os.system("gunzip "+nomfic)
+      if not os.path.isfile(nomfic) :
+        ficloc += ".gz"
+        nomfic = os.path.join(data_dir, ficloc)
+        if os.path.isfile(nomfic) :
+          os.system("gunzip "+nomfic)
 #
 # Compression
 #
@@ -91,18 +93,21 @@ Copyright EDF-R&D 2014
           erreur = 2
           break
 #
-    ficloc = ficloc_basis + ".fr.med.gz"
-    nomfic = os.path.join(data_dir, ficloc)
-    if not os.path.isfile(nomfic) :
-      ficloc = ficloc_basis + ".fr.med"
+    for suffixe in ( "xao", "fr.med" ) :
+      ficloc = ficloc_basis + "." + suffixe + ".gz"
       nomfic = os.path.join(data_dir, ficloc)
-      if os.path.isfile(nomfic) :
-        os.system("gzip "+nomfic)
+      if not os.path.isfile(nomfic) :
+        ficloc = ficloc_basis + ".fr.med"
+        nomfic = os.path.join(data_dir, ficloc)
+        if os.path.isfile(nomfic) :
+          os.system("gzip "+nomfic)
 #
   return
 #
-#========================================================================
-#========================================================================
+#==========================  Fin de la fonction ==================================
+#
+#========================= Debut de la fonction ==================================
+#
 def creation_dircase(num_tuto) :
   """
 Creation of a directory for the results of tutorial_x
@@ -124,6 +129,6 @@ Copyright EDF-R&D 2014
   os.mkdir (dircase)
 #
   return dircase
-#========================================================================
-#========================================================================
+#
+#==========================  Fin de la fonction ==================================
 #
