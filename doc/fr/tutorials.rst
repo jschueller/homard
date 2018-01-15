@@ -36,7 +36,8 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
   * le maillage produit porte toujours le même nom. Cela ne pose pas de problème car il est stocké dans des fichiers différents.
 
 .. literalinclude:: ../files/tutorial_1.py
-   :lines: 52-85
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Téléchargement des fichiers
@@ -53,7 +54,8 @@ Raffinement par des zones
 On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine et on déraffine les mailles contenues dans la toute première zone.
 
 .. literalinclude:: ../files/tutorial_2.py
-   :lines: 52-95
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Téléchargement des fichiers
@@ -71,7 +73,8 @@ On procède ici au raffinement selon un champ. Les hypothèses servent à défin
 Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
-   :lines: 52-124
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Téléchargement des fichiers
@@ -84,23 +87,42 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont ap
 
 Suivi de frontières courbes
 ***************************
-.. index:: single: champ
+.. index:: single: frontière
+.. index:: single: CAO
 .. index:: single: YACS
 
-On teste ici le suivi des frontières courbes : des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
+On teste ici le suivi des frontières courbes en fournissant la géométrie représentée par la CAO de la pièce. Cette CAO est fournie dans un fichier au format XAO.
+Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les mailles contenues dans des groupes désignés. On commence par raffiner les faces internes aux tuyaux ; ensuite, on raffine deux fois de suite les faces externes aux tuyaux.
 Le schéma YACS réalisant cette adaptation est téléchargeable.
 
 .. literalinclude:: ../files/tutorial_4.py
-   :lines: 52-111
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Téléchargement des fichiers
 
   * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
-  * :download:`maillage de la frontière discrète<../files/tutorial_4.fr.med.gz>`
+  * :download:`la frontière en CAO<../files/tutorial_4.xao.gz>`
   * :download:`commandes python<../files/tutorial_4.py>`
   * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
   * :download:`schéma YACS<../files/tutorial_4.xml>`
+
+Si la géométrie sous forme de CAO n'est pas disponible, on peut l'approcher ainsi :
+des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Il suffit de remplacer la définition des frontières.
+
+.. literalinclude:: ../files/tutorial_6.py
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
+
+.. note::
+  Téléchargement des fichiers
+
+  * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
+  * :download:`maillage de la frontière discrète<../files/tutorial_6.fr.med.gz>`
+  * :download:`commandes python<../files/tutorial_6.py>`
+  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`schéma YACS<../files/tutorial_6.xml>`
 
 
 Instructions spécifiques au 2D
@@ -111,7 +133,8 @@ Les instructions pour adapter un maillage 2D sont exactement identiques à celle
 Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
 
 .. literalinclude:: ../files/tutorial_5.py
-   :lines: 52-95
+   :start-after: Début des commandes
+   :end-before: Fin des commandes
 
 .. note::
   Téléchargement des fichiers

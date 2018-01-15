@@ -16,6 +16,14 @@ Ces méthodes retournent une instance de la classe boundary.
 
 +----------------------------------------------------------------------------------------+
 +----------------------------------------------------------------------------------------+
+| .. module:: CreateBoundaryCAO                                                          |
+|                                                                                        |
+| **CreateBoundaryCAO(boundary_name, xao_file)**                                         |
+|     Retourne une instance de la classe ``boundary`` de type CAO après sa création      |
+|                                                                                        |
+|     - ``boundary_name`` : le nom de la frontière CAO                                   |
+|     - ``xao_file`` : le nom du fichier contenant cette CAO, au format XAO              |
++----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryDi                                                           |
 |                                                                                        |
 | **CreateBoundaryDi(boundary_name, mesh_name, mesh_file)**                              |
@@ -23,7 +31,7 @@ Ces méthodes retournent une instance de la classe boundary.
 |                                                                                        |
 |     - ``boundary_name`` : le nom de la frontière discrète                              |
 |     - ``mesh_name`` : le nom du maillage de la frontière                               |
-|     - ``mesh_file`` : le nom du fichier contenant ce maillage                          |
+|     - ``mesh_file`` : le nom du fichier contenant ce maillage, au format MED           |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryCylinder                                                     |
 |                                                                                        |
@@ -106,20 +114,24 @@ Voir également dans :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-| .. module:: AddBoundaryGroup                                  |
+| .. module:: AddBoundary                                       |
 |                                                               |
-| **AddBoundaryGroup(boundary, group)**                         |
+| **AddBoundary(boundary)**                                     |
 |     Ajoute une frontière à la définition du cas               |
 |                                                               |
 |     - ``boundary`` : nom d'une frontière courbe à suivre      |
++---------------------------------------------------------------+
+| .. module:: AddBoundaryGroup                                  |
 |                                                               |
-|     Pour une frontière discrète :                             |
+| **AddBoundaryGroup(boundary, group)**                         |
+|     Ajoute une frontière à la définition du cas en précisant  |
+|     les groupes associés                                      |
 |                                                               |
-|     . si toutes les lignes courbes sont suivies, le second    |
-|     argument est une chaîne vide.                             |
+|     - ``boundary`` : nom d'une frontière courbe à suivre      |
 |                                                               |
-|     . si seulement certaines lignes courbes sont suivies,     |
-|     ``group`` est le nom d'un groupe de segments à suivre.    |
+|     Pour une frontière discrète ou CAO :                      |
+|                                                               |
+|     - ``group`` : nom d'un groupe de mailles à suivre         |
 |                                                               |
 |     Pour une frontière analytique :                           |
 |                                                               |
@@ -142,6 +154,7 @@ Méthodes de la classe boundary
 | **GetType()**                                                 |
 |     Retourne le type de la frontière :                        |
 |                                                               |
+|         * -1 : CAO                                            |
 |         * 0 : discrète                                        |
 |         * 1 : cylindre                                        |
 |         * 2 : sphère                                          |
@@ -159,9 +172,11 @@ Méthodes de la classe boundary
 | .. module:: Delete                                            |
 |                                                               |
 | **Delete()**                                                  |
-|     Detruit la frontière.                                     |
+|     Détruit la frontière.                                     |
 |     Pour une frontière discrète, le fichier du maillage       |
 |     associé est conservé.                                     |
+|     Pour une frontière CAO, le fichier de la géométrie        |
+|     associée est conservé.                                    |
 |                                                               |
 |     Retourne un entier :                                      |
 |         * 0 : destruction réussie                             |
@@ -171,7 +186,11 @@ Méthodes de la classe boundary
 
 Exemple
 *******
-Création d'une frontière discrète, d'une frontière sphèrique, puis d'une frontière cylindrique : ::
+Création d'une frontière CAO : ::
+
+    la_cao = homard.CreateBoundaryCAO("BLOC", dircase+'/tutorial_6.xao')
+
+Création d'une frontière discrète, d'une frontière sphérique, puis d'une frontière cylindrique : ::
 
     inter = homard.CreateBoundaryDi("INTERSECTION", 'PIQUAGE', dircase+'/tutorial_4.fr.med')
     fron_1 = homard.CreateBoundarySphere("FRON_1", 12.3, 3.4, .56, 6.5)
