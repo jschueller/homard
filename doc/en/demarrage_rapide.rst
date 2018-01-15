@@ -24,7 +24,7 @@ This window appears:
 .. image:: images/intro_31.png
    :align: center
 
-Two answers must be given: the directory that will contain the files produced by the further adaptations and the MED file from the initial calculation. In this case, the default options are left unchanged: conformity of the mesh and no curved boundaries. Validate by "Apply and close".
+Two answers must be given: the directory that will contain the files produced by the further adaptations and the MED file from the initial calculation. In this case, the default options are left unchanged: conformity of the mesh and no curved boundaries. Validate by "OK".
 
 .. image:: images/intro_32.png
    :align: center
@@ -54,7 +54,7 @@ The default options are modified to respect our choice for the driving of the ad
 .. image:: images/intro_36.png
    :align: center
 
-The creation of the hypothesis is validated by "Apply and close"; the creation of the new iteration is validated too. The object browser is enriched by the description of this hypothesis and this iteration. The iteration can be seen with a specific icon "waiting".
+The creation of the hypothesis is validated by "OK"; the creation of the new iteration is validated too. The object browser is enriched by the description of this hypothesis and this iteration. The iteration can be seen with a specific icon "waiting".
 
 The adaptation is launched by the selection of the iteration. "*Compute*" is choosen either in the menu, or with the mouse. The MED file of the new mesh, ``maill.01.med``, and some files for information are included into the object browser. Note that the MED file of the new mesh is located into the directory of the case.
 

@@ -15,6 +15,14 @@ These methods returns an instance of the class boundary.
 
 +----------------------------------------------------------------------------------------+
 +----------------------------------------------------------------------------------------+
+| .. module:: CreateBoundaryCAO                                                          |
+|                                                                                        |
+| **CreateBoundaryCAO(boundary_name, xao_file)**                                         |
+|     Returns an instance of the class ``boundary``, type CAO after its creation         |
+|                                                                                        |
+|     - ``boundary_name``: the name of the CAO boundary                                  |
+|     - ``xao_file``: the name of the file for this CAO, with format XAO                 |
++----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryDi                                                           |
 |                                                                                        |
 | **CreateBoundaryDi(boundary_name, mesh_name, mesh_file)**                              |
@@ -22,7 +30,7 @@ These methods returns an instance of the class boundary.
 |                                                                                        |
 |     - ``boundary_name``: the name of the discrete boundary                             |
 |     - ``mesh_name``: the name of the mesh of the boundary                              |
-|     - ``mesh_file``: the name of the file for this mesh                                |
+|     - ``mesh_file``: the name of the file for this mesh, with format MED               |
 +----------------------------------------------------------------------------------------+
 | .. module:: CreateBoundaryCylinder                                                     |
 |                                                                                        |
@@ -105,24 +113,28 @@ See also in :doc:`tui_create_case`.
 
 +---------------------------------------------------------------+
 +---------------------------------------------------------------+
-| .. module:: AddBoundaryGroup                                  |
+| .. module:: AddBoundary                                       |
 |                                                               |
-| **AddBoundaryGroup(boundary, group)**                         |
+| **AddBoundary(boundary)**                                     |
 |     Add a boundary to the definition of a case                |
 |                                                               |
 |     - ``boundary``: name of the curved boundary               |
++---------------------------------------------------------------+
+| .. module:: AddBoundaryGroup                                  |
 |                                                               |
-|     Discrete boundary:                                        |
+| **AddBoundaryGroup(boundary, group)**                         |
+|     Add a boundary to the definition of a case with a         |
+|     filtering by groups                                       |
 |                                                               |
-|     . if all the curved lines are involved, the second        |
-|     argument is an empty string.                              |
+|     - ``boundary``: name of the curved boundary               |
 |                                                               |
-|     . if only some curved lines are involved, ``group`` is    |
-|     the name of the group of segments                         |
+|     Discrete or CAO boundary:                                 |
+|                                                               |
+|     - ``group``: the name of a group of meshes                |
 |                                                               |
 |     Analytical boundary:                                      |
 |                                                               |
-|     - ``group``: name of the groupe of faces located on the   |
+|     - ``group``: name of the groups of faces located on the   |
 |       boundary                                                |
 +---------------------------------------------------------------+
 
@@ -141,6 +153,7 @@ Methods of the class boundary
 | **GetType()**                                                 |
 |     Returns the type of the boundary:                         |
 |                                                               |
+|         * -1: CAO                                             |
 |         * 0: discrete                                         |
 |         * 1: cylinder                                         |
 |         * 2: sphere                                           |
@@ -160,6 +173,8 @@ Methods of the class boundary
 | **Delete()**                                                  |
 |     Deletes the boundary.                                     |
 |     If the boundary is discrete, the file of the mesh is kept.|
+|     If the boundary is CAO, the xao file of the geometry is   |
+|     kept.                                                     |
 |                                                               |
 |     Returns an integer:                                       |
 |         * 0: the destruction is done                          |
@@ -169,6 +184,10 @@ Methods of the class boundary
 
 Example
 *******
+Creation of a CAO boundary: ::
+
+    la_cao = homard.CreateBoundaryCAO("BLOC", dircase+'/tutorial_6.xao')
+
 Creation of a discrete boundary, a spherical boundary, and a cylindrical boundary:
 ::
 
