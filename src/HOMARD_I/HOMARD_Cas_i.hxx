@@ -86,7 +86,8 @@ public:
   void                   SetGroups(const HOMARD::ListGroupType& ListGroup);
   HOMARD::ListGroupType* GetGroups();
 
-  void                   AddBoundaryGroup( const char* Boundary, const char* Group);
+  void                   AddBoundary(const char* Boundary);
+  void                   AddBoundaryGroup(const char* Boundary, const char* Group);
   HOMARD::ListBoundaryGroupType*  GetBoundaryGroup();
   void                   SupprBoundaryGroup( );
 

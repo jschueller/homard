@@ -63,8 +63,8 @@ public:
   void                          SetMeshName( const char* MeshName );
   std::string                   GetMeshName() const;
 
-  void                          SetMeshFile( const char* MeshFile );
-  std::string                   GetMeshFile() const;
+  void                          SetDataFile( const char* DataFile );
+  std::string                   GetDataFile() const;
 
   void                          SetCylinder( double X0, double X1, double X2, double X3,
                                              double X4, double X5, double X6 );
@@ -92,7 +92,7 @@ public:
 private:
   std::string                   _Name;
   std::string                   _NomCasCreation;
-  std::string                   _MeshFile;
+  std::string                   _DataFile;
   std::string                   _MeshName;
   int                           _Type;
   double                        _Xmin, _Xmax, _Ymin, _Ymax, _Zmin, _Zmax;

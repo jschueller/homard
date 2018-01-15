@@ -18,6 +18,8 @@
 //
 
 #include "MonCreateCase.h"
+#include "MonCreateBoundaryCAO.h"
+#include "MonEditBoundaryCAO.h"
 #include "MonCreateBoundaryAn.h"
 #include "MonEditBoundaryAn.h"
 #include "MonCreateBoundaryDi.h"
@@ -59,8 +61,14 @@ MonCreateCase::MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen0 )
   InitConnect();
 
   SetNewName() ;
+
+  GBBoundaryC->setVisible(0);
   GBBoundaryA->setVisible(0);
   GBBoundaryD->setVisible(0);
+
+  CBBoundaryA->setVisible(0);
+  CBBoundaryD->setVisible(0);
+
   GBAdvancedOptions->setVisible(0);
   Comment->setVisible(0);
   CBPyramid->setChecked(false);
@@ -79,21 +87,28 @@ MonCreateCase::~MonCreateCase()
 void MonCreateCase::InitConnect()
 // ------------------------------------------------------------------------
 {
-    connect( LEName,     SIGNAL(textChanged(QString)), this, SLOT(CaseNameChanged()));
-    connect( PushDir,        SIGNAL(pressed()), this, SLOT(SetDirName()));
-    connect( PushFichier,    SIGNAL(pressed()), this, SLOT(SetFileName()));
+    connect( LEName,      SIGNAL(textChanged(QString)), this, SLOT(CaseNameChanged()));
+    connect( PushDir,     SIGNAL(pressed()), this, SLOT(SetDirName()));
+    connect( PushFichier, SIGNAL(pressed()), this, SLOT(SetFileName()));
 
     connect( RBConforme,     SIGNAL(clicked()), this, SLOT(SetConforme()));
     connect( RBNonConforme,  SIGNAL(clicked()), this, SLOT(SetNonConforme()));
 
-    connect( CBBoundaryD,      SIGNAL(stateChanged(int)), this, SLOT(SetBoundaryD()));
-    connect( PBBoundaryDiNew,  SIGNAL(pressed()), this, SLOT(PushBoundaryDiNew()));
-    connect( PBBoundaryDiEdit, SIGNAL(pressed()), this, SLOT(PushBoundaryDiEdit()) );
-    connect( PBBoundaryDiHelp, SIGNAL(pressed()), this, SLOT(PushBoundaryDiHelp()) );
-    connect( CBBoundaryA,      SIGNAL(stateChanged(int)), this, SLOT(SetBoundaryA()));
-    connect( PBBoundaryAnNew,  SIGNAL(pressed()), this, SLOT(PushBoundaryAnNew()));
-    connect( PBBoundaryAnEdit, SIGNAL(pressed()), this, SLOT(PushBoundaryAnEdit()) );
-    connect( PBBoundaryAnHelp, SIGNAL(pressed()), this, SLOT(PushBoundaryAnHelp()) );
+    connect( RBBoundaryNo,      SIGNAL(clicked()), this, SLOT(SetBoundaryNo()));
+    connect( RBBoundaryCAO,     SIGNAL(clicked()), this, SLOT(SetBoundaryCAO()));
+    connect( RBBoundaryNonCAO,  SIGNAL(clicked()), this, SLOT(SetBoundaryNonCAO()));
+
+    connect( PBBoundaryCAONew,  SIGNAL(pressed()), this, SLOT(PushBoundaryCAONew()));
+    connect( PBBoundaryCAOEdit, SIGNAL(pressed()), this, SLOT(PushBoundaryCAOEdit()) );
+    connect( PBBoundaryCAOHelp, SIGNAL(pressed()), this, SLOT(PushBoundaryCAOHelp()) );
+    connect( CBBoundaryD,       SIGNAL(stateChanged(int)), this, SLOT(SetBoundaryD()));
+    connect( PBBoundaryDiNew,   SIGNAL(pressed()), this, SLOT(PushBoundaryDiNew()));
+    connect( PBBoundaryDiEdit,  SIGNAL(pressed()), this, SLOT(PushBoundaryDiEdit()) );
+    connect( PBBoundaryDiHelp,  SIGNAL(pressed()), this, SLOT(PushBoundaryDiHelp()) );
+    connect( CBBoundaryA,       SIGNAL(stateChanged(int)), this, SLOT(SetBoundaryA()));
+    connect( PBBoundaryAnNew,   SIGNAL(pressed()), this, SLOT(PushBoundaryAnNew()));
+    connect( PBBoundaryAnEdit,  SIGNAL(pressed()), this, SLOT(PushBoundaryAnEdit()) );
+    connect( PBBoundaryAnHelp,  SIGNAL(pressed()), this, SLOT(PushBoundaryAnHelp()) );
 
     connect( CBAdvanced,     SIGNAL(stateChanged(int)), this, SLOT(SetAdvanced()));
     connect( RBStandard,     SIGNAL(clicked()), this, SLOT(SetStandard()));
@@ -127,6 +142,7 @@ void MonCreateCase::InitBoundarys()
     TWBoundary->setItem( i, 0, new QTableWidgetItem(QString((_listeGroupesCas)[i]).trimmed()));
     TWBoundary->item( i, 0 )->setFlags(Qt::ItemIsEnabled |Qt::ItemIsSelectable );
   }
+// Pour les frontieres CAO : la liste a saisir
 // Pour les frontieres discretes : la liste a saisir
 // Pour les frontieres analytiques : les colonnes de chaque frontiere
   HOMARD::HOMARD_Boundary_var myBoundary ;
@@ -136,8 +152,9 @@ void MonCreateCase::InitBoundarys()
   {
     myBoundary = myHomardGen->GetBoundary(mesBoundarys[i]);
     int type_obj = myBoundary->GetType() ;
-    if ( type_obj==0 ) { CBBoundaryDi->addItem(QString(mesBoundarys[i])); }
-    else               { AddBoundaryAn(QString(mesBoundarys[i])); }
+    if ( type_obj==-1 )     { CBBoundaryCAO->addItem(QString(mesBoundarys[i])); }
+    else if ( type_obj==0 ) { CBBoundaryDi->addItem(QString(mesBoundarys[i])); }
+    else                    { AddBoundaryAn(QString(mesBoundarys[i])); }
   }
 // Ajustement
   TWBoundary->resizeColumnsToContents();
@@ -265,12 +282,20 @@ bool MonCreateCase::PushOnApply(int option)
   // Enregistrement et publication dans l'arbre d'etudes a la sortie definitive
   if ( option > 0 )
   {
+    if (RBBoundaryCAO->isChecked())
+    {
+      QString monBoundaryCAOName=CBBoundaryCAO->currentText();
+      if (monBoundaryCAOName != "" )
+      {
+        aCase->AddBoundary(monBoundaryCAOName.toStdString().c_str());
+      }
+    }
     if (CBBoundaryD->isChecked())
     {
       QString monBoundaryDiName=CBBoundaryDi->currentText();
       if (monBoundaryDiName != "" )
       {
-        aCase->AddBoundaryGroup(monBoundaryDiName.toStdString().c_str(), "");
+        aCase->AddBoundary(monBoundaryDiName.toStdString().c_str());
       }
     }
     if (CBBoundaryA->isChecked())
@@ -434,6 +459,74 @@ void MonCreateCase::SetSaturne2D()
   RBSaturne2D->setChecked(true);
 }
 // ------------------------------------------------------------------------
+void MonCreateCase::SetBoundaryNo()
+// ------------------------------------------------------------------------
+{
+//
+  GBBoundaryC->setVisible(0);
+  GBBoundaryA->setVisible(0);
+  GBBoundaryD->setVisible(0);
+  CBBoundaryD->setVisible(0);
+  CBBoundaryA->setVisible(0);
+//
+  adjustSize();
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::SetBoundaryCAO()
+// ------------------------------------------------------------------------
+{
+//
+  GBBoundaryC->setVisible(1);
+  GBBoundaryA->setVisible(0);
+  GBBoundaryD->setVisible(0);
+  CBBoundaryD->setVisible(0);
+  CBBoundaryA->setVisible(0);
+//
+  adjustSize();
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::SetBoundaryNonCAO()
+// ------------------------------------------------------------------------
+{
+//
+  GBBoundaryC->setVisible(0);
+  CBBoundaryD->setVisible(1);
+  CBBoundaryA->setVisible(1);
+//
+  adjustSize();
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::AddBoundaryCAO(QString newBoundary)
+// ------------------------------------------------------------------------
+{
+  CBBoundaryCAO->insertItem(0,newBoundary);
+  CBBoundaryCAO->setCurrentIndex(0);
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::PushBoundaryCAONew()
+// ------------------------------------------------------------------------
+{
+   MonCreateBoundaryCAO *BoundaryDlg = new MonCreateBoundaryCAO(this, true,
+                HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, "") ;
+   BoundaryDlg->show();
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::PushBoundaryCAOEdit()
+// ------------------------------------------------------------------------
+{
+  if (CBBoundaryCAO->currentText() == QString(""))  return;
+  MonEditBoundaryCAO *BoundaryDlg = new MonEditBoundaryCAO(this, true,
+       HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, CBBoundaryCAO->currentText() ) ;
+  BoundaryDlg->show();
+}
+// ------------------------------------------------------------------------
+void MonCreateCase::PushBoundaryCAOHelp()
+// ------------------------------------------------------------------------
+{
+  std::string LanguageShort = myHomardGen->GetLanguageShort();
+  HOMARD_UTILS::PushOnHelp(QString("gui_create_boundary.html"), QString("CAO"), QString(LanguageShort.c_str()));
+}
+// ------------------------------------------------------------------------
 void MonCreateCase::SetBoundaryD()
 // ------------------------------------------------------------------------
 {
@@ -497,8 +590,6 @@ void MonCreateCase::SetBoundaryA()
   else { GBBoundaryA->setVisible(0); }
 //
   adjustSize();
-//
-//   MESSAGE("Fin de SetBoundaryA ");
 }
 // ------------------------------------------------------------------------
 void MonCreateCase::AddBoundaryAn(QString newBoundary)

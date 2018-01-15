@@ -319,46 +319,140 @@ HOMARD::ListGroupType* HOMARD_Cas_i::GetGroups()
   return aResult._retn();
 }
 //=============================================================================
+void HOMARD_Cas_i::AddBoundary(const char* BoundaryName)
+{
+  MESSAGE ("HOMARD_Cas_i::AddBoundary : BoundaryName = "<< BoundaryName );
+  const char * Group = "" ;
+  AddBoundaryGroup( BoundaryName, Group) ;
+}
+//=============================================================================
 void HOMARD_Cas_i::AddBoundaryGroup( const char* BoundaryName, const char* Group)
 {
-  MESSAGE ("AddBoundaryGroup : BoundaryName = "<< BoundaryName << ", Group = " << Group );
+  MESSAGE ("HOMARD_Cas_i::AddBoundaryGroup : BoundaryName = "<< BoundaryName << ", Group = " << Group );
   ASSERT( myHomardCas );
-  // A. La liste des frontiere+groupes
+  // A. Préalables
+  // A.1. Caractéristiques de la frontière à ajouter
+  HOMARD::HOMARD_Boundary_ptr myBoundary = _gen_i->GetBoundary(BoundaryName) ;
+  ASSERT(!CORBA::is_nil(myBoundary));
+  int BoundaryType = myBoundary->GetType();
+  MESSAGE ( ". BoundaryType = " << BoundaryType );
+  // A.2. La liste des frontiere+groupes
   const std::list<std::string>& ListBoundaryGroup = myHomardCas->GetBoundaryGroup();
   std::list<std::string>::const_iterator it;
-  // B. La frontiere
-  // B.1. La frontiere est-elle deja enregistree pour ce cas ?
-  bool existe = false ;
-  for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+  // B. Controles
+  const char * boun ;
+  int erreur = 0 ;
+  while ( erreur == 0 )
   {
-//     MESSAGE ("..  Frontiere : "<< *it );
-    if ( *it == BoundaryName ) { existe = true ; }
-    it++ ;
-  }
-  // B.2. Pour une nouvelle frontiere, publication dans l'arbre d'etudes sous le cas
-  if ( !existe )
-  {
-    char* CaseName = GetName() ;
-    MESSAGE ( "AddBoundaryGroup : insertion de la frontiere dans l'arbre de " << CaseName );
-    _gen_i->PublishBoundaryUnderCase(CaseName, BoundaryName) ;
-  }
-  // C. Le groupe est-il deja enregistre pour une frontiere de ce cas ?
-  for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
-  {
-    std::string boun = *it ;
-    it++ ;
-//     MESSAGE ("..  Group : "<< *it );
-    if ( *it == Group )
-    { INFOS ("Frontiere " << boun << " Un groupe est deja associe " << Group ) ;
-      SALOME::ExceptionStruct es;
-      es.type = SALOME::BAD_PARAM;
-      es.text = "Invalid AddBoundaryGroup";
-      throw SALOME::SALOME_Exception(es);
-      return ;
+  // B.1. Si on ajoute une frontière CAO, elle doit être la seule frontière
+    if ( BoundaryType == -1 )
+    {
+      for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+      {
+        boun = (*it).c_str() ;
+        MESSAGE ("..  Frontiere enregistrée : "<< boun );
+        if ( *it != BoundaryName )
+        { erreur = 1 ;
+          break ; }
+        // On saute le nom du groupe
+        it++ ;
+      }
     }
+    if ( erreur != 0 ) { break ; }
+  // B.2. Si on ajoute une frontière non CAO, il ne doit pas y avoir de frontière CAO
+    if ( BoundaryType != -1 )
+    {
+      for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+      {
+        boun = (*it).c_str() ;
+        MESSAGE ("..  Frontiere enregistrée : "<< boun );
+        HOMARD::HOMARD_Boundary_ptr myBoundary_0 = _gen_i->GetBoundary(boun) ;
+        int BoundaryType_0 = myBoundary_0->GetType();
+        MESSAGE ( ".. BoundaryType_0 = " << BoundaryType_0 );
+        if ( BoundaryType_0 == -1 )
+        { erreur = 2 ;
+          break ; }
+        // On saute le nom du groupe
+        it++ ;
+      }
+      if ( erreur != 0 ) { break ; }
+    }
+  // B.3. Si on ajoute une frontière discrète, il ne doit pas y avoir d'autre frontière discrète
+    if ( BoundaryType == 0 )
+    {
+      for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+      {
+        boun = (*it).c_str() ;
+        MESSAGE ("..  Frontiere enregistrée : "<< boun );
+        if ( boun != BoundaryName )
+        {
+          HOMARD::HOMARD_Boundary_ptr myBoundary_0 = _gen_i->GetBoundary(boun) ;
+          int BoundaryType_0 = myBoundary_0->GetType();
+          MESSAGE ( ".. BoundaryType_0 = " << BoundaryType_0 );
+          if ( BoundaryType_0 == 0 )
+          { erreur = 3 ;
+            break ; }
+        }
+        // On saute le nom du groupe
+        it++ ;
+      }
+      if ( erreur != 0 ) { break ; }
+    }
+  // B.4. Pour une nouvelle frontiere, publication dans l'arbre d'etudes sous le cas
+    bool existe = false ;
+    for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+    {
+      MESSAGE ("..  Frontiere : "<< *it );
+      if ( *it == BoundaryName ) { existe = true ; }
+      // On saute le nom du groupe
+      it++ ;
+    }
+    if ( !existe )
+    {
+      char* CaseName = GetName() ;
+      MESSAGE ( "AddBoundaryGroup : insertion de la frontiere dans l'arbre de " << CaseName );
+      _gen_i->PublishBoundaryUnderCase(CaseName, BoundaryName) ;
+    }
+  // B.5. Le groupe est-il deja enregistre pour une frontiere de ce cas ?
+    for ( it = ListBoundaryGroup.begin(); it != ListBoundaryGroup.end(); it++ )
+    {
+      boun = (*it).c_str() ;
+      it++ ;
+      MESSAGE ("..  Groupe enregistré : "<< *it );
+      if ( *it == Group )
+      { erreur = 5 ;
+        break ; }
+    }
+    if ( erreur != 0 ) { break ; }
+    //
+    break ;
   }
-  // D. Enregistrement du couple (frontiere,groupe) dans la reference du cas
-  myHomardCas->AddBoundaryGroup( BoundaryName, Group );
+  // F. Si aucune erreur, enregistrement du couple (frontiere,groupe) dans la reference du cas
+  //    Sinon, arrêt
+  if ( erreur == 0 )
+  { myHomardCas->AddBoundaryGroup( BoundaryName, Group ); }
+  else
+  {
+    std::stringstream ss;
+    ss << erreur;
+    std::string str = ss.str();
+    std::string texte ;
+    texte = "Erreur numéro " + str + " pour la frontière à enregistrer : " + std::string(BoundaryName) ;
+    if ( erreur == 1 ) { texte += "\nIl existe déjà la frontière " ; }
+    else if ( erreur == 2 ) { texte += "\nIl existe déjà la frontière CAO " ; }
+    else if ( erreur == 3 ) { texte += "\nIl existe déjà une frontière discrète : " ; }
+    else if ( erreur == 5 ) { texte += "\nLe groupe " + std::string(Group) + " est déjà enregistré pour la frontière " ; }
+    texte += std::string(boun) ;
+    //
+    SALOME::ExceptionStruct es;
+    es.type = SALOME::BAD_PARAM;
+#ifdef _DEBUG_
+    texte += "\nInvalid AddBoundaryGroup";
+#endif
+    INFOS(texte) ;
+    es.text = CORBA::string_dup(texte.c_str());
+    throw SALOME::SALOME_Exception(es);
+  }
 }
 //=============================================================================
 HOMARD::ListBoundaryGroupType* HOMARD_Cas_i::GetBoundaryGroup()

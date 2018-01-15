@@ -85,12 +85,13 @@ void HomardDriver::TexteAdap( int ExtType )
   else                      { _Texte += "CCAssoci saturne_2d\n" ; }
   _Texte += "ModeHOMA 1\n" ;
   _Texte += "NumeIter " + _siter + "\n" ;
+  _modeHOMARD = 1 ;
 //
 }
 //===============================================================================
 void HomardDriver::TexteInfo( int TypeBila, int NumeIter )
 {
-  MESSAGE("TexteInit, TypeBila ="<<TypeBila);
+  MESSAGE("TexteInfo: TypeBila ="<<TypeBila<<", NumeIter ="<<NumeIter);
 //
   _Texte += "ModeHOMA 2\n" ;
   std::stringstream saux1 ;
@@ -109,6 +110,20 @@ void HomardDriver::TexteInfo( int TypeBila, int NumeIter )
     _Texte += "Action   info_ap\n" ;
     _Texte += "CCAssoci homard\n" ;
   }
+  _modeHOMARD = 2 ;
+//
+}
+//===============================================================================
+void HomardDriver::TexteMajCoords( int NumeIter )
+{
+  MESSAGE("TexteMajCoords: NumeIter ="<<NumeIter);
+//
+  _Texte += "ModeHOMA 5\n" ;
+  _Texte += "NumeIter " + _siterp1 + "\n" ;
+  _Texte += "Action   homa\n" ;
+  _Texte += "CCAssoci med\n" ;
+  _Texte += "EcriFiHO N_SANS_FRONTIERE\n" ;
+  _modeHOMARD = 5 ;
 //
 }
 //===============================================================================
@@ -625,7 +640,15 @@ void HomardDriver::TexteBoundaryOption( int BoundaryOption )
   std::string saux = saux1.str() ;
   _Texte += "SuivFron " + saux + "\n" ;
 //
+}//===============================================================================
+void HomardDriver::TexteBoundaryCAOGr(  const std::string GroupName )
+{
+  MESSAGE("TexteBoundaryCAOGr, GroupName  = "<<GroupName);
+//
+  _Texte += "GrFroCAO \"" + GroupName + "\"\n" ;
+//
 }
+
 //===============================================================================
 void HomardDriver::TexteBoundaryDi(  const std::string MeshName, const std::string MeshFile )
 {
@@ -1030,10 +1053,12 @@ void HomardDriver::TexteInfoCompute( int MessInfo )
 void HomardDriver::CreeFichier( )
 {
 //
-  if ( _siter != _siterp1 )
+  if ( _modeHOMARD == 1 )
   { _NomFichierConf = _NomFichierConfBase + "." + _siter + ".vers." + _siterp1 ; }
-  else
+  else if ( _modeHOMARD == 2 )
   { _NomFichierConf = _NomFichierConfBase + "." + _siter + ".info" ; }
+  else if ( _modeHOMARD == 5 )
+  { _NomFichierConf = _NomFichierConfBase + ".majc" ; }
 //
   std::ofstream Fic(_NomFichierConf.c_str(), std::ios::out ) ;
   if (Fic.is_open() == true) { Fic << _Texte << std::endl ; }

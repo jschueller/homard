@@ -35,10 +35,10 @@
 #include "HOMARD_Gen.hxx"
 #include "HomardDriver.hxx"
 #include "YACSDriver.hxx"
+#include "FrontTrack.hxx"
 #include "SALOME_Component_i.hxx"
 #include "SALOME_NamingService.hxx"
 #include "Utils_CorbaException.hxx"
-
 
 #include <string>
 #include <map>
@@ -60,8 +60,10 @@ public:
 
 // Les creations
   HOMARD::HOMARD_Boundary_ptr     CreateBoundary (const char* nomBoundary, CORBA::Long typeBoundary);
+  HOMARD::HOMARD_Boundary_ptr     CreateBoundaryCAO(const char* nomBoundary,
+                                                    const char* DataFile);
   HOMARD::HOMARD_Boundary_ptr     CreateBoundaryDi (const char* nomBoundary,
-                                                    const char* MeshName, const char* FileName);
+                                                    const char* MeshName, const char* DataFile);
   HOMARD::HOMARD_Boundary_ptr     CreateBoundaryCylinder (const char* nomBoundary,
                                       CORBA::Double Xcentre, CORBA::Double Ycentre, CORBA::Double Zcentre,
                                       CORBA::Double Xaxis, CORBA::Double Yaxis, CORBA::Double Zaxis,
@@ -175,11 +177,13 @@ public:
 
   CORBA::Long                     Compute(const char* nomIteration, CORBA::Long etatMenage, CORBA::Long modeHOMARD, CORBA::Long Option1, CORBA::Long Option2);
   CORBA::Long                     ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage, HomardDriver* myDriver, CORBA::Long Option1, CORBA::Long Option2);
+  CORBA::Long                     ComputeCAO(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long Option1, CORBA::Long Option2);
+  CORBA::Long                     ComputeCAObis(HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long Option1, CORBA::Long Option2);
   char*                           ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration, CORBA::Long etatMenage);
   char*                           ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMARD_Iteration_var myIteration);
   void                            DriverTexteZone(HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
   void                            DriverTexteField(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
-  void                            DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver);
+  int                             DriverTexteBoundary(HOMARD::HOMARD_Cas_var myCase, HomardDriver* myDriver);
   void                            DriverTexteFieldInterp(HOMARD::HOMARD_Iteration_var myIteration, HOMARD::HOMARD_Hypothesis_var myHypo, HomardDriver* myDriver);
 
   char*                           VerifieDir(const char* nomDir);

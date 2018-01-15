@@ -40,6 +40,7 @@ public:
     MonCreateCase( bool modal, HOMARD::HOMARD_Gen_var myHomardGen );
     ~MonCreateCase();
 
+    void AddBoundaryCAO(QString newBoundary);
     void AddBoundaryAn(QString newBoundary);
     void AddBoundaryDi(QString newBoundary);
 
@@ -74,6 +75,12 @@ public slots:
     virtual void SetSaturne();
     virtual void SetSaturne2D();
 
+    virtual void SetBoundaryNo();
+    virtual void SetBoundaryCAO();
+    virtual void SetBoundaryNonCAO();
+    virtual void PushBoundaryCAONew();
+    virtual void PushBoundaryCAOEdit();
+    virtual void PushBoundaryCAOHelp();
     virtual void SetBoundaryD();
     virtual void PushBoundaryDiNew();
     virtual void PushBoundaryDiEdit();

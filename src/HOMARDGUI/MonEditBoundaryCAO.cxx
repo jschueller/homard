@@ -17,8 +17,8 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-#include "MonEditBoundaryDi.h"
-#include "MonEditListGroup.h"
+#include "MonEditBoundaryCAO.h"
+#include "MonEditListGroupCAO.h"
 
 #include <QMessageBox>
 
@@ -30,17 +30,17 @@
 using namespace std;
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-MonEditBoundaryDi::MonEditBoundaryDi( MonCreateCase* parent, bool modal,
+MonEditBoundaryCAO::MonEditBoundaryCAO( MonCreateCase* parent, bool modal,
                                       HOMARD::HOMARD_Gen_var myHomardGen,
                                       QString caseName, QString Name):
 // -------------------------------------------------------------------------------------------------------------------------------------
-/* Constructs a MonEditBoundaryDi
-    herite de MonCreateBoundaryDi
+/* Constructs a MonEditBoundaryCAO
+    herite de MonCreateBoundaryCAO
 */
-    MonCreateBoundaryDi(parent, modal, myHomardGen, caseName, Name)
+    MonCreateBoundaryCAO(parent, modal, myHomardGen, caseName, Name)
 {
     MESSAGE("Debut de Boundary pour " << Name.toStdString().c_str());
-    setWindowTitle(QObject::tr("HOM_BOUN_D_EDIT_WINDOW_TITLE"));
+    setWindowTitle(QObject::tr("HOM_BOUN_C_EDIT_WINDOW_TITLE"));
     try
     {
      aBoundary=myHomardGen->GetBoundary(CORBA::string_dup(_aName.toStdString().c_str()));
@@ -60,12 +60,12 @@ MonEditBoundaryDi::MonEditBoundaryDi( MonCreateCase* parent, bool modal,
 
 }
 // ------------------------------
-MonEditBoundaryDi::~MonEditBoundaryDi()
+MonEditBoundaryCAO::~MonEditBoundaryCAO()
 // ------------------------------
 {
 }
 // ------------------------------
-void MonEditBoundaryDi::InitValEdit()
+void MonEditBoundaryCAO::InitValEdit()
 // ------------------------------
 {
       LEName->setText(_aName);
@@ -79,13 +79,13 @@ void MonEditBoundaryDi::InitValEdit()
       adjustSize();
 }
 // ------------------------------
-bool MonEditBoundaryDi::PushOnApply()
+bool MonEditBoundaryCAO::PushOnApply()
 // ------------------------------
 {
      return true;
 }
 // ------------------------------------------------------------------------
-void MonEditBoundaryDi::SetFiltrage()
+void MonEditBoundaryCAO::SetFiltrage()
 // // ------------------------------------------------------------------------
 {
   if (!CBGroupe->isChecked()) return;
@@ -98,7 +98,7 @@ void MonEditBoundaryDi::SetFiltrage()
   HOMARD::HOMARD_Cas_var monCas= myHomardGen->GetCase(_aCaseName.toStdString().c_str());
   HOMARD::ListGroupType_var _listeGroupesCas = monCas->GetGroups();
 
-  MonEditListGroup *aDlg = new MonEditListGroup(NULL, this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
+  MonEditListGroupCAO *aDlg = new MonEditListGroupCAO(NULL, this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen),
                             _aCaseName, _listeGroupesBoundary) ;
   aDlg->show();
 }

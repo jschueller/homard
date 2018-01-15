@@ -104,6 +104,9 @@ namespace // actual projection algorithms
                             double*       newSolution,
                             const double* prevSolution = 0)
     {
+#ifdef _DEBUG_
+    std::cout << ".. project a point to the curve prevSolution = " << prevSolution << std::endl;
+#endif
       gp_Pnt         proj;
       Standard_Real param;
 
@@ -115,6 +118,9 @@ namespace // actual projection algorithms
       {
         _dist = _projector.Project( _curve, P, _tol, proj, param, false );
       }
+#ifdef _DEBUG_
+    std::cout << "..    _dist : " << _dist << std::endl;
+#endif
       proj = _curve.Value( param );
 
       newSolution[0] = param;
@@ -130,6 +136,9 @@ namespace // actual projection algorithms
                                      double*       newSolution,
                                      const double* prevSolution = 0)
     {
+#ifdef _DEBUG_
+    std::cout << ".. project a point to a curve and check " << std::endl;
+#endif
       projection = project( point, newSolution, prevSolution );
       return ( _uRange[0] < newSolution[0] && newSolution[0] < _uRange[1] &&
                _dist * _dist < maxDist2 );
@@ -611,7 +620,7 @@ namespace // actual projection algorithms
   bool isStraight( const GeomAdaptor_Curve& curve, const double tol )
   {
     // rough check: evaluate how far from a straight line connecting the curve ends
-    // stand several internal points of the curve 
+    // stand several internal points of the curve
 
     const double  f = curve.FirstParameter();
     const double  l = curve.LastParameter();
