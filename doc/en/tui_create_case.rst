@@ -158,6 +158,13 @@ Methods of the class cas
 |     connected to an initial mesh or to the iteration of a     |
 |     previous case.                                            |
 +---------------------------------------------------------------+
+| .. module:: AddBoundary                                       |
+|                                                               |
+| **AddBoundary(boundary)**                                     |
+|     Add a boundary to the definition of a case                |
+|                                                               |
+|     - ``boundary``: name of the curved boundary               |
++---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
 | **AddBoundaryGroup(boundary, group)**                         |

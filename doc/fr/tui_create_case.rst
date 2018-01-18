@@ -158,6 +158,13 @@ Méthodes de la classe cas
 |     Elle correspond à un maillage initial ou à une itération  |
 |     de poursuite d'un cas précédent.                          |
 +---------------------------------------------------------------+
+| .. module:: AddBoundary                                       |
+|                                                               |
+| **AddBoundary(boundary)**                                     |
+|     Ajoute une frontière à la définition du cas               |
+|                                                               |
+|     - ``boundary`` : nom d'une frontière courbe à suivre      |
++---------------------------------------------------------------+
 | .. module:: AddBoundaryGroup                                  |
 |                                                               |
 | **AddBoundaryGroup(boundary, group)**                         |

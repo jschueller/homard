@@ -22,7 +22,7 @@
 """
 Pseudo-lancement d'un calcul pour valider les tests
 """
-__revision__ = "V2.1"
+__revision__ = "V2.2"
 #
 import sys
 import os
@@ -100,10 +100,10 @@ Le constructeur de la classe Script
 #
     if self.verbose_max :
       nom_fonction = __name__ + "/__init__"
-      print "\nDans " + nom_fonction + ","
-      print ". rep_calc       :", self.rep_calc
-      print ". mesh_file      :", self.mesh_file
-      print ". numero         :", self.numero
+      print("\nDans " + nom_fonction + ",")
+      print(". rep_calc       :", self.rep_calc)
+      print(". mesh_file      :", self.mesh_file)
+      print(". numero         :", self.numero)
 #
 #=========================  Fin de la fonction ===================================
 #
@@ -141,8 +141,8 @@ Lancement d'un calcul
       break
 #
     if self.verbose_max :
-      print blabla
-      print ". erreur :", erreur
+      print(blabla)
+      print(". erreur :", erreur)
 #
     return erreur, message_erreur, dico_resu
 #
@@ -170,10 +170,10 @@ Controle les arguments et stockage de quelques informations
     message_erreur = " "
 #
     if self.verbose_max :
-      print blabla
-      print ". rep_calc       :", self.rep_calc
-      print ". mesh_file      :", self.mesh_file
-      print ". numero         :", self.numero
+      print(blabla)
+      print(". rep_calc       :", self.rep_calc)
+      print(". mesh_file      :", self.mesh_file)
+      print(". numero         :", self.numero)
 #
     while not erreur :
 #
@@ -190,7 +190,7 @@ Controle les arguments et stockage de quelques informations
 #
 # 1.2. Le repertoire de calcul
 #
-      if os.environ.has_key("HOME") :
+      if "HOME" in os.environ :
         HOME = os.environ ["HOME"]
       else :
         HOME = "/local/home/salome"
@@ -234,8 +234,8 @@ Controle les arguments et stockage de quelques informations
       message_erreur = messages_erreur[erreur]
 #
     if self.verbose_max :
-      print ". rep_calc  :", self.rep_calc
-      print ". mesh_file :", self.mesh_file
+      print(". rep_calc  :", self.rep_calc)
+      print(". mesh_file :", self.mesh_file)
 #
     return erreur, message_erreur
 #

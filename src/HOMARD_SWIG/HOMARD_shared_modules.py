@@ -29,7 +29,7 @@
 # see salome_shared_modules.py
 # (avoids incomplete import at run time)
 
-print "============== import HOMARD ======================="
+print("============== import HOMARD =======================")
 
 import HOMARD
 

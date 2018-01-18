@@ -108,7 +108,7 @@ Scheme YACS carrying out this adaptation is downloadable.
   * :download:`CAO<../files/tutorial_4.xao.gz>`
   * :download:`python scrip<../files/tutorial_4.py>`
   * :download:`python script for the compression<../files/tutorial_util.py>`
-  * :download:`schéma YACS<../files/tutorial_4.xml>`
+  * :download:`YACS scheme<../files/tutorial_4.xml>`
 
 If the CAO is not available, the boundaries can be approximated: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. Only the definition of the boundaries has to be modified.
 
@@ -123,7 +123,7 @@ If the CAO is not available, the boundaries can be approximated: analytical bord
   * :download:`mesh of the discrete boundary<../files/tutorial_6.fr.med.gz>`
   * :download:`python script<../files/tutorial_6.py>`
   * :download:`python script for the compression<../files/tutorial_util.py>`
-  * :download:`schéma YACS<../files/tutorial_6.xml>`
+  * :download:`YACS scheme<../files/tutorial_6.xml>`
 
 
 Specific instructions for a 2D mesh
