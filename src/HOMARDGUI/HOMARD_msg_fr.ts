@@ -580,7 +580,7 @@
         <translation>Hypothèse</translation>
     </message>
     <message>
-        <source>Create an hypothesis</source>
+        <source>Create a hypothesis</source>
         <translation>Création d'une hypothèse</translation>
     </message>
     <message>
@@ -996,7 +996,7 @@
         <translation>Cette itération ne peut pas être détruite.</translation>
     </message>
     <message>
-        <source>This zone is used in an hypothesis and cannot be deleted.</source>
+        <source>This zone is used in a hypothesis and cannot be deleted.</source>
         <translation>Cette zone est utilisée dans une hypothèse ; elle ne peut pas être détruite.</translation>
     </message>
     <message>

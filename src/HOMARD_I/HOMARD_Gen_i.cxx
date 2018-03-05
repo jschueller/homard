@@ -520,7 +520,7 @@ CORBA::Long HOMARD_Gen_i::DeleteZone(const char* nomZone)
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
-    es.text = "This zone is used in an hypothesis and cannot be deleted.";
+    es.text = "This zone is used in a hypothesis and cannot be deleted.";
     throw SALOME::SALOME_Exception(es);
     return 2 ;
   };

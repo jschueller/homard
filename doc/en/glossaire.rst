@@ -28,7 +28,7 @@ Glossary
       An iteration is the process that transform a mesh to another one into a case. An iteration implies refinement and/or unrefinement, following the associated hypothesis.
 
    hypothesis
-      An hypothesis describes the conditions that governs the modification from a mesh to another one: refinement and/or unrefinement, etc. An hypothesis is referenced by 1 or more iterations.
+      A hypothesis describes the conditions that governs the modification from a mesh to another one: refinement and/or unrefinement, etc. A hypothesis is referenced by 1 or more iterations.
 
    field
       A field is expressed over a mesh, onto node or element, with 1 or more components.

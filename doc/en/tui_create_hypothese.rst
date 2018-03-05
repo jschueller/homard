@@ -452,4 +452,4 @@ Similar graphical input
 Look at :doc:`gui_create_hypothese`
 
 .. warning::
-  With the graphical input mode, if an hypothesis is edited and if one of the characteristic is modified, the value of the threshold for the refinement for example, all the iterations that were computed with this hypothesis are unvalidated. In python mode, that is not true: the iterations stay as they are.
+  With the graphical input mode, if a hypothesis is edited and if one of the characteristic is modified, the value of the threshold for the refinement for example, all the iterations that were computed with this hypothesis are unvalidated. In python mode, that is not true: the iterations stay as they are.
