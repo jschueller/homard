@@ -569,7 +569,7 @@
       <translation>Hypothesis</translation>
     </message>
     <message>
-      <source>Create an hypothesis</source>
+      <source>Create a hypothesis</source>
       <translation>hypothesis の作成</translation>
     </message>
     <message>
@@ -973,7 +973,7 @@
       <translation>このイテレーションは削除できません。</translation>
     </message>
     <message>
-      <source>This zone is used in an hypothesis and cannot be deleted.</source>
+      <source>This zone is used in a hypothesis and cannot be deleted.</source>
       <translation>このゾーンはhypothesisで使用されており、削除できません。</translation>
     </message>
     <message>

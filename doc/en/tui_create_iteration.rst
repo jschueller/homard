@@ -117,7 +117,7 @@ General methods
 | .. module:: AssociateHypo                                     |
 |                                                               |
 | **AssociateHypo(hypo_name)**                                  |
-|     Associate an hypothesis with the iteration                |
+|     Associate a hypothesis with the iteration                 |
 |                                                               |
 |     - ``hypo_name``: the name of the hypothesis               |
 +---------------------------------------------------------------+

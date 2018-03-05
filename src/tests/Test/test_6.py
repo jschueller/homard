@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
@@ -21,7 +22,7 @@
 Python script for HOMARD
 Test test_6
 """
-__revision__ = "V1.04"
+__revision__ = "V1.05"
 
 #========================================================================
 TEST_NAME = "test_6"
@@ -192,8 +193,8 @@ Création du maillage
 # 5. Export MED
 #
     ficmed = os.path.join(rep_mail,'maill.00.med')
-    texte = "Ecriture du fichier '%s'" % ficmed
     if verbose :
+      texte = "Ecriture du fichier '%s'" % ficmed
       print (texte)
     maill_00.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1 )
 #
@@ -239,8 +240,8 @@ Python script for HOMARD
     le_cas.SetDirName(DIRCASE)
     le_cas.AddBoundary(cao_name)
     #
-    # Creation of the iterations
-    # ==========================
+    # Creation des iterations
+    # =======================
     if verbose :
       option = 2
     else :

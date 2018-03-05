@@ -273,7 +273,7 @@
     </message>
     <message>
         <source>HOM_ITER_HYPO</source>
-        <translation>An hypothesis must be selected.</translation>
+        <translation>A hypothesis must be selected.</translation>
     </message>
     <message>
         <source>HOM_ITER_FIELD_FILE</source>
@@ -337,7 +337,7 @@
     </message>
     <message>
         <source>HOM_HYPO_EDIT_WINDOW_TITLE</source>
-        <translation>Edition of an hypothesis</translation>
+        <translation>Edition of a hypothesis</translation>
     </message>
     <message>
         <source>HOM_ZONE_NAME</source>

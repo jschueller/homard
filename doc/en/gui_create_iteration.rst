@@ -33,7 +33,7 @@ The current iteration will produce a mesh. This mesh will be known under a name.
 
 The field
 *********
-To create or use an hypothesis of adaptation based on a field expressed on the mesh, one must provide the file where the field is. It is also the case if one wants to interpolate fields from mesh #N to the mesh #(N+1). This file is with format MED. Classically, it will have been produced by the computation software with which one works. The name of the file can be provided, either by typing the name in the zone of text, or by activating the function of research.
+To create or use a hypothesis of adaptation based on a field expressed on the mesh, one must provide the file where the field is. It is also the case if one wants to interpolate fields from mesh #N to the mesh #(N+1). This file is with format MED. Classically, it will have been produced by the computation software with which one works. The name of the file can be provided, either by typing the name in the zone of text, or by activating the function of research.
 
 .. image:: images/create_iteration_2.png
    :align: center
@@ -47,14 +47,14 @@ If steps of time were defined, a simple solution consists in treating the fields
 
 The hypothesis
 **************
-The iteration in progress will control the adaptation by HOMARD according to a scenario defined on an hypothesis. This one is selected in the list of the existing hypotheses.
+The iteration in progress will control the adaptation by HOMARD according to a scenario defined on a hypothesis. This one is selected in the list of the existing hypotheses.
 
 With starting, it is necessary to create a first hypothesis by activation of the button "*New*" (see: :doc:`gui_create_hypothese`) :
 
 .. image:: images/create_iteration_4.png
    :align: center
 
-Then, if an hypothesis previously defined is appropriate, it is enough to select it in the proposed list. If not, it is necessary to create a new hypothesis by activation of the button "*New*", then to select it in the proposed list:
+Then, if a hypothesis previously defined is appropriate, it is enough to select it in the proposed list. If not, it is necessary to create a new hypothesis by activation of the button "*New*", then to select it in the proposed list:
 
 .. image:: images/create_iteration_5.png
    :align: center

@@ -35,7 +35,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Create an hypothesis</string>
+   <string>Create a hypothesis</string>
   </property>
   <property name="widgetResizable">
    <bool>true</bool>
