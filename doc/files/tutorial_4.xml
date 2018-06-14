@@ -53,8 +53,7 @@ import HOMARD_Zone_idl
 import HOMARD_Boundary_idl
 
 clt = orbmodule.client()
-StudyManager = clt.Resolve("/myStudyManager")
-CurrentStudy = StudyManager.GetStudyByID(1)
+CurrentStudy = clt.Resolve("/Study")
 ]]></code></script>
          <load container="DefaultContainer"/>
          <outport name="CurrentStudy" type="Study"/>

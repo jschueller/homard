@@ -49,15 +49,6 @@
 SALOME_ListIO HOMARD_UTILS::mySelected;
 
 //================================================================
-// Function : GetCStudy
-// Returne un pointeur sur l'etude courante
-//================================================================
- _PTR(Study) HOMARD_UTILS::GetCStudy(const SalomeApp_Study* theStudy)
-{
-    return theStudy->studyDS();
-}
-
-//================================================================
 // Function : GetActiveStudy
 // Returne un pointeur sur l'etude active
 //================================================================
@@ -71,17 +62,15 @@ SUIT_Study* HOMARD_UTILS::GetActiveStudy()
 }
 
 //================================================================
-// Function : GetActiveStudyDocument
+// Function : getStudy
 // Returne un pointeur sur l'etude active
 //================================================================
-_PTR(Study) HOMARD_UTILS::GetActiveStudyDocument()
+_PTR(Study) HOMARD_UTILS::getStudy()
 {
-    SalomeApp_Study* aStudy = dynamic_cast<SalomeApp_Study*>(GetActiveStudy());
-    if (aStudy){
-      return aStudy->studyDS();
-    }
-    else
-      return _PTR(Study)();
+  static _PTR(Study) _study;
+  if(!_study)
+    _study = SalomeApp_Application::getStudy();
+  return _study;
 }
 
 //================================================================

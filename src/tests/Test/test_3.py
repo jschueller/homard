@@ -54,7 +54,7 @@ IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
-def homard_exec(theStudy):
+def homard_exec():
   """
 Python script for HOMARD
   """
@@ -62,7 +62,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.SetCurrentStudy(theStudy)
+    HOMARD.UpdateStudy()
   #
   # Creation of the boundaries
   # ==========================
@@ -199,7 +199,7 @@ HOMARD.SetLanguageShort("fr")
 # Exec of HOMARD-SALOME
 #
 try :
-  ERROR = homard_exec(salome.myStudy)
+  ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except RuntimeError as eee:
@@ -212,6 +212,6 @@ DESTROY_DIR = not DEBUG
 test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

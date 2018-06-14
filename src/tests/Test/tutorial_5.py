@@ -70,7 +70,7 @@ Python script for HOMARD
 #
   while not erreur :
     #
-    HOMARD.SetCurrentStudy(salome.myStudy)
+    HOMARD.UpdateStudy()
     #
     # Frontiere
     # =========
@@ -184,6 +184,6 @@ gzip_gunzip(DATA_TUTORIAL, 5, 1)
 # ==================================
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

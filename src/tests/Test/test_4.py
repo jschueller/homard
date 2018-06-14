@@ -69,7 +69,7 @@ IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
-def geom_smesh_exec(theStudy):
+def geom_smesh_exec():
   """
 Python script for GEOM and SMESH
   """
@@ -77,7 +77,7 @@ Python script for GEOM and SMESH
 #
   while not error :
   #
-    geompy = geomBuilder.New(theStudy)
+    geompy = geomBuilder.New()
   #
   # Creation of the box
   # ===================
@@ -85,7 +85,7 @@ Python script for GEOM and SMESH
 
   # Creation of the mesh
   # ====================
-    smesh = smeshBuilder.New(theStudy)
+    smesh = smeshBuilder.New()
     box_m = smesh.Mesh(box_g)
     smesh.SetName(box_m.GetMesh(), 'MESH')
   #
@@ -118,10 +118,10 @@ Python script for GEOM and SMESH
   #
     try:
       ficmed = os.path.join(DIRCASE, 'maill.00.med')
-      box_m.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1, None, 1)
+      box_m.ExportMED(ficmed)
     except IOError as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+str(eee.message))
+      raise Exception('ExportMED() failed. ' + str(eee))
   #
     break
   #
@@ -130,7 +130,7 @@ Python script for GEOM and SMESH
 #========================================================================
 #
 #========================================================================
-def field_exec(theStudy, niter):
+def field_exec(niter):
   """
 Python script for MEDCoupling
   """
@@ -176,7 +176,7 @@ Python script for MEDCoupling
 
 #========================================================================
 #========================================================================
-def homard_exec(theStudy):
+def homard_exec():
   """
 Python script for HOMARD
   """
@@ -184,7 +184,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.SetCurrentStudy(theStudy)
+    HOMARD.UpdateStudy()
   #
   # Creation of the zones
   # =====================
@@ -281,7 +281,7 @@ Python script for HOMARD
 
   # Creation of the iteration 3
   #
-    error = field_exec(theStudy, 2)
+    error = field_exec(2)
     if error :
       error = 30
       break
@@ -308,7 +308,7 @@ Python script for HOMARD
 # Geometry and Mesh
 #
 try :
-  ERROR = geom_smesh_exec(salome.myStudy)
+  ERROR = geom_smesh_exec()
   if ERROR :
     raise Exception('Pb in geom_smesh_exec')
 except RuntimeError as eee:
@@ -321,7 +321,7 @@ HOMARD.SetLanguageShort("fr")
 # Exec of HOMARD-SALOME
 #
 try :
-  ERROR = homard_exec(salome.myStudy)
+  ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except RuntimeError as eee:
@@ -334,6 +334,6 @@ DESTROY_DIR = not DEBUG
 test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

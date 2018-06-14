@@ -68,7 +68,7 @@ IPAR.append("AP_MODULES_LIST", "Homard")
 #
 #========================================================================
 #========================================================================
-def mesh_exec(theStudy):
+def mesh_exec():
   """
 Python script for MED
   """
@@ -160,7 +160,7 @@ Python script for MED
       meshMEDFile3D.write(ficmed, 2)
     except IOError as eee:
       error = 2
-      raise Exception('ExportToMEDX() failed. '+str(eee.message))
+      raise Exception('MEDFileUMesh.write() failed. ' + str(eee))
   #
     break
   #
@@ -169,7 +169,7 @@ Python script for MED
 #========================================================================
 #
 #========================================================================
-def field_exec(theStudy, niter):
+def field_exec(niter):
   """
 Python script for MEDCoupling
   """
@@ -224,7 +224,7 @@ Python script for MEDCoupling
 
 #========================================================================
 #========================================================================
-def homard_exec(theStudy):
+def homard_exec():
   """
 Python script for HOMARD
   """
@@ -232,7 +232,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.SetCurrentStudy(theStudy)
+    HOMARD.UpdateStudy()
   #
   # Creation of the hypothese DISTANCE INVERSE
   # ==========================================
@@ -265,7 +265,7 @@ Python script for HOMARD
     #
     # Creation of the indicator
     #
-      error, ficmed_indic = field_exec(theStudy, niter)
+      error, ficmed_indic = field_exec(niter)
       if error :
         error = 10
         break
@@ -296,7 +296,7 @@ Python script for HOMARD
 # Geometry and Mesh
 #
 try :
-  ERROR = mesh_exec(salome.myStudy)
+  ERROR = mesh_exec()
   if ERROR :
     raise Exception('Pb in mesh_exec')
 except RuntimeError as eee:
@@ -309,7 +309,7 @@ HOMARD.SetLanguageShort("fr")
 # Exec of HOMARD-SALOME
 #
 try :
-  ERROR = homard_exec(salome.myStudy)
+  ERROR = homard_exec()
   if ERROR :
     raise Exception('Pb in homard_exec at iteration %d' %ERROR )
 except RuntimeError as eee:
@@ -322,6 +322,6 @@ DESTROY_DIR = not DEBUG
 test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

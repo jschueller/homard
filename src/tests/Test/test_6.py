@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
@@ -70,9 +70,8 @@ Création de la géométrie
     texte += "Taille de base = %f" % taille
     print (texte)
 #
-  import GEOM
   from salome.geom import geomBuilder
-  geompy = geomBuilder.New(salome.myStudy)
+  geompy = geomBuilder.New()
 #
 # 1. Les sommets et la première ligne
 #
@@ -156,9 +155,8 @@ Création du maillage
       texte += "rep_mail = '%s'" % rep_mail
       print (texte)
 #
-    import SMESH
     from salome.smesh import smeshBuilder
-    smesh = smeshBuilder.New(salome.myStudy)
+    smesh = smeshBuilder.New()
 #
 # 2. Maillage de calcul
 #
@@ -193,10 +191,14 @@ Création du maillage
 # 5. Export MED
 #
     ficmed = os.path.join(rep_mail,'maill.00.med')
+    texte = "Ecriture du fichier '%s'" % ficmed
     if verbose :
-      texte = "Ecriture du fichier '%s'" % ficmed
       print (texte)
-    maill_00.ExportMED( ficmed, 0, SMESH.MED_V2_2, 1 )
+    try:
+      maill_00.ExportMED(ficmed)
+    except IOError as eee:
+      error = 2
+      raise Exception('ExportMED() failed. ' + str(eee))
 #
     break
 #
@@ -215,7 +217,7 @@ Python script for HOMARD
 #
   while not erreur :
     #
-    HOMARD.SetCurrentStudy(salome.myStudy)
+    HOMARD.UpdateStudy()
     #
     # Frontière
     # =========
@@ -240,8 +242,8 @@ Python script for HOMARD
     le_cas.SetDirName(DIRCASE)
     le_cas.AddBoundary(cao_name)
     #
-    # Creation des iterations
-    # =======================
+    # Creation of the iterations
+    # ==========================
     if verbose :
       option = 2
     else :
@@ -335,6 +337,6 @@ if ERREUR:
   raise Exception(MESSAGE)
 #
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()
   iparameters.getSession().restoreVisualState(1)
 

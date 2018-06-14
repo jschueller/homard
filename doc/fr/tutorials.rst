@@ -16,7 +16,7 @@ Le chargement du module HOMARD se fait de manière analogue aux autres modules.
 
   import HOMARD
   homard = salome.lcc.FindOrLoadComponent('FactoryServer','HOMARD')
-  homard.SetCurrentStudy(salome.myStudy)
+  homard.UpdateStudy()
 
 Pour utiliser le module HOMARD au sein d'un schéma YACS distribué, le chargement se fait ainsi :
 
@@ -25,7 +25,7 @@ Pour utiliser le module HOMARD au sein d'un schéma YACS distribué, le chargeme
   import HOMARD
   my_container.load_component_Library('HOMARD')
   homard = my_container.create_component_instance('HOMARD',0)
-  homard.SetCurrentStudy(salome.myStudy)
+  homard.UpdateStudy()
 
 Raffinement uniforme
 ********************

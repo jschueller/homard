@@ -47,7 +47,7 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
-homard.SetCurrentStudy(salome.myStudy)
+homard.UpdateStudy()
 #
 #============================= Début des commandes =============================
 #
@@ -102,4 +102,4 @@ gzip_gunzip(DATA_TUTORIAL, 2, 1)
 # ==================================
 
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()

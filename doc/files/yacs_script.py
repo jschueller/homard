@@ -22,7 +22,7 @@
 """
 Lancement d'un calcul ASTER
 """
-__revision__ = "V5.10"
+__revision__ = "V5.11"
 #
 import sys
 import os
@@ -1191,8 +1191,7 @@ Affichage de resultats selon les cas
     message_erreur = " "
 #
     dico_resu = {}
-    for cle in dico_resu_init.keys() :
-      dico_resu[cle] = dico_resu_init[cle]
+    dico_resu.update(dico_resu_init)
 #
     while not erreur :
 #

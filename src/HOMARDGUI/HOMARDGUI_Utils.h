@@ -53,12 +53,8 @@ class LightApp_SelectionMgr;
 
 namespace HOMARD_UTILS {
 
-  HOMARD_EXPORT
-  _PTR(Study)
-  GetCStudy(const SalomeApp_Study* theStudy);
-
   HOMARD_EXPORT SUIT_Study* GetActiveStudy();
-  HOMARD_EXPORT _PTR(Study) GetActiveStudyDocument();
+  HOMARD_EXPORT _PTR(Study) getStudy();
 
   HOMARD_EXPORT void updateObjBrowser();
 
