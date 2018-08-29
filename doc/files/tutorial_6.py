@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF 1996, 2011, 2018
 """
-__revision__ = "V4.4"
+__revision__ = "V4.5"
 #
 import os
 import sys
@@ -48,7 +48,7 @@ salome.salome_init()
 import HOMARD
 #
 homard = salome.lcc.FindOrLoadComponent("FactoryServer", "HOMARD")
-homard.SetCurrentStudy(salome.myStudy)
+homard.UpdateStudy()
 #
 #============================= Début des commandes =============================
 #
@@ -122,4 +122,4 @@ gzip_gunzip(DATA_TUTORIAL, 6, 1)
 # ==================================
 
 if salome.sg.hasDesktop():
-  salome.sg.updateObjBrowser(True)
+  salome.sg.updateObjBrowser()

@@ -22,7 +22,7 @@ Python script for HOMARD
 Specific conditions for Code_Saturne
 Test test_5
 """
-__revision__ = "V2.03"
+__revision__ = "V2.04"
 
 #========================================================================
 TEST_NAME = "test_5"
@@ -232,7 +232,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.UpdateStudy()
+  #  HOMARD.UpdateStudy()
   #
   # Creation of the hypothese DISTANCE INVERSE
   # ==========================================

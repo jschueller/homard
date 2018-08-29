@@ -24,7 +24,7 @@
 Exemple de couplage HOMARD-Salome
 Copyright EDF 1996, 2011, 2018
 """
-__revision__ = "V4.2"
+__revision__ = "V4.3"
 #
 import os
 import sys
