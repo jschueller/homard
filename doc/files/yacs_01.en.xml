@@ -58,17 +58,12 @@ CurrentStudy = clt.Resolve("/Study")
 ]]></code></script>
          <outport name="CurrentStudy" type="Study"/>
       </inline>
-      <service name="SetCurrentStudy">
+      <service name="UpdateStudy">
          <component>HOMARD</component>
          <load container="DefaultContainer"/>
-         <method>SetCurrentStudy</method>
-         <inport name="theStudy" type="Study"/>
+         <method>UpdateStudy</method>
       </service>
-      <control> <fromnode>StudyCreation</fromnode> <tonode>SetCurrentStudy</tonode> </control>
-      <datalink control="false">
-         <fromnode>StudyCreation</fromnode> <fromport>CurrentStudy</fromport>
-         <tonode>SetCurrentStudy</tonode> <toport>theStudy</toport>
-      </datalink>
+      <control> <fromnode>StudyCreation</fromnode> <tonode>UpdateStudy</tonode> </control>
    </bloc>
    <while name="Boucle_de_convergence">
       <bloc name="Alternance_Calcul_HOMARD">
@@ -122,7 +117,7 @@ while not Error :
 #
 # If the file is not defined, stop:
 #
-    if dico_resu.has_key("FileName") :
+    if ( "FileName" in dico_resu ) :
         FileName = dico_resu["FileName"]
     else :
         MessInfo = "The file for the mesh is not defined."
@@ -131,7 +126,7 @@ while not Error :
 #
 # If the criterion is satisfied, stop:
 #
-    if dico_resu.has_key("V_TEST") :
+    if ( "V_TEST" in dico_resu ) :
         valeur_v = dico_resu["V_TEST"]
         if NumCalc == 0 :
             resu1 = [valeur_v]
@@ -187,13 +182,13 @@ MeshFile = " "
                      <default>
                         <bloc name="Iter_n">
                            <service name="LastIteration">
-                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <node>Etude_Initialisation.UpdateStudy</node>
                               <method>LastIteration</method>
                               <inport name="CaseName" type="string"/>
                               <outport name="return" type="HOMARD_Iteration"/>
                            </service>
                            <service name="GetHypothesis">
-                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <node>Etude_Initialisation.UpdateStudy</node>
                               <method>GetHypothesis</method>
                               <inport name="HypoName" type="string"/>
                               <outport name="return" type="HOMARD_Hypothesis"/>
@@ -204,7 +199,7 @@ MeshFile = " "
                      <case id="1">
                         <bloc name="Iter_1">
                            <service name="CreateCase">
-                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <node>Etude_Initialisation.UpdateStudy</node>
                               <method>CreateCase</method>
                               <inport name="CaseName" type="string"/>
                               <inport name="MeshName" type="string"/>
@@ -225,7 +220,7 @@ Iter0 = Case.GetIter0()
                               <outport name="Iter0" type="HOMARD_Iteration"/>
                            </inline>
                            <service name="CreateHypothesis">
-                              <node>Etude_Initialisation.SetCurrentStudy</node>
+                              <node>Etude_Initialisation.UpdateStudy</node>
                               <method>CreateHypothesis</method>
                               <inport name="HypoName" type="string"/>
                               <outport name="return" type="HOMARD_Hypothesis"/>
@@ -487,7 +482,7 @@ else :
    <presentation name="DataInit" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
    <presentation name="Etude_Initialisation" x="175" y="32" width="158" height="38" expanded="0" expx="175" expy="32" expWidth="162.5" expHeight="40.5" shownState="1"/>
    <presentation name="Etude_Initialisation.StudyCreation" x="0" y="0" width="158" height="36" expanded="1" expx="4" expy="32" expWidth="158" expHeight="36" shownState="2"/>
-   <presentation name="Etude_Initialisation.SetCurrentStudy" x="0" y="0" width="158" height="36" expanded="1" expx="163" expy="32" expWidth="158" expHeight="36" shownState="2"/>
+   <presentation name="Etude_Initialisation.UpdateStudy" x="0" y="0" width="158" height="36" expanded="1" expx="163" expy="32" expWidth="158" expHeight="36" shownState="2"/>
    <presentation name="Boucle_de_convergence" x="4" y="103" width="569" height="514" expanded="1" expx="4" expy="103" expWidth="569" expHeight="514" shownState="0"/>
    <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD" x="4" y="59" width="561" height="451" expanded="1" expx="10" expy="59" expWidth="561" expHeight="451" shownState="0"/>
    <presentation name="Boucle_de_convergence.Alternance_Calcul_HOMARD.Calcul" x="4" y="32" width="158" height="90" expanded="1" expx="4" expy="32" expWidth="158" expHeight="90" shownState="0"/>
