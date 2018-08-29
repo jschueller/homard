@@ -21,7 +21,7 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V4.02"
+__revision__ = "V4.03"
 
 import os
 import tempfile
@@ -160,7 +160,7 @@ def saveGeometry( xao_file, name, author="" ):
   """
   import salome
   from salome.geom import geomBuilder
-  geompy = geomBuilder.New(salome.myStudy)
+  geompy = geomBuilder.New()
   error = 0
 
   # find an object having groups in GEOM component
