@@ -36,7 +36,7 @@
    </container>
    <datanode name="DataInit">
       <parameter name="MeshFile" type="string">
-         <value><string>/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/maill.00.med</string></value>
+         <value><string>/home/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/maill.00.med</string></value>
       </parameter>
    </datanode>
    <bloc name="Etude_Initialisation">
@@ -56,7 +56,6 @@ import HOMARD_Boundary_idl
 clt = orbmodule.client()
 CurrentStudy = clt.Resolve("/Study")
 ]]></code></script>
-         <outport name="CurrentStudy" type="Study"/>
       </inline>
       <service name="UpdateStudy">
          <component>HOMARD</component>
@@ -72,8 +71,8 @@ CurrentStudy = clt.Resolve("/Study")
 import sys
 import os
 #
-rep_calc = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
-rep_script = os.path.dirname("/scratch/D68518/Salome/HOMARD_SALOME/HOMARD_SRC/doc/files/ScriptAster.py")
+rep_calc = "/home/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+rep_script = os.path.dirname("/home/D68518/HOMARD_SVN/trunk/training/script")
 sys.path.append(rep_script)
 from ScriptAster import Script
 #
@@ -84,15 +83,15 @@ argu.append("--mesh_file="  + MeshFile)
 #
 Script_A = Script(argu)
 #
-Error, message_erreur, dico_resu = Script_A.compute ()
+Error, message_erreur, dict_resu = Script_A.compute ()
 #
-dico_resu["rep_calc"] = rep_calc
+dict_resu["rep_calc"] = rep_calc
 #
 ]]></code></script>
             <inport name="numCalc" type="int"/>
             <inport name="MeshFile" type="string"/>
             <outport name="Error" type="int"/>
-            <outport name="dico_resu" type="pyobj"/>
+            <outport name="dict_resu" type="pyobj"/>
          </inline>
          <inline name="Analyse">
             <script><code><![CDATA[
@@ -117,8 +116,8 @@ while not Error :
 #
 # Si le fichier n'a pas ete defini, on arrete :
 #
-    if ( "FileName" in dico_resu ) :
-        FileName = dico_resu["FileName"]
+    if ( "FileName" in dict_resu ) :
+        FileName = dict_resu["FileName"]
     else :
         MessInfo = "Le fichier du maillage n'a pas ete defini"
         Error = -2
@@ -126,8 +125,8 @@ while not Error :
 #
 # Si le critere est respecte, on arrete :
 #
-    if ( "V_TEST" in dico_resu ) :
-        valeur_v = dico_resu["V_TEST"]
+    if ( "V_TEST" in dict_resu ) :
+        valeur_v = dict_resu["V_TEST"]
         if NumCalc == 0 :
             resu1 = [valeur_v]
         else :
@@ -155,7 +154,7 @@ while not Error :
 ]]></code></script>
             <inport name="NumCalc" type="int"/>
             <inport name="ErrCalc" type="int"/>
-            <inport name="dico_resu" type="pyobj"/>
+            <inport name="dict_resu" type="pyobj"/>
             <outport name="Error" type="int"/>
             <outport name="NumCalcP1" type="int"/>
             <outport name="FileName" type="string"/>
@@ -210,7 +209,7 @@ MeshFile = " "
                               <script><code><![CDATA[
 import os
 # Repertoire d'adaptation
-DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/HOMARD"
+DirName = "/home/D68518/HOMARD_SVN/trunk/training/tet_aster_ther/HOMARD"
 Case.SetDirName(DirName)
 Case.SetConfType(1)
 # Iteration 0 associee
@@ -239,7 +238,7 @@ Iter0 = Case.GetIter0()
                      <script><code><![CDATA[
 import os
 # Repertoire d'execution
-DirName = "/scratch/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
+DirName = "/home/D68518/HOMARD_SVN/trunk/training/tet_aster_ther"
 MeshName = "BOX"
 #
 # Hypothese
@@ -300,7 +299,7 @@ MeshFile = os.path.join (DirName, "maill."+aux+".med")
 Iter.SetMeshFile(MeshFile)
 #
 # . Le fichier contenant les champs
-FileName = dico_resu["FileName"]
+FileName = dict_resu["FileName"]
 Iter.SetFieldFile(FileName)
 #
 # Calcul
@@ -319,7 +318,7 @@ else :
                      <inport name="NumAdapt" type="int"/>
                      <inport name="LastIter" type="HOMARD_Iteration"/>
                      <inport name="Hypo" type="HOMARD_Hypothesis"/>
-                     <inport name="dico_resu" type="pyobj"/>
+                     <inport name="dict_resu" type="pyobj"/>
                      <outport name="OK" type="bool"/>
                      <outport name="MessInfo" type="string"/>
                      <outport name="MeshFile" type="string"/>
@@ -375,12 +374,12 @@ else :
             <tonode>Analyse</tonode> <toport>ErrCalc</toport>
          </datalink>
          <datalink control="false">
-            <fromnode>Calcul</fromnode> <fromport>dico_resu</fromport>
-            <tonode>Analyse</tonode> <toport>dico_resu</toport>
+            <fromnode>Calcul</fromnode> <fromport>dict_resu</fromport>
+            <tonode>Analyse</tonode> <toport>dict_resu</toport>
          </datalink>
          <datalink control="false">
-            <fromnode>Calcul</fromnode> <fromport>dico_resu</fromport>
-            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</tonode> <toport>dico_resu</toport>
+            <fromnode>Calcul</fromnode> <fromport>dict_resu</fromport>
+            <tonode>Adaptation.p0_Adaptation_HOMARD.HOMARD_Exec</tonode> <toport>dict_resu</toport>
          </datalink>
          <datalink control="false">
             <fromnode>Adaptation.default_Arret_boucle.Arret</fromnode> <fromport>MeshFile</fromport>
@@ -398,15 +397,15 @@ else :
    </while>
    <inline name="Bilan">
       <script><code><![CDATA[
-from PyQt4 import QtGui
+from PyQt5 import QtWidgets
 import sys
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 MessageBoxTitle = "Bilan"
 if MessInfo == "" :
     MessInfo = "Le calcul est converge."
-    QtGui.QMessageBox.information(None, MessageBoxTitle, MessInfo)
+    QtWidgets.QMessageBox.information(None, MessageBoxTitle, MessInfo)
 else :
-    QtGui.QMessageBox.critical(None, MessageBoxTitle, MessInfo)
+    QtWidgets.QMessageBox.critical(None, MessageBoxTitle, MessInfo)
 ]]></code></script>
       <inport name="MessInfo" type="string"/>
    </inline>

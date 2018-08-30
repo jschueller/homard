@@ -16,7 +16,7 @@ Présentation générale
 
 On va décrire ici un schéma s'appliquant à un calcul pour lequel on cherche à stabiliser une valeur. Le calcul démarre sur un maillage initial puis HOMARD enchaîne avec une adaptation. On refait un calcul sur ce nouveau maillage et son résultat est analysé. En fonction de cette analyse, le couplage continue ou non. L'allure générale du schéma est la suivante :
 
-.. image:: ../images/yacs_01.png
+.. image:: ./images/yacs_01.png
    :align: center
    :alt: yacs - allure générale
    :width: 512
@@ -37,7 +37,7 @@ Les boîtes principales sont :
 
 DataInit
 ========
-.. image:: ../images/yacs_a_01.png
+.. image:: ./images/yacs_a_01.png
    :align: center
    :alt: DataInit
    :width: 158
@@ -46,7 +46,7 @@ DataInit
 Cette boîte est un noeud élémentaire de type PresetNode. Sa seule fonction est d'initialiser la variable MeshFile qui contient le nom du fichier du maillage initial.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 38-42
+   :lines: 37-41
 
 Etude_Initialisation
 ====================
@@ -55,28 +55,28 @@ La boîte Etude_Initialisation lance le composant HOMARD dans SALOME. C'est un b
 - StudyCreation : noeud python
 - UpdateStudy : service du composant HOMARD
 
-.. image:: ../images/yacs_b_01.png
+.. image:: ./images/yacs_b_01.png
    :align: center
    :alt: Etude_Initialisation
-   :width: 323
-   :height: 97
+   :width: 327
+   :height: 73
 
 Le noeud python StudyCreation sert à initialiser l'étude SALOME qui est fournie en sortie :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 44-62
+   :lines: 43-59
 
 Le service UpdateStudy affecte cette étude à une instance de HOMARD.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 63-68
+   :lines: 60-64
 
 
 Boucle_de_convergence
 =====================
 La boîte Boucle_de_convergence est une boucle de type WhileLoop. La condition est initialisée à 1 : le bloc interne Alternance_Calcul_HOMARD est exécuté. Au sein de ce bloc, on calcule et on adapte le maillage ; quand le processus doit s'arrêter soit par suite d'erreur, soit par convergence, la condition passe à 0. La boucle s'achève et on passe à la boîte suivante, Bilan.
 
-.. image:: ../images/yacs_c_01.png
+.. image:: ./images/yacs_c_01.png
    :align: center
    :alt: Boucle
    :width: 163
@@ -84,7 +84,7 @@ La boîte Boucle_de_convergence est une boucle de type WhileLoop. La condition e
 
 Bilan
 =====
-.. image:: ../images/yacs_d_01.png
+.. image:: ./images/yacs_d_01.png
    :align: center
    :alt: Bilan
    :width: 158
@@ -93,22 +93,22 @@ Bilan
 Cette boîte est un noeud python qui prend en entrée une chaîne de caractères, MessInfo. Si tout s'est bien passé, ce message est vide. Une fenêtre QT apparaît pour confirmer la convergence. S'il y a eu un problème, le message contient les messages émis au cours des calculs. La fenêtre QT affiche ce message.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 406-419
+   :lines: 398-411
 
 
 La boucle de calculs
 ********************
-.. image:: ../images/yacs_c_02.png
+.. image:: ./images/yacs_c_02.png
    :align: center
    :alt: Boucle
-   :width: 338
-   :height: 152
+   :width: 496
+   :height: 112
 
-Cette boîte est un bloc qui gère le calcul, l'adaptation et l'analyse.
+Cette boîte est un bloc qui gère le calcul, l'analyse et l'adaptation.
 
 Calcul
 ======
-.. image:: ../images/yacs_c_03.png
+.. image:: ./images/yacs_c_03.png
    :align: center
    :alt: Calcul
    :width: 155
@@ -117,7 +117,7 @@ Calcul
 Cette boîte est un noeud python qui va piloter le calcul. En entrée, on trouve le numéro du calcul (0 au départ) et le nom du fichier qui contient le maillage sur lequel calculer. En sortie, on trouve un entier qui représente l'erreur sur ce calcul (0 si tout va bien) et un dictionnaire python rassemblant les résultats du calcul. Le corps du noeud est constitué par le lancement d'un script python qui active le calcul.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 77-103
+   :lines: 70-90
 
 Dans cet exemple, il faut définir :
 
@@ -134,7 +134,7 @@ En revanche la sortie du script doit obéir à la règle suivante. On récupère
 
 Adaptation
 ==========
-.. image:: ../images/yacs_c_04.png
+.. image:: ./images/yacs_c_04.png
    :align: center
    :alt: Adaptation
    :width: 661
@@ -148,7 +148,7 @@ La première tâche à exécuter concerne l'initialisation des données nécessa
 
 Iter_1
 ^^^^^^
-.. image:: ../images/yacs_c_06.png
+.. image:: ./images/yacs_c_06.png
    :align: center
    :alt: Iter_1
    :width: 481
@@ -157,20 +157,20 @@ Iter_1
 Cette boîte commence par créer le cas HOMARD en appelant le service CreateCase.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 208-215
+   :lines: 200-207
 
 Le nom du cas CaseName est imposé à "Calcul". Le paramètre d'entrée MeshName est imposé à "BOX". Le paramètre d'entrée FileName est issu de la sortie du calcul précédent. Le paramètre de sortie est une instance de cas.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 443-446
+   :lines: 435-438
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 483-486
+   :lines: 475-478
 
 Les options de ce cas doivent maintenant être renseignées. C'est fait par le noeud python CaseOptions. Il est impératif de renseigner le répertoire de calcul. On regardera la description des fonctions dans :doc:`tui_create_case`. En sortie, on récupère l'instance de l'itération correspondant à l'état initial du cas.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 216-228
+   :lines: 208-220
 
 Enfin, une hypothèse est créée en appelant le service CreateHypothese. Le paramètre de sortie est une instance d'hypothèse.
 
@@ -178,7 +178,7 @@ Homard_Exec
 ^^^^^^^^^^^
 Une fois initialisée, l'adaptation peut être calculée. C'est le but de la boîte Homard_Exec, sous forme d'un script python.
 
-.. image:: ../images/yacs_c_09.png
+.. image:: ./images/yacs_c_09.png
    :align: center
    :alt: Homard_Exec
    :width: 153
@@ -187,38 +187,38 @@ Une fois initialisée, l'adaptation peut être calculée. C'est le but de la bo�
 Le répertoire de calcul est récupéré. Le nom du maillage est rappelé.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 245-250
+   :lines: 237-242
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 325-333
+   :lines: 317-325
 
 L'hypothèse transmise en paramètre d'entrée est caractérisée (voir :doc:`tui_create_hypothese`) :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 254-278
+   :lines: 246-270
 
 Il faut établir un nom pour la future itération. Pour s'assurer que le nom n'a jamais été utilisé, on met en place un mécanisme de nommage incrémental à partir du nom de l'itération initiale. Comme ce nom initial est le nom du maillage initial, on obtient une succession de noms sous la forme : M_001, M_002, M_003, etc.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 280-290
+   :lines: 272-282
 
 L'itération est complétée : hypothèse, futur maillage, champ (voir :doc:`tui_create_iteration`) :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 292-311
+   :lines: 284-303
 
 L'itération est calculée. Si tout s'est bien passé, la variable OK vaut 1 : on pourra continuer l'exécution du schéma. S'il y a eu un problème, la variable OK vaut 0 pour signifier que le calcul doit s'arrêter ; on donne alors un message d'erreur.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 313-324
+   :lines: 305-316
 
 Après cette exécution, le processus sort du noeud Adaptation_HOMARD, puis du noeud Adaptation. On arrive alors au noeud d'analyse.
 
 Iter_n
 ^^^^^^
-.. image:: ../images/yacs_c_07.png
+.. image:: ./images/yacs_c_07.png
    :align: center
    :alt: Iter_n
    :width: 323
@@ -233,7 +233,7 @@ On passe ensuite dans le noeud Homard_Exec pour calculer le nouveau maillage.
 
 Arret_boucle
 ------------
-.. image:: ../images/yacs_c_08.png
+.. image:: ./images/yacs_c_08.png
    :align: center
    :alt: Arret_boucle
    :width: 163
@@ -242,11 +242,11 @@ Arret_boucle
 Le bloc Arret_boucle n'est présent que pour faire transiter des variables car les paramètres d'entrée des noeuds doivent toujours être remplis. C'est un python très simple :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 173-184
+   :lines: 165-176
 
 Analyse
 =======
-.. image:: ../images/yacs_c_05.png
+.. image:: ./images/yacs_c_05.png
    :align: center
    :alt: Analyse
    :width: 156
@@ -255,32 +255,32 @@ Analyse
 Le bloc Analyse est un script python qui assure le contrôle complet du processus en examinant successivement les causes d'erreur possible.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 104-116
+   :lines: 96-108
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 162-170
+   :lines: 154-162
 
 On commence par analyser le retour du code de calcul :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 118-123
+   :lines: 110-115
 
 Vérification de la présence du nom du fichier de résultats dans le dictionnaire des résultats :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 125-132
+   :lines: 117-124
 
 Vérification de la convergence. Cela suppose que la valeur à tester est présente dans le dictionnaire sous la clé 'V_TEST'. Ici, on a mis en place un test sur la variation de la valeur d'un calcul à l'autre. Au premier passage, on ne teste rien. Aux passages suivants, on teste si la variation relative est inférieure à 1 millième. On aurait pu mettre en place un test absolu si on avait récupéré un niveau global d'erreur par exemple.
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 134-152
+   :lines: 126-146
 
 Enfin, on vérifie que l'on ne dépasse pas un nombre maximal d'adaptations :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
-   :lines: 154-159
+   :lines: 146-151
 
 
 Utiliser ce schéma
