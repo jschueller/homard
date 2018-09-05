@@ -53,20 +53,18 @@ import HOMARD_Zone_idl
 import HOMARD_Boundary_idl
 
 clt = orbmodule.client()
-StudyManager = clt.Resolve("/myStudyManager")
-CurrentStudy = StudyManager.GetStudyByID(1)
+CurrentStudy = clt.Resolve("/Study")
 ]]></code></script>
          <load container="DefaultContainer"/>
          <outport name="CurrentStudy" type="Study"/>
       </inline>
-      <service name="SetCurrentStudy">
+      <service name="UpdateStudy">
          <component>HOMARD</component>
          <load container="DefaultContainer"/>
-         <method>SetCurrentStudy</method>
-         <inport name="theStudy" type="Study"/>
+         <method>UpdateStudy</method>
       </service>
       <service name="CreateBoundarycyl_1_int">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateBoundaryCylinder</method>
          <inport name="BoundaryName" type="string"/>
          <inport name="Xcentre" type="double"/>
@@ -79,7 +77,7 @@ CurrentStudy = StudyManager.GetStudyByID(1)
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateBoundarycyl_1_ext">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateBoundaryCylinder</method>
          <inport name="BoundaryName" type="string"/>
          <inport name="Xcentre" type="double"/>
@@ -92,7 +90,7 @@ CurrentStudy = StudyManager.GetStudyByID(1)
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateBoundarycyl_2_int">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateBoundaryCylinder</method>
          <inport name="BoundaryName" type="string"/>
          <inport name="Xcentre" type="double"/>
@@ -105,13 +103,13 @@ CurrentStudy = StudyManager.GetStudyByID(1)
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateHypothesis_1">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateHypothesis</method>
          <inport name="HypoName" type="string"/>
          <outport name="return" type="HOMARD_Hypothesis"/>
       </service>
       <service name="CreateCase">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateCase</method>
          <inport name="CaseName" type="string"/>
          <inport name="MeshName" type="string"/>
@@ -153,7 +151,7 @@ Iter0 = Case.GetIter0()
          <outport name="Iter0" type="HOMARD_Iteration"/>
       </inline>
       <service name="CreateBoundarycyl_2_ext">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateBoundaryCylinder</method>
          <inport name="BoundaryName" type="string"/>
          <inport name="Xcentre" type="double"/>
@@ -166,7 +164,7 @@ Iter0 = Case.GetIter0()
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateBoundaryintersection">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateBoundaryDi</method>
          <inport name="BoundaryName" type="string"/>
          <inport name="MeshName" type="string"/>
@@ -174,7 +172,7 @@ Iter0 = Case.GetIter0()
          <outport name="return" type="HOMARD_Boundary"/>
       </service>
       <service name="CreateHypothesis_2">
-         <node>Etude_Initialisation.SetCurrentStudy</node>
+         <node>Etude_Initialisation.UpdateStudy</node>
          <method>CreateHypothesis</method>
          <inport name="HypoName" type="string"/>
          <outport name="return" type="HOMARD_Hypothesis"/>
@@ -190,8 +188,8 @@ Hypo.AddGroup('T2_EXT')
          <load container="DefaultContainer"/>
          <inport name="Hypo" type="HOMARD_Hypothesis"/>
       </inline>
-      <control> <fromnode>StudyCreation</fromnode> <tonode>SetCurrentStudy</tonode> </control>
-      <control> <fromnode>SetCurrentStudy</fromnode> <tonode>CreateBoundarycyl_1_int</tonode> </control>
+      <control> <fromnode>StudyCreation</fromnode> <tonode>UpdateStudy</tonode> </control>
+      <control> <fromnode>UpdateStudy</fromnode> <tonode>CreateBoundarycyl_1_int</tonode> </control>
       <control> <fromnode>CreateBoundarycyl_1_int</fromnode> <tonode>CreateBoundarycyl_1_ext</tonode> </control>
       <control> <fromnode>CreateBoundarycyl_1_ext</fromnode> <tonode>CreateBoundarycyl_2_int</tonode> </control>
       <control> <fromnode>CreateBoundarycyl_2_int</fromnode> <tonode>CreateBoundarycyl_2_ext</tonode> </control>
@@ -204,7 +202,7 @@ Hypo.AddGroup('T2_EXT')
       <control> <fromnode>CreateHypothesis_2</fromnode> <tonode>Hypo_Options_2</tonode> </control>
       <datalink control="false">
          <fromnode>StudyCreation</fromnode> <fromport>CurrentStudy</fromport>
-         <tonode>SetCurrentStudy</tonode> <toport>theStudy</toport>
+         <tonode>UpdateStudy</tonode> <toport>theStudy</toport>
       </datalink>
       <datalink control="false">
          <fromnode>CreateHypothesis_1</fromnode> <fromport>return</fromport>
@@ -330,12 +328,12 @@ FileName = os.path.join(data_dir, "tutorial_4.00.med")
 #
 # Maillage de la frontiere
 # . Nom du maillage
-BMeshName = "PIQUAGE"
+BMeshName = "COURBES"
 # . Fichier du maillage
 BFileName = os.path.join(data_dir, "tutorial_6.fr.med")
 #
-# RÃ©pertoire de travail
-if os.environ.has_key("LOGNAME") :
+# Repertoire de travail
+if "LOGNAME" in os.environ :
   user = os.environ ["LOGNAME"]
 else :
   user = "anonymous"
@@ -644,7 +642,7 @@ else :
    <presentation name="Etude_Initialisation.CreateCase" x="4" y="348.5" width="158" height="117" expanded="1" expx="4" expy="348.5" expWidth="158" expHeight="117" shownState="0"/>
    <presentation name="Etude_Initialisation.CreateBoundarycyl_1_int" x="4" y="96" width="158" height="252" expanded="1" expx="4" expy="96" expWidth="158" expHeight="252" shownState="0"/>
    <presentation name="ForLoop.HOMARD_2" x="7" y="62" width="158" height="171" expanded="1" expx="7" expy="62" expWidth="158" expHeight="171" shownState="0"/>
-   <presentation name="Etude_Initialisation.SetCurrentStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
+   <presentation name="Etude_Initialisation.UpdateStudy" x="163" y="32" width="158" height="63" expanded="1" expx="163" expy="32" expWidth="158" expHeight="63" shownState="0"/>
    <presentation name="Etude_Initialisation.StudyCreation" x="4" y="32" width="158" height="63" expanded="1" expx="4" expy="32" expWidth="158" expHeight="63" shownState="0"/>
    <presentation name="ForLoop" x="163" y="738.933" width="169" height="237" expanded="1" expx="163" expy="738.933" expWidth="169" expHeight="237" shownState="0"/>
    <presentation name="Etude_Initialisation" x="4" y="204" width="800.5" height="533.933" expanded="1" expx="4" expy="204" expWidth="800.5" expHeight="533.933" shownState="0"/>

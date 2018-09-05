@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V4.04"
+__revision__ = "V4.05"
 
 #========================================================================
 TEST_NAME = "test_3"
@@ -62,7 +62,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.UpdateStudy()
+  #  HOMARD.UpdateStudy()
   #
   # Creation of the boundaries
   # ==========================

@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_4
 """
-__revision__ = "V3.03"
+__revision__ = "V3.04"
 
 #========================================================================
 TEST_NAME = "test_4"
@@ -184,7 +184,7 @@ Python script for HOMARD
 #
   while not error :
   #
-    HOMARD.UpdateStudy()
+  #  HOMARD.UpdateStudy()
   #
   # Creation of the zones
   # =====================

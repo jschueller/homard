@@ -22,7 +22,7 @@
 Python script for HOMARD
 Test test_6
 """
-__revision__ = "V1.05"
+__revision__ = "V1.06"
 
 #========================================================================
 TEST_NAME = "test_6"
@@ -217,7 +217,7 @@ Python script for HOMARD
 #
   while not erreur :
     #
-    HOMARD.UpdateStudy()
+    #HOMARD.UpdateStudy()
     #
     # Frontière
     # =========

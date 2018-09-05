@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_2 associe au tutorial 2
 """
-__revision__ = "V4.04"
+__revision__ = "V4.05"
 
 #========================================================================
 TEST_NAME = "tutorial_2"
@@ -30,8 +30,6 @@ N_ITER_TEST_FILE = 2
 #========================================================================
 import os
 import sys
-import HOMARD
-import salome
 #
 # ==================================
 PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
@@ -52,8 +50,11 @@ from tutorial_util import gzip_gunzip
 # ==================================
 gzip_gunzip(DATA_TUTORIAL, 2, -1)
 # ==================================
-
+#
+import salome
 salome.salome_init()
+import HOMARD
+#
 import iparameters
 IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 IPAR.append("AP_MODULES_LIST", "Homard")
@@ -70,7 +71,7 @@ Python script for HOMARD
   #
   while not erreur :
     #
-    HOMARD.UpdateStudy()
+  #  HOMARD.UpdateStudy()
     #
     # Creation des zones
     # ==================
