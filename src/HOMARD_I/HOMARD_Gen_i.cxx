@@ -4357,7 +4357,7 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
   MESSAGE("XMLFile_base ="<<XMLFile_base);
 
   // G. Lecture du schema de reference et insertion des données propres au fil de la rencontre des mots-cles
-  YACSDriver* myDriver = new YACSDriver(XMLFile, DirName);
+  YACSDriver* myDriver = new YACSDriver(XMLFile, DirName, _LangueShort);
   std::ifstream fichier( XMLFile_base.c_str() );
   if ( fichier ) // ce test échoue si le fichier n'est pas ouvert
   {
@@ -4385,7 +4385,10 @@ CORBA::Long HOMARD_Gen_i::YACSWriteOnFile(const char* nomYACS, const char* XMLFi
       else if ( mot_cle == "HOMARD_Exec_MeshName" )
       {
         myDriver->Texte_HOMARD_Exec_MeshName(MeshName);
-        std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase" ;
+        std::string node ;
+        if ( _LangueShort == "fr" ) { node = "Boucle_de_convergence.Alternance_Calcul_HOMARD" ; }
+        else                        { node = "Convergence_Loop.Alternation_Computation_HOMARD" ; }
+        node += ".Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1.CreateCase" ;
         myDriver->TexteParametre( node, "MeshName", "string", MeshName ) ;
       }
       // G.1.7. Execution de HOMARD : les options de l'hypothese

@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test test_2
 """
-__revision__ = "V4.04"
+__revision__ = "V4.05"
 
 #========================================================================
 TEST_NAME = "test_2"
@@ -144,7 +144,7 @@ Python script for HOMARD
     scriptfile = os.path.normpath(scriptfile)
     dirname = DIRCASE
     yacs_test_2 = case_test_2.CreateYACSSchema("YACS_test_2", scriptfile, dirname, mesh_file)
-    yacs_test_2.SetMaxIter(4)
+    yacs_test_2.SetMaxIter(N_ITER_TEST_FILE+1)
     yacs_test_2.SetType(1)
     filexml = os.path.join(DIRCASE, 'yacs_test_2.xml')
     error = yacs_test_2.WriteOnFile(filexml)

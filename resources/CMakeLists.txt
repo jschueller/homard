@@ -68,6 +68,8 @@ SET(HOMARD_RESOURCES_FILES
   whatis.png
   write.png
   yacs.png
+  yacs_01.fr.xml
+  yacs_01.en.xml
   zone_boxdxyz.png
   zone_boxdxyz_2.png
   zone_icone.png
