@@ -21,13 +21,13 @@
 Python script for HOMARD
 Test test_3
 """
-__revision__ = "V4.05"
+__revision__ = "V4.06"
 
 #========================================================================
 TEST_NAME = "test_3"
 DEBUG = False
-N_BOUCLE = 2
 N_ITER_TEST_FILE = 2
+N_BOUCLE = 2
 #========================================================================
 import os
 import sys
@@ -144,7 +144,7 @@ Python script for HOMARD
       print("-------- Creation of the schema", yacsname)
       yacs_test_3 = case_test_3.CreateYACSSchema(yacsname, scriptfile, dirname, mesh_file)
       yacs_test_3.SetType(2)
-      yacs_test_3.SetMaxIter(2)
+      yacs_test_3.SetMaxIter(N_ITER_TEST_FILE)
       error = yacs_test_3.Write()
       if error :
         error = 10*num + 5
