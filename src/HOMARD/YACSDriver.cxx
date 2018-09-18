@@ -34,16 +34,18 @@
 
 //=============================================================================
 //=============================================================================
-YACSDriver::YACSDriver(const std::string XMLFile, const std::string DirName):
+YACSDriver::YACSDriver(const std::string XMLFile, const std::string DirName, const std::string LangueShort):
   _XMLFile( "" ), _DirName( "" ),
   _Texte( "" ),
   _Texte_parametres( "" ),
   _noeud_1( "CreateCase" ),
+  _LangueShort( "" ),
   _bLu( false )
 {
   MESSAGE("XMLFile = "<<XMLFile<<", DirName ="<<DirName);
   _XMLFile = XMLFile;
   _DirName = DirName;
+  _LangueShort = LangueShort;
 }
 //=============================================================================
 //=============================================================================
@@ -119,15 +121,23 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
 //
 // 1. Le nom du noeud
   std::string noeud_2 = methode + "_" + ZoneName ;
-  std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
+  std::string node ;
+  if ( _LangueShort == "fr" ) { node = "Boucle_de_convergence.Alternance_Calcul_HOMARD" ; }
+  else                        { node = "Convergence_Loop.Alternation_Computation_HOMARD" ; }
+  node += ".Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
 // 2. Texte de controle : le noeud precedent est _noeud_1, le noeud courant noeud_2.
 //                        A la fin, on bascule le courant dans le precedent
   std::string texte_control = Texte_control (_noeud_1, noeud_2, 1) ;
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
+  std::string motcle ;
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
-  _Texte += "                              <node>Etude_Initialisation.SetCurrentStudy</node>\n" ;
+  INFOS("_LangueShort = "<<_LangueShort );
+  if ( _LangueShort == "fr" ) { motcle = "Etude_Initialisation" ; }
+  else                        { motcle = "Study_Initialisation" ; }
+  INFOS("motcle = "<<motcle );
+  _Texte += "                              <node>" + motcle + ".UpdateStudy</node>\n" ;
   _Texte += "                              <method>" + methode + "</method>\n" ;
 // 4. Les inports
 // 4.1. Le nom de la zone
@@ -163,7 +173,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
 // La derniere valeur est toujours mise dans x8
   x8 = GetStringInTexte ( ligne, ")", 0 ) ;
   MESSAGE("coor = "<< x0<<","<<x1<< ","<< x2<< ","<< x3<<","<<x4<<","<<x5<<","<<x6<<","<<x7<<","<<x8);
-// 4.2. Cas du parallelepipede (2)
+// 4.2.2. Cas du parallelepipede (2)
   if ( ZoneType == 2 )
   {
     _Texte += Texte_inport( "double", "Xmini" ) ;
@@ -180,7 +190,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
     TexteParametre( node, "Zmaxi", "double", x8 ) ;
   }
 //
-// 4.2. Cas du rectangle (11, 12, 13)
+// 4.2.3. Cas du rectangle (11, 12, 13)
   else if ( ( ZoneType > 10 ) && ( ZoneType < 14 ) )
   {
     _Texte += Texte_inport( "double", "Umini" ) ;
@@ -195,7 +205,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
     TexteParametre( node, "Orient", "int", x8 ) ;
   }
 //
-// 4.2. Cas du disque (31, 32, 33) ou du disque perce (61, 62, 63)
+// 4.2.4. Cas du disque (31, 32, 33) ou du disque perce (61, 62, 63)
   else if ( ( ( ZoneType > 30 ) && ( ZoneType < 34 ) ) || ( ( ZoneType > 60 ) && ( ZoneType < 64 ) ) )
   {
     _Texte += Texte_inport( "double", "Ucentre" ) ;
@@ -213,7 +223,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
     TexteParametre( node, "Orient", "int", x8 ) ;
   }
 //
-// 4.2. Cas de la sphere (4)
+// 4.2.5. Cas de la sphere (4)
   else if ( ZoneType == 4 )
   {
     _Texte += Texte_inport( "double", "Xcentre" ) ;
@@ -226,7 +236,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
     TexteParametre( node, "Radius", "double", x8 ) ;
   }
 //
-// 4.2. Cas du cylindre (5) ou du tuyau (7)
+// 4.2.6. Cas du cylindre (5) ou du tuyau (7)
   else if ( ZoneType == 5 || ZoneType == 7 )
   {
     _Texte += Texte_inport( "double", "Xcentre" ) ;
@@ -256,7 +266,7 @@ std::string YACSDriver::Texte_Iter_1_Zone( int ZoneType, const std::string pytho
     }
   }
 //
-// 4.2. Erreur
+// 4.2.7. Erreur
   else
   { VERIFICATION("Type de zone inconnu." == 0); }
 
@@ -285,15 +295,21 @@ std::string YACSDriver::Texte_Iter_1_Boundary( int BoundaryType, const std::stri
 //
 // 1. Le nom du noeud
   std::string noeud_2 = methode + "_" + BoundaryName ;
-  std::string node = "Boucle_de_convergence.Alternance_Calcul_HOMARD.Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
+  std::string node ;
+  if ( _LangueShort == "fr" ) { node = "Boucle_de_convergence.Alternance_Calcul_HOMARD" ; }
+  else                        { node = "Convergence_Loop.Alternation_Computation_HOMARD" ; }
+  node += ".Adaptation.p0_Adaptation_HOMARD.HOMARD_Initialisation.p1_Iter_1." ;
   node += noeud_2 ;
 // 2. Texte de controle : le noeud precedent est _noeud_1, le noeud courant noeud_2.
 //                        A la fin, on bascule le courant dans le precedent
   std::string texte_control = Texte_control (_noeud_1, noeud_2, 1) ;
   _noeud_1 = noeud_2 ;
 // 3. Definition du service
+  std::string motcle ;
   _Texte += "                           <service name=\"" + noeud_2 + "\">\n" ;
-  _Texte += "                              <node>Etude_Initialisation.SetCurrentStudy</node>\n" ;
+  if ( _LangueShort == "fr" ) { motcle = "Etude_Initialisation" ; }
+  else                        { motcle = "Study_Initialisation" ; }
+  _Texte += "                              <node>" + motcle + ".UpdateStudy</node>\n" ;
   _Texte += "                              <method>" + methode + "</method>\n" ;
 // 4. Les inports
 //    ATTENTION : les noms doivent etre les memes que dans Gen.xml, donc HOMARD_Gen.idl

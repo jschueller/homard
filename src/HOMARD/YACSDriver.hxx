@@ -30,7 +30,7 @@
 class HOMARDIMPL_EXPORT YACSDriver
 {
 public:
-  YACSDriver(const std::string XMLFile, const std::string DirName) ;
+  YACSDriver(const std::string XMLFile, const std::string DirName, const std::string LangueShort) ;
   ~YACSDriver() ;
   //
   void        TexteAdd( const std::string ligne ) ;
@@ -58,6 +58,7 @@ public:
   std::string _Texte ;
   std::string _Texte_parametres ;
   std::string _noeud_1 ;
+  std::string _LangueShort ;
   bool _bLu;
 
 private :
