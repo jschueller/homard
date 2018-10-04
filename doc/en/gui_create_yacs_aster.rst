@@ -27,11 +27,13 @@ To get back the test value ``V_TEST``, the script fetches in the file ``resu`` a
 For that purpose, the best way consists in placing the test value in an entitled table ``V_TEST``, for example after an extraction from a result:
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 53-59
 
 Then print this table for the two parameters ``INTITULE`` and component:
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 63-64
 
 To drive the adaptation
@@ -41,6 +43,7 @@ If the adaptation is driven by a field, it will be necessary to write this field
 For example :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 68-78
 
 The script

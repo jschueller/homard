@@ -302,7 +302,7 @@ Iter.SetMeshFile(MeshFile)
 FileName = dict_resu["FileName"]
 Iter.SetFieldFile(FileName)
 #
-# Computationation
+# Computation
 # ===========
 Error = Iter.Compute(1,1)
 #

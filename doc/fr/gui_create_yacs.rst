@@ -110,21 +110,25 @@ Ces tests sont réalisés dans le noeud python "Analyse" du schéma, comme décr
 Le nombre maximal d'itérations est modifiable par la variable `NbCalcMax` :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 112-112
 
 La valeur de test est stockée dans une liste au fur et à mesure des passages :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 137-141
 
 et le test a lieu à partir du deuxième passage :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 143-148
 
 Si on veut remplacer ce test par un autre, c'est ici qu'il faut le faire. Il faut simplement conserver le contenu produit à la convergence pour assurer la bonne marche de la suite du schéma :
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 146-148
 
 Exemples

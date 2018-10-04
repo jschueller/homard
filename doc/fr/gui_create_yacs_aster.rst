@@ -27,11 +27,13 @@ Pour récupérer la valeur de test ``V_TEST``, le script va chercher dans le fic
 Pour cela, la meilleure façon consiste à placer la valeur à tester dans une table intitulée ``V_TEST``, par exemple après une extraction depuis un résultat :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 53-59
 
 puis à imprimer cette table en se limitant aux deux paramètres ``INTITULE`` et composante retenue :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 63-64
 
 Le pilotage de l'adaptation
@@ -41,6 +43,7 @@ Si on souhaite piloter l'adaptation par un champ, il faudra écrire ce champ dan
 Par exemple :
 
 .. literalinclude:: ../files/yacs_aster_01.comm
+   :language: python
    :lines: 68-78
 
 Le script

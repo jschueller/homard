@@ -109,21 +109,25 @@ These tests ares done into the node "Analyse" of the schema, as described in :do
 The maximal number of iterations is given by the variable `NbCalcMax`:
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 112-112
 
 The value for the test is saved in a list all along the calculations:
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 137-141
 
 and the test is calculated after the second iteration:
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 143-148
 
 If this test is modified, it must be done here. But the instructions when it is converged must be kept to guarantee a good execution:
 
 .. literalinclude:: ../files/yacs_01.fr.xml
+   :language: xml
    :lines: 146-148
 
 Examples
