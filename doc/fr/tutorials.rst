@@ -36,6 +36,7 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
   * le maillage produit porte toujours le même nom. Cela ne pose pas de problème car il est stocké dans des fichiers différents.
 
 .. literalinclude:: ../files/tutorial_1.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 
@@ -54,6 +55,7 @@ Raffinement par des zones
 On procède ici au raffinement selon des zones. Pour passer du maillage initial au maillage 'M_1', on utilise une boîte encadrant le plan z=1 et une sphère centrée sur l'origine de rayon 1.05. Puis pour passer du maillage 'M_1' au maillage 'M_2', on remplace la sphère par une boîte encadrant le cube de côté 0.5, pointant sur l'origine et on déraffine les mailles contenues dans la toute première zone.
 
 .. literalinclude:: ../files/tutorial_2.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 
@@ -73,6 +75,7 @@ On procède ici au raffinement selon un champ. Les hypothèses servent à défin
 Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont appliquées. Dans la première, Iter_2, le champ est un champ scalaire d'indicateurs d'erreur et on découpe les 1.5% de mailles où l'erreur est la plus grande. Dans la seconde variante, Iter_2_bis, on se base sur un champ vectoriel et on examine le saut de ce vecteur entre une maille et ses voisines : on découpera là où la norme infinie de ce saut est supérieure au seuil absolu de 0.0001.
 
 .. literalinclude:: ../files/tutorial_3.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 
@@ -96,6 +99,7 @@ Le pilotage du raffinement est le suivant : raffinement uniforme de toutes les m
 Le schéma YACS réalisant cette adaptation est téléchargeable.
 
 .. literalinclude:: ../files/tutorial_4.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 
@@ -112,6 +116,7 @@ Si la géométrie sous forme de CAO n'est pas disponible, on peut l'approcher ai
 des frontières analytiques pour décrire les différentes surfaces des tuyaux et une frontière discrète pour décrire les lignes d'intersection des deux tuyaux. Il suffit de remplacer la définition des frontières.
 
 .. literalinclude:: ../files/tutorial_6.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 
@@ -133,6 +138,7 @@ Les instructions pour adapter un maillage 2D sont exactement identiques à celle
 Dans le cas présenté ici, on raffine une première fois toutes les mailles contenues dans un disque percé, puis dans une seconde itération, toutes les mailles contenues dans un rectangle. On notera l'utilisation du suivi des frontières circulaires du domaine.
 
 .. literalinclude:: ../files/tutorial_5.py
+   :language: python
    :start-after: Début des commandes
    :end-before: Fin des commandes
 

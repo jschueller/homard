@@ -46,6 +46,7 @@ DataInit
 This box is type PresetNode's elementary node. Its only function is to initialize the variable MeshFile that contains the name of the file of the initial mesh.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 37-41
 
 Study_Initialisation
@@ -64,11 +65,13 @@ The box Study_Initialisation launches the component HOMARD inside SALOME. It is 
 The python node StudyCreation initialize the SALOME study that is given through the output:
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 43-59
 
 The service UpdateStudy connects this study to an instance of HOMARD.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 60-64
 
 
@@ -93,6 +96,7 @@ Results
 This box is a node python that takes in input a character string, MessInfo. If everything passed well, this message is empty. A window QT appears to confirm the convergence. If there was a problem, the message contains messages emitted during the calculations. The window QT shows this message.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 398-411
 
 
@@ -117,6 +121,7 @@ Computation
 This box is a node python that is going to drive the calculation. In input, we find the number of the calculation (0 at first) and the name of the file which contains the mesh on which to calculate. In output, we find an integer which represents the error on this calculation (0 so everything goes well) and a dictionary python gathering the results of the calculation. The body of the node is established by the launch of a script python that activates the calculation.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 70-90
 
 In this example, we must define:
@@ -157,19 +162,23 @@ Iter_1
 This box begins by creating the case HOMARD by calling the CreateCase service.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 200-207
 
 The name of the case CaseName is imposed on "Computation". The name of the case MeshName is imposed on "BOX". The parameters of input FileName arise from the output of the previous calculation. The parameter of output is an instance of case.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 435-438
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 475-478
 
 The options of this case must be now given. It is made by the node python CaseOptions. It is imperative to give the directory of calculation. We shall look at the description of the functions in :doc:`tui_create_case`. In output, we get back the instance of the iteration corresponding to the initial state of the case.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 208-220
 
 Finally, a hypothesis is created by calling the CreateHypothese service. The parameter of output is an instance of hypothese.
@@ -187,31 +196,37 @@ Once initialized, the adaptation can be calculated. It is the goal of the Homard
 The directory of calculation is recovered. The name of the mesh is given.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 237-242
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 317-325
 
 The hypothesis transmitted in input parameter characterized (look :doc:`tui_create_hypothese`) :
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 246-270
 
 It is necessary to establish a name for the future iteration. To make sure that the name was never used, one installs a mechanism of incremental naming starting from the name of the initial iteration. As this initial name is the name of the initial mesh, one obtains a succession of names in the form: M_001, M_002, M_003, etc
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 272-282
 
 The iteration is supplemented : hypothesis, future mesh, field (look :doc:`tui_create_iteration`) :
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 284-303
 
 The iteration is calculated. If it were correct, variable OK equals 1: one will be able to continue the execution of the scheme. If there were a problem, variable OK equals 0 to mean that calculation must stop; an error message then is given.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 305-316
 
 After this execution, the process leaves the Adaptation_HOMARD node, then Adaptation node. One arrives then at the node of analysis.
@@ -242,6 +257,7 @@ Loop_Stop
 The Loop_Stop block is present to only make forward variables because the input parameters of the nodes must always be filled. It is a very simple python:
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 165-176
 
 Analysis
@@ -255,31 +271,37 @@ Analysis
 The Analysis block is a script python which ensures the complete control of the process by examining the causes of possible error successively.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 96-108
 
 ../..
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 154-162
 
 One starts by analyzing the return of the computer code:
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 110-115
 
 Checking of the presence of the name of the result file in the dictionary of the results:
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 117-124
 
 Checking of convergence. That supposes that the value to be tested is present in the dictionary under the key 'V_TEST'. Here, one set up a test on the variation of the value of one calculation at the other. With the first passage, nothing is tested. In the following passing, one tests if the relative variation is lower than 1 thousandths. One could have set up an absolute test if one had recovered a total level of error for example.
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 126-146
 
 Lastly, it is checked that a maximum nomber of adaptations is not exceeded:
 
 .. literalinclude:: ../files/yacs_01.en.xml
+   :language: xml
    :lines: 146-151
 
 

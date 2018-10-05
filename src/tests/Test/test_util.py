@@ -21,7 +21,7 @@
 Python script for HOMARD
 Utilitaires pour les tests
 """
-__revision__ = "V4.03"
+__revision__ = "V4.04"
 
 import os
 import tempfile
@@ -46,7 +46,7 @@ Copyright EDF 2018
       remove_dir(dircase)
     os.mkdir(dircase)
   else :
-    dircase = tempfile.mkdtemp(prefix=test_name)
+    dircase = tempfile.mkdtemp(prefix=test_name+"_")
 #
   return rep_data, dircase
 #
