@@ -5,12 +5,12 @@ ANALYSE DU MAILLAGE
 
      Maillage apres adaptation                         
      MZERO                                                                           
-     Date de creation : jeudi 3 avril 2014 a 13 h 25 mn 10 s            
+     Date de creation : lundi 1 octobre 2018 a 16 h 30 mn 23 s          
      Dimension : 3
      Degre : 2
      C'est un maillage obtenu apres      2 adaptations.
-     Le niveau minimum actif est   :     1
-     Le niveau maximum atteint est :     2
+     Le niveau minimum actif est :     0.5
+     Le niveau maximum actif est :     2
 
          Direction    |       Unite       |  Minimum   |  Maximum
      ---------------------------------------------------------------
