@@ -270,7 +270,7 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
   return nomMaillage;
 }
 // =======================================================================
-QString HOMARD_QT_COMMUN::LireNomMaillage(int medIdt ,int meshId)
+QString HOMARD_QT_COMMUN::LireNomMaillage2(med_idt medIdt ,int meshId)
 // =======================================================================
 {
   QString NomMaillage=QString::null;
