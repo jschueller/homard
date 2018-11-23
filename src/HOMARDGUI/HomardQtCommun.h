@@ -25,6 +25,7 @@
 #include <SALOMEconfig.h>
 #include "SALOME_Selection.h"
 #include <SalomeApp_Module.h>
+
 #include <med.h>
 
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)

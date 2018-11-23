@@ -261,7 +261,7 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
       break ;
     }
 
-    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
+    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage2(medIdt,1);
     break ;
   }
   // Fermeture du fichier
