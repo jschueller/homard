@@ -216,7 +216,7 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir, QString TypeFichier)
   return aFile;
 }
 // =======================================================================
-int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
+med_idt HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 // =======================================================================
 // renvoie le medId associe au fichier Med apres ouverture
 {
@@ -226,7 +226,7 @@ int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_MED_FILE_1") );
   }
-  return (int) medIdt;
+  return medIdt;
 }
 
 // ======================================================

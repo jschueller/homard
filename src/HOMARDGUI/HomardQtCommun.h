@@ -25,6 +25,7 @@
 #include <SALOMEconfig.h>
 #include "SALOME_Selection.h"
 #include <SalomeApp_Module.h>
+#include <med.h>
 
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
 #include CORBA_CLIENT_HEADER(HOMARD_Gen)
@@ -40,10 +41,10 @@ class QComboBox;
 namespace HOMARD_QT_COMMUN
 {
     HOMARD_EXPORT QString PushNomFichier(bool avertir, QString TypeFichier="");
-    HOMARD_EXPORT QString LireNomMaillage(int Medidt,int MeshId);
     HOMARD_EXPORT QString LireNomMaillage(QString aFile);
+    HOMARD_EXPORT QString LireNomMaillage2(med_idt Medidt,int MeshId);
 
-    HOMARD_EXPORT int     OuvrirFichier(QString aFile);
+    HOMARD_EXPORT med_idt OuvrirFichier(QString aFile);
 
     HOMARD_EXPORT std::list<QString> GetListeChamps(QString aFile);
     HOMARD_EXPORT std::list<QString> GetListeComposants(QString aFile, QString aChamp);
