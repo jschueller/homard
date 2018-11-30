@@ -216,7 +216,7 @@ QString HOMARD_QT_COMMUN::PushNomFichier(bool avertir, QString TypeFichier)
   return aFile;
 }
 // =======================================================================
-int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
+med_idt HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
 // =======================================================================
 // renvoie le medId associe au fichier Med apres ouverture
 {
@@ -226,7 +226,7 @@ int HOMARD_QT_COMMUN::OuvrirFichier(QString aFile)
     QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
                               QObject::tr("HOM_MED_FILE_1") );
   }
-  return (int) medIdt;
+  return medIdt;
 }
 
 // ======================================================
@@ -261,7 +261,7 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
       break ;
     }
 
-    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage(medIdt,1);
+    nomMaillage = HOMARD_QT_COMMUN::LireNomMaillage2(medIdt,1);
     break ;
   }
   // Fermeture du fichier
@@ -270,7 +270,7 @@ QString HOMARD_QT_COMMUN::LireNomMaillage(QString aFile)
   return nomMaillage;
 }
 // =======================================================================
-QString HOMARD_QT_COMMUN::LireNomMaillage(int medIdt ,int meshId)
+QString HOMARD_QT_COMMUN::LireNomMaillage2(med_idt medIdt ,int meshId)
 // =======================================================================
 {
   QString NomMaillage=QString::null;
