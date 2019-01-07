@@ -212,6 +212,10 @@
       <translation>型 %1 のオブジェクトを選択します。</translation>
     </message>
     <message>
+      <source>HOM_SELECT_OBJECT_4</source>
+      <translation>The name of the object is already selected. Modify it or cancel.</translation>
+    </message>
+    <message>
       <source>HOM_SELECT_FILE_0</source>
       <translation>ファイル選択</translation>
     </message>
