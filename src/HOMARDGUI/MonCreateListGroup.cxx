@@ -107,9 +107,12 @@ bool MonCreateListGroup::PushOnApply()
 void MonCreateListGroup::PushOnOK()
 // ------------------------------------------------------------------------
 {
-     if (PushOnApply()) this->close();
-     if ( _parentHyp )   { _parentHyp->raise(); _parentHyp->activateWindow(); };
-     if ( _parentBound ) { _parentBound->raise(); _parentBound->activateWindow(); };
+    if (PushOnApply())
+    {
+      this->close();
+      if ( _parentHyp )   { _parentHyp->raise(); _parentHyp->activateWindow(); };
+      if ( _parentBound ) { _parentBound->raise(); _parentBound->activateWindow(); };
+    }
 }
 // ------------------------------------------------------------------------
 void MonCreateListGroup::PushOnHelp()

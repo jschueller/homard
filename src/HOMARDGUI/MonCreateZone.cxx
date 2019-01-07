@@ -469,6 +469,9 @@ bool MonCreateZone::PushOnApply()
       return false;
     }
   }
+//
+// Création ou mise à jour de la zone
+//
   bool bOK = CreateOrUpdateZone() ;
 
   if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
@@ -477,11 +480,12 @@ bool MonCreateZone::PushOnApply()
 
 }
 // ---------------------------------------------------
-bool MonCreateZone:: CreateOrUpdateZone()
+bool MonCreateZone::CreateOrUpdateZone()
 //----------------------------------------------------
 //  Creation de la zone
 {
-  MESSAGE("CreateOrUpdateZone _Type ="<<_Type);
+  MESSAGE("Debut de CreateOrUpdateZone avec _Type ="<<_Type<<", _Name ="<<_Name.toStdString().c_str()<<" et LEName ="<<LEName->text().trimmed().toStdString().c_str());
+//
   if (_Name != LEName->text().trimmed())
   {
     _Name = LEName->text().trimmed() ;
@@ -489,17 +493,17 @@ bool MonCreateZone:: CreateOrUpdateZone()
     {
       switch (_Type)
       {
-        case 11 : // il s agit d un rectangle
+        case 11 : // il s agit d un rectangle, dans le plan (X,Y)
         { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXmin, _ZoneXmax, _ZoneYmin, _ZoneYmax, _Orient );
           break;
         }
-        case 12 : // il s agit d un rectangle
+        case 12 : // il s agit d un rectangle, dans le plan (Y,Z)
         { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneYmin, _ZoneYmax, _ZoneZmin, _ZoneZmax, _Orient );
           break;
         }
-        case 13 : // il s agit d un rectangle
+        case 13 : // il s agit d un rectangle, dans le plan (Z,X)
         { aZone = myHomardGen->CreateZoneBox2D(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneZmin, _ZoneZmax, _ZoneXmin, _ZoneXmax, _Orient );
           break;
@@ -514,17 +518,17 @@ bool MonCreateZone:: CreateOrUpdateZone()
           _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon );
           break;
         }
-        case 31 : // il s agit d un disque issu d'un cylindre
+        case 31 : // il s agit d un disque issu d'un cylindre, dans le plan (X,Y)
         { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _Orient );
           break;
           }
-        case 32 : // il s agit d un disque issu d'un cylindre
+        case 32 : // il s agit d un disque issu d'un cylindre, dans le plan (Y,Z)
         { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _Orient );
           break;
         }
-        case 33 : // il s agit d un disque issu d'un cylindre
+        case 33 : // il s agit d un disque issu d'un cylindre, dans le plan (Z,X)
         { aZone = myHomardGen->CreateZoneDisk(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _Orient );
           break;
@@ -534,26 +538,26 @@ bool MonCreateZone:: CreateOrUpdateZone()
           _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut );
           break;
         }
-        case 61 : // il s agit d un disque avec trou
+        case 61 : // il s agit d un disque avec trou, dans le plan (X,Y)
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
-        case 62 : // il s agit d un disque avec trou
+        }
+        case 62 : // il s agit d un disque avec trou, dans le plan (Y,Z)
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
-        case 63 : // il s agit d un disque avec trou
+        }
+        case 63 : // il s agit d un disque avec trou, dans le plan (Z,X)
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
+        }
         case 7 : // il s agit d un tuyau
         { aZone = myHomardGen->CreateZonePipe(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
           break;
-          }
+        }
       }
     }
     catch( SALOME::SALOME_Exception& S_ex )
@@ -568,13 +572,18 @@ bool MonCreateZone:: CreateOrUpdateZone()
 
     return true;
   }
-  else { return false ; }
+  else {
+    QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                             QObject::tr("HOM_SELECT_OBJECT_4") );
+    return false ;
+  }
+  MESSAGE("Fin de CreateOrUpdateZone");
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::PushOnOK()
 // ------------------------------------------------------------------------
 {
-     if (PushOnApply()) this->close() ;
+    if (PushOnApply()) this->close() ;
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::PushOnHelp()
@@ -588,6 +597,7 @@ void MonCreateZone::PushOnHelp()
 void MonCreateZone::SetNewName()
 // -----------------------------------
 {
+  MESSAGE("SetNewName");
 // Recherche d'un nom par defaut qui n'existe pas encore
 
   HOMARD::listeZones_var  MyObjects = myHomardGen->GetAllZonesName() ;
@@ -607,11 +617,13 @@ void MonCreateZone::SetNewName()
    }
   }
   LEName->setText(aName);
+  MESSAGE("SetNewName aName ="<<aName.toStdString().c_str());
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetBox()
 // ------------------------------------------------------------------------
 {
+  MESSAGE("Debut de SetBox")
   gBBox->setVisible(1) ;
   gBSphere->setVisible(0) ;
   gBCylindre->setVisible(0) ;
@@ -629,6 +641,7 @@ void MonCreateZone::SetBox()
   if ( _Zincr > 0 ) { SpinBox_Zmini->setValue(_Zcentre-10*_Zincr) ;
                       SpinBox_Zmaxi->setValue(_Zcentre+10*_Zincr) ; }
   else { _Type=11 ; }
+  MESSAGE("Fin de SetBox")
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetSphere()

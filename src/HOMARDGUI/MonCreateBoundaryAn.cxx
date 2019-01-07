@@ -38,6 +38,7 @@
 #define PI 3.141592653589793
 
 using namespace std;
+
 // ------------------------------------------------------------------------------------------------------------------------
 MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
                              HOMARD::HOMARD_Gen_var myHomardGen0,
@@ -49,7 +50,7 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent, bool modal,
 */
     QDialog(0), Ui_CreateBoundaryAn(),
     _parent(parent),
-    _aName (""),
+    _Name (""),
     _aCaseName(caseName),
     _Xmin(0), _Xmax(0), _Xincr(0), _Ymin(0), _Ymax(0), _Yincr(0), _Zmin(0), _Zmax(0), _Zincr(0), _DMax(0),
     _Type(1),
@@ -109,7 +110,7 @@ MonCreateBoundaryAn::MonCreateBoundaryAn(MonCreateCase* parent,
     QDialog(0), Ui_CreateBoundaryAn(),
      myHomardGen(myHomardGen0),
     _parent(parent),
-    _aName (""),
+    _Name (""),
     _aCaseName(caseName),
     _Type(1),
     _BoundaryAnXcentre(0), _BoundaryAnYcentre(0), _BoundaryAnZcentre(0), _BoundaryAnRayon(0),
@@ -417,6 +418,22 @@ bool MonCreateBoundaryAn::PushOnApply()
 
  }
 
+// Controles
+// L'axe pour un cylindre
+  if ( _Type == 5 )
+  {
+    double daux = _BoundaryAnXaxis*_BoundaryAnXaxis + _BoundaryAnYaxis*_BoundaryAnYaxis + _BoundaryAnZaxis*_BoundaryAnZaxis ;
+    if ( daux < 0.0000001 )
+    {
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr("HOM_AXE") );
+      return false;
+    }
+  }
+
+//
+// Création ou mise à jour de la frontière
+//
   bool bOK = CreateOrUpdateBoundaryAn();
 
   if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
@@ -425,94 +442,64 @@ bool MonCreateBoundaryAn::PushOnApply()
 
 }
 // ---------------------------------------------------
-bool MonCreateBoundaryAn:: CreateOrUpdateBoundaryAn()
+bool MonCreateBoundaryAn::CreateOrUpdateBoundaryAn()
 //----------------------------------------------------
 //  Creation de l'objet boundary
 {
-  _aName = LEName->text().trimmed();
-  switch (_Type)
+  MESSAGE("Debut de CreateOrUpdateBoundaryAn avec _Type ="<<_Type<<", _Name ="<<_Name.toStdString().c_str()<<" et LEName ="<<LEName->text().trimmed().toStdString().c_str());
+//
+  if (_Name != LEName->text().trimmed())
   {
-    case 1 : // il s agit d un cylindre
+    _Name = LEName->text().trimmed() ;
+    try
     {
-      try
+      switch (_Type)
       {
-        aBoundaryAn = myHomardGen->CreateBoundaryCylinder(CORBA::string_dup(_aName.toStdString().c_str()), \
-        _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis, _BoundaryAnRayon );
+        case 1 : // il s agit d un cylindre
+        { aBoundaryAn = myHomardGen->CreateBoundaryCylinder(CORBA::string_dup(_Name.toStdString().c_str()), \
+            _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnXaxis, _BoundaryAnYaxis, _BoundaryAnZaxis, _BoundaryAnRayon );
+          break;
+        }
+        case 2 : // il s agit d une sphere
+        { aBoundaryAn = myHomardGen->CreateBoundarySphere(CORBA::string_dup(_Name.toStdString().c_str()), \
+            _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon);
+          break;
+       }
+        case 3 : // il s agit d un cone defini par un axe et un angle
+        { aBoundaryAn = myHomardGen->CreateBoundaryConeA(CORBA::string_dup(_Name.toStdString().c_str()), \
+            _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone, _BoundaryAngle, \
+            _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnYorigCone);
+          break;
+        }
+        case 4 : // il s agit d un cone defini par les 2 rayons
+        { aBoundaryAn = myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_Name.toStdString().c_str()), \
+            _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1, \
+            _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2);
+          break;
+        }
+        case 5 : // il s agit d un tore
+        { aBoundaryAn = myHomardGen->CreateBoundaryTorus(CORBA::string_dup(_Name.toStdString().c_str()), \
+            _BoundaryAnToreXcentre, _BoundaryAnToreYcentre, _BoundaryAnToreZcentre, _BoundaryAnToreXaxe, _BoundaryAnToreYaxe, _BoundaryAnToreZaxe, _BoundaryAnToreRRev, _BoundaryAnToreRPri );
+          break;
+        }
       }
-      catch( SALOME::SALOME_Exception& S_ex )
-      {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-        return false ;
-      }
-      break;
     }
-    case 2 : // il s agit d une sphere
+    catch( SALOME::SALOME_Exception& S_ex )
     {
-      try
-      {
-        aBoundaryAn = myHomardGen->CreateBoundarySphere(CORBA::string_dup(_aName.toStdString().c_str()), \
-        _BoundaryAnXcentre, _BoundaryAnYcentre, _BoundaryAnZcentre, _BoundaryAnRayon);
-      }
-      catch( SALOME::SALOME_Exception& S_ex )
-      {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-        return false ;
-      }
-      break;
+      QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
+                                QObject::tr(CORBA::string_dup(S_ex.details.text)) );
+      return false ;
     }
-    case 3 : // il s agit d un cone defini par un axe et un angle
-    {
-      try
-      {
-        aBoundaryAn = myHomardGen->CreateBoundaryConeA(CORBA::string_dup(_aName.toStdString().c_str()), \
-        _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone, _BoundaryAngle, \
-        _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnYorigCone);
-      }
-      catch( SALOME::SALOME_Exception& S_ex )
-      {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-        return false ;
-      }
-      break;
-    }
-    case 4 : // il s agit d un cone defini par les 2 rayons
-    {
-      try
-      {
-        aBoundaryAn = myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_aName.toStdString().c_str()), \
-        _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1, \
-        _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2);
-      }
-      catch( SALOME::SALOME_Exception& S_ex )
-      {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-        return false ;
-      }
-      break;
-    }
-   case 5 : // il s agit d un tore
-    {
-      try
-      {
-        aBoundaryAn = myHomardGen->CreateBoundaryTorus(CORBA::string_dup(_aName.toStdString().c_str()), \
-        _BoundaryAnToreXcentre, _BoundaryAnToreYcentre, _BoundaryAnToreZcentre, _BoundaryAnToreXaxe, _BoundaryAnToreYaxe, _BoundaryAnToreZaxe, _BoundaryAnToreRRev, _BoundaryAnToreRPri );
-      }
-      catch( SALOME::SALOME_Exception& S_ex )
-      {
-        QMessageBox::critical( 0, QObject::tr("HOM_ERROR"),
-                                  QObject::tr(CORBA::string_dup(S_ex.details.text)) );
-        return false ;
-     }
-      break;
-    }
-  }
-  _parent->AddBoundaryAn(_aName);
+    _parent->AddBoundaryAn(_Name);
 
-  return true;
+    return true;
+  }
+  else {
+    QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
+                             QObject::tr("HOM_SELECT_OBJECT_4") );
+    return false ;
+  }
+  MESSAGE("Fin de CreateOrUpdateBoundaryAn");
 }
 // ------------------------------------------------------------------------
 void MonCreateBoundaryAn::PushOnOK()

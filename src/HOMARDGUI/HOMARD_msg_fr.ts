@@ -212,6 +212,10 @@
         <translation>Sélectionner un objet de type %1.</translation>
     </message>
     <message>
+        <source>HOM_SELECT_OBJECT_4</source>
+        <translation>Le nom est déjà choisi. Modifiez le ou annulez la saisie.</translation>
+    </message>
+    <message>
         <source>HOM_SELECT_FILE_0</source>
         <translation>Choix de fichier</translation>
     </message>

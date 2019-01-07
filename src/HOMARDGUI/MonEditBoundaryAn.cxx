@@ -37,8 +37,8 @@ MonEditBoundaryAn::MonEditBoundaryAn( MonCreateCase* parent, bool modal,
 {
     MESSAGE("Debut de MonEditBoundaryAn pour " << Name.toStdString().c_str());
     setWindowTitle(QObject::tr("HOM_BOUN_A_EDIT_WINDOW_TITLE"));
-    _aName=Name;
-    aBoundaryAn = myHomardGen->GetBoundary(_aName.toStdString().c_str());
+    _Name=Name;
+    aBoundaryAn = myHomardGen->GetBoundary(_Name.toStdString().c_str());
     InitValEdit();
 }
 // ------------------------------------------------------------------------
@@ -51,7 +51,7 @@ MonEditBoundaryAn::~MonEditBoundaryAn()
 void MonEditBoundaryAn::InitValEdit()
 // ------------------------------------------------------------------------
 {
-  LEName->setText(_aName);
+  LEName->setText(_Name);
   LEName->setReadOnly(true);
   _Type = aBoundaryAn->GetType();
   MESSAGE("_Type : "<<_Type);
@@ -374,14 +374,14 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
     }
     case 3 : // il s agit d un cone defini par un axe et un angle
     {
-      aBoundaryAn = myHomardGen->CreateBoundaryConeA(CORBA::string_dup(_aName.toStdString().c_str()), \
+      aBoundaryAn = myHomardGen->CreateBoundaryConeA(CORBA::string_dup(_Name.toStdString().c_str()), \
       _BoundaryAnXaxisCone, _BoundaryAnYaxisCone, _BoundaryAnZaxisCone, _BoundaryAngle, \
       _BoundaryAnXorigCone, _BoundaryAnYorigCone, _BoundaryAnYorigCone);
       break;
     }
     case 4 : // il s agit d un cone defini par les 2 rayons
     {
-      aBoundaryAn = myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_aName.toStdString().c_str()), \
+      aBoundaryAn = myHomardGen->CreateBoundaryConeR(CORBA::string_dup(_Name.toStdString().c_str()), \
         _BoundaryAnXcone1, _BoundaryAnYcone1, _BoundaryAnZcone1, _BoundaryAnRayon1, \
         _BoundaryAnXcone2, _BoundaryAnYcone2, _BoundaryAnZcone2, _BoundaryAnRayon2);
       break;
@@ -392,7 +392,7 @@ bool MonEditBoundaryAn::CreateOrUpdateBoundaryAn()
       break;
     }
   }
-  if (Chgt) myHomardGen->InvalideBoundary(_aName.toStdString().c_str());
+  if (Chgt) myHomardGen->InvalideBoundary(_Name.toStdString().c_str());
   HOMARD_UTILS::updateObjBrowser();
   return true;
 }
