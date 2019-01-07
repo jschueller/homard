@@ -469,6 +469,9 @@ bool MonCreateZone::PushOnApply()
       return false;
     }
   }
+//
+// Création ou mise à jour de la zone
+//
   bool bOK = CreateOrUpdateZone() ;
 
   if ( bOK ) { HOMARD_UTILS::updateObjBrowser() ; }
@@ -477,11 +480,12 @@ bool MonCreateZone::PushOnApply()
 
 }
 // ---------------------------------------------------
-bool MonCreateZone:: CreateOrUpdateZone()
+bool MonCreateZone::CreateOrUpdateZone()
 //----------------------------------------------------
 //  Creation de la zone
 {
   MESSAGE("Debut de CreateOrUpdateZone avec _Type ="<<_Type<<", _Name ="<<_Name.toStdString().c_str()<<" et LEName ="<<LEName->text().trimmed().toStdString().c_str());
+//
   if (_Name != LEName->text().trimmed())
   {
     _Name = LEName->text().trimmed() ;
@@ -538,22 +542,22 @@ bool MonCreateZone:: CreateOrUpdateZone()
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXcentre, _ZoneYcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
+        }
         case 62 : // il s agit d un disque avec trou, dans le plan (Y,Z)
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneYcentre, _ZoneZcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
+        }
         case 63 : // il s agit d un disque avec trou, dans le plan (Z,X)
         { aZone = myHomardGen->CreateZoneDiskWithHole(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneZcentre, _ZoneXcentre, _ZoneRayon, _ZoneRayonInt, _Orient );
           break;
-          }
+        }
         case 7 : // il s agit d un tuyau
         { aZone = myHomardGen->CreateZonePipe(CORBA::string_dup(_Name.toStdString().c_str()), \
           _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayon, _ZoneHaut, _ZoneRayonInt );
           break;
-          }
+        }
       }
     }
     catch( SALOME::SALOME_Exception& S_ex )

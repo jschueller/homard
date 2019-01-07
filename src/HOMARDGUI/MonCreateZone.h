@@ -55,8 +55,8 @@ protected :
     int _Orient;
     int _Type;
     double _Xcentre, _Ycentre, _Zcentre, _Rayon ;
-    double _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon ;
     double _Xmin, _Xmax, _Xincr, _Ymin, _Ymax, _Yincr, _Zmin, _Zmax, _Zincr ;
+    double _ZoneXcentre, _ZoneYcentre, _ZoneZcentre, _ZoneRayon ;
     double _ZoneXmin, _ZoneXmax,  _ZoneYmin, _ZoneYmax,  _ZoneZmin, _ZoneZmax ;
     double _Xaxis, _Yaxis, _Zaxis, _RayonInt, _Haut ;
     double _ZoneXaxis, _ZoneYaxis, _ZoneZaxis, _ZoneRayonInt, _ZoneHaut ;
