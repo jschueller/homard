@@ -44,9 +44,9 @@ One will make here three successive uniform refinements of the mesh contained in
 .. note::
   Download the files
 
-  * :download:`initial mesh<../files/tutorial_1.00.med.gz>`
+  * :download:`initial mesh<../files/tutorial_1.00.med>`
   * :download:`python script<../files/tutorial_1.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
 
 
 
@@ -64,9 +64,9 @@ One proceeds here to refinement according to zones. To pass from the initial mes
 .. note::
   Download the files
 
-  * :download:`initial mesh<../files/tutorial_2.00.med.gz>`
+  * :download:`initial mesh<../files/tutorial_2.00.med>`
   * :download:`python script<../files/tutorial_2.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
 
 
 Refinement driven by a field
@@ -84,10 +84,10 @@ To adapt the H_1 mesh resulting from the Iter_1 iteration, two alternatives are 
 .. note::
   Download the files
 
-  * :download:`mesh and field stage 0<../files/tutorial_3.00.med.gz>`
-  * :download:`mesh and field stage 1<../files/tutorial_3.01.med.gz>`
+  * :download:`mesh and field stage 0<../files/tutorial_3.00.med>`
+  * :download:`mesh and field stage 1<../files/tutorial_3.01.med>`
   * :download:`python script<../files/tutorial_3.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
 
 
 Non plane boundaries
@@ -108,10 +108,10 @@ Scheme YACS carrying out this adaptation is downloadable.
 .. note::
   Téléchargement des fichiers
 
-  * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
-  * :download:`CAO<../files/tutorial_4.xao.gz>`
+  * :download:`initial mesh<../files/tutorial_4.00.med>`
+  * :download:`CAO<../files/tutorial_4.xao>`
   * :download:`python scrip<../files/tutorial_4.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
   * :download:`YACS scheme<../files/tutorial_4.xml>`
 
 If the CAO is not available, the boundaries can be approximated: analytical borders to describe various surfaces of the pipes and a discrete border to describe the intersecting lines of the two pipes. Only the definition of the boundaries has to be modified.
@@ -123,10 +123,10 @@ If the CAO is not available, the boundaries can be approximated: analytical bord
 .. note::
   Download the files
 
-  * :download:`initial mesh<../files/tutorial_4.00.med.gz>`
-  * :download:`mesh of the discrete boundary<../files/tutorial_6.fr.med.gz>`
+  * :download:`initial mesh<../files/tutorial_4.00.med>`
+  * :download:`mesh of the discrete boundary<../files/tutorial_6.fr.med>`
   * :download:`python script<../files/tutorial_6.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
   * :download:`YACS scheme<../files/tutorial_6.xml>`
 
 
@@ -145,10 +145,10 @@ In the case presented here, one for the first time refines all the elements cont
 .. note::
   Download the files
 
-  * :download:`initial mesh<../files/tutorial_5.00.med.gz>`
-  * :download:`mesh of the discrete boundary<../files/tutorial_5.fr.med.gz>`
+  * :download:`initial mesh<../files/tutorial_5.00.med>`
+  * :download:`mesh of the discrete boundary<../files/tutorial_5.fr.med>`
   * :download:`python script<../files/tutorial_5.py>`
-  * :download:`python script for the compression<../files/tutorial_util.py>`
+  * :download:`python script for the creation of the test directory<../files/tutorial_util.py>`
 
 
 .. toctree::

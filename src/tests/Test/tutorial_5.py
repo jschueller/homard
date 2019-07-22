@@ -23,7 +23,7 @@
 Python script for HOMARD
 Test tutorial_5 associe au tutorial 5
 """
-__revision__ = "V4.05"
+__revision__ = "V4.06"
 
 #========================================================================
 TEST_NAME = "tutorial_5"
@@ -46,11 +46,6 @@ from test_util import test_results
 # Répertoires pour ce test
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
-# ==================================
-sys.path.append(DATA_TUTORIAL)
-from tutorial_util import gzip_gunzip
-# ==================================
-gzip_gunzip(DATA_TUTORIAL, 5, -1)
 # ==================================
 #
 import salome
@@ -182,9 +177,6 @@ while not ERREUR :
 if ERREUR:
   raise Exception(MESSAGE)
 #
-# ==================================
-gzip_gunzip(DATA_TUTORIAL, 5, 1)
-# ==================================
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser()

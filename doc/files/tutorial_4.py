@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2011-2019  CEA/DEN, EDF R&D
+# Copyright (C) 2011-2016  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,9 +22,9 @@
 
 """
 Exemple de couplage HOMARD-Salome
-Copyright EDF 1996, 2011, 2018
+Copyright EDF 1996, 2011, 2019
 """
-__revision__ = "V4.3"
+__revision__ = "V4.04"
 #
 import os
 import sys
@@ -35,11 +35,9 @@ PATH_HOMARD = os.getenv("HOMARD_ROOT_DIR")
 DATA_TUTORIAL = os.path.join(PATH_HOMARD, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
 DATA_TUTORIAL = os.path.normpath(DATA_TUTORIAL)
 sys.path.append(DATA_TUTORIAL)
-from tutorial_util import gzip_gunzip
 from tutorial_util import creation_dircase
 # ==================================
 DIRCASE = creation_dircase(4)
-gzip_gunzip(DATA_TUTORIAL, 4, -1)
 # ==================================
 #
 import salome
@@ -99,9 +97,5 @@ erreur = iter_4_3.Compute(1, 2)
 #
 #============================== Fin des commandes ==============================
 #
-# ==================================
-gzip_gunzip(DATA_TUTORIAL, 4, 1)
-# ==================================
-
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser()

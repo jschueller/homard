@@ -43,9 +43,9 @@ On fera ici trois raffinements uniformes successifs du maillage contenu dans le 
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage initial<../files/tutorial_1.00.med.gz>`
+  * :download:`maillage initial<../files/tutorial_1.00.med>`
   * :download:`commandes python<../files/tutorial_1.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
 
 
 Raffinement par des zones
@@ -62,9 +62,9 @@ On procède ici au raffinement selon des zones. Pour passer du maillage initial 
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage initial<../files/tutorial_2.00.med.gz>`
+  * :download:`maillage initial<../files/tutorial_2.00.med>`
   * :download:`commandes python<../files/tutorial_2.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
 
 
 Raffinement selon un champ
@@ -82,10 +82,10 @@ Pour adapter le maillage H_1 issu de l'itération Iter_1, deux variantes sont ap
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage et champ étape 0<../files/tutorial_3.00.med.gz>`
-  * :download:`maillage et champ étape 1<../files/tutorial_3.01.med.gz>`
+  * :download:`maillage et champ étape 0<../files/tutorial_3.00.med>`
+  * :download:`maillage et champ étape 1<../files/tutorial_3.01.med>`
   * :download:`commandes python<../files/tutorial_3.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
 
 
 Suivi de frontières courbes
@@ -106,10 +106,10 @@ Le schéma YACS réalisant cette adaptation est téléchargeable.
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
-  * :download:`la frontière en CAO<../files/tutorial_4.xao.gz>`
+  * :download:`maillage initial<../files/tutorial_4.00.med>`
+  * :download:`la frontière en CAO<../files/tutorial_4.xao>`
   * :download:`commandes python<../files/tutorial_4.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
   * :download:`schéma YACS<../files/tutorial_4.xml>`
 
 Si la géométrie sous forme de CAO n'est pas disponible, on peut l'approcher ainsi :
@@ -123,10 +123,10 @@ des frontières analytiques pour décrire les différentes surfaces des tuyaux e
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage initial<../files/tutorial_4.00.med.gz>`
-  * :download:`maillage de la frontière discrète<../files/tutorial_6.fr.med.gz>`
+  * :download:`maillage initial<../files/tutorial_4.00.med>`
+  * :download:`maillage de la frontière discrète<../files/tutorial_6.fr.med>`
   * :download:`commandes python<../files/tutorial_6.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
   * :download:`schéma YACS<../files/tutorial_6.xml>`
 
 
@@ -145,10 +145,10 @@ Dans le cas présenté ici, on raffine une première fois toutes les mailles con
 .. note::
   Téléchargement des fichiers
 
-  * :download:`maillage initial<../files/tutorial_5.00.med.gz>`
-  * :download:`maillage de la frontière discrète<../files/tutorial_5.fr.med.gz>`
+  * :download:`maillage initial<../files/tutorial_5.00.med>`
+  * :download:`maillage de la frontière discrète<../files/tutorial_5.fr.med>`
   * :download:`commandes python<../files/tutorial_5.py>`
-  * :download:`commandes python de l'utilitaire de compression<../files/tutorial_util.py>`
+  * :download:`commandes python de l'utilitaire de création du répertoire de test<../files/tutorial_util.py>`
 
 
 .. toctree::
