@@ -21,7 +21,6 @@
 # additional include directories
 INCLUDE_DIRECTORIES(
   ${OpenCASCADE_INCLUDE_DIR}
-  ${Boost_INCLUDE_DIRS}
   ${GEOM_INCLUDE_DIRS}
   ${MEDFILE_INCLUDE_DIRS}
   ${MEDCOUPLING_INCLUDE_DIRS}
@@ -31,7 +30,6 @@ INCLUDE_DIRECTORIES(
 # additional preprocessor / compiler flags
 ADD_DEFINITIONS(
   ${OpenCASCADE_DEFINITIONS}
-  ${BOOST_DEFINITIONS}
 )
 
 IF(FRONTTRACK_USE_TBB)
@@ -46,7 +44,6 @@ SET(_link_LIBRARIES
   ${GEOM_XAO}
   ${MEDCoupling_medloader}
   ${TBB_LIBS}
-  ${Boost_LIBRARIES}
 )
 
 # --- headers ---
