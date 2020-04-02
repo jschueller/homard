@@ -9,7 +9,6 @@
 </path-prefix-list>
 
 <type-list>
-  <objref name="Study"  id="IDL:SALOMEDS/Study:1.0" />
   <objref name="HOMARD_Gen"  id="IDL:HOMARD/HOMARD_Gen:1.0" />
   <objref name="HOMARD_Cas" id="IDL:HOMARD/HOMARD_Cas:1.0"/>
   <objref name="HOMARD_Iteration" id="IDL:HOMARD/HOMARD_Iteration:1.0"/>
