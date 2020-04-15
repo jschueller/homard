@@ -190,13 +190,7 @@ Controle les arguments et stockage de quelques informations
 #
 # 1.2. Le repertoire de calcul
 #
-      if "HOME" in os.environ :
-        HOME = os.environ ["HOME"]
-      else :
-        HOME = "/local/home/salome"
-#
-      if ( self.rep_calc[:1] == "~" ) :
-        self.rep_calc = os.path.join(HOME, self.rep_calc[2:])
+      self.rep_calc = os.path.expanduser(self.rep_calc)
       if not os.path.isdir(self.rep_calc) :
         self.message_info += "Repertoire " + self.rep_calc
         erreur = -4
@@ -209,8 +203,7 @@ Controle les arguments et stockage de quelques informations
 #
       fic = self.mesh_file
 #
-      if ( fic[:1] == "~" ) :
-        fic = os.path.join(HOME, fic[2:])
+      fic = os.path.expanduser(fic)
       if not os.path.isfile(fic) :
         aux = os.path.join(self.rep_calc, fic)
         if not os.path.isfile(aux) :

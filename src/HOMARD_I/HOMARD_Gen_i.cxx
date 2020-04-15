@@ -36,6 +36,7 @@
 
 #include "utilities.h"
 #include "Basics_Utils.hxx"
+#include "Basics_DirUtils.hxx"
 #include "Utils_SINGLETON.hxx"
 #include "Utils_CorbaException.hxx"
 #include "SALOMEDS_Tool.hxx"
@@ -5260,7 +5261,7 @@ void HOMARD_Gen_i::SetPreferences( )
   if ( ok )
   {
     std::string PrefFile ;
-    PrefFile  = getenv("HOME") ;
+    PrefFile  = Kernel_Utils::HomePath() ;
     PrefFile += "/.config/salome/SalomeApprc." + salome_version ;
     MESSAGE ( "PrefFile = "<<PrefFile ) ;
 
