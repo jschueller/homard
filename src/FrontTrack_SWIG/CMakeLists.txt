@@ -31,7 +31,12 @@ INCLUDE_DIRECTORIES(
   ${CMAKE_CURRENT_SOURCE_DIR}/../FrontTrack
   )
 
-SWIG_ADD_MODULE(FrontTrack python FrontTrack.i)
+IF(${CMAKE_VERSION} VERSION_LESS "3.8.0")
+  SWIG_ADD_MODULE(FrontTrack python FrontTrack.i)
+ELSE()
+  SWIG_ADD_LIBRARY(FrontTrack LANGUAGE python SOURCES FrontTrack.i)
+ENDIF()
+
 SWIG_LINK_LIBRARIES(FrontTrack ${PYTHON_LIBRARIES} ${PLATFORM_LIBS} FrontTrack)
 
 IF(WIN32)
