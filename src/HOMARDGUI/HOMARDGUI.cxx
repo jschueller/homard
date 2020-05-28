@@ -281,9 +281,14 @@ void HOMARDGUI::recupPreferences()
 // B. Les valeurs
 // B.1. La langue
 //
+  SUIT_ResourceMgr* resMgr0 = getApp()->resourceMgr();
+  QString lang = resMgr0->stringValue( resMgr0->langSection(), "language", "en" );
+  INFOS ("Récupération de lang = " << lang.toStdString().c_str() );
   defaut_s = homardGen->GetLanguageShort();
+  INFOS ("Récupération de defaut_s = " << defaut_s.c_str() );
   SUIT_ResourceMgr* resMgr = getApp()->resourceMgr();
   _LanguageShort = resMgr->stringValue("language", "language", QString(defaut_s.c_str()) );
+  INFOS ("Récupération de LanguageShort = " << _LanguageShort.toStdString().c_str() );
 //
 // B.2. Les publications
   bool publish_mesh ;
