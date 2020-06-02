@@ -95,6 +95,7 @@ HOMARD_Gen_i::HOMARD_Gen_i( CORBA::ORB_ptr orb,
                             const char *interfaceName) :
 Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
 {
+  INFOS("constructor de HOMARD_Gen_i");
   MESSAGE("constructor");
   _thisObj = this;
   _id = _poa->activate_object(_thisObj);

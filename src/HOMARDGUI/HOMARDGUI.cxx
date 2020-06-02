@@ -268,7 +268,7 @@ void HOMARDGUI::createMenus()
 //================================================
 void HOMARDGUI::recupPreferences()
 {
-  MESSAGE("recupPreferences")
+  INFOS("recupPreferences")
 //
 // A. Declarations
 //
@@ -331,10 +331,10 @@ void HOMARDGUI::recupPreferences()
 //
 // C. Enregistrement dans l'objet general
 //
-  MESSAGE ("Enregistrement de LanguageShort = " << _LanguageShort.toStdString().c_str() );
-  MESSAGE ("Enregistrement de PublisMeshIN = " << _PublisMeshIN<<", PublisMeshOUT = "<< _PublisMeshOUT);
-  MESSAGE ("Enregistrement de YACSMaxIter = " << _YACSMaxIter<<", YACSMaxNode = "<< _YACSMaxNode<<", YACSMaxElem = "<< _YACSMaxElem);
-  MESSAGE ("Enregistrement de YACSTypeTest = " << _YACSTypeTest);
+  INFOS ("Enregistrement de LanguageShort = " << _LanguageShort.toStdString().c_str() );
+  INFOS ("Enregistrement de PublisMeshIN = " << _PublisMeshIN<<", PublisMeshOUT = "<< _PublisMeshOUT);
+  INFOS ("Enregistrement de YACSMaxIter = " << _YACSMaxIter<<", YACSMaxNode = "<< _YACSMaxNode<<", YACSMaxElem = "<< _YACSMaxElem);
+  INFOS ("Enregistrement de YACSTypeTest = " << _YACSTypeTest);
 //
   homardGen->SetLanguageShort(_LanguageShort.toStdString().c_str());
   homardGen->SetPublisMesh(_PublisMeshIN, _PublisMeshOUT);
