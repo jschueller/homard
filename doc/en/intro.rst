@@ -125,14 +125,14 @@ This, in turn, creates 4 new tetrahedrons. It should be noted that they are simi
    :width: 229
    :height: 116
 
-Hexaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces. Edges are created connecting each centre of opposite faces. This generates a new point located at the centre of the hexahedron.
+Hexahedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces. Edges are created connecting each centre of opposite faces. This generates a new point located at the centre of the hexahedron.
 
 .. image:: ../images/dec_hex.png
    :align: center
    :alt: Découpage standard d'un hexaèdre
    :width: 600
 
-Pentaedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces and the two triangles are split into 4. Edges are created connecting each centre of quadrangular faces. Those 3 edges create 4 triangles at the centre of the pentaedron. Six quandrangular faces are created to complete the construction of the height pentaedrons.
+Pentahedrons are split in eight. Each of the quadrangular faces is split into 4 quadrangular faces and the two triangles are split into 4. Edges are created connecting each centre of quadrangular faces. Those 3 edges create 4 triangles at the centre of the pentahedron. Six quandrangular faces are created to complete the construction of the height pentahedrons.
 
 .. image:: ../images/dec.pent.png
    :align: center
@@ -265,14 +265,14 @@ Some examples of use cases can be found on the site of `HOMARD <http://www.code-
 +---------------------------------------------------------------+
 | .. image:: ../images/intro_5.png                              |
 |    :align: center                                             |
-|    :alt: Hexaedron and non conformal adaptation               |
+|    :alt: Hexahedron and non conformal adaptation              |
 +---------------------------------------------------------------+
 | .. image:: ../images/intro_6.png                              |
 |    :alt: Tetrahedron                                          |
 |    :align: center                                             |
 +---------------------------------------------------------------+
 | .. image:: ../images/intro_7.png                              |
-|    :alt: Hexaedron and conformal adaptation                   |
+|    :alt: Hexahedron and conformal adaptation                  |
 |    :align: center                                             |
 +---------------------------------------------------------------+
 | .. image:: ../images/intro_8.gif                              |
