@@ -45,8 +45,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>844</width>
-     <height>1646</height>
+     <width>846</width>
+     <height>1648</height>
     </rect>
    </property>
    <property name="sizeGripEnabled" stdset="0">
@@ -779,13 +779,6 @@
             <widget class="QPushButton" name="PBZoneEdit">
              <property name="text">
               <string>Edit</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="PBZoneDelete">
-             <property name="text">
-              <string/>
              </property>
             </widget>
            </item>

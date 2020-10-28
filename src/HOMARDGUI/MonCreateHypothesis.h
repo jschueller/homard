@@ -119,7 +119,6 @@ public slots:
     virtual void SetUseField();
     virtual void PushZoneNew();
     virtual void PushZoneEdit();
-    virtual void PushZoneDelete();
     virtual void SetFiltrage();
     virtual void SetFieldNo();
     virtual void SetFieldAll();

@@ -116,7 +116,6 @@ void MonCreateHypothesis::InitConnect()
     connect( CBJump,       SIGNAL(stateChanged(int)), this, SLOT(SetUseField()));
     connect( PBZoneNew,    SIGNAL(pressed()), this, SLOT(PushZoneNew()));
     connect( PBZoneEdit,   SIGNAL(pressed()), this, SLOT(PushZoneEdit()) );
-    connect( PBZoneDelete, SIGNAL(pressed()), this, SLOT(PushZoneDelete()) );
     connect( CBGroupe,     SIGNAL(stateChanged(int)), this, SLOT(SetFiltrage()));
 
     connect( RBFieldNo,    SIGNAL(clicked()), this, SLOT(SetFieldNo()));
@@ -338,15 +337,6 @@ void MonCreateHypothesis::PushZoneEdit()
   QString zoneName = monItem->text().trimmed();
   MonEditZone *aDlg = new MonEditZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName, zoneName) ;
   aDlg->show();
-}
-// ------------------------------------------------------------------------
-void MonCreateHypothesis::PushZoneDelete()
-// ------------------------------------------------------------------------
-{
-  MESSAGE("Debut de MonCreateHypothesis::PushZoneDelete")
-  QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
-                          QObject::tr("HOM_INACTIVE_BUTTON") );
-  return;
 }
 
 // ------------------------------------------------------------------------
