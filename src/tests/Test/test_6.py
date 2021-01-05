@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Copyright (C) 2011-2020  CEA/DEN, EDF R&D
 #
@@ -18,325 +17,305 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-"""
-Python script for HOMARD
-Test test_6
-"""
-__revision__ = "V1.06"
+"""Python script for HOMARD - Test test_6"""
+__revision__ = "V2.01"
 
-#========================================================================
-TEST_NAME = "test_6"
-DEBUG = False
-N_ITER_TEST_FILE = 3
-#
-TAILLE = 10.
-LG_ARETE = TAILLE*2.5
-#========================================================================
 import os
 import sys
-import HOMARD
+
 import salome
-#
+import SHAPERSTUDY
+import SMESH
+import HOMARD
+
+from salome.shaper import model
+from salome.smesh import smeshBuilder
+
 # ==================================
 PATH_HOMARD = os.getenv('HOMARD_ROOT_DIR')
 # Repertoire des scripts utilitaires
 REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
-from test_util import saveGeometry
 from test_util import get_dir
 from test_util import test_results
 # ==================================
+
+#========================================================================
+TEST_NAME = "test_6"
+DEBUG = False
+VERBOSE = False
+N_ITER_TEST_FILE = 3
+TAILLE = 10.
+LG_ARETE = TAILLE*2.5
 # Répertoires pour ce test
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
-# ==================================
+#========================================================================
 
 salome.salome_init()
-import iparameters
-IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
-IPAR.append("AP_MODULES_LIST", "Homard")
-#
-#========================= Debut de la fonction ==================================
-#
-def create_geom(nom_obj, taille, verbose=False) :
-  """
-Création de la géométrie
-  """
-#
-  erreur = 0
-#
-  if verbose :
-    texte = "Geometrie '%s'\n" % nom_obj
-    texte += "Taille de base = %f" % taille
+
+#========================================================================
+def create_cao_smesh ():
+  """CAO and mesh"""
+
+  structure_sh, xao_file = create_cao ()
+
+  error, mesh_file = create_mesh (structure_sh)
+
+  return error, xao_file, mesh_file
+#========================================================================
+
+#========================================================================
+def create_cao ():
+  """CAO"""
+
+  if VERBOSE :
+    texte = "Géométrie '{}'\n".format(TEST_NAME)
+    texte += "Taille de base ={}".format(TAILLE)
     print (texte)
-#
-  from salome.geom import geomBuilder
-  geompy = geomBuilder.New()
-#
-# 1. Les sommets et la première ligne
-#
-  vertex_1 = geompy.MakeVertex( 0.*taille,  0.*taille, 0.*taille, theName = "V1")
-  vertex_2 = geompy.MakeVertex( 5.*taille,  2.*taille, 0.*taille, theName = "V2")
-  vertex_3 = geompy.MakeVertex(10.*taille,  1.*taille, 0.*taille, theName = "V3")
-  vertex_4 = geompy.MakeVertex(16.*taille,  4.*taille, 0.*taille, theName = "V4")
-  vertex_5 = geompy.MakeVertex(16.*taille, 10.*taille, 0.*taille, theName = "V5")
-#
-  courbe_0 = geompy.MakeInterpol([vertex_1, vertex_2, vertex_3, vertex_4, vertex_5], False, False, theName="courbe_0")
-#
-# 2. Les sommets et la seconde ligne
-#
-  sommet_1 = geompy.MakeVertex( 0.*taille,  0.*taille, 20.*taille, theName = "S1")
-  sommet_2 = geompy.MakeVertex( 6.*taille, -5.*taille, 20.*taille, theName = "S2")
-  sommet_3 = geompy.MakeVertex(11.*taille, -2.*taille, 20.*taille, theName = "S3")
-  sommet_4 = geompy.MakeVertex(12.*taille,  3.*taille, 20.*taille, theName = "S4")
-  sommet_5 = geompy.MakeVertex(16.*taille, 10.*taille, 20.*taille, theName = "S5")
-#
-  courbe_1 = geompy.MakeInterpol([sommet_1, sommet_2, sommet_3, sommet_4, sommet_5], False, False, theName="courbe_1")
-#
-# 3. La face de base
-#
-  structure_g = geompy.MakeFilling([courbe_0, courbe_1], theName=nom_obj)
-#
-# 4. Groupes : on cherche les entites par des proximités avec des shapes bien choisies
-#
-  l_groupes_g = list()
-#
-  shape = geompy.GetFaceNearPoint (structure_g, vertex_2)
-  nom = "Voile"
-  groupe_g = geompy.CreateGroup(structure_g, geompy.ShapeType["FACE"], nom)
-  geompy.UnionList ( groupe_g, [shape] )
-  l_groupes_g.append( (nom, groupe_g, 2) )
-#
-  shape = geompy.GetEdgeNearPoint (structure_g, vertex_2)
-  nom = "C_0"
-  groupe_g = geompy.CreateGroup(structure_g, geompy.ShapeType["EDGE"], nom)
-  geompy.UnionList ( groupe_g, [shape] )
-  l_groupes_g.append( (nom, groupe_g, 1) )
-#
-  shape = geompy.GetEdgeNearPoint (structure_g, sommet_2)
-  nom = "C_1"
-  groupe_g = geompy.CreateGroup(structure_g, geompy.ShapeType["EDGE"], nom)
-  geompy.UnionList ( groupe_g, [shape] )
-  l_groupes_g.append( (nom, groupe_g, 1) )
-#
-  shape = geompy.GetEdge (structure_g, vertex_1, sommet_1)
-  nom = "D_0"
-  groupe_g = geompy.CreateGroup(structure_g, geompy.ShapeType["EDGE"], nom)
-  geompy.UnionList ( groupe_g, [shape] )
-  l_groupes_g.append( (nom, groupe_g, 1) )
-#
-  shape = geompy.GetEdge (structure_g, vertex_5, sommet_5)
-  nom = "D_1"
-  groupe_g = geompy.CreateGroup(structure_g, geompy.ShapeType["EDGE"], nom)
-  geompy.UnionList ( groupe_g, [shape] )
-  l_groupes_g.append( (nom, groupe_g, 1) )
-#
-  return erreur, structure_g, l_groupes_g
-#
-#==========================  Fin de la fonction ==================================
-#
-#========================= Debut de la fonction ==================================
-#
-def create_mail(lg_arete, structure_g, l_groupes_g, rep_mail, verbose=False) :
-  """
-Création du maillage
-  """
-#
-  erreur = 0
-  message = ""
-  ficmed = ""
-#
-  while not erreur :
-#
-    nom = structure_g.GetName()
-    if verbose :
-      texte = "Maillage de '%s'\n" % nom
-      texte += "lg_arete = %f\n" % lg_arete
-      texte += "rep_mail = '%s'" % rep_mail
-      print (texte)
-#
-    from salome.smesh import smeshBuilder
+
+  model.begin()
+  partset = model.moduleDocument()
+
+  part_1 = model.addPart(partset)
+  part_1_doc = part_1.document()
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc,  0.*TAILLE,  0.*TAILLE, 0.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc,  5.*TAILLE,  2.*TAILLE, 0.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 10.*TAILLE,  1.*TAILLE, 0.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 16.*TAILLE,  4.*TAILLE, 0.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 16.*TAILLE, 10.*TAILLE, 0.*TAILLE)
+
+  ### Create interpolation
+  interpolation_1_objects = [model.selection("VERTEX", "all-in-Point_1"), \
+                            model.selection("VERTEX", "all-in-Point_2"), \
+                            model.selection("VERTEX", "all-in-Point_3"), \
+                            model.selection("VERTEX", "all-in-Point_4"), \
+                            model.selection("VERTEX", "all-in-Point_5")]
+  _ = model.addInterpolation(part_1_doc, interpolation_1_objects, False, False)
+
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc,  0.*TAILLE,  0.*TAILLE, 20.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc,  6.*TAILLE, -5.*TAILLE, 20.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 11.*TAILLE, -2.*TAILLE, 20.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 12.*TAILLE,  3.*TAILLE, 20.*TAILLE)
+
+  ### Create Point
+  _ = model.addPoint(part_1_doc, 16.*TAILLE, 10.*TAILLE, 20.*TAILLE)
+
+  ### Create interpolation
+  interpolation_2_objects = [model.selection("VERTEX", "all-in-Point_6"), \
+                            model.selection("VERTEX", "all-in-Point_7"), \
+                            model.selection("VERTEX", "all-in-Point_8"), \
+                            model.selection("VERTEX", "all-in-Point_9"), \
+                            model.selection("VERTEX", "all-in-Point_10")]
+  _ = model.addInterpolation(part_1_doc, interpolation_2_objects, False, False)
+
+  ### Create Filling
+  structure_sh = model.addFilling(part_1_doc, [model.selection("EDGE", "Interpolation_1_1"), model.selection("EDGE", "Interpolation_2_1")])
+  structure_sh.setName(TEST_NAME)
+  structure_sh.result().setName(TEST_NAME)
+
+  ### Create Group
+  group_1 = model.addGroup(part_1_doc, "Faces", [model.selection("FACE", TEST_NAME)])
+  group_1.setName("Voile")
+  group_1.result().setName("Voile")
+
+  ### Create Group
+  group_2 = model.addGroup(part_1_doc, "Edges", [model.selection("EDGE", "Interpolation_1_1")])
+  group_2.setName("C_0")
+  group_2.result().setName("C_0")
+
+  ### Create Group
+  group_3 = model.addGroup(part_1_doc, "Edges", [model.selection("EDGE", "Interpolation_2_1")])
+  group_3.setName("C_1")
+  group_3.result().setName("C_1")
+
+  ### Create Group
+  group_4 = model.addGroup(part_1_doc, "Edges", [model.selection("EDGE", TEST_NAME+"/Edge_0_1")])
+  group_4.setName("D_0")
+  group_4.result().setName("D_0")
+
+  ### Create Group
+  group_5 = model.addGroup(part_1_doc, "Edges", [model.selection("EDGE", TEST_NAME+"/Edge_0_3")])
+  group_5.setName("D_1")
+  group_5.result().setName("D_1")
+
+  xao_file = os.path.join(DIRCASE, TEST_NAME+".xao")
+  model.exportToXAO(part_1_doc, xao_file, model.selection("FACE", TEST_NAME), "GN", TEST_NAME)
+
+  model.end()
+
+  return structure_sh, xao_file
+#========================================================================
+
+#========================================================================
+def create_mesh (structure_sh):
+  """Mesh"""
+  error = 0
+  mesh_file = os.path.join(DIRCASE, 'maill.00.med')
+
+  if VERBOSE :
+    texte = "Maillage de '{}'\n".format(TEST_NAME)
+    texte += "lg_arete = {}\n".format(LG_ARETE)
+    print (texte)
+
+  while not error :
+
+# 1. Importation to the study
+# ===========================
+    model.publishToShaperStudy()
+    l_aux = SHAPERSTUDY.shape(model.featureStringId(structure_sh))
+
+# 2. Creation of the mesh
+# =======================
     smesh = smeshBuilder.New()
-#
-# 2. Maillage de calcul
-#
-    maill_00 = smesh.Mesh(structure_g)
-    smesh.SetName(maill_00.GetMesh(), nom)
-#
-    MG_CADSurf = maill_00.Triangle(algo=smeshBuilder.MG_CADSurf)
+    structure_m = smesh.Mesh(l_aux[0])
+
+    MG_CADSurf = structure_m.Triangle(algo=smeshBuilder.MG_CADSurf)
     smesh.SetName(MG_CADSurf.GetAlgorithm(), 'MG_CADSurf')
-#
+
     MG_CADSurf_Parameters = MG_CADSurf.Parameters()
     smesh.SetName(MG_CADSurf_Parameters, 'MG_CADSurf Triangles')
-    MG_CADSurf_Parameters.SetPhySize( lg_arete )
-    MG_CADSurf_Parameters.SetMinSize( lg_arete/20. )
-    MG_CADSurf_Parameters.SetMaxSize( lg_arete*5. )
-    MG_CADSurf_Parameters.SetChordalError( lg_arete )
+    MG_CADSurf_Parameters.SetPhySize( LG_ARETE )
+    MG_CADSurf_Parameters.SetMinSize( LG_ARETE/20. )
+    MG_CADSurf_Parameters.SetMaxSize( LG_ARETE*5. )
+    MG_CADSurf_Parameters.SetChordalError( LG_ARETE )
     MG_CADSurf_Parameters.SetAngleMesh( 12. )
-#
-# 3. Les groupes issus de la géométrie
-#
-    for taux in l_groupes_g :
-      groupe_m = maill_00.Group(taux[1])
-      smesh.SetName(groupe_m, taux[0])
-#
-# 4. Calcul
-#
-    isDone = maill_00.Compute()
+
+# Les groupes issus de la géométrie
+    for groupe in l_aux[1:]:
+      groupe_nom = groupe.GetName()
+      if ( groupe_nom == "Voile" ):
+        shape = SMESH.FACE
+      else:
+        shape = SMESH.EDGE
+      _ = structure_m.GroupOnGeom(groupe,groupe_nom,shape)
+
+# Computation
+    isDone = structure_m.Compute()
     if not isDone :
-      message += "Probleme dans le maillage de la surface."
-      erreur = 13
+      error = 1
       break
-#
-# 5. Export MED
-#
-    ficmed = os.path.join(rep_mail,'maill.00.med')
-    texte = "Ecriture du fichier '%s'" % ficmed
-    if verbose :
-      print (texte)
+
+# MED exportation
     try:
-      maill_00.ExportMED(ficmed)
+      structure_m.ExportMED(mesh_file)
     except IOError as eee:
       error = 2
       raise Exception('ExportMED() failed. ' + str(eee))
-#
+
     break
-#
-  return erreur, message, ficmed
-#
-#==========================  Fin de la fonction ==================================
-#
+
+  return error, mesh_file
+#========================================================================
+
 #========================= Debut de la fonction ==================================
-#
-def homard_exec(nom, ficmed, xao_file, verbose=False):
-  """
-Python script for HOMARD
-  """
-  erreur = 0
-  message = ""
-#
-  while not erreur :
+
+def homard_exec(xao_file, mesh_file):
+  """Python script for HOMARD"""
+  error = 0
+
+  while not error :
     #
     #HOMARD.UpdateStudy()
     #
     # Frontière
     # =========
-    if verbose :
+    if VERBOSE :
       print(". Frontière")
-    cao_name = "CAO_" + nom
-    la_frontiere = HOMARD.CreateBoundaryCAO(cao_name, xao_file)
+    cao_name = "CAO_" + TEST_NAME
+    _ = HOMARD.CreateBoundaryCAO(cao_name, xao_file)
     #
     # Hypotheses
     # ==========
-    if verbose :
+    if VERBOSE :
       print(". Hypothèses")
-    hyponame = "hypo_" + nom
+    hyponame = "hypo_" + TEST_NAME
     l_hypothese = HOMARD.CreateHypothesis(hyponame)
     l_hypothese.SetUnifRefinUnRef(1)
     #
     # Cas
     # ===
-    if verbose :
+    if VERBOSE :
       print(". Cas")
-    le_cas = HOMARD.CreateCase('case_'+nom, nom, ficmed)
+    le_cas = HOMARD.CreateCase('case_'+TEST_NAME, TEST_NAME, mesh_file)
     le_cas.SetDirName(DIRCASE)
     le_cas.AddBoundary(cao_name)
     #
     # Creation of the iterations
     # ==========================
-    if verbose :
+    if VERBOSE :
       option = 2
     else :
       option = 1
     #
     for niter in range(1, N_ITER_TEST_FILE+1):
-      if verbose :
+      if VERBOSE :
         print(". Itération numéro %d" % niter)
-      iter_name = "I_" + nom + "_%02d" % niter
+      iter_name = "I_" + TEST_NAME + "_%02d" % niter
       if ( niter == 1 ) :
         l_iteration = le_cas.NextIteration(iter_name)
       else :
         l_iteration = l_iteration.NextIteration(iter_name)
-      l_iteration.SetMeshName(nom)
+      l_iteration.SetMeshName(TEST_NAME)
       mesh_file = os.path.join(DIRCASE, "maill.%02d.med" % niter)
       l_iteration.SetMeshFile(mesh_file)
       l_iteration.AssociateHypo(hyponame)
-      erreur = l_iteration.Compute(1, option)
-      if erreur :
-        erreur = niter
+      error = l_iteration.Compute(1, option)
+      if error :
+        error = niter
         break
     #
     break
-  #
-  if erreur :
-    message += "Erreur au calcul de l'itération %d" % erreur
-  #
-  return erreur, message
+
+  return error
 #
 #==========================  Fin de la fonction ==================================
-#
-#
-ERREUR = 0
-MESSAGE = ""
-while not ERREUR :
-  #
-  VERBOSE = DEBUG
-  #
-  # A. Geometry
-  #
-  ERREUR, STRUCTURE_G, L_GROUPES_G = create_geom(TEST_NAME, TAILLE, VERBOSE)
-  if ERREUR :
-    MESSAGE = "The construction of the geometry failed."
-    break
-  #
-  # B. Save the geometry
-  #
-  XAO_FILE = os.path.join(DIRCASE, TEST_NAME+".xao")
-  try :
-    ERREUR = saveGeometry(XAO_FILE, TEST_NAME, "test_salome_"+TEST_NAME)
-  except IOError as eee:
-    ERREUR = os.error
-    MESSAGE = str(eee.message)
-  #
-  if ERREUR :
-    MESSAGE += "Pb in saveGeometry"
-    break
-  #
-  # C. Mesh
-  #
-  ERREUR, MESSAGE, FICMED = create_mail(LG_ARETE, STRUCTURE_G, L_GROUPES_G, DIRCASE, VERBOSE)
-  if ERREUR :
-    break
-  #
-  # D. Exec of HOMARD-SALOME
-  #
-  HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
-  assert HOMARD is not None, "Impossible to load homard engine"
-  HOMARD.SetLanguageShort("fr")
-#
-  try:
-    ERREUR, MESSAGE = homard_exec(TEST_NAME, FICMED, XAO_FILE, VERBOSE)
-  except RuntimeError as eee:
-    ERREUR = os.error
-    MESSAGE = str(eee.message)
-  #
-  if ERREUR :
-    MESSAGE += "Pb in homard_exec"
-    break
-  #
-  # E. Test of the results
-  #
-  N_REP_TEST_FILE = N_ITER_TEST_FILE
-  DESTROY_DIR = not DEBUG
-  test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
-  #
-  break
-#
-if ERREUR:
-  MESSAGE = "\nErreur numéro %d\n" % ERREUR + MESSAGE
-  raise Exception(MESSAGE)
-#
+
+# CAO and Mesh
+
+try :
+  ERROR, XAO_FILE, MESH_FILE = create_cao_smesh()
+  if ERROR :
+    raise Exception('Pb in create_cao_smesh')
+except RuntimeError as eee:
+  raise Exception('Pb in create_cao_smesh: '+str(eee.message))
+
+HOMARD = salome.lcc.FindOrLoadComponent('FactoryServer', 'HOMARD')
+assert HOMARD is not None, "Impossible to load homard engine"
+HOMARD.SetLanguageShort("fr")
+
+# Exec of HOMARD-SALOME
+
+try :
+  ERROR = homard_exec(XAO_FILE, MESH_FILE)
+  if ERROR :
+    raise Exception('Pb in homard_exec at iteration %d' %ERROR )
+except RuntimeError as eee:
+  raise Exception('Pb in homard_exec: '+str(eee.message))
+
+# Test of the results
+
+N_REP_TEST_FILE = N_ITER_TEST_FILE
+DESTROY_DIR = not DEBUG
+test_results(REP_DATA, TEST_NAME, DIRCASE, N_ITER_TEST_FILE, N_REP_TEST_FILE, DESTROY_DIR)
+
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser()
-  iparameters.getSession().restoreVisualState(1)
-
