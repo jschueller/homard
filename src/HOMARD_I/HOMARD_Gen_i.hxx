@@ -30,6 +30,8 @@
 #include CORBA_SERVER_HEADER(HOMARD_YACS)
 #include CORBA_CLIENT_HEADER(SALOMEDS)
 #include CORBA_CLIENT_HEADER(SALOMEDS_Attributes)
+#include CORBA_CLIENT_HEADER(SALOME_ModuleCatalog)
+#include CORBA_CLIENT_HEADER(SMESH_Gen)
 
 #include "HOMARD_i.hxx"
 #include "HOMARD_Gen.hxx"
@@ -306,7 +308,8 @@ private:
 
   virtual char*                   getVersion();
   std::string GetStringInTexte( const std::string Texte, const std::string String, int option ) ;
-
+  virtual SALOME_ModuleCatalog::ModuleCatalog_var getModuleCatalog() const = 0;
+  virtual SMESH::SMESH_Gen_var retrieveSMESHInst() const = 0;
 private:
   struct StudyContext
   {
@@ -321,7 +324,6 @@ private:
 
   ::HOMARD_Gen*                 myHomard;
   StudyContext                  myStudyContext;
-  SALOME_NamingService*         _NS;
 
   int _tag_gene ;
   int _tag_boun ;

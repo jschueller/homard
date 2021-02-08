@@ -43,8 +43,6 @@
 #include "SALOME_LifeCycleCORBA.hxx"
 #include "SALOMEconfig.h"
 #include <SMESH_Gen_i.hxx>
-#include CORBA_CLIENT_HEADER(SALOME_ModuleCatalog)
-#include CORBA_CLIENT_HEADER(SMESH_Gen)
 
 #include <cmath>
 #include <stdlib.h>
@@ -101,9 +99,6 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName, false, checkN
   _id = _poa->activate_object(_thisObj);
 
   myHomard = new ::HOMARD_Gen;
-  _NS = SINGLETON_<SALOME_NamingService>::Instance();
-  ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
-  _NS->init_orb(_orb);
 
   _tag_gene = 0 ;
   _tag_boun = 0 ;
@@ -144,9 +139,7 @@ void HOMARD_Gen_i::UpdateStudy()
     homardFather = myBuilder->NewComponent(ComponentDataType());
     SALOMEDS::GenericAttribute_var anAttr = myBuilder->FindOrCreateAttribute(homardFather,"AttributeName");
     SALOMEDS::AttributeName_var aName = SALOMEDS::AttributeName::_narrow(anAttr);
-    CORBA::Object_var objVarN = _NS->Resolve("/Kernel/ModulCatalog");
-    SALOME_ModuleCatalog::ModuleCatalog_var Catalogue =
-                SALOME_ModuleCatalog::ModuleCatalog::_narrow(objVarN);
+    SALOME_ModuleCatalog::ModuleCatalog_var Catalogue = this->getModuleCatalog();
     SALOME_ModuleCatalog::Acomponent_var Comp = Catalogue->GetComponent(ComponentDataType());
     if (!Comp->_is_nil())
     {
@@ -4001,8 +3994,9 @@ void HOMARD_Gen_i::PublishResultInSmesh(const char* NomFich, CORBA::Long Option)
 
 // On enregistre le fichier
   MESSAGE( "Enregistrement du fichier");
-  SALOME_LifeCycleCORBA* myLCC = new SALOME_LifeCycleCORBA(_NS);
-  SMESH::SMESH_Gen_var aSmeshEngine = SMESH::SMESH_Gen::_narrow(myLCC->FindOrLoad_Component("FactoryServer","SMESH"));
+  //
+  SMESH::SMESH_Gen_var aSmeshEngine = this->retrieveSMESHInst();
+  //
   ASSERT(!CORBA::is_nil(aSmeshEngine));
   aSmeshEngine->UpdateStudy();
   SMESH::DriverMED_ReadStatus theStatus;

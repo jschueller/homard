@@ -20,11 +20,29 @@
 #include "HOMARD_Gen_i_Session.hxx"
 #include "SALOMEDS_Study_i.hxx"
 #include "SALOME_KernelServices.hxx"
+#include "Utils_SINGLETON.hxx"
 
 HOMARD_Gen_i_Session::HOMARD_Gen_i_Session( CORBA::ORB_ptr orb, PortableServer::POA_ptr poa, PortableServer::ObjectId* contId, const char* instanceName, const char* interfaceName ):
 HOMARD_Gen_i(orb,poa,contId,instanceName,interfaceName,true)
 {
-    myStudy = SALOMEDS::Study::_duplicate(KERNEL::getStudyServant());
+    myStudy = SALOMEDS::Study::_duplicate(KERNEL::getStudyServant()); 
+    _NS = SINGLETON_<SALOME_NamingService>::Instance();
+    ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
+    _NS->init_orb(_orb);
+}
+
+SALOME_ModuleCatalog::ModuleCatalog_var HOMARD_Gen_i_Session::getModuleCatalog() const
+{
+    CORBA::Object_var objVarN = _NS->Resolve("/Kernel/ModulCatalog");
+    SALOME_ModuleCatalog::ModuleCatalog_var Catalogue = SALOME_ModuleCatalog::ModuleCatalog::_narrow(objVarN);
+    return Catalogue;
+}
+
+SMESH::SMESH_Gen_var HOMARD_Gen_i_Session::retrieveSMESHInst() const
+{
+    SALOME_LifeCycleCORBA* myLCC = new SALOME_LifeCycleCORBA(_NS);
+    SMESH::SMESH_Gen_var aSmeshEngine = SMESH::SMESH_Gen::_narrow(myLCC->FindOrLoad_Component("FactoryServer","SMESH"));
+    return aSmeshEngine;
 }
 
 //=============================================================================
