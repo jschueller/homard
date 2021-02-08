@@ -43,9 +43,7 @@
 #include <string>
 #include <map>
 
-class HOMARDENGINE_EXPORT HOMARD_Gen_i:
-  public virtual Engines_Component_i,
-  public virtual POA_HOMARD::HOMARD_Gen
+class HOMARDENGINE_EXPORT HOMARD_Gen_i : public Engines_Component_i, public POA_HOMARD::HOMARD_Gen
 {
 public:
   HOMARD_Gen_i( CORBA::ORB_ptr orb,
@@ -321,7 +319,6 @@ private:
   };
 
   ::HOMARD_Gen*                 myHomard;
-  SALOMEDS::Study_var           myStudy;
   StudyContext                  myStudyContext;
   SALOME_NamingService*         _NS;
 
@@ -340,8 +337,8 @@ private:
   int _YACSMaxNode ;
   int _YACSMaxElem ;
   int _YACSTypeTest ;
- ;
-
+protected:
+  SALOMEDS::Study_var           myStudy;
 };
 
 #endif

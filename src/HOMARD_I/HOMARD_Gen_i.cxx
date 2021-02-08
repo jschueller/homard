@@ -99,12 +99,10 @@ Engines_Component_i(orb, poa, contId, instanceName, interfaceName)
   _thisObj = this;
   _id = _poa->activate_object(_thisObj);
 
-  myHomard = new ::HOMARD_Gen();
+  myHomard = new ::HOMARD_Gen;
   _NS = SINGLETON_<SALOME_NamingService>::Instance();
   ASSERT(SINGLETON_<SALOME_NamingService>::IsAlreadyExisting());
   _NS->init_orb(_orb);
-
-  myStudy = SALOMEDS::Study::_duplicate( SMESH_Gen_i::GetSMESHGen()->getStudyServant() );
 
   _tag_gene = 0 ;
   _tag_boun = 0 ;
@@ -4580,7 +4578,7 @@ SALOMEDS::TMPFile* HOMARD_Gen_i::Save(SALOMEDS::SComponent_ptr theComponent,
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(SMESH_Gen_i::GetSMESHGen()->getStudyServant()->URL()));
+    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(myStudy->URL()));
   aFileName += "_HOMARD.dat";
 
   // initialize sequence of file names
@@ -4704,7 +4702,7 @@ CORBA::Boolean HOMARD_Gen_i::Load(SALOMEDS::SComponent_ptr theComponent,
   // HOMARD data file name
   std::string aFileName = "";
   if (isMultiFile)
-    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(SMESH_Gen_i::GetSMESHGen()->getStudyServant()->URL()));
+    aFileName = SALOMEDS_Tool::GetNameFromPath(Kernel_Utils::encode(myStudy->URL()));
   aFileName = tmpDir + aFileName + "_HOMARD.dat";
 
   StudyContext& context = myStudyContext;
@@ -4966,7 +4964,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Boolean isPublished,
    MESSAGE ("Entree dans DumpPython");
    isValidScript=1;
 
-   SALOMEDS::SObject_var aSO = SMESH_Gen_i::GetSMESHGen()->getStudyServant()->FindComponent("HOMARD");
+   SALOMEDS::SObject_var aSO = myStudy->FindComponent("HOMARD");
    if(CORBA::is_nil(aSO))
       return new Engines::TMPFile(0);
 
@@ -5135,7 +5133,7 @@ Engines::TMPFile* HOMARD_Gen_i::DumpPython(CORBA::Boolean isPublished,
 void HOMARD_Gen_i::IsValidStudy( )
 {
 //   MESSAGE( "IsValidStudy" );
-  if (CORBA::is_nil(SMESH_Gen_i::GetSMESHGen()->getStudyServant()))
+  if (CORBA::is_nil(myStudy))
   {
     SALOME::ExceptionStruct es;
     es.type = SALOME::BAD_PARAM;
@@ -5415,18 +5413,3 @@ CORBA::Long HOMARD_Gen_i::GetYACSConvergenceType()
   return _YACSTypeTest ;
 }
 
-//=============================================================================
-extern "C"
-{
-  HOMARDENGINE_EXPORT
-  PortableServer::ObjectId* HOMARDEngine_factory(CORBA::ORB_ptr orb,
-						  PortableServer::POA_ptr poa,
-						  PortableServer::ObjectId* contId,
-						  const char* instanceName,
-						  const char* interfaceName)
-  {
-    MESSAGE("PortableServer::ObjectId* HOMARDEngine_factory()");
-    HOMARD_Gen_i* myHOMARD_Gen = new HOMARD_Gen_i(orb, poa, contId, instanceName, interfaceName);
-    return myHOMARD_Gen->getId();
-  }
-}
