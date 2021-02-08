@@ -29,4 +29,8 @@ public:
                         PortableServer::ObjectId* contId,
                         const char* instanceName,
                         const char* interfaceName );
+  SALOME_ModuleCatalog::ModuleCatalog_var getModuleCatalog() const override;
+  SMESH::SMESH_Gen_var retrieveSMESHInst() const override;
+private:
+  SMESH::SMESH_Gen_var _smesh;
 };
