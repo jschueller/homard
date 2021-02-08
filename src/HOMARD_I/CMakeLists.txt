@@ -64,6 +64,8 @@ SET(HOMARDEngine_HEADERS
   HOMARD_Iteration_i.hxx
   HOMARD_Zone_i.hxx
   HOMARD_Gen_i.hxx
+  HOMARD_Gen_i_Session.hxx
+  HOMARD_Gen_i_No_Session.hxx
   HOMARD_Boundary_i.hxx
   HOMARD_YACS_i.hxx
   HomardMedCommun.h
@@ -78,6 +80,8 @@ SET(HOMARDEngine_SOURCES
   HOMARD_Hypothesis_i.cxx
   HOMARD_Iteration_i.cxx
   HOMARD_Gen_i.cxx
+  HOMARD_Gen_i_Session.cxx
+  HOMARD_Gen_i_No_Session.cxx
   HOMARD_Zone_i.cxx
   HOMARD_Boundary_i.cxx
   HOMARD_YACS_i.cxx
