@@ -1,4 +1,4 @@
-// Copyright (C) 2021  CEA/DEN, EDF R&D
+// Copyright (C) 2021  CEA/DEN, EDF R&D, OPEN CASCADE
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,11 +17,8 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 
-#include "HOMARD_Gen_i_No_Session.hxx"
-#include "SALOMEDS_Study_i.hxx"
+#pragma once
 
-HOMARD_Gen_i_No_Session::HOMARD_Gen_i_No_Session( CORBA::ORB_ptr orb, PortableServer::POA_ptr poa, PortableServer::ObjectId* contId, const char* instanceName, const char* interfaceName ):
-HOMARD_Gen_i(orb,poa,contId,instanceName,interfaceName,false)
-{
-    myStudy = KERNEL::getStudyServantSA();
-}
+#include <string>
+
+std::string BuildHOMARDInstanceInternal();
