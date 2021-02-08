@@ -1,4 +1,5 @@
-# Copyright (C) 2016-2020  CEA/DEN, EDF R&D
+#  -*- coding: iso-8859-1 -*-
+# Copyright (C) 2021  CEA/DEN, EDF R&D, OPEN CASCADE
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,26 +18,11 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-##
-# Common packages
-##
-SET(SUBDIRS_COMMON
-  HOMARD
-  HOMARD_I
-  SalomeSessionless
-  HOMARDGUI
-  HOMARD_SWIG
-  FrontTrack
-  FrontTrack_SWIG
-  tests
-)
-
-SET(SUBDIRS
-  ${SUBDIRS_COMMON}
-)
-
-FOREACH(dir ${SUBDIRS})
-  ADD_SUBDIRECTORY(${dir})
-ENDFOREACH(dir ${SUBDIRS})
-
-
+def buildInstance(orb):
+    import HOMARDHelper
+    homard_ior = HOMARDHelper.BuildHOMARDInstance()
+    import HOMARD
+    import CORBA
+    orb=CORBA.ORB_init([''])
+    homardInst = orb.string_to_object(homard_ior)
+    return homardInst, orb

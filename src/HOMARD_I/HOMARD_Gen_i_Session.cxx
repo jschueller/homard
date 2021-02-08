@@ -21,7 +21,8 @@
 #include "SALOMEDS_Study_i.hxx"
 #include "SALOME_KernelServices.hxx"
 
-HOMARD_Gen_i_Session::HOMARD_Gen_i_Session( CORBA::ORB_ptr orb, PortableServer::POA_ptr poa, PortableServer::ObjectId* contId, const char* instanceName, const char* interfaceName ):HOMARD_Gen_i(orb,poa,contId,instanceName,interfaceName)
+HOMARD_Gen_i_Session::HOMARD_Gen_i_Session( CORBA::ORB_ptr orb, PortableServer::POA_ptr poa, PortableServer::ObjectId* contId, const char* instanceName, const char* interfaceName ):
+HOMARD_Gen_i(orb,poa,contId,instanceName,interfaceName,true)
 {
     myStudy = SALOMEDS::Study::_duplicate(KERNEL::getStudyServant());
 }
