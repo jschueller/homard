@@ -16,6 +16,7 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
+
 cmake_minimum_required (VERSION 2.8)
 PROJECT (Homard C Fortran)
 
@@ -24,11 +25,11 @@ SET(${PROJECT_NAME_UC}_VERSION_MINOR 99)
 SET(${PROJECT_NAME_UC}_VERSION_PATCH 0)
 SET(${PROJECT_NAME_UC}_VERSION ${${PROJECT_NAME_UC}_VERSION_MAJOR}.${${PROJECT_NAME_UC}_VERSION_MINOR}.${${PROJECT_NAME_UC}_VERSION_PATCH})
 
-INCLUDE(FortranCInterface)
-FortranCInterface_HEADER(${CMAKE_BINARY_DIR}/FC.h)
+# Fortran options
+SET(CMAKE_Fortran_FLAGS "-ffixed-line-length-0 -fdefault-double-8 -fdefault-real-8 -fdefault-integer-8 -fimplicit-none -O2")
 
-# libraries to build
-SET(DIRLIBS
+# static libraries to build
+SET(_HT_libs
   HOMARD_00
   Suivi_Frontiere
   Information
@@ -45,22 +46,24 @@ SET(DIRLIBS
   Dependance_Machine
  )
 
-FOREACH(dir Includes_Generaux ${DIRLIBS})
-        ADD_SUBDIRECTORY(${dir})
+FUNCTION(HT_BUILD_LIBRARY dir)
+  FILE(GLOB _f_sources LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/${dir}/*.F)
+  FILE(GLOB _c_sources LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/${dir}/*.c)
+  INCLUDE_DIRECTORIES(Includes_Generaux ${CMAKE_CURRENT_SOURCE_DIR})
+  ADD_LIBRARY (${dir} STATIC ${_f_sources} ${_c_sources})
+ENDFUNCTION()
+
+FOREACH(_HT_lib ${_HT_libs})
+  HT_BUILD_LIBRARY(${_HT_lib})
 ENDFOREACH()
 
-# libraries to link with
+# additional libraries to link with
 SET(_link_LIBRARIES
-  ${MEDFILE_F_LIBRARIES}
+  ${MEDFILE_F_LIBRARIES} ${MEDFILE_ROOT_DIR}/lib/libmedfwrap.so
   ${HDF5_LIBRARIES}
 )
 
-# Main binary
-SET ( CMAKE_Fortran_FLAGS "-ffixed-line-length-0 -fdefault-double-8 -fdefault-real-8 -fdefault-integer-8 -fimplicit-none -O2" )
-
-ADD_EXECUTABLE(homard.out homard.f)
-
-TARGET_LINK_LIBRARIES(homard.out ${DIRLIBS} ${_link_LIBRARIES})
-
-INSTALL(TARGETS homard.out EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${SALOME_INSTALL_BINS})
-
+# Main executable
+ADD_EXECUTABLE(homard homard.f)
+TARGET_LINK_LIBRARIES(homard ${_HT_libs} ${_link_LIBRARIES})
+INSTALL(TARGETS homard EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${SALOME_INSTALL_BINS})
