@@ -59,8 +59,8 @@ ENDFOREACH()
 
 # additional libraries to link with
 SET(_link_LIBRARIES
-  ${MEDFILE_F_LIBRARIES} ${MEDFILE_ROOT_DIR}/lib/libmedfwrap.so
   ${HDF5_LIBRARIES}
+  ${MEDFILE_LIBRARIES}
 )
 
 # Main executable
