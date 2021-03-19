@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2020  CEA/DEN, EDF R&D
+# Copyright (C) 2011-2021  CEA/DEN, EDF R&D
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,16 +17,17 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-SALOME_CONFIGURE_FILE(VERSION.in VERSION INSTALL ${SALOME_INSTALL_BINS})
-SALOME_CONFIGURE_FILE(runHOMARD.in runHOMARD INSTALL ${SALOME_INSTALL_BINS} EXEC_PERMS)
+"""
+Set-up additional environment needed for HOMARD module.
+"""
 
-# ===============================================================
-# Files to be installed
-# ===============================================================
+import os
+import os.path as osp
 
-SET(_bin_scripts
-  runHOMARD.py
-  homard_setenv.py
-)
-
-SALOME_INSTALL_SCRIPTS("${_bin_scripts}" ${SALOME_INSTALL_SCRIPT_SCRIPTS})
+def set_env(args): # pragma pylint: disable=unused-argument
+    """Initialize environment of SALOME HOMARD module"""
+    # HOMARD_REP_EXE = ${HOMARD_ROOT_DIR}/bin/salome
+    # HOMARD_EXE     = homard
+    if os.getenv('HOMARD_ROOT_DIR'):
+        os.environ['HOMARD_REP_EXE'] = osp.join(os.getenv('HOMARD_ROOT_DIR'), 'bin', 'salome')
+        os.environ['HOMARD_EXE'] = 'homard'
