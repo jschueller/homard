@@ -32,17 +32,12 @@ std::string BuildHOMARDInstanceInternal()
     CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
     PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
     PortableServer::POAManager_var pman = poa->the_POAManager();
-    PortableServer::ObjectId_var conId;
-    //
-    {
-        char *argv[4] = {"Container","FactoryServer","HOMARD",nullptr};
-        Engines_Container_i *cont = new Engines_Container_i(orb,poa,"FactoryServer",2,argv,nullptr,false);
-        conId = poa->activate_object(cont);
-    }
+    auto *cont(KERNEL::getContainerSA());
+    PortableServer::ObjectId *conId(cont->getCORBAId());
     //
     pman->activate();
     //
-    HOMARD_Gen_i_No_Session *servant = new HOMARD_Gen_i_No_Session(orb,poa,const_cast<PortableServer::ObjectId*>(&conId.in()),"HOMARD_inst_2","HOMARD");
+    HOMARD_Gen_i_No_Session *servant = new HOMARD_Gen_i_No_Session(orb,poa,conId,"HOMARD_inst_2","HOMARD");
     PortableServer::ObjectId *zeId = servant->getId();
     CORBA::Object_var zeRef = poa->id_to_reference(*zeId);
     CORBA::String_var ior = orb->object_to_string(zeRef);
