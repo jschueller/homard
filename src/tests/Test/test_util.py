@@ -17,11 +17,11 @@
 #
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
-"""
-Python script for HOMARD
+"""Python script for HOMARD
+
 Utilitaires pour les tests
 """
-__revision__ = "V4.04"
+__revision__ = "V4.06"
 
 import os
 import tempfile
@@ -50,19 +50,6 @@ Copyright EDF 2018
 #
   return rep_data, dircase
 #
-#========================================================================
-#========================================================================
-def get_dir_tutorial(path_homard) :
-  """
-Get directory for the tutorial.
-Copyright EDF 2018
-  """
-#
-# Répertoire des données du tutorial
-  data_tutorial = os.path.join(path_homard, "share", "doc", "salome", "gui", "HOMARD", "fr", "_downloads")
-  data_tutorial = os.path.normpath(data_tutorial)
-#
-  return data_tutorial
 #========================================================================
 #========================================================================
 def remove_dir(directory) :

@@ -26,5 +26,6 @@ FILE(GLOB sample_files
   ${PROJECT_SOURCE_DIR}/src/tests/samples/*.bilan
   ${PROJECT_SOURCE_DIR}/src/tests/samples/*.odt
   ${PROJECT_SOURCE_DIR}/src/tests/samples/*.pdf
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.png)
+  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.png
+  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.xao)
 INSTALL(FILES ${sample_files} DESTINATION ${SALOME_HOMARD_INSTALL_SAMPLES})

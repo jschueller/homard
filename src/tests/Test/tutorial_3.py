@@ -21,7 +21,7 @@
 Python script for HOMARD
 Test tutorial_3 associe au tutorial 3
 """
-__revision__ = "V4.06"
+__revision__ = "V4.07"
 
 #========================================================================
 TEST_NAME = "tutorial_3"
@@ -38,12 +38,10 @@ REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
 from test_util import get_dir
-from test_util import get_dir_tutorial
 from test_util import test_results
 # ==================================
 # Répertoires pour ce test
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
-DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
 # ==================================
 #
 import salome
@@ -130,7 +128,7 @@ Python script for HOMARD
     iter_3_1 = le_cas.NextIteration('iter_3_1')
     iter_3_1.SetMeshName('H_1')
     iter_3_1.SetMeshFile(os.path.join(DIRCASE, "maill.01.med"))
-    iter_3_1.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.00.med"))
+    iter_3_1.SetFieldFile(os.path.join(REP_DATA, "tutorial_3.00.med"))
     iter_3_1.SetTimeStepRank( 1, 1)
     iter_3_1.AssociateHypo('hypo_0vers1')
     erreur = iter_3_1.Compute(1, option)
@@ -142,7 +140,7 @@ Python script for HOMARD
     iter_3_2 = iter_3_1.NextIteration('iter_3_2')
     iter_3_2.SetMeshName('H_2')
     iter_3_2.SetMeshFile(os.path.join(DIRCASE, "maill.02.med"))
-    iter_3_2.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
+    iter_3_2.SetFieldFile(os.path.join(REP_DATA, "tutorial_3.01.med"))
     iter_3_2.SetTimeStepRank(1, 1)
     iter_3_2.AssociateHypo('hypo_1vers2')
     erreur = iter_3_2.Compute(1, option)
@@ -154,7 +152,7 @@ Python script for HOMARD
     iter_3_2_bis = iter_3_1.NextIteration('iter_3_2_bis')
     iter_3_2_bis.SetMeshName('H_2_bis')
     iter_3_2_bis.SetMeshFile(os.path.join(DIRCASE, "maill.02.bis.med"))
-    iter_3_2_bis.SetFieldFile(os.path.join(DATA_TUTORIAL, "tutorial_3.01.med"))
+    iter_3_2_bis.SetFieldFile(os.path.join(REP_DATA, "tutorial_3.01.med"))
     iter_3_2_bis.SetTimeStepRank(1, 1)
     iter_3_2_bis.AssociateHypo('hypo_1vers2_bis')
     erreur = iter_3_2_bis.Compute(1, option)
@@ -180,7 +178,7 @@ while not ERREUR :
   assert HOMARD is not None, "Impossible to load homard engine"
   HOMARD.SetLanguageShort("fr")
 #
-  FICMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".00.med")
+  FICMED = os.path.join(REP_DATA, TEST_NAME+".00.med")
   try:
     ERREUR, MESSAGE = homard_exec("G_0", FICMED, DEBUG)
   except RuntimeError as eee:

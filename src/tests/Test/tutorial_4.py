@@ -23,11 +23,12 @@
 Python script for HOMARD
 Test tutorial_4 associe au tutorial 4
 """
-__revision__ = "V5.05"
+__revision__ = "V5.07"
 
 #========================================================================
 TEST_NAME = "tutorial_4"
 DEBUG = False
+VERBOSE = False
 N_ITER_TEST_FILE = 3
 #========================================================================
 import os
@@ -40,12 +41,10 @@ REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
 from test_util import get_dir
-from test_util import get_dir_tutorial
 from test_util import test_results
 # ==================================
 # Répertoires pour ce test
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
-DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
 # ==================================
 #
 import salome
@@ -164,10 +163,10 @@ while not ERREUR :
   assert HOMARD is not None, "Impossible to load homard engine"
   HOMARD.SetLanguageShort("fr")
 #
-  FICMED = os.path.join(DATA_TUTORIAL, "tutorial_4.00.med")
-  XAO_FILE = os.path.join(DATA_TUTORIAL, TEST_NAME+".xao")
+  FICMED = os.path.join(REP_DATA, "tutorial_4.00.med")
+  XAO_FILE = os.path.join(REP_DATA, TEST_NAME+".xao")
   try:
-    ERREUR, MESSAGE = homard_exec("PIQUAGE", FICMED, XAO_FILE, DEBUG)
+    ERREUR, MESSAGE = homard_exec("PIQUAGE", FICMED, XAO_FILE, VERBOSE)
   except RuntimeError as eee:
     ERREUR = 2
     MESSAGE = str(eee.message)

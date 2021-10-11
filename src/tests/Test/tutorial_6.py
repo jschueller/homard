@@ -23,7 +23,7 @@
 Python script for HOMARD
 Test tutorial_6 associe au tutorial 6
 """
-__revision__ = "V4.06"
+__revision__ = "V4.07"
 
 #========================================================================
 TEST_NAME = "tutorial_6"
@@ -42,12 +42,10 @@ REP_PYTHON = os.path.join(PATH_HOMARD, "bin", "salome", "test", "HOMARD")
 REP_PYTHON = os.path.normpath(REP_PYTHON)
 sys.path.append(REP_PYTHON)
 from test_util import get_dir
-from test_util import get_dir_tutorial
 from test_util import test_results
 # ==================================
 # Répertoires pour ce test
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
-DATA_TUTORIAL = get_dir_tutorial(PATH_HOMARD)
 # ==================================
 #
 import salome
@@ -179,8 +177,8 @@ while not ERREUR :
   assert HOMARD is not None, "Impossible to load homard engine"
   HOMARD.SetLanguageShort("fr")
 #
-  FICMED = os.path.join(DATA_TUTORIAL, "tutorial_4.00.med")
-  FICFRMED = os.path.join(DATA_TUTORIAL, TEST_NAME+".fr.med")
+  FICMED = os.path.join(REP_DATA, "tutorial_4.00.med")
+  FICFRMED = os.path.join(REP_DATA, TEST_NAME+".fr.med")
   try:
     ERREUR, MESSAGE = homard_exec("PIQUAGE", FICMED, "COURBES", FICFRMED, DEBUG)
   except RuntimeError as eee:
