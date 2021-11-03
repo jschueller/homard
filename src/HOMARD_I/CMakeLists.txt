@@ -61,6 +61,7 @@ SET(_link_LIBRARIES
 # header files / no moc processing
 SET(HOMARDEngine_HEADERS
   HOMARD_Cas_i.hxx
+  HOMARD_Component_Generator.hxx
   HOMARD_Hypothesis_i.hxx
   HOMARD_Iteration_i.hxx
   HOMARD_Zone_i.hxx
@@ -78,6 +79,7 @@ SET(HOMARDEngine_HEADERS
 # sources / static
 SET(HOMARDEngine_SOURCES
   HOMARD_Cas_i.cxx
+  HOMARD_Component_Generator.cxx
   HOMARD_Hypothesis_i.cxx
   HOMARD_Iteration_i.cxx
   HOMARD_Gen_i.cxx

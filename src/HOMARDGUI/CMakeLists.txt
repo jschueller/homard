@@ -39,6 +39,7 @@ INCLUDE_DIRECTORIES(
   ${PROJECT_BINARY_DIR}/adm_local/unix
   ${PROJECT_SOURCE_DIR}/src/HOMARD
   ${PROJECT_SOURCE_DIR}/src/HOMARD_I
+  ${PROJECT_SOURCE_DIR}/src/FrontTrack
 )
 
 # additional preprocessor / compiler flags
