@@ -24,8 +24,7 @@
 #include "HOMARDGUI.h"
 
 // SALOME Includes
-#include "Utils_ORB_INIT.hxx"
-#include "Utils_SINGLETON.hxx"
+#include "OpUtil.hxx"
 #include "SALOME_LifeCycleCORBA.hxx"
 
 #include "SUIT_ResourceMgr.h"
@@ -721,9 +720,7 @@ void HOMARDGUI::setOrb()
 {
   try
   {
-     ORB_INIT &init = *SINGLETON_<ORB_INIT>::Instance();
-     ASSERT(SINGLETON_<ORB_INIT>::IsAlreadyExisting());
-     _orb = init( 0 , 0 );
+     _orb = KERNEL::GetRefToORB();
   }
   catch (...)
   {
