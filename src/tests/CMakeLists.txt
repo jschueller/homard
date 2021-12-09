@@ -17,15 +17,18 @@
 # See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 #
 
-IF(SALOME_BUILD_TESTS)
-  ADD_SUBDIRECTORY(Test)
-ENDIF(SALOME_BUILD_TESTS)
+IF(MED_INT_IS_LONG)
+  # Homard tests are unavailable if medfile is built with 32-bits UIDs
+  IF(SALOME_BUILD_TESTS)
+    ADD_SUBDIRECTORY(Test)
+  ENDIF(SALOME_BUILD_TESTS)
 
-FILE(GLOB sample_files
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.med
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.bilan
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.odt
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.pdf
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.png
-  ${PROJECT_SOURCE_DIR}/src/tests/samples/*.xao)
-INSTALL(FILES ${sample_files} DESTINATION ${SALOME_HOMARD_INSTALL_SAMPLES})
+  FILE(GLOB sample_files
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.med
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.bilan
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.odt
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.pdf
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.png
+    ${PROJECT_SOURCE_DIR}/src/tests/samples/*.xao)
+  INSTALL(FILES ${sample_files} DESTINATION ${SALOME_HOMARD_INSTALL_SAMPLES})
+ENDIF(MED_INT_IS_LONG)
