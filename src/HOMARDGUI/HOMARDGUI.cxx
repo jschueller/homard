@@ -48,6 +48,8 @@
 #include "SalomeApp_Module.h"
 #include "SALOMEconfig.h"
 #include <SALOME_LifeCycleCORBA.hxx>
+#include <SALOME_NamingService_Abstract.hxx>
+#include <SALOME_KernelServices.hxx>
 
 #include <utilities.h>
 
@@ -77,6 +79,7 @@
 //Pour le _CAST
 #include "SALOMEDS_Study.hxx"
 #include "HOMARDGUI_Utils.h"
+#include "HOMARD_Component_Generator.hxx"
 
 using namespace std;
 
@@ -104,7 +107,18 @@ HOMARDGUI::~HOMARDGUI()
 //=======================================================================
 HOMARD::HOMARD_Gen_var HOMARDGUI::InitHOMARDGen(SalomeApp_Application* app)
 {
-  Engines::EngineComponent_var comp = app->lcc()->FindOrLoad_Component( "FactoryServer","HOMARD" );
+  SALOME_NamingService_Abstract *ns = SalomeApp_Application::namingService();
+  Engines::EngineComponent_var comp;
+  if (ns->IsTrueNS())
+  {
+    comp = app->lcc()->FindOrLoad_Component( "FactoryServer","HOMARD" );
+  }
+  else
+  {
+    comp = RetrieveHOMARDInstance();
+    CORBA::Object_var comp2 = CORBA::Object::_narrow(comp);
+    KERNEL::RegisterCompo("HOMARD",comp2);
+  }
   HOMARD::HOMARD_Gen_var clr = HOMARD::HOMARD_Gen::_narrow(comp);
   ASSERT(!CORBA::is_nil(clr));
   return clr;
