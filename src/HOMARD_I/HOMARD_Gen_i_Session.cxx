@@ -46,6 +46,7 @@ SMESH::SMESH_Gen_var HOMARD_Gen_i_Session::retrieveSMESHInst() const
 }
 
 //=============================================================================
+#include "HOMARD_Gen_i_No_Session.hxx"
 extern "C"
 {
   HOMARDENGINE_EXPORT
@@ -56,7 +57,17 @@ extern "C"
 						  const char* interfaceName)
   {
     MESSAGE("PortableServer::ObjectId* HOMARDEngine_factory()");
-    HOMARD_Gen_i_Session* myHOMARD_Gen = new HOMARD_Gen_i_Session(orb, poa, contId, instanceName, interfaceName);
-    return myHOMARD_Gen->getId();
+    CORBA::Object_var o = poa->id_to_reference(*contId);
+    Engines::Container_var cont = Engines::Container::_narrow(o);
+    if(cont->is_SSL_mode())
+    {
+      HOMARD_Gen_i_No_Session* myHOMARD_Gen = new HOMARD_Gen_i_No_Session(orb, poa, contId, instanceName, interfaceName);
+      return myHOMARD_Gen->getId();
+    }
+    else
+    {
+      HOMARD_Gen_i_Session* myHOMARD_Gen = new HOMARD_Gen_i_Session(orb, poa, contId, instanceName, interfaceName);
+      return myHOMARD_Gen->getId();
+    }
   }
 }
