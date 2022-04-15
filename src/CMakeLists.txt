@@ -23,7 +23,6 @@
 SET(SUBDIRS_COMMON
   HOMARD
   HOMARD_I
-  SalomeSessionless
   HOMARDGUI
   HOMARD_SWIG
   FrontTrack
