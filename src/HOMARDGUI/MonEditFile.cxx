@@ -110,7 +110,7 @@ void MonEditFile::EditText()
 void MonEditFile::PushOnPrint()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de MonEditFile::PushOnPrint")
+  MESSAGE("Debut de MonEditFile::PushOnPrint");
   QMessageBox::warning( 0, QObject::tr("HOM_WARNING"),
                             QObject::tr("HOM_INACTIVE_BUTTON") );
   return;

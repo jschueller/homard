@@ -316,7 +316,7 @@ void MonCreateHypothesis::SetZone()
 void MonCreateHypothesis::PushZoneNew()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de MonCreateHypothesis::PushZoneNew")
+  MESSAGE("Debut de MonCreateHypothesis::PushZoneNew");
   MonCreateZone *aDlg = new MonCreateZone(this, true, HOMARD::HOMARD_Gen::_duplicate(myHomardGen), _aCaseName) ;
   aDlg->show();
 }
@@ -325,7 +325,7 @@ void MonCreateHypothesis::PushZoneNew()
 void MonCreateHypothesis::PushZoneEdit()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de MonCreateHypothesis::PushZoneEdit")
+  MESSAGE("Debut de MonCreateHypothesis::PushZoneEdit");
   int colonne = TWZone->currentColumn();
   QTableWidgetItem * monItem = TWZone->currentItem();
   if (colonne !=2  || monItem == NULL)
@@ -346,7 +346,7 @@ void MonCreateHypothesis::GetAllZones()
 // et affichage dans le tableau
 // Par defaut, aucune n'est selectionnee
 {
-  MESSAGE("Debut de GetAllZones") ;
+  MESSAGE("Debut de GetAllZones");
   HOMARD::listeZones_var mesZones = myHomardGen->GetAllZonesName();
   int nbrow=TWZone->rowCount();
   for ( int row=0; row< nbrow; row++)

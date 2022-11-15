@@ -47,7 +47,7 @@ MonCreateListGroup::MonCreateListGroup(MonCreateHypothesis* parentHyp, MonCreate
     _parentHyp(parentHyp),
     _parentBound(parentBound)
 {
-    MESSAGE("Debut de  MonCreateListGroup")
+    MESSAGE("Debut de  MonCreateListGroup");
      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
     setupUi(this);
     setModal(modal);

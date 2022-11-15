@@ -623,7 +623,7 @@ void MonCreateZone::SetNewName()
 void MonCreateZone::SetBox()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetBox")
+  MESSAGE("Debut de SetBox");
   gBBox->setVisible(1) ;
   gBSphere->setVisible(0) ;
   gBCylindre->setVisible(0) ;
@@ -641,13 +641,13 @@ void MonCreateZone::SetBox()
   if ( _Zincr > 0 ) { SpinBox_Zmini->setValue(_Zcentre-10*_Zincr) ;
                       SpinBox_Zmaxi->setValue(_Zcentre+10*_Zincr) ; }
   else { _Type=11 ; }
-  MESSAGE("Fin de SetBox")
+  MESSAGE("Fin de SetBox");
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetSphere()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetSphere")
+  MESSAGE("Debut de SetSphere");
   gBBox->setVisible(0) ;
   gBSphere->setVisible(1) ;
   gBCylindre->setVisible(0) ;
@@ -658,13 +658,13 @@ void MonCreateZone::SetSphere()
   SpinBox_Ycentre->setValue(_Ycentre) ;
   SpinBox_Zcentre->setValue(_Zcentre) ;
   SpinBox_Rayon->setValue(_Rayon) ;
-  MESSAGE("Fin de SetSphere")
+  MESSAGE("Fin de SetSphere");
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetCylinder()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetCylinder")
+  MESSAGE("Debut de SetCylinder");
   gBBox->setVisible(0) ;
   gBSphere->setVisible(0) ;
   gBCylindre->setVisible(1) ;
@@ -682,13 +682,13 @@ void MonCreateZone::SetCylinder()
   else { _Type=31 ; }
   SpinBox_Radius->setValue(_Rayon) ;
   SpinBox_Haut->setValue(_Haut) ;
-  MESSAGE("Fin de SetCylinder")
+  MESSAGE("Fin de SetCylinder");
 }
 // ------------------------------------------------------------------------
 void MonCreateZone::SetPipe()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetPipe")
+  MESSAGE("Debut de SetPipe");
   gBBox->setVisible(0) ;
   gBSphere->setVisible(0) ;
   gBCylindre->setVisible(0) ;
@@ -707,7 +707,7 @@ void MonCreateZone::SetPipe()
   SpinBox_Radius_int->setValue(_RayonInt) ;
   SpinBox_Radius_ext->setValue(_Rayon) ;
   SpinBox_Haut_p->setValue(_Haut) ;
-  MESSAGE("Fin de SetPipe")
+  MESSAGE("Fin de SetPipe");
 }
 
 

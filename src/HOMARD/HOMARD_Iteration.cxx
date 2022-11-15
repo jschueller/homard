@@ -255,7 +255,7 @@ void HOMARD_Iteration::SetFieldInterpTimeStep( const char* FieldInterp, int Time
 //=============================================================================
 void HOMARD_Iteration::SetFieldInterpTimeStepRank( const char* FieldInterp, int TimeStep, int Rank )
 {
-  MESSAGE("Champ " << FieldInterp << ", hypothese " << _NomHypo )
+  MESSAGE("Champ " << FieldInterp << ", hypothese " << _NomHypo );
 // Verification de la presence du champ dans l'hypothese
   std::list<std::string>::iterator it = find( _ListFieldInterp.begin(), _ListFieldInterp.end(), FieldInterp );
   if ( it == _ListFieldInterp.end() )

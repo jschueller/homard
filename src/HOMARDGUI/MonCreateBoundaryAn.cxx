@@ -543,7 +543,7 @@ void MonCreateBoundaryAn::SetNewName()
 void MonCreateBoundaryAn::SetCylinder()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetCylinder")
+  MESSAGE("Debut de SetCylinder");
   gBCylindre->setVisible(1);
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
@@ -558,7 +558,7 @@ void MonCreateBoundaryAn::SetCylinder()
 void MonCreateBoundaryAn::SetSphere()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetSphere")
+  MESSAGE("Debut de SetSphere");
   gBCylindre->setVisible(0);
   gBSphere->setVisible(1);
   gBCone->setVisible(0);
@@ -573,7 +573,7 @@ void MonCreateBoundaryAn::SetSphere()
 void MonCreateBoundaryAn::SetConeR()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetConeR")
+  MESSAGE("Debut de SetConeR");
 //
 // Stockage et conversion des valeurs si elles ont change
   if ((_BoundaryAnXaxisCone != SpinBox_Cone_X1->value())  ||
@@ -584,7 +584,7 @@ void MonCreateBoundaryAn::SetConeR()
       (_BoundaryAnZorigCone != SpinBox_Cone_Z2->value())  ||
       (_BoundaryAngle       != SpinBox_Cone_V1->value()) )
   {
-    MESSAGE("Stockage et conversion")
+    MESSAGE("Stockage et conversion");
     _BoundaryAnXaxisCone = SpinBox_Cone_X1->value() ;
     _BoundaryAnYaxisCone = SpinBox_Cone_Y1->value() ;
     _BoundaryAnZaxisCone = SpinBox_Cone_Z1->value() ;
@@ -627,7 +627,7 @@ void MonCreateBoundaryAn::SetConeR()
 void MonCreateBoundaryAn::SetConeA()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetConeA")
+  MESSAGE("Debut de SetConeA");
 // Stockage et conversion des valeurs si elles ont change
   if ((_BoundaryAnXcone1 != SpinBox_Cone_X1->value())  ||
       (_BoundaryAnYcone1 != SpinBox_Cone_Y1->value())  ||
@@ -638,7 +638,7 @@ void MonCreateBoundaryAn::SetConeA()
       (_BoundaryAnZcone2 != SpinBox_Cone_Z2->value())  ||
       (_BoundaryAnRayon2 != SpinBox_Cone_V2->value()) )
   {
-    MESSAGE("Stockage et conversion")
+    MESSAGE("Stockage et conversion");
     _BoundaryAnXcone1 = SpinBox_Cone_X1->value() ;
     _BoundaryAnYcone1 = SpinBox_Cone_Y1->value() ;
     _BoundaryAnZcone1 = SpinBox_Cone_Z1->value() ;
@@ -681,7 +681,7 @@ void MonCreateBoundaryAn::SetConeA()
 void MonCreateBoundaryAn::SetCone()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetCone")
+  MESSAGE("Debut de SetCone");
   gBCylindre->setVisible(0);
   gBSphere->setVisible(0);
   gBCone->setVisible(1);
@@ -703,7 +703,7 @@ void MonCreateBoundaryAn::SetCone()
 void MonCreateBoundaryAn::SetTore()
 // ------------------------------------------------------------------------
 {
-  MESSAGE("Debut de SetTore")
+  MESSAGE("Debut de SetTore");
   gBCylindre->setVisible(0);
   gBSphere->setVisible(0);
   gBCone->setVisible(0);
@@ -721,7 +721,7 @@ void MonCreateBoundaryAn::convertRayonAngle(int option)
 // par deux rayons ou avec un axe et un angle.
 // Voir sfcoi1 de HOMARD
 {
-  MESSAGE("Debut de convertRayonAngle, option = "<<option)
+  MESSAGE("Debut de convertRayonAngle, option = "<<option);
 //
 //         o
 //         !    .

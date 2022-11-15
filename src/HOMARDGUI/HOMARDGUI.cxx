@@ -181,7 +181,7 @@ void HOMARDGUI::createActions(){
 //================================================
 void HOMARDGUI::createPreferences()
 {
-  MESSAGE("createPreferences")
+  MESSAGE("createPreferences");
 
   int Onglet, Bloc, Pref ;
   // 1. Generalites
@@ -233,7 +233,7 @@ void HOMARDGUI::createPreferences()
 //================================================
 void HOMARDGUI::createMenus()
 {
-  MESSAGE("createMenus")
+  MESSAGE("createMenus");
 //
   int HOMARD_Id  = createMenu( tr( "HOM_MEN_HOMARD" ),  -1,  5, 10 );
   createMenu( 1101, HOMARD_Id, -1 ); //Create_Case
@@ -349,7 +349,7 @@ void HOMARDGUI::recupPreferences()
 void HOMARDGUI::OnGUIEvent()
 //================================================
 {
-  MESSAGE("OnGUIEvent()")
+  MESSAGE("OnGUIEvent()");
   setOrb();
   const QObject* obj = sender();
   if ( !obj || !obj->inherits( "QAction" ) ) { return; }
@@ -618,7 +618,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
 
     case 1301: // Information sur un maillage
     {
-      MESSAGE("etape 1301")
+      MESSAGE("etape 1301");
       MESSAGE("command " << theCommandID << " activated");
       MonMeshInfo *aDlg = new MonMeshInfo( parent, true, HOMARD::HOMARD_Gen::_duplicate(homardGen) ) ;
       aDlg->show();
@@ -639,7 +639,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
 
     case 1401: // Création d'un schema YACS
     {
-      MESSAGE("etape 1401")
+      MESSAGE("etape 1401");
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       MonCreateYACS *aDlg = new MonCreateYACS( true, HOMARD::HOMARD_Gen::_duplicate(homardGen), _ObjectName ) ;
       aDlg->show();
@@ -648,7 +648,7 @@ bool HOMARDGUI::OnGUIEvent (int theCommandID)
 
     case 1402: // Ecriture d'un schéma YACS
     {
-      MESSAGE("etape 1402")
+      MESSAGE("etape 1402");
       MESSAGE("command " << theCommandID << " activated avec objet " << _ObjectName.toStdString().c_str() );
       try { homardGen->YACSWrite(_ObjectName.toStdString().c_str()); }
       catch( SALOME::SALOME_Exception& S_ex )

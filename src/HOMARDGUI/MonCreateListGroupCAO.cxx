@@ -47,7 +47,7 @@ MonCreateListGroupCAO::MonCreateListGroupCAO(MonCreateHypothesis* parentHyp, Mon
     _parentHyp(parentHyp),
     _parentBound(parentBound)
 {
-    MESSAGE("Debut de  MonCreateListGroupCAO")
+    MESSAGE("Debut de  MonCreateListGroupCAO");
      myHomardGen=HOMARD::HOMARD_Gen::_duplicate(myHomardGen0);
     setupUi(this);
     setModal(modal);
