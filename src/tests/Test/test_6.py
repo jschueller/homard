@@ -52,7 +52,7 @@ LG_ARETE = TAILLE*2.5
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 #========================================================================
 
-salome.salome_init()
+salome.salome_init_without_session()
 
 #========================================================================
 def create_cao_smesh ():

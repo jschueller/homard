@@ -47,7 +47,7 @@ from test_util import test_results
 REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 
-salome.salome_init()
+salome.salome_init_without_session()
 import iparameters
 IPAR = iparameters.IParameters(salome.myStudy.GetCommonParameters("Interface Applicative", 1))
 IPAR.append("AP_MODULES_LIST", "Homard")

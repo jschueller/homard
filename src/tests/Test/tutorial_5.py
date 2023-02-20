@@ -47,7 +47,7 @@ REP_DATA, DIRCASE = get_dir(PATH_HOMARD, TEST_NAME, DEBUG)
 # ==================================
 #
 import salome
-salome.salome_init()
+salome.salome_init_without_session()
 import HOMARD
 #
 import iparameters
