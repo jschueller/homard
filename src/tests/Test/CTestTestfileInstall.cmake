@@ -18,6 +18,7 @@
 #
 
 SET(SALOME_TEST_DRIVER "$ENV{KERNEL_ROOT_DIR}/bin/salome/appliskel/salome_test_driver.py")
+SET(PYTHON_TEST_DRIVER "$ENV{KERNEL_ROOT_DIR}/bin/salome/appliskel/python_test_driver.py")
 
 SET(COMPONENT_NAME HOMARD)
 SET(TIMEOUT        500)
@@ -39,6 +40,6 @@ tutorial_6
 
 FOREACH(tfile ${HOMARD_TEST_FILES})
   SET(TEST_NAME HOMARD_${tfile})
-  ADD_TEST(${TEST_NAME} python ${SALOME_TEST_DRIVER} ${TIMEOUT} ${tfile}.py)
+  ADD_TEST(${TEST_NAME} python ${PYTHON_TEST_DRIVER} ${TIMEOUT} ${tfile}.py)
   SET_TESTS_PROPERTIES(${TEST_NAME} PROPERTIES LABELS "${COMPONENT_NAME}")
 ENDFOREACH()
