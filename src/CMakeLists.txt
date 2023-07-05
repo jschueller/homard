@@ -22,13 +22,13 @@
 ##
 SET(SUBDIRS_COMMON
   HOMARD
-  HOMARD_I
-  #HOMARDGUI
-  HOMARD_SWIG
-  FrontTrack
-  FrontTrack_SWIG
-  tests
-  tool
+  #HOMARD_I
+  ##HOMARDGUI
+  #HOMARD_SWIG
+  #FrontTrack
+  #FrontTrack_SWIG
+  #tests
+  #tool
 )
 
 SET(SUBDIRS
