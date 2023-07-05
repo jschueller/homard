@@ -28,7 +28,7 @@ SET(SUBDIRS_COMMON
   #FrontTrack
   #FrontTrack_SWIG
   #tests
-  #tool
+  tool
 )
 
 SET(SUBDIRS
