@@ -247,7 +247,7 @@ ADD_SUBDIRECTORY(src)
 IF(SALOME_BUILD_DOC)
   ADD_SUBDIRECTORY(doc)
 ENDIF()
-ADD_SUBDIRECTORY(bin)
+#ADD_SUBDIRECTORY(bin)
 
 # Header configuration
 # ====================
