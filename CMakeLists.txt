@@ -81,8 +81,8 @@ OPTION(SALOME_BUILD_DOC "Generate SALOME HOMARD documentation" ON)
 OPTION(SALOME_BUILD_TESTS "Build SALOME tests" ON)
 
 # Python
-FIND_PACKAGE(SalomePythonInterp REQUIRED)
-FIND_PACKAGE(SalomePythonLibs REQUIRED)
+#FIND_PACKAGE(SalomePythonInterp REQUIRED)
+#FIND_PACKAGE(SalomePythonLibs REQUIRED)
 
 # Other KERNEL optionals:
 IF(SALOME_BUILD_TESTS)
