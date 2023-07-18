@@ -3060,10 +3060,9 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
       HANDLE hFind = INVALID_HANDLE_VALUE;
       WIN32_FIND_DATAA ffd;
       hFind = FindFirstFileA(nomrep, &ffd);
-      if (INVALID_HANDLE_VALUE != hFind) {
-        while (FindNextFileA(hFind, &ffd) != 0) {
-         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
-         std::string file_name(ffd.cFileName);
+      while (INVALID_HANDLE_VALUE != hFind && FindNextFileA(hFind, &ffd) != 0) {
+        if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
+        std::string file_name(ffd.cFileName);
 #endif
         if ( file_name == DirNameA.str() ) { existe = true ; }
       }
