@@ -1257,10 +1257,10 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   closedir(dp);
 #else
   HANDLE hFind = INVALID_HANDLE_VALUE;
-  WIN32_FIND_DATA ffd;
-  hFind = FindFirstFile(DirNameStart, &ffd);
+  WIN32_FIND_DATAA ffd;
+  hFind = FindFirstFileA(DirNameStart, &ffd);
   if (INVALID_HANDLE_VALUE != hFind) {
-    while (FindNextFile(hFind, &ffd) != 0) {
+    while (FindNextFileA(hFind, &ffd) != 0) {
       if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
       std::string file_name(ffd.cFileName);
       bilan = file_name.find("HOMARD.Configuration.") ;
@@ -1507,10 +1507,10 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
     std::string DirName_1(dirp->d_name);
 #else
   HANDLE hFind = INVALID_HANDLE_VALUE;
-  WIN32_FIND_DATA ffd;
-  hFind = FindFirstFile(DirNameStart, &ffd);
+  WIN32_FIND_DATAA ffd;
+  hFind = FindFirstFileA(DirNameStart, &ffd);
   if (INVALID_HANDLE_VALUE != hFind) {
-    while (FindNextFile(hFind, &ffd) != 0) {
+    while (FindNextFileA(hFind, &ffd) != 0) {
       std::string DirName_1 = "";
       if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
         DirName_1 = std::string(ffd.cFileName);
@@ -1531,9 +1531,9 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
           std::string file_name_1(dirp_1->d_name);
 #else
         HANDLE hFind1 = INVALID_HANDLE_VALUE;
-        WIN32_FIND_DATA ffd1;
-        hFind1 = FindFirstFile(DirName_1.c_str(), &ffd1);
-        while (FindNextFile(hFind1, &ffd1) != 0)
+        WIN32_FIND_DATAA ffd1;
+        hFind1 = FindFirstFileA(DirName_1.c_str(), &ffd1);
+        while (FindNextFileA(hFind1, &ffd1) != 0)
         {
           if (ffd1.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
           std::string file_name_1(ffd1.cFileName);
@@ -2847,10 +2847,10 @@ CORBA::Long HOMARD_Gen_i::ComputeCAO(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMA
   }
 #else
   HANDLE hFind = INVALID_HANDLE_VALUE;
-  WIN32_FIND_DATA ffd;
-  hFind = FindFirstFile(DirNameStart, &ffd);
+  WIN32_FIND_DATAA ffd;
+  hFind = FindFirstFileA(DirNameStart, &ffd);
   if (INVALID_HANDLE_VALUE != hFind) {
-    while (FindNextFile(hFind, &ffd) != 0) {
+    while (FindNextFileA(hFind, &ffd) != 0) {
       std::string file_name(ffd.cFileName);
       bilan = file_name.find("fr") ;
       if ( bilan != string::npos )
@@ -3059,10 +3059,10 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
         std::string file_name(dirp->d_name);
 #else
       HANDLE hFind = INVALID_HANDLE_VALUE;
-      WIN32_FIND_DATA ffd;
-      hFind = FindFirstFile(nomrep, &ffd);
+      WIN32_FIND_DATAA ffd;
+      hFind = FindFirstFileA(nomrep, &ffd);
       if (INVALID_HANDLE_VALUE != hFind) {
-        while (FindNextFile(hFind, &ffd) != 0) {
+        while (FindNextFileA(hFind, &ffd) != 0) {
          if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
          std::string file_name(ffd.cFileName);
 #endif
@@ -3159,11 +3159,11 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
         closedir(dp);
 #else
        HANDLE hFind = INVALID_HANDLE_VALUE;
-       WIN32_FIND_DATA ffd;
-       hFind = FindFirstFile(DirCompute.str().c_str(), &ffd);
+       WIN32_FIND_DATAA ffd;
+       hFind = FindFirstFileA(DirCompute.str().c_str(), &ffd);
        bool result = true;
        if (INVALID_HANDLE_VALUE != hFind) {
-         while (FindNextFile(hFind, &ffd) != 0) {
+         while (FindNextFileA(hFind, &ffd) != 0) {
           if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue; //skip directories
           std::string file_name(ffd.cFileName);
           result = file_name.empty() || file_name == "." || file_name == ".."; //if any file - break and return false
