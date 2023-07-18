@@ -1509,12 +1509,11 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
   HANDLE hFind = INVALID_HANDLE_VALUE;
   WIN32_FIND_DATAA ffd;
   hFind = FindFirstFileA(DirNameStart, &ffd);
-  if (INVALID_HANDLE_VALUE != hFind) {
-    while (FindNextFileA(hFind, &ffd) != 0) {
-      std::string DirName_1 = "";
-      if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-        DirName_1 = std::string(ffd.cFileName);
-      }
+  while (INVALID_HANDLE_VALUE != hFind && FindNextFileA(hFind, &ffd) != 0) {
+    std::string DirName_1 = "";
+    if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+      DirName_1 = std::string(ffd.cFileName);
+    }
 #endif
     if ( ( DirName_1 != "." ) && ( DirName_1 != ".." ) )
     {
