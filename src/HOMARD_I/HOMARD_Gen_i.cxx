@@ -2847,7 +2847,7 @@ CORBA::Long HOMARD_Gen_i::ComputeCAO(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMA
 #else
   HANDLE hFind = INVALID_HANDLE_VALUE;
   WIN32_FIND_DATAA ffd;
-  hFind = FindFirstFileA(DirNameStart, &ffd);
+  hFind = FindFirstFileA(DirCompute, &ffd);
   if (INVALID_HANDLE_VALUE != hFind) {
     while (FindNextFileA(hFind, &ffd) != 0) {
       std::string file_name(ffd.cFileName);
