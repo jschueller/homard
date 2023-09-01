@@ -58,4 +58,7 @@ foreach(_idl_file ${SalomeIDLHOMARD_IDLSOURCES})
     DEPENDS ${_idl_file}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
   message(STATUS "custom_idl_${_id} => ${OMNIORB_IDL_COMPILER} -bpython -p${OMNIORB_PYTHON_BACKEND} -I${KERNEL_ROOT_DIR}/idl/salome ${CMAKE_CURRENT_SOURCE_DIR}/${_idl_file}")
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_id}_idl.py DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/salome)
 endforeach()
+
+install(FILES __init__.py ${CMAKE_CURRENT_BINARY_DIR}/${_id}_idl.py DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/salome/HOMARD)
