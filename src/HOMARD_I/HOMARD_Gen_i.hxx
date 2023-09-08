@@ -87,6 +87,7 @@ public:
   HOMARD::HOMARD_Cas_ptr          CreateCaseFromIteration (const char* nomCas, const char* DirNameStart);
   HOMARD::HOMARD_Cas_ptr          CreateCaseFromCaseLastIteration (const char* nomCas, const char* DirNameStart);
   HOMARD::HOMARD_Cas_ptr          CreateCaseFromCaseIteration (const char* nomCas, const char* DirNameStart, CORBA::Long Number);
+  void                            youyou0(const char* nomCas);
   HOMARD::HOMARD_Cas_ptr          CreateCase0 (const char* nomCas, const char* MeshName, const char* FileName, CORBA::Long MeshOption, CORBA::Long NumeIter, CORBA::Long Option);
   std::string                     CreateCase1 (const char* DirNameStart, CORBA::Long Number);
 

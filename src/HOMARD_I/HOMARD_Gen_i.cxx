@@ -1193,6 +1193,12 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::newYACS()
 // Creation des structures identifiees par leurs noms
 //=============================================================================
 //=============================================================================
+void HOMARD_Gen_i::youyou0(const char* nomCas)
+{
+  INFOS ( "youyou0 : nomCas = " << nomCas );
+}
+
+
 HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* MeshName, const char* MeshFile)
 //
 // Creation d'un cas initial
@@ -1205,8 +1211,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
   int option = 1 ;
   if ( _PublisMeshIN != 0 ) option = 2 ;
   
+  youyou0(nomCas);
   INFOS ( "CreateCase : call ptr ?");
+  
   HOMARD::HOMARD_Cas_ptr myCase = nullptr;
+
   INFOS ( "CreateCase : call CreateCase0 ?");
   myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, option) ;
 
@@ -1636,9 +1645,8 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
 //         1 : aucune option
 //        x2 : publication du maillage dans SMESH
 {
-  MESSAGE ( "CreateCase0 step");
-  MESSAGE ( "CreateCase0 : nomCas = " << nomCas );
-  MESSAGE ( "CreateCase0 : MeshName = " << MeshName << ", MeshFile = " << MeshFile << ", MeshOption = " << MeshOption );
+  INFOS ( "CreateCase0 : nomCas = " << nomCas );
+  INFOS ( "CreateCase0 : MeshName = " << MeshName << ", MeshFile = " << MeshFile << ", MeshOption = " << MeshOption );
   MESSAGE ( "CreateCase0 : NumeIter = " << NumeIter << ", Option = " << Option );
 //
   // A. Controles
