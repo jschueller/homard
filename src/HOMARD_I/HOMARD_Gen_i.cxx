@@ -1204,7 +1204,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase(const char* nomCas, const char* 
 
   int option = 1 ;
   if ( _PublisMeshIN != 0 ) option = 2 ;
-  HOMARD::HOMARD_Cas_ptr myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, option) ;
+  
+  INFOS ( "CreateCase : call ptr ?");
+  HOMARD::HOMARD_Cas_ptr myCase = nullptr;
+  INFOS ( "CreateCase : call CreateCase0 ?");
+  myCase = CreateCase0(nomCas, MeshName, MeshFile, 0, 0, option) ;
 
 // Valeurs par defaut des filtrages
   myCase->SetPyram(0);
@@ -1632,6 +1636,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
 //         1 : aucune option
 //        x2 : publication du maillage dans SMESH
 {
+  MESSAGE ( "CreateCase0 step");
   MESSAGE ( "CreateCase0 : nomCas = " << nomCas );
   MESSAGE ( "CreateCase0 : MeshName = " << MeshName << ", MeshFile = " << MeshFile << ", MeshOption = " << MeshOption );
   MESSAGE ( "CreateCase0 : NumeIter = " << NumeIter << ", Option = " << Option );
