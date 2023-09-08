@@ -175,11 +175,13 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
       return ;
   };
 
+  MESSAGE( "SetEtatIter : 1" );
   myIteration->SetState(Etat);
-
+  MESSAGE( "SetEtatIter : 2" );
   SALOMEDS::StudyBuilder_var aStudyBuilder = myStudy->NewBuilder();
+  MESSAGE( "SetEtatIter : 3" );
   SALOMEDS::SObject_var aIterSO = SALOMEDS::SObject::_narrow(myStudy->FindObjectIOR(_orb->object_to_string(myIteration)));
-
+  MESSAGE( "SetEtatIter : 4" );
   std::string icone ;
   if ( Etat <= 0 )
     icone = "iter0.png" ;
@@ -187,10 +189,12 @@ void HOMARD_Gen_i::SetEtatIter(const char* nomIter, const CORBA::Long Etat)
     icone = "iter_calculee.png" ;
   else
     icone = "iter_non_calculee.png" ;
+  
+  MESSAGE( "SetEtatIter : 5" );
   PublishInStudyAttr(aStudyBuilder, aIterSO, NULL , NULL, icone.c_str(), NULL) ;
-
+  MESSAGE( "SetEtatIter : 6" );
   aStudyBuilder->CommitCommand();
-
+  MESSAGE( "SetEtatIter : 7" );
 }
 //=============================================================================
 //=============================================================================
@@ -1725,7 +1729,7 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
     NomIteration = nom.str();
     monNum += 1;
   }
-  MESSAGE ( "CreateCas0 : ==> NomIteration = " << NomIteration );
+  MESSAGE ( "CreateCase0 : ==> NomIteration = " << NomIteration );
 
   // D.2. Creation de l'iteration
   HOMARD::HOMARD_Iteration_var anIter = newIteration();
@@ -1733,17 +1737,22 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCase0(const char* nomCas, const char*
   anIter->SetName(NomIteration.c_str());
   AssociateCaseIter (nomCas, NomIteration.c_str(), "IterationHomard");
 
+  MESSAGE ( "CreateCase0 : existeMeshFile" );
+
   // D.4. Maillage correspondant
   if ( existeMeshFile != 0 )
   {
     anIter->SetMeshFile(MeshFile);
     if ( Option % 2 == 0 ) { PublishResultInSmesh(MeshFile, 0); }
   }
+  MESSAGE ( "CreateCase0 : SetMeshName" );
   anIter->SetMeshName(MeshName);
 
+  MESSAGE ( "CreateCase0 : SetNumber" );
   // D.5. Numero d'iteration
   anIter->SetNumber(NumeIter);
 
+  MESSAGE ( "CreateCase0 : SetEtatIter" );
   // D.6. Etat
   SetEtatIter(NomIteration.c_str(), -NumeIter);
 //
