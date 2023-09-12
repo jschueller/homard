@@ -96,3 +96,8 @@ TARGET_LINK_LIBRARIES(HOMARDEngine ${_link_LIBRARIES} )
 INSTALL(TARGETS HOMARDEngine EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${SALOME_INSTALL_LIBS})
 
 INSTALL(FILES ${HOMARDEngine_HEADERS} DESTINATION ${SALOME_INSTALL_HEADERS})
+
+add_executable(try_link_kernel try_link_kernel.cxx)
+#TARGET_LINK_LIBRARIES(try_link_kernel ${KERNEL_SalomeContainer} ${KERNEL_SalomeNS} ${KERNEL_Registry} ${KERNEL_SalomeHDFPersist} ${KERNEL_SalomeLifeCycleCORBA})
+TARGET_LINK_LIBRARIES(try_link_kernel ${_link_LIBRARIES} )
+INSTALL(TARGETS try_link_kernel DESTINATION bin)
