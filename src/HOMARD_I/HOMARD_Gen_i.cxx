@@ -3874,6 +3874,13 @@ void HOMARD_Gen_i::PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
                                       SALOMEDS::SObject_var aResultSO,
                                       const char* name, const char* comment, const char* icone, const char* ior)
 {
+  MESSAGE("PublishInStudyAttr");
+
+  MESSAGE("PublishInStudyAttr name?"<<(name==0 ? "0": "1"));
+  MESSAGE("PublishInStudyAttr comment?"<<(comment==0 ? "0":"1"));
+  MESSAGE("PublishInStudyAttr icone?"<<(icone==0 ? "0": "1"));
+  MESSAGE("PublishInStudyAttr ior?"<<(ior==0 ? "0": "1"));
+  
   MESSAGE("PublishInStudyAttr pour name = "<<name<<", comment = "<<comment);
 //   MESSAGE("icone = "<<icone);
 //   MESSAGE("ior   = "<<ior);
