@@ -1090,7 +1090,11 @@ int HomardDriver::ExecuteHomard(int option)
   std::string commande ;
   int codret ;
 // Copie des Fichiers HOMARD
+#ifndef _WIN32
   commande = "cp " + _NomFichierConf + " " + _NomFichierConfBase ;
+#else
+  commande = "copy " + _NomFichierConf + " " + _NomFichierConfBase ;
+#endif
   codret = system(commande.c_str()) ;
 
 // Execution de HOMARD

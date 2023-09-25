@@ -456,7 +456,11 @@ CORBA::Long HOMARD_Gen_i::DeleteYACS(const char* nomYACS, CORBA::Long Option)
   if ( Option == 1 )
   {
     std::string nomFichier = myYACS->GetXMLFile();
+#ifndef _WIN32
     std::string commande = "rm -rf " + nomFichier ;
+#else
+    std::string commande = "del /s /q " + nomFichier ;
+#endif
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
     {
@@ -630,8 +634,18 @@ void HOMARD_Gen_i::InvalideIterOption(const char* nomIter, CORBA::Long Option)
     };
     std::string nomDir     = myIteration->GetDirName();
     std::string nomFichier = myIteration->GetMeshFile();
+#ifndef _WIN32
     std::string commande = "rm -rf " + std::string(nomDir);
-    if ( Option == 1 ) { commande = commande + ";rm -rf " + std::string(nomFichier) ; }
+#else
+    std::string commande = "del /s /q " + std::string(nomDir);
+#endif
+    if ( Option == 1 ) {
+#ifndef _WIN32
+      commande = commande + ";rm -rf " + std::string(nomFichier) ;
+#else
+      commande = commande + " & del /s /q " + std::string(nomFichier) ;
+#endif
+    }
     MESSAGE ( "commande = " << commande );
     if ((system(commande.c_str())) != 0)
     {
@@ -689,8 +703,13 @@ void HOMARD_Gen_i::InvalideIterInfo(const char* nomIter)
       return ;
   };
   const char* nomDir   = myIteration->GetDirName();
+#ifndef _WIN32
   std::string commande = "rm -f " + std::string(nomDir) + "/info* " ;
   commande += std::string(nomDir) + "/Liste.*info" ;
+#else
+  std::string commande = "del /s /q " + std::string(nomDir) + "\\info* ";
+  commande += std::string(nomDir) + "\\Liste.*info" ;
+#endif
 /*  MESSAGE ( "commande = " << commande );*/
   if ((system(commande.c_str())) != 0)
   {
@@ -731,7 +750,11 @@ void HOMARD_Gen_i::InvalideYACS(const char* YACSName)
     }
   }
   std::string nomFichier = myYACS->GetXMLFile();
+#ifndef _WIN32
   std::string commande = "rm -rf " + std::string(nomFichier) ;
+#else
+  std::string commande = "del /s /q " + std::string(nomFichier) ;
+#endif
   MESSAGE ( "commande = " << commande );
   if ((system(commande.c_str())) != 0)
   {
@@ -1236,7 +1259,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
 //
 {
   MESSAGE ( "CreateCaseFromIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
+#ifndef _WIN32
   std::string nomDirWork = getenv("PWD") ;
+#else
+  std::string nomDirWork = getenv("CD") ;
+#endif
   int codret ;
 
   // A. Decodage du point de reprise
@@ -1428,7 +1455,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   }
   // E.3. Copie du maillage HOMARD au format MED
   codret = CHDIR(DirNameStart) ;
+#ifndef _WIN32
   std::string commande = "cp " + file_maillage_homard + " " + nomDirIterTotal ;
+#else
+  std::string commande = "copy " + file_maillage_homard + " " + nomDirIterTotal ;
+#endif
   MESSAGE ( "commande : " << commande ) ;
   codret = system(commande.c_str()) ;
   MESSAGE ( "codret : " << codret ) ;
@@ -1499,7 +1530,11 @@ std::string HOMARD_Gen_i::CreateCase1(const char* DirNameStart, CORBA::Long Numb
 //
 {
   MESSAGE ( "CreateCase1 : DirNameStart = " << DirNameStart << ", Number = " << Number );
+#ifndef _WIN32
   std::string nomDirWork = getenv("PWD") ;
+#else
+  std::string nomDirWork = getenv("CD") ;
+#endif
   std::string DirNameStartIter ;
   int codret ;
   int NumeIterMax = -1 ;
@@ -2489,7 +2524,11 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
 
   // B. Les répertoires
   // B.1. Le répertoire courant
+#ifndef _WIN32
   std::string nomDirWork = getenv("PWD") ;
+#else
+  std::string nomDirWork = getenv("CD") ;
+#endif
   // B.2. Le sous-répertoire de l'iteration a traiter
   char* DirCompute = ComputeDirManagement(myCase, myIteration, etatMenage);
   MESSAGE( ". DirCompute = " << DirCompute );
@@ -2746,7 +2785,11 @@ CORBA::Long HOMARD_Gen_i::ComputeAdap(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOM
     }
     else
     {
+#ifndef _WIN32
       std::string commande = "rm -f " + std::string(MeshFile);
+#else
+      std::string commande = "del /s /q " + std::string(MeshFile);
+#endif
       codret = system(commande.c_str());
       if (codret != 0)
       {
@@ -3046,7 +3089,11 @@ char* HOMARD_Gen_i::CreateDirNameIter(const char* nomrep, CORBA::Long num )
     throw SALOME::SALOME_Exception(es);
     return 0;
   };
-  std::string nomDirActuel = getenv("PWD") ;
+#ifndef _WIN32
+  std::string nomDiriActuel = getenv("PWD") ;
+#else
+  std::string nomDirActuel = getenv("CD") ;
+#endif
   std::string DirName ;
   // On boucle sur tous les noms possibles jusqu'a trouver un nom correspondant a un répertoire inconnu
   bool a_chercher = true ;

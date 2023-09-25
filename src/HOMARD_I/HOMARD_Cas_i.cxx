@@ -186,7 +186,11 @@ void HOMARD_Cas_i::SetDirName( const char* NomDir )
     // D.4. Deplacement du contenu du repertoire
     std::string oldnomDirIterTotal ;
     oldnomDirIterTotal = std::string(oldrep) + "/" + std::string(DirNameIter) ;
+#ifndef _WIN32
     std::string commande = "mv " + std::string(oldnomDirIterTotal) + "/*" + " " + std::string(nomDirIterTotal) ;
+#else
+    std::string commande = "move " + std::string(oldnomDirIterTotal) + "\\*.*" + " " + std::string(nomDirIterTotal) ;
+#endif
     codret = system(commande.c_str()) ;
     if ( codret != 0 )
     {
