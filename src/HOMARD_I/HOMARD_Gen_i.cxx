@@ -3928,7 +3928,7 @@ void HOMARD_Gen_i::PublishInStudyAttr(SALOMEDS::StudyBuilder_var aStudyBuilder,
   MESSAGE("PublishInStudyAttr icone?"<<(icone==0 ? "0": "1"));
   MESSAGE("PublishInStudyAttr ior?"<<(ior==0 ? "0": "1"));
   
-  if (name)
+  //if (name)
 //     MESSAGE("PublishInStudyAttr pour name = "<<name<<", comment = "<<comment);
 //   MESSAGE("icone = "<<icone);
 //   MESSAGE("ior   = "<<ior);
