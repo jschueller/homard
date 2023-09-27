@@ -50,7 +50,11 @@ HomardDriver::HomardDriver(const std::string siter, const std::string siterp1):
   else                                        { executable = getenv("HOMARD_EXE") ; }
   MESSAGE("executable ="<<executable);
 // Memorisation du nom complet de l'executable HOMARD
+#ifndef _WIN32
   _HOMARD_Exec = dir + "/" + executable ;
+#else
+  _HOMARD_Exec = dir + "\\" + executable ;
+#endif
   MESSAGE("==> _HOMARD_Exec ="<<_HOMARD_Exec) ;
 //
   _siter = siter ;

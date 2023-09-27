@@ -1439,7 +1439,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromIteration(const char* nomCas,
   char* nomDirIter = CreateDirNameIter(nomDirCase, 0 );
   Iter->SetDirNameLoc(nomDirIter);
   std::string nomDirIterTotal ;
+#ifndef _WIN32
   nomDirIterTotal = std::string(nomDirCase) + "/" + std::string(nomDirIter) ;
+#else
+  nomDirIterTotal = std::string(nomDirCase) + "\\" + std::string(nomDirIter) ;
+#endif
 #ifndef WIN32
   if (mkdir(nomDirIterTotal.c_str(), S_IRWXU|S_IRGRP|S_IXGRP) != 0)
 #else
@@ -1490,8 +1494,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseLastIteration(const char*
   MESSAGE ( "CreateCaseFromCaseLastIteration : nomCas = " << nomCas << ", DirNameStart = " << DirNameStart );
 
   std::string DirNameStartIter = CreateCase1(DirNameStart, -1) ;
-
+#ifndef _WIN32
   DirNameStartIter = string(DirNameStart) + "/" + DirNameStartIter ;
+#else
+  DirNameStartIter = string(DirNameStart) + "\\" + DirNameStartIter ;
+#endif
   HOMARD::HOMARD_Cas_ptr myCase = CreateCaseFromIteration(nomCas, DirNameStartIter.c_str()) ;
 
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
@@ -1515,8 +1522,11 @@ HOMARD::HOMARD_Cas_ptr HOMARD_Gen_i::CreateCaseFromCaseIteration(const char* nom
   };
 
   std::string DirNameStartIter = CreateCase1(DirNameStart, Number) ;
-
+#ifndef _WIN32
   DirNameStartIter = string(DirNameStart) + "/" + DirNameStartIter ;
+#else
+  DirNameStartIter = string(DirNameStart) + "\\" + DirNameStartIter ;
+#endif
   HOMARD::HOMARD_Cas_ptr myCase = CreateCaseFromIteration(nomCas, DirNameStartIter.c_str()) ;
 
   return HOMARD::HOMARD_Cas::_duplicate(myCase);
@@ -2536,14 +2546,22 @@ CORBA::Long HOMARD_Gen_i::Compute(const char* NomIteration, CORBA::Long etatMena
   // C. Le fichier des messages
   // C.1. Le deroulement de l'execution de HOMARD
   std::string LogFile = DirCompute ;
+#ifndef _WIN32
   LogFile += "/Liste" ;
+#else
+  LogFile += "\\Liste" ;
+#endif
   if ( modeHOMARD == 1 ) { LogFile += "." + siter + ".vers." + siterp1 ; }
   LogFile += ".log" ;
   MESSAGE (". LogFile = " << LogFile);
   if ( modeHOMARD == 1 ) { myIteration->SetLogFile(LogFile.c_str()); }
   // C.2. Le bilan de l'analyse du maillage
   std::string FileInfo = DirCompute ;
+#ifndef _WIN32
   FileInfo += "/" ;
+#else
+  FileInfo += "\\" ;
+#endif
   if ( modeHOMARD == 1 ) { FileInfo += "apad" ; }
   else
   { if ( NumeIter == 0 ) { FileInfo += "info_av" ; }
