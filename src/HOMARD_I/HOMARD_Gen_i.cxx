@@ -1926,7 +1926,11 @@ HOMARD::HOMARD_Iteration_ptr HOMARD_Gen_i::CreateIteration(const char* NomIterat
   std::ostringstream iaux ;
   iaux << std::setw(jaux) << std::setfill('0') << nbitercase ;
   std::stringstream MeshFile;
+#ifndef _WIN32
   MeshFile << nomDirCase << "/maill." << iaux.str() << ".med";
+#else
+  MeshFile << nomDirCase << "\\maill." << iaux.str() << ".med";
+#endif
   myIteration->SetMeshFile(MeshFile.str().c_str());
 
 // Association avec le cas
@@ -2938,7 +2942,7 @@ CORBA::Long HOMARD_Gen_i::ComputeCAO(HOMARD::HOMARD_Cas_var myCase, HOMARD::HOMA
       if ( bilan != string::npos )
       {
         std::stringstream filename_total ;
-        filename_total << DirCompute << "/" << file_name ;
+        filename_total << DirCompute << "\\" << file_name ;
         theInputNodeFiles.push_back(filename_total.str()) ;
         icpt += 1 ;
       }
@@ -3022,7 +3026,11 @@ CORBA::Long HOMARD_Gen_i::ComputeCAObis(HOMARD::HOMARD_Iteration_var myIteration
 
   // C. Le fichier des messages
   std::string LogFile = DirCompute ;
+#ifndef _WIN32
   LogFile += "/Liste." + siterp1 + ".maj_coords.log" ;
+#else
+  LogFile += "\\Liste." + siterp1 + ".maj_coords.log" ;
+#endif
   MESSAGE (". LogFile = " << LogFile);
   myIteration->SetFileInfo(LogFile.c_str());
 
@@ -3193,7 +3201,11 @@ char* HOMARD_Gen_i::ComputeDirManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD::
 
   // B.3.2. Le nom complet du sous-répertoire
   std::stringstream DirCompute ;
+#ifndef _WIN32
   DirCompute << nomDirCase << "/" << nomDirIt;
+#else
+  DirCompute << nomDirCase << "\\" << nomDirIt;
+#endif
   MESSAGE (". DirCompute = " << DirCompute.str() );
 
   // B.3.3. Si le sous-répertoire n'existe pas, on le cree
@@ -3287,7 +3299,11 @@ char* HOMARD_Gen_i::ComputeDirPaManagement(HOMARD::HOMARD_Cas_var myCase, HOMARD
   HOMARD::HOMARD_Iteration_var myIterationParent = myStudyContext._mesIterations[nomIterationParent];
   const char* nomDirItPa = myIterationParent->GetDirNameLoc();
   std::stringstream DirComputePa ;
+#ifndef _WIN32
   DirComputePa << nomDirCase << "/" << nomDirItPa;
+#else
+  DirComputePa << nomDirCase << "\\" << nomDirItPa;
+#endif
   MESSAGE( ". nomDirItPa = " << nomDirItPa);
   MESSAGE( ". DirComputePa = " << DirComputePa.str() );
 
@@ -4326,7 +4342,11 @@ HOMARD::HOMARD_YACS_ptr HOMARD_Gen_i::CreateYACSSchema (const char* nomYACS, con
   HOMARD::HOMARD_Cas_ptr caseyacs = GetCase(nomCas) ;
   std::string dirnamecase = caseyacs->GetDirName() ;
   std::string XMLFile ;
+#ifndef _WIN32
   XMLFile = dirnamecase + "/schema.xml" ;
+#else
+  XMLFile = dirnamecase + "\\schema.xml" ;
+#endif
   myYACS->SetXMLFile( XMLFile.c_str() ) ;
 
   return HOMARD::HOMARD_YACS::_duplicate(myYACS);
